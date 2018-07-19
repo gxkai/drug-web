@@ -1,0 +1,129 @@
+// Margin and Padding
+@each $prop, $abbrev in (margin: m, padding: p) {
+  @for $size from 0 through 100 {
+    .#{$abbrev}-#{$size} {
+      #{$prop}: $spacer * $size !important;
+    }
+    .#{$abbrev}t-#{$size} {
+      #{$prop}-top: $spacer * $size !important;
+    }
+    .#{$abbrev}r-#{$size} {
+      #{$prop}-right: $spacer * $size !important;
+    }
+    .#{$abbrev}b-#{$size} {
+      #{$prop}-bottom: $spacer * $size !important;
+    }
+    .#{$abbrev}l-#{$size} {
+      #{$prop}-left: $spacer * $size !important;
+    }
+    .#{$abbrev}x-#{$size} {
+      #{$prop}-right: $spacer * $size !important;
+      #{$prop}-left: $spacer * $size !important;
+    }
+    .#{$abbrev}y-#{$size} {
+      #{$prop}-top: $spacer * $size !important;
+      #{$prop}-bottom: $spacer * $size !important;
+    }
+
+    .#{$abbrev}-l-#{$size} {
+      #{$prop}: $spacer-large * $size !important;
+    }
+    .#{$abbrev}t-l-#{$size} {
+      #{$prop}-top: $spacer-large * $size !important;
+    }
+    .#{$abbrev}r-l-#{$size} {
+      #{$prop}-right: $spacer-large * $size !important;
+    }
+    .#{$abbrev}b-l-#{$size} {
+      #{$prop}-bottom: $spacer-large * $size !important;
+    }
+    .#{$abbrev}l-l-#{$size} {
+      #{$prop}-left: $spacer-large * $size !important;
+    }
+    .#{$abbrev}x-l-#{$size} {
+      #{$prop}-right: $spacer-large * $size !important;
+      #{$prop}-left: $spacer-large * $size !important;
+    }
+    .#{$abbrev}y-l-#{$size} {
+      #{$prop}-top: $spacer-large * $size !important;
+      #{$prop}-bottom: $spacer-large * $size !important;
+    }
+  }
+}
+
+@for $size from 0 through 100 {
+  .border-radius-#{$size} {
+    border-radius: ($spacer*$size);
+  }
+  .line-height-#{$size} {
+    line-height: ($spacer*$size);
+  }
+  .text-indent-#{$size} {
+    text-indent: ($spacer*$size);
+  }
+  .text-#{$size} {
+    font-size: ($spacer*$size);
+  }
+  .width-#{$size} {
+    width: ($spacer*$size);
+  }
+  .height-#{$size} {
+    height: ($spacer*$size);
+  }
+
+  .border-radius-l-#{$size} {
+    border-radius: ($spacer-large*$size);
+  }
+  .line-height-l-#{$size} {
+    line-height: ($spacer-large*$size);
+  }
+  .text-indent-l-#{$size} {
+    text-indent: ($spacer-large*$size);
+  }
+  .text-l-#{$size} {
+    font-size: ($spacer-large*$size);
+  }
+  .width-l-#{$size} {
+    width: ($spacer-large*$size);
+  }
+  .height-l-#{$size} {
+    height: ($spacer-large*$size);
+  }
+}
+
+@for $size from 0 through 20 {
+  .opacity-#{$size} {
+    opacity: $size / 20 !important;
+  }
+}
+
+// Some special margin utils
+.m-auto {
+  margin: auto !important;
+}
+
+.mt-auto {
+  margin-top: auto !important;
+}
+
+.mr-auto {
+  margin-right: auto !important;
+}
+
+.mb-auto {
+  margin-bottom: auto !important;
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.mx-auto {
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.my-auto {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+}

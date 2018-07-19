@@ -1,0 +1,469 @@
+@import "./variables";
+@import "./init";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+  margin: 0;
+  padding: 0;
+}
+
+body, button, input, select, textarea {
+  font: 12px/1.5tahoma, arial, \5b8b\4f53;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+}
+
+address, cite, dfn, em, var {
+  font-style: normal;
+}
+
+code, kbd, pre, samp {
+  font-family: couriernew, courier, monospace;
+}
+
+small {
+  font-size: 12px;
+}
+
+fieldset, img {
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Align */
+.align-baseline {
+  vertical-align: baseline !important;
+}
+
+/* Browser default */
+.align-super {
+  vertical-align: super !important;
+}
+
+/* Browser default */
+.align-top {
+  vertical-align: top !important;
+}
+
+.align-middle {
+  vertical-align: middle !important;
+}
+
+.align-bottom {
+  vertical-align: bottom !important;
+}
+
+.align-text-bottom {
+  vertical-align: text-bottom !important;
+}
+
+.align-text-top {
+  vertical-align: text-top !important;
+}
+
+.fl {
+  float: left !important;
+}
+
+.fr {
+  float: right !important;
+}
+
+.fn {
+  float: none !important;
+}
+
+@mixin bg-color($color) {
+  background-color: $color !important;
+}
+
+@mixin box-variant($border-color, $background-color, $color) {
+  border-color: $border-color;
+  background-color: $background-color;
+  color: $color;
+}
+
+@mixin clearfix() {
+  &::after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+}
+
+@mixin text-color($color) {
+  color: $color;
+}
+
+@mixin text-truncate() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-truncate-clamp($line: 1) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  overflow: hidden;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.d-inline {
+  display: inline !important;
+}
+
+.d-inline-block {
+  display: inline-block !important;
+}
+
+.d-inline {
+  display: inline !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.d-table {
+  display: table !important;
+}
+
+.d-table-cell {
+  display: table-cell !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.d-inline-flex {
+  display: inline-flex !important;
+}
+
+.of-auto {
+  overflow: auto !important;
+}
+
+.of-hidden {
+  overflow: hidden !important;
+}
+
+.of-scroll {
+  overflow: scroll !important;
+}
+
+.of-visible {
+  overflow: visible !important;
+}
+
+.ofx-auto {
+  overflow-x: auto !important;
+}
+
+.ofx-hidden {
+  overflow-x: hidden !important;
+}
+
+.ofx-scroll {
+  overflow-x: scroll !important;
+}
+
+.ofx-visible {
+  overflow-x: visible !important;
+}
+
+.ofy-auto {
+  overflow-y: auto !important;
+}
+
+.ofy-hidden {
+  overflow-y: hidden !important;
+}
+
+.ofy-scroll {
+  overflow-y: scroll !important;
+}
+
+.ofy-visible {
+  overflow-y: visible !important;
+}
+
+// Some special margin utils
+.m-auto {
+  margin: auto !important;
+}
+
+.mt-auto {
+  margin-top: auto !important;
+}
+
+.mr-auto {
+  margin-right: auto !important;
+}
+
+.mb-auto {
+  margin-bottom: auto !important;
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.mx-auto {
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.my-auto {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+// Transformation
+.text-lowercase {
+  text-transform: lowercase !important;
+}
+
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+
+.text-capitalize {
+  text-transform: capitalize !important;
+}
+
+// Weight and italics
+.font-weight-normal {
+  font-weight: normal !important;
+}
+
+.font-weight-bold {
+  font-weight: bold !important;
+}
+
+.font-italic {
+  font-style: italic !important;
+}
+
+// Cursor
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.cursor-default {
+  cursor: default !important;
+}
+
+// White space
+.ws-nowrap {
+  white-space: nowrap;
+}
+
+.ws-pre-wrap {
+  white-space: pre-wrap;
+}
+
+// Word break
+.wb-break-all {
+  word-break: break-all;
+}
+
+.wb-keep-all {
+  word-break: keep-all;
+}
+
+// Underline
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
+.text-decoration-line-through {
+  text-decoration: line-through;
+}
+
+//global transition css
+
+/*fade*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.28s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+/*position*/
+.position-absolute {
+  position: absolute;
+}
+
+.position-relative {
+  position: relative;
+}
+
+/*文字颜色color*/
+.text-white {
+  color: white;
+}
+
+.text-333333 {
+  color: #333333;
+}
+
+.text-BFBFBF {
+  color: #BFBFBF;
+}
+
+.text-13C1FE {
+  color: #13C1FE;
+}
+
+.text-FF9800 {
+  color: #FF9800 !important;
+}
+
+.text-F02B2B {
+  color: #F02B2B;
+}
+
+.text-999999 {
+  color: #999999;
+}
+
+.text-666666 {
+  color: #666666;
+}
+
+.text-red {
+  color: red !important;
+}
+
+.text-1AB6FD {
+  color: #1AB6FD;
+}
+
+/*背景bg*/
+.bg-13C1FE {
+  background: #13C1FE;
+}
+
+.bg-blue {
+  background: #1AB6FD;
+}
+
+.bg-white {
+  background: white;
+}
+
+.bg-f8 {
+  background: #f8f8f8 !important;
+}
+
+.bg-BFBFBF {
+  background: #BFBFBF !important;
+}
+
+.bg-999999 {
+  background: #999999 !important;
+}
+
+.bg-red {
+  background: red !important;
+}
+
+.bg-2BB292 {
+  background: #2BB292 !important;
+}
+
+.bg-eaeaea {
+  background: #eaeaea !important;
+}
+
+.bg-f5f5f5 {
+  background: #f5f5f5 !important;
+}
+
+/*border*/
+.border-13C1FE {
+  border: 1px solid #13C1FE;
+}
+
+.border-0 {
+  border: 0 !important;
+}
+
+.border-top-0 {
+  border-top: 0 !important;
+}
+
+.border-right-0 {
+  border-right: 0 !important;
+}
+
+.border-bottom-0 {
+  border-bottom: 0 !important;
+}
+
+.border-left-0 {
+  border-left: 0 !important;
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.rounded-0 {
+  border-radius: 0 !important;
+}
+
+.border-top-238 {
+  border-top: 1px solid rgba(238, 238, 238, 1);
+}
+
+.border-bottom-f1f1f1 {
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.border-right-f1f1f1 {
+  border-right: 1px solid #f1f1f1;
+}
+
+.border-right-EEEEEE {
+  border-right: 1px solid #EEEEEE;
+}
+
+.border-bottom-EEEEEE {
+  border-bottom: 1px solid #EEEEEE;
+}
+
+.align-items-center {
+  align-items: center;
+}
