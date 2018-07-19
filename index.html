@@ -4,9 +4,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>drug-web</title>
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/swiper.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/swiper.min.css"/>
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      $(function () {
+        var swiper = new Swiper('.swiper-container', {
+          pagination: '.swiper-pagination',
+          grabCursor: true,
+          effect: 'cube',  //翻页效果：方块
+          cube: {
+            shadow: true,//阴影效果，如果设置为false下面的就不用
+            slideShadows: false, //页面阴影效果
+            shadowOffset: 20,//阴影的偏移值
+            shadowScale: 0.64 //阴影的大小
+          }
+        });
+      });
+    </script>
     <!-- built files will be auto injected -->
   </body>
 </html>

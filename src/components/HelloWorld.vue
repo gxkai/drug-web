@@ -90,6 +90,18 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  created () {
+    // const account = {
+    //   username: '18896781024',
+    //   password: '123456'
+    // }
+    // this.$http.post('/rxs', {
+    //   data: account
+    // }).then(res => {
+    // }).catch(error => {
+    //   this.exception(error)
+    // })
   }
 }
 </script>

@@ -10,6 +10,16 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('@/views/about.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/login.vue')
     }
   ]
 })

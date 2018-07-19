@@ -3,13 +3,58 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import store from './store'
+import base from './assets/js/base'
+import axios from 'axios'
 
+axios.interceptors.request.use(
+  config => {
+    config.headers = {
+      'Content-Type': 'application/json'
+    }
+    config.validateStatus = status => {
+      return status === 200
+    }
+    const token = store.getters.token
+    if (token) {
+      config.headers.Authorization = token
+    }
+    return config
+  },
+  err => {
+    return Promise.reject(err)
+  })
+axios.interceptors.response.use(
+  response => {
+    return response
+  },
+  error => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          store.commit('SETTOKEN', '')
+          store.commit('SETACCOUNT', {})
+          router.replace({
+            path: '/',
+            query: {redirect: router.currentRoute.fullPath}
+          })
+      }
+    }
+    return Promise.reject(error)
+  })
+
+Vue.prototype.$http = axios
 Vue.config.productionTip = false
+Vue.use(MintUI)
+Vue.use(base)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
