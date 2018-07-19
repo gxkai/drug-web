@@ -8,6 +8,8 @@ import 'mint-ui/lib/style.css'
 import store from './store'
 import base from './assets/js/base'
 import axios from 'axios'
+import storage from 'good-storage'
+import 'jquery'
 
 axios.interceptors.request.use(
   config => {
@@ -46,6 +48,7 @@ axios.interceptors.response.use(
   })
 
 Vue.prototype.$http = axios
+Vue.prototype.$storage = storage
 Vue.config.productionTip = false
 Vue.use(MintUI)
 Vue.use(base)

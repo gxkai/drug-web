@@ -9,8 +9,64 @@
       <router-link to="/forget">忘记密码？</router-link>
     </div>
     <div class="swiper-container" id="swiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
+      <!--<div class="swiper-wrapper">-->
+        <!--<div class="swiper-slide">-->
+          <!--<div class="loginMiddle">-->
+            <!--<div class="loginMiddleBox">-->
+              <!--<table class="pt1 register">-->
+                <!--<tr>-->
+                  <!--<i class="icon iconfont ic-shouji ic-fontsize" style="color:#1AB6FD!important;"></i>-->
+                  <!--<input type="text" name="" placeholder="请输入手机号码" class="fz16 ccc" v-model="username">-->
+                <!--</tr>-->
+                <!--<tr class="lh2rem">-->
+                  <!--<i class="icon iconfont ic-mima ic-fontsize" style="color:#1AB6FD!important;"></i>-->
+                  <!--<input type="text" name="" placeholder="请输入密码" class="fz16 ccc" v-model="password">-->
+                <!--</tr>-->
+              <!--</table>-->
+              <!--<div class="textCenter">-->
+                <!--<span class="loginbtn" @click="login()">登录</span>-->
+              <!--</div>-->
+              <!--<div class="logincircle textCenter">-->
+                <!--<span v-for="(item,index) in span" :key="index" :class="{blue:index===qwere}"></span>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="swiper-slide">-->
+          <!--<div class="loginMiddle">-->
+            <!--<div class="loginMiddleBox">-->
+              <!--<table class="pt1 register">-->
+                <!--<tr>-->
+                  <!--<i class="icon iconfont ic-shouji ic-fontsize" style="color:#1AB6FD!important;"></i>-->
+                  <!--<input type="text" name="" placeholder="请输入手机号码" class="fz16 ccc textindent8px"-->
+                         <!--v-model="registerUsername" style="width:75%;">-->
+                  <!--<td>-->
+                    <!--<span class="logincode" @click="getCode" v-show="showCode" style="width:6.75rem;text-align:center;">获取验证码</span>-->
+                    <!--<span class="logincode" v-show="!showCode">倒计时{{count}}秒</span>-->
+                  <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<i class="icon iconfont icon-iconfontzhizuobiaozhun10"-->
+                     <!--style="font-size:2.2rem;color:#1AB6FD!important;"></i>-->
+                  <!--<input type="text" placeholder="请输入验证码" class="fz16 ccc textindent8px" v-model="captcha">-->
+                <!--</tr>-->
+                <!--<tr style="line-height:2rem;margin-bottom:0rem;line-height:4rem;">-->
+                  <!--<i class="icon iconfont ic-mima ic-fontsize" style="color:#1AB6FD!important;"></i>-->
+                  <!--<input type="text" placeholder="请输入密码" class="fz16 ccc textindent8px" v-model="registerPassword">-->
+                <!--</tr>-->
+              <!--</table>-->
+              <!--<div class="textCenter">-->
+                <!--<span class="loginbtn" @click="register()">注册</span>-->
+              <!--</div>-->
+              <!--<div class="logincircle textCenter">-->
+                <!--<span v-for="(item,index) in span" :key="index" :class="{blue:index===qwere1}"></span>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <Swiper :options="swiperOption">
+        <SwiperSlide>
           <div class="loginMiddle">
             <div class="loginMiddleBox">
               <table class="pt1 register">
@@ -31,8 +87,8 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="swiper-slide">
+        </SwiperSlide>
+        <SwiperSlide>
           <div class="loginMiddle">
             <div class="loginMiddleBox">
               <table class="pt1 register">
@@ -63,19 +119,34 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </SwiperSlide>
+      </Swiper>
     </div>
-
   </div>
 </template>
 
 <script>
 import {MessageBox} from 'mint-ui'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   name: 'login',
+  components: {
+    'Swiper': swiper,
+    'SwiperSlide': swiperSlide
+  },
   data () {
     return {
+      swiperOption: {
+        autoplay: false,
+        speed: 1000,
+        effect: 'cube'
+      },
+      cubeEffect: {
+        slideShadows: true,
+        shadow: false,
+        shadowOffset: 20,
+        shadowScale: 0.64
+      },
       isLogin: true,
       showCode: true, // 验证码按钮最初显示
       count: '',
@@ -158,6 +229,7 @@ export default {
 </script>
 
 <style scoped>
+  @import "../../node_modules/swiper/dist/css/swiper.min.css";
   .swiper-slide .swiper-slide-prev {
     width: 258px !important;
   }

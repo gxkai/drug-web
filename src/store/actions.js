@@ -1,5 +1,6 @@
 import * as types from './mutation_types'
 import axios from 'axios'
+import storage from 'good-storage'
 
 /**
  * 登陆
@@ -46,8 +47,8 @@ export function LOGIN ({commit, state}, {userInfo}) {
  */
 export function VERIFY ({commit}) {
   return new Promise((resolve, reject) => {
-    if (sessionStorage.getItem('firstLogin')) {
-      if (localStorage.getItem('token')) {
+    if (storage.session.has('firstLogin')) {
+      if (storage.has('token')) {
         axios({
           method: 'get',
           url: '/accounts/verify'
@@ -104,8 +105,8 @@ export function LOGINOUT ({commit}) {
         if (res.status === 200) {
           commit(types.SETTOKEN, '')
           commit(types.SETACCOUNT, {})
-          localStorage.removeItem('token')
-          localStorage.removeItem('account')
+          storage.remove('token')
+          storage.remove('account')
         }
         resolve(res)
       })

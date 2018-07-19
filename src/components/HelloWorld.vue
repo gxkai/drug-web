@@ -102,6 +102,10 @@ export default {
     // }).catch(error => {
     //   this.exception(error)
     // })
+    // this.$storage.set('account', account)
+    // console.log(this.$storage.get('account'))
+    // this.$storage.remove('account')
+    // console.log(this.$storage.has('account'))
   }
 }
 </script>
