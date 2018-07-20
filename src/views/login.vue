@@ -126,15 +126,15 @@
 </template>
 
 <script>
-import {MessageBox} from 'mint-ui'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import {MessageBox} from 'mint-ui';
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
 export default {
   name: 'login',
   components: {
     'Swiper': swiper,
     'SwiperSlide': swiperSlide
   },
-  data () {
+  data() {
     return {
       swiperOption: {
         autoplay: false,
@@ -162,70 +162,70 @@ export default {
       registerUsername: '',
       captcha: '',
       registerPassword: ''
-    }
+    };
   },
   methods: {
-    change (index) {
-      this.qwere = index
-      this.isLogin = this.qwere === 0
+    change(index) {
+      this.qwere = index;
+      this.isLogin = this.qwere === 0;
     },
-    getCode () {
-      const TIME_COUNT = 5
+    getCode() {
+      const TIME_COUNT = 5;
       if (!this.timer) {
-        this.count = TIME_COUNT
-        this.showCode = false
+        this.count = TIME_COUNT;
+        this.showCode = false;
         this.timer = setInterval(() => {
           if (this.count > 0 && this.count <= TIME_COUNT) {
-            this.count--
+            this.count--;
           } else {
-            this.showCode = true
-            clearInterval(this.timer)
-            this.timer = null
+            this.showCode = true;
+            clearInterval(this.timer);
+            this.timer = null;
           }
-        }, 1000)
+        }, 1000);
       }
       this.$http.post('/accounts/captcha', {
         'username': this.registerUsername,
         'captchaType': 'REGISTER'
       })
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
         })
         .catch((error) => {
-          this.exception(error)
-        })
+          this.exception(error);
+        });
     },
-    login () {
-      this.regMobiile(this.username)
+    login() {
+      this.regMobiile(this.username);
       const account = {
         'username': this.username,
         'password': this.password
-      }
+      };
       this.$store.dispatch('LOGIN', account)
         .then((res) => {
-          this.$router.push({path: '/'})
+          this.$router.push({path: '/'});
         })
         .catch((error) => {
-          this.exception(error)
-        })
+          this.exception(error);
+        });
     },
-    register () {
+    register() {
       const account = {
         'username': this.registerUsername,
         'password': this.registerPassword,
         'captcha': this.captcha
-      }
+      };
       this.$store.dispatch('REGISTER', account)
         .then((res) => {
-          this.isLogin = true
-          MessageBox('提示', '注册成功')
+          this.isLogin = true;
+          MessageBox('提示', '注册成功');
         })
         .catch((error) => {
-          this.exception(error)
-        })
+          this.exception(error);
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped>
