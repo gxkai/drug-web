@@ -10,7 +10,6 @@
   </div>
 </template>
 
-
 <script>
 let URL_PATH = process.env.URL_PATH;
 export default {

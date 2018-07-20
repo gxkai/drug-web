@@ -6,7 +6,6 @@
       </router-link>
     </mt-header>
 
-
     <div class="f_medical_card_bin_lists">
       <div class="f_medical_card_bin_list">
         <i class="icon iconfont ic-xingming" id="ic_xingming"></i>
@@ -28,7 +27,6 @@
         <input type="number" v-model="account.medicalNumber" placeholder="请输入医保卡编号"/>
       </div>
     </div>
-
 
     <div class="f_medical_card_bin_button">
       <button @click="bind()">确认绑定</button>
