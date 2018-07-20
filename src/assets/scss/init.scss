@@ -1,3 +1,7 @@
+*{
+  margin:0;
+  padding:0;
+}
 // Margin and Padding
 @each $prop, $abbrev in (margin: m, padding: p) {
   @for $size from 0 through 100 {
@@ -77,6 +81,9 @@
   .line-height-l-#{$size} {
     line-height: ($spacer-large*$size);
   }
+  .line-height-s-#{$size} {
+    line-height: ($spacer*$size);
+  }
   .text-indent-l-#{$size} {
     text-indent: ($spacer-large*$size);
   }
@@ -86,8 +93,23 @@
   .width-l-#{$size} {
     width: ($spacer-large*$size);
   }
+  .width-s-#{$size} {
+    width: ($spacer*$size);
+  }
+  .width-percent-#{$size}{
+    width: (1% * $size)
+  }
   .height-l-#{$size} {
     height: ($spacer-large*$size);
+  }
+  .height-s-#{$size} {
+    height: ($spacer*$size);
+  }
+  .mt-l-#{$size}{
+    margin-top:  ($spacer-large*$size);
+  }
+  .mt-s-#{$size}{
+    margin-top:  ($spacer*$size);
   }
 }
 
