@@ -21,18 +21,18 @@
   </div>
 </template>
 <script>
-import headWhite from '@/components/headWhite'
+import headWhite from '@/components/headWhite';
 export default {
   name: 'about',
-  data () {
+  data() {
     return {
       aboutTitle: '关于我们'
-    }
+    };
   },
   components: {
     headWhite
   }
-}
+};
 </script>
 <style scoped>
   .mint-header{background: white;color: #333333;}
