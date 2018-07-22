@@ -10,6 +10,9 @@ import base from './assets/js/base'
 import axios from 'axios'
 import storage from 'good-storage'
 import 'jquery'
+import '../src/assets/js/flex'
+import 'font-awesome/css/font-awesome.min.css'
+import '../src/assets/css/bulma.css'
 
 axios.interceptors.request.use(
   config => {
