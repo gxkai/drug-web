@@ -63,13 +63,8 @@
 </template>
 
 <script>
-import {swiper, swiperSlide} from 'vue-awesome-swiper'
 export default {
   name: 'login',
-  components: {
-    swiper,
-    swiperSlide
-  },
   data () {
     return {
       swiperOption: {

@@ -157,7 +157,7 @@ export default {
 
   .line1 {
     width:681px;
-    height:3px;
+    height:1px;
     background:rgba(229,229,229,1);
     opacity: 0.58;
     margin: auto;
