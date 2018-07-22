@@ -18,7 +18,7 @@
             <i class="iconfont ic-icon2 icon2"></i>
           </div>
           <div class="right">
-            <input class="input21" placeholder="请输入密码">
+            <input class="input21" type="password" placeholder="请输入密码">
           </div>
         </div>
         <button class="button1" @click="login()">
@@ -41,7 +41,7 @@
             <i class="iconfont ic-anquanrenzheng anquanrenzheng"></i>
           </div>
           <div class="right">
-            <input class="input21" placeholder="请输入验证码">
+            <input class="input21" type="password" placeholder="请输入验证码">
           </div>
         </div>
         <div class="input3">
@@ -58,7 +58,7 @@
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
-    <div class="foot1">忘记密码？</div>
+    <router-link tag="div" class="foot1" to="/forget">忘记密码？</router-link>
   </div>
 </template>
 
