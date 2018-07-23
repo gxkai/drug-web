@@ -20,6 +20,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import('@/views/login.vue')
+    },
+    {
+      path: '/forget',
+      name: 'forget',
+      component: () => import('@/views/forget.vue')
     }
 
   ]
