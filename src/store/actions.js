@@ -10,29 +10,23 @@ import storage from 'good-storage';
  * @returns {Promise<any>}
  * @constructor
  */
-export function LOGIN({commit, state}, {userInfo}) {
+export function LOGIN({commit, state}, userInfo) {
   return new Promise((resolve, reject) => {
-    commit(types.SETTOKEN, '1');
     axios({
       method: 'post',
       url: '/accounts/login',
       data: userInfo
     }).then(res => {
-      if (res.status === 200) {
-        commit(types.SETTOKEN, res.data);
-        axios({
-          method: 'get',
-          url: '/accounts'
-        }).then(res => {
-          if (res.status === 200) {
-            commit(types.SETACCOUNT, res.data);
-          }
-          resolve(res);
-        }).catch(err => {
-          reject(err);
-        });
-      }
-      resolve(res);
+      commit(types.SETTOKEN, res.data);
+      axios({
+        method: 'get',
+        url: '/accounts'
+      }).then(res => {
+        commit(types.SETACCOUNT, res.data);
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      });
     }).catch(err => {
       reject(err);
     });
@@ -73,12 +67,12 @@ export function VERIFY({commit}) {
  * @returns {Promise<any>}
  * @constructor
  */
-export function REGISTER({commit}, {account}) {
+export function REGISTER({commit}, userInfo) {
   return new Promise((resolve, reject) => {
     axios({
       method: 'post',
       url: '/accounts',
-      data: account
+      data: userInfo
     })
       .then((res) => {
         resolve(res);
@@ -102,12 +96,10 @@ export function LOGINOUT({commit}) {
       url: '/accounts/logout'
     })
       .then((res) => {
-        if (res.status === 200) {
-          commit(types.SETTOKEN, '');
-          commit(types.SETACCOUNT, {});
-          storage.remove('token');
-          storage.remove('account');
-        }
+        commit(types.SETTOKEN, '');
+        commit(types.SETACCOUNT, {});
+        storage.remove('token');
+        storage.remove('account');
         resolve(res);
       })
       .catch((error) => {

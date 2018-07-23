@@ -38,7 +38,10 @@ export default new Router({
     {
       path: '/addresses/edit',
       component: () => import('@/views/addresses/edit.vue')
+    },
+    {
+      path: '/addresses',
+      component: () => import('@/views/addresses/index.vue')
     }
-
   ]
 });

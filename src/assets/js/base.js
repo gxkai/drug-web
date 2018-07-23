@@ -3,11 +3,15 @@ export default {
   install(Vue, options) {
     Vue.prototype.exception = (error) => {
       let res = error.response;
-      if (res.status === 400) {
-        if (res.data.status === 400) {
-          MessageBox('提示', res.data.fieldErrors[0].message);
+      if (res) {
+        if (res.status === 400) {
+          if (res.data.status === 400 && res.data.fieldErrors) {
+            MessageBox('提示', res.data.fieldErrors[0].message);
+          } else {
+            MessageBox('提示', res.data.message);
+          }
         } else {
-          MessageBox('提示', res.data.message);
+          MessageBox('提示', '网络异常');
         }
       } else {
         MessageBox('提示', '网络异常');
