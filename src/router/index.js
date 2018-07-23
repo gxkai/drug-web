@@ -22,6 +22,11 @@ export default new Router({
       component: () => import('@/views/login.vue')
     },
     {
+      path: '/accounts',
+      name: 'account',
+      component: () => import('@/views/accounts/index.vue')
+    },
+    {
       path: '/forget',
       name: 'forget',
       component: () => import('@/views/forget.vue')

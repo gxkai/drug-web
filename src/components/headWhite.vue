@@ -10,7 +10,7 @@
 <script>
   export default {
     name: 'allBottom',
-    data () {
+    data() {
       return {};
     },
     props: {
