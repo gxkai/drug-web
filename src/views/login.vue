@@ -11,7 +11,7 @@
           <div class="left">
             <i class="iconfont ic-shouji shouji"></i>
           </div>
-          <input class="right" placeholder="请输入手机号码">
+          <input type="number" class="right" placeholder="请输入手机号码">
         </div>
         <div class="input2">
           <div class="left">
@@ -31,7 +31,7 @@
             <i class="iconfont ic-shouji shouji"></i>
           </div>
           <div class="right">
-            <input class="input11" placeholder="请输入手机号码">
+            <input type="number" class="input11" placeholder="请输入手机号码">
             <button class="button1" @click="getCaptcha()" v-show="showCode">获取验证码</button>
             <button class="button1"  v-show="!showCode">{{count}}</button>
           </div>

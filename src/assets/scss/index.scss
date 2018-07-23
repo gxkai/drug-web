@@ -1,7 +1,8 @@
 @import "./variables";
 @import "./init";
 @import "./icon";
-
+.elps{white-space:nowrap;overflow: hidden;text-overflow: ellipsis;}
+.elpsTwo{overflow:hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;}
 * {
   margin: 0;
   padding: 0;
@@ -370,6 +371,7 @@ table {
 .text-1AB6FD {
   color: #1AB6FD;
 }
+.text-FF0000{color:#FF0000;}
 
 /*背景bg*/
 .bg-13C1FE {
@@ -415,6 +417,9 @@ table {
 /*border*/
 .border-13C1FE {
   border: 1px solid #13C1FE;
+}
+.border-bottom-f1f1f1{
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .border-0 {
@@ -467,11 +472,4 @@ table {
 
 .align-items-center {
   align-items: center;
-}
-
-.mint-header {
-  font-size:36px;
-  font-family:HiraginoSansGB-W3;
-  color:rgba(51,51,51,1);
-  background: rgba(255, 255, 255, 1);
 }
