@@ -63,10 +63,10 @@
   </div>
 </template>
 <script>
-import {MessageBox} from 'mint-ui'
+import {MessageBox} from 'mint-ui';
 
 export default {
-  data () {
+  data() {
     return {
       username: '',
       captcha: '',
@@ -76,48 +76,48 @@ export default {
       state: 1,
       password: '',
       passwordConfirm: ''
-    }
+    };
   },
   methods: {
-    getCaptcha () {
-      const TIME_COUNT = 5
+    getCaptcha() {
+      const TIME_COUNT = 5;
       if (!this.timer) {
-        this.count = TIME_COUNT
-        this.showCode = false
+        this.count = TIME_COUNT;
+        this.showCode = false;
         this.timer = setInterval(() => {
           if (this.count > 0 && this.count <= TIME_COUNT) {
-            this.count--
+            this.count--;
           } else {
-            this.showCode = true
-            clearInterval(this.timer)
-            this.timer = null
+            this.showCode = true;
+            clearInterval(this.timer);
+            this.timer = null;
           }
-        }, 1000)
+        }, 1000);
       }
       this.$http.post('/accounts/captcha', {
         'username': this.username,
         'captchaType': 'PASSWORD'
       })
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
         })
         .catch((error) => {
-          this.exception(error)
-        })
+          this.exception(error);
+        });
     },
-    checkCaptcha () {
+    checkCaptcha() {
       this.$http.post('/accounts/forget', {'username': this.registerUsername, 'captcha': this.captcha})
         .then((res) => {
-          this.state = 1
+          this.state = 1;
         })
         .catch((error) => {
-          this.exception(error)
-        })
+          this.exception(error);
+        });
     },
-    updatePassword () {
+    updatePassword() {
       if (this.password !== this.passwordConfirm) {
-        MessageBox('提示', '输入密码不同')
-        return
+        MessageBox('提示', '输入密码不同');
+        return;
       }
       this.$http.put('/accounts/forget', {
         'username': this.registerUsername,
@@ -125,14 +125,14 @@ export default {
         'password': this.password
       })
         .then((res) => {
-          this.state = 2
+          this.state = 2;
         })
         .catch((error) => {
-          this.exception(error)
-        })
+          this.exception(error);
+        });
     }
   }
-}
+};
 </script>
 <style scoped>
 
@@ -142,7 +142,6 @@ export default {
 
   .body2 {
     width: 100%;
-    height: calc(100vh - );
   }
   .input1 {
     width: 100%;

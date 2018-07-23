@@ -65,7 +65,7 @@
 <script>
 export default {
   name: 'login',
-  data () {
+  data() {
     return {
       swiperOption: {
         autoplay: false,
@@ -96,76 +96,76 @@ export default {
       registerUsername: '',
       captcha: '',
       registerPassword: ''
-    }
+    };
   },
   computed: {
-    swiper () {
-      return this.$refs.mySwiper.swiper
+    swiper() {
+      return this.$refs.mySwiper.swiper;
     }
   },
-  created () {
+  created() {
   },
-  mounted () {
+  mounted() {
   },
   methods: {
-    getCaptcha () {
-      const TIME_COUNT = 5
+    getCaptcha() {
+      const TIME_COUNT = 5;
       if (!this.timer) {
-        this.count = TIME_COUNT
-        this.showCode = false
+        this.count = TIME_COUNT;
+        this.showCode = false;
         this.timer = setInterval(() => {
           if (this.count > 0 && this.count <= TIME_COUNT) {
-            this.count--
+            this.count--;
           } else {
-            this.showCode = true
-            clearInterval(this.timer)
-            this.timer = null
+            this.showCode = true;
+            clearInterval(this.timer);
+            this.timer = null;
           }
-        }, 1000)
+        }, 1000);
       }
       this.$http.post('/accounts/captcha', {
         'username': this.registerUsername,
         'captchaType': 'REGISTER'
       })
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
         })
         .catch((error) => {
-          this.exception(error)
-        })
+          this.exception(error);
+        });
     },
-    login () {
-      this.regMobiile(this.username)
+    login() {
+      this.regMobiile(this.username);
       const account = {
         'username': this.username,
         'password': this.password
-      }
+      };
       this.$store.dispatch('LOGIN', account)
         .then((res) => {
-          this.$router.push({path: '/'})
+          this.$router.push({path: '/'});
         })
         .catch((error) => {
-          this.exception(error)
-        })
+          this.exception(error);
+        });
     },
-    register () {
+    register() {
       const account = {
         'username': this.registerUsername,
         'password': this.registerPassword,
         'captcha': this.captcha
-      }
+      };
       this.$store.dispatch('REGISTER', account)
         .then((res) => {
-          this.username = this.registerUsername
-          this.password = this.registerPassword
-          this.swiper.slideTo(1, 1000, false)
+          this.username = this.registerUsername;
+          this.password = this.registerPassword;
+          this.swiper.slideTo(1, 1000, false);
         })
         .catch((error) => {
-          this.exception(error)
-        })
+          this.exception(error);
+        });
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -173,7 +173,7 @@ export default {
     width: 100%;
   }
   .mid1 {
-    width:10rem;
+    width:100%;
     height:435px;
     background:rgba(26,182,253,1);
   }
