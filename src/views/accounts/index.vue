@@ -23,14 +23,14 @@
     <!--&lt;!&ndash;<div class="f_account_center_header" v-if="!isLogin">&ndash;&gt;-->
     <!--&lt;!&ndash;<div class="f_account_center_header">&ndash;&gt;-->
       <!--&lt;!&ndash;<router-link to="/login" onclick="javascript:location.reload();">&ndash;&gt;-->
-        <!--&lt;!&ndash;<img src="static/img/accounts/default_head.jpg"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<img src="../../assets/image/accounts/accounts/default_head.jpg"/>&ndash;&gt;-->
       <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
       <!--&lt;!&ndash;<span>登录/注册</span>&ndash;&gt;-->
     <!--&lt;!&ndash;</div>&ndash;&gt;-->
     <!--<div class="f_account_center_order">-->
       <!--<router-link class="f_account_center_orders" to="/orders?parameter=all">-->
         <!--<span class="all-orders">全部订单</span>-->
-        <!--<span class="f_account_my_orders">我的订单<img src="static/img/order/right.png"></span>-->
+        <!--<span class="f_account_my_orders">我的订单<img src="../../assets/image/accounts/order/right.png"></span>-->
       <!--</router-link>-->
       <!--<div class="f_account_center_order_lists">-->
         <!--&lt;!&ndash;<router-link class="f_account_center_menu_list" to="/orders?parameter=pendpay">&ndash;&gt;-->
@@ -78,46 +78,16 @@
 
       <!--</div>-->
     <!--</div>-->
-    <!--<div class="f_account_center_menu_lists">-->
-      <!--<router-link class="f_account_center_menu_list f_account_center_menu_listd"  style="margin-top:0px;" to="/drugAppraises">-->
-        <!--<img src="static/img/evaluation.png"/>-->
-        <!--<span>我的评价</span>-->
-      <!--</router-link>-->
-      <!--<router-link class="f_account_center_menu_list f_account_center_menu_listd" to="/chats" style="margin-top:0px;" >-->
-        <!--<img src="static/img/consultation.png"/>-->
-        <!--<span>咨询</span>-->
-      <!--</router-link>-->
-      <!--<router-link class="f_account_center_menu_list f_account_center_menu_listd" to="/addresses" style="margin-top:0px;" >-->
-        <!--<img src="static/img/addresss.png"/>-->
-        <!--<span>地址</span>-->
-      <!--</router-link>-->
-      <!--<router-link class="f_account_center_menu_list f_account_center_menu_listd" to="/collects" style="margin-top:0px;" >-->
-        <!--<img src="static/img/coll.png"/>-->
-        <!--<span>收藏</span>-->
-      <!--</router-link>-->
-      <!--<router-link class="f_account_center_menu_list f_account_center_menu_listd" to="/orderRefunds" style="margin-top:0px;border-bottom:0px;" >-->
-        <!--<img src="static/img/refund.png"/>-->
-        <!--<span>退款</span>-->
-      <!--</router-link>-->
-   <!--&lt;!&ndash;<router-link class="f_account_center_menu_list f_account_center_menu_listd"&ndash;&gt;-->
-                   <!--&lt;!&ndash;:to="null==this.account.medicalNumber?'/accounts/bind':'/accounts/unbind'" style="margin-top:0px;border-bottom:0px;" >&ndash;&gt;-->
-        <!--&lt;!&ndash;<img src="static/img/bind.png"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<span>账户信息</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-      <!--<router-link class="f_account_center_menu_list f_account_center_menu_listd" to="/accounts/view" style="margin-top:0px;border-bottom:0px;">-->
-        <!--<img src="static/img/account.png"/>-->
-        <!--<span>医保卡信</span>-->
-      <!--</router-link>-->
-    <!--</div>-->
+
 
     <!--<router-link class="f_account_center_questions" to="/faqs" style="margin-top:1rem;" >-->
       <!--<span>常见问题</span>-->
-      <!--<img src="static/img/order/right.png">-->
+      <!--<img src="../../assets/image/accounts/order/right.png">-->
     <!--</router-link>-->
 
     <!--<router-link class="f_account_center_feedback" to="/feedbacks/create" style="margin-top:1rem;margin-bottom:8rem;" >-->
       <!--<span>意见反馈</span>-->
-      <!--<img src="static/img/order/right.png">-->
+      <!--<img src="../../assets/image/accounts/order/right.png">-->
     <!--</router-link>-->
     <!--&lt;!&ndash;<allBottom></allBottom>&ndash;&gt;-->
   <!--</div>-->
@@ -127,21 +97,54 @@
       <img class="header-img" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
       <span class="header-text">微恙</span>
     </div>
-    <div class="nav-bar">
-      <span>全部订单</span>
-      <div class="is-flex">
-        <span>我的订单</span>
-        <img src="11111">
+    <div class="nav-bar ">
+      <div class="nav-bar-title flex-stream-sb">
+        <span>全部订单</span>
+        <div class="is-flex">
+          <span>我的订单</span>
+          <i class="icon" />
+        </div>
       </div>
+
       <hr class="text-hr" >
 
     </div>
-    <div class="account-content"></div>
-    <div class="foot-tag">
+    <div class="account-content is-flex">
+        <router-link class="flex-box" to="/drugAppraises">
+          <img src="../../assets/image/accounts/evaluation.png"/>
+          <span>我的评价</span>
+        </router-link>
+        <router-link class="flex-box" to="/chats">
+          <img src="../../assets/image/accounts/consultation.png"/>
+          <span>咨询</span>
+        </router-link>
+        <router-link class="flex-box" to="/addresses" >
+          <img src="../../assets/image/accounts/address.png"/>
+          <span>地址</span>
+        </router-link>
+        <router-link class="flex-box" to="/collects" >
+          <img src="../../assets/image/accounts/coll.png"/>
+          <span>收藏</span>
+        </router-link>
+        <router-link class="flex-box" to="/orderRefunds">
+          <img src="../../assets/image/accounts/refund.png"/>
+          <span>退款</span>
+        </router-link>
+        <!--<router-link class="flex-box"-->
+        <!--:to="null==this.account.medicalNumber?'/accounts/bind':'/accounts/unbind'" style="margin-top:0px;border-bottom:0px;" >-->
+        <!--<img src="../../assets/image/accounts/bind.png"/>-->
+        <!--<span>账户信息</span>-->
+        <!--</router-link>-->
+        <router-link class="flex-box" to="/accounts/view">
+          <img src="../../assets/image/accounts/card.png"/>
+          <span>医保卡信息</span>
+        </router-link>
+    </div>
+    <div class="foot-tag flex-row-sb-center">
       <span >常见问题</span>
       <i class="icon" />
     </div>
-    <div class="foot-tag">
+    <div class="foot-tag flex-row-sb-center">
       <span >意见反馈</span>
       <i class="icon" />
     </div>
@@ -205,6 +208,19 @@
     color: #e2e2e2;
   }
 
+  .border-left-gray{
+    border-left:1px rgba(235,235,235,1) solid;
+  }
+  .border-right-gray{
+    border-right: 1px rgba(235,235,235,1) solid;
+  }
+  .border-top-gray{
+    border-top: 1px rgba(235,235,235,1) solid;
+  }
+  .border-bottom-gray{
+    border-bottom: 1px rgba(235,235,235,1) solid;
+  }
+
   .all-center{
     display: flex;
     flex-direction: column;
@@ -212,11 +228,27 @@
     justify-content: center;
   }
 
+  .flex-row-sb-center{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .flex-stream-sa{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .flex-stream-sb{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .header{
     width:720px;
     height:369px;
     background:#34cafe;
-    border: 1px red solid;
   }
 
   .header-img{
@@ -253,19 +285,44 @@
     width:720px;
     height:300px;
     background:rgba(255,255,255,1);
-    border: 1px black solid;
+    flex-wrap: wrap;
+  }
+
+  .flex-box{
+    padding: 29px 48px;
+    box-sizing: border-box;
+    width:25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border:
+  }
+  .flex-box span{
+    width:100px;
+    height:20px;
+    font-size:20px;
+    font-family:MicrosoftYaHei;
+    color:rgba(51,51,51,1);
+    line-height:36px;
+    text-align: center;
+    margin-top: 15px;
+  }
+  .flex-box img{
+    width: 42px;
+    height: 42px;
   }
 
   .foot-tag{
     width:719px;
     height:70px;
     background:rgba(255,255,255,1);
-    border: 1px black solid;
     margin-top: 14px;
+    padding: 24px 16px;
+    box-sizing: border-box;
+
+    font-family:HiraginoSansGB-W3;
+    color:rgba(102,102,102,1);
   }
-
-
-
 
   /*.f_account_center_order .icon .mint-badge {*/
     /*position: absolute !important;*/
