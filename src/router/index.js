@@ -1,14 +1,15 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
+import HelloWorld from '@/components/HelloWorld';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'index',
-      component: () => import('@/components/index.vue')
+      name: 'HelloWorld',
+      component: HelloWorld
     },
     {
       path: '/about',
@@ -19,6 +20,17 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import('@/views/login.vue')
+    },
+    {
+      path: '/forget',
+      name: 'forget',
+      component: () => import('@/views/forget.vue')
+    },
+    {
+      path: '/feedbacks',
+      name: 'feedbacksCreate',
+      component: () => import('@/views/feedbacks/create.vue')
     }
+
   ]
-})
+});
