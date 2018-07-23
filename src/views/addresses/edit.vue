@@ -70,7 +70,6 @@
     },
     methods: {
       changeState() {
-        debugger;
         this.isDefault = !this.isDefault;
       },
       getList() {
