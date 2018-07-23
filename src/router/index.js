@@ -25,7 +25,11 @@ export default new Router({
       path: '/forget',
       name: 'forget',
       component: () => import('@/views/forget.vue')
+    },
+    {
+      path: '/feedbacks',
+      name: 'feedbacksCreate',
+      component: () => import('@/views/feedbacks/create.vue')
     }
-
   ]
 });
