@@ -10,8 +10,8 @@
 <script>
 export default {
   name: 'allBottom',
-  data () {
-    return {}
+  data() {
+    return {};
   },
   props: {
     headTitle: {
@@ -25,7 +25,7 @@ export default {
   created: function () {
 
   }
-}
+};
 </script>
 
 <style scoped>

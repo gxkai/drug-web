@@ -1,6 +1,6 @@
-import * as types from './mutation_types'
-import axios from 'axios'
-import storage from 'good-storage'
+import * as types from './mutation_types';
+import axios from 'axios';
+import storage from 'good-storage';
 
 /**
  * 登陆
@@ -10,33 +10,33 @@ import storage from 'good-storage'
  * @returns {Promise<any>}
  * @constructor
  */
-export function LOGIN ({commit, state}, {userInfo}) {
+export function LOGIN({commit, state}, {userInfo}) {
   return new Promise((resolve, reject) => {
-    commit(types.SETTOKEN, '1')
+    commit(types.SETTOKEN, '1');
     axios({
       method: 'post',
       url: '/accounts/login',
       data: userInfo
     }).then(res => {
       if (res.status === 200) {
-        commit(types.SETTOKEN, res.data)
+        commit(types.SETTOKEN, res.data);
         axios({
           method: 'get',
           url: '/accounts'
         }).then(res => {
           if (res.status === 200) {
-            commit(types.SETACCOUNT, res.data)
+            commit(types.SETACCOUNT, res.data);
           }
-          resolve(res)
+          resolve(res);
         }).catch(err => {
-          reject(err)
-        })
+          reject(err);
+        });
       }
-      resolve(res)
+      resolve(res);
     }).catch(err => {
-      reject(err)
-    })
-  })
+      reject(err);
+    });
+  });
 }
 
 /**
@@ -45,7 +45,7 @@ export function LOGIN ({commit, state}, {userInfo}) {
  * @returns {Promise<any>}
  * @constructor
  */
-export function VERIFY ({commit}) {
+export function VERIFY({commit}) {
   return new Promise((resolve, reject) => {
     if (storage.session.has('firstLogin')) {
       if (storage.has('token')) {
@@ -55,15 +55,15 @@ export function VERIFY ({commit}) {
         })
           .then(res => {
             if (res.status === 200) {
-              commit(types.SETTOKEN, res.data)
+              commit(types.SETTOKEN, res.data);
             }
-            resolve(res)
+            resolve(res);
           }).catch(error => {
-            reject(error)
-          })
+            reject(error);
+          });
       }
     }
-  })
+  });
 }
 
 /**
@@ -73,7 +73,7 @@ export function VERIFY ({commit}) {
  * @returns {Promise<any>}
  * @constructor
  */
-export function REGISTER ({commit}, {account}) {
+export function REGISTER({commit}, {account}) {
   return new Promise((resolve, reject) => {
     axios({
       method: 'post',
@@ -81,12 +81,12 @@ export function REGISTER ({commit}, {account}) {
       data: account
     })
       .then((res) => {
-        resolve(res)
+        resolve(res);
       })
       .catch((error) => {
-        reject(error)
-      })
-  })
+        reject(error);
+      });
+  });
 }
 
 /**
@@ -95,7 +95,7 @@ export function REGISTER ({commit}, {account}) {
  * @returns {Promise<any>}
  * @constructor
  */
-export function LOGINOUT ({commit}) {
+export function LOGINOUT({commit}) {
   return new Promise((resolve, reject) => {
     axios({
       method: 'get',
@@ -103,15 +103,15 @@ export function LOGINOUT ({commit}) {
     })
       .then((res) => {
         if (res.status === 200) {
-          commit(types.SETTOKEN, '')
-          commit(types.SETACCOUNT, {})
-          storage.remove('token')
-          storage.remove('account')
+          commit(types.SETTOKEN, '');
+          commit(types.SETACCOUNT, {});
+          storage.remove('token');
+          storage.remove('account');
         }
-        resolve(res)
+        resolve(res);
       })
       .catch((error) => {
-        reject(error)
-      })
-  })
+        reject(error);
+      });
+  });
 }
