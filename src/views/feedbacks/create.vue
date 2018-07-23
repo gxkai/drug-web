@@ -56,7 +56,6 @@
 
   textarea{
     width:720px;
-    height:360px;
     background:rgba(255,255,255,1);
     font-size:24px;
     font-family:HiraginoSansGB-W3;
