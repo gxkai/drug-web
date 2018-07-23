@@ -7,11 +7,11 @@
             <mt-button icon="back"></mt-button>
           </router-link>
         </mt-header>
-        <input class="input1" placeholder="请输入手机号码" v-model="username">
+        <input type="number" class="input1" placeholder="请输入手机号码" v-model="username">
         <div class="line1"></div>
         <div class="input2">
           <div class="left">
-            <input class="input21" placeholder="请输入验证码" v-model="captcha">
+            <input  class="input21" placeholder="请输入验证码" v-model="captcha">
           </div>
           <div class="right">
             <button class="button1" @click="getCaptcha()">获取验证码</button>

@@ -35,7 +35,16 @@ export default new Router({
       path: '/faqs',
       name: 'faqs',
       component: () => import('@/views/faqs/index.vue')
+    },
+    {
+      path: '/addresses/create',
+      component: () => import('@/views/addresses/create.vue')
+    },
+    {
+      path: '/addresses/edit',
+      component: () => import('@/views/addresses/edit.vue')
     }
 
   ]
-});
+})
+;
