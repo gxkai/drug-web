@@ -174,7 +174,7 @@
               showCancelButton: true
             }).then(action => {
               this.clearInt();
-              this.swiper.slideTo(0, 0, false);
+              this.swiper.slideTo(0, 1000, false);
             });
           })
           .catch((error) => {
