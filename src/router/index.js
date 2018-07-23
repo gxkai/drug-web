@@ -31,5 +31,6 @@ export default new Router({
       name: 'feedbacksCreate',
       component: () => import('@/views/feedbacks/create.vue')
     }
+
   ]
 });
