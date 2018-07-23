@@ -28,7 +28,7 @@ export default new Router({
     },
     {
       path: '/feedbacks',
-      name: 'feedbacksCreate',
+      name: 'feedbacks',
       component: () => import('@/views/feedbacks/create.vue')
     },
     {
@@ -43,6 +43,11 @@ export default new Router({
     {
       path: '/addresses/edit',
       component: () => import('@/views/addresses/edit.vue')
+    },
+    {
+      path: '/setting',
+      name: 'setting',
+      component: () => import('@/views/setting.vue')
     }
 
   ]

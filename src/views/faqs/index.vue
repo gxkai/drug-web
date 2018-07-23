@@ -10,8 +10,6 @@
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <li v-for="(questionContent,index) in questionList">
         <div class="f_my_question_lists">
-          <!--<span class="f_question">问题地方换个地方还是如何让他输入体验会让她回头融为一体任意妄为特意让问题测试</span>-->
-          <!--<span class="f_reply">回复个人用同一个地方个人同意突然有人通过浩特如何个人通过认购人同意让他有人提议回复测试</span>-->
           <span  class="f_question">{{index+1}}、{{ questionContent.question }}</span>
           <span class="f_reply">{{ questionContent.answer }}</span>
         </div>
@@ -54,9 +52,8 @@
         }
       },
       loadData() {
-        this.$http.get(this.URL_PATH + '/faqs?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+        this.$http.get('/faqs?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then((res) => {
-            console.log(res);
             this.questionList = this.questionList.concat(res.data.list);
             this.pages = res.data.pages;
             if (this.pages === 0) {
@@ -87,7 +84,6 @@
     display: block;
     margin-top: 20px;
     width: 680px;
-    height: 52px;
     font-size: 22px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
@@ -97,13 +93,11 @@
   .f_reply {
     display: block;
     width: 680px;
-    height: 43px;
     font-size: 20px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
     line-height: 24px;
     margin-top: 17px;
-    margin-bottom: 41px;
+    margin-bottom: 30px;
   }
-
 </style>
