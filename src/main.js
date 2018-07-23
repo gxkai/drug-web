@@ -10,7 +10,10 @@ import base from './assets/js/base';
 import axios from 'axios';
 import storage from 'good-storage';
 import 'jquery';
-
+import '../src/assets/js/flex';
+import 'font-awesome/css/font-awesome.min.css';
+import '../src/assets/css/bulma.css';
+import VueAwesomeSwiper from 'vue-awesome-swiper';
 axios.interceptors.request.use(
   config => {
     config.headers = {
@@ -51,6 +54,7 @@ Vue.prototype.$http = axios;
 Vue.prototype.$storage = storage;
 Vue.config.productionTip = false;
 Vue.use(MintUI);
+Vue.use(VueAwesomeSwiper);
 Vue.use(base);
 
 /* eslint-disable no-new */

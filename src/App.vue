@@ -11,11 +11,10 @@ export default {
 </script>
 
 <style>
-@import 'assets/css/bulma.css';
-@import "assets/css/icon.css";
-@import "assets/css/all.css";
-@import "assets/css/common.css";
+/*@import "assets/css/all.css";*/
+/*@import "assets/css/common.css";*/
 </style>
 <style lang="scss">
 @import "assets/scss/index.scss";
+
 </style>
