@@ -14,6 +14,8 @@ import '../src/assets/js/flex';
 import 'font-awesome/css/font-awesome.min.css';
 import '../src/assets/css/bulma.css';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
+debugger;
+axios.defaults.baseURL = process.env.API_ROOT;
 axios.interceptors.request.use(
   config => {
     config.headers = {
