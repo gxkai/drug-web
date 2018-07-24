@@ -1,5 +1,6 @@
 <template>
-  <div style="background:white!important;">
+  <div class="f_body">
+  <!--<div style="background:white!important;">-->
     <mt-header :title="aboutTitle">
       <router-link to="#" slot="left">
         <mt-button @click="$router.go(-1)" icon="back"></mt-button>
@@ -15,8 +16,8 @@
     </div>
 
     <div class="f_about_footer">
-      <div>2017-2018 E慧药版权所有</div>
-      <div>昆山网进科技股份有限公司</div>
+      <span class="f_footer_1">2017-2018 E慧药版权所有</span>
+      <span class="f_footer_2">昆山网进科技股份有限公司</span>
     </div>
   </div>
 </template>
@@ -36,22 +37,56 @@ export default {
 </script>
 <style scoped>
   .mint-header{background: white;color: #333333;}
-
+.f_body{
+  width:720px;
+  height:1334px;
+}
   .f_about_footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    text-align: center;
-    padding-bottom: 1rem;
-    color: #b2b2b2;
-    font-size: 1rem;
+    display: block;
+    height:23px;
+    font-size:24px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(153,153,153,1);
+    line-height:88px;
+  }
+  .f_footer_1{
+    display: block;
+    width:292px;
+    height:23px;
+    font-size:24px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(153,153,153,1);
+    line-height:88px;
+    margin-top: 1203px;
+    margin-bottom: 108px;
+    margin-left: 214px;
+    margin-right: 214px;
+  }
+  .f_footer_2{
+    width:292px;
+    height:23px;
+    font-size:24px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(153,153,153,1);
+    line-height:88px;
+    margin-top: 1237px;
+    margin-bottom: 74px;
+    margin-left: 214px;
+    margin-right: 214px;
   }
   .about_word{
-    padding:1rem 8% 8rem 8%;
-    background-color: #1AB6FD;
-    color: #ffffff;
-    line-height: 2rem;
-    border-radius:0 0 50vw 50vw;
+    width:620px;
+    height:95px;
+    font-size:24px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(255,255,255,1);
+    line-height:36px;
+
+    /*padding:1rem 8% 8rem 8%;*/
+    /*background-color: #1AB6FD;*/
+    /*color: #ffffff;*/
+    /*line-height: 2rem;*/
+    /*border-radius:0 0 50vw 50vw;*/
 
   }
   .about_img{
