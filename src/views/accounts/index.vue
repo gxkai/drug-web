@@ -191,21 +191,23 @@
       }
     },
     created() {
-      // if (this.$store.getters.account) {
-      //   this.account = this.$store.getters.account;
-      //   this.account.logoUrl = this.URL_PATH + '/files/' + this.account.fileId + '/image?resolution=' + 'SMALL_LOGO';
-      //   this.isLogin = !(typeof (this.account.username) === 'undefined');
-      //   if (this.isLogin) {
-      //     this.$http.get(this.URL_PATH + '/orders/count?', {
-      //       headers: {
-      //         'Authorization': JSON.parse(localStorage.account).token
-      //       }
-      //     })
-      //       .then(res => {
-      //         this.countList = res.data;
-      //       });
-      //   }
-      // }
+      if (this.$store.getters.account) {
+        this.account = this.$store.getters.account;
+        console.log(this.account);
+        this.account.logoUrl = '/files/' + this.account.fileId + '/image?resolution=' + 'SMALL_LOGO';
+        this.isLogin = !(typeof (this.account.username) === 'undefined');
+        if (this.isLogin) {
+          this.$http.get('/orders/count?', {
+            headers: {
+              'Authorization': JSON.parse(localStorage.account).token
+            }
+          })
+            .then(res => {
+              this.countList = res.data;
+              console.log(this.countList);
+            });
+        }
+      }
     }
   }
   ;

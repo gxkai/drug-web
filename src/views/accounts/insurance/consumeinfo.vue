@@ -8,39 +8,39 @@
 
     <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
       <span>姓名</span>
-      <img src="static/img/order/rightt.png">
+      <i class="iconfont ic-youjiantou" />
     </router-link>
     <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>社保编号</span>
-      <img src="static/img/order/rightt.png">
+      <i class="iconfont ic-youjiantou" />
     </router-link>
      <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>身份证号码</span>
-      <img src="static/img/order/rightt.png">
+      <i class="iconfont ic-youjiantou" />
     </router-link>
      <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>历史账户余额</span>
-      <img src="static/img/order/rightt.png">
+      <i class="iconfont ic-youjiantou" />
     </router-link>
      <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>本年预划额度</span>
-      <img src="static/img/order/rightt.png">
+      <i class="iconfont ic-youjiantou" />
     </router-link>
      <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>本年账户划入</span>
-      <img src="static/img/order/rightt.png">
+      <i class="iconfont ic-youjiantou" />
     </router-link>
     <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>本年消费累计</span>
-      <img src="static/img/order/rightt.png">
+      <i class="iconfont ic-youjiantou" />
     </router-link>
      <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>医保账户余额</span>
-      <img src="static/img/order/rightt.png">
+      <i class="iconfont ic-youjiantou" />
     </router-link>
      <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>累计月数</span>
-      <img src="static/img/order/rightt.png">
+      <i class="iconfont ic-youjiantou" />
     </router-link>
 
 

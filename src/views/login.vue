@@ -22,7 +22,7 @@
           </div>
         </div>
         <button class="button1" @click="login()">
-          登陆
+          登录
         </button>
       </swiper-slide>
       <swiper-slide class="slide2">
@@ -152,7 +152,8 @@
         };
         this.$store.dispatch('LOGIN', userInfo)
           .then((res) => {
-            this.$router.push({path: '/'});
+            this.account = res;
+            this.$router.push({path: '/accounts'});
           })
           .catch((error) => {
             this.exception(error);
@@ -170,7 +171,7 @@
             this.password = this.registerPassword;
             MessageBox({
               title: '注册成功',
-              message: '去登陆?',
+              message: '去登录?',
               showCancelButton: true
             }).then(action => {
               this.clearInt();

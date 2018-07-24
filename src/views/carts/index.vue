@@ -489,7 +489,6 @@
     width: 6%;
     margin-top: 2px;
     display: inline-block;
-    margin-top: 2px;
     vertical-align: middle;
   }
 
@@ -520,7 +519,6 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    display: inline-block;
     height: 3rem;
   }
 
