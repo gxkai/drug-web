@@ -1,5 +1,5 @@
 <template>
-  <div class="f_body">
+  <div class="bind-container">
     <mt-header title="医保卡绑定">
       <router-link to="/accounts" slot="left">
         <mt-button icon="back"></mt-button>
@@ -8,28 +8,28 @@
 
     <div class="content-lists">
       <div class="content-list">
-        <i class="icon iconfont ic-xingming"></i>
+        <i class="iconfont ic-xingming"></i>
         <input type="text" v-model="account.name" placeholder="请先维护账户信息" disabled/>
       </div>
 
       <div class="content-list">
-      <i class="icon iconfont ic-Id"></i>
+        <i class="iconfont ic-Id"></i>
         <input type="number" v-model="account.identityNumber" placeholder="请先维护账户信息" disabled/>
       </div>
 
       <div class="content-list">
-      <i class="icon iconfont ic-shouji" ></i>
+        <i class="iconfont ic-shouji" ></i>
         <input type="number" v-model="account.username" placeholder="请输入手机号码" disabled/>
       </div>
 
       <div class="content-list">
-          <i class="icon iconfont ic-Id"></i>
+        <i class="iconfont ic-Id"></i>
         <input type="number" v-model="account.medicalNumber" placeholder="请输入医保卡编号"/>
       </div>
     </div>
 
-    <div class="f_medical_card_bin_button">
-      <button @click="bind()">确认绑定</button>
+    <div class="check-btn">
+      <button class="bind-btn" @click="bind()">确认绑定</button>
     </div>
   </div>
 
@@ -87,81 +87,48 @@ export default {
     background: #1AB6FD;
     color: #e2e2e2;
   }
-
+  .bind-container{
+    width: 720px;
+    height: 100vh;
+    background: #f5f5f5;
+  }
   .content-list{
     width:720px;
     height:80px;
     background:rgba(255,255,255,1);
-    border: 1px red solid;
+    margin-top: 15px;
   }
 
-  /*.icon{*/
-    /*width: 40px;*/
-    /*height: 40px;*/
-  /*}*/
+  .iconfont{
+    font-size: 50px;
+    color: #13c1fe;
+    margin-top: 20px;
+    margin-right: 180px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
 
+  .content-lists input{
+    background: transparent;
+    outline: none;
+    border: 0;
+    color:rgba(204,204,204,1);
+  }
 
+  .bind-btn{
+    width:421px;
+    height:78px;
+    background:#13C1FE;
+    box-shadow:0px 0px 6px rgba(0,0,0,0.33);
+    border: 0;
+    color:rgba(255,255,255,1);
+    border-radius: 50px;
+  }
 
-  /*.f_body {*/
-    /*background: #f5f5f5;*/
-    /*text-align: left;*/
-    /*height: 100%;*/
-  /*}*/
-
-  /*.f_medical_card_bin_list {*/
-    /*background: white;*/
-    /*margin-top: 0.5rem;*/
-    /*display: flex;*/
-    /*flex-direction: row;*/
-    /*align-items: center;*/
-    /*box-sizing: border-box;*/
-    /*padding: 0.5rem;*/
-  /*}*/
-
-  /*.f_medical_card_bin_list > img {*/
-    /*margin-right: 15%;*/
-  /*}*/
-
-  /*.f_medical_card_bin_list > span {*/
-    /*width: 50%;*/
-    /*margin-right: 2rem;*/
-  /*}*/
-
-  /*.f_medical_card_bin_button {*/
-    /*width: 100%;*/
-    /*margin-top: 2rem;*/
-    /*text-align: center;*/
-  /*}*/
-
-  /*.f_medical_card_bin_button button {*/
-    /*letter-spacing: 2px;*/
-    /*border-radius: 20px;*/
-    /*color: white;*/
-    /*border: 0;*/
-    /*outline: none;*/
-    /*padding: 0.7rem 5rem;*/
-    /*background: #1AB6FD;*/
-  /*}*/
-
-  /*input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {*/
-    /*!* WebKit browsers *!*/
-    /*color: #d3d3d3;*/
-  /*}*/
-
-  /*input:-moz-placeholder, textarea:-moz-placeholder {*/
-    /*!* Mozilla Firefox 4 to 18 *!*/
-    /*color: #d3d3d3;*/
-  /*}*/
-
-  /*input::-moz-placeholder, textarea::-moz-placeholder {*/
-    /*!* Mozilla Firefox 19+ *!*/
-    /*color: #d3d3d3;*/
-  /*}*/
-
-  /*input:-ms-input-placeholder, textarea:-ms-input-placeholder {*/
-    /*!* Internet Explorer 10+ *!*/
-    /*color: #d3d3d3;*/
-  /*}*/
-    /*#ic_xingming,#ic_Id,#ic_shouji,#ic_yibaocard{color: #1AB6FD;margin-right: 10%;font-size:2rem;}*/
+  .check-btn{
+    width: 720px;
+    margin-top: 48px;
+    text-align: center;
+  }
 
 </style>
