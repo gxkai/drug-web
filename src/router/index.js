@@ -42,6 +42,10 @@ export default new Router({
     {
       path: '/addresses',
       component: () => import('@/views/addresses/index.vue')
+    },
+    {
+      path: '/addresses/repositioning',
+      component: () => import('@/views/addresses/repositioning.vue')
     }
   ]
 });
