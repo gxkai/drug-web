@@ -106,6 +106,26 @@ export default new Router({
     {
       path: '/version',
       component: () => import('@/views/version.vue')
+    },
+    {
+      path: '/carts',
+      name: 'carts',
+      component: () => import('@/views/carts/index.vue')
+    },
+    {
+      path: '/collects',
+      name: 'collects',
+      component: () => import('@/views/collects/index.vue')
+    },
+    {
+      path: '/collects/child/drugs',
+      name: 'collectDrugs',
+      component: () => import('@/views/collects/child/drugs.vue')
+    },
+    {
+      path: '/collects/child/shops',
+      name: 'collectShops',
+      component: () => import('@/views/collects/child/shops.vue')
     }
   ]
 });
