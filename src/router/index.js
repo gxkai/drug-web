@@ -32,6 +32,16 @@ export default new Router({
       component: () => import('@/views/accounts/card/bind.vue')
     },
     {
+      path: '/accounts/card/unbind',
+      name: 'unbind',
+      component: () => import('@/views/accounts/card/unbind.vue')
+    },
+    {
+      path: '/accounts/card/unbindCard',
+      name: 'unbindCard',
+      component: () => import('@/views/accounts/card/unbindCard.vue')
+    },
+    {
       path: '/accounts/card/success',
       name: 'success',
       component: () => import('@/views/accounts/card/success.vue')
