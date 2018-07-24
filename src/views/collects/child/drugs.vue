@@ -59,7 +59,7 @@
         }
       },
       loadData() {
-        this.$http.get(this.URL_PATH + '/collects/drug?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize, {
+        this.$http.get( + '/collects/drug?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize, {
           headers: {
             'Authorization': this.$store.getters.token
           }

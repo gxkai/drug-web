@@ -196,7 +196,7 @@
       }
     },
     created() {
-      var url = this.URL_PATH + '/drugs/discount';
+      var url =  + '/drugs/discount';
       this.$http.get(url).then(res => {
         this.discountLists = res.data;
         getImages(this.discountLists, this, 'LARGE_LOGO');

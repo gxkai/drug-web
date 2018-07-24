@@ -81,123 +81,120 @@
 </template>
 
 <script>
-import drugBottom from '@/components/drugBottom';
+  import drugBottom from '@/components/drugBottom';
 
-export default {
-  data () {
-    return {
-      shopLists: [],
-      drugInfo: [],
-      arrowdown: false,
-      hide: false,
-      tips: [],
-      total: '',
-      picUrls: '',
-      drugId: '',
-      drugShopSort: 'SYNTHESIZE',
-      spec: '',
-      specId: '',
-      val: -1,
-      lng: null,
-      lat: null
-    };
-  },
-  props: ['message'],
-  components: {
-    drugBottom
-  },
-  methods: {
+  export default {
+    data() {
+      return {
+        shopLists: [],
+        drugInfo: [],
+        arrowdown: false,
+        hide: false,
+        tips: [],
+        total: '',
+        picUrls: '',
+        drugId: '',
+        drugShopSort: 'SYNTHESIZE',
+        spec: '',
+        specId: '',
+        val: -1,
+        lng: null,
+        lat: null
+      };
+    },
+    props: ['message'],
+    components: {
+      drugBottom
+    },
+    methods: {
 
-    getShopLists () {
-      var url = this.URL_PATH + '/drugs/' + this.drugId + '/drugSpecs/' + this.specId + '/shops?drugShopSort=' + this.drugShopSort + '&lat=' + this.lat + '&lng=' + this.lng;
-      this.$http.get(url).then((res) => {
-        this.total = res.data.total;
-        this.shopLists = res.data.list;
-      });
-    },
-
-    orderById () {
-      this.drugShopSort = 'SYNTHESIZE';
-      this.getShopLists();
-    },
-    orderByDistance () {
-      this.drugShopSort = 'DISTANCE';
-      this.getLocation();
-    },
-    getLocation () {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.showPosition);
-      } else {
-        alert('浏览器不支持');
-      }
-    },
-    showPosition (position) {
-      this.lat = position.coords.latitude;
-      this.lng = position.coords.longitude;
-      this.getShopLists();
-    },
-    orderByPrice () {
-      this.val = -(this.val);
-      if (this.val === -1) {
-        this.drugShopSort = 'PRICE_LESS';
-      } else {
-        this.drugShopSort = 'PRICE_MORE';
-      }
-      this.getShopLists();
-    },
-    dropDown () {
-      this.hide = true;
-      this.arrowdown = true;
-    },
-    arrowDown () {
-      this.arrowdown = false;
-      this.hide = false;
-    },
-    d_closed (data) {
-      if (data !== '') {
-        data = data || this.drugId;
-        // 根据选择的值修改页面
-        const url = this.URL_PATH + '/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort;
-        this.$http.get(url).then((res) => {
+      getShopLists() {
+        this.$http.get('/drugs/' + this.drugId + '/drugSpecs/' + this.specId + '/shops?drugShopSort=' + this.drugShopSort + '&lat=' + this.lat + '&lng=' + this.lng).then((res) => {
           this.total = res.data.total;
           this.shopLists = res.data.list;
         });
-        this.tips.forEach(e => {
-          if (e.value === data) {
-            this.drugInfo.value = e.value;
-            this.picUrls = e.picUrls;
-            this.spec = e.name;
-          }
-        });
+      },
+
+      orderById() {
+        this.drugShopSort = 'SYNTHESIZE';
+        this.getShopLists();
+      },
+      orderByDistance() {
+        this.drugShopSort = 'DISTANCE';
+        this.getLocation();
+      },
+      getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(this.showPosition);
+        } else {
+          alert('浏览器不支持');
+        }
+      },
+      showPosition(position) {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.getShopLists();
+      },
+      orderByPrice() {
+        this.val = -(this.val);
+        if (this.val === -1) {
+          this.drugShopSort = 'PRICE_LESS';
+        } else {
+          this.drugShopSort = 'PRICE_MORE';
+        }
+        this.getShopLists();
+      },
+      dropDown() {
+        this.hide = true;
+        this.arrowdown = true;
+      },
+      arrowDown() {
+        this.arrowdown = false;
+        this.hide = false;
+      },
+      d_closed(data) {
+        if (data !== '') {
+          data = data || this.drugId;
+          // 根据选择的值修改页面
+          this.$http.get('/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort).then((res) => {
+            this.total = res.data.total;
+            this.shopLists = res.data.list;
+          });
+          this.tips.forEach(e => {
+            if (e.value === data) {
+              this.drugInfo.value = e.value;
+              this.picUrls = e.picUrls;
+              this.spec = e.name;
+            }
+          });
+        }
+        this.hide = false;
+        this.arrowdown = false;
       }
-      this.hide = false;
-      this.arrowdown = false;
-    }
-  },
-  created: function () {
-    this.drugId = this.$route.query.id;
-    this.specId = this.$route.query.specId;
-    const drugURL = this.URL_PATH + '/drugs/' + this.drugId;
-    this.$http.get(drugURL).then((res) => {
-      this.drugInfo = res.data;
-      // 规格信息
-      this.tips = res.data.drugSpecs;
-      this.tips.forEach(e => {
-        e.label = e.name;
-        e.value = e.id;
-        e.logoUrl = this.URL_PATH + '/files/' + e.logo + '/image?resolution=' + 'LARGE_LOGO';
-        e.picUrls = [];
-        e.pics.forEach(e1 => {
-          e.picUrls.push(this.URL_PATH + '/files/' + e1 + '/image?resolution=' + 'LARGE_PIC');
+    },
+    created: function () {
+      this.drugId = this.$route.query.id;
+      this.specId = this.$route.query.specId;
+      this.$http.get('/drugs/' + this.drugId).then((res) => {
+        this.drugInfo = res.data;
+        // 规格信息
+        this.tips = res.data.drugSpecs;
+        this.tips.forEach(e => {
+          e.label = e.name;
+          e.value = e.id;
+          e.logoUrl = '/files/' + e.logo + '/image?resolution=' + 'LARGE_LOGO';
+          e.picUrls = [];
+          e.pics.forEach(e1 => {
+            e.picUrls.push('/files/' + e1 + '/image?resolution=' + 'LARGE_PIC');
+          });
         });
+        this.drugInfo.value = this.tips[0].value;
+        this.spec = this.tips[0].name;
+        this.picUrls = this.tips[0].picUrls;
       });
-      this.drugInfo.value = this.tips[0].value;
-      this.spec = this.tips[0].name;
-      this.picUrls = this.tips[0].picUrls;
-    });
-    this.getLocation();
-  }
-};
+      this.getLocation();
+    }
+  };
 </script>
 
 <style scoped>

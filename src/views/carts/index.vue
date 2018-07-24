@@ -147,7 +147,7 @@
             rx.drugs.forEach(drug => {
               cartIds.push(drug.cartId);
             });
-            this.$http.delete(this.URL_PATH + '/carts?cartIds=' + cartIds, {
+            this.$http.delete( + '/carts?cartIds=' + cartIds, {
               headers: {
                 'Authorization': this.$store.getters.token
               }
@@ -164,7 +164,7 @@
           });
         } else {
           MessageBox.confirm('确定要删除这个商品吗？').then(action => {
-            this.$http.delete(this.URL_PATH + '/carts/' + drug.cartId, {
+            this.$http.delete( + '/carts/' + drug.cartId, {
               headers: {
                 'Authorization': this.$store.getters.token
               }
@@ -203,7 +203,7 @@
           });
           return;
         }
-        this.$http.get(this.URL_PATH + '/carts/order?cartIds=' + cartIds, {
+        this.$http.get( + '/carts/order?cartIds=' + cartIds, {
           headers: {
             'Authorization': this.$store.getters.token
           }
@@ -298,7 +298,7 @@
         if (this.$store.getters.account) {
           this.accountId = this.$store.getters.account.id;
         }
-        this.$http.get(this.URL_PATH + '/carts?', {
+        this.$http.get( + '/carts?', {
           headers: {
             'Authorization': JSON.parse(localStorage.account).token
           }
@@ -324,7 +324,7 @@
               shop.rxs.forEach(rx => {
                 rx.drugs.forEach(drug => {
                   drug.picked = false;
-                  drug.logo = this.URL_PATH + '/files/' + drug.fileId + '/image?resolution=LARGE_LOGO';
+                  drug.logo =  + '/files/' + drug.fileId + '/image?resolution=LARGE_LOGO';
                 });
               });
             });
@@ -333,13 +333,13 @@
       shopCarNumber(drug, flag) {
         if (flag) {
           drug.quantity++;
-          this.$http.put(this.URL_PATH + '/carts?id=' + drug.cartId + '&quantity=' + drug.quantity);
+          this.$http.put( + '/carts?id=' + drug.cartId + '&quantity=' + drug.quantity);
         } else {
           drug.quantity--;
           if (drug.quantity <= 1) {
             drug.quantity = 1;
           } else {
-            this.$http.put(this.URL_PATH + '/carts?id=' + drug.cartId + '&quantity=' + drug.quantity);
+            this.$http.put( + '/carts?id=' + drug.cartId + '&quantity=' + drug.quantity);
           }
           ;
         }

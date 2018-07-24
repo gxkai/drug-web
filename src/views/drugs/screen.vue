@@ -24,7 +24,7 @@
       <mt-button type="primary" size="large" class="mt5" @click="drugSearch()" style="background:#1AB6FD;margin-top:1rem;">确定</mt-button>
     </div>
 
-    
+
   </div>
 </template>
 
@@ -118,7 +118,7 @@
     width: 95%;
     margin: auto;
   }
-.mintui-back:beforei{color: white!important;}
-.router-link-active i{color: white!important;}
-.mint-header{color: white!important;}
+/*.mintui-back:beforei{color: white!important;}*/
+/*.router-link-active i{color: white!important;}*/
+/*.mint-header{color: white!important;}*/
 </style>

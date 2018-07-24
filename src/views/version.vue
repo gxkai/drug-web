@@ -27,7 +27,7 @@
     },
     methods: {
       getVersion() {
-        this.$http.get(this.URL_PATH + '/version')
+        this.$http.get( + '/version')
           .then((res) => {
             this.version = res.data;
           });
