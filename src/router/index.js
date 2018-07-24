@@ -27,6 +27,11 @@ export default new Router({
       component: () => import('@/views/accounts/index.vue')
     },
     {
+      path: '/accounts/card/bind',
+      name: 'bind',
+      component: () => import('@/views/accounts/card/bind.vue')
+    },
+    {
       path: '/forget',
       name: 'forget',
       component: () => import('@/views/forget.vue')
