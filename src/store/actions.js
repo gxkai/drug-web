@@ -12,7 +12,7 @@ import storage from 'good-storage';
  */
 export function LOGIN({commit, state}, {userInfo}) {
   return new Promise((resolve, reject) => {
-    commit(types.SETTOKEN, '1');
+    commit(types.SETTOKEN, userInfo);
     axios({
       method: 'post',
       url: '/accounts/login',

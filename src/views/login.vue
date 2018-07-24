@@ -11,14 +11,14 @@
           <div class="left">
             <i class="iconfont ic-shouji shouji"></i>
           </div>
-          <input type="number" class="right" placeholder="请输入手机号码">
+          <input type="number" class="right" placeholder="请输入手机号码" v-model="username">
         </div>
         <div class="input2">
           <div class="left">
             <i class="iconfont ic-icon2 icon2"></i>
           </div>
           <div class="right">
-            <input class="input21" type="password" placeholder="请输入密码">
+            <input class="input21" type="password" placeholder="请输入密码" v-model="password">
           </div>
         </div>
         <button class="button1" @click="login()">

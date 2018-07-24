@@ -5,7 +5,11 @@ export default {
       let res = error.response;
       if (res.status === 400) {
         if (res.data.status === 400) {
-          MessageBox('提示', res.data.fieldErrors[0].message);
+          if (res.data.fieldErrors) {
+            MessageBox('提示', res.data.fieldErrors[0].message);
+          } else {
+            MessageBox('提示', res.data.message);
+          }
         } else {
           MessageBox('提示', res.data.message);
         }
