@@ -32,12 +32,22 @@ export default new Router({
       component: () => import('@/views/feedbacks/create.vue')
     },
     {
+      path: '/faqs',
+      name: 'faqs',
+      component: () => import('@/views/faqs/index.vue')
+    },
+    {
       path: '/addresses/create',
       component: () => import('@/views/addresses/create.vue')
     },
     {
       path: '/addresses/edit',
       component: () => import('@/views/addresses/edit.vue')
+    },
+    {
+      path: '/setting',
+      name: 'setting',
+      component: () => import('@/views/setting.vue')
     },
     {
       path: '/addresses',
@@ -54,6 +64,10 @@ export default new Router({
     {
       path: '/chats/view',
       component: () => import('@/views/chats/view.vue')
+    },
+    {
+      path: '/version',
+      component: () => import('@/views/version.vue')
     }
   ]
 });
