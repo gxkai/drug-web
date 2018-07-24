@@ -55,7 +55,7 @@
         }
       },
       loadData() {
-        this.$http.get( + '/collects/shop?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize, {
+        this.$http.get('/collects/shop?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize, {
           headers: {
             'Authorization': this.$store.getters.token
           }
