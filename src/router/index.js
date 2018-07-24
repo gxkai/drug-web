@@ -12,11 +12,6 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/about.vue')
-    },
-    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/login.vue')
@@ -52,7 +47,10 @@ export default new Router({
     {
       path: '/addresses',
       component: () => import('@/views/addresses/index.vue')
+    },
+    {
+      path: '/version',
+      component: () => import('@/views/version.vue')
     }
-
   ]
 });

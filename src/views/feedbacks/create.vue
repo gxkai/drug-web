@@ -53,11 +53,11 @@
 
 <style scoped>
 
-
-
   textarea{
     display: block;
+    margin-top: 19px;
     width:720px;
+    height:360px;
     background:rgba(255,255,255,1);
     font-size:24px;
     font-family:HiraginoSansGB-W3;
@@ -66,11 +66,8 @@
     padding-top: 99px;
     padding-left: 26px;
     padding-right: 23px;
+    outline: 0;
   }
 
-  .f_body {
-    width:720px;
-    height:1334px;
-  }
 
 </style>
