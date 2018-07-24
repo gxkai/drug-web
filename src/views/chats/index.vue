@@ -27,7 +27,7 @@
             </li>
           </ul>
         </div>
-        <router-link to="/" tag="i" class="iconfont ic-youjiantou"></router-link>
+        <router-link :to="{path:'/chats/view',query:{chatId:item.id,shopId:item.shopId}}" tag="i" class="iconfont ic-youjiantou"></router-link>
       </li>
     </ul>
   </div>
