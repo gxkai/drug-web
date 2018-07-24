@@ -1,103 +1,82 @@
 <template>
-  <div class="f_body">
-  <!--<div style="background:white!important;">-->
+  <div class="f-body">
     <mt-header :title="aboutTitle">
       <router-link to="#" slot="left">
         <mt-button @click="$router.go(-1)" icon="back"></mt-button>
       </router-link>
     </mt-header>
-
-    <div class="about_word">
-      E慧药致力于提供专业药品服务的第三方互联网交易服务平台，已经获得国家
-      食品药品监督管理局颁发的互联网交易服务资格证书。
-    </div>
-    <div class="about_img">
+    <div class="about-img">
+      <div class="about-word">
+        E慧药致力于提供专业药品服务的第三方互联网交易服务平台，已经获得国家
+        食品药品监督管理局颁发的互联网交易服务资格证书。
+      </div>
       <img src="../assets/image/qrcode.jpg"/>
     </div>
-
-    <div class="f_about_footer">
-      <span class="f_footer_1">2017-2018 E慧药版权所有</span>
-      <span class="f_footer_2">昆山网进科技股份有限公司</span>
+    <div class="f-about-footer">
+      <span>2017-2018 E慧药版权所有</span>
+      <span>昆山网进科技股份有限公司</span>
     </div>
   </div>
 </template>
 <script>
-import headWhite from '@/components/headWhite';
-export default {
-  name: 'about',
-  data() {
-    return {
-      aboutTitle: '关于我们'
-    };
-  },
-  components: {
-    headWhite
-  }
-};
+  import headWhite from '@/components/headWhite';
+
+  export default {
+    name: 'about',
+    data() {
+      return {
+        aboutTitle: '关于我们'
+      };
+    },
+    components: {
+      headWhite
+    }
+  };
 </script>
 <style scoped>
-  .mint-header{background: white;color: #333333;}
-.f_body{
-  width:720px;
-  height:1334px;
-}
-  .f_about_footer {
-    display: block;
-    height:23px;
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(153,153,153,1);
-    line-height:88px;
+  .f-body {
+    width: 720px;
+    height:100vh;
   }
-  .f_footer_1{
-    display: block;
-    width:292px;
-    height:23px;
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(153,153,153,1);
-    line-height:88px;
-    margin-top: 1203px;
-    margin-bottom: 108px;
-    margin-left: 214px;
-    margin-right: 214px;
-  }
-  .f_footer_2{
-    width:292px;
-    height:23px;
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(153,153,153,1);
-    line-height:88px;
-    margin-top: 1237px;
-    margin-bottom: 74px;
-    margin-left: 214px;
-    margin-right: 214px;
-  }
-  .about_word{
-    width:620px;
-    height:95px;
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
-    line-height:36px;
 
-    /*padding:1rem 8% 8rem 8%;*/
-    /*background-color: #1AB6FD;*/
-    /*color: #ffffff;*/
-    /*line-height: 2rem;*/
-    /*border-radius:0 0 50vw 50vw;*/
-
-  }
-  .about_img{
+  .about-img {
     position: absolute;
-    top: 10rem;
-    left: 30%;
-    width: 40%;
-    max-width: 500px;
-    margin-top: 5rem;
+    bottom:777px;
+    width: 720px;
+    height: 425px;
+    background: rgba(19, 193, 254, 1);
+    -webkit-border-radius: 0 0 285px 285px;
   }
-  .about_img img{
-    width:100%;
+
+  .about-word {
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 620px;
+    height: 95px;
+    font-size: 24px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(255, 255, 255, 1);
+    line-height: 36px;
+  }
+
+  .f-about-footer{
+    position: fixed;
+    top: 1200px;
+    left: 0;
+  }
+
+  .f-about-footer span{
+    display: block;
+    width: 720px;
+    text-align: center;
+  }
+  .about-img img {
+    position:fixed;
+   top:418px;
+    left:231px;
+    width: 100%;
+    width:259px;
+    height:229px;
   }
 </style>
