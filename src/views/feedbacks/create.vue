@@ -10,7 +10,7 @@
 
     <div class="f_opinion_text">
       <textarea name="" rows="" cols="" v-model="content"
-                placeholder="您的意见对我们非常重要，我们会不断的优化和改善，努力为您带来更高的体验，谢谢111100111"></textarea>
+                placeholder="您的意见对我们非常重要，我们会不断的优化和改善，努力为您带来更高的体验，谢谢"></textarea>
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@
   import {MessageBox} from 'mint-ui';
 
   export default {
-    name: 'feedbacksCreate',
+    name: 'feedbacks',
     data() {
       return {
         content: ''
@@ -27,8 +27,7 @@
     },
     methods: {
       commit() {
-        let newUrl = this.URL_PATH + '/feedbacks';
-        this.$http.post(newUrl, {
+        this.$http.post('/feedbacks', {
           'content': this.content
         }, {
           headers: {
@@ -55,21 +54,20 @@
 <style scoped>
 
   textarea{
+    display: block;
+    margin-top: 19px;
     width:720px;
     height:360px;
     background:rgba(255,255,255,1);
     font-size:24px;
     font-family:HiraginoSansGB-W3;
+    color:rgba(153,153,153,1);
     line-height:40px;
     padding-top: 99px;
     padding-left: 26px;
     padding-right: 23px;
-    padding-bottom: 197px;
+    outline: 0;
   }
 
-  .f_body {
-    width:720px;
-    height:1334px;
-  }
 
 </style>
