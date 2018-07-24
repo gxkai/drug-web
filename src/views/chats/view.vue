@@ -19,12 +19,12 @@
         <ul>
           <li v-for="(item,index) in list" :key="index">
             <div class="content1" v-if="item.type === 'SHOP'">
-              <img v-lazy="shopInfo.headImg">
+              <img :src="shopInfo.headImg">
               <div class="bubble">{{item.message}}</div>
             </div>
             <div class="content2" v-else>
               <div class="bubble2">{{item.message}}</div>
-              <img v-lazy="account.headImg">
+              <img :src="account.headImg">
             </div>
           </li>
         </ul>
@@ -111,6 +111,7 @@
 <style scoped>
   .main {
     background: rgba(241, 239, 240, 1);
+    width: 720px;
     height: 100vh;
   }
 
@@ -179,7 +180,7 @@
     position: absolute;
     top: 50%;
     background: rgba(220, 220, 220, 1);
-    width: 297px;
+    width: 190px;
     height: 1px;
   }
 

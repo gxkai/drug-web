@@ -64,6 +64,7 @@
 <style scoped>
   .main {
     background-color: whitesmoke;
+    width: 720px;
     height: 100vh;
   }
 
