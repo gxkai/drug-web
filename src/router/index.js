@@ -46,6 +46,14 @@ export default new Router({
     {
       path: '/addresses/repositioning',
       component: () => import('@/views/addresses/repositioning.vue')
+    },
+    {
+      path: '/chats',
+      component: () => import('@/views/chats/index.vue')
+    },
+    {
+      path: '/chats/view',
+      component: () => import('@/views/chats/view.vue')
     }
   ]
 });

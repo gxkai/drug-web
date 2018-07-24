@@ -1,12 +1,18 @@
 import {MessageBox} from 'mint-ui';
 export default {
   install(Vue, options) {
+    /**
+     * htpp请求报错
+     * @param error
+     */
     Vue.prototype.exception = (error) => {
-      let res = error.response;
-      if (res) {
-        switch (res.status) {
-          case 400 && res.data.fieldErrors:
-            MessageBox('提示', res.data.fieldErrors[0].message);
+      debugger;
+      if (error.response) {
+        switch (error.response.status) {
+          case 400:
+            if (error.response.data.fieldErrors) {
+              MessageBox('提示', error.response.data.fieldErrors[0].message);
+            }
             break;
           case 401:
             break;
@@ -17,6 +23,11 @@ export default {
         MessageBox('提示', '网络异常');
       }
     };
+    /**
+     * yyyy-MM-dd hh:MM:ss
+     * @param timer
+     * @returns {string}
+     */
     Vue.prototype.timeConvert = (timer) => {
       var date = new Date(timer);
       var Y = date.getFullYear() + '-';
@@ -28,18 +39,30 @@ export default {
       var allTime = Y + M + D + h + m + s;
       return allTime;
     };
-    Vue.prototype.regMobiile = (inputString) => {
-      var partten = /^1[3,5,8]\d{9}$/;
-      if (partten.test(inputString)) {
-        return true;
-      } else {
-        MessageBox({
-          title: '提示',
-          message: '请输入正确手机号码'
-          // showCancelButton: true//如果这个为真  则会出来  取消  确定两个按钮  视情况而定
-        });
-        return false;
-      }
+    /**
+     * yyyy/MM/dd hh:MM:ss
+     * @param timer
+     * @returns {string}
+     */
+    Vue.prototype.timeConvert2 = (timer) => {
+      var date = new Date(timer);
+      var Y = date.getFullYear() + '/';
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
+      var D = date.getDate() + ' ';
+      var h = date.getHours() + ':';
+      var m = date.getMinutes() + ':';
+      var s = date.getSeconds();
+      var allTime = Y + M + D + h + m + s;
+      return allTime;
+    };
+    /**
+     * 获取图片链接
+     * @param fileId
+     * @param resolution
+     * @returns {string}
+     */
+    Vue.prototype.getImgURL = (fileId, resolution) => {
+      return '/files/' + fileId + '/image?resolution=' + resolution;
     };
   }
 };

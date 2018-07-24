@@ -25,7 +25,7 @@ axios.interceptors.request.use(
     config.validateStatus = status => {
       return status === 200;
     };
-    const token = store.getters.token;
+    const token = store.getters.token || storage.get('token');
     if (token) {
       config.headers.Authorization = token;
     }
