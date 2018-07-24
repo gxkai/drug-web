@@ -48,8 +48,11 @@ export default new Router({
       path: '/setting',
       name: 'setting',
       component: () => import('@/views/setting.vue')
+    },
+    {
+      path: '/addresses',
+      component: () => import('@/views/addresses/index.vue')
     }
 
   ]
-})
-;
+});

@@ -1,11 +1,10 @@
 <template>
   <div class="body">
-    <mt-header title="新增收货地址">
-      <router-link to="#" slot="left">
-        <mt-button icon="back" @click="$router.go(-1)"></mt-button>
-      </router-link>
-      <mt-button slot="right" @click="save()" class="mint-button-text">保存</mt-button>
-    </mt-header>
+    <div class="header1">
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      <span class="span1">新增收货地址</span>
+      <span class="span2" @click="save()">保存</span>
+    </div>
     <div class="body1">
       <div class="input1">
         <div class="left">
@@ -21,7 +20,7 @@
           <span class="span1">手机号码</span>
         </div>
         <div class="right">
-          <input type="number" v-model="address.tel">
+          <input type="number" v-model="address.phone">
         </div>
       </div>
       <div class="line1"></div>
@@ -30,7 +29,7 @@
           <span class="span1">所在地区</span>
         </div>
         <div class="right">
-          <input type="text" v-model="address.area">
+          <input type="text" value="江苏省昆山市" readonly>
         </div>
       </div>
       <div class="line1"></div>
@@ -45,7 +44,7 @@
     </div>
     <div class="body2">
       <label>
-        <input type="checkbox"   v-model="items.state" @click="changeState()">
+        <input type="checkbox"   v-model="address.defaulted">
         <i></i>
         <span>设为默认地址 </span>
       </label>
@@ -61,27 +60,21 @@
     data() {
       return {
         address: {
-          accountId: '1',
-          isDefault: false
-        },
-        items: [{
-          state: false
-        }, {
-          state: true
-        } ],
-        checkboxState: false
+          defaulted: false,
+          checkboxState: false,
+          phone: '',
+          consignee: ''
+        }
       };
     },
     methods: {
-      changeState() {
-        this.checkboxState = !this.checkboxState;
-      },
       save() {
-        this.address.isDefault = this.checkboxState;
+        debugger;
         this.$http.post('/addresses', this.address)
           .then((res) => {
-            MessageBox('提示', '保存成功');
-            this.$router.go(-1);
+            MessageBox('提示', '保存成功').then(action => {
+              this.$router.go(-1);
+            });
           })
           .catch((error) => {
             this.exception(error);
@@ -92,6 +85,36 @@
 </script>
 
 <style scoped>
+  .header1 {
+    width:720px;
+    height:130px;
+    font-size:36px;
+    background:rgba(255,255,255,1);
+    font-family:HiraginoSansGB-W3;
+    color:rgba(51,51,51,1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header1 i {
+  }
+
+  .ic-arrow-right:before{
+    font-size: 50px;
+  }
+
+  .header1 .span1 {
+  }
+
+  .header1 .span2 {
+    font-size:24px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(51,51,51,1);
+    line-height:40px;
+    padding-right: 11px;
+  }
+
+
   .body {
     background-color: whitesmoke;
     height: 100vh;
