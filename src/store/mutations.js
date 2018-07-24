@@ -6,5 +6,8 @@ export default {
   },
   [types.SETACCOUNT](state, account) {
     state.account = account;
+  },
+  [types.SETPOSTION](state, position) {
+    state.position = position;
   }
 };

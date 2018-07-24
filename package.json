@@ -21,9 +21,11 @@
     "script-loader": "^0.7.2",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^2.5.4",
+    "vue-baidu-map": "^0.21.10",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
+    "@storybook/vue": "^3.4.8",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
