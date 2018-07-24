@@ -38,7 +38,7 @@
 <style scoped>
   .f_body{
     width:720px;
-    height:1334px;
+    height:100vh;
   }
 .version_title{
   font-size:72px;

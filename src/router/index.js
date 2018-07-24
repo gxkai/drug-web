@@ -51,6 +51,10 @@ export default new Router({
     {
       path: '/version',
       component: () => import('@/views/version.vue')
+    },
+    {
+      path: '/about',
+      component: () => import('@/views/about.vue')
     }
   ]
 });
