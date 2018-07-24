@@ -47,6 +47,36 @@ export default new Router({
       component: () => import('@/views/accounts/card/success.vue')
     },
     {
+      path: '/accounts/child/accountLabel',
+      name: 'accountLabel',
+      component: () => import('@/views/accounts/child/accountLabel.vue')
+    },
+    {
+      path: '/accounts/insurance/account',
+      name: 'account',
+      component: () => import('@/views/accounts/insurance/account.vue')
+    },
+    {
+      path: '/accounts/insurance/card',
+      name: 'card',
+      component: () => import('@/views/accounts/insurance/card.vue')
+    },
+    {
+      path: '/accounts/insurance/consume',
+      name: 'consume',
+      component: () => import('@/views/accounts/insurance/consume.vue')
+    },
+    {
+      path: '/accounts/insurance/consumeinfo',
+      name: 'consumeinfo',
+      component: () => import('@/views/accounts/insurance/consumeinfo.vue')
+    },
+    {
+      path: '/accounts/insurance/consumeinfomore',
+      name: 'consumeinfomore',
+      component: () => import('@/views/accounts/insurance/consumeinfomore.vue')
+    },
+    {
       path: '/forget',
       name: 'forget',
       component: () => import('@/views/forget.vue')

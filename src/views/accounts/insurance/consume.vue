@@ -1,26 +1,26 @@
 <template>
-  <div style="background:#f5f5f5;">
+  <div class="insurance-container">
    <mt-header title="消费信息">
       <router-link to="/" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>
-    <router-link class="f_account_center_questions" to="/faqs">
+    <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
       <span class="elips">第一人民医院第一人民医院第一人民医院第一人民医院第一人民医院</span>
       2018-6-11
       <img src="static/img/order/rightt.png">
     </router-link>
-    <router-link class="f_account_center_feedback" to="/feedbacks/create">
+    <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span class="elips">第一人民医院</span>
       2018-6-11
       <img src="static/img/order/rightt.png">
     </router-link>
-     <router-link class="f_account_center_feedback" to="/feedbacks/create">
+     <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span class="elips">第一人民医院</span>
       2018-6-11
       <img src="static/img/order/rightt.png">
     </router-link>
-     <router-link class="f_account_center_feedback" to="/feedbacks/create">
+     <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span class="elips">第一人民医院</span>
       2018-6-11
       <img src="static/img/order/rightt.png">
@@ -29,21 +29,30 @@
 </template>
 <style scoped>
   .elips{overflow: hidden;white-space:nowrap;text-overflow:ellipsis;display:block;width:71%;}
-  .f_account_center_questions, .f_account_center_feedback {
-    background: white;
-    margin-bottom:0.75rem;
-    box-sizing: border-box;
+
+  .insurance-container{
+    width: 720px;
+    height: 100vh;
+    background: #f5f5f5;
+  }
+
+  .a-content-list{
+    display: block;
+    width:720px;
+    height:80px;
+    background:rgba(255,255,255,1);
+    margin-bottom: 15px;
+  }
+  .a-content-list span{
+    color: #535353;
+  }
+  .flex-stream-sb{
     display: flex;
-    color: #333333;
-    font-size: 1rem;
     justify-content: space-between;
-    height: 4rem;
-    line-height: 4rem;
-    padding-left: 1rem;
+    align-items: center;
   }
-  img{
-    width: 0.65rem;height: 1.15rem;
-    margin: 1.45rem 0.85rem 1.45rem 0rem;
+  .padding-10{
+    padding:0 10px;
+    box-sizing: border-box;
   }
-  .mint-header{background: #13c1fe;}
 </style>

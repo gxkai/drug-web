@@ -1,7 +1,7 @@
 <template>
   <div class="bind-container box-center flex-row">
     <img src="../../../assets/image/unbindCard.png" />
-    <p class="unbind-message">您还没有绑定医保卡哦</p>
+    <p class="unbind-message">您还没有绑定医保卡哦!</p>
     <router-link to="/" class="">去绑定</router-link>
   </div>
 </template>
