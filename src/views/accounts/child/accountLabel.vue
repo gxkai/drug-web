@@ -1,11 +1,11 @@
 <template>
-  <div class="f_user_info_list">
+  <div class="a-content-list flex-stream-sb padding-10">
     <div class="f_user_info_list_left">
       <span>{{label.label}}</span>
     </div>
-    <div class="f_user_info_list_right">
+    <div class="a-content-list flex-stream-sb padding-10">
       <span>{{label.value}}</span>
-      <i class="icon iconfont ic-youjiantou"></i>
+      <i class=" iconfont ic-youjiantou"></i>
     </div>
   </div>
 </template>
