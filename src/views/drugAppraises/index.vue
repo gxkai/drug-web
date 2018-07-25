@@ -3,6 +3,17 @@
     <new-header title="我的评价">
       <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
+    <div class="body">
+      <div class="body1">
+        <div>
+          <img src="../../assets/image/shopDrugs.png">
+          <span>晴天</span>
+        </div>
+        <div>
+          <span>2018-09-18</span>
+        </div>
+      </div>
+    </div>
   </div>
     <!--<div id="bgw">-->
       <!--<mt-header class="J_mheader" title="我的评价">-->
@@ -107,6 +118,42 @@
     background: rgba(241, 239, 240, 1);
     width: 720px;
     height: 100vh;
+  }
+
+  .body {
+    width: 720px;
+    height: calc(100vh - 130px);
+  }
+
+  .body1 {
+    width:720px;
+    height:130px;
+    background:rgba(255,255,255,1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .body1 div:nth-child(1) {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .body1 div:nth-child(1) img {
+    height:65px;
+    border-radius: 50px;
+  }
+  .body1 div:nth-child(1) span {
+    margin-left: 10px;
+  }
+
+  .body1 div:nth-child(2) span {
+    border-radius:15px;
+    width: 99px;
+    color: rgba(19,193,254,1);
+    borde:1px rgba(19,193,254,1);
+    background-color:rgba(255,255,255,1);
   }
 
   /*.header1 {*/
