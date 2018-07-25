@@ -5,8 +5,7 @@
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>
-
-    <div class="">
+    <div >
       <div class="div-img">
         <div>
         <img src="../../../assets/image/blackchufang.png"/>
