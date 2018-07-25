@@ -1,6 +1,5 @@
 <template>
-  <div class="main">
-    <div class="header1">
+    <header>
       <span class="left">
        <slot name="left"></slot>
       </span>
@@ -8,8 +7,7 @@
       <span class="right">
         <slot name="right"></slot>
       </span>
-    </div>
-  </div>
+    </header>
 </template>
 
 <script>
@@ -20,7 +18,7 @@
 </script>
 
 <style scoped>
-  .header1 {
+  header {
     width: 720px;
     height: 130px;
     font-size: 36px;

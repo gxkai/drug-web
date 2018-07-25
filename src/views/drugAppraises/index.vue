@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <new-header title="我的评价">
-      <i class="iconfont ic-arrow-right" slot="left"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
   </div>
     <!--<div id="bgw">-->
