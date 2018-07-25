@@ -144,7 +144,6 @@
         this.timer = null;
       },
       login() {
-        this.regMobiile(this.username);
         const userInfo = {
           'username': this.username,
           'password': this.password,

@@ -14,6 +14,8 @@ import '../src/assets/js/flex';
 import 'font-awesome/css/font-awesome.min.css';
 import '../src/assets/css/bulma.css';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
+import BaiduMap from 'vue-baidu-map';
+
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.interceptors.request.use(
   config => {
@@ -23,7 +25,7 @@ axios.interceptors.request.use(
     config.validateStatus = status => {
       return status === 200;
     };
-    const token = store.getters.token;
+    const token = store.getters.token || storage.get('token');
     if (token) {
       config.headers.Authorization = token;
     }
@@ -57,6 +59,9 @@ Vue.config.productionTip = false;
 Vue.use(MintUI);
 Vue.use(VueAwesomeSwiper);
 Vue.use(base);
+Vue.use(BaiduMap, {
+  ak: 'FG7wxr1VUj0k2NwoO3yXzymd&services=&t=20170517145936'
+});
 
 /* eslint-disable no-new */
 new Vue({

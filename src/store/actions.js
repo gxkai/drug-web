@@ -18,11 +18,13 @@ export function LOGIN({commit, state}, userInfo) {
       data: userInfo
     }).then(res => {
       commit(types.SETTOKEN, res.data);
+      storage.set('token', res.data);
       axios({
         method: 'get',
         url: '/accounts'
       }).then(res => {
         commit(types.SETACCOUNT, res.data);
+        storage.set('account', res.data);
         resolve(res);
       }).catch(err => {
         reject(err);
@@ -50,6 +52,7 @@ export function VERIFY({commit}) {
           .then(res => {
             if (res.status === 200) {
               commit(types.SETTOKEN, res.data);
+              storage.set('token', res.data);
             }
             resolve(res);
           }).catch(error => {
