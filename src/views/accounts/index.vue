@@ -1,125 +1,41 @@
 <template>
-  <!--<div class="f_body accountbody">-->
-    <!--<mt-header>-->
-      <!--<router-link to="/messageTypes" slot="left">-->
-        <!--<i class="icon iconfont ic-xiaoxi"></i>-->
-      <!--</router-link>-->
-      <!--<router-link to="/setting" slot="right">-->
-        <!--<i class="icon iconfont ic-shezhi1"></i>-->
-      <!--</router-link>-->
-    <!--</mt-header>-->
-
-    <!--&lt;!&ndash;<div class="f_account_center_header" v-if="isLogin">&ndash;&gt;-->
-    <!--<div class="f_account_center_header" >-->
-      <!--<router-link to="/accounts/view">-->
-        <!--&lt;!&ndash;<img v-lazy="account.logoUrl"/>&ndash;&gt;-->
-        <!--<img src="1111"/>-->
-      <!--</router-link>-->
-      <!--&lt;!&ndash;<span>{{account.name}}</span>&ndash;&gt;-->
-      <!--<span>xxxx</span>-->
-    <!--</div>-->
-    <!--&lt;!&ndash;<div class="f_account_center_header" v-if="!isLogin">&ndash;&gt;-->
-    <!--&lt;!&ndash;<div class="f_account_center_header">&ndash;&gt;-->
-      <!--&lt;!&ndash;<router-link to="/login" onclick="javascript:location.reload();">&ndash;&gt;-->
-        <!--&lt;!&ndash;<img src="../../assets/image/accounts/accounts/default_head.jpg"/>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-      <!--&lt;!&ndash;<span>登录/注册</span>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--<div class="f_account_center_order">-->
-      <!--<router-link class="f_account_center_orders" to="/orders?parameter=all">-->
-        <!--<span class="all-orders">全部订单</span>-->
-        <!--<span class="f_account_my_orders">我的订单<img src="../../assets/image/accounts/order/right.png"></span>-->
-      <!--</router-link>-->
-      <!--<div class="f_account_center_order_lists">-->
-        <!--&lt;!&ndash;<router-link class="f_account_center_menu_list" to="/orders?parameter=pendpay">&ndash;&gt;-->
-          <!--&lt;!&ndash;<i class="icon iconfont icon-daifukuan01" style="color:#333333!important;">&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="f_badge" v-if="countList.toPayCount !== 0 && countList.toPayCount !== undefined">&ndash;&gt;-->
-              <!--&lt;!&ndash;<mt-badge size="small" type="error">{{maxnumber(countList.toPayCount)}}</mt-badge>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</i>&ndash;&gt;-->
-          <!--&lt;!&ndash;<div class="f_badge" v-if="countList.toPayCount !== 0 && countList.toPayCount !== undefined">&ndash;&gt;-->
-            <!--&lt;!&ndash;<mt-badge size="small" type="error" style="position: absolute;left: -3rem;top: -1rem;">&ndash;&gt;-->
-              <!--&lt;!&ndash;{{countList.toPayCount}}&ndash;&gt;-->
-            <!--&lt;!&ndash;</mt-badge>&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;<span>待付款</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;<router-link class="f_account_center_menu_list" to="/orders?parameter=goods">&ndash;&gt;-->
-          <!--&lt;!&ndash;<i class="icon iconfont icon-wodedaifahuo3dtouchshangpinxiangqing" style="color:#333333!important;">&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="f_badge" v-if="countList.toDeliveryCount !== 0 && countList.toDeliveryCount !== undefined">&ndash;&gt;-->
-              <!--&lt;!&ndash;<mt-badge size="small" type="error">{{maxnumber(countList.toDeliveryCount)}}</mt-badge>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</i>&ndash;&gt;-->
-          <!--&lt;!&ndash;<span>待发货</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;<router-link class="f_account_center_menu_list" to="/orders?parameter=receivergoods">&ndash;&gt;-->
-
-          <!--&lt;!&ndash;<i class="icon iconfont ic-daishouhuo" style="color:#333333!important;font-size: 2.7rem!important;">&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="f_badge" v-if="countList.toReceivedCount !== 0 && countList.toReceivedCount !== undefined">&ndash;&gt;-->
-              <!--&lt;!&ndash;<mt-badge size="small" type="error">{{maxnumber(countList.toReceivedCount)}}</mt-badge>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</i>&ndash;&gt;-->
-          <!--&lt;!&ndash;<span>待收货</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;<router-link class="f_account_center_menu_list" to="/orders?parameter=evalute">&ndash;&gt;-->
-
-          <!--&lt;!&ndash;<i class="icon iconfont icon-daipingjia" style="color:#333333!important;">&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="f_badge" v-if="countList.toAppraiseCount !== 0 && countList.toAppraiseCount !== undefined">&ndash;&gt;-->
-              <!--&lt;!&ndash;<mt-badge size="small" type="error">{{maxnumber(countList.toAppraiseCount)}}</mt-badge>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</i>&ndash;&gt;-->
-          <!--&lt;!&ndash;<span>待评价</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-
-      <!--</div>-->
-    <!--</div>-->
-
-
-    <!--<router-link class="f_account_center_questions" to="/faqs" style="margin-top:1rem;" >-->
-      <!--<span>常见问题</span>-->
-      <!--<img src="../../assets/image/accounts/order/right.png">-->
-    <!--</router-link>-->
-
-    <!--<router-link class="f_account_center_feedback" to="/feedbacks/create" style="margin-top:1rem;margin-bottom:8rem;" >-->
-      <!--<span>意见反馈</span>-->
-      <!--<img src="../../assets/image/accounts/order/right.png">-->
-    <!--</router-link>-->
-    <!--&lt;!&ndash;<allBottom></allBottom>&ndash;&gt;-->
-  <!--</div>-->
-
   <div class="account-container">
-    <div class="header all-center">
-      <img class="header-img" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
-      <span class="header-text">微恙</span>
+    <div class="header all-center" v-if="isLogin">
+      <img class="header-img" v-lazy="account.logoUrl"/>
+      <span class="header-text">{{account.name}}</span>
     </div>
-    <div class="nav-bar ">
-      <div class="nav-bar-title flex-stream-sb">
+
+    <div class="header all-center" v-if="!isLogin">
+      <router-link to="/login">
+      <img class="header-img" src="../../assets/image/accounts/default_head.jpg"/>
+      </router-link>
+      <span class="header-text">登录/注册</span>
+    </div>
+
+    <div class="nav-bar">
+      <router-link class="nav-bar-title flex-stream-sb" to="/orders?parameter=all">
         <span class="all-orders">全部订单</span>
         <div class="is-flex">
           <span>我的订单</span>
-          <i class="iconfont ic-youjiantou" />
+          <i class="iconfont ic-youjiantou"></i>
         </div>
-      </div>
+      </router-link>
       <div class="nav-bar-content border-top-gray">
-        <router-link class="flex-box nav-bar-content-margin" to="/drugAppraises">
-          <img src="../../assets/image/accounts/evaluation.png"/>
+        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=pendpay">
+          <i class="iconfont ic-daishouhuo"></i>
           <span>代付款</span>
         </router-link>
-
-        <router-link class="flex-box nav-bar-content-margin" to="/drugAppraises">
-          <img src="../../assets/image/accounts/evaluation.png"/>
-          <span>我的评价</span>
+        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=goods">
+          <i class="iconfont ic-daishouhuo"></i>
+          <span>待发货</span>
         </router-link>
-        <router-link class="flex-box nav-bar-content-margin" to="/drugAppraises">
-          <img src="../../assets/image/accounts/evaluation.png"/>
-          <span>我的评价</span>
+        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=receivergoods">
+          <i class="iconfont ic-daishouhuo"></i>
+          <span>待收货</span>
         </router-link>
-        <router-link class="flex-box nav-bar-content-margin" to="/drugAppraises">
-          <img src="../../assets/image/accounts/evaluation.png"/>
-          <span>我的评价</span>
+        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=evalute">
+          <i class="iconfont ic-daishouhuo"></i>
+          <span>待评价</span>
         </router-link>
       </div>
     </div>
@@ -144,8 +60,8 @@
           <img src="../../assets/image/accounts/refund.png"/>
           <span class="mt-15">退款</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray" to="/" >
-                     <!--:to="null==this.account.medicalNumber?'/accounts/bind':'/accounts/unbind'"-->
+        <router-link class="flex-box account-content-padding border-right-gray" to="/"
+                     :to="null==this.account.medicalNumber?'/accounts/bind':'/accounts/unbind'" >
         <img src="../../assets/image/accounts/bind.png"/>
         <span class="mt-15">账户信息</span>
         </router-link>
@@ -156,11 +72,11 @@
     </div>
     <div class="foot-tag flex-row-sb-center">
       <span >常见问题</span>
-      <i class="iconfont ic-youjiantou" />
+      <i class="iconfont ic-youjiantou"></i>
     </div>
     <div class="foot-tag flex-row-sb-center">
       <span >意见反馈</span>
-      <i class="iconfont ic-youjiantou" />
+      <i class="iconfont ic-youjiantou"></i>
     </div>
 
   </div>
@@ -204,7 +120,6 @@
           })
             .then(res => {
               this.countList = res.data;
-              console.log(this.countList);
             });
         }
       }
@@ -227,7 +142,6 @@
   .is-flex{
     display: flex !important;
   }
-
 
   .border-left-gray{
     border-left:1px rgba(235,235,235,1) solid;
@@ -297,10 +211,12 @@
     height:154px;
     background:rgba(255,255,255,1);
     margin-bottom: 14px;
+    padding: 0px 15px;
+    box-sizing: border-box;
   }
   .nav-bar-title{
     box-sizing: border-box;
-    padding: 5px 15px;
+    padding: 10px 0;
   }
   .nav-bar-content-margin{
     margin-top: 15px;
