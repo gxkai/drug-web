@@ -1,17 +1,14 @@
 <template>
   <div id="bgw">
-
-    <mt-header title="常见问题">
-      <router-link to="/accounts" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+    <new-header title="常见问题">
+      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
+    </new-header>
 
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <li v-for="(questionContent,index) in questionList">
-        <div class="f_my_question_lists">
-          <span  class="f_question">{{index+1}}、{{ questionContent.question }}</span>
-          <span class="f_reply">{{ questionContent.answer }}</span>
+        <div class="my-question-lists">
+          <span  class="question">{{index+1}}、{{ questionContent.question }}</span>
+          <span class="reply">{{ questionContent.answer }}</span>
         </div>
       </li>
       <div style="text-align: center" v-show="allLoaded">已经见底了</div>
@@ -71,16 +68,18 @@
 </script>
 
 <style scoped>
-
-  .f_my_question_lists {
-    width: 720px;
+  * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box
+  }
+  .my-question-lists {
+    width: 680px;
     background: rgba(255, 255, 255, 1);
-    padding-top: 10px;
-    padding-left: 19px;
-    padding-right: 21px;
+    margin: auto;
   }
 
-  .f_question {
+  .question {
     display: block;
     margin-top: 20px;
     width: 680px;
@@ -90,7 +89,7 @@
     line-height: 30px;
   }
 
-  .f_reply {
+  .reply {
     display: block;
     width: 680px;
     font-size: 20px;
@@ -98,6 +97,6 @@
     color: rgba(153, 153, 153, 1);
     line-height: 24px;
     margin-top: 17px;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
   }
 </style>
