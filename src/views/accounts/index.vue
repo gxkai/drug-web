@@ -1,5 +1,16 @@
 <template>
   <div class="account-container">
+    <!-- 头部 -->
+    <mt-header>
+      <router-link to="/messageTypes" slot="left">
+        <i class="icon iconfont ic-xiaoxi"></i>
+      </router-link>
+
+      <router-link to="/setting" slot="right">
+        <i class="icon iconfont ic-shezhi1"></i>
+      </router-link>
+    </mt-header>
+
     <div class="header all-center" v-if="isLogin">
       <img class="header-img" v-lazy="account.logoUrl"/>
       <span class="header-text">{{account.name}}</span>
@@ -157,6 +168,7 @@
   }
 
   .account-container{
+    width: 720px;
     background: #f5f5f5;
     height: 100vh;
   }
