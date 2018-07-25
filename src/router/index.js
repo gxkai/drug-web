@@ -12,11 +12,6 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('@/views/about.vue')
-    },
-    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/login.vue')
@@ -28,7 +23,7 @@ export default new Router({
     },
     {
       path: '/feedbacks',
-      name: 'feedbacksCreate',
+      name: 'feedbacks',
       component: () => import('@/views/feedbacks/create.vue')
     },
     {
@@ -54,24 +49,25 @@ export default new Router({
       component: () => import('@/views/addresses/index.vue')
     },
     {
-      path: '/addresses/repositioning',
-      component: () => import('@/views/addresses/repositioning.vue')
-    },
-    {
-      path: '/chats',
-      component: () => import('@/views/chats/index.vue')
-    },
-    {
-      path: '/chats/view',
-      component: () => import('@/views/chats/view.vue')
-    },
-    {
       path: '/version',
       component: () => import('@/views/version.vue')
     },
     {
       path: '/about',
       component: () => import('@/views/about.vue')
+    },
+    {
+      path: '/repositories',
+      component: () => import('@/views/repositories/index.vue')
+    },
+    {
+      path: '/repositories/view',
+      component: () => import('@/views/repositories/view.vue')
+    },
+    {
+      path: '/repositoryTypes',
+      component: () => import('@/views/repositoryTypes/index.vue')
     }
+
   ]
 });

@@ -71,13 +71,15 @@
 </script>
 
 <style scoped>
-
+  * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box
+  }
   .f_my_question_lists {
-    width: 720px;
+    width: 680px;
     background: rgba(255, 255, 255, 1);
-    padding-top: 10px;
-    padding-left: 19px;
-    padding-right: 21px;
+    margin: auto;
   }
 
   .f_question {
@@ -98,6 +100,6 @@
     color: rgba(153, 153, 153, 1);
     line-height: 24px;
     margin-top: 17px;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
   }
 </style>
