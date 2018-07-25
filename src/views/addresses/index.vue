@@ -1,10 +1,9 @@
 <template>
   <div style="background:white;">
 
-    <div class="header1">
-        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-        <span> 地址管理</span>
-    </div>
+    <new-header title="地址管理">
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+    </new-header>
     <div class="body1">
       <div class="item" v-for="(address,index) in addressList" :key="index">
         <div class="line1">
@@ -64,29 +63,6 @@
 </script>
 
 <style scoped>
-
-  .header1 {
-    width:720px;
-    height:130px;
-    background:rgba(19,193,254,1);
-    font-size:36px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
-    display: inline-flex;
-    align-items: center;
-  }
-  .header1 i {
-    margin-left: 22px;
-  }
-
-  .ic-arrow-right:before{
-    font-size: 50px;
-  }
-
-  .header1 span {
-    margin-left: 200px;
-  }
-
   .footer1 {
     width:720px;
     height:100px;

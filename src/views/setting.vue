@@ -1,29 +1,29 @@
 <template>
-  <div class="f_body">
+  <div class="setting-container">
     <mt-header title="设置">
       <router-link to="#" slot="left">
         <mt-button @click="$router.go(-1)" icon="back"></mt-button>
       </router-link>
     </mt-header>
-    <router-link class="f_setting_list" to="/version">
+    <router-link class="a-content-list flex-stream-sb padding-10" to="/version">
       <span>当前版本</span>
-      <img src="static/img/order/right.png">
+      <i class="iconfont ic-youjiantou"></i>
     </router-link>
-    <router-link class="f_setting_list" to="/about">
+    <router-link class="a-content-list flex-stream-sb padding-10" to="/about">
       <span>关于我们</span>
-      <img src="static/img/order/right.png">
+      <i class="iconfont ic-youjiantou"></i>
     </router-link>
-    <div class="f_footer">
-      <button @click="logout">退出当前账号</button>
+    <div class="setting-fixed">
+      <button class="sign-out" @click="logout">退出当前账号</button>
     </div>
+
   </div>
 </template>
 <script>
-  const URL_PATH = process.env.URL_PATH;
   export default {
     methods: {
       logout() {
-        this.$http.get(URL_PATH + '/accounts/logout', {
+        this.$http.get('/accounts/logout', {
           headers: {
             'Authorization': this.$store.getters.token
           }
@@ -49,35 +49,44 @@
     color: #e2e2e2;
   }
 
-  body {
+  .setting-container{
+    width: 720px;
+    height: 100vh;
     background: #f5f5f5;
   }
 
-  .f_setting_list {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background: white;
-    margin-top: 0.5rem;
-    box-sizing: border-box;
-    padding: 0.5rem;
-    font-size: 1.4rem;
-    color: #969696;
-  }
 
-  .f_footer {
+  .setting-fixed{
     position: fixed;
     bottom: 0;
-    width: 100%;
+    left: 0;
+    width: 720px;
   }
 
-  .f_footer > button {
-    width: 100%;
-    outline: none;
-    border: none;
+  .sign-out{
+    width: 720px;
+    height:100px;
+    background:rgba(19,193,254,1);
+    border: 0;
+    color: white;
+    letter-spacing: 2px;
+  }
+
+  .a-content-list{
+    display: block;
+    width:720px;
+    height:80px;
+    background:rgba(255,255,255,1);
+    margin-top: 15px;
+  }
+
+  .flex-stream-sb{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .padding-10{
+    padding:0 20px;
     box-sizing: border-box;
-    padding: 1rem;
-    color: #e2f3f4;
-    background: #1AB6FD;
   }
 </style>

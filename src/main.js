@@ -6,7 +6,8 @@ import router from './router';
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 import store from './store';
-import base from './assets/js/base';
+import base from './assets/js/function';
+import component from './assets/js/component';
 import axios from 'axios';
 import storage from 'good-storage';
 import 'jquery';
@@ -59,6 +60,7 @@ Vue.config.productionTip = false;
 Vue.use(MintUI);
 Vue.use(VueAwesomeSwiper);
 Vue.use(base);
+Vue.use(component);
 Vue.use(BaiduMap, {
   ak: 'FG7wxr1VUj0k2NwoO3yXzymd&services=&t=20170517145936'
 });

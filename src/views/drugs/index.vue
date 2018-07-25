@@ -126,7 +126,7 @@
       showPics() {
         this.pageList.forEach((e) => {
           if (e.imgUrl === undefined) {
-            e.imgUrl = this.URL_PATH + '/files/' + e.fileId + '/image?resolution=LARGE_LOGO';
+            e.imgUrl = '/files/' + e.fileId + '/image?resolution=LARGE_LOGO';
           }
         });
       },
@@ -213,9 +213,9 @@
         let urlArr = [];
         // 页面来源
         if (this.pageFrom === 'drugType') {
-          urlArr.push(this.URL_PATH + '/drugs?drugTypeId=' + this.drugTypeId);
+          urlArr.push('/drugs?drugTypeId=' + this.drugTypeId);
         } else {
-          urlArr.push(this.URL_PATH + '/drugs/search?keyword=' + this.keyword);
+          urlArr.push('/drugs/search?keyword=' + this.keyword);
         }
         if (this.filterData !== undefined) {
           if (typeof this.filterData === 'string') {
@@ -241,7 +241,7 @@
   };
 </script>
 <style lang="scss">
-  @import 'static/scss/common.scss';
+  /*@import 'static/scss/common.scss';*/
 
   .header {
     background: #1AB6FD;

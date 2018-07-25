@@ -192,7 +192,7 @@
 
   .nearby {
     width: 720px;
-    height: calc(100vh - 128px - 563px);
+    height: calc(100vh - 130px - 563px);
     background: rgba(255, 255, 255, 1);
     overflow: scroll;
   }
@@ -233,20 +233,4 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }
-
-  /*.bm-view {*/
-  /*width: 100%;*/
-  /*height: 280px;*/
-  /*}*/
-  /*.ic-ditu{color: #1AB6FD;}*/
-  /*.opcaity0{opacity: 0;filter:alpha(opacity=0);-moz-opacity:0;-khtml-opacity:0;}*/
-  /*.ellpisos{width: 100%;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}*/
-  /*.nearAddress{width: 96%;margin: auto;}*/
-  /*.nearAddress div{height: 3rem;line-height: 3rem;}*/
-  /*.nearAddress p{height: 2rem;line-height: 2rem;}*/
-  /*.top{color: #333333;}*/
-  /*.bottom{color: #999999;}*/
-  /*.nearLi{border-bottom: 1px solid #e5e5e5;margin-top: 0.5rem;padding-bottom: 0.5rem;}*/
-  /*#d_library{position:absolute;top:4rem;background:white;color:#333333;z-index:9999;width:100%;text-align:left;text-indent: 1rem;width: 96%;}*/
-  /*#d_library li{border-bottom: 1px solid #e5e5e5;height: 3.5rem;margin-top: 0.5rem;margin-bottom: 0.5rem;}*/
 </style>
