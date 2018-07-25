@@ -22,61 +22,6 @@ export default new Router({
       component: () => import('@/views/login.vue')
     },
     {
-      path: '/accounts',
-      name: 'account',
-      component: () => import('@/views/accounts/index.vue')
-    },
-    {
-      path: '/accounts/card/bind',
-      name: 'bind',
-      component: () => import('@/views/accounts/card/bind.vue')
-    },
-    {
-      path: '/accounts/card/unbind',
-      name: 'unbind',
-      component: () => import('@/views/accounts/card/unbind.vue')
-    },
-    {
-      path: '/accounts/card/unbindCard',
-      name: 'unbindCard',
-      component: () => import('@/views/accounts/card/unbindCard.vue')
-    },
-    {
-      path: '/accounts/card/success',
-      name: 'success',
-      component: () => import('@/views/accounts/card/success.vue')
-    },
-    {
-      path: '/accounts/child/accountLabel',
-      name: 'accountLabel',
-      component: () => import('@/views/accounts/child/accountLabel.vue')
-    },
-    {
-      path: '/accounts/insurance/account',
-      name: 'account',
-      component: () => import('@/views/accounts/insurance/account.vue')
-    },
-    {
-      path: '/accounts/insurance/card',
-      name: 'card',
-      component: () => import('@/views/accounts/insurance/card.vue')
-    },
-    {
-      path: '/accounts/insurance/consume',
-      name: 'consume',
-      component: () => import('@/views/accounts/insurance/consume.vue')
-    },
-    {
-      path: '/accounts/insurance/consumeinfo',
-      name: 'consumeinfo',
-      component: () => import('@/views/accounts/insurance/consumeinfo.vue')
-    },
-    {
-      path: '/accounts/insurance/consumeinfomore',
-      name: 'consumeinfomore',
-      component: () => import('@/views/accounts/insurance/consumeinfomore.vue')
-    },
-    {
       path: '/forget',
       name: 'forget',
       component: () => import('@/views/forget.vue')
@@ -123,6 +68,10 @@ export default new Router({
     {
       path: '/version',
       component: () => import('@/views/version.vue')
+    },
+    {
+      path: '/drugAppraises',
+      component: () => import('@/views/drugAppraises/index.vue')
     },
     {
       path: '/carts',

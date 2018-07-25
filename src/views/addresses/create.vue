@@ -1,10 +1,9 @@
 <template>
   <div class="body">
-    <div class="header1">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-      <span class="span1">新增收货地址</span>
-      <span class="span2" @click="save()">保存</span>
-    </div>
+    <new-header title="新增收货地址">
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <span slot="right" @click="save()">保存</span>
+    </new-header>
     <div class="body1">
       <div class="input1">
         <div class="left">
