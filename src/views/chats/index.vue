@@ -1,10 +1,9 @@
 <template>
   <div class="main">
-    <div class="header1">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-      <span class="span1">咨询列表</span>
-      <router-link tag="i" to="/messageTypes" class="iconfont ic-lingdang"></router-link>
-    </div>
+    <new-header title="咨询列表">
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <router-link tag="i" to="/messageTypes" class="iconfont ic-lingdang" slot="right"></router-link>
+    </new-header>
     <ul class="item">
       <li class="line" v-for="(item,index) in list" :key="index">
         <img :src="item.shopImage">
@@ -68,25 +67,6 @@
     height: 100vh;
   }
 
-  .header1 {
-    width: 720px;
-    height: 130px;
-    font-size: 36px;
-    background: rgba(19, 193, 254, 1);
-    font-family: HiraginoSansGB-W3;
-    color: rgba(254, 254, 254, 1);
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .ic-arrow-right:before {
-    font-size: 50px;
-  }
-
-  .ic-lingdang:before {
-    font-size: 50px;
-  }
   .item {
     height: calc(100vh - 130px);
     overflow: scroll;

@@ -1,9 +1,8 @@
 <template>
   <div class="main">
-    <div class="header1">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-      <span class="span1">咨询</span>
-    </div>
+    <new-header title="咨询">
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+    </new-header>
     <div class="body">
       <div class="body1">
         <div><span>{{shopInfo.shopName}}</span></div>
@@ -113,26 +112,6 @@
     background: rgba(241, 239, 240, 1);
     width: 720px;
     height: 100vh;
-  }
-
-  .header1 {
-    width: 720px;
-    height: 130px;
-    font-size: 36px;
-    background: rgba(19, 193, 254, 1);
-    font-family: HiraginoSansGB-W3;
-    color: rgba(254, 254, 254, 1);
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .header1 span {
-    margin-right: 320px;
-  }
-
-  .ic-arrow-right:before {
-    font-size: 50px;
   }
 
   .body1 {

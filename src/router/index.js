@@ -68,6 +68,10 @@ export default new Router({
     {
       path: '/version',
       component: () => import('@/views/version.vue')
+    },
+    {
+      path: '/drugAppraises',
+      component: () => import('@/views/drugAppraises/index.vue')
     }
   ]
 });
