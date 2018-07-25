@@ -6,12 +6,6 @@
   <!--<span  class="staritem onstar"></span>-->
   <!--<span  class="staritem halfstar"></span>-->
   <!--<span  class="staritem offstar"></span>-->
-  <!--根据传递过来的分数得到对应的星星
-      4.7     四颗半星
-      1. 个位数代表的是全亮，
-      2. 当分数大于等于0.5  是一个半星
-      3. 当全星和半星不足五个的时候，剩下的都是灰色的星星
-  -->
 </div>
 
 </template>
