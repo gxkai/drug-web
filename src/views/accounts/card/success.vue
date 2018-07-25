@@ -1,17 +1,21 @@
 <template>
-  <div class="f_body">
+  <div class="bind-container">
     <mt-header>
       <router-link to="/accounts" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>
 
-    <div class="f_medical_card_unbinding">
-      <img src="static/img/blackchufang.png"/>
-      <span>{{message}}</span>
-      <div class="f_medical_card_btns">
-        <router-link to="/accounts/bind" class="f_medical_card_btn">返回上一步</router-link>
-        <router-link to="/" class="f_medical_card_index_btn">返回首页</router-link>
+    <div class="">
+      <div class="div-img">
+        <div>
+        <img src="../../../assets/image/blackchufang.png"/>
+        </div>
+        <span>{{message}}</span>
+      </div>
+      <div class="div-btn">
+        <router-link to="/accounts/bind" class="bind-success-btn btn-white box-center">随意逛逛</router-link>
+        <router-link to="/" class="bind-success-btn btn-1AB6FD box-center">返回首页</router-link>
       </div>
     </div>
   </div>
@@ -43,43 +47,46 @@
     color: #e2e2e2;
   }
 
-  .f_body {
-    text-align: left;
+  .bind-container{
+    width: 720px;
+    height: 100vh;
+  }
+  a,a:hover{
+    color: white;
+    text-decoration: none;
   }
 
-  .f_medical_card_unbinding {
-    margin-top: 50%;
-    text-align: center;
+  .box-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .div-img{
+    width: 720px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-
-  .f_medical_card_unbinding :nth-child(2) {
-    margin: 1rem auto;
+  .div-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 88px;
+  }
+  .bind-success-btn{
+    width:177px;
+    height:51px;
+    border-radius:20px;
   }
 
-  .f_medical_card_btns {
-    width: 100%;
+  .btn-white{
+    background:white;
+    border: 1px #BFBFBF solid;
+    color:rgba(102,102,102,1);
   }
 
-  .f_medical_card_btn {
-    outline: none;
-    border-radius: 5px;
-    padding: 0.5rem 1rem;
-    background: none;
-    border: 1px #e4e4e4 solid;
-    color: #666666;
-    margin-right: 5%;
-  }
-
-  .f_medical_card_index_btn {
-    outline: none;
-    border-radius: 5px;
-    padding: 0.5rem 1rem;
-    background: #1AB6FD;
-    border: none;
-    color: #fbfefe;
+  .btn-1AB6FD{
+    background:#1AB6FD;
   }
 </style>
