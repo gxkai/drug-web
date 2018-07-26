@@ -12,7 +12,7 @@
 
 <script>
   export default {
-    name: 'header',
+    name: 'newHeader',
     props: ['title']
   };
 </script>
@@ -38,11 +38,11 @@
   .right .iconfont:before{
     font-size: 50px;
     position: absolute;
-    right: 0;
+    right: 10px;
   }
   .right {
     font-size: 30px;
     position: absolute;
-    right: 0;
+    right: 10px;
   }
 </style>

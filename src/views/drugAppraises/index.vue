@@ -3,112 +3,70 @@
     <new-header title="我的评价">
       <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
-    <div class="body">
-      <div class="body1">
-        <div>
-          <img src="../../assets/image/shopDrugs.png">
-          <span>晴天</span>
+    <ul class="body" v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="loading"
+        infinite-scroll-distance="10">
+      <li v-for="item in list">
+        <div class="line1">
+          <div>
+            <img :src="account.headImg">
+            <span>{{account.username}}</span>
+          </div>
+          <span>{{item.createdDate}}</span>
         </div>
-        <div>
-          <span>2018-09-18</span>
+        <div class="line2">
+          {{item.content}}
         </div>
-      </div>
-    </div>
+        <div class="line3">
+          <img :src="item.logo">
+          <div class="right">
+            <p>{{item.name}}</p>
+            <p>{{item.spec}}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
-    <!--<div id="bgw">-->
-      <!--<mt-header class="J_mheader" title="我的评价">-->
-        <!--<router-link to="#" slot="left">-->
-          <!--<mt-button icon="back" @click="$router.go(-1)"></mt-button>-->
-        <!--</router-link>-->
-      <!--</mt-header>-->
-      <!--<div style="height:4rem;width:100%;"></div>-->
-
-
-      <!--<div style="height:100vh;">-->
-        <!--<ul class="J_assessul" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"-->
-            <!--infinite-scroll-distance="10">-->
-          <!--<li v-for="(item,index) in list">-->
-            <!--<div class="J_div">-->
-              <!--<div class="J_aphoto">-->
-                  <!--<img :src="headImg" alt=""">-->
-              <!--</div>-->
-              <!--<span>{{nickname}}</span>-->
-              <!--<div class="littlestar">-->
-                <!--<star-rating :rating="item.score" read-only="true" active-color="red" star-size="18" :show-rating="false" ></star-rating>-->
-              <!--</div>-->
-              <!--<div class="J_timeee">{{formatDate(item.createdDate).slice(0,10)}}</div>-->
-            <!--</div>-->
-            <!--<div class="J_TheWordYouSay">{{item.content}}</div>-->
-            <!--<div class="J_ThePicture">-->
-              <!--<img :src="item.imgUrl">-->
-              <!--<div class="J_ThePicture_d">-->
-                <!--<p style="font-size:1.1rem;">-->
-                  <!--药品名称：{{item.name}}-->
-                <!--</p>-->
-                <!--<p class="elip">-->
-                  <!--规格：{{item.spec}}-->
-                <!--</p>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</li>-->
-          <!--<div v-show="allLoaded" style="text-align: center">就这么多啦,回顶部再看看吧</div>-->
-          <!--<div v-show="nullLoaded" style="text-align: center">没有数据</div>-->
-        <!--</ul>-->
-      <!--</div>-->
-    <!--</div>-->
 </template>
 
 <script>
-  // import timeConvert from 'static/js/timeConvert';
-  // import {getImages} from '@/util/images';
-  // import StarRating from 'vue-star-rating';
-
   export default {
     name: 'myAppraise',
     data() {
       return {
         list: [],
-        headImg: '',
-        nickname: '',
-        allLoaded: false,
-        nullLoaded: false,
         pageNum: 0,
-        pageSize: 15,
+        pageSize: 5,
         pages: null,
         loading: false,
         account: this.$store.getters.account
       };
     },
-    // components: {
-    //   'star-rating': StarRating
-    // },
     created() {
-      // this.account.headImg = this.getImgURL(this.account.fileId,'LARGE_LOGO');
+      this.account.headImg = this.getImgURL(this.account.fileId, 'LARGE_LOGO');
     },
     methods: {
-      // loadMore() {
-      //   this.loading = false;
-      //   if (this.pages === null || this.pageNum <= this.pages) {
-      //     this.loadData();
-      //   } else {
-      //     this.loading = true;
-      //     this.allLoaded = true;
-      //   }
-      // },
-      // loadData() {
-      //   this.pageNum++;
-      //   this.$http.get(this.URL_PATH + '/drugAppraises/mine?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
-      //     .then(res => {
-      //       getImages(res.data.list, this);
-      //       console.log(res.data.list);
-      //       this.list = this.list.concat(res.data.list);
-      //       this.pages = res.data.pages;
-      //       if (this.pages === 0) {
-      //         this.nullLoaded = true;
-      //         this.loading = true;
-      //       }
-      //     });
-      // }
+      loadMore() {
+        this.pageNum++;
+        if (!this.pages || this.pageNum < this.pages) {
+          this.loadData();
+        } else {
+          this.loading = false;
+        }
+      },
+      loadData() {
+        this.$http.get('/drugAppraises/mine?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+          .then(res => {
+            res.data.list.forEach(e => {
+              e.logo = this.getImgURL(e.fileId);
+              e.createdDate = this.timeConvert(e.createdDate);
+            });
+            this.list = this.list.concat(res.data.list);
+            if (!this.pages) {
+              this.pages = res.data.pages;
+            }
+          });
+      }
     }
   };
 </script>
@@ -123,168 +81,72 @@
   .body {
     width: 720px;
     height: calc(100vh - 130px);
+    background: rgba(255, 255, 255, 1);
+    padding: 20px;
+    overflow: scroll;
   }
 
-  .body1 {
-    width:720px;
-    height:130px;
-    background:rgba(255,255,255,1);
+  .line1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
   }
 
-  .body1 div:nth-child(1) {
+  .line1 div:nth-child(1) {
     display: inline-flex;
     align-items: center;
   }
 
-  .body1 div:nth-child(1) img {
-    height:65px;
+  .line1 div:nth-child(1) img {
+    height: 65px;
     border-radius: 50px;
   }
-  .body1 div:nth-child(1) span {
+
+  .line1 div:nth-child(1) span {
     margin-left: 10px;
   }
 
-  .body1 div:nth-child(2) span {
-    border-radius:15px;
-    width: 99px;
-    color: rgba(19,193,254,1);
-    borde:1px rgba(19,193,254,1);
-    background-color:rgba(255,255,255,1);
+  .line1 div:nth-child(2) span {
+    font-size: 18px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
   }
 
-  /*.header1 {*/
-    /*width: 720px;*/
-    /*height: 130px;*/
-    /*font-size: 36px;*/
-    /*background: rgba(19, 193, 254, 1);*/
-    /*font-family: HiraginoSansGB-W3;*/
-    /*color: rgba(254, 254, 254, 1);*/
-    /*text-align: center;*/
-    /*line-height: 120px;*/
-  /*}*/
+  .line2 {
+    font-size: 22px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
+    line-height: 88px;
+  }
 
+  .line3 {
+    width: 679px;
+    height: 165px;
+    background: rgba(238, 238, 238, 1);
+    margin: auto;
+    display: flex;
+    align-items: center;
+  }
 
-  /*.ic-arrow-right:before {*/
-    /*font-size: 50px;*/
-    /*position: absolute;*/
-    /*left: 0;*/
-  /*}*/
+  .line3 img {
+    width: 201px;
+    height: 144px;
+    margin-left: 10px;
+  }
 
-  /*.ic-lingdang:before {*/
-    /*font-size: 50px;*/
-    /*position: absolute;*/
-    /*right: 0;*/
-  /*}*/
-  /*.J_mheader {*/
-    /*background-color: #1AB6FD;*/
-    /*color: #ffffff;*/
-  /*}*/
+  .line3 .right {
+    margin-left: 20px;
+  }
 
-  /*.J_div {*/
-    /*position: relative;*/
-    /*height: 9vw;*/
-    /*line-height: 9vw;*/
-    /*font-size: 1.2rem;*/
-    /*padding-left: 15vw;*/
-  /*}*/
+  .line3 .right p:nth-child(1) {
+    font-size: 20px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(0, 0, 0, 1);
+  }
 
-  /*.J_aphoto {*/
-    /*position: absolute;*/
-    /*left: 2%;*/
-    /*width: 9vw;*/
-    /*height: 9vw;*/
-  /*}*/
-
-  /*.J_div .J_aphoto img {*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*border-radius: 9vw;*/
-  /*}*/
-
-  /*.J_assessul {*/
-    /*padding: 1rem 0;*/
-    /*margin-bottom: 10rem;*/
-    /*margin-top:-2rem;*/
-    /*background: #eeeeee;*/
-  /*}*/
-
-  /*.J_assessul li {*/
-    /*margin: 1rem 0;*/
-    /*padding: 1rem 2%;*/
-    /*background:#ffffff;*/
-  /*}*/
-  /*.J_TheWordYouSay {*/
-    /*font-size: 1.1rem;*/
-    /*line-height: 2rem;*/
-    /*margin: 1rem 0;*/
-  /*}*/
-  /*.J_timeee{*/
-    /*position: absolute;*/
-    /*right: 0;*/
-    /*top:0;*/
-    /*font-size:1rem;*/
-    /*color: #ccc;*/
-  /*}*/
-  /*.J_Thesummary {*/
-    /*color: #999999;*/
-  /*}*/
-
-  /*.J_assessul li .J_ThePicture {*/
-    /*height: 7rem;*/
-    /*line-height: 7rem;*/
-    /*padding: 1rem 2%;*/
-    /*display: flex;*/
-    /*justify-content: space-between;*/
-    /*background: #eeeeee;*/
-    /*position: relative;*/
-  /*}*/
-
-  /*.J_assessul li .J_ThePicture img {*/
-    /*height: 5rem;*/
-    /*width: 25%;*/
-  /*}*/
-
-  /*.J_TheMore {*/
-    /*text-align: right;*/
-    /*padding-right: 20%;*/
-    /*position: relative;*/
-  /*}*/
-
-  /*.J_TheMore span {*/
-    /*margin-left: 3%;*/
-    /*color: #999999;*/
-  /*}*/
-  /*.J_TheMore .J_adddiv {*/
-    /*top: 0;*/
-    /*position: absolute;*/
-    /*right: 2%;*/
-    /*height: 2rem;*/
-    /*line-height: 2rem;*/
-    /*border: 1px solid #12b1f9;*/
-    /*color: #12b1f9;*/
-    /*border-radius: 1rem;*/
-    /*text-align: center;*/
-    /*width: 15%;*/
-  /*}*/
-  /*#bgw {*/
-    /*background: #eeeeee;*/
-  /*}*/
-  /*.J_ThePicture_d{*/
-    /*position: absolute;*/
-    /*left: 30%;*/
-    /*top: 1rem ;*/
-  /*}*/
-  /*.J_ThePicture_d p{*/
-    /*height:2.5rem;*/
-    /*line-height: 2.5rem;*/
-  /*}*/
-  /*.littlestar{*/
-    /*display: inline-block;*/
-    /*margin-left: 2%;*/
-  /*}*/
-
+  .line3 .right p:nth-child(2) {
+    font-size: 20px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
+  }
 </style>
