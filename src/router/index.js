@@ -88,6 +88,18 @@ export default new Router({
       component: () => import('@/views/collects/index.vue')
     },
     {
+      path: '/repositories',
+      component: () => import('@/views/repositories/index.vue')
+    },
+    {
+      path: '/repositories/view',
+      component: () => import('@/views/repositories/view.vue')
+    },
+    {
+      path: '/repositoryTypes',
+      component: () => import('@/views/repositoryTypes/index.vue')
+    }
+    {
       path: '/collects/child/drugs',
       name: 'collectDrugs',
       component: () => import('@/views/collects/child/drugs.vue')

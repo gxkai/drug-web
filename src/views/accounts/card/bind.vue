@@ -33,47 +33,43 @@
     </div>
   </div>
 
-
 </template>
 
 <script>
-// import {MessageBox} from 'mint-ui';
-// import exception from 'static/js/exception';
-
 export default {
   data() {
     return {
       account: {}
     };
+  },
+  created() {
+    this.account = this.$store.getters.account;
+  },
+  methods: {
+    bind: function () {
+      if (this.account.medicalNumber === '' || this.account.medicalNumber == null) {
+        this.MessageBox('提示', '医保不能为空');
+        return;
+      }
+      this.$http.put(this.URL_PATH + '/accounts', this.account, {
+        headers: {
+          'Authorization': this.$store.getters.token
+        }
+      })
+        .then((res) => {
+          this.$store.commit('setAccount', this.account);
+          this.$router.push({
+            name: '/accounts/bind/success',
+            params: {
+              bind: 1
+            }
+          });
+        })
+        .catch((error) => {
+          this.exception.message(error);
+        });
+    }
   }
-  // created() {
-  //   this.account = this.$store.getters.account;
-  // },
-  // methods: {
-  //   bind: function () {
-  //     if (this.account.medicalNumber === '' || this.account.medicalNumber == null) {
-  //       MessageBox('提示', '医保不能为空');
-  //       return;
-  //     }
-  //     this.$http.put(this.URL_PATH + '/accounts', this.account, {
-  //       headers: {
-  //         'Authorization': this.$store.getters.token
-  //       }
-  //     })
-  //       .then((res) => {
-  //         this.$store.commit('setAccount', this.account);
-  //         this.$router.push({
-  //           name: '/accounts/bind/success',
-  //           params: {
-  //             bind: 1
-  //           }
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         exception.message(error);
-  //       });
-  //   }
-  // }
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="bind-container">
     <mt-header title="医保卡绑定">
-      <router-link to="/accounts" slot="left" style="color:white;">
+      <router-link to="/accounts" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>
@@ -34,36 +34,34 @@
 </template>
 
 <script>
-  // import exception from 'static/js/exception';
-
   export default {
     data() {
       return {
         account: {}
       };
+    },
+    created() {
+      if (this.$store.getters.account) {
+        this.account = this.$store.getters.account;
+      }
+    },
+    methods: {
+      unbind: function () {
+        this.account.medicalNumber = null;
+        this.$http.put(this.URL_PATH + '/accounts', this.account, {
+          headers: {
+            'Authorization': this.$store.getters.token
+          }
+        })
+          .then((res) => {
+            this.$store.commit('setAccount', this.account);
+            this.$router.push({name: '/accounts/bind/success'});
+          })
+          .catch((error) => {
+            this.exception.message(error);
+          });
+      }
     }
-    // created() {
-    //   if (this.$store.getters.account) {
-    //     this.account = this.$store.getters.account;
-    //   }
-    // },
-    // methods: {
-    //   unbind: function () {
-    //     this.account.medicalNumber = null;
-    //     this.$http.put(this.URL_PATH + '/accounts', this.account, {
-    //       headers: {
-    //         'Authorization': this.$store.getters.token
-    //       }
-    //     })
-    //       .then((res) => {
-    //         this.$store.commit('setAccount', this.account);
-    //         this.$router.push({name: '/accounts/bind/success'});
-    //       })
-    //       .catch((error) => {
-    //         exception.message(error);
-    //       });
-    //   }
-    // }
   };
 </script>
 

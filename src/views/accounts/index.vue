@@ -3,11 +3,11 @@
     <!-- 头部 -->
     <mt-header>
       <router-link to="/messageTypes" slot="left">
-        <i class="icon iconfont ic-xiaoxi"></i>
+        <i class=" iconfont ic-xiaoxi"></i>
       </router-link>
 
       <router-link to="/setting" slot="right">
-        <i class="icon iconfont ic-shezhi1"></i>
+        <i class=" iconfont ic-shezhi1"></i>
       </router-link>
     </mt-header>
 
@@ -81,14 +81,17 @@
           <span class="mt-15">医保卡信息</span>
         </router-link>
     </div>
-    <div class="foot-tag flex-row-sb-center">
-      <span >常见问题</span>
+
+    <router-link class=" foot-tag flex-stream-sb" to="/faqs">
+      <span>常见问题</span>
       <i class="iconfont ic-youjiantou"></i>
-    </div>
-    <div class="foot-tag flex-row-sb-center">
-      <span >意见反馈</span>
+    </router-link>
+
+    <router-link class=" foot-tag flex-stream-sb" to="/feedbacks/create">
+      <span>意见反馈</span>
       <i class="iconfont ic-youjiantou"></i>
-    </div>
+    </router-link>
+    <!--<allBottom></allBottom>-->
 
   </div>
 
@@ -178,13 +181,6 @@
     align-items: center;
     justify-content: center;
   }
-
-  .flex-row-sb-center{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
   .flex-stream-sa{
     display: flex;
     justify-content: space-around;

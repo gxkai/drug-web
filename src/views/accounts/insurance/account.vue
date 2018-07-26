@@ -8,11 +8,11 @@
 
     <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
       <span>2017年度</span>
-      <i class="iconfont ic-youjiantou" />
+      <i class="iconfont ic-youjiantou"></i>
     </router-link>
     <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>2018年度</span>
-      <i class="iconfont ic-youjiantou" />
+      <i class="iconfont ic-youjiantou"></i>
     </router-link>
 
   </div>

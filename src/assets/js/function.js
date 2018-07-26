@@ -39,6 +39,7 @@ export default {
       return allTime;
     };
     /**
+     * 时间戳
      * yyyy/MM/dd hh:MM:ss
      * @param timer
      * @returns {string}
