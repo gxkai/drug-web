@@ -9,12 +9,11 @@
       <li v-for="(item,index) in list" :key="index">
         <div class="line1">
           <img src="item.logo">
-          <new-star class="star" size="middle"  :score="item.score" ></new-star>
+          <new-star class="star" size="middle"  :score.sync="item.score" ></new-star>
         </div>
         <div class="line"></div>
         <div class="line2">
-        <div class="text" contenteditable="true" placeholder="宝贝满足你的期待吗？说说它的优点和不足的地方吧。" v-model="item.content">
-        </div>
+        <new-edit-div v-model="item.content"></new-edit-div>
         </div>
         <div class="line3">
           <i class="iconfont ic-zhaoxiangji"></i>
@@ -30,19 +29,19 @@
       <div class="content1">
         <div class="line1">
           <span>配送速度</span>
-          <new-star  size="small" :score="deliveryScore"></new-star>
+          <new-star  size="small" :score.sync="deliveryScore"></new-star>
         </div>
         <div class="line2">
           <span>服务态度</span>
-          <new-star  size="small" :score="serviceScore"></new-star>
+          <new-star  size="small" :score.sync="serviceScore"></new-star>
         </div>
         <div class="line3">
           <span>描述相符</span>
-          <new-star  size="small" :score="describeScore"></new-star>
+          <new-star  size="small" :score.sync="describeScore"></new-star>
         </div>
         <div class="line4">
           <span>商品包装</span>
-          <new-star  size="small" :score="packageScore"></new-star>
+          <new-star  size="small" :score.sync="packageScore"></new-star>
         </div>
       </div>
     </footer>
@@ -81,21 +80,31 @@
     },
     methods: {
       commit() {
-        this.durgs = this.list.forEach(e => {
-          delete e.fileId;
-          delete e.shopId;
-          delete e.logo;
+        this.list.forEach(e => {
+          let data = {
+            'orderItemId': e.orderItemId,
+            'drugSpecId': e.drugSpecId,
+            'shopDrugSpecId': e.shopDrugSpecId,
+            'score': e.score,
+            'content': e.content
+          };
+          this.drugs.push(data);
+        })
+        let data = {
+          'accountId': this.account.id,
+          'orderId': this.orderId,
+          'shopId': this.shopId,
+          'deliveryScore': this.deliveryScore,
+          'describeScore': this.describeScore,
+          'packageScore': this.packageScore,
+          'serviceScore': this.serviceScore,
+          'drugs': this.drugs
+        };
+        this.$http.post('/drugAppraises',data).then(res => {
+          this.$router.push('/drugAppraises/success');
+        }).catch(error => {
+          this.exception(error);
         });
-        // let data = {
-        //   'accountId': this.account.id,
-        //   'orderId': this.orderId,
-        //   'shopId': this.shopId,
-        //   'deliveryScore': this.deliveryScore,
-        //   'describeScore': this.describeScore,
-        //   'packageScore': this.packageScore,
-        //   'serviceScore': this.serviceScore,
-        //   'drugs': this.drugs
-        // };
       }
     }
   };
@@ -144,20 +153,7 @@
     height: 340px;
     background:rgba(255,255,255,1);
   }
-  li .line2 .text{
-    height: 300px;
-    word-break: break-all;
-    word-wrap: break-word;
-    outline: none;
-  }
 
-  li .line2 .text:empty::before{
-    color: lightgrey;
-    content: attr(placeholder);
-    font-size:26px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(204,204,204,1);
-  }
 
   li .line3 {
     padding: 20px;

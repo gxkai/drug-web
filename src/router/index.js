@@ -123,6 +123,10 @@ export default new Router({
       component: () => import('@/views/drugAppraises/create.vue')
     },
     {
+      path: '/drugAppraises/success',
+      component: () => import('@/views/drugAppraises/success.vue')
+    },
+    {
       path: '/carts',
       component: () => import('@/views/carts/index.vue')
     },

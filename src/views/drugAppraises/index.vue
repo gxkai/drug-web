@@ -25,6 +25,7 @@
           </div>
         </div>
       </li>
+      <new-no-data v-if="list.length===0"></new-no-data>
     </ul>
   </div>
 </template>
@@ -65,6 +66,8 @@
             if (!this.pages) {
               this.pages = res.data.pages;
             }
+          }).catch(error => {
+            this.exception(error);
           });
       }
     }

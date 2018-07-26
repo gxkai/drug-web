@@ -4,7 +4,7 @@
 
 <script>
 	export default {
-	  name: 'newNodata'
+	  name: 'newNoData'
 	};
 </script>
 
