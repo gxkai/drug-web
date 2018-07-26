@@ -89,7 +89,7 @@
             'content': e.content
           };
           this.drugs.push(data);
-        })
+        });
         let data = {
           'accountId': this.account.id,
           'orderId': this.orderId,
@@ -100,7 +100,7 @@
           'serviceScore': this.serviceScore,
           'drugs': this.drugs
         };
-        this.$http.post('/drugAppraises',data).then(res => {
+        this.$http.post('/drugAppraises', data).then(res => {
           this.$router.push('/drugAppraises/success');
         }).catch(error => {
           this.exception(error);

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "fastclick": "^1.0.6",
     "font-awesome": "^4.7.0",
     "good-storage": "^1.0.1",
     "jquery": "^3.3.1",
@@ -19,9 +20,11 @@
     "postcss-px2rem": "^0.3.0",
     "px2rem-loader": "^0.1.9",
     "script-loader": "^0.7.2",
+    "vconsole": "^3.2.0",
     "vue": "^2.5.2",
     "vue-baidu-map": "^0.21.10",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-touch": "^2.0.0-beta.4"
   },
   "devDependencies": {
     "@storybook/vue": "^3.4.8",
