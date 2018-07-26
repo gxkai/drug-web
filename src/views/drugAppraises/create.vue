@@ -80,7 +80,6 @@
     },
     methods: {
       commit() {
-        debugger;
         this.list.forEach(e => {
           let data = {
             'orderItemId': e.orderItemId,
