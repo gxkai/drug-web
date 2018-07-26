@@ -14,7 +14,7 @@
     </div>
     <div class="body2">
       <div>
-        <new-editline :name="shopInfo.name"></new-editline>
+        <new-edit-line :name="shopInfo.name"></new-edit-line>
         <ul>
           <li v-for="(item,index) in list" :key="index">
             <div class="content1" v-if="item.type === 'SHOP'">

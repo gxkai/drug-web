@@ -13,7 +13,7 @@
         </div>
         <div class="line"></div>
         <div class="line2">
-        <new-editdiv v-model="item.content"></new-editdiv>
+        <new-edit-div v-model="item.content"></new-edit-div>
         </div>
         <div class="line3">
           <i class="iconfont ic-zhaoxiangji"></i>

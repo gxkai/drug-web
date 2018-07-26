@@ -25,7 +25,7 @@
           </div>
         </div>
       </li>
-      <new-nodata v-if="list.length===0"></new-nodata>
+      <new-no-data v-if="list.length===0"></new-no-data>
     </ul>
   </div>
 </template>

@@ -8,7 +8,7 @@
         <span>每天都有用户通过看评价来做购物决策~</span>
         <div> <button @click="$router.replace('/drugAppraises')">查看我的评价</button></div>
     </div>
-    <new-editline name="接着评下去吧" v-if="list.length>0"></new-editline>
+    <new-edit-line name="接着评下去吧" v-if="list.length>0"></new-edit-line>
     <ul class="body2">
       <li v-for="(item,index) in list" :key="index">
         <img :src="item.logo">
