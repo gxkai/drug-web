@@ -13,8 +13,7 @@
         </div>
         <div class="line"></div>
         <div class="line2">
-        <div class="text" contenteditable="true" placeholder="宝贝满足你的期待吗？说说它的优点和不足的地方吧。" v-model="item.content">
-        </div>
+        <new-editdiv v-model="item.content"></new-editdiv>
         </div>
         <div class="line3">
           <i class="iconfont ic-zhaoxiangji"></i>
@@ -81,11 +80,17 @@
     },
     methods: {
       commit() {
-        this.durgs = this.list.forEach(e => {
-          delete e.fileId;
-          delete e.shopId;
-          delete e.logo;
-        });
+        debugger;
+        this.list.forEach(e => {
+          let data = {
+            'orderItemId': e.orderItemId,
+            'drugSpecId': e.drugSpecId,
+            'shopDrugSpecId': e.shopDrugSpecId,
+            'score': e.score,
+            'content': e.content
+          };
+          this.drugs.push(data);
+        })
         let data = {
           'accountId': this.account.id,
           'orderId': this.orderId,
@@ -96,7 +101,7 @@
           'serviceScore': this.serviceScore,
           'drugs': this.drugs
         };
-        this.$http.post('/drugAppraises').then(res => {
+        this.$http.post('/drugAppraises',data).then(res => {
           this.$router.push('/drugAppraises/success');
         }).catch(error => {
           this.exception(error);
@@ -149,20 +154,7 @@
     height: 340px;
     background:rgba(255,255,255,1);
   }
-  li .line2 .text{
-    height: 300px;
-    word-break: break-all;
-    word-wrap: break-word;
-    outline: none;
-  }
 
-  li .line2 .text:empty::before{
-    color: lightgrey;
-    content: attr(placeholder);
-    font-size:26px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(204,204,204,1);
-  }
 
   li .line3 {
     padding: 20px;
