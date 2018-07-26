@@ -1,10 +1,10 @@
 <template>
-    <header>
-      <span class="left">
+    <header :style="{background:bgColor,color:color}">
+      <span class="left" :style="{color:leftColor}">
        <slot name="left"></slot>
       </span>
       {{title}}
-      <span class="right">
+      <span class="right" :style="{color:rightColor}">
         <slot name="right"></slot>
       </span>
     </header>
@@ -13,7 +13,28 @@
 <script>
   export default {
     name: 'newHeader',
-    props: ['title']
+    props: {
+      title: {
+        type: String,
+        default: ''
+      },
+      bgColor: {
+        type: String,
+        default: 'rgba(19,193,254,1)'
+      },
+      color: {
+        type: String,
+        default: 'rgba(254, 254, 254, 1)'
+      },
+      leftColor: {
+        type: String,
+        default: 'rgba(254, 254, 254, 1)'
+      },
+      rightColor: {
+        type: String,
+        default: 'rgba(254, 254, 254, 1)'
+      }
+    }
   };
 </script>
 
@@ -22,9 +43,7 @@
     width: 720px;
     height: 130px;
     font-size: 36px;
-    background: rgba(19, 193, 254, 1);
     font-family: HiraginoSansGB-W3;
-    color: rgba(254, 254, 254, 1);
     text-align: center;
     line-height: 120px;
   }

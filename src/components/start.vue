@@ -6,7 +6,16 @@
 </template>
 <script>
 export default {
-  props: ['score', 'disabled', 'size'],
+  props: {
+    score: {
+      type: Number,
+      default: 5
+    },
+    size: {
+      default: 'small'
+    },
+    disabled: {}
+  },
   name: 'newStar',
   data() {
     return {
