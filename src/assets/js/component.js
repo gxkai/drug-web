@@ -3,6 +3,8 @@ import newStar from '../../components/start';
 import newFooter from '../../components/footer';
 import newNodata from '../../components/nodata';
 import newEditdiv from '../../components/editdiv';
+import newEditline from '../../components/editline';
+import newMain from '../../components/main';
 
 export default {install(Vue, options) {
   Vue.component('new-header', newHeader);
@@ -10,4 +12,6 @@ export default {install(Vue, options) {
   Vue.component('new-footer', newFooter);
   Vue.component('new-nodata', newNodata);
   Vue.component('new-editdiv', newEditdiv);
+  Vue.component('new-editline', newEditline);
+  Vue.component('new-main', newMain);
 }};
