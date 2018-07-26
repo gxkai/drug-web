@@ -80,6 +80,17 @@ export default new Router({
     {
       path: '/repositoryTypes',
       component: () => import('@/views/repositoryTypes/index.vue')
+    },
+    {
+      path: '/messageTypes',
+      name: 'messageTypes',
+      component: () => import('@/views/messageTypes/index.vue')
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: () => import('@/views/messages/index.vue')
     }
+
   ]
 });
