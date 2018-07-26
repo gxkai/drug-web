@@ -58,7 +58,6 @@
     }
   };
 </script>
-
 <style scoped>
   .mint-header {
     background: #1AB6FD !important;
@@ -84,64 +83,4 @@
     color: #1AB6FD;
     border-bottom: 3px solid #1AB6FD;
   }
-
-  /*.f_collect_goods_list_info :first-child {*/
-    /*color: #525252;*/
-  /*}*/
-
-  /*.f_collect_goods_list_info :nth-child(2) {*/
-    /*font-size: 1rem;*/
-    /*color: #c9c9c9;*/
-  /*}*/
-
-  /*.f_collect_goods_list_info :last-child {*/
-    /*color: red;*/
-  /*}*/
-
-  /*.f_body {*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*background: #f5f5f5;*/
-  /*}*/
-
-  /*.f_collect_shops_list_img > img {*/
-    /*width: 100%;*/
-  /*}*/
-
-  /*.f_collect_shops_list_info :first-child {*/
-    /*margin-top: 5%;*/
-  /*}*/
-
-  /*.f_collect_shops_list_info :last-child {*/
-    /*font-size: 1rem;*/
-    /*color: #c0c0c0;*/
-  /*}*/
-
-  /*.f_collect_shops_list_info > span {*/
-    /*display: block;*/
-  /*}*/
-
-  /*.d_collects_ul {*/
-    /*display: flex;*/
-    /*margin-top: 3px;*/
-    /*font-size: 1.4rem;*/
-    /*height:3rem;*/
-    /*line-height: 3rem;*/
-    /*background: #fff;*/
-  /*}*/
-
-  /*.d_collects_ul li {*/
-    /*float: left;*/
-    /*text-align: center;*/
-    /*flex: 1*/
-  /*}*/
-
-  /*.d_collects_ul li span {*/
-    /*padding-bottom: 0.5rem;*/
-  /*}*/
-
-  /*.f_collect_shops_list {*/
-    /*margin-bottom: 2rem;*/
-  /*}*/
-
 </style>
