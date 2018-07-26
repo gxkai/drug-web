@@ -74,6 +74,10 @@ export default new Router({
       component: () => import('@/views/drugAppraises/index.vue')
     },
     {
+      path: '/drugAppraises/create',
+      component: () => import('@/views/drugAppraises/create.vue')
+    },
+    {
       path: '/carts',
       name: 'carts',
       component: () => import('@/views/carts/index.vue')

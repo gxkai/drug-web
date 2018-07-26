@@ -27,6 +27,7 @@
     color: rgba(254, 254, 254, 1);
     text-align: center;
     line-height: 120px;
+    position: fixed;
   }
 
   .left .iconfont:before{
@@ -38,11 +39,11 @@
   .right .iconfont:before{
     font-size: 50px;
     position: absolute;
-    right: 0;
+    right: 10px;
   }
   .right {
     font-size: 30px;
     position: absolute;
-    right: 0;
+    right: 10px;
   }
 </style>

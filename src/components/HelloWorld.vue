@@ -80,6 +80,7 @@
         </a>
       </li>
     </ul>
+    <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
 
@@ -112,6 +113,32 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+  width: 720px;
+  height: 100px;
+}
+footer div {
+  text-align: center;
+}
+
+footer div p {
+  font-size:22px;
+  font-family:HiraginoSansGB-W3;
+}
+
+footer div i {
+  font-size:35px;
+}
+.active {
+  color:rgba(19,193,254,1);
+}
+
 h1, h2 {
   font-weight: normal;
 }
