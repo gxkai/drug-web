@@ -9,7 +9,7 @@
       <li v-for="(item,index) in list" :key="index">
         <div class="line1">
           <img src="item.logo">
-          <new-star class="star" size="middle"  :score="item.score" ></new-star>
+          <new-star class="star" size="middle"  :score.sync="item.score" ></new-star>
         </div>
         <div class="line"></div>
         <div class="line2">
@@ -30,19 +30,19 @@
       <div class="content1">
         <div class="line1">
           <span>配送速度</span>
-          <new-star  size="small" :score="deliveryScore"></new-star>
+          <new-star  size="small" :score.sync="deliveryScore"></new-star>
         </div>
         <div class="line2">
           <span>服务态度</span>
-          <new-star  size="small" :score="serviceScore"></new-star>
+          <new-star  size="small" :score.sync="serviceScore"></new-star>
         </div>
         <div class="line3">
           <span>描述相符</span>
-          <new-star  size="small" :score="describeScore"></new-star>
+          <new-star  size="small" :score.sync="describeScore"></new-star>
         </div>
         <div class="line4">
           <span>商品包装</span>
-          <new-star  size="small" :score="packageScore"></new-star>
+          <new-star  size="small" :score.sync="packageScore"></new-star>
         </div>
       </div>
     </footer>
@@ -86,16 +86,21 @@
           delete e.shopId;
           delete e.logo;
         });
-        // let data = {
-        //   'accountId': this.account.id,
-        //   'orderId': this.orderId,
-        //   'shopId': this.shopId,
-        //   'deliveryScore': this.deliveryScore,
-        //   'describeScore': this.describeScore,
-        //   'packageScore': this.packageScore,
-        //   'serviceScore': this.serviceScore,
-        //   'drugs': this.drugs
-        // };
+        let data = {
+          'accountId': this.account.id,
+          'orderId': this.orderId,
+          'shopId': this.shopId,
+          'deliveryScore': this.deliveryScore,
+          'describeScore': this.describeScore,
+          'packageScore': this.packageScore,
+          'serviceScore': this.serviceScore,
+          'drugs': this.drugs
+        };
+        this.$http.post('/drugAppraises').then(res => {
+          this.$router.push('/drugAppraises/success');
+        }).catch(error => {
+          this.exception(error);
+        })
       }
     }
   };
