@@ -14,7 +14,7 @@
     </div>
     <div class="body2">
       <div>
-        <div class="line1"><span>{{shopInfo.time}}</span></div>
+        <new-edit-line :name="shopInfo.name"></new-edit-line>
         <ul>
           <li v-for="(item,index) in list" :key="index">
             <div class="content1" v-if="item.type === 'SHOP'">
@@ -141,35 +141,6 @@
     overflow: scroll;
   }
 
-  .line1 {
-    padding: 20px;
-  }
-
-  .line1 span {
-    display: block;
-    position: relative;
-    color: rgba(153, 153, 153, 1);
-    font-size: 16px;
-    font-family: MicrosoftYaHei;
-    text-align: center;
-  }
-
-  .line1 span:before, .line1 span:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    background: rgba(220, 220, 220, 1);
-    width: 190px;
-    height: 1px;
-  }
-
-  .line1 span:before {
-    left: 10px;
-  }
-
-  .line1 span:after {
-    right: 10px;
-  }
 
   ul li .content1 {
     display: inline-flex;

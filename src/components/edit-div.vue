@@ -28,7 +28,6 @@
   },
   watch: {
     'value'() {
-      debugger;
       if (!this.isLocked || !this.innerText) {
         this.innerText = this.value;
       }
