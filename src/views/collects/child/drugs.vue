@@ -75,7 +75,7 @@
               return false;
             }
             this.pageList = this.pageList.concat(res.data.list);
-            // getImages(this.pageList, this);
+            this.pageList.forEach(e => { e.imgUrl = this.$http.get(this.getImgURL(e.fileId, 'LOGO')); });
           });
       }
     }

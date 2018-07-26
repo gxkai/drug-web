@@ -11,29 +11,70 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld
     },
+    // accounts
+    {
+      path: '/accounts',
+      component: () => import('@/views/accounts/index')
+    }, {
+      path: '/accounts/bind',
+      component: () => import('@/views/accounts/card/bind')
+    }, {
+      path: '/accounts/unbind',
+      component: () => import('@/views/accounts/card/unbind')
+    }, {
+      path: '/accounts/bind/success',
+      component: () => import('@/views/accounts/card/success')
+    },
+    {
+      path: '/accounts/password',
+      component: () => import('@/views/accounts/password')
+    }, {
+      path: '/accounts/view',
+      component: () => import('@/views/accounts/view')
+    },
+    {
+      path: '/accounts/edit',
+      component: () => import('@/views/accounts/edit')
+    },
+    // accounts_insurance
+    {
+      path: '/accounts/insurance/account',
+      component: () => import('@/views/accounts/insurance/account')
+    },
+    {
+      path: '/accounts/insurance/card',
+      component: () => import('@/views/accounts/insurance/card')
+    },
+    {
+      path: '/accounts/insurance/consume',
+      component: () => import('@/views/accounts/insurance/consume')
+    },
+    {
+      path: '/accounts/insurance/consumeinfo',
+      component: () => import('@/views/accounts/insurance/consumeinfo')
+    },
+    {
+      path: '/accounts/insurance/consumeinfomore',
+      component: () => import('@/views/accounts/insurance/consumeinfomore')
+    },
     {
       path: '/about',
-      name: 'about',
       component: () => import('@/views/about.vue')
     },
     {
       path: '/login',
-      name: 'login',
       component: () => import('@/views/login.vue')
     },
     {
       path: '/forget',
-      name: 'forget',
       component: () => import('@/views/forget.vue')
     },
     {
       path: '/feedbacks',
-      name: 'feedbacksCreate',
       component: () => import('@/views/feedbacks/create.vue')
     },
     {
       path: '/faqs',
-      name: 'faqs',
       component: () => import('@/views/faqs/index.vue')
     },
     {
@@ -79,13 +120,19 @@ export default new Router({
     },
     {
       path: '/carts',
-      name: 'carts',
       component: () => import('@/views/carts/index.vue')
     },
     {
       path: '/collects',
-      name: 'collects',
       component: () => import('@/views/collects/index.vue')
+    },
+    {
+      path: '/collects/child/drugs',
+      component: () => import('@/views/collects/child/drugs.vue')
+    },
+    {
+      path: '/collects/child/shops',
+      component: () => import('@/views/collects/child/shops.vue')
     },
     {
       path: '/repositories',
@@ -98,16 +145,6 @@ export default new Router({
     {
       path: '/repositoryTypes',
       component: () => import('@/views/repositoryTypes/index.vue')
-    },
-    {
-      path: '/collects/child/drugs',
-      name: 'collectDrugs',
-      component: () => import('@/views/collects/child/drugs.vue')
-    },
-    {
-      path: '/collects/child/shops',
-      name: 'collectShops',
-      component: () => import('@/views/collects/child/shops.vue')
     }
   ]
 });
