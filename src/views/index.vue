@@ -21,25 +21,30 @@
       <!--</mt-swipe-item>-->
     <!--</mt-swipe>-->
 
-    <!--<div class="bg-white height13">-->
-      <!--<div class="d_homefour bg-white pb1 pt-10">-->
-        <!--<router-link to="/rxs">-->
-          <!--<div><img src="static/img/homefirst.png"/></div>-->
-          <!--<div class="width-11 d-inline">我的处方</div>-->
-        <!--</router-link>-->
-        <!--<router-link to="/repositoryTypes">-->
-          <!--<div><img src="static/img/hometwo.png"/></div>-->
-          <!--<div>知识库</div>-->
-        <!--</router-link>-->
-        <!--<router-link to="/shops">-->
-          <!--<div><img src="static/img/homethree.png"/></div>-->
-          <!--<div>药房</div>-->
-        <!--</router-link>-->
-        <!--<router-link to="/">-->
-          <!--<div><img src="static/img/homefor.png"/></div>-->
-          <!--<div>移动医疗</div>-->
-        <!--</router-link>-->
-      <!--</div>-->
+    <swiper :options="swiperOption">
+      <swiper-slide v-for="slide in swiperSlides">I'm Slide {{ slide }}</swiper-slide>
+      <div class="swiper-pagination" slot="pagination"></div>
+    </swiper>
+
+    <div class="bg-white">
+      <div class="nav-bar flex-stream-sa">
+        <router-link class="is-120x120 flex-column-center" to="/rxs">
+          <img class="is-90x90" src="../assets/image/home/homefirst.png"/>
+          <div>我的处方</div>
+        </router-link>
+        <router-link class="is-120x120 flex-column-center" to="/repositoryTypes">
+          <img class="is-90x90" src="../assets/image/home/hometwo.png"/>
+          <div>知识库</div>
+        </router-link>
+        <router-link class="is-120x120 flex-column-center" to="/shops">
+          <img class="is-90x90" src="../assets/image/home/homethree.png"/>
+          <div>药房</div>
+        </router-link>
+        <router-link class="is-120x120 flex-column-center" to="/">
+          <img class="is-90x90" src="../assets/image/home/homefor.png"/>
+          <div>移动医疗</div>
+        </router-link>
+      </div>
       <!--<div class="mt0 border-top-238 bg-white pt-6 pd-5">-->
         <!--<div class="ml1 d-inline-block">-->
           <!--<img src="static/img/health.png" class="width3 height3 align-bottom mb-2"/>-->
@@ -65,7 +70,6 @@
                 <!--<li style="line-height:20px;height:20px;" v-for="(repositoryType,index) in repositoryTypeList"-->
                     <!--:key="index"-->
                     <!--:to="{path:'/repositories',query:{repositoryTypeId:repositoryType.id,title:repositoryType.name}}" v-if="index===2">-->
-
                   <!--<span class="elps width-81 d-inline-block">-->
                      <!--<span class="hot d-inline-block text-center mr1">必读</span>{{ repositoryType.name }}</span>-->
                 <!--</li>-->
@@ -74,7 +78,7 @@
           <!--</div>-->
         <!--</div>-->
       <!--</div>-->
-    <!--</div>-->
+    </div>
 
 
 
@@ -181,40 +185,45 @@
       <span class="text-13C1FE">让利惠民</span>
     </div>
 
-    <div class="">
-      <ul class="flex-wrap position-relative">
-        <li v-for="(recommendList,index) in recommendLists" >
-          <div class="drug-box-01 flex-row-center" v-if="index === 0 || index === 1">
-            <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
-            <div class="is-flex flex-column">
-              <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
-              <span class="text-red">¥ {{recommendList.price}} /盒</span>
-            </div>
+    <ul class="flex-wrap position-relative bg-white">
+      <li v-for="(recommendList,index) in recommendLists" >
+        <div class="drug-box-01 flex-row-center border-right-gray border-bottom-gray" v-if="index === 0 ">
+          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <div class="is-flex flex-column">
+            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
+            <span class="text-red">¥ {{recommendList.price}} /盒</span>
           </div>
-          <div class="drug-box-2 flex-column-center " v-if="index === 2">
-            <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
-            <div class="is-flex flex-column">
-              <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
-              <span class="text-red">¥ {{recommendList.price}} /盒</span>
-            </div>
+        </div>
+        <div class="drug-box-01 flex-row-center border-right-gray border-bottom-gray" v-if="index === 1 ">
+          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <div class="is-flex flex-column">
+            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
+            <span class="text-red">¥ {{recommendList.price}} /盒</span>
           </div>
-          <div class="drug-box-34 flex-row-center " style="float: right" v-if="index === 3 " >
-            <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
-            <div class="is-flex flex-column">
-              <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
-              <span class="text-red">¥ {{recommendList.price}} /盒</span>
-            </div>
+        </div>
+        <div class="drug-box-2 flex-column-center border-right-gray" v-if="index === 2">
+          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <div class="is-flex flex-column">
+            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
+            <span class="text-red">¥ {{recommendList.price}} /盒</span>
           </div>
-          <div class="drug-box-34 flex-row-center position-absolute position-rb" style="float: right" v-if="index === 4 " >
-            <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
-            <div class="is-flex flex-column">
-              <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
-              <span class="text-red">¥ {{recommendList.price}} /盒</span>
-            </div>
+        </div>
+        <div class="drug-box-34 flex-row-center border-bottom-gray" style="float: right" v-if="index === 3 " >
+          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <div class="is-flex flex-column">
+            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
+            <span class="text-red">¥ {{recommendList.price}} /盒</span>
           </div>
-        </li>
-      </ul>
-    </div>
+        </div>
+        <div class="drug-box-34 flex-row-center position-absolute position-rb" style="float: right" v-if="index === 4 " >
+          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <div class="is-flex flex-column">
+            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
+            <span class="text-red">¥ {{recommendList.price}} /盒</span>
+          </div>
+        </div>
+      </li>
+    </ul>
 
     <!-- 医保定点药房 -->
     <div class="shop-show">
@@ -222,6 +231,7 @@
       <span class="text-13C1FE">医保定点药房</span>
     </div>
 
+    <div class="shop-content">
     <!--<carousel-3d style="height:200px!important;">-->
       <!--<slide :index="0" style="width:20rem;margin-left:3.5rem;height:13rem;">-->
         <!--<img :data-index="index" :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"-->
@@ -237,6 +247,7 @@
       <!--</slide>-->
     <!--</carousel-3d>-->
     </div>
+    </div>
 
     <!-- 好货推荐 -->
     <div class="recommend">
@@ -246,17 +257,18 @@
     </div>
     <div class="bg-white of-hidden">
       <ul class="flex-wrap">
-        <li class="drug-box flex-column-center position-relative" v-for="(recommendList,index) in recommendLists">
+        <li class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray" v-for="(recommendList,index) in recommendLists">
           <span class="toc-tip position-absolute all-center" v-if="recommendLists.isOtc === true">非处</span>
           <span class="toc-tip position-absolute all-center" v-else>处</span>
           <img class="is-260x193" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
           <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
           <span class="text-red">¥ {{recommendList.price}} /盒</span>
         </li>
+        <li class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray">
+        </li>
       </ul>
     </div>
     </div>
-
     <all-bottom></all-bottom>
   </div>
 </template>
@@ -298,7 +310,16 @@
         chooseaddress: '请选择地址',
         popupVisible: false,
         isCurrent: 1,
-        repositoryTypeList: []
+        repositoryTypeList: [],
+        swiperOption: {
+          autoplay: 3500,
+          setWrapperSize: true,
+          pagination: '.swiper-pagination',
+          paginationClickable: true,
+          mousewheelControl: true,
+          observeParents: true
+        },
+        swiperSlides: [1, 2, 3, 4, 5]
       };
     },
     components: {
@@ -316,12 +337,16 @@
       }
     },
     mounted() {
-      setInterval(_ => {
-        if (this.activeIndex < this.repositoryTypeList.length - 1) {
-          this.activeIndex += 1;
-        } else {
-          this.activeIndex = 0;
-        }
+      // setInterval(_ => {
+      //   if (this.activeIndex < this.repositoryTypeList.length - 1) {
+      //     this.activeIndex += 1;
+      //   } else {
+      //     this.activeIndex = 0;
+      //   }
+      // }, 3000);
+      setInterval(() => {
+        let swiperSlides = this.swiperSlides;
+        if (swiperSlides.length < 10) swiperSlides.push(swiperSlides.length + 1);
       }, 3000);
     },
     methods: {
@@ -438,18 +463,17 @@
   };
 </script>
 <style lang="scss">
-
   .border-left-gray{
-    border-left:1px rgba(235,235,235,1) solid;
+    border-left:1px rgba(238,238,238,1) solid !important;
   }
   .border-right-gray{
-    border-right: 1px rgba(235,235,235,1) solid;
+    border-right: 1px rgba(238,238,238,1) solid !important;
   }
   .border-top-gray{
-    border-top: 1px rgba(235,235,235,1) solid;
+    border-top: 1px rgba(238,238,238,1) solid !important;
   }
   .border-bottom-gray{
-    border-bottom: 1px rgba(235,235,235,1) solid;
+    border-bottom: 1px rgba(238,238,238,1) solid !important;
   }
   .separate-content{
     width: 720px;
@@ -460,6 +484,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+  }
+  .flex-stream-sa{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
   }
   .flex-stream-sb{
     display: flex;
@@ -495,17 +524,14 @@
   .drug-box-01{
     width: 360px;
     height: 223px;
-    border: 1px red solid;
   }
   .drug-box-2{
     width: 360px;
     height: 345px;
-    border: 1px red solid;
   }
   .drug-box-34{
     width: 360px;
     height: 170px;
-    border: 1px red solid;
   }
 
   .is-260x193{
@@ -517,7 +543,21 @@
     bottom: 0;
     right: 0;
   }
-
+  /*swiper*/
+  .swiper-slide{
+    width: 720px !important;
+    height: 300px !important;
+  }
+  /*导航*/
+  .nav-bar{
+    width: 720px;
+    height: 160px;
+    background: white;
+  }
+  .is-90x90{
+    width: 90px;
+    height: 90px;
+  }
   /*  让利惠民 图片样式 */
   .is-120x120{
     width: 120px;
@@ -531,11 +571,6 @@
     width: 145px;
     height: 145px;
   }
-
-  .mr-29{
-    margin-right: 29px;
-  }
-
   /*处方标识*/
   .toc-tip{
     left: 5px;
@@ -546,29 +581,10 @@
     color:#666666;
     border-radius:100px / 50px;
   }
-
-
-
-
-  /*flex布局*/
-  .flex-cell {
-    flex: 1;
-  }
-
-  .flex-cell.u-full {
-    flex: 0 0 100%;
-  }
-
-  .flex-cell.u-1of2 {
-    flex: 0 0 50%;
-  }
-
-  .flex-cell.u-1of3 {
-    flex: 0 0 33.3333%;
-  }
-
-  .flex-cell.u-1of4 {
-    flex: 0 0 25%;
+  .shop-content{
+    width:720px;
+    height:330px;
+    background:rgba(238,238,238,1);
   }
 
   /*.hot {*/
@@ -606,6 +622,4 @@
   /*.carousel-3d-container {*/
     /*margin-bottom: 0px !important;*/
   /*}*/
-
-
 </style>
