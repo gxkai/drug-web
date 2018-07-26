@@ -80,77 +80,63 @@
         </a>
       </li>
     </ul>
+    <new-star :score.sync="score"></new-star>
     <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  data() {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    };
-  },
-  created() {
-    // const account = {
-    //   username: '18896781024',
-    //   password: '123456'
-    // }
-    // this.$http.post('/rxs', {
-    //   data: account
-    // }).then(res => {
-    // }).catch(error => {
-    //   this.exception(error)
-    // })
-    // this.$storage.set('account', account)
-    // console.log(this.$storage.get('account'))
-    // this.$storage.remove('account')
-    // console.log(this.$storage.has('account'))
-  }
-};
+  export default {
+    name: 'HelloWorld',
+    data() {
+      return {
+        msg: 'Welcome to Your Vue.js App',
+        score: 5
+      };
+    },
+    watch: {
+      score(value) {
+        console.log(value);
+      }
+    },
+    methods: {
+    },
+    created() {
+      // const account = {
+      //   username: '18896781024',
+      //   password: '123456'
+      // }
+      // this.$http.post('/rxs', {
+      //   data: account
+      // }).then(res => {
+      // }).catch(error => {
+      //   this.exception(error)
+      // })
+      // this.$storage.set('account', account)
+      // console.log(this.$storage.get('account'))
+      // this.$storage.remove('account')
+      // console.log(this.$storage.has('account'))
+    }
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  h1, h2 {
+    font-weight: normal;
+  }
 
-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  position: fixed;
-  bottom: 0;
-  width: 720px;
-  height: 100px;
-}
-footer div {
-  text-align: center;
-}
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
 
-footer div p {
-  font-size:22px;
-  font-family:HiraginoSansGB-W3;
-}
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
 
-footer div i {
-  font-size:35px;
-}
-.active {
-  color:rgba(19,193,254,1);
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+  a {
+    color: #42b983;
+  }
 </style>

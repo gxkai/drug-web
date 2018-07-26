@@ -12,7 +12,7 @@
 
 <script>
   export default {
-    name: 'header',
+    name: 'newHeader',
     props: ['title']
   };
 </script>
@@ -27,7 +27,6 @@
     color: rgba(254, 254, 254, 1);
     text-align: center;
     line-height: 120px;
-    position: fixed;
   }
 
   .left .iconfont:before{

@@ -98,7 +98,7 @@ export default new Router({
     {
       path: '/repositoryTypes',
       component: () => import('@/views/repositoryTypes/index.vue')
-    }
+    },
     {
       path: '/collects/child/drugs',
       name: 'collectDrugs',
