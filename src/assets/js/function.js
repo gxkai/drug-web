@@ -6,7 +6,6 @@ export default {
      * @param error
      */
     Vue.prototype.exception = (error) => {
-      debugger;
       if (error.response) {
         switch (error.response.status) {
           case 400:

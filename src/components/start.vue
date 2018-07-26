@@ -1,69 +1,86 @@
 <template>
-
-<div id="star">
-  <span v-for="classn in starArrs" :key="classn.index" :class="classn" class="staritem"></span>
-  <!--<span  class="staritem onstar"></span>-->
-  <!--<span  class="staritem onstar"></span>-->
-  <!--<span  class="staritem halfstar"></span>-->
-  <!--<span  class="staritem offstar"></span>-->
-</div>
-
+  <div>
+    <i class="iconfont ic-xingxing default-color"  :class="[{active:item},size]"  v-for="(item,index) in arr" :key="index"
+       @click="change(item,index)"></i>
+  </div>
 </template>
 <script>
 export default {
-  props: ['score'],
+  props: ['score', 'disabled', 'size'],
+  name: 'newStar',
+  data() {
+    return {
+      arr: [false, false, false, false, false],
+      defaultArr: [false, false, false, false, false],
+      newScore: this.score
+    };
+  },
   created() {
-    console.log('子组件');
+    for (let i = 0; i < this.newScore; i++) {
+      this.arr[i] = true;
+    }
+  },
+  watch: {
+    score(value) {
+      for (let i = 0; i < value; i++) {
+        this.arr[i] = true;
+      }
+    },
+    size(value) {
+
+    },
+    newScore(value) {
+      this.$emit('update:score', value);
+    }
+  },
+  methods: {
+    change(item, index) {
+      if (typeof this.disabled === 'undefined' || this.disabled !== '') {
+        if (this.arr[index + 1]) {
+          this.arr = this.defaultArr.map((e, i) => {
+            if (i <= index) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+          this.newScore = index + 1;
+        } else if (this.arr[index] && !this.arr[index + 1]) {
+          this.arr = this.defaultArr;
+          this.newScore = 0;
+        } else if (!this.arr[index]) {
+          this.arr = this.defaultArr.map((e, i) => {
+            if (i <= index) {
+              return true;
+            } else {
+              return false;
+            }
+          });
+          this.newScore = index + 1;
+        }
+      }
+    }
   },
   mounted() {
-    console.log('打印传递的分数');
   },
   computed: {
-    starArrs() {
-      // 3. 9
-      var starArr = [ 3.9 ];
-      // 全星星的个数
-      let onstar = parseInt(this.score);
-      console.log(onstar);
-      // 是否有半星
-      let halfStar = Math.round(this.score - onstar) !== 1;
-      // 有多少课灰色的星星
-      for (var i = 0; i < onstar; i++) {
-        starArr.push('onstar');
-      }
-      if (halfStar) {
-        starArr.push('halfstar');
-      }
-      while (starArr.length < 5) {
-        starArr.push('offstar');
-      }
-      console.log(starArr);
-      return starArr;
-    }
   }
 };
 </script>
 <style scoped="scoped">
-  /*独立作用域的样式*/
-  .staritem {
-    display: inline-block;
-    width: 0.37037rem;
-    height: 0.37037rem;
+  .default-color {
+    color: #CCCCCC;
   }
-
-  /*全星星*/
-  .onstar {
-    background: url('../assets/image/start/star_on.png');
-    background-size: 0.37037rem;
+  .active {
+    color: red;
   }
-
-  .halfstar {
-    background: url('../assets/image/start/star_half.png');
-    background-size: 0.37037rem;
+  .small {
+    font-size: 30px;
   }
-
-  .offstar {
-    background: url('../assets/image/start/star_off.png');
-    background-size: 0.37037rem;
+  .middle {
+    font-size: 50px;
+  }
+  .large {
+    font-size: 70px;
   }
 </style>

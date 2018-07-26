@@ -1,10 +1,8 @@
 <template>
   <div class="f-body">
-    <mt-header :title="aboutTitle">
-      <router-link to="#" slot="left">
-        <mt-button @click="$router.go(-1)" icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+    <new-header title="关于我们">
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+    </new-header>
     <div class="about-img">
       <div class="about-word">
         E慧药致力于提供专业药品服务的第三方互联网交易服务平台，已经获得国家
@@ -19,17 +17,11 @@
   </div>
 </template>
 <script>
-  import headWhite from '@/components/headWhite';
-
   export default {
     name: 'about',
     data() {
       return {
-        aboutTitle: '关于我们'
       };
-    },
-    components: {
-      headWhite
     }
   };
 </script>

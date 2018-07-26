@@ -1,20 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
-// accounts
-import accounts from '@/views/accounts/index';
-import accountsBind from '@/views/accounts/card/bind';
-import accountsUnbind from '@/views/accounts/card/unbind';
-import accountsBindSuccess from '@/views/accounts/card/success';
-import accountsPassword from '@/views/accounts/password';
-import accountsView from '@/views/accounts/view';
-import accountsEdit from '@/views/accounts/edit';
-// 医保信息
-import card from '@/views/accounts/insurance/card';
-import account from '@/views/accounts/insurance/account';
-import consume from '@/views/accounts/insurance/consume';
-import consumeinfo from '@/views/accounts/insurance/consumeinfo';
-import consumeinfomore from '@/views/accounts/insurance/consumeinfomore';
 
 Vue.use(Router);
 
@@ -28,73 +14,67 @@ export default new Router({
     // accounts
     {
       path: '/accounts',
-      component: accounts
+      component: () => import('@/views/accounts/index')
     }, {
       path: '/accounts/bind',
-      component: accountsBind
+      component: () => import('@/views/accounts/card/bind')
     }, {
       path: '/accounts/unbind',
-      component: accountsUnbind
+      component: () => import('@/views/accounts/card/unbind')
     }, {
       path: '/accounts/bind/success',
-      name: '/accounts/bind/success',
-      component: accountsBindSuccess
+      component: () => import('@/views/accounts/card/success')
     },
     {
       path: '/accounts/password',
-      component: accountsPassword
+      component: () => import('@/views/accounts/password')
     }, {
       path: '/accounts/view',
-      component: accountsView
+      component: () => import('@/views/accounts/view')
     },
     {
       path: '/accounts/edit',
-      component: accountsEdit
+      component: () => import('@/views/accounts/edit')
     },
     // accounts_insurance
     {
       path: '/accounts/insurance/account',
-      component: account
+      component: () => import('@/views/accounts/insurance/account')
     },
     {
       path: '/accounts/insurance/card',
-      component: card
+      component: () => import('@/views/accounts/insurance/card')
     },
     {
       path: '/accounts/insurance/consume',
-      component: consume
+      component: () => import('@/views/accounts/insurance/consume')
     },
     {
       path: '/accounts/insurance/consumeinfo',
-      component: consumeinfo
+      component: () => import('@/views/accounts/insurance/consumeinfo')
     },
     {
       path: '/accounts/insurance/consumeinfomore',
-      component: consumeinfomore
+      component: () => import('@/views/accounts/insurance/consumeinfomore')
     },
     {
       path: '/about',
-      name: 'about',
       component: () => import('@/views/about.vue')
     },
     {
       path: '/login',
-      name: 'login',
       component: () => import('@/views/login.vue')
     },
     {
       path: '/forget',
-      name: 'forget',
       component: () => import('@/views/forget.vue')
     },
     {
       path: '/feedbacks',
-      name: 'feedbacksCreate',
       component: () => import('@/views/feedbacks/create.vue')
     },
     {
       path: '/faqs',
-      name: 'faqs',
       component: () => import('@/views/faqs/index.vue')
     },
     {
@@ -135,23 +115,23 @@ export default new Router({
       component: () => import('@/views/drugAppraises/index.vue')
     },
     {
+      path: '/drugAppraises/create',
+      component: () => import('@/views/drugAppraises/create.vue')
+    },
+    {
       path: '/carts',
-      name: 'carts',
       component: () => import('@/views/carts/index.vue')
     },
     {
       path: '/collects',
-      name: 'collects',
       component: () => import('@/views/collects/index.vue')
     },
     {
       path: '/collects/child/drugs',
-      name: 'collectDrugs',
       component: () => import('@/views/collects/child/drugs.vue')
     },
     {
       path: '/collects/child/shops',
-      name: 'collectShops',
       component: () => import('@/views/collects/child/shops.vue')
     },
     {
