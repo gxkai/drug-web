@@ -11,6 +11,10 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld
     },
+    {
+      path: '/index',
+      component: () => import('@/views/index')
+    },
     // accounts
     {
       path: '/accounts',
