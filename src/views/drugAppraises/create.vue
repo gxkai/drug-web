@@ -100,7 +100,7 @@
           this.$router.push('/drugAppraises/success');
         }).catch(error => {
           this.exception(error);
-        })
+        });
       }
     }
   };
