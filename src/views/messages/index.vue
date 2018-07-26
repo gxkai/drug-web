@@ -27,14 +27,12 @@
 </template>
 
 <script>
-  // import timeConvert from 'static/js/timeConvert';
-
   export default {
     name: 'messages',
 
     data() {
       return {
-        formatDate: this.timeConvert.formatDate,
+        formatDate: this.timeConvert,
         pageNum: 0,
         pageSize: 15,
         pages: null,
@@ -48,10 +46,12 @@
       };
     },
     components: {},
-    created() {
+    created: function () {
+      this.loadMore();
     },
     methods: {
       loadMore() {
+        console.log('12312312');
         if (this.pages === null || this.pageNum <= this.pages) {
           this.pageNum++;
           this.loadData();
