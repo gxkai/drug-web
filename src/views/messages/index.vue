@@ -1,27 +1,20 @@
 <template>
-  <div class="f_body" style="overflow: scroll">
-    <mt-header :title="titles">
-      <router-link to="/messageTypes" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+  <div class="container">
+    <new-header :title="titles">
+      <router-link tag="i" to="/messageTypes" class="iconfont ic-arrow-right" slot="left"></router-link>
+    </new-header>
 
-    <div style="height: 100vh;overflow: scroll;">
-      <ul v-infinite-scroll="loadMore"
-          infinite-scroll-disabled="loading"
-          infinite-scroll-distance="10">
-        <li class="f_message_info_list" v-for="item in pageList">
-          <span style="color: #878787;">{{formatDate(item.createdDate)}}</span>
-          <div class="f_message_info_list_tips">
-            <div class="f_message_info_list_tips_left">
-              <span style="margin: 0.5rem 0">{{item.title}}</span>
-              <span style="color: #878787">{{item.content}}</span>
-            </div>
-          </div>
-        </li>
+    <div class="container-main">
+      <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+        <div v-for="item in pageList" class="message-main">
+          <div class="message-date">{{formatDate(item.createdDate)}}</div>
+          <div class="message-title">{{item.title}}</div>
+          <div class="message-content">{{item.content}}</div>
+        </div>
+
         <div v-show="allLoaded" style="text-align: center">就这么多啦,回顶部再看看吧</div>
         <div v-show="nullLoaded" style="text-align: center">没有数据</div>
-      </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -87,40 +80,39 @@
 </script>
 
 <style scoped>
-  .mint-header {
-    background: #1AB6FD;
-    color: white;
+  .container {
+    width: 720px;
+    height: 100vh;
   }
 
-  .mint-button--primary {
-    background: #1AB6FD;
-    color: #e2e2e2;
-  }
-
-  .f_body {
-    background: #f5f5f5;
-  }
-
-  .f_message_info_list {
-    padding: 0.5rem;
-    background: white;
-    margin-bottom: 0.5rem;
-  }
-
-  .f_message_info_list > span {
-    display: block;
-    text-align: center;
-  }
-
-  .f_message_info_list_tips {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .f_message_info_list_tips_left {
-    display: flex;
+  .message-main {
+    width: 720px;
+    background: rgba(255, 255, 255, 1);
+    margin-top: 30px;
     flex-direction: column;
+  }
+
+  .message-date {
+    font-size: 20px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
+    display: flex;
+    justify-content: center;
+  }
+
+  .message-title {
+    font-size: 28px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
+    display: flex;
+    margin-left: 35px;
+  }
+
+  .message-content {
+    font-size: 20px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
+    margin-left: 35px;
+    margin-right: 35px;
   }
 </style>

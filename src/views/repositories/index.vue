@@ -73,7 +73,6 @@
               return false;
             }
             this.pageList = this.pageList.concat(res.data.list);
-            // this.getImages(this.pageList, this);
             for (let i in this.pageList.size()) {
               this.pageList[i].imgUrl = this.getImgURL(this.pageList[i].fileId, 'LOGO');
             }
@@ -122,7 +121,7 @@
 
   .rep-content {
     display: block;
-    width: 656px;
+    width: 646px;
     font-size: 18px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
