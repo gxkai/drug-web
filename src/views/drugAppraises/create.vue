@@ -86,16 +86,16 @@
           delete e.shopId;
           delete e.logo;
         });
-        let data = {
-          'accountId': this.account.id,
-          'orderId': this.orderId,
-          'shopId': this.shopId,
-          'deliveryScore': this.deliveryScore,
-          'describeScore': this.describeScore,
-          'packageScore': this.packageScore,
-          'serviceScore': this.serviceScore,
-          'drugs': this.drugs
-        };
+        // let data = {
+        //   'accountId': this.account.id,
+        //   'orderId': this.orderId,
+        //   'shopId': this.shopId,
+        //   'deliveryScore': this.deliveryScore,
+        //   'describeScore': this.describeScore,
+        //   'packageScore': this.packageScore,
+        //   'serviceScore': this.serviceScore,
+        //   'drugs': this.drugs
+        // };
       }
     }
   };
