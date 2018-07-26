@@ -17,7 +17,6 @@
             </div>
             <span class="news-list-content">{{messageContentType.message}}</span>
           </div>
-
         </div>
       </router-link>
     </div>
@@ -34,9 +33,9 @@
         formatDate: this.timeConvert,
         messageContentList: [],
         defaultMsgList: [
-          {img: '/image/message/xitong.png'},
-          {img: '/image/message/dingdan.png'},
-          {img: '/image/message/chufang.png'}
+          {img: '/image/message/ACCOUNT_SYSTEM.png'},
+          {img: '/image/message/ACCOUNT_ORDER.png'},
+          {img: '/image/message/ACCOUNT_RX.png'}
         ],
         accountId: this.$store.getters.account.id
       };
