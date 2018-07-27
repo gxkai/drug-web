@@ -5,7 +5,7 @@
 <div class="rxs-header position-relative">
   <div class="flex-row-center text-white pt-26">
     <div class="">
-      <img class="is-110x110  :src="getImgURL(account.fileId)"/>
+      <img class="is-110x110"  :src="getImgURL(account.fileId)"/>
     </div>
     <div class="ml-60 mr-160">
       <div class="account-info flex-stream-sb position-relative" >
