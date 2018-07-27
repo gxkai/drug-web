@@ -205,3 +205,18 @@ i,em{font-style: normal;}
 .mint-swipe-items-wrap{height: 15rem!important;}
 .mint-swipe{height: 15rem!important;}
 .mint-header{background: #13c1fe;}
+
+
+
+.border-left-gray{
+  border-left:1px rgba(235,235,235,1) solid;
+}
+.border-right-gray{
+  border-right: 1px rgba(235,235,235,1) solid;
+}
+.border-top-gray{
+  border-top: 1px rgba(235,235,235,1) solid;
+}
+.border-bottom-gray{
+  border-bottom: 1px rgba(235,235,235,1) solid;
+}
