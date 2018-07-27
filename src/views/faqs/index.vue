@@ -1,5 +1,5 @@
 <template>
-  <div id="bgw">
+  <div class="container">
     <new-header title="常见问题">
       <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
     </new-header>
@@ -11,8 +11,7 @@
           <span class="reply">{{ questionContent.answer }}</span>
         </div>
       </li>
-      <div style="text-align: center" v-show="allLoaded">已经见底了</div>
-      <div style="text-align: center" v-show="nullLoaded">没有数据</div>
+      <new-no-data v-if="questionList.length===0"></new-no-data>
     </ul>
 
   </div>
@@ -28,9 +27,7 @@
         pageSize: 10,
         pageNum: 1,
         pages: null,
-        loading: false,
-        allLoaded: false,
-        nullLoaded: false
+        loading: false
       };
     },
 
@@ -45,7 +42,6 @@
           this.pageNum++;
         } else {
           this.loading = true;
-          this.allLoaded = true;
         }
       },
       loadData() {
@@ -55,7 +51,6 @@
             this.pages = res.data.pages;
             if (this.pages === 0) {
               this.loading = true;
-              this.nullLoaded = true;
             }
           })
           .catch((error) => {
@@ -71,7 +66,12 @@
   * {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box
+    -webkit-box-sizing: border-box;
+    font-family: HiraginoSansGB-W3;
+  }
+  .container{
+    width:720px;
+    height:100vh;
   }
   .my-question-lists {
     width: 680px;
@@ -84,7 +84,7 @@
     margin-top: 20px;
     width: 680px;
     font-size: 22px;
-    font-family: HiraginoSansGB-W3;
+
     color: rgba(102, 102, 102, 1);
     line-height: 30px;
   }
@@ -93,7 +93,6 @@
     display: block;
     width: 680px;
     font-size: 20px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
     line-height: 24px;
     margin-top: 17px;

@@ -21,10 +21,7 @@
             </div>
           </router-link>
         </div>
-        <div v-show="allLoaded" style="text-align: center;font-size:15px;font-family:HiraginoSansGB-W3;">...就这么多啦!
-          回顶部再看看吧!
-        </div>
-        <div v-show="nullLoaded" style="text-align: center">没有数据</div>
+        <new-no-data v-if="pageList.length===0"></new-no-data>
       </div>
     </div>
 
@@ -38,9 +35,7 @@
         pageNum: 0,
         pageSize: 15,
         pages: null,
-        allLoaded: false,
         pageList: [],
-        nullLoaded: false,
         loading: false,
         repositoryTypeId: this.$route.query.repositoryTypeId,
         title: this.$route.query.title
@@ -60,7 +55,6 @@
           this.loadData();
         } else {
           this.loading = true;
-          this.allLoaded = true;
         }
       },
       loadData() {
@@ -68,7 +62,6 @@
           .then((res) => {
             this.pages = res.data.pages;
             if (this.pages === 0) {
-              this.nullLoaded = true;
               this.loading = true;
               return false;
             }
@@ -85,7 +78,8 @@
   * {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box
+    -webkit-box-sizing: border-box;
+    font-family: HiraginoSansGB-W3;
   }
 
   .container {
@@ -97,24 +91,22 @@
     width: 720px;
     height: 1203px;
     background: rgba(255, 255, 255, 1);
-
   }
 
   .repList-left {
     width: 646px;
     background: rgba(255, 255, 255, 1);
     margin: auto;
+    margin-bottom: 50px;
   }
 
   .rep-title {
-    display: block;
     width: 656px;
     font-size: 26px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(0, 0, 0, 1);
     margin-top: 22px;
-    display: flex; /*左对齐*/
-    flex-direction: row; /**/
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
@@ -123,7 +115,6 @@
     display: block;
     width: 646px;
     font-size: 18px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
     margin-top: 11px;
     margin-bottom: 16px;

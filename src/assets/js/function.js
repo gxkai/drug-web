@@ -66,11 +66,19 @@ export default {
     /**
      * 获取图片链接
      * @param fileId
+     * @returns {string}
+     */
+    Vue.prototype.getImgURL = (fileId) => {
+      return 'http://localhost:8081/api/files/' + fileId + '/image';
+    };
+    /**
+     * 获取图片链接
+     * @param fileId
      * @param resolution
      * @returns {string}
      */
     Vue.prototype.getImgURL = (fileId, resolution) => {
-      return '/files/' + fileId + '/image?resolution=' + resolution;
+      return 'http://localhost:8081/api/files/' + fileId + '/image?resolution=' + resolution;
     };
 
     /**
