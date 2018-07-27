@@ -241,7 +241,6 @@
   };
 </script>
 <style lang="scss">
-  /*@import 'static/scss/common.scss';*/
 
   .header {
     background: #1AB6FD;

@@ -7,12 +7,12 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/hello',
       name: 'HelloWorld',
       component: HelloWorld
     },
     {
-      path: '/index',
+      path: '/',
       component: () => import('@/views/index')
     },
     // accounts
@@ -65,6 +65,23 @@ export default new Router({
     {
       path: '/hospital/view',
       component: () => import('@/views//hospital/view')
+    },
+    // rxs
+    {
+      path: '/rxs',
+      component: () => import('@/views/rxs/index.vue')
+    },
+    {
+      path: '/rxs/shops',
+      component: () => import('@/views/rxs/shops/index.vue')
+    },
+    {
+      path: '/rxs/shops/drugs',
+      component: () => import('@/views/rxs/shops/drugs/index.vue')
+    },
+    {
+      path: '/rxs/view',
+      component: () => import('@/views/rxs/view.vue')
     },
     {
       path: '/about',
