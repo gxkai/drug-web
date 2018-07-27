@@ -61,6 +61,11 @@ export default new Router({
       path: '/accounts/insurance/consumeinfomore',
       component: () => import('@/views/accounts/insurance/consumeinfomore')
     },
+    // hospital
+    {
+      path: '/hospital/view',
+      component: () => import('@/views//hospital/view')
+    },
     {
       path: '/about',
       component: () => import('@/views/about.vue')
