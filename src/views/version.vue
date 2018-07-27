@@ -1,11 +1,11 @@
 <template>
-  <div class="f_body">
+  <div class="container">
     <new-header title="当前版本">
       <i class="iconfont ic-arrow-right " slot="left" @click="$router.go(-1)"></i>
     </new-header>
 
-    <div class="version_title">E慧药</div>
-    <div class="version_v">版本:<span>{{version}}</span></div>
+    <div class="version-title">E慧药</div>
+    <div class="version-v">版本:<span>{{version}}</span></div>
     <div class="version-fixed">
       <span>2017-2018 E慧药版权所有</span>
       <span>昆山网进科技股份有限公司</span>
@@ -41,12 +41,12 @@
     font-family: HiraginoSansGB-W3;
   }
 
-  .f_body {
+  .container {
     width: 720px;
     height: 100vh;
   }
 
-  .version_title {
+  .version-title {
     font-size: 72px;
     color: rgba(19, 193, 254, 1);
     line-height: 88px;
@@ -57,7 +57,7 @@
 
   }
 
-  .version_v {
+  .version-v {
     display: block;
     margin-top: 24px;
     width: 720px;
