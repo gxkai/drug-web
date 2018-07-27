@@ -124,6 +124,22 @@ a{
     color: #111;
 
 }
-/* ALL Finished */
 
 
+
+/*
+ * Create by fxk 2018-07-26
+ */
+
+.border-left-gray{
+  border-left:1px rgba(238,238,238,1) solid !important;
+}
+.border-right-gray{
+  border-right: 1px rgba(238,238,238,1) solid !important;
+}
+.border-top-gray{
+  border-top: 1px rgba(238,238,238,1) solid !important;
+}
+.border-bottom-gray{
+  border-bottom: 1px rgba(238,238,238,1) solid !important;
+}
