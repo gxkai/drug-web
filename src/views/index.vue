@@ -1,32 +1,36 @@
 <template>
-  <div id="home" class="bg-f8">
-    <!--<header class="height6 bg-blue">-->
-      <!--<div class="line-height-12 height2 pt2" style="position:relative;">-->
-        <!--<i class="icon iconfont ic-ditu width1  height1  text-white" style="font-size:1.4rem;"></i>-->
-        <!--<span class="elps text-white width-17 d-inline-block" @click="nearby">{{chooseaddress}}-->
-          <!--</span>-->
-        <!--<i class="icon iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>-->
-        <!--<input type="text" v-model="shopName" placeholder="通用名、商品名、症状" @blur="$router.push('/components/search')"-->
-               <!--@keyup.enter="$router.push('/components/search')" @click="$router.push('/components/search')"-->
-               <!--class="width-64 bg-white line-height-20 height2 text-center"/>-->
-        <!--<img src="static/img/search.png" style="position:absolute;left:10rem;width:15px;top:2.5rem;"/>-->
-        <!--<i class="icon iconfont ic-lingdang text-white"></i>-->
-      <!--</div>-->
-    <!--</header>-->
+  <!--TODO swiper 滚动 -->
+  <!--TODO 倒计时 -->
+  <div class="bg-f8">
+    <header class="bg-blue">
+      <div class="flex-stream-sb padding-lr-10">
+        <i class="iconfont ic-ditu text-white"></i>
+        <span @click="nearby" class="text-white">{{chooseaddress}}</span>
+        <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
+        <div class="search-box position-relative" style="border: 1px red solid">
+          <input type="text" v-model="shopName" placeholder="通用名、商品名、症状"
+                 @blur="$router.push('/components/search')"
+                 @keyup.enter="$router.push('/components/search')"
+                 @click="$router.push('/components/search')"
+          />
+          <img src="../assets/image/search.png"/>
+        </div>
 
-    <!--<mt-swipe :auto="4000">-->
-      <!--<mt-swipe-item v-for="(advertList,index) in advertLists" :key="index">-->
-        <!--<img :src="imgpath+'/api/files/'+advertList.fileId+'/image?resolution=MIDDLE_PIC#/'" class="dluboimgh"-->
-             <!--@click="see(advertList)"/>-->
-      <!--</mt-swipe-item>-->
-    <!--</mt-swipe>-->
+        <i class="iconfont ic-lingdang text-white"></i>
+      </div>
+    </header>
 
+    <!-- 轮播 -->
     <swiper :options="swiperOption">
-      <swiper-slide v-for="slide in swiperSlides">I'm Slide {{ slide }}</swiper-slide>
+      <swiper-slide v-for="(advertList,index) in advertLists" :key="index">
+        <img :src="imgpath+'/api/files/'+advertList.fileId+'/image?resolution=MIDDLE_PIC#/'" class="dluboimgh"
+             @click="see(advertList)"/>
+      </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
 
     <div class="bg-white">
+      <!-- 导航 -->
       <div class="nav-bar flex-stream-sa">
         <router-link class="is-120x120 flex-column-center" to="/rxs">
           <img class="is-90x90" src="../assets/image/home/homefirst.png"/>
@@ -45,6 +49,11 @@
           <div>移动医疗</div>
         </router-link>
       </div>
+      <!-- 滚动 -->
+      <div class="scroll-bar border-top-gray all-center">
+        <span class="text-red">这边是个滚动....</span>
+      </div>
+
       <!--<div class="mt0 border-top-238 bg-white pt-6 pd-5">-->
         <!--<div class="ml1 d-inline-block">-->
           <!--<img src="static/img/health.png" class="width3 height3 align-bottom mb-2"/>-->
@@ -80,150 +89,55 @@
       <!--</div>-->
     </div>
 
-
-
-
-    <!--<div class="height4 fz-14 text-center text-13C1FE mt1 bg-f8" style="line-height:3rem;">-->
-      <!--<span class="d-inline-block width6 bg-eaeaea mr1 align-super h03"></span>让利惠民<span-->
-      <!--class="d-inline-block width6 bg-eaeaea h03 mr1 align-super ml1"></span>-->
-    <!--</div>-->
-    <!--<div class="height27 bg-white">-->
-      <!--<div class="m-auto width-98">-->
-        <!--<div class="pt-10 border-right-f1f1f1 width-49">-->
-          <!--<i class="icon iconfont ic-shijian2 text-FF9800 mr-5 font-weight-bold "></i>-->
-          <!--&lt;!&ndash;<DownTime @time-end="message = '倒计时结束'" :endTime='endTime' style="display:inline-block;"></DownTime>&ndash;&gt;-->
-        <!--</div>-->
-        <!--&lt;!&ndash;中间&ndash;&gt;-->
-        <!--<div class="of-hidden">-->
-          <!--<div class="border-right-f1f1f1 width-49 d-inline-block height9 pt2 border-bottom-f1f1f1 fl pb1">-->
-            <!--<router-link v-for="(discountList,index) in discountLists"-->
-                         <!--:to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"-->
-                         <!--:key="index" v-if="index===0">-->
-
-              <!--<div class="d-inline-block fl">-->
-                <!--<img :src="imgpath+'/api/files/'+discountList.fileId+'/image?resolution=MIDDLE_LOGO#/'"-->
-                     <!--class="width3 height6 ml1" v-if="index===0">-->
-              <!--</div>-->
-              <!--<div class="d-inline-block fl width7 fl ml1">-->
-                <!--<p class="width7 elps mt2" v-if="index===0">{{discountList.name}}</p>-->
-                <!--<p><span class="text-F02B2B text-F02B2B" v-if="index===0">¥{{discountList.price}}</span> <span-->
-                  <!--class="text-999999 fz-6 text-decoration-line-through" v-if="index===0">¥176.3</span></p>-->
-              <!--</div>-->
-            <!--</router-link>-->
-          <!--</div>-->
-          <!--<div class="width-49 d-inline-block height9 pt2 border-bottom-f1f1f1 pb1">-->
-            <!--<router-link v-for="(discountList,index) in discountLists"-->
-                         <!--:to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"-->
-                         <!--:key="index" v-if="index === 1">-->
-
-              <!--<div class="d-inline-block fl ml1">-->
-                <!--<img :src="imgpath+'/api/files/'+discountList.fileId+'/image?resolution=MIDDLE_LOGO#/'"-->
-                     <!--class="width3 height6" v-if="index === 1">-->
-              <!--</div>-->
-              <!--<div class="d-inline-block fl width7 fl ml1">-->
-                <!--<p class="width7 elps mt2" v-if="index === 1">{{discountList.name}}</p>-->
-                <!--<p><span class="text-F02B2B text-F02B2B" v-if="index === 1">¥{{discountList.price}}</span> <span-->
-                  <!--class="text-999999 fz-6 text-decoration-line-through">¥176.3</span></p>-->
-              <!--</div>-->
-            <!--</router-link>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;中间&ndash;&gt;-->
-
-        <!--&lt;!&ndash;第三部分开始&ndash;&gt;-->
-
-        <!--<div class="height15">-->
-           <!--<div class="width-49 d-inline-block fl text-center m-auto border-right-f1f1f1 height15">-->
-             <!--<router-link v-for="(discountList,index) in discountLists"-->
-                         <!--:to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"-->
-                         <!--:key="index" v-if="index===2">-->
-              <!--<div class="width7 height7  m-auto pt2">-->
-                <!--<img :src="imgpath+'/api/files/'+discountList.fileId+'/image?resolution=MIDDLE_LOGO#/'"-->
-                     <!--class="width7 height7" v-if="index===2">-->
-              <!--</div>-->
-              <!--<p class="elps mt3" v-if="index===2">{{discountList.name}}</p>-->
-              <!--<p><span class="text-F02B2B text-F02B2B" v-if="index===2">¥{{discountList.price}}</span>-->
-                <!--<span class="text-999999 fz-6 text-decoration-line-through">¥176.3</span>-->
-              <!--</p>-->
-             <!--</router-link>-->
-           <!--</div>-->
-          <!--<div class="width-49 d-inline-block fl">-->
-            <!--<ul class="mt2">-->
-                <!--<li class="border-bottom-f1f1f1 height5">-->
-                  <!--<router-link v-for="(discountList,index) in discountLists"-->
-                             <!--:to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"-->
-                             <!--:key="index" v-if="index===3">-->
-                  <!--<img :src="imgpath+'/api/files/'+discountList.fileId+'/image?resolution=MIDDLE_LOGO#/'"-->
-                       <!--class="width5 height4 ml1 d-inline-block fl mr1" v-if="index===3">-->
-                  <!--<p class="height-1"></p>-->
-                  <!--<p class="text-F02B2B text-F02B2B mt1" v-if="index===3">¥{{discountList.price}}</p>-->
-                  <!--<p class="width5 elps" v-if="index===3">{{discountList.name}}</p>-->
-               <!--</router-link>-->
-
-              <!--</li>-->
-              <!--<li class="mt2">-->
-                <!--<router-link v-for="(discountList,index) in discountLists"-->
-                             <!--:to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"-->
-                             <!--:key="index" v-if="index===4">-->
-
-                  <!--<img :src="imgpath+'/api/files/'+discountList.fileId+'/image?resolution=MIDDLE_LOGO#/'"-->
-                       <!--class="width5 height4 ml1 d-inline-block fl mr1" v-if="index===4">-->
-                  <!--<p class="text-F02B2B text-F02B2B mt1" v-if="index===4">¥{{discountList.price}}</p>-->
-                  <!--<p class="width5 elps" v-if="index===4">{{discountList.name}}</p>-->
-                <!--</router-link>-->
-              <!--</li>-->
-            <!--</ul>-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash;第三部分结束&ndash;&gt;-->
-      <!--</div>-->
-    <!--</div>-->
-
     <!--让利惠民-->
+    <div class="discount">
     <div class="separate-content all-center">
       <span class="text-13C1FE">让利惠民</span>
     </div>
 
     <ul class="flex-wrap position-relative bg-white">
-      <li v-for="(recommendList,index) in recommendLists" >
+      <router-link v-for="(discountList,index) in discountLists"
+                   :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
+                   :key="index">
         <div class="drug-box-01 flex-row-center border-right-gray border-bottom-gray" v-if="index === 0 ">
-          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <img  class="is-120x120 mr-20" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
           <div class="is-flex flex-column">
-            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
-            <span class="text-red">¥ {{recommendList.price}} /盒</span>
+            <span class="elps">{{discountList.name}}</span>
+            <span class="text-red">¥ {{discountList.price}} /盒</span>
           </div>
         </div>
+
         <div class="drug-box-01 flex-row-center border-right-gray border-bottom-gray" v-if="index === 1 ">
-          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <img  class="is-120x120 mr-20" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
           <div class="is-flex flex-column">
-            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
-            <span class="text-red">¥ {{recommendList.price}} /盒</span>
+            <span class="elps">{{discountList.name}}</span>
+            <span class="text-red">¥ {{discountList.price}} /盒</span>
           </div>
         </div>
         <div class="drug-box-2 flex-column-center border-right-gray" v-if="index === 2">
-          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <img  class="is-145x145" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
           <div class="is-flex flex-column">
-            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
-            <span class="text-red">¥ {{recommendList.price}} /盒</span>
+            <span class="elps">{{discountList.name}}</span>
+            <span class="text-red">¥ {{discountList.price}} /盒</span>
           </div>
         </div>
         <div class="drug-box-34 flex-row-center border-bottom-gray" style="float: right" v-if="index === 3 " >
-          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <img  class="is-135x85 mr-20" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
           <div class="is-flex flex-column">
-            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
-            <span class="text-red">¥ {{recommendList.price}} /盒</span>
+            <span class="elps">{{discountList.name}}</span>
+            <span class="text-red">¥ {{discountList.price}} /盒</span>
           </div>
         </div>
         <div class="drug-box-34 flex-row-center position-absolute position-rb" style="float: right" v-if="index === 4 " >
-          <img  class="is-120x120" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+          <img class="is-135x85 mr-20"  src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
           <div class="is-flex flex-column">
-            <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
-            <span class="text-red">¥ {{recommendList.price}} /盒</span>
+            <span class="elps">{{discountList.name}}</span>
+            <span class="text-red">¥ {{discountList.price}} /盒</span>
           </div>
         </div>
-      </li>
+      </router-link>
     </ul>
+    </div>
 
     <!-- 医保定点药房 -->
     <div class="shop-show">
@@ -269,7 +183,12 @@
       </ul>
     </div>
     </div>
-    <all-bottom></all-bottom>
+
+    <!-- 撑屏容器 -->
+    <div class="add-container is-720x100">
+
+    </div>
+    <new-footer></new-footer>
   </div>
 </template>
 <script>
@@ -337,13 +256,6 @@
       }
     },
     mounted() {
-      // setInterval(_ => {
-      //   if (this.activeIndex < this.repositoryTypeList.length - 1) {
-      //     this.activeIndex += 1;
-      //   } else {
-      //     this.activeIndex = 0;
-      //   }
-      // }, 3000);
       setInterval(() => {
         let swiperSlides = this.swiperSlides;
         if (swiperSlides.length < 10) swiperSlides.push(swiperSlides.length + 1);
@@ -538,10 +450,15 @@
     width: 260px;
     height: 193px;
   }
-
   .position-rb{
     bottom: 0;
     right: 0;
+  }
+  /*搜索框*/
+  .search-box{
+    width:470px;
+    height:36px;
+    background: white;
   }
   /*swiper*/
   .swiper-slide{
@@ -557,6 +474,12 @@
   .is-90x90{
     width: 90px;
     height: 90px;
+  }
+  /*滚动*/
+  .scroll-bar{
+    width: 720px;
+    height: 100px;
+    background: white;
   }
   /*  让利惠民 图片样式 */
   .is-120x120{
@@ -587,39 +510,17 @@
     background:rgba(238,238,238,1);
   }
 
-  /*.hot {*/
-    /*width: 3rem;*/
-    /*height: 1.2rem;*/
-    /*font-size: 0.8rem;*/
-    /*color: #FF9800;*/
-    /*border: 1px solid #FF9800;*/
-    /*line-height: 1.2rem;*/
-  /*}*/
+  /* 撑屏容器 */
+  .is-720x100{
+    width: 720px;
+    height: 100px;
+  }
 
-  /*.h03 {*/
-    /*height: 0.1rem;*/
-  /*}*/
-
-  /*.carousel-3d-slide {*/
-    /*border-color: white !important;*/
-  /*}*/
-
-  /*.mint-swipe-indicator.is-active {*/
-    /*background: #1AB6FD !important;*/
-    /*opacity: 1 !important;*/
-  /*}*/
-
-  /*.scroll-wrap {*/
-    /*height: 20px;*/
-    /*overflow: hidden;*/
-  /*}*/
-
-  /*.scroll-content {*/
-    /*position: relative;*/
-    /*transition: top 0.5s;*/
-  /*}*/
-
-  /*.carousel-3d-container {*/
-    /*margin-bottom: 0px !important;*/
-  /*}*/
+  .mr-20{
+    margin-right: 20px !important;
+  }
+  .padding-lr-10{
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
 </style>
