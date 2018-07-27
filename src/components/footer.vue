@@ -39,6 +39,7 @@
     bottom: 0;
     width: 720px;
     height: 100px;
+    background: white;
   }
 
   footer div {

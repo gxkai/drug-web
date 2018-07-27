@@ -6,7 +6,7 @@
     </new-header>
     <ul class="item">
       <li class="line" v-for="(item,index) in list" :key="index">
-        <img :src="item.shopImage">
+        <img v-lazy="item.shopImage">
         <div>
           <ul>
             <li>

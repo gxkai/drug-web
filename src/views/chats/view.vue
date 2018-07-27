@@ -18,12 +18,12 @@
         <ul>
           <li v-for="(item,index) in list" :key="index">
             <div class="content1" v-if="item.type === 'SHOP'">
-              <img :src="shopInfo.headImg">
+              <img v-lazy="shopInfo.headImg">
               <div class="bubble">{{item.message}}</div>
             </div>
             <div class="content2" v-else>
               <div class="bubble2">{{item.message}}</div>
-              <img :src="account.headImg">
+              <img v-lazy="account.headImg">
             </div>
           </li>
         </ul>

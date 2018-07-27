@@ -9,9 +9,9 @@
 
     <div class="a-content-list flex-stream-sb padding-10" @click="changeVisible">
       <span>头像</span>
-      <div>
-        <span><img class="avatar" :src="aa"/></span>
-        <i class=" iconfont ic-youjiantou"></i>
+      <div class="flex-stream-sb">
+        <img class="is-55x55" v-lazy="aa"/>
+        <i class="iconfont ic-youjiantou"></i>
       </div>
     </div>
     <router-link class="a-content-list flex-stream-sb padding-10" to='/accounts/edit'>
@@ -28,7 +28,7 @@
     <div id="shangchuanpic" class="div1">
       <ul style="padding-bottom:40px;">
         <li  class="imgLi div2" v-for="(item, index) in duploadURLs" style="float:left;width:50px;height:50px;display:none;">
-          <img :src='item' class="upload_img div3" style="display:none;" />
+          <img v-lazy='item' class="upload_img div3" style="display:none;" />
           <span @click="delImg(index)" style="display:none;"><span class="file-remove">+</span></span>
         </li>
       </ul>
@@ -248,7 +248,6 @@ let headPic;
     background: #1AB6FD;
     color: white;
   }
-
   .account-container{
     width: 720px;
     height: 100vh;
@@ -273,6 +272,11 @@ let headPic;
   .padding-10{
     padding:0 10px;
     box-sizing: border-box;
+  }
+
+  .is-55x55{
+    width: 55px;
+    height: 55px;
   }
 
 </style>

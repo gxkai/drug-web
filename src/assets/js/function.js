@@ -72,5 +72,12 @@ export default {
     Vue.prototype.getImgURL = (fileId, resolution) => {
       return '/files/' + fileId + '/image?resolution=' + resolution;
     };
+
+    /**
+     * 切割字符串
+     */
+    Vue.prototype.formateText = (text, len) => {
+      return text.trim().substring(0, len);
+    };
   }
 };

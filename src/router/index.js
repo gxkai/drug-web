@@ -11,6 +11,10 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld
     },
+    {
+      path: '/index',
+      component: () => import('@/views/index')
+    },
     // accounts
     {
       path: '/accounts',
@@ -56,6 +60,11 @@ export default new Router({
     {
       path: '/accounts/insurance/consumeinfomore',
       component: () => import('@/views/accounts/insurance/consumeinfomore')
+    },
+    // hospital
+    {
+      path: '/hospital/view',
+      component: () => import('@/views//hospital/view')
     },
     {
       path: '/about',
@@ -153,6 +162,16 @@ export default new Router({
     {
       path: '/drugTypes',
       component: () => import('@/views/drugTypes/index.vue')
+    },
+    {
+      path: '/messageTypes',
+      name: 'messageTypes',
+      component: () => import('@/views/messageTypes/index.vue')
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: () => import('@/views/messages/index.vue')
     }
   ]
 });
