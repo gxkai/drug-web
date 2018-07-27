@@ -16,6 +16,9 @@ import 'font-awesome/css/font-awesome.min.css';
 import '../src/assets/css/bulma.css';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import BaiduMap from 'vue-baidu-map';
+import fastclick from 'fastclick';
+import VueTouch from 'vue-touch';
+// import './assets/js/vconsole';
 
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.interceptors.request.use(
@@ -57,13 +60,36 @@ axios.interceptors.response.use(
 Vue.prototype.$http = axios;
 Vue.prototype.$storage = storage;
 Vue.config.productionTip = false;
-Vue.use(MintUI);
+Vue.use(MintUI, {
+  lazyload: {
+    preLoad: 1.3,
+    error: require('./assets/image/lazyLoad/default.jpeg'),
+    loading: require('./assets/image/lazyLoad/loading.gif'),
+    attempt: 1,
+    filter: {
+      webp(listener, options) {},
+      progressive(listener, options) {}
+    }
+  }
+});
 Vue.use(VueAwesomeSwiper);
 Vue.use(base);
 Vue.use(component);
 Vue.use(BaiduMap, {
   ak: 'FG7wxr1VUj0k2NwoO3yXzymd&services=&t=20170517145936'
 });
+/**
+ * 解决移动端点击事件延迟
+ */
+fastclick.attach(document.body);
+/**
+ * 左滑动
+ */
+Vue.use(VueTouch, {name: 'v-touch'});
+VueTouch.config.swipe = {
+  direction: 'horizontal',
+  threshold: 200
+};
 
 /* eslint-disable no-new */
 new Vue({

@@ -10,7 +10,7 @@
     <div class="a-content-list flex-stream-sb padding-10" @click="changeVisible">
       <span>头像</span>
       <div>
-        <span><img class="avatar" :src="aa"/></span>
+        <span><img class="avatar" v-lazy="aa"/></span>
         <i class=" iconfont ic-youjiantou"></i>
       </div>
     </div>
@@ -28,7 +28,7 @@
     <div id="shangchuanpic" class="div1">
       <ul style="padding-bottom:40px;">
         <li  class="imgLi div2" v-for="(item, index) in duploadURLs" style="float:left;width:50px;height:50px;display:none;">
-          <img :src='item' class="upload_img div3" style="display:none;" />
+          <img v-lazy='item' class="upload_img div3" style="display:none;" />
           <span @click="delImg(index)" style="display:none;"><span class="file-remove">+</span></span>
         </li>
       </ul>
