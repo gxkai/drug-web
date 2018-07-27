@@ -152,7 +152,7 @@
   // Vue.component(CellSwipe.name, CellSwipe);
   export default {
     name: 'carts',
-    data () {
+    data() {
       return {
         list: [],
         pickedAll: false,
@@ -164,11 +164,11 @@
     components: {
       // allBottom
     },
-    created () {
+    created() {
       // this.getData();
     },
     methods: {
-      deleteCart (shop, shopI, rx, rxI, drug, drugI, list) {
+      deleteCart(shop, shopI, rx, rxI, drug, drugI, list) {
         if (rx.rxId !== null) {
           MessageBox.confirm('该处方单会一并删除').then(action => {
             let cartIds = [];
@@ -204,7 +204,7 @@
           });
         }
       },
-      commit () {
+      commit() {
         let cartIds = [];
         this.list.forEach(shop => {
           shop.rxs.forEach(rx => {
@@ -255,7 +255,7 @@
             this.exception.message(error);
           });
       },
-      getTotalPrice () {
+      getTotalPrice() {
         let sum = 0;
         let sum1 = 0;
         this.list.forEach(shop => {
@@ -271,7 +271,7 @@
         this.totalPrice = sum;
         this.totalQuantity = sum1;
       },
-      selectAll () {
+      selectAll() {
         this.list.forEach(shop => {
           shop.picked = this.pickedAll;
           shop.rxs.forEach(rx => {
@@ -282,7 +282,7 @@
         });
         this.getTotalPrice();
       },
-      selectShop (shop) {
+      selectShop(shop) {
         shop.rxs.forEach(rx => {
           rx.drugs.forEach(drug => {
             drug.picked = shop.picked;
@@ -291,7 +291,7 @@
         this.pickedAll = !this.list.find(shop => !shop.picked);
         this.getTotalPrice();
       },
-      selectCart (shop, rx, drug) {
+      selectCart(shop, rx, drug) {
         if (!drug.picked) {
           shop.picked = false;
           if (rx.rxId !== null) {
@@ -310,7 +310,7 @@
         this.pickedAll = !this.list.find(shop => !shop.picked);
         this.getTotalPrice();
       },
-      getData () {
+      getData() {
         if (this.$store.getters.account) {
           this.accountId = this.$store.getters.account.id;
         }
@@ -342,7 +342,7 @@
             });
           });
       },
-      shopCarNumber (drug, flag) {
+      shopCarNumber(drug, flag) {
         if (flag) {
           drug.quantity++;
           this.$http.put('/carts?id=' + drug.cartId + '&quantity=' + drug.quantity);
