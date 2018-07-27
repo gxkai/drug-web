@@ -2,23 +2,22 @@
   <!--TODO swiper 滚动 -->
   <!--TODO 倒计时 -->
   <div class="bg-f8">
-    <header class="bg-blue">
+    <div class="bg-blue index-header">
       <div class="flex-stream-sb padding-lr-10">
-        <i class="iconfont ic-ditu text-white"></i>
+        <i class="iconfont ic-ditu text-white is-16x22"></i>
         <span @click="nearby" class="text-white">{{chooseaddress}}</span>
         <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
-        <div class="search-box position-relative" style="border: 1px red solid">
+        <div class="search-box position-relative all-center no-border">
+          <img  src="../assets/image/search.png" class=" is-24x24"/>
           <input type="text" v-model="shopName" placeholder="通用名、商品名、症状"
                  @blur="$router.push('/components/search')"
                  @keyup.enter="$router.push('/components/search')"
                  @click="$router.push('/components/search')"
-          />
-          <img src="../assets/image/search.png"/>
+                 class="no-border"/>
         </div>
-
-        <i class="iconfont ic-lingdang text-white"></i>
+        <i class="iconfont ic-lingdang text-white "></i>
       </div>
-    </header>
+    </div>
 
     <!-- 轮播 -->
     <swiper :options="swiperOption">
@@ -455,11 +454,33 @@
     right: 0;
   }
   /*搜索框*/
+  .index-header{
+    width: 720px;
+    height: 75px;
+    background: #1ab6fd;
+    line-height: 75px;
+  }
   .search-box{
     width:470px;
     height:36px;
     background: white;
   }
+  .no-border{
+    border: 0;
+    outline: 0;
+  }
+  /*小图标*/
+  .is-24x24{
+    width: 24px;
+    height: 24px;
+  }
+  .is-16x16{
+    font-size: 16px;
+  }
+  .is-16x22{
+    font-size: 16px;
+  }
+
   /*swiper*/
   .swiper-slide{
     width: 720px !important;
