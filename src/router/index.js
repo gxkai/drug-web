@@ -149,6 +149,10 @@ export default new Router({
     {
       path: '/repositoryTypes',
       component: () => import('@/views/repositoryTypes/index.vue')
+    },
+    {
+      path: '/drugTypes',
+      component: () => import('@/views/drugTypes/index.vue')
     }
   ]
 });
