@@ -1,12 +1,14 @@
 <template>
-    <header :style="{background:bgColor,color:color}">
-      <span class="left" :style="{color:leftColor}">
+    <header :style="{background:bgColor,color:color}" :class="height">
+      <div class="left" :style="{color:leftColor}" :class="leftSize">
        <slot name="left"></slot>
-      </span>
-      {{title}}
-      <span class="right" :style="{color:rightColor}">
+      </div>
+      <div>
+        <span>{{title}}</span>
+      </div>
+      <div class="right" :style="{color:rightColor}" :class="rightSize">
         <slot name="right"></slot>
-      </span>
+      </div>
     </header>
 </template>
 
@@ -33,6 +35,18 @@
       rightColor: {
         type: String,
         default: 'rgba(254, 254, 254, 1)'
+      },
+      leftSize: {
+        type: String,
+        default: 'medium'
+      },
+      rightSize: {
+        type: String,
+        default: 'small'
+      },
+      height: {
+        type: String,
+        default: 'middle'
       }
     }
   };
@@ -41,27 +55,46 @@
 <style scoped>
   header {
     width: 720px;
-    height: 130px;
     font-size: 36px;
     font-family: HiraginoSansGB-W3;
-    text-align: center;
-    line-height: 120px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
   }
-
+  .left {
+    display: flex;
+    align-items: center;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+  }
+  .small {
+    font-size: 30px;
+  }
+  .medium {
+    font-size: 50px;
+  }
+  .large {
+    font-size: 70px;
+  }
   .left .iconfont:before{
     font-size: 50px;
-    position: absolute;
-    left: 0;
   }
 
   .right .iconfont:before{
     font-size: 50px;
-    position: absolute;
-    right: 10px;
   }
-  .right {
-    font-size: 30px;
-    position: absolute;
-    right: 10px;
+  .low {
+    height: 80px;
+  }
+  .high {
+    height: 150px;
+  }
+  .middle {
+    height: 130px;
   }
 </style>

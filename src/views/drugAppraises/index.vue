@@ -9,7 +9,7 @@
       <li v-for="item in list">
         <div class="line1">
           <div>
-            <img :src="account.headImg">
+            <img v-lazy="account.headImg">
             <span>{{account.username}}</span>
           </div>
           <span>{{item.createdDate}}</span>
@@ -18,7 +18,7 @@
           {{item.content}}
         </div>
         <div class="line3">
-          <img :src="item.logo">
+          <img v-lazy="item.logo">
           <div class="right">
             <p>{{item.name}}</p>
             <p>{{item.spec}}</p>

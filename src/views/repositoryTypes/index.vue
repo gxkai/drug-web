@@ -7,7 +7,7 @@
     <div class="types">
       <router-link class="type-list" v-for="(repositoryType,index) in repositoryTypeList" :key="index"
                    :to="{path:'/repositories',query:{repositoryTypeId:repositoryType.id,title:repositoryType.name}}">
-        <img :src="'../assets/image/'+repositoryType.icon+'.png'" class="icon-img"/>
+        <img v-lazy="'../assets/image/'+repositoryType.icon+'.png'" class="icon-img"/>
         <span class="type-title">{{ repositoryType.name }}</span>
         <i class="iconfont ic-youjiantou "></i>
       </router-link>
