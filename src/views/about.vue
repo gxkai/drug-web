@@ -1,7 +1,7 @@
 <template>
-  <div class="f-body">
+  <div class="container">
     <new-header title="关于我们">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <i class="iconfont ic-arrow-right " slot="left" @click="$router.go(-1)"></i>
     </new-header>
     <div class="about-img">
       <div class="about-word">
@@ -10,7 +10,7 @@
       </div>
       <img src="../assets/image/qrcode.jpg"/>
     </div>
-    <div class="f-about-footer">
+    <div class="about-footer">
       <span>2017-2018 E慧药版权所有</span>
       <span>昆山网进科技股份有限公司</span>
     </div>
@@ -20,55 +20,59 @@
   export default {
     name: 'about',
     data() {
-      return {
-      };
+      return {};
     }
   };
 </script>
 <style scoped>
-  .f-body {
+  * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-family: HiraginoSansGB-W3;
+  }
+
+  .container {
     width: 720px;
-    height:100vh;
+    height: 100vh;
   }
 
   .about-img {
-    position: absolute;
-    bottom:777px;
-    width: 720px;
     height: 425px;
     background: rgba(19, 193, 254, 1);
     -webkit-border-radius: 0 0 285px 285px;
+    display: block;
   }
 
   .about-word {
     display: block;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 2px;
+    padding: 50px;
     width: 620px;
-    height: 95px;
     font-size: 24px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(255, 255, 255, 1);
-    line-height: 36px;
   }
 
-  .f-about-footer{
+  .about-footer {
     position: fixed;
     top: 1200px;
     left: 0;
   }
 
-  .f-about-footer span{
+  .about-footer span {
     display: block;
     width: 720px;
     text-align: center;
+
   }
+
   .about-img img {
-    position:fixed;
-   top:418px;
-    left:231px;
+    position: fixed;
+    top: 418px;
+    left: 231px;
     width: 100%;
-    width:259px;
-    height:229px;
+    width: 259px;
+    height: 229px;
   }
 </style>

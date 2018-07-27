@@ -16,7 +16,7 @@
            infinite-scroll-distance="10">
         <div v-for="item in drugkindtwo" class="drugs-details">
           <router-link :to="{path:'/drugs',query:{showDrugTitle:item.type, typeId:item.id, pageFrom:'drugType'}}">
-            <img v-lazy="item.imgUrl" class="img-yuan"/>
+            <img :src="getImgURL(item.fileId,'MIDDLE_LOGO')" class="img-circle"/>
             <div class="drugs-name">{{item.type}}</div>
           </router-link>
         </div>
@@ -53,23 +53,13 @@
       leftLi(index) {
         this.qwere = index;
         this.drugkindtwo = this.drugkind[index].drugType;
-        this.showPics();
       },
-      showPics() {
-        this.getImages(this.drugkindtwo, this);
-      },
-
       loadMore() {
         this.$http.get('/drugTypes')
           .then((res) => {
             this.drugkind = res.data;
             this.drugkindtwo = this.drugkind[0].drugType;
-            this.showPics();
           });
-      },
-
-      showDrugs(typeId) {
-        this.$router.push({path: '/drugs', query: {typeId: typeId, pageFrom: 'drugType'}});
       }
     }
   };
@@ -122,7 +112,7 @@
     margin-right: 15px;
   }
 
-  .img-yuan {
+  .img-circle {
     height: 125px;
     border-radius: 50%;
     border: 1px solid #13C1FE;
