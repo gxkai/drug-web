@@ -46,8 +46,8 @@ axios.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          store.commit('SETTOKEN', '');
-          store.commit('SETACCOUNT', {});
+          store.commit('SET_TOKEN', '');
+          store.commit('SET_ACCOUNT', {});
           router.push({
             path: '/login',
             query: {redirect: router.currentRoute.fullPath}

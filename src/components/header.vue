@@ -4,7 +4,8 @@
        <slot name="left"></slot>
       </div>
       <div>
-        <span>{{title}}</span>
+        <slot name="center"></slot>
+        {{title}}
       </div>
       <div class="right" :style="{color:rightColor}" :class="rightSize">
         <slot name="right"></slot>

@@ -17,14 +17,15 @@ export function LOGIN({commit, state}, userInfo) {
       url: '/accounts/login',
       data: userInfo
     }).then(res => {
-      commit(types.SETTOKEN, res.data);
+      commit(types.SET_TOKEN, res.data);
       storage.set('token', res.data);
       axios({
         method: 'get',
         url: '/accounts'
       }).then(res => {
-        commit(types.SETACCOUNT, res.data);
+        commit(types.SET_ACCOUNT, res.data);
         storage.set('account', res.data);
+        storage.session.set('firstLogin', true);
         resolve(res);
       }).catch(err => {
         reject(err);
@@ -50,10 +51,8 @@ export function VERIFY({commit}) {
           url: '/accounts/verify'
         })
           .then(res => {
-            if (res.status === 200) {
-              commit(types.SETTOKEN, res.data);
-              storage.set('token', res.data);
-            }
+            commit(types.SET_TOKEN, res.data);
+            storage.set('token', res.data);
             resolve(res);
           }).catch(error => {
             reject(error);
@@ -99,8 +98,8 @@ export function LOGINOUT({commit}) {
       url: '/accounts/logout'
     })
       .then((res) => {
-        commit(types.SETTOKEN, '');
-        commit(types.SETACCOUNT, {});
+        commit(types.SET_TOKEN, '');
+        commit(types.SET_ACCOUNT, {});
         storage.remove('token');
         storage.remove('account');
         resolve(res);
