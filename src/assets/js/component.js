@@ -5,6 +5,8 @@ import newNoData from '../../components/no-data';
 import newEditDiv from '../../components/edit-div';
 import newEditLine from '../../components/edit-line';
 import newMain from '../../components/main';
+import newCloseList from '../../components/close-list';
+import newLine from '../../components/line';
 
 export default {
   install(Vue, options) {
@@ -15,5 +17,7 @@ export default {
     Vue.component('new-edit-div', newEditDiv);
     Vue.component('new-edit-line', newEditLine);
     Vue.component('new-main', newMain);
+    Vue.component('new-close-list', newCloseList);
+    Vue.component('new-line', newLine);
   }
 };

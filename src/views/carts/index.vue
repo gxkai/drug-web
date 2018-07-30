@@ -42,7 +42,7 @@
                   </div>
                   <i class="iconfont ic-chufangdanluru" slot="left"></i>
                   <span slot="left" class="chufangdan">处方单</span>
-                  <span slot="right" class="chakanchufan">查看处方></span>
+                  <router-link tag="span" slot="right" class="chakanchufan" :to="{path:'/rxs/view',query:{rxId:cartRx.rxId}}">查看处方></router-link>
                 </new-header>
                 <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
                   <i class="iconfont ic-jisongchufangdan" slot="left"></i>
@@ -244,6 +244,10 @@
           }
         }
       },
+      /**
+       * 获取已选购物车ID
+       * @returns {Array}
+       */
       getCartIds() {
         let cartIds = [];
         this.cartShops.forEach(e => {
@@ -257,15 +261,29 @@
         });
         return cartIds;
       },
+      /**
+       * 订单结算
+       */
       onOrder() {
-        this.remove();
         let cartIds = this.getCartIds();
+        if (cartIds.length === 0) {
+          MessageBox('提示', '请选择药品');
+          return;
+        }
         this.$http.get('/orders/cart?cartIds=' + cartIds).then(res => {
           this.remove();
+          this.$router.push({path: '/orders/createFromCart', query: {cart: JSON.stringify(res.data)}});
         }).catch(error => {
           this.exception(error);
         });
       },
+      /**
+       * 选中raido
+       * @param type
+       * @param cartShop
+       * @param cartRx
+       * @param cartDrug
+       */
       onRadio(type, cartShop, cartRx, cartDrug) {
         switch (type) {
           case 'ALL':
