@@ -28,8 +28,8 @@
             'Authorization': this.$store.getters.token
           }
         });
-        this.$store.commit('setToken', null);
-        this.$store.commit('setAccount', {});
+        this.$store.commit('SET_TOKEN', null);
+        this.$store.commit('SET_ACCOUNT', {});
         localStorage.clear();
         this.$router.push({path: '/'});
         location.reload();
