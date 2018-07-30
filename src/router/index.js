@@ -172,6 +172,10 @@ export default new Router({
       path: '/messages',
       name: 'messages',
       component: () => import('@/views/messages/index.vue')
+    },
+    {
+      path: '/shopDrugSpecs',
+      component: () => import('@/views/shopDrugSpecs/index.vue')
     }
   ]
 });
