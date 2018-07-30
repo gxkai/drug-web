@@ -1,25 +1,25 @@
 <template>
-  <div id="AddInToCart">
-    <div class="J_AddInToCart_header">
-      <router-link :to="{path:'/rxs/shops',query:{id:id}}">
-        <i class="icon iconfont icon-fanhui"></i>
-      </router-link>
-      <div>{{shopName}}</div>
+  <div>
+    <!--<div class="J_AddInToCart_header">-->
+      <!--<router-link :to="{path:'/rxs/shops',query:{id:id}}">-->
+        <!--<i class="icon iconfont icon-fanhui"></i>-->
+      <!--</router-link>-->
+      <!--<div>{{shopName}}</div>-->
+      <!--<div>-->
+         <!--<router-link to="/messageTypes">-->
+            <!--<i style="position:relative" class="icon iconfont  text-white icon-xiaoxi">-->
+                <!--<div class="J_AddInToCart_header_hong"></div>-->
+            <!--</i>-->
+         <!--</router-link>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="d_prescription_titleImg">-->
+      <!--<img src="static/img/rxs/bglist.png"/>-->
+    <!--</div>-->
+    <!--<div id="d_Model" v-show="show"></div>-->
 
-      <div>
-         <router-link to="/messageTypes">
-            <i style="position:relative" class="icon iconfont  text-white icon-xiaoxi">
-                <div class="J_AddInToCart_header_hong"></div>
-            </i>
 
-         </router-link>
-
-      </div>
-    </div>
-    <div class="d_prescription_titleImg">
-      <img src="static/img/rxs/bglist.png"/>
-    </div>
-    <div id="d_Model" v-show="show"></div>
+    <new-header ></new-header>
 
 
    <mt-popup v-model="popupVisible" position="left" @click="popup">
@@ -135,7 +135,7 @@
         this.show = false;
       },
       getDrugs() {
-        this.$http.get(this.URL_PATH + '/rxs/' + this.id + '/shops/' + this.shopId + '/drugs', {
+        this.$http.get('/rxs/' + this.id + '/shops/' + this.shopId + '/drugs', {
           headers: {
             'Authorization': this.$store.getters.token
           }
@@ -186,7 +186,7 @@
       },
       createCart() {
         this.carts.forEach(cart =>
-          this.$http.post(this.URL_PATH + '/carts', cart)
+          this.$http.post('/carts', cart)
         );
         Toast({
           message: '加入购物车成功',

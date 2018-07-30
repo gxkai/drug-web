@@ -1,15 +1,28 @@
 <template>
 <div class="shop-box is-flex flex-center">
-  <img class="is-280x250" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
+  <img class="is-280x250" :src="getImgURL(fileId, 'LOGO')">
   <div class="shop-content flex-sb flex-column position-relative">
-    <span><b>{{shopName}}</b></span>
-    <new-star disabled size="small" :score.sync="score"></new-star>
-    <span>{{phone}}</span>
-    <span>{{address}}</span>
-    <span class="text-red"> &yen; {{price}}</span>
-    <img class="position-absolute" :class="[{active: cart}]" src="123123">
+    <div>
+      <i v-show="showIcon" class="iconfont ic-yinanbingli text-1AB6FD"></i>
+      <span><b>{{shopName}}</b></span>
+    </div>
+    <div v-show="showStar">
+      <new-star disabled size="small" :score.sync="score"></new-star>
+    </div>
+    <div>
+      <i v-show="showIcon" class="iconfont ic-dianhua text-1AB6FD"></i>
+      <span>{{phone}}</span>
+    </div>
+    <div>
+      <i v-show="showIcon" class="iconfont ic-address text-1AB6FD"></i>
+      <span>{{address}}</span>
+    </div>
+    <div>
+      <i v-show="showIcon" class="iconfont ic-qianbao text-1AB6FD"></i>
+      <span class="text-red"> &yen; {{price}}</span>
+    </div>
+    <div><i class="iconfont ic-gouwuche1 position-absolute position-rb icon-size" v-show="cart"></i></div>
   </div>
-
 </div>
 </template>
 
@@ -33,19 +46,27 @@
       price: {
         default: '66666'
       },
-      cart: {
+      newCart: {
+        default: false
+      },
+      fileId: {},
+      showStar: {
+        default: true
+      },
+      showIcon: {
         default: false
       }
     },
     data() {
       return {
         score: '3',
-        newCart: ''
+        cart: false
       };
     },
     created: function () {
-      console.log(this.newScore);
-      console.log(this.cart);
+      this.score = this.newScore;
+      this.cart = this.newCart;
+      console.log(this.newScore, this.newCart);
     }
   };
 </script>
@@ -75,13 +96,18 @@
     width: 400px;
     height:250px;
   }
-  .shop-content div{
-    padding-left: 20px;
-    box-sizing: border-box;
-  }
-  .shop-content span{
+  .shop-content > div{
     padding-left: 20px;
     box-sizing: border-box;
   }
 
+  .position-rb{
+    right:10px;
+    bottom:-10px;
+  }
+
+  .icon-size{
+    font-size: 50px;
+    color:rgba(240,43,43,1);
+  }
 </style>
