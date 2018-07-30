@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <new-header >
+    <new-header>
       <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
       <input type="text" placeholder="搜索店内商品" style="background:none;"/>
     </new-header>
@@ -44,9 +44,7 @@
 
     </div>
 
-    <div class="shop-recommend">
-      —— 商家推荐 ——
-    </div>
+    <div class="shop-recommend">—— 商家推荐 ——</div>
 
     <div class="shop-goods">
       <router-link class="shop-goods-list"
@@ -60,9 +58,9 @@
     </div>
 
     <div class="shop-footer" spellcheck="false" cellspacing="0">
-          <router-link :to="{ name: '/shops/info', query: { id: shopId }}">商家介绍</router-link>
-          <router-link :to="{ name: '/shops/drugs', query: { id: shopId }}">全部商品</router-link>
-          <router-link :to="{ name: '/chats', query: { id: shopId }}">在线咨询</router-link>
+      <router-link :to="{ name: '/shops/info', query: { id: shopId }}">商家介绍</router-link>
+      <router-link :to="{ name: '/shops/drugs', query: { id: shopId }}">全部商品</router-link>
+      <router-link :to="{ name: '/chats', query: { id: shopId }}">在线咨询</router-link>
     </div>
   </div>
 </template>
@@ -88,12 +86,7 @@
         var data = new FormData();
         data.append('shopId', this.shopId);
         data.append('isCollect', this.activeColor);
-        this.$http.post('/collects/shop', data, {
-          headers: {
-            'Authorization': this.$store.getters.token,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        }).then(res => {
+        this.$http.post('/collects/shop', data).then(res => {
           if (res.status === 200) {
             if (this.activeColor) {
               Toast({
@@ -120,14 +113,10 @@
       }
       this.$http.get('/shops/' + this.$route.query.id + '/drugs/recommend').then(res => {
         this.recommendLists = res.data;
-        console.log(this.recommendLists);
-        // this.getImage(this.recommendLists, this);
       });
       this.$http.get('/shops/' + this.$route.query.id).then(res => {
         this.shopInfo = res.data;
         this.shopInfo.fileId = this.shopInfo.logo;
-        console.log(this.shopInfo);
-        // this.getImage(this.shopInfo, this, 'SMALL_LOGO');
       });
       // TODO 药店是否收藏 VUEX
       this.$http.get('/collects/shop/one?' + '&shopId=' + this.shopId)
@@ -151,17 +140,18 @@
   };
 </script>
 <style scoped>
-
-  .is-flex{
+  .is-flex {
     display: flex !important;
   }
-  .flex-wrap{
+
+  .flex-wrap {
     flex-wrap: wrap;
   }
-  .type-list{
+
+  .type-list {
     display: block;
-    width:240px;
-    height:80px;
+    width: 240px;
+    height: 80px;
     line-height: 80px;
     text-align: center;
     font-size: 24px;
@@ -291,12 +281,12 @@
   }
 
   .shop-footer a {
-    width:230px;
-    height:90px;
+    width: 230px;
+    height: 90px;
     display: inline-block;
     line-height: 90px;
     text-align: center;
-    color:rgba(102,102,102,1);
+    color: rgba(102, 102, 102, 1);
   }
 
 

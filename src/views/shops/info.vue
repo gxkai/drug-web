@@ -79,7 +79,6 @@
     },
     created: function () {
       this.$http.get('/shops/' + this.$route.query.id).then(res => {
-        console.log(res.data);
         this.resultData = res.data;
         this.getImage(this.resultData, this);
       });
