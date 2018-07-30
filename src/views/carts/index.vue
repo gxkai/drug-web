@@ -147,7 +147,6 @@
     methods: {
       getData() {
         if (this.cartShops.length === 0) {
-          debugger;
           this.$http.get('/carts').then(res => {
             res.data.cartShops.forEach(e => {
               e.radio = false;
