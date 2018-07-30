@@ -172,7 +172,7 @@ export default new Router({
       component: () => import('@/views/messages/index.vue')
     },
     {
-      path: '/createFromCarts',
+      path: '/orders/createFromCarts',
       component: () => import('@/views/orders/create-from-carts.vue')
     }
   ]

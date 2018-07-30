@@ -1,5 +1,8 @@
 <template>
   <div>
+    <new-header title="订单结算">
+      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
+    </new-header>
     <!--<div class="orderSettlement">-->
       <!--<mt-header :title="name">-->
         <!--<router-link to="#" slot="left">-->
