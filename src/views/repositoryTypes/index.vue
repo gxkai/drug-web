@@ -12,6 +12,7 @@
         <i class="iconfont ic-youjiantou "></i>
       </router-link>
     </div>
+    <new-no-data v-if="repositoryTypeList.length===0"></new-no-data>
   </div>
 </template>
 
@@ -34,7 +35,6 @@
           });
       }
     }
-
   };
 </script>
 
@@ -42,7 +42,8 @@
   * {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box
+    -webkit-box-sizing: border-box;
+    font-family: HiraginoSansGB-W3;
   }
 
   .container {
@@ -69,7 +70,6 @@
   .type-title {
     width: 720px;
     font-size: 28px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
     margin-left: 17px;
     display: block;

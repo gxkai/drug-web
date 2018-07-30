@@ -177,6 +177,10 @@ export default new Router({
       component: () => import('@/views/repositoryTypes/index.vue')
     },
     {
+      path: '/drugTypes',
+      component: () => import('@/views/drugTypes/index.vue')
+    },
+    {
       path: '/messageTypes',
       name: 'messageTypes',
       component: () => import('@/views/messageTypes/index.vue')
@@ -186,6 +190,5 @@ export default new Router({
       name: 'messages',
       component: () => import('@/views/messages/index.vue')
     }
-
   ]
 });
