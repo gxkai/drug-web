@@ -69,7 +69,9 @@
   * {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box
+    -webkit-box-sizing: border-box;
+    font-family: HiraginoSansGB-W3;
+
   }
 
   .container {
@@ -107,7 +109,6 @@
   .drug-type {
     height: 60px;
     font-size: 24px;
-    font-family: HiraginoSansGB-W3;
     display: inline-block;
     margin-right: 15px;
   }
@@ -124,7 +125,6 @@
     display: flex;
     justify-content: center;
     font-size: 20px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
