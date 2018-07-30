@@ -5,7 +5,8 @@
     </new-header>
 
     <div class="news-lists">
-      <router-link  v-for="(messageContentType,index) in messageContentList" :key="index" :to="{path:'/messages',query:{messageType:messageContentType.messageType,titles:messageContentType.name}}">
+      <router-link v-for="(messageContentType,index) in messageContentList" :key="index"
+                   :to="{path:'/messages',query:{messageType:messageContentType.messageType,titles:messageContentType.name}}">
         <div class="news-list">
           <div class="news-list-left">
             <img src="defaultMsgList[index].img"/>
@@ -20,6 +21,7 @@
         </div>
       </router-link>
     </div>
+    <new-no-data v-if="messageContentList.length===0"></new-no-data>
     <div>
     </div>
   </div>
@@ -45,11 +47,7 @@
     },
     methods: {
       getList() {
-        this.$http.get('/messageTypes?', {
-          headers: {
-            'Authorization': this.$store.getters.token
-          }
-        })
+        this.$http.get('/messageTypes')
           .then((res) => {
             const list = res.data;
             for (let i in list) {
@@ -68,7 +66,8 @@
   * {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box
+    -webkit-box-sizing: border-box;
+    font-family: HiraginoSansGB-W3;
   }
 
   .container {
@@ -86,15 +85,17 @@
   .news-list {
     height: 91px;
     margin-bottom: 39px;
-    display:flex;
-    align-items:center;
+    display: flex;
+    align-items: center;
 
   }
+
   .news-list-left {
     width: 91px;
     height: 91px;
     margin-left: 21px;
   }
+
   .news-list-right {
     width: 550px;
     height: 91px;
@@ -102,20 +103,20 @@
     margin: auto;
   }
 
-.news-list-right-top{
-  display: flex;
-  justify-content: space-between;
-  flex-direction:row;
-}
+  .news-list-right-top {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
   .news-list-title {
     font-size: 28px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .news-list-time {
     font-size: 18px;
-    font-family: HiraginoSansGB-W3;
+
     color: rgba(102, 102, 102, 1);
     margin-right: 21px;
   }
@@ -123,9 +124,7 @@
   .news-list-content {
     display: block;
     width: 550px;
-
     font-size: 20px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
     text-overflow: ellipsis;
     overflow: hidden;

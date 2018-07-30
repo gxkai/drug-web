@@ -177,7 +177,7 @@
           <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
           <span class="text-red">¥ {{recommendList.price}} /盒</span>
         </li>
-        <li class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray">
+        <li class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray" v-if="recommendLists.length !== 0">
         </li>
       </ul>
     </div>
@@ -185,7 +185,6 @@
 
     <!-- 撑屏容器 -->
     <div class="add-container is-720x100">
-
     </div>
     <new-footer></new-footer>
   </div>

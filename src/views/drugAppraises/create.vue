@@ -5,46 +5,46 @@
       <span slot="right" @click="commit()">发布</span>
     </new-header>
     <div class="body">
-    <ul >
-      <li v-for="(item,index) in list" :key="index">
-        <div class="line1">
-          <img v-lazy="item.logo">
-          <new-star class="star" size="middle"  :score.sync="item.score" ></new-star>
+      <ul>
+        <li v-for="(item,index) in list" :key="index">
+          <div class="line1">
+            <img src="item.logo">
+            <new-star class="star" size="middle" :score.sync="item.score"></new-star>
+          </div>
+          <div class="line"></div>
+          <div class="line2">
+            <new-edit-div v-model="item.content"></new-edit-div>
+          </div>
+          <div class="line3">
+            <i class="iconfont ic-zhaoxiangji"></i>
+            <span>你的评价能帮助其他小伙伴哦</span>
+          </div>
+        </li>
+      </ul>
+      <footer>
+        <div class="title1">
+          <i class="iconfont ic-shangchuanmoban"></i>
+          <span>店铺评分</span>
         </div>
-        <div class="line"></div>
-        <div class="line2">
-        <new-edit-div v-model="item.content"></new-edit-div>
+        <div class="content1">
+          <div class="line1">
+            <span>配送速度</span>
+            <new-star size="small" :score.sync="deliveryScore"></new-star>
+          </div>
+          <div class="line2">
+            <span>服务态度</span>
+            <new-star size="small" :score.sync="serviceScore"></new-star>
+          </div>
+          <div class="line3">
+            <span>描述相符</span>
+            <new-star size="small" :score.sync="describeScore"></new-star>
+          </div>
+          <div class="line4">
+            <span>商品包装</span>
+            <new-star size="small" :score.sync="packageScore"></new-star>
+          </div>
         </div>
-        <div class="line3">
-          <i class="iconfont ic-zhaoxiangji"></i>
-          <span>你的评价能帮助其他小伙伴哦</span>
-        </div>
-      </li>
-    </ul>
-    <footer>
-      <div class="title1">
-        <i class="iconfont ic-shangchuanmoban"></i>
-        <span>店铺评分</span>
-      </div>
-      <div class="content1">
-        <div class="line1">
-          <span>配送速度</span>
-          <new-star  size="small" :score.sync="deliveryScore"></new-star>
-        </div>
-        <div class="line2">
-          <span>服务态度</span>
-          <new-star  size="small" :score.sync="serviceScore"></new-star>
-        </div>
-        <div class="line3">
-          <span>描述相符</span>
-          <new-star  size="small" :score.sync="describeScore"></new-star>
-        </div>
-        <div class="line4">
-          <span>商品包装</span>
-          <new-star  size="small" :score.sync="packageScore"></new-star>
-        </div>
-      </div>
-    </footer>
+      </footer>
     </div>
   </div>
 </template>
@@ -122,26 +122,29 @@
     height: calc(100vh - 130px);
     overflow: scroll;
   }
+
   li {
-    width:720px;
-    height:620px;
-    background:rgba(255,255,255,1);
+    width: 720px;
+    height: 620px;
+    background: rgba(255, 255, 255, 1);
     margin-bottom: 20px;
   }
+
   li .line {
-    width:720px;
-    height:2px;
-    background:rgba(199,199,199,1);
-    opacity:0.4;
+    width: 720px;
+    height: 2px;
+    background: rgba(199, 199, 199, 1);
+    opacity: 0.4;
   }
-  li .line1{
+
+  li .line1 {
     display: flex;
     align-items: center;
     padding: 20px;
   }
 
-  li .line1 img{
-    height:98px;
+  li .line1 img {
+    height: 98px;
   }
 
   li .line1 .star {
@@ -151,40 +154,42 @@
   li .line2 {
     padding: 20px;
     height: 340px;
-    background:rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
   }
-
 
   li .line3 {
     padding: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background:rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
   }
 
   .ic-zhaoxiangji:before {
     font-size: 70px;
     color: #CCCCCC;
   }
+
   li .line3 span {
-    font-size:26px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(204,204,204,1);
+    font-size: 26px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(204, 204, 204, 1);
   }
 
   .ic-shangchuanmoban {
     font-size: 50px;
     color: #CCCCCC;
   }
+
   footer {
-    background:rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
     padding: 20px;
   }
+
   footer .title1 span {
-    font-size:26px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
+    font-size: 26px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
   }
 
   footer .content1 div {

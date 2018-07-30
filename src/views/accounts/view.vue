@@ -9,9 +9,9 @@
 
     <div class="a-content-list flex-stream-sb padding-10" @click="changeVisible">
       <span>头像</span>
-      <div>
-        <span><img class="avatar" v-lazy="aa"/></span>
-        <i class=" iconfont ic-youjiantou"></i>
+      <div class="flex-stream-sb">
+        <img class="is-55x55" v-lazy="aa"/>
+        <i class="iconfont ic-youjiantou"></i>
       </div>
     </div>
     <router-link class="a-content-list flex-stream-sb padding-10" to='/accounts/edit'>
@@ -248,7 +248,6 @@ let headPic;
     background: #1AB6FD;
     color: white;
   }
-
   .account-container{
     width: 720px;
     height: 100vh;
@@ -273,6 +272,11 @@ let headPic;
   .padding-10{
     padding:0 10px;
     box-sizing: border-box;
+  }
+
+  .is-55x55{
+    width: 55px;
+    height: 55px;
   }
 
 </style>

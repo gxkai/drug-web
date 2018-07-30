@@ -61,6 +61,11 @@ export default new Router({
       path: '/accounts/insurance/consumeinfomore',
       component: () => import('@/views/accounts/insurance/consumeinfomore')
     },
+    // hospital
+    {
+      path: '/hospital/view',
+      component: () => import('@/views//hospital/view')
+    },
     {
       path: '/about',
       component: () => import('@/views/about.vue')
@@ -155,6 +160,10 @@ export default new Router({
       component: () => import('@/views/repositoryTypes/index.vue')
     },
     {
+      path: '/drugTypes',
+      component: () => import('@/views/drugTypes/index.vue')
+    },
+    {
       path: '/messageTypes',
       component: () => import('@/views/messageTypes/index.vue')
     },
@@ -166,6 +175,5 @@ export default new Router({
       path: '/createFromCarts',
       component: () => import('@/views/orders/create-from-carts.vue')
     }
-
   ]
 });

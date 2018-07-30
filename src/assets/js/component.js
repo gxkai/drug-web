@@ -6,12 +6,14 @@ import newEditDiv from '../../components/edit-div';
 import newEditLine from '../../components/edit-line';
 import newMain from '../../components/main';
 
-export default {install(Vue, options) {
-  Vue.component('new-header', newHeader);
-  Vue.component('new-star', newStar);
-  Vue.component('new-footer', newFooter);
-  Vue.component('new-no-data', newNoData);
-  Vue.component('new-edit-div', newEditDiv);
-  Vue.component('new-edit-line', newEditLine);
-  Vue.component('new-main', newMain);
-}};
+export default {
+  install(Vue, options) {
+    Vue.component('new-header', newHeader);
+    Vue.component('new-star', newStar);
+    Vue.component('new-footer', newFooter);
+    Vue.component('new-no-data', newNoData);
+    Vue.component('new-edit-div', newEditDiv);
+    Vue.component('new-edit-line', newEditLine);
+    Vue.component('new-main', newMain);
+  }
+};
