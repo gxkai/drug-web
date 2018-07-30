@@ -172,6 +172,15 @@ export default new Router({
       path: '/messages',
       name: 'messages',
       component: () => import('@/views/messages/index.vue')
+    },
+    {
+      path: '/shops/view',
+      component: () => import('@/views/shops/view.vue')
+    },
+    {
+      path: '/shops/info',
+      name: 'shopInfo',
+      component: () => import('@/views/shops/info.vue')
     }
   ]
 });
