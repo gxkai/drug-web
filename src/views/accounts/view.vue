@@ -171,7 +171,7 @@ let headPic;
                   }
                 }).then(res => {
                   _this.account.fileId = _this.fileId;
-                  _this.$store.commit('setAccount', _this.account);
+                  _this.$store.commit('SET_ACCOUNT', _this.account);
                   alert(_this.fileId);
                   let URL_PATH = process.env.URL_PATH;
                   _this.$store.getters.account.imgUrl = URL_PATH + '/files/' + _this.account.fileId + '/image?fileType=LOGO';

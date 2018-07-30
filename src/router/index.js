@@ -174,6 +174,10 @@ export default new Router({
       component: () => import('@/views/messages/index.vue')
     },
     {
+      path: '/orders/createFromCarts',
+      component: () => import('@/views/orders/create-from-carts.vue')
+    },
+    {
       path: '/shops/view',
       component: () => import('@/views/shops/view.vue')
     },
