@@ -105,7 +105,7 @@
         }).catch(error => {
           this.exception(error);
         });
-      },
+      }
     }
   };
 </script>

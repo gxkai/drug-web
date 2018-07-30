@@ -181,8 +181,11 @@ export default new Router({
     },
     {
       path: '/shops/info',
-      name: 'shopInfo',
       component: () => import('@/views/shops/info.vue')
+    },
+    {
+      path: '/accounts/card/success.vue',
+      component: () => import('@/views/accounts/card/success.vue')
     }
   ]
 });
