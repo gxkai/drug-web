@@ -2,7 +2,7 @@
   <div>
     <new-header title="购物车">
       <i class="iconfont ic-arrow-right" slot="left"></i>
-      <span slot="right">删除</span>
+      <span slot="right" @click="onRemoveBatch()">删除</span>
     </new-header>
 
     <div class="close">
@@ -20,6 +20,7 @@
       </div>
     </div>
     <div class="body">
+      <new-no-data v-if="cartShops.length === 0"></new-no-data>
       <ul class="cartShops">
         <li v-for="cartShop in cartShops">
           <new-header bgColor="white" height="low" leftSize="small" leftColor="black">
@@ -141,11 +142,12 @@
       }
     },
     created() {
-      // console.log(this.list);
+      this.getData();
     },
     methods: {
       getData() {
-        if (!this.cartShops) {
+        if (this.cartShops.length === 0) {
+          debugger;
           this.$http.get('/carts').then(res => {
             res.data.cartShops.forEach(e => {
               e.radio = false;
@@ -155,21 +157,30 @@
                   e.radio = false;
                 });
               });
+              this.cartShops.push(e);
             });
-            this.setCartShops(res.data.cartShops);
           }).catch(error => {
             this.exception(error);
           });
         }
       },
+      /**
+       * 减少数量
+       */
       onAdd(cartDrug) {
         cartDrug.quantity++;
       },
+      /**
+       * 增加数量
+       */
       onCut(cartDrug) {
         if (cartDrug.quantity > 1) {
           cartDrug.quantity--;
         }
       },
+      /**
+       * 单个删除
+       */
       onRemove(cartShop, cartShopIndex, cartRx, cartRxIndex, cartDrug, cartDrugIndex) {
         if (cartRx.rxId) {
           MessageBox('提示', '改处方单中药品会一起删除').then(action => {
@@ -202,7 +213,39 @@
           });
         }
       },
-      onOrder() {
+      /**
+       * 批量删除
+       */
+      onRemoveBatch() {
+        MessageBox('提示', '确定删除?').then(action => {
+          this.$http.delete('carts?cartIds=' + this.getCartIds()).then(res => {
+            this.remove();
+          }).catch(error => {
+            this.exception(error);
+          });
+        });
+      },
+      /**
+       * 通用删除方法
+       */
+      remove() {
+        for (let i = this.cartShops.length; i > 0; i--) {
+          for (let j = this.cartShops[i - 1].rxs.length; j > 0; j--) {
+            for (let k = this.cartShops[i - 1].rxs[j - 1].drugs.length; k > 0; k--) {
+              if (this.cartShops[i - 1].rxs[j - 1].drugs[k - 1].radio) {
+                this.cartShops[i - 1].rxs[j - 1].drugs.splice(k - 1, 1);
+              }
+            }
+            if (this.cartShops[i - 1].rxs[j - 1].drugs.length === 0) {
+              this.cartShops[i - 1].rxs.splice(j - 1, 1);
+            }
+          }
+          if (this.cartShops[i - 1].rxs.length === 0) {
+            this.cartShops.splice(i - 1, 1);
+          }
+        }
+      },
+      getCartIds() {
         let cartIds = [];
         this.cartShops.forEach(e => {
           e.rxs.forEach(e => {
@@ -213,7 +256,15 @@
             });
           });
         });
-        this.$http.get('/orders/cart').then(res => {
+        return cartIds;
+      },
+      onOrder() {
+        this.remove();
+        let cartIds = this.getCartIds();
+        this.$http.get('/orders/cart?cartIds=' + cartIds).then(res => {
+          this.remove();
+        }).catch(error => {
+          this.exception(error);
         });
       },
       onRadio(type, cartShop, cartRx, cartDrug) {
@@ -288,7 +339,7 @@
                   cartShop.radio = cartDrug.radio;
                   if ((cartDrug.radio && this.cartShops.filter(e => {
                     return e.radio === !cartDrug.radio;
-                  }).length === 0) || cartDrug.radio) {
+                  }).length === 0) || !cartDrug.radio) {
                     this.chooseAll = cartDrug.radio;
                   }
                 }
@@ -380,6 +431,7 @@
     height: 215px;
     background-color: rgba(241, 239, 240, 1);
     display: flex;
+    margin-bottom: 10px;
   }
 
   .slide-content .icon1 {
