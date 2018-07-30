@@ -151,11 +151,10 @@
         </div>
       </div>
 
+    <new-joincar>
 
-
-
-
-    </div>
+    </new-joincar>
+   </div>
     <!--评论结束-->
   </div>
 </template>
@@ -199,7 +198,7 @@
           }
         },
         timeConvert(date) {
-         return this.timeConvert(this.drugAppraises.createdDate);
+         return this.timeConvert(date);
         }
       }
     };
@@ -440,6 +439,7 @@
     margin-left: 105px;
     margin-top: 33px;
     font-size:24px;
+    padding-bottom: 26px;
   }
   .logo{
     width:114px;
