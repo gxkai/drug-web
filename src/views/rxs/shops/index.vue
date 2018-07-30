@@ -1,7 +1,5 @@
 <template>
   <div id="Pharmacylist">
-
-
      <div class="J_Pharmacylist_header">
      <router-link to="/rxs/view" ><i class="icon iconfont icon-fanhui" style="color:white!important;"></i></router-link>
       <div class="J_Pharmacylist_header_search">
@@ -13,7 +11,6 @@
         <router-link to="/messageTypes" class="J_Pharmacylist_header_hong"></router-link>
       </i></div>
     </div>
-
 
     <div class="J_Pharmacylist_nav">
       <div @click="orderById()" :class="{'blueactive1':index1==comprehensive1}">综合
@@ -118,7 +115,7 @@
     },
     methods: {
       getRxShops() {
-        this.$http.get(this.URL_PATH + '/rxs/' + this.id + '/shops?lng=' + this.lng + '&lat=' + this.lat, {
+        this.$http.get('/rxs/' + this.id + '/shops?lng=' + this.lng + '&lat=' + this.lat, {
           headers: {
             'Authorization': this.$store.getters.token
           }
@@ -230,7 +227,7 @@
   };
 </script>
 
-<style scoped lang="scss">
+<style scoped >
   .J_Pharmacylist_header {
     display: flex;
     justify-content: space-between;
@@ -288,148 +285,148 @@
     line-height: 3rem;;
   }
 
-  .J_Pharmacylist_nav {
-    display: flex;
-    justify-content: space-between;
-    height: 4rem;
-    line-height: 4rem;
-    padding: 0 5%;
- }
+  /*.J_Pharmacylist_nav {*/
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*height: 4rem;*/
+    /*line-height: 4rem;*/
+    /*padding: 0 5%;*/
+ /*}*/
 
-  .J_Pharmacylist_li {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 3%;
-    position: relative;
-    margin: 0rem 0;
-  }
+  /*.J_Pharmacylist_li {*/
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*padding: 0.5rem 3%;*/
+    /*position: relative;*/
+    /*margin: 0rem 0;*/
+  /*}*/
 
-  .J_Pharmacylist_li_img {
-    width: 40%;
-  }
+  /*.J_Pharmacylist_li_img {*/
+    /*width: 40%;*/
+  /*}*/
 
-  .J_Pharmacylist_li_img img {
-    width:10rem;
-    height: 8rem;
-    margin-top: 2.54rem;
-  }
+  /*.J_Pharmacylist_li_img img {*/
+    /*width:10rem;*/
+    /*height: 8rem;*/
+    /*margin-top: 2.54rem;*/
+  /*}*/
 
-  .J_Pharmacylist_li_zi {
-    width: 55%;
-  }
+  /*.J_Pharmacylist_li_zi {*/
+    /*width: 55%;*/
+  /*}*/
 
-  .J_Pharmacylist_li_zi div {
-    height: 2rem;
-    line-height: 2rem;
-  }
+  /*.J_Pharmacylist_li_zi div {*/
+    /*height: 2rem;*/
+    /*line-height: 2rem;*/
+  /*}*/
 
-  .J_Pharmacylist_li_zi .J_Pharmacylist_li_icon {
-    position: absolute;
-    top: 10rem;
-    right: 5%;
-    height: 3.2rem;
-    text-align: center;
-    color: #ffffff;
-    width: 3rem;
-    background-color: red;
-    /*background: url('/static/img/rxs/redCar.png');*/
-    background-size: cover;
-  }
+  /*.J_Pharmacylist_li_zi .J_Pharmacylist_li_icon {*/
+    /*position: absolute;*/
+    /*top: 10rem;*/
+    /*right: 5%;*/
+    /*height: 3.2rem;*/
+    /*text-align: center;*/
+    /*color: #ffffff;*/
+    /*width: 3rem;*/
+    /*background-color: red;*/
+    /*!*background: url('/static/img/rxs/redCar.png');*!*/
+    /*background-size: cover;*/
+  /*}*/
 
-  .J_Pharmacylist_li_icon .icon {
-    font-size: 1.8rem;
-  }
+  /*.J_Pharmacylist_li_icon .icon {*/
+    /*font-size: 1.8rem;*/
+  /*}*/
 
-  .samespan {
-    width: 10px;
+  /*.samespan {*/
+    /*width: 10px;*/
 
-    color: #d6cfcf!important;
-    display: inline-block;
-    font-size: 10rem;
-  }
+    /*color: #d6cfcf!important;*/
+    /*display: inline-block;*/
+    /*font-size: 10rem;*/
+  /*}*/
 
-  .blueactive {
-    color: #1AB6FD;
-    width: 10px;
-    display: inline-block;
-    font-size: 1rem;
+  /*.blueactive {*/
+    /*color: #1AB6FD;*/
+    /*width: 10px;*/
+    /*display: inline-block;*/
+    /*font-size: 1rem;*/
 
-  }
+  /*}*/
 
-  .d_drugs_index {
-    flex: 1;
-    margin-top: -2px;
-    line-height: 0.5rem;
-    margin-top: 0.2rem;
-  }
+  /*.d_drugs_index {*/
+    /*flex: 1;*/
+    /*margin-top: -2px;*/
+    /*line-height: 0.5rem;*/
+    /*margin-top: 0.2rem;*/
+  /*}*/
 
-  .d_elips {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 66%;
-  }
-  .elips{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+  /*.d_elips {*/
+    /*text-overflow: ellipsis;*/
+    /*overflow: hidden;*/
+    /*white-space: nowrap;*/
+    /*width: 66%;*/
+  /*}*/
+  /*.elips{*/
+    /*text-overflow: ellipsis;*/
+    /*overflow: hidden;*/
+    /*white-space: nowrap;*/
+  /*}*/
 
-  .d_fl {
-    float: left;
-  }
+  /*.d_fl {*/
+    /*float: left;*/
+  /*}*/
 
-  .ic-gouwuche1 {
-    color: red;
-    font-size: 3rem !important;
-  }
-  .star-main{margin:0px!important;}
-  .blueactive1{color: #1AB6FD;}
-  .J_Pharmacylist_header {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 2%;
-    padding-right: 5%;
-    height: 5rem;
-    line-height: 5rem;
-    font-size: 1.4rem;
-    background-color: #1AB6FD;
-    color: #ffffff;
-  }
+  /*.ic-gouwuche1 {*/
+    /*color: red;*/
+    /*font-size: 3rem !important;*/
+  /*}*/
+  /*.star-main{margin:0px!important;}*/
+  /*.blueactive1{color: #1AB6FD;}*/
+  /*.J_Pharmacylist_header {*/
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*padding: 0 2%;*/
+    /*padding-right: 5%;*/
+    /*height: 5rem;*/
+    /*line-height: 5rem;*/
+    /*font-size: 1.4rem;*/
+    /*background-color: #1AB6FD;*/
+    /*color: #ffffff;*/
+  /*}*/
 
 
-  .J_Pharmacylist_header_hong {
-    width: 0.6rem;
-    height: 0.6rem;
-    background-color: red;
-    border-radius: 0.6rem;
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
+  /*.J_Pharmacylist_header_hong {*/
+    /*width: 0.6rem;*/
+    /*height: 0.6rem;*/
+    /*background-color: red;*/
+    /*border-radius: 0.6rem;*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*right: 0;*/
+  /*}*/
 
-  .J_Pharmacylist_header_search {
-    background-color: #12b1f9;
-    width: 76%;
-    opacity: 0.8;
-    height: 3rem;
-    margin-top: 1rem;
-    border-radius: 3rem;
-    position: relative;
-  }
+  /*.J_Pharmacylist_header_search {*/
+    /*background-color: #12b1f9;*/
+    /*width: 76%;*/
+    /*opacity: 0.8;*/
+    /*height: 3rem;*/
+    /*margin-top: 1rem;*/
+    /*border-radius: 3rem;*/
+    /*position: relative;*/
+  /*}*/
 
-  .J_Pharmacylist_header_search div {
-    position: absolute;
-    left: 1rem;
-    width: 10%;
-    height: 3rem;
-    top: -0.8rem;
-  }
-.icon-sousuo{color: white;}
-.d_search_title{line-height: 2.5rem!important;position: absolute;left: 3.2rem;top: 0rem;}
-.d_search_title input{width: 100%;background:none;}
-input::-webkit-input-placeholder{color:white;font-size: 1.4rem;color: #fff;}
-input.custom {caret-color: white;color: white;font-size: 1.4rem;}
-.icon-fanhui{color:white!important;}
+  /*.J_Pharmacylist_header_search div {*/
+    /*position: absolute;*/
+    /*left: 1rem;*/
+    /*width: 10%;*/
+    /*height: 3rem;*/
+    /*top: -0.8rem;*/
+  /*}*/
+/*.icon-sousuo{color: white;}*/
+/*.d_search_title{line-height: 2.5rem!important;position: absolute;left: 3.2rem;top: 0rem;}*/
+/*.d_search_title input{width: 100%;background:none;}*/
+/*input::-webkit-input-placeholder{color:white;font-size: 1.4rem;color: #fff;}*/
+/*input.custom {caret-color: white;color: white;font-size: 1.4rem;}*/
+/*.icon-fanhui{color:white!important;}*/
 
 </style>
