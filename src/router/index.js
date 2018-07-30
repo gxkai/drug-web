@@ -96,7 +96,7 @@ export default new Router({
       component: () => import('@/views/forget.vue')
     },
     {
-      path: '/feedbacks',
+      path: '/feedbacks/create',
       component: () => import('@/views/feedbacks/create.vue')
     },
     {
