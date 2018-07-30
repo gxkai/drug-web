@@ -1,18 +1,22 @@
 <template>
   <div class="bind-container">
-    <mt-header title="商品详情">
-      <router-link to="/" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+    <new-header title="商品详情">
+      <i class="iconfont ic-arrow-right" slot="left"></i>
+    </new-header>
     <!--上方轮播开始-->
     <div class="broadcast">
-      <div class="broadcast-content"></div>
+      <div class="broadcast-content" style="background:red;">
+        <mt-swipe :auto="4000">
+          <mt-swipe-item v-for="(drugImg,index) in drugImgs" :key="index">
+            <img v-lazy="drugImg" class="width-percent-100"/>
+          </mt-swipe-item>
+        </mt-swipe>
+      </div>
       <div class="position-relative">
         <div class="broadcast-title position-absolute">
-          <p class="drug-name elps">沙科舒 复方沙棘籽油栓</p>
-          <p class="drug-function elps">清热燥湿，消肿止痛、杀虫止痒、活血生肌。</p>
-          <p class="drug-price">¥29.79</p>
+          <p class="drug-name elps text-center">{{shopDrugSpec.name}}</p>
+          <p class="drug-function elps text-center">{{shopDrugSpec.introduce}}</p>
+          <p class="drug-price text-center">¥{{shopDrugSpec.price}}</p>
         </div>
         <div class="broadcast-title-two position-absolute">
 
@@ -21,31 +25,31 @@
     </div>
     <!--库存开始-->
     <div class="stock">
-      <div class="d-inline-block fl width-percent-52">
+      <div class="d-inline-block fl width-percent-52 fz20">
         <span class="allow">国药准字：</span>
-        <span class="stock-number d-inline-block">ZI9991076</span>
+        <span class="stock-number d-inline-block">{{shopDrugSpec.sfda.replace('国药准字','')}}</span>
         <span class="d-inline-block">|</span>
       </div>
       <div class="d-inline-block fl width-percent-48">
         <span class="allow">库存：</span>
-        <span>998</span>
+        <span>{{shopDrugSpec.stock}}</span>
       </div>
     </div>
-    <div class="stock mt-l-0">
+    <div class="stock mt-l-0 fz20">
       <div class="d-inline-block fl width-percent-52">
         <span class="allow">包装规格：</span>
-        <span class="stock-number d-inline-block">7盒/粒</span>
+        <span class="stock-number d-inline-block">{{shopDrugSpec.spec}}</span>
         <span class="d-inline-block">|</span>
       </div>
       <div class="d-inline-block fl width-percent-48">
-        <span class="allow">是否处方：</span>
-        <span>是</span>
+        <span class="allow">类型：</span>
+        <span>{{shopDrugSpec.isOtc | TYPES(shopDrugSpec.isOtc)}}</span>
       </div>
     </div>
     <!--库存结束-->
 
     <!--配送商家开始-->
-    <div class="distribution mode">
+    <div class="distribution mode fz20">
       <div class="width-percent-32 d-inline-block">
         <i class="icon iconfont ic-peisong text-1AB6FD business"></i>
         <span>商家配送</span>
@@ -64,28 +68,34 @@
     <!--商品详情开始-->
      <div class="shop-detail">
           <div class="height-l-20"></div>
+       <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 1}}">
           <div class="shop-details">
             <i class="icon iconfont ic-liwu-copy text-1AB6FD predetnt"></i>
-            <span>商品详情</span>
+            <span class="text-666666">商品详情</span>
             <i class="icon iconfont ic-youjiantou1 text-333333"></i>
-          </div>
-       <div class="shop-details">
-         <i class="icon iconfont ic-pingjia text-1AB6FD predetnt"></i>
-         <span>商品评价</span>
-         <i class="icon iconfont ic-youjiantou1 text-333333"></i>
+           </div>
+       </router-link>
+        <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 0}}">
+          <div class="shop-details">
+             <i class="icon iconfont ic-pingjia text-1AB6FD predetnt"></i>
+             <span class="text-666666">商品评价</span>
+             <i class="icon iconfont ic-youjiantou1 text-333333"></i>
+         </div>
+       </router-link>
       </div>
-     </div>
     <!--商品详情结束-->
 
     <!--公司信息开始-->
      <div class="company">
         <div class="companys">
             <div class="d-inline-block company-logo">
-
+              <img v-lazy="headImg" class="logo"/>
             </div>
           <div class="company-name d-inline-block">
-              <p class="elps">上海凯尔康大药房有限责任公司</p>
-              <p class="elps">星星</p>
+              <p class="elps">{{shopDrugSpec.shopName}}</p>
+              <p class="elps">
+                 <new-star :size="shopTotalAppraise.serviceScore" disabled></new-star>
+              </p>
           </div>
           <div class="d-inline-block fr">
             <i class="icon iconfont ic-anquan text-1AB6FD"></i>
@@ -93,22 +103,27 @@
         </div>
         <!--客户服务开始-->
          <div class="width-percent-90 customer">
-            <div class="d-inline-block width-percent-24 text-center">
+            <div class="d-inline-block width-percent-22 text-center">
                   <p>客户服务</p>
-                  <p class="text-red">4.9分</p>
+                  <p class="text-red">{{shopTotalAppraise.serviceScore}}分</p>
             </div>
-           <div class="d-inline-block width-percent-24 text-center">
+           <div class="d-inline-block width-percent-22 text-center">
              <p>发货速度</p>
-             <p class="text-red">4.9分</p>
+             <p class="text-red">{{shopTotalAppraise.deliveryScore}}分</p>
            </div>
-           <div class="d-inline-block width-percent-24 text-center">
+           <div class="d-inline-block width-percent-22 text-center">
              <p>物流速度</p>
-             <p class="text-red">4.9分</p>
+             <p class="text-red">{{shopTotalAppraise.describeScore}}分</p>
            </div>
-           <div class="d-inline-block width-percent-24 text-center">
+           <div class="d-inline-block width-percent-22 text-center">
              <p>商品包装</p>
-             <p class="text-red">4.9分</p>
+             <p class="text-red">{{shopTotalAppraise.packageScore}}分</p>
            </div>
+           <router-link :to="{path:'/shops/view',query:{id:shopDrugSpec.shopId}}">
+           <div class="entershop text-white">
+             进入店铺
+           </div>
+           </router-link>
 
          </div>
         <!--客户服务结束-->
@@ -117,19 +132,25 @@
     <!--评论开始-->
     <div class="comment width-percent-100">
         <div class="content-comment width-percent-94 m-auto border-bottom-f1f1f1">
-              <span class="d-inline-block fl">顾客评论（99+）</span>
+              <span class="d-inline-block fl">顾客评论（{{drugAppraises.total}}）</span>
+           <router-link tag="span" :to="{path: '/shopDrugSpecs/view', query: {index: 0}}">
               <span class="d-inline-block fr">查看全部评价</span>
+           </router-link>
         </div>
-      <div class="stars width-percent-94 m-auto">
-          <span class="fl d-inline-block">星星</span>
-          <span class="fr d-inline-block">15*****</span>
+
+      <div v-for="drugAppraise in pageList">
+        <div class="stars width-percent-94 m-auto">
+          <span class="fl d-inline-block"> <new-star :size="drugAppraise.score" disabled></new-star></span>
+          <span class="fr d-inline-block">{{drugAppraise.username|asterisk}}</span>
+        </div>
+        <div class="width-percent-94 m-auto good-comment">
+          <span class="elps">{{drugAppraise.content}}</span>
+        </div>
+        <div class="times width-percent-94 m-auto">
+         {{timeConvert(drugAppraise.createdDate)}}
+        </div>
       </div>
-      <div class="width-percent-94 m-auto good-comment">
-        <span>物流比较快，好评！</span>
-      </div>
-      <div class="times width-percent-94 m-auto">
-        2017/7/22 18:55
-      </div>
+
 
 
 
@@ -141,32 +162,47 @@
 
 <script>
     export default{
-      name: 'drugShop',
       data() {
         return {
-          drugImgs: []
-        }
+          shopTotalAppraise: '',
+          drugImgs: [],
+          shopDrugSpec: [],
+          drugAppraises: '',
+          headImg: '',
+          pageList: '',
+          createdDate: ''
+         }
       },
-      created(){
-        let id = this.$route.query.id;
-        this.$http.get(this.URL_PATH + '/shopDrugSpecs/' + id)
+      created() {
+        let id = '1';
+        this.$http.get('/shopDrugSpecs/' + id)
           .then(res => {
             if (res.status === 200) {
               this.shopDrugSpec = res.data;
-              console.log(this.shopDrugSpec);
               this.shopDrugSpec.fileIds.forEach(fileId => {
-                let URL = this.URL_PATH + '/files/' + fileId + '/image?resolution=LARGE_PIC';
+                let URL = '/files/' + fileId + '/image?resolution=LARGE_PIC';
                 this.drugImgs.push(URL);
               });
               this.shopTotalAppraise = this.shopDrugSpec.shopTotalAppraise;
               this.pageList = this.shopDrugSpec.drugAppraises.list;
               this.drugAppraises = this.shopDrugSpec.drugAppraises;
-              this.headImg = this.URL_PATH + '/files/' + this.shopDrugSpec.shopLogo + '/image?resolution=LARGE_LOGO';
-              this.$storage.setStorage('shopDrugSpec', this.shopDrugSpec);
+              this.headImg = '/files/' + this.shopDrugSpec.shopLogo + '/image?resolution=LARGE_LOGO';
             }
           });
+      },
+      filters: {
+        TYPES(drugtype) {
+          if (drugtype) {
+            return '非处方药';
+          } else {
+            return '处方药';
+          }
+        },
+        timeConvert(date) {
+         return this.timeConvert(this.drugAppraises.createdDate);
+        }
       }
-    }
+    };
 </script>
 
 <style scoped>
@@ -185,6 +221,9 @@
     width: 720px;
     height: 465px;
     background: white;
+  }
+  .mint-swipe-items-wrap{
+    height: 465px;
   }
 
   .broadcast-title {
@@ -245,6 +284,7 @@
   .allow {
     margin-left: 59px;
     color: #13C1FE;
+    font-size: 20px;
   }
 
   .stock-allow {
@@ -262,12 +302,14 @@
 
   .stock-number {
     width: 150px;
+    font-size: 20px;
   }
 
   .distribution {
     width: 720px;
     height: 80px;
     background: rgba(255, 255, 255, 1);
+    font-size: 20px;
   }
 
   .business {
@@ -307,6 +349,7 @@
     margin-left: 63px;
     margin-bottom: 17px;
     line-height: 69px;
+    font-size: 30px;
   }
   .ic-youjiantou1{
     margin-left: 206px;
@@ -317,7 +360,7 @@
   .icon{width: auto!important;
     height: auto!important;}
   .predetnt{
-    margin-left: 185px;
+    margin-left: 180px;
   }
   .ic-youjiantou1{
     float: right;
@@ -343,6 +386,7 @@
     font-family:HiraginoSansGB-W3;
     color:rgba(51,51,51,1);
     line-height:30px;
+    margin-left: 70px;
   }
   .ic-anquan{
     width: 58px;
@@ -359,18 +403,47 @@
   .content-comment{
     height: 51px;
     line-height: 51px;
+    font-size: 20px;
   }
   .stars{
     height: 17px;
     line-height: 17px;
     margin-top: 17px!important;
+    font-size: 20px;
   }
   .times{
     margin-top: 8px;
     padding-bottom: 18px;
+    font-size: 16px;
   }
   .good-comment{
     margin-top: 17px!important;
     color:rgba(102,102,102,1);
+    font-size:20px;
   }
+  .stock span{
+    font-size: 20px;
+  }
+  .customer div p:first-child{
+    font-size: 19px;
+  }
+  .customer div p:last-child{
+    font-size: 18px;
+  }
+  .entershop{
+    width:450px;
+    height:50px;
+    background:rgba(19,193,254,1);
+    border-radius:25px;
+    line-height: 50px;
+    text-align:center;
+    margin-left: 105px;
+    margin-top: 33px;
+    font-size:24px;
+  }
+  .logo{
+    width:114px;
+    height:78px;
+    margin-left: 54px;
+    margin-top: 17px;}
 </style>
