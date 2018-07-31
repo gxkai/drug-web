@@ -6,20 +6,20 @@
   <div class="box-right is-flex flex-column flex-sa ml-40">
     <div class="">
       <i class="iconfont ic-yao text-13C1FE"></i>
-      <span>名称:</span>
+      <span class="text-box">名称:</span>
       <span class="">{{name}}</span>
     </div>
     <div class="">
       <span>
          <i class="iconfont ic-yaopinshuju text-13C1FE"></i>
-         <span>规格:</span>
+         <span class="text-box">规格:</span>
          <span class="">{{spec}}</span>
       </span>
     </div>
     <div class="">
       <i class="iconfont ic-qian text-13C1FE"></i>
-      <span>最低价:</span>
-      <span class="text-red">{{price}}</span>
+      <span class="text-box">最低价:</span>
+      <span class="text-red">&yen; {{price}}</span>
     </div>
   </div>
 </div>
@@ -104,5 +104,9 @@
   .bg-2BB292{
     background: #2BB292;
     color: white;
+  }
+  .text-box{
+    width: 90px !important;
+    display: inline-block;
   }
 </style>
