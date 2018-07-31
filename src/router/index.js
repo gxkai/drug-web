@@ -194,13 +194,27 @@ export default new Router({
     },
     {
       path: '/messageTypes',
-      name: 'messageTypes',
       component: () => import('@/views/messageTypes/index.vue')
     },
     {
       path: '/messages',
-      name: 'messages',
       component: () => import('@/views/messages/index.vue')
+    },
+    {
+      path: '/orders/createFromCarts',
+      component: () => import('@/views/orders/create-from-carts.vue')
+    },
+    {
+      path: '/shops/view',
+      component: () => import('@/views/shops/view.vue')
+    },
+    {
+      path: '/shops/info',
+      component: () => import('@/views/shops/info.vue')
+    },
+    {
+      path: '/accounts/card/success.vue',
+      component: () => import('@/views/accounts/card/success.vue')
     }
   ]
 });

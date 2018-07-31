@@ -1,10 +1,10 @@
 <template>
   <div id="repositioning">
-    <div class="header1">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-      <input v-model="inputVal">
-      <span class="span2" @click="search()">搜索</span>
-    </div>
+    <new-header>
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left"></i>
+      <input v-model="inputVal" slot="center" class="header-input">
+      <span slot="right" @click="search()">搜索</span>
+    </new-header>
     <div v-show="Maps">
       <baidu-map class="map" :center="center" :zoom="15">
         <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
@@ -87,7 +87,7 @@
           'lat': lat,
           'lng': lng
         };
-        this.$store.commit('SETPOSITION', position);
+        this.$store.commit('SET_POSITION', position);
         this.$router.push({path: '/', query: {address: name, lat: lat, lng: lng, district: district}});
       },
       near(index) {
@@ -99,7 +99,7 @@
           'lat': lat,
           'lng': lng
         };
-        this.$store.commit('SETPOSITION', position);
+        this.$store.commit('SET_POSITION', position);
         this.$router.push({path: '/', query: {address: name, lat: lat, lng: lng, district: district}});
       },
       // getLocation() {
@@ -152,22 +152,7 @@
 </script>
 
 <style scoped>
-  .header1 {
-    width: 720px;
-    height: 128px;
-    font-size: 36px;
-    background: rgba(255, 255, 255, 1);
-    font-family: HiraginoSansGB-W3;
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .ic-arrow-right:before {
-    font-size: 50px;
-  }
-
-  .header1 input {
+  .header-input{
     width: 548px;
     height: 53px;
     background: rgba(210, 210, 210, 1);
@@ -175,14 +160,6 @@
     border-radius: 27px;
     border: 0;
     outline: none;
-  }
-
-  .header1 .span2 {
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(19, 193, 254, 1);
-    line-height: 70px;
-    padding-right: 11px;
   }
 
   .map {

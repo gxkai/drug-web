@@ -1,4 +1,5 @@
 export default {
   token: '',
-  account: {}
+  account: {},
+  cartShops: []
 };

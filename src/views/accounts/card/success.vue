@@ -1,17 +1,15 @@
 <template>
-  <div class="bind-container">
-    <mt-header>
-      <router-link to="/accounts" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
-    <div >
+  <div class="container">
+    <new-header>
+      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
+    </new-header>
+
+    <div>
       <div class="div-img">
-        <div>
-        <img src="../../../assets/image/blackchufang.png"/>
-        </div>
+        <img src="../../../assets/image/success.png"/>
         <span>{{message}}</span>
       </div>
+
       <div class="div-btn">
         <router-link to="/accounts/bind" class="bind-success-btn btn-white box-center">随意逛逛</router-link>
         <router-link to="/" class="bind-success-btn btn-1AB6FD box-center">返回首页</router-link>
@@ -36,56 +34,65 @@
 </script>
 
 <style scoped>
-  .mint-header {
-    background: white;
-    color: black
-  }
-
-  .mint-button--primary {
-    background: #1AB6FD;
-    color: #e2e2e2;
-  }
-
-  .bind-container{
+  .container {
     width: 720px;
     height: 100vh;
   }
-  a,a:hover{
-    color: white;
-    text-decoration: none;
+
+  .div-img img {
+    width: 151px;
+    height: 151px;
+    display: block;
+    margin: auto;
+    margin-top: 140px;
   }
 
-  .box-center{
+  .div-img span {
+    height: 35px;
+    font-size: 36px;
+    font-family: MicrosoftYaHei;
+    color: rgba(19, 193, 254, 1);
+    line-height: 24px;
+    display: block;
+    text-align: center;
+    margin-top: 48px;
+    margin-bottom: 78px;
+  }
+
+  .div-btn {
+    width: 620px;
+    display: block;
+    margin: auto;
+
+  }
+
+  .div-btn a {
     display: flex;
+    float: left;
+    font-size: 24px;
+    font-family: MicrosoftYaHei;
+    color: rgba(102, 102, 102, 1);
     align-items: center;
     justify-content: center;
   }
-  .div-img{
-    width: 720px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .div-btn{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-top: 88px;
-  }
-  .bind-success-btn{
-    width:177px;
-    height:51px;
-    border-radius:20px;
+
+  .div-btn a:first-child {
+    margin-right: 207px;
   }
 
-  .btn-white{
-    background:white;
+  .bind-success-btn {
+    width: 177px;
+    height: 58px;
+    border-radius: 20px;
+  }
+
+  .btn-white {
+    background: white;
     border: 1px #BFBFBF solid;
-    color:rgba(102,102,102,1);
+    color: rgba(102, 102, 102, 1);
   }
 
-  .btn-1AB6FD{
-    background:#1AB6FD;
+  .btn-1AB6FD {
+    background: #1AB6FD;
   }
 </style>

@@ -317,8 +317,8 @@
                   };
                   localStorage.clear();
                   localStorage.setItem('account', JSON.stringify(person));
-                  this.$store.commit('setToken', ress.data);
-                  this.$store.commit('setAccount', res.data);
+                  this.$store.commit('SET_TOKEN', ress.data);
+                  this.$store.commit('SET_ACCOUNT', res.data);
                 }
               });
             }

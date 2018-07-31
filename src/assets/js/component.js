@@ -5,8 +5,8 @@ import newNoData from '../../components/no-data';
 import newEditDiv from '../../components/edit-div';
 import newEditLine from '../../components/edit-line';
 import newMain from '../../components/main';
-import newShops from '../../components/shops';
-import newRxShopDrug from '../../components/rxshopdrug';
+import newCloseList from '../../components/close-list';
+import newLine from '../../components/line';
 
 export default {
   install(Vue, options) {
@@ -19,5 +19,7 @@ export default {
     Vue.component('new-main', newMain);
     Vue.component('new-shop', newShops);
     Vue.component('new-rx-shop-drugs', newRxShopDrug);
+    Vue.component('new-close-list', newCloseList);
+    Vue.component('new-line', newLine);
   }
 };

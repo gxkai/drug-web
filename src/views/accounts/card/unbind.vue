@@ -54,7 +54,7 @@
           }
         })
           .then((res) => {
-            this.$store.commit('setAccount', this.account);
+            this.$store.commit('SET_ACCOUNT', this.account);
             this.$router.push({name: '/accounts/bind/success'});
           })
           .catch((error) => {
