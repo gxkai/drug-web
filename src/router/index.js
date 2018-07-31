@@ -223,6 +223,10 @@ export default new Router({
     {
       path: '/shopDrugSpecs/appraise',
       component: () => import('@/views/shopDrugSpecs/child/appraise.vue')
+    },
+    {
+      path: '/drugs/shops/index',
+      component: () => import('@/views/drugs/shops/index.vue')
     }
   ]
 });

@@ -58,15 +58,12 @@
         </div>
       </transition>
 
-
-
   </div>
 </template>
 
 <script>
   import {Toast} from 'mint-ui';
   export default {
-    props: ['urlRouter'],
     name: 'newFooter',
     data() {
       return {
@@ -81,8 +78,13 @@
       this.headImg = '/files/' + this.drugInfo.shopLogo + '/image?resolution=LARGE_LOGO';
     },
     props: {
-      drugInfo: Array,
-      required: true
+      drugInfo: {
+        type: Array,
+        required: true
+      },
+      urlRouter: {
+        type: String
+      }
     },
     methods: {
       drugReduce() {
