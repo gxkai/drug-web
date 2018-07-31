@@ -141,7 +141,7 @@
       <div v-for="drugAppraise in pageList">
         <div class="stars width-percent-94 m-auto">
           <span class="fl d-inline-block"> <new-star :size="drugAppraise.score" disabled></new-star></span>
-          <span class="fr d-inline-block">{{drugAppraise.username|asterisk}}</span>
+          <span class="fr d-inline-block">{{drugAppraise.username}}</span>
         </div>
         <div class="width-percent-94 m-auto good-comment">
           <span class="elps">{{drugAppraise.content}}</span>
@@ -151,7 +151,7 @@
         </div>
       </div>
 
-    <new-joincar>
+    <new-joincar :drugInfo="alldrugInfo">
 
     </new-joincar>
    </div>
@@ -169,8 +169,9 @@
           drugAppraises: '',
           headImg: '',
           pageList: '',
-          createdDate: ''
-         }
+          createdDate: '',
+          alldrugInfo: []
+        };
       },
       created() {
         let id = '1';
@@ -178,6 +179,7 @@
           .then(res => {
             if (res.status === 200) {
               this.shopDrugSpec = res.data;
+              this.alldrugInfo = res.data;
               this.shopDrugSpec.fileIds.forEach(fileId => {
                 let URL = '/files/' + fileId + '/image?resolution=LARGE_PIC';
                 this.drugImgs.push(URL);
@@ -189,6 +191,8 @@
             }
           });
       },
+      methods: {
+      },
       filters: {
         TYPES(drugtype) {
           if (drugtype) {
@@ -198,7 +202,7 @@
           }
         },
         timeConvert(date) {
-         return this.timeConvert(date);
+          return this.timeConvert(date);
         }
       }
     };
@@ -230,7 +234,7 @@
     height: 160px;
     background: rgba(19, 193, 254, 1);
     margin: auto;
-    z-index: 9;
+    z-index: 1;
     margin-left: 22px;
   }
 

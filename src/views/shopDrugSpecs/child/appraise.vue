@@ -9,10 +9,10 @@
        <div class="width-percent-100">
 
          <span class="d-inline-block total-appraise fl">
-           <p>总评分：5.0分</p>
+           <p>总评分：{{shopTotalAppraise.score}}分</p>
            <new-star size="4" disabled class="new-star"></new-star>
          </span>
-         <span class="d-inline-block fr net-friend elips">共有199位网友评论</span>
+         <span class="d-inline-block fr net-friend elips">共有{{totalNum}}位网友评论</span>
 
 
        </div>
@@ -55,7 +55,10 @@
         autoFill: false,
         bgColor: 'white',
         color: '#000000'
-      }
+      };
+    },
+    components: {
+      'mt-loadmore': Loadmore
     },
     watch: {
       pageList: 'scrollToBottom'
@@ -69,7 +72,7 @@
       this.loadMore();
     },
     methods: {
-      loadMore (){
+      loadMore() {
         this.loading = false;
         if (this.pageNum < this.totalPage) {
           this.pageNum++;

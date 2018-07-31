@@ -176,6 +176,10 @@ export default new Router({
     {
       path: '/shopDrugSpecs',
       component: () => import('@/views/shopDrugSpecs/index.vue')
+    },
+    {
+      path: '/shopDrugSpecs/appraise',
+      component: () => import('@/views/shopDrugSpecs/child/appraise.vue')
     }
   ]
 });
