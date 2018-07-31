@@ -147,10 +147,10 @@
         this.tips.forEach(e => {
           e.label = e.name;
           e.value = e.id;
-          e.logoUrl = this.URL_PATH + '/files/' + e.logo + '/image?resolution=' + 'LARGE_LOGO';
+          e.logoUrl = '/files/' + e.logo + '/image?resolution=' + 'LARGE_LOGO';
           e.picUrls = [];
           e.pics.forEach(e1 => {
-            e.picUrls.push(this.URL_PATH + '/files/' + e1 + '/image?resolution=' + 'LARGE_PIC');
+            e.picUrls.push('/files/' + e1 + '/image?resolution=' + 'LARGE_PIC');
           });
         });
         this.drugInfo.value = this.tips[0].value;
