@@ -1,18 +1,30 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
+import shops from '@/components/shops';
+import rxshopdrug from '@/components/rxshopdrug';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/hello',
       name: 'HelloWorld',
       component: HelloWorld
     },
     {
-      path: '/index',
+      path: '/shops',
+      name: 'shops',
+      component: shops
+    },
+    {
+      path: '/rxshopdrug',
+      name: 'rxshopdrug',
+      component: rxshopdrug
+    },
+    {
+      path: '/',
       component: () => import('@/views/index')
     },
     // accounts
@@ -66,6 +78,23 @@ export default new Router({
       path: '/hospital/view',
       component: () => import('@/views//hospital/view')
     },
+    // rxs
+    {
+      path: '/rxs',
+      component: () => import('@/views/rxs/index.vue')
+    },
+    {
+      path: '/rxs/shops',
+      component: () => import('@/views/rxs/shops/index.vue')
+    },
+    {
+      path: '/rxs/shops/drugs',
+      component: () => import('@/views/rxs/shops/drugs/index.vue')
+    },
+    {
+      path: '/rxs/view',
+      component: () => import('@/views/rxs/view.vue')
+    },
     {
       path: '/about',
       component: () => import('@/views/about.vue')
@@ -79,7 +108,7 @@ export default new Router({
       component: () => import('@/views/forget.vue')
     },
     {
-      path: '/feedbacks',
+      path: '/feedbacks/create',
       component: () => import('@/views/feedbacks/create.vue')
     },
     {
@@ -165,13 +194,27 @@ export default new Router({
     },
     {
       path: '/messageTypes',
-      name: 'messageTypes',
       component: () => import('@/views/messageTypes/index.vue')
     },
     {
       path: '/messages',
-      name: 'messages',
       component: () => import('@/views/messages/index.vue')
+    },
+    {
+      path: '/orders/createFromCarts',
+      component: () => import('@/views/orders/create-from-carts.vue')
+    },
+    {
+      path: '/shops/view',
+      component: () => import('@/views/shops/view.vue')
+    },
+    {
+      path: '/shops/info',
+      component: () => import('@/views/shops/info.vue')
+    },
+    {
+      path: '/accounts/card/success.vue',
+      component: () => import('@/views/accounts/card/success.vue')
     },
     {
       path: '/shopDrugSpecs',

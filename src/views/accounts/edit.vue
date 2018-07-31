@@ -63,7 +63,7 @@
           }
         })
           .then((res) => {
-            this.$store.commit('setAccount', this.account);
+            this.$store.commit('SET_ACCOUNT', this.account);
             this.$router.push({path: '/accounts/view'});
           })
           .catch((error) => {

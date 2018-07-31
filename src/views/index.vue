@@ -186,12 +186,11 @@
     <!-- 撑屏容器 -->
     <div class="add-container is-720x100">
     </div>
-    <new-footer></new-footer>
+
+    <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
 <script>
-  // import DownTime from '../components/timeDown';
-  // import allBottom from '../components/allBottom';
   import BaiduMap from 'vue-baidu-map/components/Map/Map.vue';
   import {BmMarker, BmLabel} from 'vue-baidu-map';
   import {Toast} from 'mint-ui';
@@ -304,11 +303,7 @@
       if (sessionStorage.IsThisTheFirstTime === 'yes') {
         if (localStorage.account !== undefined) {
           sessionStorage.clear();
-          this.$http.get('/accounts/verify', {
-            headers: {
-              'Authorization': JSON.parse(localStorage.account).token
-            }
-          }).then(ress => {
+          this.$http.get('/accounts/verify').then(ress => {
             if (ress.status === 200) {
               axios({
                 method: 'get',
@@ -322,8 +317,8 @@
                   };
                   localStorage.clear();
                   localStorage.setItem('account', JSON.stringify(person));
-                  this.$store.commit('setToken', ress.data);
-                  this.$store.commit('setAccount', res.data);
+                  this.$store.commit('SET_TOKEN', ress.data);
+                  this.$store.commit('SET_ACCOUNT', res.data);
                 }
               });
             }
