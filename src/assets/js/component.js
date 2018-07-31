@@ -7,6 +7,8 @@ import newEditLine from '../../components/edit-line';
 import newMain from '../../components/main';
 import newCloseList from '../../components/close-list';
 import newLine from '../../components/line';
+import newShops from '../../components/shops';
+import newRxShopDrug from '../../components/rxshopdrug';
 
 export default {
   install(Vue, options) {

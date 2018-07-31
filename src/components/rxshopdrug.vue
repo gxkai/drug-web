@@ -2,7 +2,7 @@
 <div class="rx-shop-drugs-box is-flex flex-row flex-item pl-20 position-relative">
   <span class="toc-tip position-absolute all-center" v-if="isOtc === true">非处</span>
   <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
-  <img class="is-200x200" :src="imgUrl">
+  <img class="is-200x200" :src="getImgURL(fileId, 'LOGO')">
   <div class="box-right is-flex flex-column flex-sa ml-40">
     <div class="">
       <i class="iconfont ic-yao text-13C1FE"></i>
@@ -41,8 +41,8 @@
         isOtc: {
           default: false
         },
-        imgUrl: {
-          default: 'http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg'
+        fileId: {
+          default: '1'
         }
       }
     };

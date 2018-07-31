@@ -51,7 +51,7 @@
 
     <ul>
       <li v-for="(cart,index) in carts" :key="index" class="m-10">
-        <new-rx-shop-drugs :isOtc="cart.isOtc" :name="cart.name" :spec="cart.spec" :imgUrl="cart.imgUrl" :price="cart.price"></new-rx-shop-drugs>
+        <new-rx-shop-drugs :isOtc="cart.isOtc" :name="cart.name" :spec="cart.spec" :fileId="cart.fileId" :price="cart.price"></new-rx-shop-drugs>
       </li>
     </ul>
     <!-- TODO rxBottom -->
@@ -98,7 +98,6 @@
           .then(res => {
             this.drugs = res.data;
             this.initCart();
-            // getImages(this.carts, this, 'LARGE_LOGO');
           });
       },
       lookMore(index) {
@@ -136,8 +135,6 @@
         cart.brand = this.origins[index].brand;
         cart.price = this.origins[index].price;
         cart.fileId = this.origins[index].fileId;
-        // this.getImage(cart, this, 'LARGE_LOGO');
-        console.log(cart);
         this.show = false;
       },
       createCart() {
