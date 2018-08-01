@@ -251,6 +251,10 @@ export default new Router({
     {
       path: '/drugs/shops/index',
       component: () => import('@/views/drugs/shops/index.vue')
-    }
+    },
+    {
+      path: '/shops/index',
+      component: () => import('@/views/shops/index.vue')
+    },
   ]
 });
