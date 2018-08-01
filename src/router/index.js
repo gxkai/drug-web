@@ -189,8 +189,11 @@ export default new Router({
     },
     {
       path: '/orders/delivery',
-      name: 'delivery',
       component: () => import('@/views/orders/delivery.vue')
+    },
+    {
+      path: '/orderRefunds/view',
+      component: () => import('@/views/orderRefunds/view.vue')
     }
   ]
 });

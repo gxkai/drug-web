@@ -38,50 +38,29 @@
     <div class="delivery-drugstore">
       <div class="delivery-drugstore-name">
         <img style="width: 25px; height:25px;" src="../../assets/image/drug.png"/>
-        百家惠大药房(前台写死数据）
         {{order.shopName}}
       </div>
       <i class="iconfont ic-dianhua text-13C1FE fz-50"></i>
     </div>
 
-    <!--<div v-for="rxDrug in order.rxDrugs" class="delivery-drugs ">-->
-    <!--<div v-for="item in rxDrug.drugs" class="delivery-drug">-->
-    <!--<div class="delivery-drug-dot"><img src="../../assets/image/delivery/circle.png"/></div>-->
-    <!--<div class="delivery-drug-img"><img v-lazy="item.imgUrl" class="d_distribution_shop"/></div>-->
-    <!--<div class="delivery-drug-content">-->
-    <!--<span>{{item.drugName}}</span>-->
-    <!--<span>¥{{item.price}}/ x{{item.quantity}}</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="delivery-drugs " v-for="item in order.norDrugs">-->
-    <!--<div class="delivery-drug">-->
-    <!--<div class="delivery-drug-dot"><img src="../../assets/image/delivery/circle.png"/></div>-->
-    <!--<div class="delivery-drug-img"><img v-lazy="item.imgUrl"/></div>-->
-    <!--<div class="delivery-drug-content">-->
-    <!--<span>{{item.drugName}}</span>-->
-    <!--<span>¥{{item.price}}/ x{{item.quantity}}</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <div class="delivery-drugs">
-      <div class="delivery-drug">
+    <div v-for="rxDrug in order.rxDrugs" class="delivery-drugs ">
+      <div v-for="item in rxDrug.drugs" class="delivery-drug">
         <div class="delivery-drug-dot"><img src="../../assets/image/delivery/circle.png"/></div>
-        <div class="delivery-drug-img"><img src="../../assets/image/consultation.png"/></div>
+        <div class="delivery-drug-img"><img v-lazy="item.imgUrl" class="d_distribution_shop"/></div>
         <div class="delivery-drug-content">
-          <span>儿童复方感冒灵颗粒1</span>
-          <span>￥29.8/*2</span>
+          <span>{{item.drugName}}</span>
+          <span>¥{{item.price}}/ x{{item.quantity}}</span>
         </div>
       </div>
+    </div>
 
+    <div class="delivery-drugs " v-for="item in order.norDrugs">
       <div class="delivery-drug">
         <div class="delivery-drug-dot"><img src="../../assets/image/delivery/circle.png"/></div>
-        <div class="delivery-drug-img"><img src="../../assets/image/consultation.png"/></div>
+        <div class="delivery-drug-img"><img v-lazy="item.imgUrl"/></div>
         <div class="delivery-drug-content">
-          <span>老人复方感冒灵颗粒2</span>
-          <span>￥55.8/*3</span>
+          <span>{{item.drugName}}</span>
+          <span>¥{{item.price}}/ x{{item.quantity}}</span>
         </div>
       </div>
     </div>
@@ -91,26 +70,22 @@
         <li>
           <img src="../../assets/image/delivery/pay.png"/>
           <span>已支付</span>
-          <span style="font-size: 24px">￥103.5</span>
-          <!--<span style="font-size: 24px">¥{{order.payAmount}}</span>-->
+          <span style="font-size: 24px">¥{{order.payAmount}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/address.png"/>
           <span>送货地址</span>
-          <span>湖南长沙张家界湖北路中国所涉及的连锁店25号</span>
-          <!--<span>{{order.address}}</span>-->
+          <span>{{order.address}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/number.png"/>
           <span>运单编号</span>
-          <span>201807311324001</span>
-          <!--<span>{{order.number}}</span>-->
+          <span>{{order.number}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/telNumber.png"/>
           <span>送货人号码</span>
-          <span style="color:#13C1FE;">15050204201</span>
-          <!--<span style="color:#13C1FE;">{{order.courierTel}}</span>-->
+          <span style="color:#13C1FE;">{{order.courierTel}}</span>
         </li>
       </ul>
     </div>
