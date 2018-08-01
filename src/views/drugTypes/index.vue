@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <new-footer></new-footer>
+    <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
 
