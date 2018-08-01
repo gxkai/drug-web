@@ -91,15 +91,12 @@
       <span>意见反馈</span>
       <i class="iconfont ic-youjiantou"></i>
     </router-link>
-    <!--<allBottom></allBottom>-->
 
+    <new-footer :urlRouter="$route.path"></new-footer>
   </div>
-
 </template>
 
 <script>
-  // import allBottom from '../../components/allBottom';
-
   export default {
     data() {
       return {

@@ -1,12 +1,13 @@
 <template>
   <div class="screen">
-    <mt-header title="筛选">
-      <router-link to="#" slot="left" style="color:white!important;">
-        <mt-button icon="back" @click="$router.go(-1)" style="color:white!important;"></mt-button>
-      </router-link>
-      <mt-button slot="right" @click="reset">重置</mt-button>
-    </mt-header>
 
+    <new-header :title="head">
+      <router-link to="#" slot="left" class="iconfont ic-arrow-right text-white">
+      </router-link>
+      <router-link to="#" slot="right" >
+        <router-link class="text-white" to="/">重置</router-link>
+      </router-link>
+    </new-header>
 
     <div class="width96 marginAuto">
       <div @click="filterSearch(1)">
@@ -24,30 +25,30 @@
       <mt-button type="primary" size="large" class="mt5" @click="drugSearch()" style="background:#1AB6FD;margin-top:1rem;">确定</mt-button>
     </div>
 
-
   </div>
 </template>
 
 <script>
-  import headGreen from '@/components/headGreen';
-
   export default {
     name: 'screen',
     data() {
       return {
         head: '筛选',
-        showDrugTitle: this.$route.query.showDrugTitle,
-        pageFrom: this.$route.query.pageFrom,
-        drugTypeId: this.$route.query.typeId,
-        keyword: this.$route.query.keyword,
-        filterData: this.$route.query.filterData
-
+        showDrugTitle: '',
+        pageFrom: '',
+        drugTypeId: '',
+        keyword: '',
+        filterData: ''
       };
     },
     components: {
-      'headGreen': headGreen
     },
     created: function () {
+      this.showDrugTitle = this.$route.query.showDrugTitle;
+      this.pageFrom = this.$route.query.pageFrom;
+      this.drugTypeId = this.$route.query.typeId;
+      this.keyword = this.$route.query.keyword;
+      this.filterData = this.$route.query.filterData;
       if (!this.filterData) {
         this.filterData = {};
       } else {
@@ -92,33 +93,18 @@
     background: #1AB6FD;
     color: white;
   }
-
   .mint-cell-value span {
     text-align: right;
   }
-
-  .mint-cell-value {
-    width: 50%;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   .width96 {
     width: 96%;
   }
-
   .screen {
     margin: auto;
   }
-
   .screen p {
     margin-bottom: 1rem;
     width: 95%;
     margin: auto;
   }
-/*.mintui-back:beforei{color: white!important;}*/
-/*.router-link-active i{color: white!important;}*/
-/*.mint-header{color: white!important;}*/
 </style>

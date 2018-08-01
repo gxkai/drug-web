@@ -5,6 +5,7 @@ import shops from '@/components/shops';
 import rxshopdrug from '@/components/rxshopdrug';
 import drugRefund from '@/components/drugRefund';
 import refundDrugs from '@/components/refund-drugs';
+import drugShops from '@/components/drug-shops';
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/refundDrugs',
       name: 'refundDrugs',
       component: refundDrugs
+    },
+    {
+      path: '/drugShops',
+      name: 'drugShops',
+      component: drugShops
     },
     {
       path: '/',
@@ -247,6 +253,18 @@ export default new Router({
     {
       path: '/orderRefunds/view',
       component: () => import('@/views/orderRefunds/view.vue')
+    },
+    {
+      path: '/drugs',
+      component: () => import('@/views/drugs/index.vue')
+    },
+    {
+      path: '/drugs/screen',
+      component: () => import('@/views/drugs/screen.vue')
+    },
+    {
+      path: '/drugs/screenConfirm',
+      component: () => import('@/views/drugs/screenConfirm.vue')
     }
   ]
 });
