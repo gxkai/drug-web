@@ -119,7 +119,7 @@
         if (data !== '') {
           data = data || this.drugId;
           // 根据选择的值修改页面
-          const url ='/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort;
+          const url = '/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort;
           this.$http.get(url).then((res) => {
             this.total = res.data.total;
             this.shopLists = res.data.list;
