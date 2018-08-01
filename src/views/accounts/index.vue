@@ -71,12 +71,11 @@
           <img src="../../assets/image/accounts/refund.png"/>
           <span class="mt-15">退款</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray" to="/"
-                     :to="null==this.account.medicalNumber?'/accounts/bind':'/accounts/unbind'" >
+        <router-link class="flex-box account-content-padding border-right-gray" to="/accounts/view">
         <img src="../../assets/image/accounts/bind.png"/>
         <span class="mt-15">账户信息</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray" to="/accounts/view">
+        <router-link class="flex-box account-content-padding border-right-gray" :to="null==this.account.medicalNumber?'/accounts/bind':'/accounts/unbind'">
           <img src="../../assets/image/accounts/card.png"/>
           <span class="mt-15">医保卡信息</span>
         </router-link>

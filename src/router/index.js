@@ -247,6 +247,14 @@ export default new Router({
       component: () => import('@/views/accounts/card/success.vue')
     },
     {
+      path: '/shopDrugSpecs',
+      component: () => import('@/views/shopDrugSpecs/index.vue')
+    },
+    {
+      path: '/shopDrugSpecs/appraise',
+      component: () => import('@/views/shopDrugSpecs/child/appraise.vue')
+    },
+    {
       path: '/orders/delivery',
       component: () => import('@/views/orders/delivery.vue')
     },
@@ -265,6 +273,10 @@ export default new Router({
     {
       path: '/drugs/screenConfirm',
       component: () => import('@/views/drugs/screenConfirm.vue')
+    },
+    {
+      path: '/drugs/shops/index',
+      component: () => import('@/views/drugs/shops/index.vue')
     }
   ]
 });
