@@ -225,6 +225,10 @@ export default new Router({
       component: () => import('@/views/shopDrugSpecs/child/appraise.vue')
     },
     {
+      path: '/orders/view',
+      component: () => import('@/views/orders/view.vue')
+    },
+    {
       path: '/orders/delivery',
       component: () => import('@/views/orders/delivery.vue')
     },
