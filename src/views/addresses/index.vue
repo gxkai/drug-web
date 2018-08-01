@@ -1,27 +1,23 @@
 <template>
-  <div style="background:white;">
-
+  <div class="address-body">
     <new-header title="地址管理">
       <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
-    <div class="body1">
-      <div class="item" v-for="(address,index) in addressList" :key="index">
-        <div class="line1">
-          <span class="span1">{{address.consignee}}</span>
-          <span class="span2">{{address.phone}}</span>
-        </div>
-        <div class="line2">
-          <img src="../../assets/image/defaulPic.png"  v-if="address.defaulted"/>
-          <span class="span1">{{address.address.substring(0,17)}}</span>
-          <span v-if="address.address.length > 20">...</span>
-          <router-link :to="{path:'/addresses/edit',query:{id:address.id}}">
-            <i class="iconfont ic-icon6"></i>
-          </router-link>
-          <button  @click="del(address.id,index)">删除</button>
-        </div>
+    <div class="address-content" v-for="(address,index) in addressList" :key="index">
+      <div class="address-content-lineOne">
+        <span>{{address.consignee}}</span>
+        <span>{{address.phone}}</span>
+      </div>
+      <div class="address-content-lineTwo">
+        <img v-if="address.defaulted" src="../../assets/image/defaulPic.png"/>
+        <span>{{address.address}}</span>
+        <router-link :to="{path:'/addresses/edit',query:{id:address.id}}" class="address-content-edit">
+          <img src="../../assets/image/edit.png"/>
+        </router-link>
+        <button @click="del(address.id,index)">删除</button>
       </div>
     </div>
-    <router-link tag="button" to="/addresses/create" class="footer1">+ 新增地址</router-link>
+    <router-link tag="button" to="/addresses/create" class="address-footer">+ 新增地址</router-link>
   </div>
 </template>
 
@@ -63,73 +59,87 @@
 </script>
 
 <style scoped>
-  .footer1 {
-    width:720px;
-    height:100px;
-    background:rgba(19,193,254,1);
+  * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-family: HiraginoSansGB-W3;
+  }
+
+  .address-body {
+    width: 720px;
+    height: 100vh;
+  }
+
+  .address-content {
+    width: 720px;
+    height: 100px;
+    margin-top: 31px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .address-content-lineOne {
+    font-size: 28px;
+    color: rgba(51, 51, 51, 1);
+    margin-bottom: 18px;
+  }
+
+  .address-content-lineOne span {
+    margin-right: 22px;
+  }
+
+  .address-content-lineTwo {
+    width: 720px;
+    height: 42px;
+    display: flex;
+  }
+
+  .address-content-lineTwo img {
+    width: 48px;
+    height: 30px;
+    margin-top: 8px;
+    margin-right: 30px;
+  }
+
+  .address-content-lineTwo span {
+    width: 475px;
+    height: 42px;
+    font-size: 28px;
+    color: rgba(153, 153, 153, 1);
+    margin-right: 50px;
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .address-content-edit img {
+    width: 33px;
+    height: 36px;
+    position: absolute;
+    right: 80px;
+  }
+
+  .address-content-lineTwo button {
+    width: 60px;
+    height: 36px;
+    position: absolute;
+    right: 30px;
+    margin-top: 8px;
+  }
+
+  .address-footer {
+    width: 720px;
+    height: 100px;
+    background: rgba(19, 193, 254, 1);
     border: 0;
     outline: none;
-    font-size:32px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
-    line-height:30px;
+    font-size: 32px;
+    color: rgba(255, 255, 255, 1);
+    line-height: 30px;
     position: fixed;
-    bottom:0;
-  }
-  .body1 {
-    height: calc(100vh - 230px);
-    overflow: scroll;
-  }
-
-  .item .line1 {
-    display: inline-flex;
-    font-size:28px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
-    line-height:30px;
-    margin-top: 22px;
-  }
-  .item .line1 .span1 {
-    margin-left: 22px;
-  }
-
-  .item .line1 .span2 {
-    margin-left: 22px;
-  }
-
-  .item .line2{
-    font-size:28px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
-    margin-top: 22px;
-    width: 720px;
-    height: 60px;
-  }
-
-  .item .line2 img {
-    width: 48px;
-    margin-left: 22px;
-  }
-
-  .item .line2 .span1 {
-    font-family:HiraginoSansGB-W3;
-    color:rgba(153,153,153,1);
-    line-height:30px;
-    margin-left: 22px;
-  }
-
-  .item .line2 button {
-    float: right
-  }
-
-  item i {
-    float: right;
-  }
-
-  .ic-icon6:before {
-    float: right;
-    font-size: 40px;
-    color:rgba(51,51,51,1);
+    bottom: 0;
   }
 
 </style>
