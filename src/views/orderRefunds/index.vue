@@ -30,19 +30,7 @@
         pageNum: 0,
         pageSize: 15,
         pages: null,
-        // pageList: [],
-        pageList: [{
-          id: 1,
-          shopName: '测试大药房',
-          state: 'REFUND_COMPLETE',
-          drugs: {
-            isOtc: true,
-            drugLogo: 1,
-            name: '药品名称',
-            spec: '12/盒',
-            quantity: '12'
-          }
-        }],
+        pageList: [],
         allLoaded: false,
         nullLoaded: false,
         accountId: this.$store.getters.account.id

@@ -120,27 +120,8 @@
         flieBtn: true,
         orderId: '',
         pleasechoose: '请选择',
-        // rxDrugs: [],
-        rxDrugs: [{
-          rxId: 12,
-          drugs: {
-            isOtc: true,
-            logo: 1,
-            drugName: '药品名称',
-            spec: '12/盒',
-            quantity: '12',
-            price: 58.5
-          }
-        }],
-        // norDrugs: [],
-        norDrugs: {
-          isOtc: true,
-          logo: 1,
-          drugName: '药品名称',
-          spec: '12/盒',
-          quantity: '12',
-          price: 58.5
-        },
+        rxDrugs: [],
+        norDrugs: [],
         onUploadFiles: [],
         orderInfo: {},
         explain: '',

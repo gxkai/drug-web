@@ -44,21 +44,7 @@
     name: 'orderRefundDetails',
     data() {
       return {
-        list: {
-          state: 'REFUND_COMPLETE',
-          lastModifiedDate: '2017-10-31 23:07',
-          price: '69.00',
-          reason: '不想要了',
-          createdDate: '2017-10-31 23:07',
-          number: '9879464331678354654',
-          drugs: {
-            isOtc: true,
-            drugLogo: 1,
-            name: '药品名称',
-            spec: '12/盒',
-            quantity: '12'
-          }
-        },
+        list: {},
         count: '',
         formatDate: this.timeConvert
       };
@@ -101,7 +87,6 @@
   .flex-sb{
     justify-content: space-between;
   }
-
   .refund-title{
     width:720px;
     height:100px;
