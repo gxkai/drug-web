@@ -207,7 +207,6 @@
     width:720px;
     height:28px;
     font-size:30px;
-    font-family:HiraginoSansGB-W3;
     color:rgba(255,255,255,1);
     line-height:40px;
     text-align: center;
@@ -232,7 +231,6 @@
   .all-orders{
     width:120px;
     font-size:24px;
-    font-family:HiraginoSansGB-W3;
     color:rgba(51,51,51,1);
     line-height:40px;
   }
@@ -263,7 +261,6 @@
     width:120px;
     height:20px;
     font-size:20px;
-    font-family:MicrosoftYaHei;
     color:rgba(51,51,51,1);
     line-height:36px;
     text-align: center;
@@ -284,7 +281,6 @@
     padding: 24px 16px;
     box-sizing: border-box;
 
-    font-family:HiraginoSansGB-W3;
     color:rgba(102,102,102,1);
   }
 </style>

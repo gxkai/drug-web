@@ -87,5 +87,35 @@ export default {
     Vue.prototype.formateText = (text, len) => {
       return text.trim().substring(0, len);
     };
+
+    /**
+     * 获取性别
+     * @param gender
+     */
+    Vue.prototype.getGender = (gender) => {
+      switch (gender) {
+        case 'MALE':
+          return '男';
+        case 'FEMALE':
+          return '女';
+        default:
+          return '';
+      }
+    };
+
+    /**
+     * 获取状态
+     * @param state
+     */
+    Vue.prototype.transform = (state) => {
+      switch (state) {
+        case 'REFUNDING':
+          return '退款中';
+        case 'REFUND_COMPLETE':
+          return '退款完成';
+        case 'CLOSES':
+          return '订单关闭';
+      }
+    };
   }
 };

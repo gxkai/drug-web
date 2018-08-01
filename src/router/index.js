@@ -1,18 +1,42 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
+import shops from '@/components/shops';
+import rxshopdrug from '@/components/rxshopdrug';
+import drugRefund from '@/components/drugRefund';
+import refundDrugs from '@/components/refund-drugs';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/hello',
       name: 'HelloWorld',
       component: HelloWorld
     },
     {
-      path: '/index',
+      path: '/shops',
+      name: 'shops',
+      component: shops
+    },
+    {
+      path: '/rxshopdrug',
+      name: 'rxshopdrug',
+      component: rxshopdrug
+    },
+    {
+      path: '/drugRefund',
+      name: 'drugRefund',
+      component: drugRefund
+    },
+    {
+      path: '/refundDrugs',
+      name: 'refundDrugs',
+      component: refundDrugs
+    },
+    {
+      path: '/',
       component: () => import('@/views/index')
     },
     // accounts
@@ -66,6 +90,23 @@ export default new Router({
       path: '/hospital/view',
       component: () => import('@/views//hospital/view')
     },
+    // rxs
+    {
+      path: '/rxs',
+      component: () => import('@/views/rxs/index.vue')
+    },
+    {
+      path: '/rxs/shops',
+      component: () => import('@/views/rxs/shops/index.vue')
+    },
+    {
+      path: '/rxs/shops/drugs',
+      component: () => import('@/views/rxs/shops/drugs/index.vue')
+    },
+    {
+      path: '/rxs/view',
+      component: () => import('@/views/rxs/view.vue')
+    },
     {
       path: '/about',
       component: () => import('@/views/about.vue')
@@ -79,7 +120,7 @@ export default new Router({
       component: () => import('@/views/forget.vue')
     },
     {
-      path: '/feedbacks',
+      path: '/feedbacks/create',
       component: () => import('@/views/feedbacks/create.vue')
     },
     {
@@ -175,6 +216,18 @@ export default new Router({
     //   path: '/orders/createFromCarts',
     //   component: () => import('@/views/orders/create-from-carts.vue')
     // },
+    {
+      path: '/orderRefunds',
+      component: () => import('@/views/orderRefunds/index.vue')
+    },
+    {
+      path: '/orderRefunds/create',
+      component: () => import('@/views/orderRefunds/create.vue')
+    },
+    {
+      path: '/orderRefunds/view',
+      component: () => import('@/views/orderRefunds/view.vue')
+    },
     {
       path: '/shops/view',
       component: () => import('@/views/shops/view.vue')
