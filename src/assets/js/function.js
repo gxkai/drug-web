@@ -102,5 +102,20 @@ export default {
           return '';
       }
     };
+
+    /**
+     * 获取状态
+     * @param state
+     */
+    Vue.prototype.transform = (state) => {
+      switch (state) {
+        case 'REFUNDING':
+          return '退款中';
+        case 'REFUND_COMPLETE':
+          return '退款完成';
+        case 'CLOSES':
+          return '订单关闭';
+      }
+    };
   }
 };
