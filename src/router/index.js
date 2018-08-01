@@ -241,12 +241,16 @@ export default new Router({
       component: () => import('@/views/accounts/card/success.vue')
     },
     {
-      path: '/orders/delivery',
-      component: () => import('@/views/orders/delivery.vue')
+      path: '/shopDrugSpecs',
+      component: () => import('@/views/shopDrugSpecs/index.vue')
     },
     {
-      path: '/orderRefunds/view',
-      component: () => import('@/views/orderRefunds/view.vue')
+      path: '/shopDrugSpecs/appraise',
+      component: () => import('@/views/shopDrugSpecs/child/appraise.vue')
+    },
+    {
+      path: '/drugs/shops/index',
+      component: () => import('@/views/drugs/shops/index.vue')
     }
   ]
 });
