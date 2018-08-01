@@ -5,8 +5,9 @@
     <img class="is-200x200" :src="getImgURL(fileId, 'LOGO')">
     <div class="box-right pl-40 is-flex flex-column flex-sa">
       <span>{{ drugName }}</span>
-      <div class="is-flex flex-sb">
-        <span>规格：{{ spec }}</span>
+      <span>规格：{{ spec }}</span>
+      <div class="is-flex flex-sb mt-20">
+        <span class="text-red">&yen; {{price}}</span>
         <span>x {{quantity}}</span>
       </div>
     </div>
@@ -31,14 +32,17 @@
       fileId: {
         default: 1
       },
-      pageId: {
-        default: 1
+      price: {
+        default: 58.5
       }
     }
   };
 </script>
 
 <style scoped>
+  .mt-20{
+    margin-top: 20px !important;
+  }
   .is-flex{
     display: flex !important;
   }

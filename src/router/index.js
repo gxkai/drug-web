@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld';
 import shops from '@/components/shops';
 import rxshopdrug from '@/components/rxshopdrug';
 import drugRefund from '@/components/drugRefund';
+import refundDrugs from '@/components/refund-drugs';
 
 Vue.use(Router);
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/drugRefund',
       name: 'drugRefund',
       component: drugRefund
+    },
+    {
+      path: '/refundDrugs',
+      name: 'refundDrugs',
+      component: refundDrugs
     },
     {
       path: '/',

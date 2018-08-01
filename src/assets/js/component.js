@@ -11,6 +11,7 @@ import newShops from '../../components/shops';
 import newRxShopDrug from '../../components/rxshopdrug';
 import drugRefund from '../../components/drugRefund';
 import drugs from '../../components/drugs';
+import refundDrugs from '../../components/refund-drugs';
 
 export default {
   install(Vue, options) {
@@ -27,5 +28,6 @@ export default {
     Vue.component('new-line', newLine);
     Vue.component('new-drug-refund', drugRefund);
     Vue.component('new-drug', drugs);
+    Vue.component('refund-drug', refundDrugs);
   }
 };

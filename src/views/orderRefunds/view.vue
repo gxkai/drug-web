@@ -4,49 +4,33 @@
       <router-link tag="i" to="/orderRefunds" class="iconfont ic-arrow-right" slot="left"></router-link>
     </new-header>
 
-    <div class="refund-title is-flex flex-column">
+    <div class="refund-title is-flex flex-column pl-20">
       <span>{{transform(list.state)}}</span>
       <span>{{formatDate(list.lastModifiedDate)}}</span>
     </div>
 
-    <div>
-      <div>
+    <div class="is-flex flex-column lh-40 p-20">
+      <div class="is-flex flex-row flex-sb">
         <span>退款总金额</span>
-        <span>￥{{list.price}}</span>
+        <span class="text-red">￥{{list.price}}</span>
       </div>
-      <div>
+      <div class="is-flex flex-row flex-sb mt-40">
         <span>退回余额</span>
-        <span>￥{{list.price}}</span>
+        <span class="text-red">￥{{list.price}}</span>
       </div>
     </div>
     <div>
-      <div>
-        <span>退款信息</span>
-        <i class="iconfont ic-xiajiantou"></i>
-      </div>
-      <!--<router-link tag="div" v-for="drug in list.drugs" :key="drug.id" :to="{path:'/shopDrugSpecs',query:{id:drug.id}}">-->
-        <!--<div>-->
-          <!--<div v-if="drug.isOtc === false">-->
-            <!--<img src="static/img/chu.png" class="prescription">-->
-          <!--</div>-->
-          <!--<div v-else >-->
-            <!--<img src="static/img/fei.png" class="prescription">-->
-          <!--</div>-->
-          <!--<img :src="drug.drugLogo"/>-->
-        <!--</div>-->
-        <!--<div>-->
-          <!--<span >{{drug.name}}</span>-->
-          <!--<span >规格:{{drug.spec}}</span>-->
-        <!--</div>-->
-        <!--<div>-->
-          <!--<span>x{{drug.quantity}}</span>-->
-        <!--</div>-->
-      <!--</router-link>-->
-    <!---->
-
-      <new-drug></new-drug>
+    <div class="is-flex flex-row flex-sb lh-40 p-20">
+      <span>退款信息</span>
+      <i class="iconfont ic-xiajiantou"></i>
     </div>
-    <div class="is-flex flex-column ">
+
+    <router-link tag="div" v-for="drug in list.drugs" :key="drug.id" :to="{path:'/shopDrugSpecs',query:{id:drug.id}}">
+      <new-drug :drugName="drug.name" :isOtc="drug.isOtc" :fileId="drug.drugLogo" :spec="drug.spec" :quantity="drug.quantity"></new-drug>
+    </router-link>
+
+    </div>
+    <div class="is-flex flex-column p-20 lh-40 text-555555">
       <span>退回原因：{{list.reason}}</span>
       <span>退回金额：￥{{list.price}}</span>
       <span>申请时间：{{formatDate(list.createdDate)}}</span>
@@ -114,19 +98,30 @@
   .flex-column{
     flex-direction: column;
   }
-  .flex-sa{
-    justify-content: space-around;
-  }
   .flex-sb{
     justify-content: space-between;
   }
-  .flex-item{
-    align-items: center;
-  }
+
   .refund-title{
     width:720px;
     height:100px;
     background:rgba(19,193,254,1);
     color: white;
   }
+  .p-20{
+    padding: 20px !important;
+  }
+  .pl-20{
+    padding-left: 20px !important;
+  }
+  .lh-40{
+    line-height: 40px;
+  }
+  .mt-40{
+    margin-top: 40px !important;
+  }
+  .text-555555{
+    color: #555555;
+  }
+
 </style>

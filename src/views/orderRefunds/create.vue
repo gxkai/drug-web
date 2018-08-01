@@ -1,141 +1,107 @@
 <template>
+  <div class="refund-container">
+    <new-header :title="申请退款">
+      <router-link to="#" slot="left" class="iconfont ic-arrow-right text-white"></router-link>
+    </new-header>
 
-
-  <div class="f_body">
-
-
-    <mt-header title="申请退款">
-      <router-link to="#" slot="left">
-        <mt-button icon="back"  @click="$router.go(-1)"></mt-button>
-      </router-link>
-    </mt-header>
-
-    <ul class="d_uls">
+    <ul class="">
       <div v-for="rx in rxDrugs">
-        <li>
-          <div class="J_ReturnGoods_ispf">
-            <span class="J_ReturnGoods_zi">处方单</span>
-            <span class="J_ReturnGoods_tu"><i class="icon iconfont icon-xiala"></i></span>
+        <li class="is-flex flex-sb refund-title p-lr-20">
+          <div>
+            <span>处方单</span>
+            <span><i class="iconfont icon-xiala"></i></span>
           </div>
           <router-link tag="div" :to="{path:'/rxs/view',query:{rxId:rx.rxId}}" class="J_ReturnGoods_check">查看处方>
           </router-link>
-                </li>
-        <li class="d_li">
-          <div class="J_ReturnGoods_yao" v-for="drug in rx.drugs">
-            <div class="J_ReturnGoods_yao_d1 d_bgwr">
-              <img v-lazy="drug.logo" class="J_ReturnGoods_yao_d1_img1">
-            </div>
-            <div class="J_ReturnGoods_yao_d2">
-              <div class="J_ReturnGoods_yao_d2_d1">{{drug.drugName}}</div>
-              <div class="J_ReturnGoods_yao_d2_d2">
-                <span>{{drug.spec}}</span>
-
-              </div>
-              <div class="J_ReturnGoods_yao_d2_d3">
-                  ￥{{drug.price}}
-                   <span>x{{drug.quantity}}</span>
-              </div>
-            </div>
-          </div>
         </li>
-
-      </div>
-      <div>
         <li>
-          <div class="J_ReturnGoods_ispf">
-            <span class="J_ReturnGoods_zi">非处方单</span>
-            <span class="J_ReturnGoods_tu"><i class="icon iconfont icon-xiala"></i></span>
-          </div>
-           </li>
-        <li class="d_li">
-          <div class="J_ReturnGoods_yao" v-for="drug in norDrugs">
-            <div class="J_ReturnGoods_yao_d1 d_bgwr">
-              <img v-lazy="drug.logo" class="J_ReturnGoods_yao_d1_img1">
-            </div>
-            <div class="J_ReturnGoods_yao_d2">
-              <div class="J_ReturnGoods_yao_d2_d1">{{drug.drugName}}</div>
-              <div class="J_ReturnGoods_yao_d2_d2">
-                <span>{{drug.spec}}</span>
-              </div>
-              <div class="J_ReturnGoods_yao_d2_d3">
-                  ￥{{drug.price}}
-                  <span>x{{drug.quantity}}</span>
-              </div>
-            </div>
+          <div v-for="drug in rx.drugs">
+            <refund-drug class="mb-10" :fileId="drug.logo" :drugName="drug.drugName" :spec="drug.spec"
+                         :price="drug.price" :quantity="drug.quantity"></refund-drug>
           </div>
         </li>
+      </div>
 
+      <div>
+        <div class="is-flex flex-sb refund-title p-lr-20">
+          <span>非处方单</span>
+          <span><i class="iconfont ic-xiajiantou"></i></span>
+        </div>
+        <li class="d_li">
+          <div v-for="drug in norDrugs">
+          <refund-drug class="mb-10" :fileId="drug.logo" :drugName="drug.drugName" :spec="drug.spec"
+                         :price="drug.price" :quantity="drug.quantity"></refund-drug>
+          </div>
+        </li>
       </div>
     </ul>
 
-
-    <div class="J_ChoseTheReason">
+    <div class="refund-reason is-flex flex-sb p-lr-20">
       <div>退款原因</div>
       <div>
-        <span  @click="handleClick()"><i class="icon iconfont ic-youjiantou"></i></span>
+        <span @click="handleClick()">{{pleasechoose}}</span>
+        <span @click="handleClick()"><i class="iconfont ic-youjiantou"></i></span>
       </div>
-      <span class="J_plzcs"  @click="handleClick()">{{pleasechoose}}</span>
     </div>
 
-    <div class="J_nosencediv d_amount">
-      <span>退款金额:</span> &nbsp;&nbsp;
-      <span style="color:red">￥{{price}}</span>
-      <p>
-        <span>最多</span><span>￥{{price}}</span> <span>含发货邮费</span><span>￥0.00</span>
-      </p>
+    <div class="refund-price mt-10 is-flex flex-column flex-ju p-lr-20">
+      <div>
+        <span>退款金额:</span>
+        <span class="text-red">￥{{price}}</span>
+      </div>
+      <div class="text-999999">
+        <span>最多</span><span>￥{{price}}</span>
+        <span>含发货邮费</span><span>￥0.00</span>
+      </div>
     </div>
 
-
-
-
-    <div class="J_nosencediv">
-      <span>退款说明:</span> &nbsp;&nbsp;
-      <span class="addreason"><input type="text" placeholder="选填" v-model="explain"></span>
+    <div class="refund-price mt-10 p-lr-20">
+      <span>退款说明:</span>
+      <span><input type="text" placeholder="选填" v-model="explain"></span>
     </div>
 
-    <div class="J_nosencediv" style="margin-bottom:0px;min-height:10.3rem;">
-      <span>上传凭证</span> &nbsp;&nbsp;
-       <div style="padding-left:2%;margin-bottom:10rem;background:#f6f6f6;"  v-if="flieBtn">
-        <div class="J_nosencediv_button">
-          <div class="J_nosencediv_button_img">
-            <!-- <img src="./cam.png" alt=""> -->
-            <img src="static/img/order/cam.png"/>
+    <div class="refund-phone mt-10 p-lr-20">
+      <span>上传凭证</span>
+       <div v-if="flieBtn">
+        <div class="phone-box">
+          <div class="is-flex flex-column flex-ju flex-item">
+            <img src="../../assets/image/order/cam.png" class="is-37x32"/>
+            <span class="fz-12">上传凭证</span>
+            <span class="fz-12">最多三张</span>
           </div>
-          <div>上传凭证</div>
-          <div>最多三张</div>
-          <input class="J_uploadsomeevidence" type="file" @change="onUpload" id="file" multiple="Mmultiple" v-if="flieBtn"/>
-           </div>
+          <input type="file" @change="onUpload" id="file" multiple="Mmultiple" v-if="flieBtn"/>
+        </div>
       </div>
     </div>
-
-
-      <div id="result" name="result" style="height: 50px;width: 100%;"></div>
-
-    <div class="J_SoYouCanSubmit" @click="commit">提交</div>
-
+    <div id="result" name="result" ></div>
+    <div class="btn-fixed" @click="commit">提交</div>
 
   <mt-popup v-model="popupVisible" popup-transition="popup-fade" position="bottom" closeOnClickModal="true">
-      <div>
-          <p>退款原因<i class="icon iconfont ic-guanbi2" @click="popupVisible=!popupVisible"></i></p>
-           <div class="d_refund_reason">
+      <div class="shadow-box">
+          <span>
+            <span class="ml-10"><b>退款原因</b></span>
+            <i class="iconfont ic-guanbi2 checkbox-group text-red"
+                    @click="popupVisible=!popupVisible"></i>
+          </span>
+           <div class="mt-10">
               <ul>
-                <li>
-                    &nbsp;&nbsp;&nbsp;多拍/拍错/不想要
-                     <span class="checkbox-group">
-                        <input type="radio" name="fu" id="3" v-model="reason" value="多拍/拍错/不想要"/>
-                        <label for="3"></label>
-                    </span>
+                <li class="m-lr-10">
+                  多拍/拍错/不想要
+                   <span class="checkbox-group">
+                      <input type="radio" name="fu" id="3" v-model="reason" value="多拍/拍错/不想要"/>
+                      <label for="3"></label>
+                  </span>
                </li>
-               <li>
-                   &nbsp;&nbsp;&nbsp;缺货
-                     <span class="checkbox-group">
-                        <input type="radio" name="fu" id="4" v-model="reason" value="缺货"/>
-                        <label for="4"></label>
-                    </span>
+               <li class="m-lr-10">
+                   缺货
+                   <span class="checkbox-group">
+                      <input type="radio" name="fu" id="4" v-model="reason" value="缺货"/>
+                      <label for="4"></label>
+                  </span>
                </li>
               </ul>
            </div>
-         <mt-button size="large" type="primary" @click="sure()">确认</mt-button>
+         <mt-button class="btn-fixed" size="large" type="primary" @click="sure()">确认</mt-button>
       </div>
   </mt-popup>
 
@@ -154,8 +120,27 @@
         flieBtn: true,
         orderId: '',
         pleasechoose: '请选择',
-        rxDrugs: [],
-        norDrugs: [],
+        // rxDrugs: [],
+        rxDrugs: [{
+          rxId: 12,
+          drugs: {
+            isOtc: true,
+            logo: 1,
+            drugName: '药品名称',
+            spec: '12/盒',
+            quantity: '12',
+            price: 58.5
+          }
+        }],
+        // norDrugs: [],
+        norDrugs: {
+          isOtc: true,
+          logo: 1,
+          drugName: '药品名称',
+          spec: '12/盒',
+          quantity: '12',
+          price: 58.5
+        },
         onUploadFiles: [],
         orderInfo: {},
         explain: '',
@@ -179,7 +164,7 @@
         this.pleasechoose = this.reason;
       },
       commit: function () {
-        this.$http.post(this.URL_PATH + '/orderRefunds', {
+        this.$http.post('/orderRefunds', {
           'explain': this.explain,
           'orderId': this.orderId,
           'price': this.price,
@@ -229,7 +214,7 @@
         let formDta = new FormData();
         formDta.append('file', _THIS.onUploadFiles);
         formDta.append('fileType', 'IMAGE_PIC');
-        _THIS.$http.post(this.URL_PATH + '/files/image?resolution=LARGE_LOGO', {
+        _THIS.$http.post('/files/image?resolution=LARGE_LOGO', {
           data: formDta
         }).then(res => {
           this.fileId = res.data;
@@ -239,7 +224,7 @@
     created() {
       this.accountId = this.$store.getters.account.id;
       this.orderId = this.$route.query.orderId;
-      this.$http.get(this.URL_PATH + '/orders/' + this.orderId, {
+      this.$http.get('/orders/' + this.orderId, {
         headers: {
           'Authorization': this.$store.getters.token
         }
@@ -254,11 +239,11 @@
           }
           this.rxDrugs.forEach(rx => {
             rx.drugs.forEach(drug => {
-              drug.logo = this.URL_PATH + '/files/' + drug.fileId + '/image?resolution=LARGE_LOGO';
+              drug.logo = '/files/' + drug.fileId + '/image?resolution=LARGE_LOGO';
             });
           });
           this.norDrugs.forEach(drug => {
-            drug.logo = this.URL_PATH + '/files/' + drug.fileId + '/image?resolution=LARGE_LOGO';
+            drug.logo = '/files/' + drug.fileId + '/image?resolution=LARGE_LOGO';
           });
           this.price = this.orderInfo.totalAmount;
         });
@@ -267,237 +252,98 @@
 </script>
 
 <style scoped>
-  .J_Pharmacylist_header {
-    display: flex;
+  .refund-container{
+    margin-bottom: 100px;
+  }
+  .checkbox-group{
+    float: right;
+  }
+  .is-37x32{
+    width: 37px;
+    height: 32px;
+  }
+  .m-lr-10{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .ml-10{
+    margin-left: 10px !important;
+  }
+  .mb-10{
+    margin-bottom: 10px !important;
+  }
+  .mt-10{
+    margin-top: 10px !important;
+  }
+  .p-lr-20{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .is-flex{
+    display: flex !important;
+  }
+  .flex-column{
+    flex-direction: column;
+  }
+  .flex-ju{
+    justify-content: center;
+  }
+  .flex-item{
+    align-items: center;
+  }
+  .flex-sb{
     justify-content: space-between;
-    padding: 0 2%;
-    padding-right: 5%;
-    height: 4rem;
-    line-height: 4rem;
-    font-size: 1.4rem;
-    background-color: #1AB6FD;
-    color: #ffffff;
   }
-
-  .J_Pharmacylist_header .icon {
-    font-size: 2rem;
-  }
-
-  .J_Pharmacylist_header_hong {
-    width: 0.6rem;
-    height: 0.6rem;
-    background-color: red;
-    border-radius: 0.6rem;
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
-  .J_Pharmacylist_header_search {
-    background-color: #12b1f9;
-    width: 76%;
-    opacity: 0.8;
-    height: 2.5rem;
-    margin-top: 0.75rem;
-    border-radius: 2.5rem;
-    position: relative;
-  }
-
-  .J_Pharmacylist_header_search div {
-    position: absolute;
-    left: 5%;
-    width: 10%;
-    height: 2.5rem;
-    top: -0.6rem;
-  }
-
-  .J_nosencediv {
-    height: 3rem;
-    line-height: 3rem;
-    padding-left: 2%;
-    background: #f5f5f5;
-    margin:0rem 0rem 0.7rem 0rem;
-  }
-
-  .J_nosencediv .addreason {
-    display: inline-block;
-    width: 70%;
-
-  }
-
-  .J_nosencediv input {
-    display: inline-block;
-    height: 3rem;
-    line-height: 3rem;
-    padding: 0 1%;
-    width: 100%;
-    background: none;
-  }
-
-  .J_ChoseTheReason {
-    display: flex;
-    justify-content: space-between;
-    position: relative;;
-    padding: 0 2%;
-    height: 3rem;
-    line-height: 3rem;
-    margin:0.75rem 0rem 0.7rem 0rem;
-    font-size: 1rem;
+  .refund-reason{
+    width: 720px;
+    height: 60px;
+    line-height: 60px;
     background: #f6f6f6;
   }
-
-  .J_plzcs {
-    position: absolute;
-    top: 0;
-    height: 3rem;
-    line-height: 3rem;
-    right: 10%;
+  .refund-price{
+    width: 720px;
+    height: 116px;
+    background: #f6f6f6;
   }
-
-  .J_ChoseTheReason div {
-    display: inline-block;
-    line-height: 3rem;
+  .refund-price input{
+    outline: 0;
+    border: 0;
+    background: #f6f6f6;
   }
-
-  .J_ChoseTheReason div span {
-    display: inline-block;
-    line-height: 3rem;
-    height: 3rem;
+  .refund-phone{
+    width: 720px;
+    height: 206px;
+    background: #f6f6f6;
   }
-
-  .J_ChoseTheReason .icon {
-    font-size: 2rem;
+  .phone-box{
+    width: 147px;
+    height: 121px;
+    margin-top: 10px !important;
   }
-
-  .J_nosencediv_button {
-    position: relative;
-    border: 1px dashed #ccc;
-    width: 20%;
+  .fz-12{
+    font-size: 8px !important;
   }
-
-  .J_nosencediv_button div {
-    width: 100%;
+  /* 遮罩层 */
+  .shadow-box{
+    width:720px;
+    height:421px;
+  }
+  .refund-title{
+    height: 60px;
+    line-height: 60px;
+  }
+  .btn-fixed{
+    width:720px;
+    height:77px;
+    line-height: 77px;
     text-align: center;
-    font-size: 1rem;
-    line-height: 1rem;
-    color: #ccc;
-    height: 1rem;
-  }
-
-  .J_nosencediv_button .J_nosencediv_button_img {
-    height: 3rem;
-    line-height: 3rem;
-  }
-
-  .J_nosencediv_button_img img {
-    width: 61%;
-    height: 76%;
-    margin-top: 0.5rem;
-  }
-
-  .J_SoYouCanSubmit {
-    width: 100%;
-    height: 4rem;
-    line-height: 4rem;
-    color: #fff;
-    background-color: #13c1fe;
-    text-align: center;
-    font-size: 1.3rem;
+    background:rgba(19,193,254,1);
+    border-radius:5px;
     position: fixed;
     bottom: 0;
-  }
-
-  .J_uploadsomeevidence {
-    position: absolute;
-    height: 5rem;
-    width: 100%;
-    opacity: 0;
-    top: 0;
     left: 0;
+    border: 0;
+    color: white;
+    letter-spacing: 2px;
   }
-
-  .J_ReturnGoods_ispf {
-    display: flex;
-    justify-content: space-between;
-    height: 3rem;
-    line-height: 3rem;
-    font-size: 1.2rem;
-    padding: 0 3%;
-  }
-
-  .J_ReturnGoods_zi {
-    color: #13c1fe;
-  }
-
-  .J_ReturnGoods_tu .icon {
-    font-size: 1.8rem;
-  }
-
-  .J_ReturnGoods_check {
-    text-align: right;
-    margin-right: 3%;
-    color: red;
-    height: 2rem;
-    line-height: 2rem;
-  }
-
-  .J_ReturnGoods_yao {
-    display: flex;
-    width: 100%;
-    background: #F5F5F5;
-   }
-
-
-  .J_ReturnGoods_yao_d1_img1 {
-    width: 10rem;
-    height: 10rem;
-  }
-
-  .J_ReturnGoods_yao_d1_img2 {
-    width: 17%;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  .J_ReturnGoods_yao_d2 div {
-    line-height: 1.5rem;
-
-  }
-
-  .J_ReturnGoods_yao_d2_d2 {
-    display: flex;
-    justify-content: space-between;
-    color: #999;
-    font-size: 0.9rem;
-  }
-
-  .J_ReturnGoods_yao_d2_d3 {
-    color: red;
-  }
-
-.J_Pharmacylist_header i{color: #333333;}
-.mint-popup-bottom{width: 100%;text-align: center;}
-.mint-popup-bottom div{height: 2rem;line-height: 2rem;}
-.mint-popup-bottom{height:16rem;}
-.d_refund_reason{height: 4rem!important;}
-.checkbox-group{float: right;}
-.ic-guanbi2{float: right;color: #1AB6FD;padding-right: 1rem;}
-.mint-popup-bottom div p{height: 4rem;}
-.mint-button--primary{background: #1AB6FD;margin-top: 3rem;}
-.mint-popup-bottom div ul li{text-align: left;height: 3rem;}
-.mint-button--large{width: 96%;margin: auto;margin-top: 3rem;}
-.bgw{background: #12b1f9;color:white;}
-.icon-xiaoxi{color: white!important;}
-#icon_fanhu{color: white!important;}
-.d_amount{height: 5.8rem;}
-.d_bgwr{width: 10rem;height: 7rem;border:1px solid #f5f5f5;margin: 0.35rem 1.4rem 0.4rem 3.35rem;background: white;}
-.d_uls li.d_li{height: 10.75rem;}
-.J_ReturnGoods_yao_d2_d1{margin-top: 2.3rem;}
-.J_ReturnGoods_yao_d2_d3{margin-top: 3.1rem;font-size: 1.2rem;}
-.J_ReturnGoods_yao_d2_d3 span{float: right;margin-right: 0.35rem;}
-.J_ReturnGoods_yao_d2_d2{font-size: 0.9rem;}
-.J_ReturnGoods_yao_d2{width: 100%;}
-.J_ReturnGoods_yao{height: 10.75rem;}
-
 </style>
