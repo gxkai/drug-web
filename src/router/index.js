@@ -212,10 +212,10 @@ export default new Router({
       path: '/messages',
       component: () => import('@/views/messages/index.vue')
     },
-    {
-      path: '/orders/createFromCarts',
-      component: () => import('@/views/orders/create-from-carts.vue')
-    },
+    // {
+    //   path: '/orders/createFromCarts',
+    //   component: () => import('@/views/orders/create-from-carts.vue')
+    // },
     {
       path: '/orderRefunds',
       component: () => import('@/views/orderRefunds/index.vue')
@@ -239,6 +239,14 @@ export default new Router({
     {
       path: '/accounts/card/success.vue',
       component: () => import('@/views/accounts/card/success.vue')
+    },
+    {
+      path: '/orders/delivery',
+      component: () => import('@/views/orders/delivery.vue')
+    },
+    {
+      path: '/orderRefunds/view',
+      component: () => import('@/views/orderRefunds/view.vue')
     }
   ]
 });
