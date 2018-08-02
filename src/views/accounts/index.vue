@@ -111,11 +111,7 @@
         this.account.logoUrl = '/files/' + this.account.fileId + '/image?resolution=' + 'SMALL_LOGO';
         this.isLogin = !(typeof (this.account.username) === 'undefined');
         if (this.isLogin) {
-          this.$http.get('/orders/count?', {
-            headers: {
-              'Authorization': JSON.parse(localStorage.account).token
-            }
-          })
+          this.$http.get('/orders/count?')
             .then(res => {
               this.countList = res.data;
             });
