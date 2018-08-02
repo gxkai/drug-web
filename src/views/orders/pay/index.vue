@@ -1,17 +1,17 @@
 <template>
   <div class="main">
     <new-header title="订单提交成功" bgColor="rgba(246, 246, 246, 1)" color="rgba(51,51,51,1)" leftColor="rgba(51,51,51,1)" rightColor="rgba(19,193,254,1)" >
-      <i class="icon-font ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
       <router-link tag="span" to="/orders" slot="right">我的订单</router-link>
     </new-header>
     <div v-if="deliveryType === 'DELIVERY'">
       <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address">
-        <i class="icon-font ic-dizhi" slot="left"></i>
+        <i class="iconfont ic-dizhi" slot="left"></i>
         <div slot="center" class="center">
           <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
           <p>地址：{{receiveAddress.address}}</p>
         </div>
-        <i class="icon-font ic-youjiantou" slot="right"></i>
+        <i class="iconfont ic-youjiantou" slot="right"></i>
       </new-header>
       <img src="../../../assets/image/colorbackground.png">
     </div>

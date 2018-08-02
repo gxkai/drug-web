@@ -9,22 +9,22 @@
 
     <div class="content-lists">
       <div class="content-list">
-        <i class="icon-font ic-xingming"></i>
+        <i class="iconfont ic-xingming"></i>
         <input type="text" v-model="account.name" placeholder="请先维护账户信息" disabled/>
       </div>
 
       <div class="content-list">
-        <i class="icon-font ic-Id"></i>
+        <i class="iconfont ic-Id"></i>
         <input type="number" v-model="account.identityNumber" placeholder="请先维护账户信息" disabled/>
       </div>
 
       <div class="content-list">
-        <i class="icon-font ic-shouji" ></i>
+        <i class="iconfont ic-shouji" ></i>
         <input type="number" v-model="account.username" placeholder="请输入手机号码" disabled/>
       </div>
 
       <div class="content-list">
-        <i class="icon-font ic-Id"></i>
+        <i class="iconfont ic-Id"></i>
         <input type="number" v-model="account.medicalNumber" placeholder="请输入医保卡编号"/>
       </div>
     </div>
@@ -96,7 +96,7 @@ export default {
     margin-top: 15px;
   }
 
-  .icon-font{
+  .iconfont{
     font-size: 50px;
     color: #13c1fe;
     margin-top: 20px;

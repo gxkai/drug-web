@@ -1,23 +1,23 @@
 <template>
   <footer>
     <router-link tag="div" to="/" :class="{active:urlRouter == '/'}">
-      <i class="icon-font ic-icon"></i>
+      <i class="iconfont ic-icon"></i>
       <p>首页</p>
     </router-link>
     <router-link tag="div" to="/rxs" :class="{active:urlRouter == '/rxs'}">
-      <i class="icon-font ic-chufang"></i>
+      <i class="iconfont ic-chufang"></i>
       <p>处方</p>
     </router-link>
     <router-link tag="div" to="/drugTypes" :class="{active:urlRouter == '/drugTypes'}">
-      <i class="icon-font ic-fenlei"></i>
+      <i class="iconfont ic-fenlei"></i>
       <p>分类</p>
     </router-link>
     <router-link tag="div" to="/carts" :class="{active:urlRouter == '/carts'}">
-      <i class="icon-font ic-gouwuche2"></i>
+      <i class="iconfont ic-gouwuche2"></i>
       <p>购物车</p>
     </router-link>
     <router-link tag="div" to="/accounts" :class="{active:urlRouter == '/accounts'}">
-      <i class="icon-font ic-wo"></i>
+      <i class="iconfont ic-wo"></i>
       <p>我</p>
     </router-link>
   </footer>

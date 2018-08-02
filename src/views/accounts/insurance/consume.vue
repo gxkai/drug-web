@@ -9,22 +9,22 @@
     <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
       <span class="elips">第一人民医院第一人民医院第一人民医院第一人民医院第一人民医院</span>
       2018-6-11
-      <i class="icon-font ic-youjiantou" />
+      <i class="iconfont ic-youjiantou" />
     </router-link>
     <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span class="elips">第一人民医院</span>
       2018-6-11
-      <i class="icon-font ic-youjiantou" />
+      <i class="iconfont ic-youjiantou" />
     </router-link>
      <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span class="elips">第一人民医院</span>
       2018-6-11
-       <i class="icon-font ic-youjiantou" />
+       <i class="iconfont ic-youjiantou" />
     </router-link>
      <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span class="elips">第一人民医院</span>
       2018-6-11
-       <i class="icon-font ic-youjiantou" />
+       <i class="iconfont ic-youjiantou" />
     </router-link>
   </div>
 </template>

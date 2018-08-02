@@ -4,14 +4,14 @@
       <div class="content1">
         <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red>
           <div slot="left" style="display: flex;align-items: center" @click="onShop()">
-            <i class="icon-font ic-yaodian"></i>
+            <i class="iconfont ic-yaodian"></i>
             <span style="color: black">{{order.hospitalName}}</span>
           </div>
           <span slot="right">{{order.state|transformOrderState}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE">
-          <i class="icon-font ic-chufangdanluru" slot="left"></i>
+          <i class="iconfont ic-chufangdanluru" slot="left"></i>
           <span slot="left" style="color: #13C1FE">处方单</span>
           <span slot="right" @click="onRx()">查看处方></span>
         </new-header>
@@ -79,20 +79,20 @@
       <div class="content1">
         <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red>
           <div slot="left" style="display: flex;align-items: center"  @click="onShop()">
-            <i class="icon-font ic-yaodian" slot="left"></i>
+            <i class="iconfont ic-yaodian" slot="left"></i>
             <span slot="left" style="color: black">{{order.shopName}}</span>
           </div>
           <span slot="right">{{order.state|transformOrderState}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-if="order.rxId">
-          <i class="icon-font ic-chufangdanluru" slot="left"></i>
+          <i class="iconfont ic-chufangdanluru" slot="left"></i>
           <span slot="left" style="color: #13C1FE">处方单</span>
           <span slot="right" @click="onRx()">查看处方></span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-else>
-          <i class="icon-font ic-chufangdanluru" slot="left"></i>
+          <i class="iconfont ic-chufangdanluru" slot="left"></i>
           <span slot="left" style="color: #13C1FE">非处方单</span>
         </new-header>
 

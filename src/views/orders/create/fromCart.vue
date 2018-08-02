@@ -1,27 +1,27 @@
 <template>
   <div class="main">
     <new-header title="订单结算">
-      <i class="icon-font ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
     </new-header>
     <div class="body">
       <router-link tag="div" to="/orders/addresses" v-if="deliveryType === 'DELIVERY'">
         <new-header bgColor="rgba(255,255,255,1)"  title="请维护地址" color = '666666' rightColor="#666666" v-if="JSON.stringify(this.receiveAddress) === '{}'">
-          <i class="icon-font ic-youjiantou" slot="right"></i>
+          <i class="iconfont ic-youjiantou" slot="right"></i>
         </new-header>
         <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else>
-          <i class="icon-font ic-dizhi" slot="left"></i>
+          <i class="iconfont ic-dizhi" slot="left"></i>
           <div slot="center" class="center">
             <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
             <p>地址：{{receiveAddress.address}}</p>
           </div>
-          <i class="icon-font ic-youjiantou" slot="right"></i>
+          <i class="iconfont ic-youjiantou" slot="right"></i>
         </new-header>
         <img src="../../../assets/image/colorbackground.png">
       </router-link>
       <new-close-list :cartShops="cart.cartShops" class="new-close-list"></new-close-list>
       <div class="delivery">
         <div class="top">
-          <i class="icon-font ic-peisongfangshi"></i>
+          <i class="iconfont ic-peisongfangshi"></i>
           <span>配送方式</span>
         </div>
         <div class="bottom">
@@ -31,7 +31,7 @@
       </div>
       <div class="pay">
         <div class="top">
-          <i class="icon-font ic-fjzhifufangshi"></i>
+          <i class="iconfont ic-fjzhifufangshi"></i>
           <span>支付方式</span>
         </div>
         <div class="bottom">
@@ -255,7 +255,7 @@
     border-radius: 10px;
   }
 
-  .icon-font {
+  .iconfont {
     font-size: 50px;
   }
 

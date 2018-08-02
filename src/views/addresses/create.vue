@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <new-header title="新增收货地址">
-      <i class="icon-font ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
       <span slot="right" @click="save()">保存</span>
     </new-header>
     <div class="body1">

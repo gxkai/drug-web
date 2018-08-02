@@ -1,7 +1,7 @@
 <template>
   <div id="repositioning">
     <new-header>
-      <i class="icon-font ic-arrow-right" @click="$router.go(-1)" slot="left"></i>
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left"></i>
       <input v-model="inputVal" slot="center" class="header-input">
       <span slot="right" @click="search()">搜索</span>
     </new-header>
@@ -15,7 +15,7 @@
         <ul>
           <li v-for="(postion,index) in positionList" :key="index" @click="near(index)">
             <div class="line1">
-              <i class="icon-font ic-weizhi"></i>
+              <i class="iconfont ic-weizhi"></i>
               <span>{{postion.name}}</span>
             </div>
             <div class="line2">
@@ -30,7 +30,7 @@
       <ul>
         <li v-for="(library,index) in libraryList" :key="index" @click="library(index)">
           <div class="line1">
-            <i class="icon-font ic-weizhi"></i>
+            <i class="iconfont ic-weizhi"></i>
             <span>{{library.name}}</span>
           </div>
           <div class="line2">

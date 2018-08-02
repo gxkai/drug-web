@@ -9,15 +9,15 @@
 
     <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
       <span>医保卡绑定</span>
-      <i class="icon-font ic-youjiantou" />
+      <i class="iconfont ic-youjiantou" />
     </router-link>
     <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>医保账户信息查询</span>
-      <i class="icon-font ic-youjiantou" />
+      <i class="iconfont ic-youjiantou" />
     </router-link>
      <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
       <span>医保消息信息查询</span>
-      <i class="icon-font ic-youjiantou" />
+      <i class="iconfont ic-youjiantou" />
     </router-link>
   </div>
 </template>

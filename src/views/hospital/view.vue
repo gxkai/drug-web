@@ -22,12 +22,12 @@
       </div>
       <!-- TODO 没有图标 -->
       <div class="hospital-list flex-stream-sb margin-top-15">
-        <i class="icon-font ic-dianhua text-13C1FE ic"></i>
+        <i class="iconfont ic-dianhua text-13C1FE ic"></i>
 
         <span>电话：0512- 57928305</span>
       </div>
       <div class="hospital-list flex-stream-sb margin-top-15">
-        <i class="icon-font ic-dizhi01 text-13C1FE ic"></i>
+        <i class="iconfont ic-dizhi01 text-13C1FE ic"></i>
         <span>地址：昆山市朝阳路189号</span>
       </div>
 
