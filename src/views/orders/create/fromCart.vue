@@ -189,7 +189,7 @@
   .body {
     width: 720px;
     height: calc(100vh - 100px - 130px);
-    overflow: scroll;
+    overflow: auto;
   }
 
   .address .center {

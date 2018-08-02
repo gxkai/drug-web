@@ -1,10 +1,10 @@
 <template>
   <div class="main">
-    <new-header title="发表评论">
+    <new-header title="发表评论" ref="header">
       <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
       <span slot="right" @click="commit()">发布</span>
     </new-header>
-    <div class="body">
+    <div class="body" ref="body">
       <ul>
         <li v-for="(item,index) in list" :key="index">
           <div class="line1">
@@ -76,6 +76,8 @@
           if (this.list && this.list.length > 0) {
             this.shopId = this.list[0].shopId;
           }
+        }).catch(error => {
+          this.exception(error);
         });
     },
     methods: {
@@ -106,21 +108,18 @@
           this.exception(error);
         });
       }
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
     }
   };
 </script>
 
 <style scoped>
-  .main {
-    background: rgba(241, 239, 240, 1);
-    width: 720px;
-    height: 100vh;
-  }
 
   .body {
-    width: 720px;
-    height: calc(100vh - 130px);
-    overflow: scroll;
+    background: rgba(241, 239, 240, 1);
+    overflow: auto;
   }
 
   li {
