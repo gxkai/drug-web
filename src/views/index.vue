@@ -71,7 +71,6 @@
             </ul>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -641,5 +640,4 @@
   .shop-content{
     z-index: -9999;
   }
-
 </style>

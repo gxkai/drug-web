@@ -1,8 +1,24 @@
 <template>
   <div class="bind-container">
-    <new-header title="商品详情">
+    <new-header title="商品详情" ref="header">
       <i class="iconfont ic-arrow-right" slot="left"></i>
     </new-header>
+
+
+
+    <div ref="header">
+      <new-header title="待评价"  >
+        <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/accounts')"></i>
+        <i class="iconfont ic-sousuo" slot="right" @click.stop="$router.push('/orders/search')"></i>
+      </new-header>
+      <new-order-tab :urlRouter="$route.path"></new-order-tab>
+    </div>
+
+
+
+
+
+
     <!--上方轮播开始-->
     <div class="broadcast">
       <div class="broadcast-content" style="background:red;">
@@ -188,6 +204,10 @@
             this.headImg = '/files/' + this.shopDrugSpec.shopLogo + '/image?resolution=LARGE_LOGO';
           }
         });
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'scroll';
     },
     methods: {},
     filters: {
