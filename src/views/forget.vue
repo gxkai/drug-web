@@ -3,7 +3,7 @@
     <div v-if="0 === this.state" class="body1">
       <div>
         <new-header title="忘记密码">
-          <router-link tag="i" to="/login" class="icon-font ic-arrow-right" slot="left"></router-link>
+          <router-link tag="i" to="/login" class="iconfont ic-arrow-right" slot="left"></router-link>
         </new-header>
         <input type="number" class="input1" placeholder="请输入手机号码" v-model="username">
         <div class="line1"></div>
@@ -22,7 +22,7 @@
     <div v-if="1 === this.state" class="body2">
       <div class="body1">
         <new-header title="找回密码">
-          <router-link  tag="i" to="#" class="icon-font ic-arrow-right" slot="left"  @click="$router.go(-1)"></router-link>
+          <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" slot="left"></router-link>
         </new-header>
         <div class="input3">
           <div class="left">
@@ -46,7 +46,7 @@
     </div>
     <div v-if="2 === this.state" class="body3">
       <new-header title="修改成功">
-        <router-link  tag="i" to="/login" class="icon-font ic-arrow-right" slot="left" ></router-link>
+        <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" slot="left" ></router-link>
       </new-header>
       <div class="img1">
         <img src="../assets/image/success.png" class="img11">
