@@ -1,78 +1,79 @@
 <template>
   <div class="full-container">
-      <header :style="{background:bgColor,color:color}" class="height130">
-          <div class="header-top"></div>
-           <slot name="left"> <i class="iconfont ic-arrow-right d-inline-block fl"></i></slot>
-           <slot name="center">
-             <div class="head-center d-inline-block fl">
-
-             </div>
-           </slot>
-           <slot name="right">
-              <div class="d-inline-block fl position-relative">
-                <i class="iconfont ic-lingdang"></i>
-                <span class="dot position-absolute"></span>
-              </div>
-           </slot>
-       </header>
+    <header :style="{background:bgColor,color:color}" class="height130">
+      <div class="header-top"></div>
+      <slot name="left"><i class="iconfont ic-arrow-right d-inline-block fl"></i></slot>
+      <slot name="center">
+        <div class="d-inline-block fl position-absolute">
+          <i class="iconfont ic-search d-inline-block fl position-absolute"></i>
+          <input type="text" placeholder="           达康药业"
+                 class="border-0 width-percent-100 border-radius25 head-center text-white position-absolute"/>
+        </div>
+      </slot>
+      <slot name="right">
+        <div class="d-inline-block fr position-relative">
+          <i class="iconfont ic-lingdang"></i>
+          <span class="dot position-absolute"></span>
+        </div>
+      </slot>
+    </header>
     <div class="width-percent-100 bg-white">
       <div class="shops-nav width-percent-96 m-auto">
-        <div class="d-inline-block fl  samediv comprehensive active"  @click="reOrderBy('SYNTHESIZE_LESS')">
+        <div class="d-inline-block fl  samediv comprehensive active" @click="reOrderBy('SYNTHESIZE_LESS')">
           默认
           <i class="icon iconfont ic-sanx-up"></i>
         </div>
         <div class="d-inline-block fl nearby samediv" @click="reOrderByAppraise()">评价</div>
-        <div class="d-inline-block fl evaluate samediv" @click="reOrderBySales()" >销量</div>
-        <div class="d-inline-block fl screen samediv" @click="reOrderByDistance()">距离最近<i class="icon iconfont ic-sanx-up"></i></div>
+        <div class="d-inline-block fl evaluate samediv" @click="reOrderBySales()">销量</div>
+        <div class="d-inline-block fl screen samediv" @click="reOrderByDistance()">距离最近<i
+          class="icon iconfont ic-sanx-up"></i></div>
       </div>
     </div>
-    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10"></ul>
+    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
 
-    <router-link class="f_all_shop_list" v-for="(shopList,index) in shopLists"
-                 :key="index"
-                 :to="{ name: '/shops/view', query: { id: shopList.id }}">
-    <div class="specific">
-      <div class="width-percent-96 m-auto">
-        <div class="shop-store d-inline-block fl">
-          <img :src="shopList.imgUrl" class="shop-store-img"/>
+      <router-link class="f_all_shop_list" v-for="(shopList,index) in shopLists"
+                   :key="index"
+                   :to="{ name: '/shops/view', query: { id: shopList.id }}">
+        <div class="specific">
+          <div class="width-percent-96 m-auto">
+            <div class="shop-store d-inline-block fl">
+              <img v-lazy="shopList.imgUrl" class="shop-store-img"/>
+            </div>
+            <div>
+              <div class="height-43"></div>
+              <div class="shop-title">
+                <p class="shop-title">{{shopList.name}}</p>
+              </div>
+              <div class="shop-star">
+                <new-star :size="shopList.score"></new-star>
+              </div>
+              <div class="shop-tel text-333333">
+                电话：{{shopList.phone}}
+              </div>
+              <div class="shop-tel text-333333 elps">
+                地址：{{shopList.area}}{{shopList.address}}
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <div class="height-43"></div>
-          <div class="shop-title">
-            <p class="shop-title">{{shopList.name}}</p>
-          </div>
-          <div class="shop-star">
-            <new-star :size="shopList.score"></new-star>
-          </div>
-          <div class="shop-tel text-333333">
-            电话：{{shopList.phone}}
-          </div>
-          <div class="shop-tel text-333333 elps">
-            地址：{{shopList.area}}{{shopList.address}}
-          </div>
-        </div>
-      </div>
-      </div>
-    </router-link>
+      </router-link>
+    </ul>
 
 
     <div v-show="allLoaded" class="text-center bg-white">就这么多啦,回顶部再看看吧</div>
   </div>
 </template>
 <script>
-  import {Loadmore} from 'mint-ui';
   export default {
     name: 'shopInfo',
     data() {
       return {
-       bgColor: '#13C1FE',
+        bgColor: '#13C1FE',
         color: 'white',
         isA: false,
         isB: false,
         isC: false,
         isD: false,
-        bgColor: '#13C1FE',
-        color: 'white',
         lng: 120.9809,
         lat: 31.3872,
         shopLists: [],
@@ -80,8 +81,6 @@
         val: -1,
         salesVolume: -1,
         distanceVolume: -1,
-        lng: 120.9809,
-        lat: 31.3872,
         pageNum: 1,
         pageSize: 15,
         allLoaded: false,
@@ -110,9 +109,9 @@
           this.allLoaded = true;
         }
       },
-      reOrderByDistance() {
-        $(".samediv").removeClass("active");
-        $(".samediv").eq(3).addClass("active");
+      reOrderByDistance() { // eslint-disable-next-line
+        $('.samediv').removeClass('active'); // eslint-disable-next-line
+        $('.samediv').eq(3).addClass('active'); // eslint-disable-next-line
         this.isD = !this.isD;
         this.distanceVolume = (-1) * this.distanceVolume;
         this.shopSort = 'DISTANCE';
@@ -126,12 +125,11 @@
         };
         this.$http.get(url, {params: data}).then(res => {
           this.shopLists = res.data.list;
-          getImages(this.shopLists, this);
         });
       },
-      reOrderBySales() {
-        $(".samediv").removeClass("active");
-        $(".samediv").eq(2).addClass("active");
+      reOrderBySales() { // eslint-disable-next-line
+        $('.samediv').removeClass('active'); // eslint-disable-next-line
+        $('.samediv').eq(2).addClass('active'); // eslint-disable-next-line
         this.salesVolume = (-1) * this.salesVolume;
         this.shopSort = 'SALE';
         const url = '/shops';
@@ -144,12 +142,11 @@
         };
         this.$http.get(url, {params: data}).then(res => {
           this.shopLists = res.data.list;
-          getImages(this.shopLists, this);
         });
       },
-      reOrderByAppraise() {
-        $(".samediv").removeClass("active");
-        $(".samediv").eq(1).addClass("active");
+      reOrderByAppraise() { // eslint-disable-next-line
+        $('.samediv').removeClass('active'); // eslint-disable-next-line
+        $('.samediv').eq(1).addClass('active'); // eslint-disable-next-line
         this.val = (-1) * this.val;
         this.shopSort = 'APPRAISE';
         const url = '/shops';
@@ -162,11 +159,11 @@
         };
         this.$http.get(url, {params: data}).then(res => {
           this.shopLists = res.data.list;
-         });
+        });
       },
-      reOrderBy() {
-        $(".samediv").removeClass("active");
-        $(".samediv").eq(0).addClass("active");
+      reOrderBy() { // eslint-disable-next-line
+        $('.samediv').removeClass('active'); // eslint-disable-next-line
+        $('.samediv').eq(0).addClass('active'); // eslint-disable-next-line
         const url = '/shops';
         var data = {
           lat: this.lat,
@@ -209,7 +206,7 @@
     margin: 15px 29px 16px 20px;
   }
 
-  .shop-store-img{
+  .shop-store-img {
     width: 300px;
     height: 250px;
   }
@@ -258,39 +255,66 @@
   .shop-star {
     margin-top: 11px;
   }
-  .height{height: 130px;}
-  .head-center{
-    width:530px;
-    height:50px;
-    background:rgba(255,255,255,1);
-    opacity:0.21;
-    border-radius:25px;
-    margin-left: 53px;
-  }
-  .ic-arrow-right{margin-left: 21px;}
 
-  .dot{
-    width:10px;
-    height:10px;
-    background:rgba(255,0,0,1);
-    display:inline-block;
-    border-radius:5px;
-    top: 5px;
-    left: 25px;
-   }
-  .ic-lingdang{
-    font-size: 40px;
-  }
-  .ic-arrow-right{
-    font-size: 40px;
-  }
-  header{
-    width: 720px;
-   }
-  .height130{
+  .height {
     height: 130px;
   }
-  .header-top{
-    height:45px;
+
+  .head-center {
+    width: 530px;
+    height: 50px;
+    background: rgba(255, 255, 255, 1);
+    opacity: 0.21;
+    border-radius: 25px;
+    margin-left: 53px;
+  }
+
+  .border-radius25 {
+    border-radius: 25px;
+  }
+
+  .ic-arrow-right {
+    margin-left: 21px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 0, 0, 1);
+    display: inline-block;
+    border-radius: 5px;
+    top: 5px;
+    left: 25px;
+  }
+
+  .ic-lingdang {
+    font-size: 40px;
+  }
+
+  .ic-arrow-right {
+    font-size: 40px;
+  }
+
+  header {
+    width: 720px;
+  }
+
+  .height130 {
+    height: 130px;
+  }
+
+  .header-top {
+    height: 45px;
+  }
+
+  input::-webkit-input-placeholder {
+    color: red; /*rgb(49, 96, 113)*/
+    font-size: 30px;
+    line-height: 50px;
+  }
+
+  .ic-search {
+    left: 80px;
+    font-size: 30px;
   }
 </style>
