@@ -54,7 +54,7 @@
               <span class="drug-add d-inline-block" @click="drugAdd()">+</span>
             </div>
           </div>
-          <div class="drug-sure">确定</div>
+          <div class="drug-sure" @click.stop="onConfirm()">确定</div>
         </div>
       </transition>
 
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-  import {Toast} from 'mint-ui';
+  import {MessageBox, Toast} from 'mint-ui';
   export default {
     name: 'newFooter',
     data() {
@@ -105,6 +105,18 @@
       close() {
         this.popupVisible = false;
         this.show = !this.show;
+      },
+      onConfirm() {
+        this.$http.post('/carts', {
+          shopId: this.drugInfo.shopId,
+          drugSpecId: this.drugInfo.drugSpecId,
+          shopDrugSpecId: this.drugInfo.id,
+          quantity: this.number
+        }).then(res => {
+          MessageBox('提示', '加入成功').then(action => {
+            this.close();
+          });
+        });
       }
     }
   };
