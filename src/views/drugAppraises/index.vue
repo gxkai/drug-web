@@ -1,11 +1,11 @@
 <template>
   <div class="main">
-    <new-header title="我的评价">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+    <new-header title="我的评价" ref="header">
+      <i class="icon-font ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
     <ul class="body" v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
-        infinite-scroll-distance="10">
+        infinite-scroll-distance="10" ref="body">
       <li v-for="item in list">
         <div class="line1">
           <div>
@@ -26,6 +26,8 @@
         </div>
       </li>
       <new-no-data v-if="list.length===0"></new-no-data>
+      <new-loading v-if="process"></new-loading>
+      <new-all-data v-if="loading"></new-all-data>
     </ul>
   </div>
 </template>
@@ -40,6 +42,7 @@
         pageSize: 5,
         pages: null,
         loading: false,
+        process: false,
         account: this.$store.getters.account
       };
     },
@@ -52,10 +55,11 @@
         if (!this.pages || this.pageNum < this.pages) {
           this.loadData();
         } else {
-          this.loading = false;
+          this.loading = true;
         }
       },
       loadData() {
+        this.process = true;
         this.$http.get('/drugAppraises/mine?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
             res.data.list.forEach(e => {
@@ -66,10 +70,16 @@
             if (!this.pages) {
               this.pages = res.data.pages;
             }
+            this.process = false;
           }).catch(error => {
+            this.process = false;
             this.exception(error);
           });
       }
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'scroll';
     }
   };
 </script>
@@ -83,10 +93,8 @@
 
   .body {
     width: 720px;
-    height: calc(100vh - 130px);
     background: rgba(255, 255, 255, 1);
     padding: 20px;
-    overflow: scroll;
   }
 
   .line1 {

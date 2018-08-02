@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <new-header title="知识库查阅">
-      <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
-      <router-link tag="i" to="/messaypes" class="iconfont ic-xiaoxi" slot="right"></router-link>
+      <router-link tag="i" to="/" class="icon-font ic-arrow-right" slot="left"></router-link>
+      <router-link tag="i" to="/messaypes" class="icon-font ic-xiaoxi" slot="right"></router-link>
     </new-header>
     <div class="types">
       <router-link class="type-list" v-for="(repositoryType,index) in repositoryTypeList" :key="index"
                    :to="{path:'/repositories',query:{repositoryTypeId:repositoryType.id,title:repositoryType.name}}">
         <img v-lazy="'../assets/image/'+repositoryType.icon+'.png'" class="icon-img"/>
         <span class="type-title">{{ repositoryType.name }}</span>
-        <i class="iconfont ic-youjiantou "></i>
+        <i class="icon-font ic-youjiantou "></i>
       </router-link>
     </div>
     <new-no-data v-if="repositoryTypeList.length===0"></new-no-data>

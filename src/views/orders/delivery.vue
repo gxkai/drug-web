@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <new-header title="配送详情">
-      <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <router-link tag="i" to="/" class="icon-font ic-arrow-right" slot="left"></router-link>
     </new-header>
 
     <div class="delivery-schedule">
@@ -40,7 +40,7 @@
         <img style="width: 25px; height:25px;" src="../../assets/image/drug.png"/>
         {{order.shopName}}
       </div>
-      <i class="iconfont ic-dianhua text-13C1FE fz-50"></i>
+      <i class="icon-font ic-dianhua text-13C1FE fz-50"></i>
     </div>
 
     <div v-for="rxDrug in order.rxDrugs" class="delivery-drugs ">

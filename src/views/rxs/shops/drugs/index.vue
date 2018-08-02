@@ -2,7 +2,7 @@
   <div class="rxs-content position-relative">
     <new-header :title="shopName">
       <router-link to="/messageTypes" slot="left">
-        <i class=" iconfont ic-xiaoxi"></i>
+        <i class=" icon-font ic-xiaoxi"></i>
       </router-link>
     </new-header>
 
@@ -14,30 +14,30 @@
 
     <div class="bg-white chose-box p-lr-20 is-flex flex-sb">
       <span>
-        <i class="iconfont ic-changshangbaojia text-13C1FE"></i>
+        <i class="icon-font ic-changshangbaojia text-13C1FE"></i>
         选择厂商
       </span>
       <span>
-         <i class="iconfont" style="color:#1AB6FD!important;" @click="lookMore(index)" :class="{'ic-xiajiantou':isActive}"></i>
-         <i class="iconfont" style="color:#1AB6FD!important;" @click="lookMore(index)" :class="{'ic-youjiantou':!isActive}"></i>
+         <i class="icon-font" style="color:#1AB6FD!important;" @click="lookMore(index)" :class="{'ic-xiajiantou':isActive}"></i>
+         <i class="icon-font" style="color:#1AB6FD!important;" @click="lookMore(index)" :class="{'ic-youjiantou':!isActive}"></i>
       </span>
     </div>
 
     <!-- 遮罩 -->
     <div v-show="show" class="shadow-box">
       <div class="shadow-content position-relative">
-        <i class="iconfont ic-guanbi2 position-absolute position-tr" @click="takeUp"></i>
+        <i class="icon-font ic-guanbi2 position-absolute position-tr" @click="takeUp"></i>
         <div class="is-flex flex-sb p-10">
-          <span><i class="iconfont ic-changshangbaojia text-13C1FE"></i> 选择厂商</span>
+          <span><i class="icon-font ic-changshangbaojia text-13C1FE"></i> 选择厂商</span>
         </div>
         <div>
             <div class="is-flex flex-sb p-10-20">
               <div class="text-13C1FE">
-                <i class="iconfont ic-changfang"></i>
+                <i class="icon-font ic-changfang"></i>
                 <span>厂商名称</span>
               </div>
               <div class="text-13C1FE">
-                <i class="iconfont ic-jiage"></i>
+                <i class="icon-font ic-jiage"></i>
                 <span>价格</span>
               </div>
             </div>

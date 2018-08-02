@@ -2,17 +2,17 @@
   <div class="full-container">
     <header :style="{background:bgColor,color:color}" class="height130">
       <div class="header-top"></div>
-      <slot name="left"><i class="iconfont ic-arrow-right d-inline-block fl"></i></slot>
+      <slot name="left"><i class="icon-font ic-arrow-right d-inline-block fl"></i></slot>
       <slot name="center">
         <div class="d-inline-block fl position-absolute">
-          <i class="iconfont ic-search d-inline-block fl position-absolute"></i>
+          <i class="icon-font ic-search d-inline-block fl position-absolute"></i>
           <input type="text" placeholder="           达康药业"
                  class="border-0 width-percent-100 border-radius25 head-center text-white position-absolute"/>
         </div>
       </slot>
       <slot name="right">
         <div class="d-inline-block fr position-relative">
-          <i class="iconfont ic-lingdang"></i>
+          <i class="icon-font ic-lingdang"></i>
           <span class="dot position-absolute"></span>
         </div>
       </slot>
@@ -21,12 +21,12 @@
       <div class="shops-nav width-percent-96 m-auto">
         <div class="d-inline-block fl  samediv comprehensive active" @click="reOrderBy('SYNTHESIZE_LESS')">
           默认
-          <i class="icon iconfont ic-sanx-up"></i>
+          <i class="icon icon-font ic-sanx-up"></i>
         </div>
         <div class="d-inline-block fl nearby samediv" @click="reOrderByAppraise()">评价</div>
         <div class="d-inline-block fl evaluate samediv" @click="reOrderBySales()">销量</div>
         <div class="d-inline-block fl screen samediv" @click="reOrderByDistance()">距离最近<i
-          class="icon iconfont ic-sanx-up"></i></div>
+          class="icon icon-font ic-sanx-up"></i></div>
       </div>
     </div>
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
@@ -58,12 +58,11 @@
         </div>
       </router-link>
     </ul>
-
-
     <div v-show="allLoaded" class="text-center bg-white">就这么多啦,回顶部再看看吧</div>
   </div>
 </template>
 <script>
+  // FIXME 代码优化
   export default {
     name: 'shopInfo',
     data() {
@@ -116,7 +115,7 @@
         this.distanceVolume = (-1) * this.distanceVolume;
         this.shopSort = 'DISTANCE';
         const url = '/shops';
-        var data = {
+        let data = {
           lat: this.lat,
           lng: this.lng,
           shopSort: this.shopSort,
@@ -133,7 +132,7 @@
         this.salesVolume = (-1) * this.salesVolume;
         this.shopSort = 'SALE';
         const url = '/shops';
-        var data = {
+        let data = {
           lat: this.lat,
           lng: this.lng,
           shopSort: this.shopSort,
@@ -150,7 +149,7 @@
         this.val = (-1) * this.val;
         this.shopSort = 'APPRAISE';
         const url = '/shops';
-        var data = {
+        let data = {
           lat: this.lat,
           lng: this.lng,
           shopSort: this.shopSort,
@@ -165,7 +164,7 @@
         $('.samediv').removeClass('active'); // eslint-disable-next-line
         $('.samediv').eq(0).addClass('active'); // eslint-disable-next-line
         const url = '/shops';
-        var data = {
+        let data = {
           lat: this.lat,
           lng: this.lng,
           shopSort: this.shopSort,
@@ -225,7 +224,6 @@
 
   .active {
     color: #454545;
-    color: red;
   }
 
   .samediv {

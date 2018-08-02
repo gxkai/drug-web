@@ -40,68 +40,80 @@
 </script>
 
 <style scoped>
-  .mt-20{
+  .mt-20 {
     margin-top: 20px !important;
   }
-  .is-flex{
+
+  .is-flex {
     display: flex !important;
   }
-  .flex-row{
+
+  .flex-row {
     flex-direction: row;
   }
-  .flex-column{
+
+  .flex-column {
     flex-direction: column;
   }
-  .flex-sa{
+
+  .flex-sa {
     justify-content: space-around;
   }
-  .flex-sb{
+
+  .flex-sb {
     justify-content: space-between;
   }
 
-  .flex-item{
+  .flex-item {
     align-items: center;
   }
-  .is-200x200{
+
+  .is-200x200 {
     width: 200px;
     height: 200px;
   }
-  .p-lr-20{
+
+  .p-lr-20 {
     padding-left: 20px;
     padding-right: 20px;
     box-sizing: border-box;
   }
-  .box-right{
+
+  .box-right {
     width: 450px;
     height: 100px;
   }
 
-  .pl-40{
+  .pl-40 {
     padding-left: 40px !important;
   }
+
   /*处方标识*/
-  .toc-tip{
+  .toc-tip {
     left: 5px;
     top: 5px;
-    width:50px;
-    height:30px;
-    background:#bfbfbf;
-    color:#666666;
-    border-radius:100px / 50px;
+    width: 50px;
+    height: 30px;
+    background: #bfbfbf;
+    color: #666666;
+    border-radius: 100px / 50px;
   }
-  .all-center{
+
+  .all-center {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
   }
-  .bg-2BB292{
+
+  .bg-2BB292 {
     background: #2BB292;
     color: white;
   }
-  .refund-box{
-    width:720px;
-    height:215px;
+
+  .refund-box {
+    width: 720px;
+    height: 215px;
     background: white;
   }
 
