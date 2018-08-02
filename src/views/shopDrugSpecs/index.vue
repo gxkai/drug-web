@@ -133,7 +133,8 @@
     <div class="comment width-percent-100">
       <div class="content-comment width-percent-94 m-auto border-bottom-f1f1f1">
         <span class="d-inline-block fl">顾客评论（{{drugAppraises.total}}）</span>
-        <router-link tag="span" :to="{path: '/shopDrugSpecs/view', query: {index: 0}}">
+        <!-- FIXME -->
+        <router-link tag="span" :to="{path: '/shopDrugSpecs/appraise', query: {index: 0}}">
           <span class="d-inline-block fr">查看全部评价</span>
         </router-link>
       </div>
@@ -197,9 +198,6 @@
         } else {
           return '处方药';
         }
-      },
-      timeConvert(date) {
-        return this.timeConvert(date);
       }
     }
   };
