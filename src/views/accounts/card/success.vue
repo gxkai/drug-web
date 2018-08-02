@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <new-header>
-      <router-link tag="i" to="/accounts" class="icon-font ic-arrow-right" slot="left"></router-link>
+      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
     </new-header>
 
     <div>

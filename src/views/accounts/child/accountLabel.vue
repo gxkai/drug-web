@@ -5,7 +5,7 @@
     </div>
     <div class="a-content-list flex-stream-sb padding-10">
       <span>{{label.value}}</span>
-      <i class=" icon-font ic-youjiantou"></i>
+      <i class=" iconfont ic-youjiantou"></i>
     </div>
   </div>
 </template>

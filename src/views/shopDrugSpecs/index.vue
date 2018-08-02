@@ -1,7 +1,7 @@
 <template>
   <div class="bind-container">
     <new-header title="商品详情">
-      <i class="icon-font ic-arrow-right" slot="left"></i>
+      <i class="iconfont ic-arrow-right" slot="left"></i>
     </new-header>
     <!--上方轮播开始-->
     <div class="broadcast">
@@ -51,15 +51,15 @@
     <!--配送商家开始-->
     <div class="distribution mode fz20">
       <div class="width-percent-32 d-inline-block">
-        <i class="icon icon-font ic-peisong text-1AB6FD business"></i>
+        <i class="icon iconfont ic-peisong text-1AB6FD business"></i>
         <span>商家配送</span>
       </div>
       <div class="width-percent-32 d-inline-block">
-        <i class="icon icon-font ic-zitidai text-1AB6FD business"></i>
+        <i class="icon iconfont ic-zitidai text-1AB6FD business"></i>
         <span>商家配送</span>
       </div>
       <div class="width-percent-32 d-inline-block">
-        <i class="icon icon-font ic-mianfei text-1AB6FD business"></i>
+        <i class="icon iconfont ic-mianfei text-1AB6FD business"></i>
         <span>商家配送</span>
       </div>
     </div>
@@ -70,16 +70,16 @@
       <div class="height-l-20"></div>
       <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 1}}">
         <div class="shop-details">
-          <i class="icon icon-font ic-liwu-copy text-1AB6FD predetnt"></i>
+          <i class="icon iconfont ic-liwu-copy text-1AB6FD predetnt"></i>
           <span class="text-666666">商品详情</span>
-          <i class="icon icon-font ic-youjiantou1 text-333333"></i>
+          <i class="icon iconfont ic-youjiantou1 text-333333"></i>
         </div>
       </router-link>
       <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 0}}">
         <div class="shop-details">
-          <i class="icon icon-font ic-pingjia text-1AB6FD predetnt"></i>
+          <i class="icon iconfont ic-pingjia text-1AB6FD predetnt"></i>
           <span class="text-666666">商品评价</span>
-          <i class="icon icon-font ic-youjiantou1 text-333333"></i>
+          <i class="icon iconfont ic-youjiantou1 text-333333"></i>
         </div>
       </router-link>
     </div>
@@ -98,7 +98,7 @@
           </p>
         </div>
         <div class="d-inline-block fr">
-          <i class="icon icon-font ic-anquan text-1AB6FD"></i>
+          <i class="icon iconfont ic-anquan text-1AB6FD"></i>
         </div>
       </div>
       <!--客户服务开始-->

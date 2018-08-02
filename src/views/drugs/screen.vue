@@ -2,7 +2,7 @@
   <div class="screen">
 
     <new-header :title="head">
-      <router-link to="#" slot="left" class="icon-font ic-arrow-right text-white">
+      <router-link to="#" slot="left" class="iconfont ic-arrow-right text-white">
       </router-link>
       <router-link to="#" slot="right" >
         <router-link class="text-white" to="/">重置</router-link>

@@ -3,25 +3,25 @@
   <img class="is-280x250" :src="getImgURL(fileId, 'LOGO')">
   <div class="shop-content flex-sb flex-column position-relative">
     <div>
-      <i v-show="showIcon" class="icon-font ic-yinanbingli text-1AB6FD"></i>
+      <i v-show="showIcon" class="iconfont ic-yinanbingli text-1AB6FD"></i>
       <span><b>{{shopName}}</b></span>
     </div>
     <div v-show="showStar">
       <new-star disabled size="small" :score.sync="score"></new-star>
     </div>
     <div>
-      <i v-show="showIcon" class="icon-font ic-dianhua text-1AB6FD"></i>
+      <i v-show="showIcon" class="iconfont ic-dianhua text-1AB6FD"></i>
       <span>{{phone}}</span>
     </div>
     <div>
-      <i v-show="showIcon" class="icon-font ic-address text-1AB6FD"></i>
+      <i v-show="showIcon" class="iconfont ic-address text-1AB6FD"></i>
       <span>{{address}}</span>
     </div>
     <div>
-      <i v-show="showIcon" class="icon-font ic-qianbao text-1AB6FD"></i>
+      <i v-show="showIcon" class="iconfont ic-qianbao text-1AB6FD"></i>
       <span class="text-red"> &yen; {{price}}</span>
     </div>
-    <div><i class="icon-font ic-gouwuche1 position-absolute position-rb icon-size" v-show="cart"></i></div>
+    <div><i class="iconfont ic-gouwuche1 position-absolute position-rb icon-size" v-show="cart"></i></div>
   </div>
 </div>
 </template>

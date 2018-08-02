@@ -11,12 +11,12 @@
       <span>头像</span>
       <div class="flex-stream-sb">
         <img class="is-55x55" v-lazy="aa"/>
-        <i class="icon-font ic-youjiantou"></i>
+        <i class="iconfont ic-youjiantou"></i>
       </div>
     </div>
     <router-link class="a-content-list flex-stream-sb padding-10" to='/accounts/edit'>
         <span>隐私</span>
-        <i class=" icon-font ic-youjiantou"></i>
+        <i class=" iconfont ic-youjiantou"></i>
     </router-link>
 
     <account-label :label="this.labels[3]"/>

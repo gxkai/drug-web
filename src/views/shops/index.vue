@@ -2,17 +2,17 @@
   <div class="full-container">
     <header :style="{background:bgColor,color:color}" class="height130">
       <div class="header-top"></div>
-      <slot name="left"><i class="icon-font ic-arrow-right d-inline-block fl"></i></slot>
+      <slot name="left"><i class="iconfont ic-arrow-right d-inline-block fl"></i></slot>
       <slot name="center">
         <div class="d-inline-block fl position-absolute">
-          <i class="icon-font ic-search d-inline-block fl position-absolute"></i>
+          <i class="iconfont ic-search d-inline-block fl position-absolute"></i>
           <input type="text" placeholder="           达康药业"
                  class="border-0 width-percent-100 border-radius25 head-center text-white position-absolute"/>
         </div>
       </slot>
       <slot name="right">
         <div class="d-inline-block fr position-relative">
-          <i class="icon-font ic-lingdang"></i>
+          <i class="iconfont ic-lingdang"></i>
           <span class="dot position-absolute"></span>
         </div>
       </slot>
@@ -21,12 +21,12 @@
       <div class="shops-nav width-percent-96 m-auto">
         <div class="d-inline-block fl  samediv comprehensive active" @click="reOrderBy('SYNTHESIZE_LESS')">
           默认
-          <i class="icon icon-font ic-sanx-up"></i>
+          <i class="icon iconfont ic-sanx-up"></i>
         </div>
         <div class="d-inline-block fl nearby samediv" @click="reOrderByAppraise()">评价</div>
         <div class="d-inline-block fl evaluate samediv" @click="reOrderBySales()">销量</div>
         <div class="d-inline-block fl screen samediv" @click="reOrderByDistance()">距离最近<i
-          class="icon icon-font ic-sanx-up"></i></div>
+          class="icon iconfont ic-sanx-up"></i></div>
       </div>
     </div>
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">

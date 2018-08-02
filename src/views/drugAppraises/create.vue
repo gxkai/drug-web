@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <new-header title="发表评论">
-      <i class="icon-font ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
       <span slot="right" @click="commit()">发布</span>
     </new-header>
     <div class="body">
@@ -16,14 +16,14 @@
             <new-edit-div v-model="item.content"></new-edit-div>
           </div>
           <div class="line3">
-            <i class="icon-font ic-zhaoxiangji"></i>
+            <i class="iconfont ic-zhaoxiangji"></i>
             <span>你的评价能帮助其他小伙伴哦</span>
           </div>
         </li>
       </ul>
       <footer>
         <div class="title1">
-          <i class="icon-font ic-shangchuanmoban"></i>
+          <i class="iconfont ic-shangchuanmoban"></i>
           <span>店铺评分</span>
         </div>
         <div class="content1">

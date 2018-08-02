@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <new-header :title="titles">
-      <router-link tag="i" to="/messageTypes" class="icon-font ic-arrow-right" slot="left"></router-link>
+      <router-link tag="i" to="/messageTypes" class="iconfont ic-arrow-right" slot="left"></router-link>
     </new-header>
     <div class="container-main">
       <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">

@@ -2,9 +2,9 @@
   <div class="main">
     <div class="bar" ref="header">
       <div class="out">
-        <i class="icon-font ic-arrow-right" @click="$router.go(-1)"></i>
+        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
         <div class="inner">
-          <i class="icon-font ic-sousuo"></i>
+          <i class="iconfont ic-sousuo"></i>
           <input type="text" v-model="keyword">
         </div>
         <span @click="onSearch()">搜索</span>
