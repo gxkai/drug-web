@@ -179,14 +179,14 @@
     <!-- 撑屏容器 -->
     <div class="add-container is-720x100">
     </div>
-    <new-footer :urlRouter="$route.path"></new-footer>
+
+     <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
 <script>
   import {BmMarker, BmLabel} from 'vue-baidu-map';
   import {Toast} from 'mint-ui';
   import axios from 'axios';
-
   export default {
     name: 'home',
     data() {
@@ -255,7 +255,7 @@
     },
     mounted() {
       setInterval(_ => {
-        if (this.activeIndex <= this.prizeList.length) {
+        if (this.activeIndex <= this.advertLists.length) {
           this.activeIndex++;
         } else {
           this.activeIndex = 1;
@@ -554,7 +554,6 @@
     width: 720px;
     height: 330px;
     background: rgba(238, 238, 238, 1);
-    z-index: -9;
   }
 
   /* 撑屏容器 */
@@ -609,7 +608,7 @@
   }
 
   .swiper-container {
-    width: 720px;
+    width: 100%;
     padding-top: 50px;
     padding-bottom: 50px;
   }
