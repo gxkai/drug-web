@@ -15,10 +15,10 @@
      <div class="drug-offer">
           <div class="width-percent-96 m-auto merchant">
               <div class="d-inline-block fl"><span class="text-1AB6FD">{{total}}</span><span>商家报价</span></div>
-              <div class="d-inline-block fr"><i class="icon iconfont ic-xiajiantou"></i> </div>
+              <div class="d-inline-block fr"><i class="icon icon-font ic-xiajiantou"></i> </div>
           </div>
        <div class="comprehensive">
-          <div class="d-inline-block" @click="orderById()">综合<i class="ic-sanx-up icon iconfont text-1AB6FD"></i></div>
+          <div class="d-inline-block" @click="orderById()">综合<i class="ic-sanx-up icon icon-font text-1AB6FD"></i></div>
           <div class="d-inline-block" @click="orderByDistance()">距离</div>
           <div class="d-inline-block" @click="orderByPrice()">价格</div>
        </div>
@@ -31,17 +31,17 @@
               </div>
                <div class="rote">
                    <span>
-                      <i class="icon iconfont ic-ditu text-1AB6FD"></i>{{shopList.address}}
+                      <i class="icon icon-font ic-ditu text-1AB6FD"></i>{{shopList.address}}
                    </span>
                    <span>
-                      <i class="icon iconfont ic-aixin text-1AB6FD"></i>评分：{{shopList.score}}分
+                      <i class="icon icon-font ic-aixin text-1AB6FD"></i>评分：{{shopList.score}}分
                    </span>
                    <span>
-                      <i class="icon iconfont ic-kucun text-1AB6FD"></i>库存：{{shopList.stock}}
+                      <i class="icon icon-font ic-kucun text-1AB6FD"></i>库存：{{shopList.stock}}
                    </span>
                </div>
                 <div class="fr rote shopping-car">
-                  <i class="icon iconfont ic-gouwuche3 text-1AB6FD"></i>
+                  <i class="icon icon-font ic-gouwuche3 text-1AB6FD"></i>
                 </div>
         </div>
      </div>

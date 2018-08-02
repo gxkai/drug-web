@@ -3,11 +3,11 @@
     <!-- 头部 -->
     <mt-header>
       <router-link to="/messageTypes" slot="left">
-        <i class=" iconfont ic-xiaoxi"></i>
+        <i class=" icon-font ic-xiaoxi"></i>
       </router-link>
 
       <router-link to="/setting" slot="right">
-        <i class=" iconfont ic-shezhi1"></i>
+        <i class=" icon-font ic-shezhi1"></i>
       </router-link>
     </mt-header>
 
@@ -28,7 +28,7 @@
         <span class="all-orders">全部订单</span>
         <div class="is-flex">
           <span>我的订单</span>
-          <i class="iconfont ic-youjiantou"></i>
+          <i class="icon-font ic-youjiantou"></i>
         </div>
       </router-link>
       <div class="nav-bar-content border-top-gray">
@@ -83,12 +83,12 @@
 
     <router-link class=" foot-tag flex-stream-sb" to="/faqs">
       <span>常见问题</span>
-      <i class="iconfont ic-youjiantou"></i>
+      <i class="icon-font ic-youjiantou"></i>
     </router-link>
 
     <router-link class=" foot-tag flex-stream-sb" to="/feedbacks/create">
       <span>意见反馈</span>
-      <i class="iconfont ic-youjiantou"></i>
+      <i class="icon-font ic-youjiantou"></i>
     </router-link>
 
     <new-footer :urlRouter="$route.path"></new-footer>

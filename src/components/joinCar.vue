@@ -2,19 +2,19 @@
   <div>
     <footer>
       <router-link tag="div" to="/" :class="{active:urlRouter === '/'}">
-        <i class="iconfont ic-zixun"></i>
+        <i class="icon-font ic-zixun"></i>
         <p>咨询</p>
       </router-link>
       <router-link tag="div" to="/rxs" :class="{active:urlRouter === '/rxs'}">
-        <i class="iconfont ic-drugstore"></i>
+        <i class="icon-font ic-drugstore"></i>
         <p>药店</p>
       </router-link>
       <router-link tag="div" to="/drugTypes" :class="{active:urlRouter === '/drugTypes'}">
-        <i class="iconfont ic-shoucang"></i>
+        <i class="icon-font ic-shoucang"></i>
         <p>收藏</p>
       </router-link>
       <router-link tag="div" to="/drugTypes" :class="{active:urlRouter === '/drugTypes'}">
-        <i class="iconfont ic-gouwuche2"></i>
+        <i class="icon-font ic-gouwuche2"></i>
         <p>购物车</p>
       </router-link>
       <div class="joincar" @click="joinCar()">
@@ -32,7 +32,7 @@
             <img v-lazy="'/files/' + drugInfo.shopLogo + '/image?resolution=LARGE_LOGO'" class="drug-img"/>
           </div>
           <div class="drug-close">
-            <i class="icon iconfont ic-guanbi2" @click="close()"></i>
+            <i class="icon icon-font ic-guanbi2" @click="close()"></i>
           </div>
           <div>
             <!-- {{drugInfo}}-->

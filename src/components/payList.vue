@@ -2,7 +2,7 @@
   <div>
     <div class="content1" v-for="(item,index) in list" :key="index">
       <div class="title1">
-        <i class="iconfont ic-yaodian"></i>
+        <i class="icon-font ic-yaodian"></i>
         <span>{{item.shopName}}</span>
       </div>
       <new-line></new-line>
@@ -114,7 +114,7 @@
     border: 0;
   }
 
-  .iconfont {
+  .icon-font {
     font-size: 50px;
   }
 </style>

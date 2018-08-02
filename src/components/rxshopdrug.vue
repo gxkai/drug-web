@@ -6,24 +6,24 @@
   <img class="is-200x200" :src="getImgURL(fileId, 'LOGO')">
   <div class="box-right is-flex flex-column flex-sa ml-40">
     <div class="">
-      <i class="iconfont ic-changfang text-13C1FE"></i>
+      <i class="icon-font ic-changfang text-13C1FE"></i>
       <span class="text-box">厂商:</span>
       <span class="">{{manu}}</span>
     </div>
     <div class="">
-      <i class="iconfont ic-yao text-13C1FE"></i>
+      <i class="icon-font ic-yao text-13C1FE"></i>
       <span class="text-box">名称:</span>
       <span class="">{{name}}</span>
     </div>
     <div class="">
       <span>
-         <i class="iconfont ic-yaopinshuju text-13C1FE"></i>
+         <i class="icon-font ic-yaopinshuju text-13C1FE"></i>
          <span class="text-box">规格:</span>
          <span class="">{{spec}}</span>
       </span>
     </div>
     <div class="">
-      <i class="iconfont ic-qian text-13C1FE"></i>
+      <i class="icon-font ic-qian text-13C1FE"></i>
       <span class="text-box">最低价:</span>
       <span class="text-red">&yen; {{price}}</span>
     </div>
@@ -31,7 +31,7 @@
  </div>
 
   <div class="rx-total">
-    <i class="iconfont ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥127.2</span>
+    <i class="icon-font ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥127.2</span>
   </div>
     <footer>
        <div class="d-inline-block fl bg-13C1FE text-white rx-joincar">加入购物车</div>

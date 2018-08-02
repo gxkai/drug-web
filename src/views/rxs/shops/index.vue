@@ -15,8 +15,8 @@
       <li @click="orderByPrice()" class="is-flex flex-row " :class="{'blueactive1':index4==comprehensive4}">
         <span>价格</span>
         <div class="is-flex  position-relative">
-          <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="val==1?'unActive':'blueActive'"></i>
-          <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="val==1?'blueActive':'unActive'"></i>
+          <i class="icon-font ic-arrLeft-fill1 position-absolute position-top" :class="val==1?'unActive':'blueActive'"></i>
+          <i class="icon-font ic-arrLeft-fill position-absolute position-bottom" :class="val==1?'blueActive':'unActive'"></i>
         </div>
       </li>
     </ul>

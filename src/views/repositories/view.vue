@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <new-header :title="title">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <i class="icon-font ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
 
     <div class="body-main">
