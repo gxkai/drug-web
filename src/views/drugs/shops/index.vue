@@ -31,15 +31,15 @@
           <span class="text-red d-inline-block fr drug-price">¥{{shopList.price}}</span>
         </div>
         <div class="rote">
-                   <span>
-                      <i class="icon iconfont ic-ditu text-1AB6FD"></i>{{shopList.address}}
-                   </span>
           <span>
-                      <i class="icon iconfont ic-aixin text-1AB6FD"></i>评分：{{shopList.score}}分
-                   </span>
+            <i class="icon iconfont ic-ditu text-1AB6FD"></i>{{shopList.address}}
+          </span>
           <span>
-                      <i class="icon iconfont ic-kucun text-1AB6FD"></i>库存：{{shopList.stock}}
-                   </span>
+            <i class="icon iconfont ic-aixin text-1AB6FD"></i>评分：{{shopList.score}}分
+          </span>
+          <span>
+            <i class="icon iconfont ic-kucun text-1AB6FD"></i>库存：{{shopList.stock}}
+          </span>
         </div>
         <div class="fr rote shopping-car">
           <i class="icon iconfont ic-gouwuche3 text-1AB6FD"></i>
@@ -48,21 +48,19 @@
     </div>
   </div>
 </template>
-
-
 <script>
   export default {
     data() {
       return {
         shopLists: [],
         drugInfo: [],
-        arrowdown: false,
+        down: false,
         hide: false,
         tips: [],
         total: '',
         picUrls: '',
         drugId: '',
-        drugShopSort: 'SYNTHESIZE',
+        sort: 'SYNTHESIZE',
         spec: '',
         specId: '',
         val: -1,
@@ -73,18 +71,17 @@
     props: ['message'],
     methods: {
       getShopLists() {
-        var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.specId + '/shops?drugShopSort=' + this.drugShopSort + '&lat=' + this.lat + '&lng=' + this.lng;
-        this.$http.get(url).then((res) => {
+        this.$http.get('/drugs/' + this.drugId + '/drugSpecs/' + this.specId + '/shops?sort=' + this.sort + '&lat=' + this.lat + '&lng=' + this.lng).then((res) => {
           this.total = res.data.total;
           this.shopLists = res.data.list;
         });
       },
       orderById() {
-        this.drugShopSort = 'SYNTHESIZE';
+        this.sort = 'SYNTHESIZE';
         this.getShopLists();
       },
       orderByDistance() {
-        this.drugShopSort = 'DISTANCE';
+        this.sort = 'DISTANCE';
         this.getLocation();
       },
       getLocation() {
@@ -102,25 +99,25 @@
       orderByPrice() {
         this.val = -(this.val);
         if (this.val === -1) {
-          this.drugShopSort = 'PRICE_LESS';
+          this.sort = 'PRICE_LESS';
         } else {
-          this.drugShopSort = 'PRICE_MORE';
+          this.sort = 'PRICE_MORE';
         }
         this.getShopLists();
       },
       dropDown() {
         this.hide = true;
-        this.arrowdown = true;
+        this.down = true;
       },
       arrowDown() {
-        this.arrowdown = false;
+        this.down = false;
         this.hide = false;
       },
-      d_closed(data) {
+      dClosed(data) {
         if (data !== '') {
           data = data || this.drugId;
           // 根据选择的值修改页面
-          const url = '/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort;
+          const url = '/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?sort=' + this.sort;
           this.$http.get(url).then((res) => {
             this.total = res.data.total;
             this.shopLists = res.data.list;
@@ -134,7 +131,7 @@
           });
         }
         this.hide = false;
-        this.arrowdown = false;
+        this.down = false;
       }
     },
     created: function () {
