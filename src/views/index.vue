@@ -176,6 +176,9 @@
       </div>
     </div>
 
+    <!-- 撑屏容器 -->
+    <div class="add-container is-720x100">
+    </div>
 
      <new-footer :urlRouter="$route.path"></new-footer>
   </div>
@@ -252,7 +255,7 @@
     },
     mounted() {
       setInterval(_ => {
-        if (this.activeIndex <= this.prizeList.length) {
+        if (this.activeIndex <= this.advertLists.length) {
           this.activeIndex++;
         } else {
           this.activeIndex = 1;
