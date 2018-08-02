@@ -1,7 +1,7 @@
 <template>
   <div>
     <footer>
-      <router-link tag="div" to="/" :class="{active:urlRouter === '/'}">
+      <router-link tag="div" to="/chats" :class="{active:urlRouter === '/chats'}">
         <i class="iconfont ic-zixun"></i>
         <p>咨询</p>
       </router-link>
@@ -20,7 +20,7 @@
       <div class="joincar" @click="$emit('createCart')">
         <p>加入购物车</p>
       </div>
-      <!-- TODO 立即购买 -->
+      <!-- FIXME -->
       <router-link tag="div" to="/accounts" :class="{active:urlRouter === '/accounts'}" class="immediately-buy">
         <p>立即购买</p>
       </router-link>
