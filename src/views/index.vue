@@ -176,9 +176,7 @@
       </div>
     </div>
 
-    <!-- 撑屏容器 -->
-    <div class="add-container is-720x100">
-    </div>
+
      <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
