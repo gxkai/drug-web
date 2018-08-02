@@ -26,9 +26,7 @@
         <span><i class="icon iconfont ic-qianbao"></i>千百</span>
       </div>
     </div>
-    <!--<div class="J_OrderDetails_receipt3"><img src="static/img/knowledge_icon/knowledge-right.png" alt=""></div>-->
-
-    <div v-if="order.deliveryType === 'DELIVERY'" class="is-flex flex-row flex-item p-lr-20">
+    <div v-if="order.deliveryType === 'DELIVERY'" class="address-box is-flex flex-row flex-item p-lr-20">
       <div><i class=" iconfont ic-dizhi"></i></div>
       <div class="p-lr-20">
         <div><span>收货人：</span> <span>{{order.consignee}}</span><span>{{order.tel}}</span></div>
@@ -39,57 +37,36 @@
     <ul>
       <div @click="showShop(order.shopId)">{{order.shopName}}</div>
       <li v-if="order.hasRxDrug">
-        <div class="J_OrderDetails_ispf">
-          <span><img src="static/img/prescription.png"/></span>
+        <div class="p-lr-20">
+          <span><img src="../../assets/image/prescription.png" class="is-35x35"/></span>
           <span>处方单</span>
           <span @click="setShowRx"><i class="icon iconfont icon-xiala"></i></span>
         </div>
 
         <div v-for="rxDrug in order.rxDrugs" v-show="showRx">
-          {{rxDrug}}
-          <!--<div @click="showRecipe(rxDrug.rxId)">查看处方></div>-->
-          <!--<div v-for="item in rxDrug.drugs" style="width: 100%;display: block;">-->
-            <!--<div>-->
-              <!--<img v-lazy="item.imgUrl">-->
-              <!--<img v-if="item.otc" src="static/img/chu.png">-->
-              <!--<img v-else src="static/img/fei.png">-->
-            <!--</div>-->
-            <!--<div>-->
-              <!--<div>{{item.drugName}}</div>-->
-              <!--<div>-->
-                <!--<span>规格：{{item.spec}}</span>-->
-                <!--<span>X {{item.quantity}}</span>-->
-              <!--</div>-->
-              <!--<div>¥{{item.price}}</div>-->
-            <!--</div>-->
+          <div class="text-right p-lr-20" @click="showRecipe(rxDrug.rxId)">查看处方></div>
+          <!--<div v-for="item in rxDrug.drugs" >-->
+          <refund-drug class="mt-10" :drugName="rxDrug.drugName" :spec="rxDrug.spec" :price="rxDrug.price"
+                       :quantity="rxDrug.quantity" :isOtc="rxDrug.isOtc">
+          </refund-drug>
           <!--</div>-->
         </div>
       </li>
 
       <li v-if="order.hasNorDrug">
-        <div v-if="order.hasRxDrug">
-          <span><img src="static/img/noprescription.png"/></span>
+        <div v-if="order.hasRxDrug" class="p-lr-20">
+          <span><img src="../../assets/image/noprescription.png" class="is-35x35"/></span>
           <span>非处方单</span>
           <span @click="setShowNor"><i class="icon iconfont icon-xiala"></i></span>
         </div>
 
         <div v-for="item in order.norDrugs" v-show="showNor">
-          <!--<div>-->
-            <!--<img v-lazy="item.imgUrl">-->
-            <!--<img v-if="!item.otc" src="static/img/chu.png">-->
-            <!--<img v-else src="static/img/fei.png">-->
-          <!--</div>-->
-          <!--<div>-->
-            <!--<div>{{item.drugName}}</div>-->
-            <!--<div>-->
-              <!--<span>规格：{{item.spec}}</span>-->
-              <!--<span>X {{item.quantity}}</span>-->
-            <!--</div>-->
-            <!--<div>¥{{item.price}}</div>-->
-          <!--</div>-->
+          {{item}}
+          <refund-drug :drugName="item.drugName" :spec="item.spec" :price="item.price"
+                       :quantity="item.quantity" :isOtc="item.isOtc">
+          </refund-drug>
         </div>
       </li>
-
     </ul>
     <div class="price-box p-lr-20">
       <div class="is-flex flex-sb">
@@ -106,23 +83,23 @@
       </div>
     </div>
 
-    <div v-if="order.state === 'TO_PAY'">
+    <div v-if="order.state === 'TO_PAY'" class="change-box p-lr-20 is-flex flex-end m-tb-20">
       <div @click="showPay(order.id)">付款</div>
       <div @click="confirm(order.id, 'cancel', '是否取消订单？')">取消订单</div>
     </div>
 
-    <div v-if="order.state === 'TO_DELIVERY'">
+    <div v-if="order.state === 'TO_DELIVERY'" class="change-box p-lr-20 is-flex flex-end m-tb-20">
       <div @click="showRefund(order.id)">退款</div>
       <div v-if="order.deliveryType === 'DELIVERY'" @click="remind(order.id)">提醒发货</div>
     </div>
 
-    <div v-if="order.state === 'TO_RECEIVED'">
+    <div v-if="order.state === 'TO_RECEIVED'" class="change-box p-lr-20 is-flex flex-end m-tb-20">
       <div @click="showRefund(order.id)">退货</div>
       <div @click="confirm(order.id, 'confirm', '确认收货?')">确认收货</div>
       <div v-if="order.deliveryType === 'DELIVERY'" @click="showDelivery(order.id)">查看物流</div>
     </div>
 
-    <div v-if="order.state === 'TO_APPRAISE'">
+    <div v-if="order.state === 'TO_APPRAISE'" class="change-box p-lr-20 is-flex flex-end m-tb-20">
       <div @click="showAppraise(order.id)">评价</div>
       <div @click="showRefund(order.id)">退货</div>
     </div>
@@ -158,7 +135,6 @@
       return {
         title: '订单详情',
         orderId: '',
-        // orderNumber: 14,
         order: {
           id: 12,
           state: 'TO_RECEIVED',
@@ -173,13 +149,43 @@
           hasRxDrug: true,
           hasNorDrug: true,
           rxDrugs: {
-            drugs: {
-              isOtc: true,
-              imgUrl: 1,
-              drugName: '药品名称',
-              spec: '12/盒',
-              quantity: '12',
-              price: 58.5
+            drugs: [
+              {
+                isOtc: true,
+                imgUrl: 1,
+                drugName: '药品名称',
+                spec: '12/盒',
+                quantity: '12',
+                price: 58.5
+              },
+              {
+                isOtc: false,
+                imgUrl: 2,
+                drugName: '药品名称药药药',
+                spec: '12/盒',
+                quantity: '13',
+                price: 12.5
+              }
+            ],
+            norDrugs: {
+              drugs: [
+                {
+                  isOtc: true,
+                  imgUrl: 1,
+                  drugName: '药品名称',
+                  spec: '12/盒',
+                  quantity: '12',
+                  price: 58.5
+                },
+                {
+                  isOtc: false,
+                  imgUrl: 2,
+                  drugName: '药品名称药药药',
+                  spec: '12/盒',
+                  quantity: '13',
+                  price: 12.5
+                }
+              ]
             }
           }
         },
@@ -296,10 +302,29 @@
 </script>
 
 <style scoped>
+  .change-box div{
+    margin-left: 20px;
+    border: 1px #1AB6FD solid;
+    border-radius: 15px;
+    color: #1AB6FD;
+    padding: 2px 5px;
+    box-sizing: border-box;
+  }
+  .m-tb-20{
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+  }
+  .flex-end{
+    justify-content: flex-end;
+  }
   .order-detail{
     width:720px;
     height:162px;
     background:rgba(245,245,245,1);
+  }
+  .is-35x35{
+    width: 35px;
+    height: 35px;
   }
   .is-175x160{
     width: 175px;
@@ -327,12 +352,19 @@
     padding-right: 20px;
     box-sizing: border-box;
   }
+  .mt-10{
+    margin-top: 10px !important;
+  }
   .price-box{
     width: 720px;
     height: 120px;
     background: rgba(245,245,245,1);
   }
-
+  .address-box{
+    width: 720px;
+    height: 127px;
+    border-bottom: #f5f5f5 1px solid;
+  }
 </style>
 
 
