@@ -33,7 +33,7 @@
       </div>
     </div>
     </ul>
-    <div v-show="allLoaded" style="text-align: center">就这么多啦,回顶部再看看吧</div>
+    <div v-show="allLoaded" class="text-center">就这么多啦,回顶部再看看吧</div>
 
   </div>
 </template>

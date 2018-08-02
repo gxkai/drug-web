@@ -290,6 +290,7 @@ export default new Router({
     },
     {
       path: '/shops',
+      alias: '/shops/index',
       component: () => import('@/views/shops/index.vue')
     },
     {

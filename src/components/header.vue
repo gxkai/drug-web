@@ -1,6 +1,6 @@
 <template>
     <header :style="{background:bgColor,color:color}" :class="height">
-      <div class="left" :style="{color:leftColor}" :class="leftSize">
+      <div class="left" style="color:#333333" :class="leftSize">
        <slot name="left"></slot>
       </div>
       <div>
