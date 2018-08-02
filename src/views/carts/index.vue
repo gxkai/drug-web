@@ -1,11 +1,9 @@
 <template>
   <div>
-    <div ref="header">
-      <new-header title="购物车">
+      <new-header title="购物车" ref="header">
         <i class="iconfont ic-arrow-right" slot="left"></i>
         <span slot="right" @click="onRemoveBatch()">删除</span>
       </new-header>
-    </div>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
     <div class="close" ref="close">
       <div class="left icon1" @click.stop="onRadio(All)">
@@ -67,7 +65,9 @@
                         <i class="iconfont ic-radiochecked" v-show="cartDrug.radio"></i>
                       </div>
                       <div class="image">
-                        <img v-lazy="">
+                        <div class="chu" v-if="cartDrug.otc">处</div>
+                        <div class="feichu" v-else>非处</div>
+                        <img v-lazy="cartDrug.logo">
                       </div>
                       <div class="text">
                         <div class="top">
@@ -174,6 +174,7 @@
               e.radio = false;
               e.drugs.forEach(e => {
                 e.radio = false;
+                e.logo = this.getImgURL(e.fileId, 'LARGE_LOGO');
               });
             });
           });
@@ -388,7 +389,7 @@
       // })
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.close.clientHeight - this.$refs.footer.$el.clientHeight
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.close.clientHeight - this.$refs.footer.$el.clientHeight
       ) + 'px';
       this.$refs.body.style.overflow = 'scroll';
     }
@@ -396,6 +397,31 @@
 </script>
 
 <style scoped>
+  .chu {
+    position: absolute;
+    width:42px;
+    height:25px;
+    background:rgba(43,178,146,1);
+    font-size:18px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(255,255,255,1);
+    text-align: center;
+    line-height: 20px;
+    border-radius: 20px;
+  }
+
+  .feichu {
+    position: absolute;
+    width:50px;
+    height:25px;
+    background:rgba(191,191,191,1);
+    font-size:16px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(102,102,102,1);
+    text-align: center;
+    line-height: 20px;
+    border-radius: 20px;
+  }
   /*结算栏*/
   .close {
     display: inline-flex;

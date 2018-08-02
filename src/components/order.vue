@@ -98,6 +98,8 @@
 
         <div class="slide-content" v-for="item in order.list">
           <div class="image">
+            <div class="chu" v-if="item.otc">处</div>
+            <div class="feichu" v-else>非处</div>
             <img v-lazy="item.logo">
           </div>
           <div class="text">
@@ -232,18 +234,39 @@
     padding-bottom: 20px;
   }
 
-  .slide-content .icon1 {
-    width: 60px;
-    text-align: center;
-    line-height: 70px;
-  }
-
   .slide-content .image {
     width: 200px;
     height: 200px;
     background: rgba(255, 255, 255, 1);
     box-shadow: 1px 1px 1px rgba(102, 102, 102, 0.3);
     align-self: center;
+    position: relative;
+  }
+
+  .chu {
+    position: absolute;
+    width:42px;
+    height:25px;
+    background:rgba(43,178,146,1);
+    font-size:18px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(255,255,255,1);
+    text-align: center;
+    line-height: 20px;
+    border-radius: 20px;
+  }
+
+  .feichu {
+    position: absolute;
+    width:50px;
+    height:25px;
+    background:rgba(191,191,191,1);
+    font-size:16px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(102,102,102,1);
+    text-align: center;
+    line-height: 20px;
+    border-radius: 20px;
   }
 
   .slide-content .text {

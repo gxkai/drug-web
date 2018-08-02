@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div ref="header">
       <new-header title="待发货">
         <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/accounts')"></i>
         <i class="iconfont ic-sousuo" slot="right" @click.stop="$router.push('/orders/search')"></i>
