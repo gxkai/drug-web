@@ -108,7 +108,7 @@
       <div>退款成功</div>
     </div>
 
-    <div class="order-detail p-lr-20">
+    <div class="order-detail p-lr-20 is-flex flex-column flex-center">
       <div>
         <span>订单编号:</span>
         <span>{{order.number}}</span>
@@ -211,7 +211,6 @@
       initData() {
         this.$http.get('/orders/' + this.orderId)
           .then(res => {
-            console.log(res.data);
             // this.order = res.data;
             // this.order.createdDate = new Date(res.data.createdDate);
             // if (this.order.state === 'TO_PAY') {
@@ -221,7 +220,6 @@
             //     this.order.state = 'CLOSED';
             //   }
             // }
-            // showOrderPics(this);
           });
       },
       countDownE_cb() {
@@ -317,6 +315,9 @@
   .flex-end{
     justify-content: flex-end;
   }
+  .flex-center{
+    justify-content: center;
+  }
   .order-detail{
     width:720px;
     height:162px;
@@ -340,6 +341,9 @@
   }
   .flex-row{
     flex-direction: row;
+  }
+  .flex-column{
+    flex-direction: column;
   }
   .flex-item{
     align-items: center;
