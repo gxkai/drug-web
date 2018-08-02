@@ -49,8 +49,8 @@
                   </router-link>
                 </new-header>
                 <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
-                  <i class="iconfont ic-jisongchufangdan" slot="left"></i>
-                  <span slot="left" class="chufangdan">非处方单</span>
+                  <i class="iconfont ic-jisongchufangdan color-333" slot="left"></i>
+                  <span slot="left" class="chufangdan" >非处方单</span>
                 </new-header>
                 <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs" :key="cartDrugIndex">
                   <mt-cell-swipe
@@ -547,6 +547,9 @@
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
     line-height: 0.1rem;
+  }
+  .color-333 {
+    color: #333;
   }
 </style>
 
