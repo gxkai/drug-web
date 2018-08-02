@@ -1,21 +1,28 @@
 <template>
   <!-- TODO 倒计时-->
-  <div class="rxs-container" >
-    <!-- TODO 两个小图标 -->
+<div class="rxs-container" >
+
 <div class="rxs-header position-relative">
+  <div class="rx-header-title position-relative">
+    <router-link to="/">
+    <i class="iconfont ic-arrow-right position-absolute position-lt fz-40 text-white"></i>
+    </router-link>
+    <span>处方列表</span>
+  </div>
+
   <div class="flex-row-center text-white pt-26">
     <div class="">
       <img class="is-110x110"  :src="getImgURL(account.fileId)"/>
     </div>
     <div class="ml-60 mr-160">
-      <div class="account-info flex-stream-sb position-relative" >
-        <img class="is-30x30 position-absolute -position-30" src="../../assets/image/search.png">
+      <div class="account-info" >
+        <i class="iconfont ic-wo"></i>
         <span>{{account.name}}</span>
-        <span>{{getGender()}}</span>
-        <span>{{account.age}}岁</span>
+        <span class="ml-20">{{getGender()}}</span>
+        <span class="ml-20">{{account.age}}岁</span>
       </div>
-      <div class="account-info flex-stream-sb position-relative" >
-        <img class="is-30x30 position-absolute  -position-30" src="../../assets/image/search.png">
+      <div class="account-info" >
+        <i class="iconfont ic-Id"></i>
         <span>{{account.identityNumber}}</span>
       </div>
     </div>
@@ -163,9 +170,25 @@
   }
   .rxs-header{
     width: 720px;
-    height: 210px;
+    height: 312px;
     background: #2ac4fb;
   }
+  .rx-header-title{
+    width: 720px;
+    height: 130px;
+    line-height: 130px;
+    font-size: 35px;
+    text-align: center;
+    color: white;
+  }
+  .position-lt{
+    left: 0;
+    top: 0;
+  }
+  .fz-40{
+    font-size: 40px;
+  }
+
   .header-search{
     width:690px;
     height:60px;
@@ -190,11 +213,9 @@
   .img-radius{
     border-radius: 50%;
   }
-
   .-position-30{
     left: -30px;
   }
-
   .is-30x30{
     width: 30px;
     height: 30px;
@@ -206,6 +227,9 @@
   .is-155x155{
     width: 155px;
     height: 155px;
+  }
+  .ml-20{
+    margin-left: 20px !important;
   }
   .ml-60{
     margin-left: 60px !important;
@@ -240,7 +264,7 @@
   }
   .position-center{
     left: 15px;
-    bottom: -26px;
+    bottom: -10px;
   }
   .position-rb{
     right: 10px;
@@ -268,11 +292,9 @@
     align-items: center;
     justify-content: center;
   }
-
   .account-info{
     width: 254px;
   }
-
   .position-search{
     top: 17px;
     left: 10px;
