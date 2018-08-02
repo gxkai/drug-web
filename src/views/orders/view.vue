@@ -46,6 +46,7 @@
         </div>
 
         <div v-for="rxDrug in order.rxDrugs" v-show="showRx">
+          {{rxDrug}}
           <!--<div @click="showRecipe(rxDrug.rxId)">查看处方></div>-->
           <!--<div v-for="item in rxDrug.drugs" style="width: 100%;display: block;">-->
             <!--<div>-->
@@ -169,6 +170,8 @@
           payNo: 'No1231231',
           number: 'No1231231123',
           createdDate: '2017-12-30',
+          hasRxDrug: true,
+          hasNorDrug: true,
           rxDrugs: {
             drugs: {
               isOtc: true,
