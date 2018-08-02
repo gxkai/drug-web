@@ -1,68 +1,68 @@
 <template>
   <div>
-      <footer>
-        <router-link tag="div" to="/" :class="{active:urlRouter == '/'}">
-          <i class="iconfont ic-zixun"></i>
-          <p>咨询</p>
-        </router-link>
-        <router-link tag="div" to="/rxs" :class="{active:urlRouter == '/rxs'}">
-          <i class="iconfont ic-drugstore"></i>
-          <p>药店</p>
-        </router-link>
-        <router-link tag="div" to="/drugTypes" :class="{active:urlRouter == '/drugTypes'}">
-          <i class="iconfont ic-shoucang"></i>
-          <p>收藏</p>
-        </router-link>
-        <router-link tag="div" to="/drugTypes" :class="{active:urlRouter == '/drugTypes'}">
-          <i class="iconfont ic-gouwuche2"></i>
-          <p>购物车</p>
-        </router-link>
-        <div class="joincar" @click="joinCar()">
-          <p>加入购物车</p>
-        </div>
-        <router-link tag="div" to="/accounts" :class="{active:urlRouter == '/accounts'}" class="immediately-buy">
-           <p>立即购买</p>
-        </router-link>
-      </footer>
+    <footer>
+      <router-link tag="div" to="/" :class="{active:urlRouter == '/'}">
+        <i class="iconfont ic-zixun"></i>
+        <p>咨询</p>
+      </router-link>
+      <router-link tag="div" to="/rxs" :class="{active:urlRouter == '/rxs'}">
+        <i class="iconfont ic-drugstore"></i>
+        <p>药店</p>
+      </router-link>
+      <router-link tag="div" to="/drugTypes" :class="{active:urlRouter == '/drugTypes'}">
+        <i class="iconfont ic-shoucang"></i>
+        <p>收藏</p>
+      </router-link>
+      <router-link tag="div" to="/drugTypes" :class="{active:urlRouter == '/drugTypes'}">
+        <i class="iconfont ic-gouwuche2"></i>
+        <p>购物车</p>
+      </router-link>
+      <div class="joincar" @click="joinCar()">
+        <p>加入购物车</p>
+      </div>
+      <router-link tag="div" to="/accounts" :class="{active:urlRouter == '/accounts'}" class="immediately-buy">
+        <p>立即购买</p>
+      </router-link>
+    </footer>
 
 
 
     <mt-popup v-model="popupVisible" @click="close()"></mt-popup>
-      <transition name="slide-fade" v-show="show">
-        <div class="hide-drug-detail" v-show="show">
-          <div class="width-percent-100 drug-top">
-            <div class="d-inline-block fl">
-              <img v-lazy="'/files/' + drugInfo.shopLogo + '/image?resolution=LARGE_LOGO'" class="drug-img"/>
-            </div>
-            <div class="drug-close">
-              <i class="icon iconfont ic-guanbi2" @click="close()"></i>
-            </div>
-            <div>
-           <!-- {{drugInfo}}-->
-            </div>
-            <div class="drug-info d-inline-block fl elps">
-              <p class="drug-title elps"> {{drugInfo.name}}</p>
-              <p class="drug-price">¥{{drugInfo.price}}</p>
-            </div>
+    <transition name="slide-fade" v-show="show">
+      <div class="hide-drug-detail" v-show="show">
+        <div class="width-percent-100 drug-top">
+          <div class="d-inline-block fl">
+            <img v-lazy="'/files/' + drugInfo.shopLogo + '/image?resolution=LARGE_LOGO'" class="drug-img"/>
           </div>
-          <div class="drug-line"></div>
-          <div class="drug-buy-number">
-            <div class="d-inline-block fl drug-buy">购买数量</div>
-            <div class="d-inline-block fr">
-              <span class="drug-reduce d-inline-block" @click="drugReduce()">－</span>
-              <span class="drug-number d-inline-block">{{number}}</span>
-              <span class="drug-add d-inline-block" @click="drugAdd()">+</span>
-            </div>
+          <div class="drug-close">
+            <i class="icon iconfont ic-guanbi2" @click="close()"></i>
           </div>
-          <div class="drug-sure">确定</div>
+          <div>
+            <!-- {{drugInfo}}-->
+          </div>
+          <div class="drug-info d-inline-block fl elps">
+            <p class="drug-title elps"> {{drugInfo.name}}</p>
+            <p class="drug-price">¥{{drugInfo.price}}</p>
+          </div>
         </div>
-      </transition>
+        <div class="drug-line"></div>
+        <div class="drug-buy-number">
+          <div class="d-inline-block fl drug-buy">购买数量</div>
+          <div class="d-inline-block fr">
+            <span class="drug-reduce d-inline-block" @click="drugReduce()">－</span>
+            <span class="drug-number d-inline-block">{{number}}</span>
+            <span class="drug-add d-inline-block" @click="drugAdd()">+</span>
+          </div>
+        </div>
+        <div class="drug-sure" @click.stop="onConfirm()">确定</div>
+      </div>
+    </transition>
 
   </div>
 </template>
 
 <script>
-  import {Toast} from 'mint-ui';
+  import {MessageBox, Toast} from 'mint-ui';
   export default {
     name: 'newFooter',
     data() {
@@ -105,6 +105,18 @@
       close() {
         this.popupVisible = false;
         this.show = !this.show;
+      },
+      onConfirm() {
+        this.$http.post('/carts', {
+          shopId: this.drugInfo.shopId,
+          drugSpecId: this.drugInfo.drugSpecId,
+          shopDrugSpecId: this.drugInfo.id,
+          quantity: this.number
+        }).then(res => {
+          MessageBox('提示', '加入成功').then(action => {
+            this.close();
+          });
+        });
       }
     }
   };

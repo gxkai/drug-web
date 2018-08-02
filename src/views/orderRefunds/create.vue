@@ -2,7 +2,7 @@
 <template>
   <div class="refund-container">
     <new-header :title="申请退款">
-      <router-link to="#" slot="left" class="iconfont ic-arrow-right text-white"></router-link>
+      <router-link to="#" slot="left" class="icon-font ic-arrow-right text-white"></router-link>
     </new-header>
 
     <ul class="">
@@ -10,7 +10,7 @@
         <li class="is-flex flex-sb refund-title p-lr-20">
           <div>
             <span>处方单</span>
-            <span><i class="iconfont icon-xiala"></i></span>
+            <span><i class="icon-font icon-xiala"></i></span>
           </div>
           <router-link tag="div" :to="{path:'/rxs/view',query:{rxId:rx.rxId}}" class="J_ReturnGoods_check">查看处方>
           </router-link>
@@ -26,7 +26,7 @@
       <div>
         <div class="is-flex flex-sb refund-title p-lr-20">
           <span>非处方单</span>
-          <span><i class="iconfont ic-xiajiantou"></i></span>
+          <span><i class="icon-font ic-xiajiantou"></i></span>
         </div>
         <li class="d_li">
           <div v-for="drug in norDrugs">
@@ -41,7 +41,7 @@
       <div>退款原因</div>
       <div>
         <span @click="handleClick()">{{pleasechoose}}</span>
-        <span @click="handleClick()"><i class="iconfont ic-youjiantou"></i></span>
+        <span @click="handleClick()"><i class="icon-font ic-youjiantou"></i></span>
       </div>
     </div>
 
@@ -81,7 +81,7 @@
       <div class="shadow-box">
           <span>
             <span class="ml-10"><b>退款原因</b></span>
-            <i class="iconfont ic-guanbi2 checkbox-group text-red"
+            <i class="icon-font ic-guanbi2 checkbox-group text-red"
                     @click="popupVisible=!popupVisible"></i>
           </span>
            <div class="mt-10">

@@ -3,16 +3,16 @@
     <header class="height-l-6 bg-blue">
       <div class="line-height-12 height-l-2 pt-l-2 position-relative">
 
-        <i class="icon iconfont ic-ditu width-l-1  height-l-1  text-white fz-s-14"></i>
+        <i class="icon icon-font ic-ditu width-l-1  height-l-1  text-white fz-s-14"></i>
         <span class="elps text-white width-s-47 d-inline-block" @click="nearby">江苏省昆山市
           </span>
-        <i class="icon iconfont ic-arrLeft-fill text-white fz12 line-height-20 height-l-2"></i>
+        <i class="icon icon-font ic-arrLeft-fill text-white fz12 line-height-20 height-l-2"></i>
         <input type="text" v-model="shopName" placeholder="通用名、商品名、症状" @blur="$router.push('/components/search')"
                @keyup.enter="$router.push('/components/search')" @click="$router.push('/components/search')"
                class="width-percent-64 bg-white line-height-20 height2 text-center"/>
         <img src="/assets/image/search.png" class="position-absolute left-l-10 position-absolute width-l-2"
              style="left:10rem;width:15px;top:2.5rem;"/>
-        <i class="icon iconfont ic-lingdang text-white"></i>
+        <i class="icon icon-font ic-lingdang text-white"></i>
       </div>
     </header>
     <div class="height-l-15 has-background-grey width-percent-100"></div>
@@ -85,7 +85,7 @@
     <div class="height-l-29 bg-white">
       <div class="m-auto width-percent-98">
         <div class="pt-10 border-right-f1f1f1 width-percent-49">
-          <i class="icon iconfont ic-shijian2 text-FF9800 mr-l-5 font-weight-bold "></i>
+          <i class="icon icon-font ic-shijian2 text-FF9800 mr-l-5 font-weight-bold "></i>
           <!--<DownTime @time-end="message = '倒计时结束'" :endTime='endTime' style="display:inline-block;"></DownTime>-->
         </div>
         <!--中间-->
@@ -164,7 +164,7 @@
     </div>
     <div class="height-l-4 fz-14 text-center text-13C1FE mt1 bg-f8" style="line-height:3rem;">
       <span class="d-inline-block width-s-58 bg-eaeaea mr-l-1 align-super height-s-1"></span><i
-      class="icon iconfont ic-aixin text-red"></i>好货推荐<span
+      class="icon icon-font ic-aixin text-red"></i>好货推荐<span
       class="d-inline-block width-s-58 bg-eaeaea height-s-1 mr1 align-super ml-l-1"></span>
     </div>
     <div>

@@ -1,5 +1,7 @@
 export default {
   token: '',
   account: {},
-  cartShops: []
+  cartShops: [],
+  addresses: [],
+  receiveAddress: {}
 };

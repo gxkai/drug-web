@@ -1,22 +1,27 @@
 <template>
   <div class="main">
     <new-header title="订单结算">
-      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
+      <i class="icon-font ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
     </new-header>
     <div class="body">
-      <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address">
-        <i class="iconfont ic-dizhi" slot="left"></i>
-        <div slot="center" class="center">
-          <p>收货人：李王云 13226859910</p>
-          <p>地址：江苏苏州昆山开发区伟业路现代大厦A座4楼</p>
-        </div>
-        <i class="iconfont ic-youjiantou" slot="right"></i>
-      </new-header>
-      <img src="../../assets/image/colorbackground.png">
+      <router-link tag="div" to="/orders/addresses" v-if="deliveryType === 'DELIVERY'">
+        <new-header bgColor="rgba(255,255,255,1)"  title="请维护地址" color = '666666' rightColor="#666666" v-if="JSON.stringify(this.receiveAddress) === '{}'">
+          <i class="icon-font ic-youjiantou" slot="right"></i>
+        </new-header>
+        <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else>
+          <i class="icon-font ic-dizhi" slot="left"></i>
+          <div slot="center" class="center">
+            <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
+            <p>地址：{{receiveAddress.address}}</p>
+          </div>
+          <i class="icon-font ic-youjiantou" slot="right"></i>
+        </new-header>
+        <img src="../../../assets/image/colorbackground.png">
+      </router-link>
       <new-close-list :cartShops="cart.cartShops" class="new-close-list"></new-close-list>
       <div class="delivery">
         <div class="top">
-          <i class="iconfont ic-peisongfangshi"></i>
+          <i class="icon-font ic-peisongfangshi"></i>
           <span>配送方式</span>
         </div>
         <div class="bottom">
@@ -26,18 +31,18 @@
       </div>
       <div class="pay">
         <div class="top">
-          <i class="iconfont ic-fjzhifufangshi"></i>
+          <i class="icon-font ic-fjzhifufangshi"></i>
           <span>支付方式</span>
         </div>
         <div class="bottom">
           <div>
             <div v-if="payType === 'WECHAT_PAY'">
-              <img src="../../assets/image/alopay.png" @click.stop="onPayType('ALIPAY')">
-              <img src="../../assets/image/checkwechat.png">
+              <img src="../../../assets/image/alopay.png" @click.stop="onPayType('ALIPAY')">
+              <img src="../../../assets/image/checkwechat.png">
             </div>
             <div v-else>
-              <img src="../../assets/image/checkalopay.png">
-              <img src="../../assets/image/wechat.png" @click.stop="onPayType('WECHAT_PAY')">
+              <img src="../../../assets/image/checkalopay.png">
+              <img src="../../../assets/image/wechat.png" @click.stop="onPayType('WECHAT_PAY')">
             </div>
           </div>
         </div>
@@ -65,10 +70,10 @@
         <new-line></new-line>
         <div class="medical-info">
           <div>
-            <span>姓名：李王云</span>
+            <span>姓名：{{account.name}}</span>
           </div>
           <div>
-            <span>医保卡：111111</span>
+            <span>医保卡：{{account.medicaidNumber}}</span>
           </div>
           <div>
             <span>医保卡余额：￥111.00</span>
@@ -83,7 +88,7 @@
           <span>实付金额:</span>
           <span>￥28.00</span>
         </div>
-        <button>提交订单</button>
+        <button @click.stop="onOrder()">提交订单</button>
       </div>
     </footer>
   </div>
@@ -91,6 +96,8 @@
 
 </template>
 <script>
+  import {mapGetters, mapMutations} from 'vuex';
+  import {MessageBox} from 'mint-ui';
   export default {
     name: 'createFromCart',
     data() {
@@ -106,16 +113,69 @@
     created() {
       this.getData();
     },
+    computed: {
+      ...mapGetters(['receiveAddress'])
+    },
     methods: {
       getData() {
-        console.log(this.cart);
+        if (JSON.stringify(this.receiveAddress) === '{}') {
+          this.$http.get('addresses/default').then(res => {
+            if (res.data) {
+              this.setReceiveAddress(res.data);
+            }
+          }).catch(error => {
+            this.exception(error);
+          });
+        }
+      },
+      /**
+       * 获取购物车ID数组
+       * @returns {Array}
+       */
+      getCartIds() {
+        let cartIds = [];
+        this.cart.cartShops.forEach(e => {
+          e.rxs.forEach(e => {
+            e.drugs.forEach(e => {
+              cartIds.push(e.cartId);
+            });
+          });
+        });
+        return cartIds;
+      },
+      onOrder() {
+        if (this.deliveryType === 'DELIVERY' && JSON.stringify(this.receiveAddress) === '{}') {
+          MessageBox('提示', '请维护收货地址').then(action => {});
+        } else {
+          let data = {
+            'addressId': this.receiveAddress.id,
+            'cartIds': this.getCartIds(),
+            'deliveryType': this.deliveryType,
+            'payType': this.payType
+          };
+          this.$http.post('/orders', data).then(res => {
+            let str = '';
+            res.data.forEach(e => {
+              str += 'orderIds=' + e + '&';
+            });
+            str = str.substring(0, str.length - 1);
+            this.$router.push({
+              path: '/orders/pay?' + str + '&deliveryType=' + this.deliveryType
+            });
+          }).catch(error => {
+            this.exception(error);
+          });
+        }
       },
       onDeliveryType(item) {
         this.deliveryType = item;
       },
       onPayType(item) {
         this.payType = item;
-      }
+      },
+      ...mapMutations({
+        setReceiveAddress: 'SET_RECEIVE_ADDRESS'
+      })
     }
   };
 </script>
@@ -132,12 +192,6 @@
     overflow: scroll;
   }
 
-  .new-close-list {
-    width: 720px;
-    max-height: 500px;
-    overflow: scroll;
-  }
-
   .address .center {
     font-size: 20px;
     font-family: HiraginoSansGB-W3;
@@ -147,7 +201,7 @@
   .delivery, .pay {
     background-color: rgba(255, 255, 255, 1);
     margin-bottom: 10px;
-    height: 150px;
+    height: 160px;
   }
 
   .delivery .top {
@@ -172,6 +226,7 @@
     font-size: 24px;
     font-family: HiraginoSansGB-W3;
     outline: none;
+    border-width: 2px;
   }
 
   .delivery .bottom .active {
@@ -200,13 +255,13 @@
     border-radius: 10px;
   }
 
-  .iconfont {
+  .icon-font {
     font-size: 50px;
   }
 
   .amount {
     width: 720px;
-    height: 150px;
+    height: 160px;
     background: rgba(255, 255, 255, 1);
     box-shadow: 1px 0px 0px rgba(230, 230, 230, 0.52);
     margin-bottom: 10px;
@@ -233,25 +288,29 @@
 
   .medical {
     width: 720px;
-    height: 230px;
+    height: 260px;
     background: rgba(255, 255, 255, 1);
     box-shadow: 1px 0px 0px rgba(230, 230, 230, 1);
     margin-bottom: 10px;
   }
-  .medical>div:nth-child(1){
+
+  .medical > div:nth-child(1) {
     padding: 20px;
   }
-  .medical>div:nth-child(1)>span {
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
+
+  .medical > div:nth-child(1) > span {
+    font-size: 24px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
   }
+
   .medical-info {
     padding: 20px;
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(102,102,102,1);
+    font-size: 24px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
   }
+
   .medical-info div {
     margin-bottom: 5px;
   }
@@ -298,6 +357,7 @@
     font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 255, 255, 1);
+    border: 0;
   }
 </style>
 

@@ -188,10 +188,6 @@ export default new Router({
       path: '/messages',
       component: () => import('@/views/messages/index.vue')
     },
-    // {
-    //   path: '/orders/createFromCarts',
-    //   component: () => import('@/views/orders/create-from-carts.vue')
-    // },
     {
       path: '/orderRefunds',
       component: () => import('@/views/orderRefunds/index.vue')
@@ -233,6 +229,46 @@ export default new Router({
       component: () => import('@/views/orders/delivery.vue')
     },
     {
+      path: '/orders/create/fromCart',
+      component: () => import('@/views/orders/create/fromCart.vue')
+    },
+    {
+      path: '/orders/addresses',
+      component: () => import('@/views/orders/addresses/index.vue')
+    },
+    {
+      path: '/orders/pay',
+      component: () => import('@/views/orders/pay/index.vue')
+    },
+    {
+      path: '/orders',
+      component: () => import('@/views/orders/index.vue')
+    },
+    {
+      path: '/orders/toPay',
+      component: () => import('@/views/orders/toPay.vue')
+    },
+    {
+      path: '/orders/toAppraise',
+      component: () => import('@/views/orders/toAppraise.vue')
+    },
+    {
+      path: '/orders/toDeliver',
+      component: () => import('@/views/orders/toDeliver.vue')
+    },
+    {
+      path: '/orders/toReceive',
+      component: () => import('@/views/orders/toReceive.vue')
+    },
+    {
+      path: '/orders/search',
+      component: () => import('@/views/orders/search.vue')
+    },
+    {
+      path: '/pay/alipay',
+      component: () => import('@/views/orders/pay/alipay.vue')
+    },
+    {
       path: '/orderRefunds/view',
       component: () => import('@/views/orderRefunds/view.vue')
     },
@@ -253,11 +289,16 @@ export default new Router({
       component: () => import('@/views/drugs/shops/index.vue')
     },
     {
-      path: '/shops/index',
+      path: '/shopDrugSpecs/child/info',
+      component: () => import('@/views/shopDrugSpecs/child/info.vue')
+    },
+    {
+      path: '/shops',
+      alias: '/shops/index',
       component: () => import('@/views/shops/index.vue')
     },
     {
-      path: '/shops/drugs/index',
+      path: '/shops/drugs',
       component: () => import('@/views/shops/drugs/index.vue')
     }
   ]

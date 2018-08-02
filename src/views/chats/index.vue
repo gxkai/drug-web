@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <new-header title="咨询列表">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
-      <router-link tag="i" to="/messageTypes" class="iconfont ic-lingdang" slot="right"></router-link>
+      <i class="icon-font ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <router-link tag="i" to="/messageTypes" class="icon-font ic-lingdang" slot="right"></router-link>
     </new-header>
     <ul class="item">
       <li class="line" v-for="(item,index) in list" :key="index">
@@ -26,7 +26,7 @@
             </li>
           </ul>
         </div>
-        <router-link :to="{path:'/chats/view',query:{chatId:item.id,shopId:item.shopId}}" tag="i" class="iconfont ic-youjiantou"></router-link>
+        <router-link :to="{path:'/chats/view',query:{chatId:item.id,shopId:item.shopId}}" tag="i" class="icon-font ic-youjiantou"></router-link>
       </li>
     </ul>
   </div>

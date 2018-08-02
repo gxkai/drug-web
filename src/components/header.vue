@@ -73,6 +73,9 @@
     display: flex;
     align-items: center;
   }
+  .smaller {
+    font-size: 20px;
+  }
   .small {
     font-size: 30px;
   }
@@ -82,18 +85,21 @@
   .large {
     font-size: 70px;
   }
-  .left .iconfont:before{
+  .left .icon-font:before{
     font-size: 50px;
   }
 
-  .right .iconfont:before{
+  .right .icon-font:before{
     font-size: 50px;
   }
+  .lower {
+    height: 50px!important;
+  }
   .low {
-    height: 80px;
+    height: 80px!important;
   }
   .high {
-    height: 150px;
+    height: 150px!important;
   }
   .middle {
     height: 130px;
