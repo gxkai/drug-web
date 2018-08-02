@@ -18,7 +18,6 @@
         <i class="iconfont ic-lingdang text-white "></i>
       </div>
     </div>
-
     <!-- 轮播 -->
     <swiper :options="swiperOption">
       <swiper-slide v-for="(advertList,index) in advertLists" :key="index">
@@ -27,8 +26,7 @@
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
-
-    <div class="bg-white">
+     <div class="bg-white">
       <!-- 导航 -->
       <div class="nav-bar flex-stream-sa">
         <router-link class="is-120x120 flex-column-center" to="/rxs">
@@ -190,13 +188,6 @@
     name: 'home',
     data() {
       return {
-        prizeList: [
-          {name: 0},
-          {name: 1},
-          {name: 2},
-          {name: 3},
-          {name: 4}
-        ],
         activeIndex: 0,
         leftIndex: '',
         rightIndex: '',
