@@ -151,9 +151,7 @@
         </div>
       </div>
 
-    <new-joincar :drugInfo="alldrugInfo">
-
-    </new-joincar>
+    <new-join-car :drugInfo="allDrugInfo"></new-join-car>
    </div>
     <!--评论结束-->
   </div>
@@ -170,7 +168,7 @@
           headImg: '',
           pageList: '',
           createdDate: '',
-          alldrugInfo: []
+          allDrugInfo: []
         };
       },
       created() {
@@ -179,7 +177,7 @@
           .then(res => {
             if (res.status === 200) {
               this.shopDrugSpec = res.data;
-              this.alldrugInfo = res.data;
+              this.allDrugInfo = res.data;
               this.shopDrugSpec.fileIds.forEach(fileId => {
                 let URL = '/files/' + fileId + '/image?resolution=LARGE_PIC';
                 this.drugImgs.push(URL);
