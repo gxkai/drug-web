@@ -66,7 +66,6 @@
     created: function () {
       this.score = this.newScore;
       this.cart = this.newCart;
-      console.log(this.newScore, this.newCart);
     }
   };
 </script>

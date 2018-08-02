@@ -59,7 +59,6 @@
     },
     created() {
       this.id = this.$route.query.id;
-      console.log(this.id);
       this.account = this.$store.getters.account;
       this.getData();
     },
@@ -68,7 +67,6 @@
         // TODO 测试链接
         this.$http.get('/rxs/1').then(
           res => {
-            console.log(res.data);
             this.rxList = res.data;
           });
       }
