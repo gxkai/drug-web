@@ -28,7 +28,7 @@
     </div>
     <div class="library" v-show="Librarys">
       <ul>
-        <li v-for="(library,index) in libraryList" :key="index" @click="library(index)">
+        <li v-for="(library,index) in libraryList" :key="index" @click="onLibrary(index)">
           <div class="line1">
             <i class="iconfont ic-weizhi"></i>
             <span>{{library.name}}</span>
@@ -71,14 +71,15 @@
     },
     methods: {
       search() {
-        var url = '/baidu/places?query=' + this.inputVal;
+        var url = 'http://localhost:8083/api/outside/baidu/places.json?query=' + this.inputVal;
         this.$http.get(url).then((res) => {
-          console.log(res.data.result);
           this.libraryList = res.data.result;
           this.showMap(false);
+        }).catch(error => {
+          this.exception(error);
         });
       },
-      library(index) {
+      onLibrary(index) {
         let name = this.libraryList[index].name;
         let lat = this.libraryList[index].location.lat;
         let lng = this.libraryList[index].location.lng;
@@ -132,7 +133,8 @@
       //   }
       // },
       getPositionList() {
-        var url = '/baidu/maps?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true';
+        debugger;
+        var url = 'http://localhost:8083/api/outside/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true';
         this.$http.get(url).then(res => {
           this.positionList = res.data.body.pois;
           this.showMap(true);

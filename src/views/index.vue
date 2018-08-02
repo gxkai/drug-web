@@ -305,7 +305,7 @@
         });
       },
       nearby() {
-        this.$router.push({path: '/repositioning', query: {lat: this.lat, lng: this.lng, poi: true}});
+        this.$router.push({path: '/addresses/repositioning', query: {lat: this.lat, lng: this.lng, poi: true}});
       }
     },
     created: function () {

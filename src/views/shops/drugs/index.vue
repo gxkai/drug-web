@@ -1,9 +1,8 @@
 <template>
   <div class="container">
     <new-header title="全部商品" :style="{background:bgColor,color:color}">
-      <div class="left" :style="{color:leftColor}">
-        <i class="icon iconfont ic-sanx-up" name="left"></i>
-      </div>
+      <router-link tag="i" :style="{color:leftColor}" to="/messageTypes" class=" iconfont ic-arrow-right" slot="left">
+      </router-link>
     </new-header>
     <ul v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"

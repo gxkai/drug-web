@@ -1,41 +1,39 @@
 <template>
   <div class="bind-container" id="data-list-content">
     <div class="bg-white">
-     <div class="all-appraise width-percent-96 m-auto line-height-l-20">
-       <div class="width-percent-100">
+      <div class="all-appraise width-percent-96 m-auto line-height-l-20">
+        <div class="width-percent-100">
           <span class="d-inline-block total-appraise fl">
            <p>总评分：{{shopTotalAppraise.score}}分</p>
            <new-star size="4" disabled class="new-star"></new-star>
          </span>
-         <span class="d-inline-block fr net-friend elips">共有{{totalNum}}位网友评论</span>
-      </div>
-     </div>
-   </div>
-
-    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-    <div class="content-appraise width-percent-100 bg-white" v-for="item in pageList">
-      <div class="width-percent-96 m-auto border-bottom-f1f1f1 time">
-          <span class="d-inline-block fl">{{item.username}}</span>
-          <span class="d-inline-block fr">{{timeConvert(item.createdDate)}}</span>
-       </div>
-      <div class="width-percent-96 m-auto">
-        <new-star :size="item.score" disabled></new-star>
-      </div>
-      <div class="width-percent-96 m-auto">
-        {{item.content}}
+          <span class="d-inline-block fr net-friend elips">共有{{totalNum}}位网友评论</span>
+        </div>
       </div>
     </div>
+
+    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+      <div class="content-appraise width-percent-100 bg-white" v-for="item in pageList">
+        <div class="width-percent-96 m-auto border-bottom-f1f1f1 time">
+          <span class="d-inline-block fl">{{item.username}}</span>
+          <span class="d-inline-block fr">{{timeConvert(item.createdDate)}}</span>
+        </div>
+        <div class="width-percent-96 m-auto">
+          <new-star :size="item.score" disabled></new-star>
+        </div>
+        <div class="width-percent-96 m-auto">
+          {{item.content}}
+        </div>
+      </div>
     </ul>
     <div v-show="allLoaded" class="text-center drug-flull height-l-100 line-height-l-100">
-          就这么多啦,回顶部再看看吧
-      </div>
-
+      就这么多啦,回顶部再看看吧
+    </div>
   </div>
 </template>
 
 <script>
-  import {Loadmore} from 'mint-ui';
-  export default{
+  export default {
     props: ['shopDrugSpec'],
     data() {
       return {
@@ -80,7 +78,7 @@
       },
       scrollToBottom() {
         this.$nextTick(() => {
-          var div = document.getElementById('data-list-content');
+          let div = document.getElementById('data-list-content');
           div.scrollTop = div.scrollHeight;
         });
       }
@@ -101,45 +99,53 @@
 </script>
 
 <style scoped>
-.bind-container{
-  width: 720px;
-  background: #f5f5f5;
-  min-height:100vh;
-}
-.all-appraise{
-  height:119px;
-  border-top:1px solid #f5f5f5;
- }
-.total-appraise{
-    width:182px;
-    font-size:28px;
-    color:rgba(51,51,51,1);
+  .bind-container {
+    width: 720px;
+    background: #f5f5f5;
+    min-height: 100vh;
+  }
+
+  .all-appraise {
+    height: 119px;
+    border-top: 1px solid #f5f5f5;
+  }
+
+  .total-appraise {
+    width: 182px;
+    font-size: 28px;
+    color: rgba(51, 51, 51, 1);
     margin-top: 12px;
     line-height: 0.7rem;
   }
-  .ic-xingxing{
+
+  .ic-xingxing {
     margin-top: 13px;
   }
-  .net-friend{
-    width:200px;
-    font-size:20px;
-    color:rgba(153,153,153,1);
+
+  .net-friend {
+    width: 200px;
+    font-size: 20px;
+    color: rgba(153, 153, 153, 1);
     margin-right: 26px;
     line-height: 1rem;
   }
-  .content-appraise{
-      margin-top: 16px;
-      height: 118px;
+
+  .content-appraise {
+    margin-top: 16px;
+    height: 118px;
   }
-  .time{
+
+  .time {
     height: 40px;
     line-height: 40px;
   }
-  .new-star{
-    height:0.8rem;
+
+  .new-star {
+    height: 0.8rem;
     line-height: 0.8rem;
   }
-  .drug-flull{
+
+  .drug-flull {
     width: 69%;
   }
 </style>

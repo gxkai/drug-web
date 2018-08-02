@@ -54,7 +54,7 @@
           <tr>
             <td><img class="is-30x30" src="../../assets/image/rxs/recipe_3.png"></td>
             <td><span class="td-width-55 ellipsis">症状</span></td>
-            <td><span class="td-width-250 ellipsis">{{rx.symptom}}</span></td>
+            <td><span class="td-width-250 ellipsis">{{rx.illness}}</span></td>
             <td></td>
           </tr>
           <tr>
@@ -62,7 +62,6 @@
             <td><span class="td-width-55 ellipsis">倒计时</span></td>
             <!-- TODO 倒计时 -->
             <td><span class="td-width-250 ellipsis">2018-12-19 12:06:00</span></td>
-            <td class="text-center">该处方已失效</td>
           </tr>
           <div class="position-absolute position-rb">
             <img class="is-155x155" src="../../assets/image/rxs/rx-true.png" v-if="rx.state==='TO_USE'">
@@ -119,6 +118,7 @@
         this.$http.get('/rxs?' + 'keyword=' + this.keyword + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
             this.pages = res.data.pages;
+            console.log(res.data);
             if (this.pages === 0) {
               this.nullLoaded = true;
               this.loading = true;

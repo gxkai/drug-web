@@ -12,7 +12,7 @@
         <span>全选</span>
       </div>
       <div class="right">
-        <span>不含运费 合计:</span>
+        <span>合计:</span>
         <span>￥{{allPrice}}</span>
         <button>
           <span @click.stop="onOrder()">结算({{allQuantity}})</span>
