@@ -18,6 +18,7 @@
         <i class="iconfont ic-lingdang text-white "></i>
       </div>
     </div>
+
     <!-- 轮播 -->
     <swiper :options="swiperOption">
       <swiper-slide v-for="(advertList,index) in advertLists" :key="index">
@@ -26,7 +27,8 @@
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
-     <div class="bg-white">
+
+    <div class="bg-white">
       <!-- 导航 -->
       <div class="nav-bar flex-stream-sa">
         <router-link class="is-120x120 flex-column-center" to="/rxs">
@@ -177,7 +179,7 @@
     <!-- 撑屏容器 -->
     <div class="add-container is-720x100">
     </div>
-     <new-footer :urlRouter="$route.path"></new-footer>
+    <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
 <script>
@@ -229,14 +231,18 @@
           effect: 'coverflow',
           grabCursor: true,
           centeredSlides: true,
-          slidesPerView: 'auto'
+          slidesPerView: 'auto',
+          loop: true
         },
         coverflowEffect: {
           rotate: 500,
           stretch: 0,
           depth: 1000,
           modifier: 1,
-          slideShadows: true
+          slideShadows: false,
+          shadow: true, //开启投影。默认 true。
+          shadowOffset: 100, //投影距离。默认 20，单位px。
+          shadowScale: 0.6 //投影缩放比例。默认0.94。
         }
       };
     },
