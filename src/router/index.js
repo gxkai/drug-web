@@ -247,6 +247,11 @@ export default new Router({
     {
       path: '/drugs/shops',
       component: () => import('@/views/drugs/shops/index.vue')
+    },
+    {
+      path: '/shopDrugSpecs/child/info',
+      component: () => import('@/views/shopDrugSpecs/child/info.vue')
     }
+
   ]
 });
