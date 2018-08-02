@@ -173,14 +173,14 @@
     width: 720px;
     height: calc(100vh - 130px - 563px);
     background: rgba(255, 255, 255, 1);
-    overflow: scroll;
+    overflow: auto;
   }
 
   .library {
     width: 720px;
     height: calc(100vh - 128px);
     background: rgba(255, 255, 255, 1);
-    overflow: scroll;
+    overflow: auto;
   }
 
   .nearby .title {

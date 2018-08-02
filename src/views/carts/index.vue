@@ -391,7 +391,7 @@
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.close.clientHeight - this.$refs.footer.$el.clientHeight
       ) + 'px';
-      this.$refs.body.style.overflow = 'scroll';
+      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>
@@ -412,7 +412,7 @@
 
   .feichu {
     position: absolute;
-    width:50px;
+    width:60px;
     height:25px;
     background:rgba(191,191,191,1);
     font-size:16px;

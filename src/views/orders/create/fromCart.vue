@@ -68,7 +68,7 @@
           <span>医保信息</span>
         </div>
         <new-line></new-line>
-        <div class="medical-info">
+        <div class="medical-info" v-if="account.medicaidNumber">
           <div>
             <span>姓名：{{account.name}}</span>
           </div>
@@ -77,6 +77,16 @@
           </div>
           <div>
             <span>医保卡余额：￥111.00</span>
+          </div>
+        </div>
+        <div v-else>
+          <new-header height="low" bgColor="white" leftColor="black">
+            <i class="iconfont ic-qianbao" slot="left"></i>
+            <span slot="left" class="medical-bangding">医保卡绑定</span>
+          </new-header>
+          <div class="medical-qubangding" @click="$router.push('/accounts/bind')">
+            <a>去绑定医保卡</a>
+            <button>去绑定</button>
           </div>
         </div>
       </div>
@@ -189,7 +199,7 @@
   .body {
     width: 720px;
     height: calc(100vh - 100px - 130px);
-    overflow: scroll;
+    overflow: auto;
   }
 
   .address .center {
@@ -357,6 +367,38 @@
     font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 255, 255, 1);
+    border: 0;
+  }
+
+
+  .medical-bangding {
+    font-size:24px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(69,69,69,1);
+    margin-left: 10px;
+  }
+  .ic-qianbao {
+    font-size: 24px;
+  }
+
+  .medical-qubangding a{
+    font-size:18px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(19,193,254,1);
+    text-decoration: underline;
+    margin-left: 68px;
+  }
+  .medical-qubangding button {
+    width:132px;
+    height:36px;
+    background:rgba(19,193,254,1);
+    box-shadow:2px 1px 2px rgba(0,0,0,0.33);
+    font-size:22px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(255,255,255,1);
+    line-height: 10px;
+    border-radius: 50px;
+    outline: none;
     border: 0;
   }
 </style>
