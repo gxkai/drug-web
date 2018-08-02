@@ -1,3 +1,4 @@
+<!-- FIXME 字体大小 -->
 <template>
   <div class="bind-container box-center flex-row">
     <img src="../../../assets/image/unbindCard.png" />
