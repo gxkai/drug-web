@@ -34,7 +34,6 @@
 </template>
 
 <script>
-  import {Loadmore} from 'mint-ui';
   export default{
     props: ['shopDrugSpec'],
     data() {
