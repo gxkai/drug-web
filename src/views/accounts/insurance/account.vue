@@ -1,3 +1,4 @@
+<!-- FIXME 字体大小 -->
 <template>
   <div class="insurance-container">
    <mt-header title="消费信息">

@@ -1,3 +1,4 @@
+<!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-content position-relative">
     <new-header :title="shopName">
@@ -18,8 +19,8 @@
         选择厂商
       </span>
       <span>
-         <i class="iconfont" style="color:#1AB6FD!important;" @click="lookMore(index)" :class="{'ic-xiajiantou':isActive}"></i>
-         <i class="iconfont" style="color:#1AB6FD!important;" @click="lookMore(index)" :class="{'ic-youjiantou':!isActive}"></i>
+         <i class="iconfont text-1AB6FD" @click="lookMore(index)" :class="{'ic-xiajiantou':isActive}"></i>
+         <i class="iconfont text-1AB6FD" @click="lookMore(index)" :class="{'ic-youjiantou':!isActive}"></i>
       </span>
     </div>
 
@@ -51,10 +52,16 @@
 
     <ul>
       <li v-for="(cart,index) in carts" :key="index" class="m-10">
-        <new-rx-shop-drugs :isOtc="cart.isOtc" :name="cart.name" :spec="cart.spec" :fileId="cart.fileId" :price="cart.price"></new-rx-shop-drugs>
+        <new-rx-shop-drugs :isOtc="cart.isOtc" :name="cart.name" :spec="cart.spec" :fileId="cart.fileId"
+                           :price="cart.price"></new-rx-shop-drugs>
       </li>
     </ul>
-    <!-- TODO rxBottom -->
+    <div class="rx-total ml-20">
+      <i class="iconfont ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥127.2</span>
+    </div>
+
+    <new-rxCart @createCart="createCart"></new-rxCart>
+
   </div>
 </template>
 
@@ -86,15 +93,8 @@
       this.getDrugs();
     },
     methods: {
-      popup() {
-        this.show = false;
-      },
       getDrugs() {
-        this.$http.get('/rxs/' + this.id + '/shops/' + this.shopId + '/drugs', {
-          headers: {
-            'Authorization': this.$store.getters.token
-          }
-        })
+        this.$http.get('/rxs/' + this.id + '/shops/' + this.shopId + '/drugs')
           .then(res => {
             this.drugs = res.data;
             this.initCart();
@@ -104,12 +104,10 @@
         this.origins = this.drugs[index].drugs;
         this.index = index;
         this.show = true;
-        this.popupVisible = true;
         this.isActive = !this.isActive;
       },
       takeUp() {
         this.show = false;
-        this.popupVisible = false;
       },
       initCart() {
         this.drugs.forEach(drug => {
@@ -129,6 +127,7 @@
         });
       },
       choose(index) {
+        console.log(this.carts[index]);
         let cart = this.carts[this.index];
         cart.drugSpecId = this.origins[index].drugSpecId;
         cart.shopDrugSpecId = this.origins[index].shopDrugSpecId;
@@ -224,10 +223,38 @@
     line-height:61px;
     vertical-align: middle;
   }
+  .ml-20{
+    margin-left: 20px !important;
+  }
   .ml-30{
     margin-left: 30px !important;
   }
   .mr-30{
     margin-right: 30px !important;
+  }
+
+  .rx-total{
+    margin-top: 26px;
+  }
+  .rx-total-money{font-size: 26px;}
+  footer{
+    position: fixed;
+    bottom: 0;
+  }
+  .rx-joincar{
+    width:393px;
+    height:100px;
+    background:rgba(19,193,254,1);
+    line-height: 100px;
+    font-size:30px;
+    text-align: center;
+  }
+  .rx-immediately{
+    width:327px;
+    height:100px;
+    background:rgba(240,43,43,1);
+    line-height: 100px;
+    font-size:30px;
+    text-align: center;
   }
 </style>

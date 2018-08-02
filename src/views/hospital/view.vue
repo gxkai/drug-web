@@ -1,3 +1,4 @@
+<!-- FIXME 字体大小 -->
 <template>
   <div class="hospital-container">
     <mt-header title="昆山市中医院">
