@@ -45,11 +45,9 @@
 
         <div v-for="rxDrug in order.rxDrugs" v-show="showRx">
           <div class="text-right p-lr-20" @click="showRecipe(rxDrug.rxId)">查看处方></div>
-          <!--<div v-for="item in rxDrug.drugs" >-->
           <refund-drug class="mt-10" :drugName="rxDrug.drugName" :spec="rxDrug.spec" :price="rxDrug.price"
                        :quantity="rxDrug.quantity" :isOtc="rxDrug.isOtc">
           </refund-drug>
-          <!--</div>-->
         </div>
       </li>
 
@@ -59,10 +57,8 @@
           <span>非处方单</span>
           <span @click="setShowNor"><i class="icon iconfont icon-xiala"></i></span>
         </div>
-
         <div v-for="item in order.norDrugs" v-show="showNor">
-          {{item}}
-          <refund-drug :drugName="item.drugName" :spec="item.spec" :price="item.price"
+          <refund-drug class="mt-10" :drugName="item.drugName" :spec="item.spec" :price="item.price"
                        :quantity="item.quantity" :isOtc="item.isOtc">
           </refund-drug>
         </div>
@@ -166,28 +162,26 @@
                 quantity: '13',
                 price: 12.5
               }
-            ],
-            norDrugs: {
-              drugs: [
-                {
-                  isOtc: true,
-                  imgUrl: 1,
-                  drugName: '药品名称',
-                  spec: '12/盒',
-                  quantity: '12',
-                  price: 58.5
-                },
-                {
-                  isOtc: false,
-                  imgUrl: 2,
-                  drugName: '药品名称药药药',
-                  spec: '12/盒',
-                  quantity: '13',
-                  price: 12.5
-                }
-              ]
+            ]
+          },
+          norDrugs: [
+            {
+              isOtc: true,
+              imgUrl: 1,
+              drugName: '药品名称',
+              spec: '12/盒',
+              quantity: '12',
+              price: 58.5
+            },
+            {
+              isOtc: false,
+              imgUrl: 2,
+              drugName: '药品名称药药药',
+              spec: '12/盒',
+              quantity: '13',
+              price: 12.5
             }
-          }
+          ]
         },
         userPrompt: {
           'TO_PAY': '等待买家付款',
