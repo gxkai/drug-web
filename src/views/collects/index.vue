@@ -1,17 +1,15 @@
 <template>
-  <div class="f_body">
-    <mt-header title="我的收藏">
-      <router-link to="/accounts" slot="left">
-        <mt-button  icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+  <div class="collect-body">
+    <new-header title="我的收藏">
+      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
+    </new-header>
 
     <ul class="flex-stream-sb">
       <li @click="shop(1)" class="padding-tb-10">
         <span :class="{'collects_active':qwere===1}">商品</span>
       </li>
       <li @click="shop(2)" class="padding-tb-10">
-        <span :class="{'collects_active':qwere===2}">药店</span>
+        <span :class="{'collects_active':qwere===2}">商家</span>
       </li>
     </ul>
 
@@ -59,28 +57,34 @@
   };
 </script>
 <style scoped>
-  .mint-header {
-    background: #1AB6FD !important;
-    color: white;
+
+  .collects_active {
+    border-bottom: 5px #1AB6FD solid !important;
+    color: #1AB6FD;
   }
 
-  .flex-stream-sb{
+  .flex-stream-sb {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 720px;
+    height: 86px;
+    background: rgba(255, 255, 255, 1);
+    margin-bottom: 20px;
   }
-  .flex-stream-sb li{
+
+  .flex-stream-sb li {
     display: block;
     width: 360px;
     text-align: center;
+    font-size: 30px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(153, 153, 153, 1);
   }
-  .padding-tb-10{
+
+  .padding-tb-10 {
     padding: 20px 0;
     box-sizing: border-box;
   }
 
-  .collects_active {
-    color: #1AB6FD;
-    border-bottom: 3px solid #1AB6FD;
-  }
 </style>
