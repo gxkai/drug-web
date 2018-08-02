@@ -71,7 +71,6 @@
             </ul>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -230,8 +229,6 @@
           autoplay: 3000,
           speed: 1000,
           effect: 'coverflow',
-          grabCursor: true,
-          centeredSlides: true,
           slidesPerView: 'auto',
           loop: true
         },
@@ -299,7 +296,7 @@
         });
       },
       nearby() {
-        this.$router.push({path: '/repositioning', query: {lat: this.lat, lng: this.lng, poi: true}});
+        this.$router.push({path: '/addresses/repositioning', query: {lat: this.lat, lng: this.lng, poi: true}});
       }
     },
     created: function () {
@@ -640,5 +637,4 @@
   .shop-content{
     z-index: -9999;
   }
-
 </style>

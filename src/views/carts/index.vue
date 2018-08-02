@@ -1,7 +1,7 @@
 <template>
   <div>
       <new-header title="购物车" ref="header">
-        <i class="iconfont ic-arrow-right" slot="left"></i>
+        <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
         <span slot="right" @click="onRemoveBatch()">删除</span>
       </new-header>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>

@@ -9,7 +9,7 @@
                    :to="{path:'/messages',query:{messageType:messageContentType.messageType,titles:messageContentType.name}}">
         <div class="news-list">
           <div class="news-list-left">
-            <img src="defaultMsgList[index].img"/>
+            <img :src="defaultMsgList[index].img"/>
           </div>
           <div class="news-list-right">
             <div class="news-list-right-top">

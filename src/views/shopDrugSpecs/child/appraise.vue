@@ -1,21 +1,14 @@
 <template>
   <div class="bind-container" id="data-list-content">
-      <new-header  title="评价" :style="{background:bgColor,color:color}">
-         <i class="iconfont ic-arrow-right" slot="left" :style="{color:color}"></i>
-         <i class="iconfont ic-fenxiang" slot="right" :style="{color:color}"></i>
-       </new-header>
-   <div class="bg-white">
+    <div class="bg-white">
      <div class="all-appraise width-percent-96 m-auto line-height-l-20">
        <div class="width-percent-100">
-
-         <span class="d-inline-block total-appraise fl">
+          <span class="d-inline-block total-appraise fl">
            <p>总评分：{{shopTotalAppraise.score}}分</p>
            <new-star size="4" disabled class="new-star"></new-star>
          </span>
          <span class="d-inline-block fr net-friend elips">共有{{totalNum}}位网友评论</span>
-
-
-       </div>
+      </div>
      </div>
    </div>
 
@@ -33,7 +26,9 @@
       </div>
     </div>
     </ul>
-    <div v-show="allLoaded" class="text-center">就这么多啦,回顶部再看看吧</div>
+    <div v-show="allLoaded" class="text-center drug-flull height-l-100 line-height-l-100">
+          就这么多啦,回顶部再看看吧
+      </div>
 
   </div>
 </template>
@@ -56,9 +51,6 @@
         bgColor: 'white',
         color: '#000000'
       };
-    },
-    components: {
-      'mt-loadmore': Loadmore
     },
     watch: {
       pageList: 'scrollToBottom'
@@ -146,5 +138,8 @@
   .new-star{
     height:0.8rem;
     line-height: 0.8rem;
+  }
+  .drug-flull{
+    width: 69%;
   }
 </style>

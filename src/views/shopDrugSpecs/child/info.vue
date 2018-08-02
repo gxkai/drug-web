@@ -1,59 +1,59 @@
 <template>
   <div class="container">
-    <new-header title="详情">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
-    </new-header>
-    <div class="shopDrugSpec-main">
+     <div class="shopDrugSpec-main">
       <div>
         <span>通用名：</span>
-        <span>{{shopDrugSpec.commonName}}</span>
+        <span>{{shopDrugSpec.name}}</span>
       </div>
-      <div>
-        <span>商品品牌：</span>
-        <span>{{shopDrugSpec.origin.brand}}</span>
-      </div>
-      <div>
-        <span>批准文号：</span>
-        <span>国药准字{{shopDrugSpec.sfda}}</span>
-      </div>
-      <div>
-        <span>包装规格：</span>
-        <span>{{shopDrugSpec.spec}}</span>
-      </div>
-      <div>
-        <span>剂型/型号：</span>
-        <span>{{shopDrugSpec.form}}</span>
-      </div>
-      <div>
-        <span>英文名称：</span>
-        <span>{{shopDrugSpec.enName}}</span>
-      </div>
-      <div>
-        <span>汉语拼音：</span>
-        <span>{{shopDrugSpec.pinyinName}}</span>
-      </div>
-      <div>
-        <span>有效期：</span>
-        <span>{{shopDrugSpec.validity}}</span>
-      </div>
-      <div>
-        <span>生产企业：</span>
-        <span>{{shopDrugSpec.origin.company}}</span>
-      </div>
-      <div>
-        <img :src="drugImg" v-for="drugImg in shopDrugSpec.drugImgs"/>
-      </div>
+     <div>
+       <span>商品品牌：</span>
+       <span>{{shopDrugSpec.origin.brand}}</span>
+     </div>
+     <div>
+       <span>批准文号：</span>
+       <span>国药准字{{shopDrugSpec.sfda}}</span>
+     </div>
+     <div>
+       <span>包装规格：</span>
+       <span>{{shopDrugSpec.spec}}</span>
+     </div>
+     <div>
+       <span>剂型/型号：</span>
+       <span>{{shopDrugSpec.form}}</span>
+     </div>
+     <div>
+       <span>英文名称：</span>
+       <span>{{shopDrugSpec.enName}}</span>
+     </div>
+     <div>
+       <span>汉语拼音：</span>
+       <span>{{shopDrugSpec.pinyinName}}</span>
+     </div>
+     <div>
+       <span>有效期：</span>
+       <span>{{shopDrugSpec.validity}}</span>
+     </div>
+     <div>
+       <span>生产企业：</span>
+       <span>{{shopDrugSpec.origin.company}}</span>
+     </div>
+     <div>
+       <img :src="drugImg" v-for="drugImg in shopDrugSpec.drugImgs"/>
+     </div>
     </div>
   </div>
 </template>
-
 <script>
   export default {
     name: 'drugInfo',
-    props: ['shopDrugSpec']
-  };
+    data: {
+      shopDrugSpec: []
+    },
+    created() {
+      this.shopDrugSpec = JSON.parse(this.$route.query.shopDrugSpec);
+    }
+};
 </script>
-
 <style scoped>
   * {
     box-sizing: border-box;
