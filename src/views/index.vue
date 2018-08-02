@@ -229,8 +229,6 @@
           autoplay: 3000,
           speed: 1000,
           effect: 'coverflow',
-          grabCursor: true,
-          centeredSlides: true,
           slidesPerView: 'auto',
           loop: true
         },
