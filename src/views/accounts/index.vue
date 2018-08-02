@@ -37,7 +37,7 @@
             <i class="iconfont ic-gerenzhongxindingdandaishouhuo"></i>
             <p>待收货</p>
           </router-link>
-          <router-link tag="div" to="/orders/toAppraise">
+            <router-link tag="div" to="/orders/toAppraise">
             <i class="iconfont ic-daipingjia01"></i>
             <p>待评价</p>
           </router-link>
@@ -264,19 +264,20 @@
 
   .foot-tag {
     margin-bottom: 20px;
-    width:719px;
-    height:70px;
-    background:rgba(255,255,255,1);
+    width: 719px;
+    height: 70px;
+    background: rgba(255, 255, 255, 1);
     margin-top: 14px;
     padding: 24px 16px;
     box-sizing: border-box;
-    color:rgba(102,102,102,1);
+    color: rgba(102, 102, 102, 1);
   }
-  .text{
-    height:40px;
-    font-size:24px;
-    color:rgba(102,102,102,1);
-    line-height:40px;
+
+  .text {
+    height: 40px;
+    font-size: 24px;
+    color: rgba(102, 102, 102, 1);
+    line-height: 40px;
   }
 
 </style>

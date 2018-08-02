@@ -1,7 +1,7 @@
 <template>
   <div class="bind-container">
     <new-header title="商品详情">
-      <i class="iconfont ic-arrow-right" slot="left"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
     <!--上方轮播开始-->
     <div class="broadcast">
@@ -19,7 +19,6 @@
           <p class="drug-price text-center">¥{{shopDrugSpec.price}}</p>
         </div>
         <div class="broadcast-title-two position-absolute">
-
         </div>
       </div>
     </div>
@@ -221,6 +220,10 @@
     width: 720px;
     height: 465px;
     background: white;
+  }
+  .broadcast-content img {
+    width: 720px;
+    height: 465px;
   }
 
   .broadcast-title {
