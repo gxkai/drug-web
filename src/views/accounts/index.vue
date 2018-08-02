@@ -104,15 +104,6 @@
         isLogin: false
       };
     },
-    methods: {
-      maxnumber(number) {
-        if (number > 99) {
-          return 99;
-        } else {
-          return number;
-        }
-      }
-    },
     created() {
       if (this.$store.getters.account) {
         this.account = this.$store.getters.account;
@@ -136,22 +127,8 @@
 </script>
 
 <style scoped>
-  .mint-header {
-    background: #12b1f9 !important;
-    color: black
-  }
-
-  .mint-button--primary {
-    background: #1AB6FD;
-    color: #e2e2e2;
-  }
-
   .is-flex{
     display: flex !important;
-  }
-
-  .border-left-gray{
-    border-left:1px rgba(235,235,235,1) solid;
   }
   .border-right-gray{
     border-right: 1px rgba(235,235,235,1) solid;
@@ -173,11 +150,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-  .flex-stream-sa{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
   }
   .flex-stream-sb{
     display: flex;
@@ -273,7 +245,6 @@
     margin-top: 14px;
     padding: 24px 16px;
     box-sizing: border-box;
-
     color:rgba(102,102,102,1);
   }
 </style>
