@@ -1,56 +1,49 @@
 <template>
   <div class="account-container">
-    <!-- 头部 -->
-    <mt-header>
-      <router-link to="/messageTypes" slot="left">
-        <i class=" iconfont ic-xiaoxi"></i>
-      </router-link>
-
-      <router-link to="/setting" slot="right">
-        <i class=" iconfont ic-shezhi1"></i>
-      </router-link>
-    </mt-header>
-
-    <div class="header all-center" v-if="isLogin">
-      <img class="header-img" v-lazy="account.logoUrl"/>
-      <span class="header-text">{{account.name}}</span>
-    </div>
-
-    <div class="header all-center" v-if="!isLogin">
-      <router-link to="/login">
-      <img class="header-img" src="../../assets/image/accounts/default_head.jpg"/>
-      </router-link>
-      <span class="header-text">登录/注册</span>
-    </div>
-
-    <div class="nav-bar">
-      <router-link class="nav-bar-title flex-stream-sb" to="/orders?parameter=all">
-        <span class="all-orders">全部订单</span>
-        <div class="is-flex">
-          <span>我的订单</span>
-          <i class="iconfont ic-youjiantou"></i>
-        </div>
-      </router-link>
-      <div class="nav-bar-content border-top-gray">
-        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=pendpay">
-          <img src="../../assets/image/accounts/toPay.png"/>
-          <span>待付款</span>
-        </router-link>
-        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=goods">
-          <img src="../../assets/image/accounts/toSend.png"/>
-          <span>待发货</span>
-        </router-link>
-        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=receivergoods">
-          <img src="../../assets/image/accounts/toReceive.png"/>
-          <span>待收货</span>
-        </router-link>
-        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=evalute">
-          <img src="../../assets/image/accounts/toComment.png"/>
-          <span>待评价</span>
-        </router-link>
+    <new-header height="low" ref="header">
+      <router-link tag="i" to="/messageTypes" class=" iconfont ic-xiaoxi" slot="left"></router-link>
+      <router-link tag="i" to="/setting" class=" iconfont ic-shezhi1" slot="right"></router-link>
+    </new-header>
+    <div ref="body">
+      <div class="header all-center" v-if="JSON.stringify(account) !== '{}'">
+        <img class="header-img" v-lazy="account.logoUrl"/>
+        <span class="header-text">{{account.name}}</span>
       </div>
-    </div>
-    <div class="account-content is-flex">
+
+      <div class="header all-center" v-else>
+        <router-link to="/login">
+          <img class="header-img" src="../../assets/image/accounts/default_head.jpg"/>
+        </router-link>
+        <span class="header-text">登录/注册</span>
+      </div>
+
+      <div class="nav-bar">
+        <new-header height="low" bgColor="white" leftColor="#333333" leftSize="smaller" rightColor="#999999"
+                    rightSize="smaller">
+          <span slot="left">全部订单</span>
+          <router-link tag="span" to="/orders" slot="right">我的订单></router-link>
+        </new-header>
+        <new-line></new-line>
+        <div class="nav-bar-order">
+          <router-link tag="div" to="/orders/toAppraise">
+            <i class="iconfont ic-icon-test"></i>
+            <p>待付款</p>
+          </router-link>
+          <router-link tag="div" to="/orders/toDeliver">
+            <i class="iconfont ic-icon-test1"></i>
+            <p>待发货</p>
+          </router-link>
+          <router-link tag="div" to="/orders/toReceive">
+            <i class="iconfont ic-gerenzhongxindingdandaishouhuo"></i>
+            <p>待收货</p>
+          </router-link>
+          <router-link tag="div" to="/orders/toAppraise">
+            <i class="iconfont ic-daipingjia01"></i>
+            <p>待评价</p>
+          </router-link>
+        </div>
+      </div>
+      <div class="account-content is-flex">
         <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/drugAppraises">
           <img src="../../assets/image/accounts/evaluation.png"/>
           <span class="mt-15">我的评价</span>
@@ -59,11 +52,11 @@
           <img src="../../assets/image/accounts/consultation.png"/>
           <span class="mt-15">咨询</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/addresses" >
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/addresses">
           <img src="../../assets/image/accounts/address.png"/>
           <span class="mt-15">地址</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-bottom-gray" to="/collects" >
+        <router-link class="flex-box account-content-padding border-bottom-gray" to="/collects">
           <img src="../../assets/image/accounts/coll.png"/>
           <span class="mt-15">收藏</span>
         </router-link>
@@ -72,175 +65,202 @@
           <span class="mt-15">退款</span>
         </router-link>
         <router-link class="flex-box account-content-padding border-right-gray" to="/accounts/view">
-        <img src="../../assets/image/accounts/bind.png"/>
-        <span class="mt-15">账户信息</span>
+          <img src="../../assets/image/accounts/bind.png"/>
+          <span class="mt-15">账户信息</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray" :to="null==this.account.medicalNumber?'/accounts/bind':'/accounts/unbind'">
+        <router-link class="flex-box account-content-padding border-right-gray"
+                     :to="null==this.account.medicalNumber?'/accounts/bind':'/accounts/unbind'">
           <img src="../../assets/image/accounts/card.png"/>
           <span class="mt-15">医保卡信息</span>
         </router-link>
+      </div>
+      <new-header height="lower" leftSize="smaller" class="foot-tag" @click="$router.push('/faqs')">
+        <span slot="left">常见问题</span>
+        <i class="iconfont ic-youjiantou" slot="right"></i>
+      </new-header>
+      <new-header height="lower" leftSize="smaller" class="foot-tag" @click="$router.push('/feedbacks/create')">
+        <span slot="left">意见反馈</span>
+        <i class="iconfont ic-youjiantou" slot="right"></i>
+      </new-header>
     </div>
-
-    <router-link class=" foot-tag flex-stream-sb" to="/faqs">
-      <span>常见问题</span>
-      <i class="iconfont ic-youjiantou"></i>
-    </router-link>
-
-    <router-link class=" foot-tag flex-stream-sb" to="/feedbacks/create">
-      <span>意见反馈</span>
-      <i class="iconfont ic-youjiantou"></i>
-    </router-link>
-
-    <new-footer :urlRouter="$route.path"></new-footer>
+    <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
 </template>
 
 <script>
   export default {
-    data() {
+    data () {
       return {
         countList: [],
-        account: {},
-        isLogin: false
+        account: this.$store.getters.account
       };
     },
-    created() {
-      if (this.$store.getters.account) {
-        this.account = this.$store.getters.account;
-        console.log(this.account);
-        this.account.logoUrl = '/files/' + this.account.fileId + '/image?resolution=' + 'SMALL_LOGO';
-        this.isLogin = !(typeof (this.account.username) === 'undefined');
-        if (this.isLogin) {
-          this.$http.get('/orders/count?')
-            .then(res => {
-              this.countList = res.data;
-            });
+    methods: {
+      maxnumber (number) {
+        if (number > 99) {
+          return 99;
+        } else {
+          return number;
         }
       }
+    },
+    created () {
+      if (JSON.stringify(this.account) !== '{}') {
+        this.account.logoUrl = this.getImgURL(this.account.fileId, 'LARGE_LOGO');
+        this.$http.get('/orders/count?')
+          .then(res => {
+            this.countList = res.data;
+          });
+      }
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.$el.clientHeight
+      ) + 'px';
+      this.$refs.body.style.overflow = 'scroll';
     }
   }
   ;
 </script>
 
 <style scoped>
-  .is-flex{
+
+  .is-flex {
     display: flex !important;
   }
-  .border-right-gray{
-    border-right: 1px rgba(235,235,235,1) solid;
-  }
-  .border-top-gray{
-    border-top: 1px rgba(235,235,235,1) solid;
-  }
-  .border-bottom-gray{
-    border-bottom: 1px rgba(235,235,235,1) solid;
+
+  .border-left-gray {
+    border-left: 1px rgba(235, 235, 235, 1) solid;
   }
 
-  .account-container{
+  .border-right-gray {
+    border-right: 1px rgba(235, 235, 235, 1) solid;
+  }
+
+  .border-top-gray {
+    border-top: 1px rgba(235, 235, 235, 1) solid;
+  }
+
+  .border-bottom-gray {
+    border-bottom: 1px rgba(235, 235, 235, 1) solid;
+  }
+
+  .account-container {
     width: 720px;
     background: #f5f5f5;
     height: 100vh;
   }
-  .all-center{
+
+  .all-center {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  .flex-stream-sb{
+
+  .flex-stream-sa {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .flex-stream-sb {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .header{
-    width:720px;
-    height:369px;
-    background:#34cafe;
+  .header {
+    width: 720px;
+    height: 369px;
+    background: #34cafe;
   }
 
-  .header-img{
-    width:150px;
-    height:150px;
+  .header-img {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
   }
-  .header-text{
-    width:720px;
-    height:28px;
-    font-size:30px;
-    color:rgba(255,255,255,1);
-    line-height:40px;
+
+  .header-text {
+    width: 720px;
+    height: 28px;
+    font-size: 30px;
+    color: rgba(255, 255, 255, 1);
+    line-height: 40px;
     text-align: center;
     margin-top: 9px;
   }
 
-  .nav-bar{
-    width:719px;
-    height:154px;
-    background:rgba(255,255,255,1);
-    margin-bottom: 14px;
-    padding: 0px 15px;
-    box-sizing: border-box;
-  }
-  .nav-bar-title{
-    box-sizing: border-box;
-    padding: 10px 0;
-  }
-  .nav-bar-content-margin{
-    margin-top: 15px;
-  }
-  .all-orders{
-    width:120px;
-    font-size:24px;
-    color:rgba(51,51,51,1);
-    line-height:40px;
-  }
-  .nav-bar-content{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 14px;
+  .nav-bar {
+    background: rgba(255, 255, 255, 1);
+    margin-bottom: 40px;
   }
 
-  .account-content{
-    width:720px;
-    height:300px;
-    background:rgba(255,255,255,1);
+  .nav-bar-order {
+    padding-bottom: 10px;
+  }
+
+  .account-content {
+    width: 720px;
+    height: 300px;
+    background: rgba(255, 255, 255, 1);
     flex-wrap: wrap;
+    margin-bottom: 20px;
   }
 
-  .flex-box{
+  .flex-box {
     box-sizing: border-box;
-    width:25%;
+    width: 25%;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  .account-content-padding{
+
+  .account-content-padding {
     padding: 29px 48px;
   }
-  .flex-box span{
-    width:120px;
-    height:20px;
-    font-size:20px;
-    color:rgba(51,51,51,1);
-    line-height:36px;
+
+  .flex-box span {
+    width: 120px;
+    height: 20px;
+    font-size: 20px;
+    color: rgba(51, 51, 51, 1);
+    line-height: 36px;
     text-align: center;
   }
-  .mt-15{
+
+  .mt-15 {
     margin-top: 15px;
   }
-  .flex-box img{
+
+  .flex-box img {
     width: 42px;
     height: 42px;
   }
 
-  .foot-tag{
-    width:719px;
-    height:70px;
-    background:rgba(255,255,255,1);
-    margin-top: 14px;
-    padding: 24px 16px;
-    box-sizing: border-box;
-    color:rgba(102,102,102,1);
+  .nav-bar-order {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 720px;
+    background: white;
   }
+
+  .nav-bar-order div {
+    text-align: center;
+  }
+
+  .nav-bar-order div p {
+    font-size: 22px;
+    font-family: HiraginoSansGB-W3;
+  }
+
+  .nav-bar-order div i {
+    font-size: 35px;
+  }
+
+  .foot-tag {
+    margin-bottom: 20px;
+  }
+
 </style>

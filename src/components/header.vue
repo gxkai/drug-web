@@ -73,6 +73,9 @@
     display: flex;
     align-items: center;
   }
+  .smaller {
+    font-size: 20px;
+  }
   .small {
     font-size: 30px;
   }
@@ -89,11 +92,14 @@
   .right .iconfont:before{
     font-size: 50px;
   }
+  .lower {
+    height: 50px!important;
+  }
   .low {
-    height: 80px;
+    height: 80px!important;
   }
   .high {
-    height: 150px;
+    height: 150px!important;
   }
   .middle {
     height: 130px;

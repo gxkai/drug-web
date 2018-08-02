@@ -22,7 +22,7 @@
     <div v-if="1 === this.state" class="body2">
       <div class="body1">
         <new-header title="找回密码">
-          <router-link  tag="i" to="#" class="iconfont ic-arrow-right" slot="left"  @click="$router.go(-1)"></router-link>
+          <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" slot="left"></router-link>
         </new-header>
         <div class="input3">
           <div class="left">
