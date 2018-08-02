@@ -20,6 +20,7 @@ import newOrderTab from '../../components/orderTab';
 import newOrder from '../../components/order';
 import newAllData from '../../components/allData';
 import newLoading from '../../components/loading';
+import rxCart from '../../components/rxCart';
 
 export default {
   install(Vue, options) {
@@ -45,5 +46,6 @@ export default {
     Vue.component('new-order', newOrder);
     Vue.component('new-all-data', newAllData);
     Vue.component('new-loading', newLoading);
+    Vue.component('new-rxCart', rxCart);
   }
 };
