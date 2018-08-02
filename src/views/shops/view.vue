@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <new-header>
-      <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <router-link tag="i" to="/" class="icon-font ic-arrow-right" slot="left"></router-link>
       <input type="text" placeholder="搜索店内商品" style="background:none;"/>
     </new-header>
 

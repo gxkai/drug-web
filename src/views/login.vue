@@ -9,13 +9,13 @@
       <swiper-slide class="slide1">
         <div class="input1">
           <div class="left">
-            <i class="iconfont ic-shouji shouji"></i>
+            <i class="icon-font ic-shouji shouji"></i>
           </div>
           <input type="number" class="right" placeholder="请输入手机号码" v-model="username">
         </div>
         <div class="input2">
           <div class="left">
-            <i class="iconfont ic-icon2 icon2"></i>
+            <i class="icon-font ic-icon2 icon2"></i>
           </div>
           <div class="right">
             <input class="input21" type="password" placeholder="请输入密码" v-model="password">
@@ -28,7 +28,7 @@
       <swiper-slide class="slide2">
         <div class="input1">
           <div class="left">
-            <i class="iconfont ic-shouji shouji"></i>
+            <i class="icon-font ic-shouji shouji"></i>
           </div>
           <div class="right">
             <input type="number" class="input11" placeholder="请输入手机号码" v-model="registerUsername">
@@ -38,7 +38,7 @@
         </div>
         <div class="input2">
           <div class="left">
-            <i class="iconfont ic-anquanrenzheng anquanrenzheng"></i>
+            <i class="icon-font ic-anquanrenzheng anquanrenzheng"></i>
           </div>
           <div class="right">
             <input class="input21"  placeholder="请输入验证码" v-model="captcha">
@@ -46,7 +46,7 @@
         </div>
         <div class="input3">
           <div class="left">
-            <i class="iconfont ic-xinmima xinmima"></i>
+            <i class="icon-font ic-xinmima xinmima"></i>
           </div>
           <div class="right">
             <input class="input31" placeholder="请输入密码" type="password" v-model="registerPassword">

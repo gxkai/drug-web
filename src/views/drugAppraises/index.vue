@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <new-header title="我的评价" ref="header">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <i class="icon-font ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
     <ul class="body" v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"

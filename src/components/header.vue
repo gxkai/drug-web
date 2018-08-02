@@ -85,11 +85,11 @@
   .large {
     font-size: 70px;
   }
-  .left .iconfont:before{
+  .left .icon-font:before{
     font-size: 50px;
   }
 
-  .right .iconfont:before{
+  .right .icon-font:before{
     font-size: 50px;
   }
   .lower {

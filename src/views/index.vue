@@ -4,9 +4,9 @@
   <div class="bg-f8">
     <div class="bg-blue index-header">
       <div class="flex-stream-sb padding-lr-10">
-        <i class="iconfont ic-ditu text-white is-16x22"></i>
+        <i class="icon-font ic-ditu text-white is-16x22"></i>
         <span @click="nearby" class="text-white">{{chooseaddress}}</span>
-        <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
+        <i class="icon-font ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
         <div class="search-box position-relative all-center no-border">
           <img  src="../assets/image/search.png" class=" is-24x24"/>
           <input type="text" v-model="shopName" placeholder="通用名、商品名、症状"
@@ -15,7 +15,7 @@
                  @click="$router.push('/components/search')"
                  class="no-border"/>
         </div>
-        <i class="iconfont ic-lingdang text-white "></i>
+        <i class="icon-font ic-lingdang text-white "></i>
       </div>
     </div>
 
@@ -165,7 +165,7 @@
     <!-- 好货推荐 -->
     <div class="recommend">
     <div class="separate-content all-center">
-      <i class="iconfont ic-aixin text-red"></i>
+      <i class="icon-font ic-aixin text-red"></i>
       <span class="text-13C1FE">好货推荐</span>
     </div>
     <div class="bg-white of-hidden">
