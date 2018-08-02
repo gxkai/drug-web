@@ -32,7 +32,9 @@
         })
           .then((res) => {
             if (res.status === 200) {
-              MessageBox('提示', '感谢您的反馈！');
+              MessageBox('提示', '感谢您的反馈！').then(action => {
+                this.$router.go(-1);
+              });
             }
           })
           .catch((error) => {

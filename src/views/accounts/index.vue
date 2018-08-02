@@ -74,14 +74,17 @@
           <span class="mt-15">医保卡信息</span>
         </router-link>
       </div>
-      <new-header height="lower" leftSize="smaller" class="foot-tag" @click="$router.push('/faqs')">
-        <span slot="left">常见问题</span>
-        <i class="iconfont ic-youjiantou" slot="right"></i>
-      </new-header>
-      <new-header height="lower" leftSize="smaller" class="foot-tag" @click="$router.push('/feedbacks/create')">
-        <span slot="left">意见反馈</span>
-        <i class="iconfont ic-youjiantou" slot="right"></i>
-      </new-header>
+
+      <router-link class=" foot-tag flex-stream-sb" to="/faqs">
+        <span class="text">常见问题</span>
+        <i class="iconfont ic-youjiantou"></i>
+      </router-link>
+
+      <router-link class=" foot-tag flex-stream-sb" to="/feedbacks/create">
+        <span class="text">意见反馈</span>
+        <i class="iconfont ic-youjiantou"></i>
+      </router-link>
+
     </div>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
@@ -261,6 +264,19 @@
 
   .foot-tag {
     margin-bottom: 20px;
+    width:719px;
+    height:70px;
+    background:rgba(255,255,255,1);
+    margin-top: 14px;
+    padding: 24px 16px;
+    box-sizing: border-box;
+    color:rgba(102,102,102,1);
+  }
+  .text{
+    height:40px;
+    font-size:24px;
+    color:rgba(102,102,102,1);
+    line-height:40px;
   }
 
 </style>

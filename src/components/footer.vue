@@ -40,6 +40,7 @@
     width: 720px;
     height: 100px;
     background: white;
+    z-index: 9999;
   }
 
   footer div {
