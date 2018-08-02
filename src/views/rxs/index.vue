@@ -99,7 +99,6 @@
     },
     created() {
       let account = JSON.parse(localStorage.getItem('account'));
-      console.log(account);
       if (!account) {
         this.$router.push('/login');
       } else {
@@ -117,11 +116,7 @@
         }
       },
       loadData() {
-        this.$http.get('/rxs?' + 'keyword=' + this.keyword + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize, {
-          headers: {
-            'Authorization': this.$store.getters.token
-          }
-        })
+        this.$http.get('/rxs?' + 'keyword=' + this.keyword + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
             this.pages = res.data.pages;
             if (this.pages === 0) {

@@ -40,7 +40,7 @@
       </div>
     </div>
     <div class="">
-      <router-link class="btn-fixed bg-blue" v-if="rxList.state === 'TO_CHECK'" :to="{path:'/rxs/shops',query:{id:id}}">购药</router-link>
+      <router-link class="btn-fixed bg-blue" v-if="rxList.state === 'ENABLED'" :to="{path:'/rxs/shops',query:{id:id}}">购药</router-link>
       <button class="btn-fixed bg-grey" v-else>购药</button>
     </div>
 

@@ -19,8 +19,8 @@
         选择厂商
       </span>
       <span>
-         <i class="iconfont" style="color:#1AB6FD!important;" @click="lookMore(index)" :class="{'ic-xiajiantou':isActive}"></i>
-         <i class="iconfont" style="color:#1AB6FD!important;" @click="lookMore(index)" :class="{'ic-youjiantou':!isActive}"></i>
+         <i class="iconfont text-1AB6FD" @click="lookMore(index)" :class="{'ic-xiajiantou':isActive}"></i>
+         <i class="iconfont text-1AB6FD" @click="lookMore(index)" :class="{'ic-youjiantou':!isActive}"></i>
       </span>
     </div>
 
@@ -60,10 +60,8 @@
       <i class="iconfont ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥127.2</span>
     </div>
 
-    <footer>
-      <div class="d-inline-block fl bg-13C1FE text-white rx-joincar">加入购物车</div>
-      <div class="d-inline-block fl bg-red text-white rx-immediately">立即购买</div>
-    </footer>
+    <new-rxCart @createCart="createCart"></new-rxCart>
+
   </div>
 </template>
 
@@ -95,9 +93,6 @@
       this.getDrugs();
     },
     methods: {
-      popup() {
-        this.show = false;
-      },
       getDrugs() {
         this.$http.get('/rxs/' + this.id + '/shops/' + this.shopId + '/drugs')
           .then(res => {
@@ -109,12 +104,10 @@
         this.origins = this.drugs[index].drugs;
         this.index = index;
         this.show = true;
-        this.popupVisible = true;
         this.isActive = !this.isActive;
       },
       takeUp() {
         this.show = false;
-        this.popupVisible = false;
       },
       initCart() {
         this.drugs.forEach(drug => {
@@ -134,6 +127,7 @@
         });
       },
       choose(index) {
+        console.log(this.carts[index]);
         let cart = this.carts[this.index];
         cart.drugSpecId = this.origins[index].drugSpecId;
         cart.shopDrugSpecId = this.origins[index].shopDrugSpecId;

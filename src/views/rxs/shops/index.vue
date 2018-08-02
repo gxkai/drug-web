@@ -60,11 +60,7 @@
     },
     methods: {
       getRxShops() {
-        this.$http.get('/rxs/' + this.id + '/shops?lng=' + this.lng + '&lat=' + this.lat, {
-          headers: {
-            'Authorization': this.$store.getters.token
-          }
-        })
+        this.$http.get('/rxs/' + this.id + '/shops?lng=' + this.lng + '&lat=' + this.lat)
           .then(res => {
             this.rxShops = res.data;
           });
