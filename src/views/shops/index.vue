@@ -58,12 +58,11 @@
         </div>
       </router-link>
     </ul>
-
-
     <div v-show="allLoaded" class="text-center bg-white">就这么多啦,回顶部再看看吧</div>
   </div>
 </template>
 <script>
+  // FIXME 代码优化
   export default {
     name: 'shopInfo',
     data() {
@@ -116,7 +115,7 @@
         this.distanceVolume = (-1) * this.distanceVolume;
         this.shopSort = 'DISTANCE';
         const url = '/shops';
-        var data = {
+        let data = {
           lat: this.lat,
           lng: this.lng,
           shopSort: this.shopSort,
@@ -133,7 +132,7 @@
         this.salesVolume = (-1) * this.salesVolume;
         this.shopSort = 'SALE';
         const url = '/shops';
-        var data = {
+        let data = {
           lat: this.lat,
           lng: this.lng,
           shopSort: this.shopSort,
@@ -150,7 +149,7 @@
         this.val = (-1) * this.val;
         this.shopSort = 'APPRAISE';
         const url = '/shops';
-        var data = {
+        let data = {
           lat: this.lat,
           lng: this.lng,
           shopSort: this.shopSort,
@@ -165,7 +164,7 @@
         $('.samediv').removeClass('active'); // eslint-disable-next-line
         $('.samediv').eq(0).addClass('active'); // eslint-disable-next-line
         const url = '/shops';
-        var data = {
+        let data = {
           lat: this.lat,
           lng: this.lng,
           shopSort: this.shopSort,
@@ -225,7 +224,6 @@
 
   .active {
     color: #454545;
-    color: red;
   }
 
   .samediv {
