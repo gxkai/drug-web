@@ -188,13 +188,6 @@
     name: 'home',
     data() {
       return {
-        prizeList: [
-          {name: 0},
-          {name: 1},
-          {name: 2},
-          {name: 3},
-          {name: 4}
-        ],
         activeIndex: 0,
         leftIndex: '',
         rightIndex: '',
@@ -236,14 +229,15 @@
           effect: 'coverflow',
           grabCursor: true,
           centeredSlides: true,
-          slidesPerView: 'auto'
+          slidesPerView: 'auto',
+          loop: true
         },
         coverflowEffect: {
           rotate: 500,
           stretch: 0,
           depth: 1000,
           modifier: 1,
-          slideShadows: true
+          slideShadows: false
         }
       };
     },
@@ -594,15 +588,15 @@
   }
 
   .health-img {
-    width: 56px;
-    height: 56px;
+    width:70px;
+    height: 70px;
   }
 
   .hot {
     width: 53px;
     height: 35px;
     line-height: 35px;
-    font-size: 8px;
+    font-size: 8px!important;
     color: #FF9800;
     border: 1px solid #FF9800;
     display: inline-block;
@@ -628,11 +622,6 @@
     font-size: 22px;
     color: rgba(119, 119, 119, 1);
   }
-
-  .swiper-container {
-    width: 720px;
-  }
-
   .swiper-img {
     width: 275px !important;
     height: 238px !important;
@@ -645,4 +634,8 @@
   .fz20 {
     font-size: 20px;
   }
+  .shop-content{
+    z-index: -9999;
+  }
+
 </style>
