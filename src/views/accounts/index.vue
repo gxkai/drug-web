@@ -89,14 +89,14 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         countList: [],
         account: this.$store.getters.account
       };
     },
     methods: {
-      maxnumber (number) {
+      maxnumber(number) {
         if (number > 99) {
           return 99;
         } else {
@@ -104,7 +104,7 @@
         }
       }
     },
-    created () {
+    created() {
       if (JSON.stringify(this.account) !== '{}') {
         this.account.logoUrl = this.getImgURL(this.account.fileId, 'LARGE_LOGO');
         this.$http.get('/orders/count?')
