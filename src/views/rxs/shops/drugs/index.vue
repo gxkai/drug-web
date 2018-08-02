@@ -1,3 +1,4 @@
+<!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-content position-relative">
     <new-header :title="shopName">
@@ -51,10 +52,18 @@
 
     <ul>
       <li v-for="(cart,index) in carts" :key="index" class="m-10">
-        <new-rx-shop-drugs :isOtc="cart.isOtc" :name="cart.name" :spec="cart.spec" :fileId="cart.fileId" :price="cart.price"></new-rx-shop-drugs>
+        <new-rx-shop-drugs :isOtc="cart.isOtc" :name="cart.name" :spec="cart.spec" :fileId="cart.fileId"
+                           :price="cart.price"></new-rx-shop-drugs>
       </li>
     </ul>
-    <!-- TODO rxBottom -->
+    <div class="rx-total ml-20">
+      <i class="iconfont ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥127.2</span>
+    </div>
+
+    <footer>
+      <div class="d-inline-block fl bg-13C1FE text-white rx-joincar">加入购物车</div>
+      <div class="d-inline-block fl bg-red text-white rx-immediately">立即购买</div>
+    </footer>
   </div>
 </template>
 
@@ -90,11 +99,7 @@
         this.show = false;
       },
       getDrugs() {
-        this.$http.get('/rxs/' + this.id + '/shops/' + this.shopId + '/drugs', {
-          headers: {
-            'Authorization': this.$store.getters.token
-          }
-        })
+        this.$http.get('/rxs/' + this.id + '/shops/' + this.shopId + '/drugs')
           .then(res => {
             this.drugs = res.data;
             this.initCart();
@@ -224,10 +229,38 @@
     line-height:61px;
     vertical-align: middle;
   }
+  .ml-20{
+    margin-left: 20px !important;
+  }
   .ml-30{
     margin-left: 30px !important;
   }
   .mr-30{
     margin-right: 30px !important;
+  }
+
+  .rx-total{
+    margin-top: 26px;
+  }
+  .rx-total-money{font-size: 26px;}
+  footer{
+    position: fixed;
+    bottom: 0;
+  }
+  .rx-joincar{
+    width:393px;
+    height:100px;
+    background:rgba(19,193,254,1);
+    line-height: 100px;
+    font-size:30px;
+    text-align: center;
+  }
+  .rx-immediately{
+    width:327px;
+    height:100px;
+    background:rgba(240,43,43,1);
+    line-height: 100px;
+    font-size:30px;
+    text-align: center;
   }
 </style>

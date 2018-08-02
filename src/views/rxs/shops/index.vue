@@ -1,3 +1,4 @@
+<!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-shop-contanier">
     <!-- TODO 搜索 -->

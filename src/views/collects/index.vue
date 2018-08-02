@@ -1,3 +1,4 @@
+<!-- FIXME 字体大小 -->
 <template>
   <div class="f_body">
     <mt-header title="我的收藏">

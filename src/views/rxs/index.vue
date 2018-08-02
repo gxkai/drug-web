@@ -1,3 +1,4 @@
+<!-- FIXME 字体大小 -->
 <template>
   <!-- TODO 倒计时-->
 <div class="rxs-container" >
@@ -12,7 +13,7 @@
 
   <div class="flex-row-center text-white pt-26">
     <div class="">
-      <img class="is-110x110"  :src="getImgURL(account.fileId)"/>
+      <img class="is-110x110"  v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
     </div>
     <div class="ml-60 mr-160">
       <div class="account-info" >
@@ -35,6 +36,7 @@
 
 <ul v-infinite-scroll="loadMore" class="mt-26" style="overflow: scroll">
   <li class="rxs-box mt-20" v-for="rx in rxs">
+    <!-- FIXME -->
       <router-link :to="{path:'/rxs/view',query:{id:rx.id}}">
         <table class="position-relative" >
           <tr>
@@ -102,10 +104,7 @@
         this.$router.push('/login');
       } else {
         this.account = this.$store.getters.account;
-        console.log(this.account);
-        // getImage(this.account, this, 'SMALL_LOGO');
       }
-      ;
     },
     methods: {
       loadMore() {
@@ -135,19 +134,8 @@
       },
       getRxs() {
         this.rxs = [];
-        this.pageList = [];
         this.pageNum = 0;
         this.loadData();
-      },
-      getGender() {
-        switch (this.account.gender) {
-          case 'MALE':
-            return '男';
-          case 'FEMALE':
-            return '女';
-          default:
-            return '';
-        }
       }
     },
     filters: {
@@ -164,11 +152,6 @@
 </script>
 
 <style scoped>
-  .flex-stream-sb{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
   .rxs-header{
     width: 720px;
     height: 312px;
@@ -210,12 +193,6 @@
   .rxs-container{
     width: 720px;
     background: #f5f5f5;
-  }
-  .img-radius{
-    border-radius: 50%;
-  }
-  .-position-30{
-    left: -30px;
   }
   .is-30x30{
     width: 30px;
