@@ -1,11 +1,12 @@
 <template>
   <div class="bind-container">
-    <new-header title="商品详情">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+    <new-header title="商品详情" ref="header">
+      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/')"></i>
     </new-header>
+    <drugView :shopDrugSpec="alldrugInfo" class="d-none"></drugView>
     <!--上方轮播开始-->
     <div class="broadcast">
-      <div class="broadcast-content" style="background:red;">
+      <div class="broadcast-content">
         <mt-swipe :auto="4000">
           <mt-swipe-item v-for="(drugImg,index) in drugImgs" :key="index">
             <img v-lazy="drugImg" class="width-percent-100"/>
@@ -18,8 +19,7 @@
           <p class="drug-function elps text-center">{{shopDrugSpec.introduce}}</p>
           <p class="drug-price text-center">¥{{shopDrugSpec.price}}</p>
         </div>
-        <div class="broadcast-title-two position-absolute">
-        </div>
+        <div class="broadcast-title-two position-absolute"></div>
       </div>
     </div>
     <!--库存开始-->
@@ -67,14 +67,14 @@
     <!--商品详情开始-->
     <div class="shop-detail">
       <div class="height-l-20"></div>
-      <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 1}}">
+      <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 1,shopDrugSpec: JSON.stringify(shopDrugSpec)}}" >
         <div class="shop-details">
           <i class="icon iconfont ic-liwu-copy text-1AB6FD predetnt"></i>
           <span class="text-666666">商品详情</span>
           <i class="icon iconfont ic-youjiantou1 text-333333"></i>
         </div>
       </router-link>
-      <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 0}}">
+      <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 0,shopDrugSpec: JSON.stringify(shopDrugSpec)}}">
         <div class="shop-details">
           <i class="icon iconfont ic-pingjia text-1AB6FD predetnt"></i>
           <span class="text-666666">商品评价</span>
@@ -136,7 +136,6 @@
           <span class="d-inline-block fr">查看全部评价</span>
         </router-link>
       </div>
-
       <div v-for="drugAppraise in pageList">
         <div class="stars width-percent-94 m-auto">
           <span class="fl d-inline-block"> <new-star :size="drugAppraise.score" disabled></new-star></span>
@@ -149,59 +148,66 @@
           {{timeConvert(drugAppraise.createdDate)}}
         </div>
       </div>
-
       <new-join-car :drugInfo="alldrugInfo"></new-join-car>
-    </div>
+     </div>
     <!--评论结束-->
-  </div>
+   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        shopTotalAppraise: '',
-        drugImgs: [],
-        shopDrugSpec: [],
-        drugAppraises: '',
-        headImg: '',
-        pageList: '',
-        createdDate: '',
-        allDrugInfo: []
-      };
-    },
-    created() {
-      let id = '1';
-      this.$http.get('/shopDrugSpecs/' + id)
-        .then(res => {
-          if (res.status === 200) {
-            this.shopDrugSpec = res.data;
-            this.alldrugInfo = res.data;
-            this.shopDrugSpec.fileIds.forEach(fileId => {
-              let URL = '/files/' + fileId + '/image?resolution=LARGE_PIC';
-              this.drugImgs.push(URL);
-            });
-            this.shopTotalAppraise = this.shopDrugSpec.shopTotalAppraise;
-            this.pageList = this.shopDrugSpec.drugAppraises.list;
-            this.drugAppraises = this.shopDrugSpec.drugAppraises;
-            this.headImg = '/files/' + this.shopDrugSpec.shopLogo + '/image?resolution=LARGE_LOGO';
-          }
-        });
-    },
-    methods: {},
-    filters: {
-      TYPES(drugtype) {
-        if (drugtype) {
-          return '非处方药';
-        } else {
-          return '处方药';
+import drugView from '@/views/shopDrugSpecs/view.vue';
+export default {
+  data() {
+    return {
+      shopTotalAppraise: '',
+      drugImgs: [],
+      shopDrugSpec: [],
+      drugAppraises: '',
+      headImg: '',
+      pageList: '',
+      createdDate: '',
+      allDrugInfo: []
+    };
+  },
+  created() {
+    let id = '1';
+    this.$http.get('/shopDrugSpecs/' + id)
+      .then(res => {
+        if (res.status === 200) {
+          this.shopDrugSpec = res.data;
+          this.alldrugInfo = res.data;
+          this.shopDrugSpec.fileIds.forEach(fileId => {
+            let URL = '/files/' + fileId + '/image?resolution=LARGE_PIC';
+            this.drugImgs.push(URL);
+          });
+          this.shopTotalAppraise = this.shopDrugSpec.shopTotalAppraise;
+          this.pageList = this.shopDrugSpec.drugAppraises.list;
+          this.drugAppraises = this.shopDrugSpec.drugAppraises;
+          this.headImg = '/files/' + this.shopDrugSpec.shopLogo + '/image?resolution=LARGE_LOGO';
         }
-      },
-      timeConvert(date) {
-        return this.timeConvert(date);
+      });
+  },
+  mounted() {
+    this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+    this.$refs.body.style.overflow = 'scroll';
+  },
+  methods: {},
+  components: {
+    drugView: drugView
+  },
+  filters: {
+    TYPES(drugtype) {
+      if (drugtype) {
+        return '非处方药';
+      } else {
+        return '处方药';
       }
+    },
+    timeConvert(date) {
+      return this.timeConvert(date);
     }
-  };
+  }
+};
 </script>
 
 <style scoped>
@@ -220,10 +226,6 @@
     width: 720px;
     height: 465px;
     background: white;
-  }
-  .broadcast-content img {
-    width: 720px;
-    height: 465px;
   }
 
   .broadcast-title {

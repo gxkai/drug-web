@@ -289,8 +289,13 @@ export default new Router({
       component: () => import('@/views/drugs/shops/index.vue')
     },
     {
-      path: '/shopDrugSpecs/child/info',
+      path: '/shopDrugSpecs/info',
+      alias: '/shopDrugSpecs/child/info',
       component: () => import('@/views/shopDrugSpecs/child/info.vue')
+    },
+    {
+      path: '/shopDrugSpecs/view',
+      component: () => import('@/views/shopDrugSpecs/view.vue')
     },
     {
       path: '/shops',

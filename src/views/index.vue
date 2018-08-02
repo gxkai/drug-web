@@ -71,7 +71,6 @@
             </ul>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -230,8 +229,6 @@
           autoplay: 3000,
           speed: 1000,
           effect: 'coverflow',
-          grabCursor: true,
-          centeredSlides: true,
           slidesPerView: 'auto',
           loop: true
         },
@@ -640,5 +637,4 @@
   .shop-content{
     z-index: -9999;
   }
-
 </style>
