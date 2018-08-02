@@ -1,15 +1,9 @@
 <template>
   <div class="account-container">
-    <!-- 头部 -->
-    <mt-header>
-      <router-link to="/messageTypes" slot="left">
-        <i class=" iconfont ic-xiaoxi"></i>
-      </router-link>
-
-      <router-link to="/setting" slot="right">
-        <i class=" iconfont ic-shezhi1"></i>
-      </router-link>
-    </mt-header>
+    <new-header height="low">
+      <router-link tag="i" to="/messageTypes" class=" iconfont ic-xiaoxi" slot="left"></router-link>
+      <router-link tag="i" to="/setting" class=" iconfont ic-shezhi1" slot="right"></router-link>
+    </new-header>
 
     <div class="header all-center" v-if="isLogin">
       <img class="header-img" v-lazy="account.logoUrl"/>
@@ -24,7 +18,7 @@
     </div>
 
     <div class="nav-bar">
-      <router-link class="nav-bar-title flex-stream-sb" to="/orders?parameter=all">
+      <router-link class="nav-bar-title flex-stream-sb" to="/orders">
         <span class="all-orders">全部订单</span>
         <div class="is-flex">
           <span>我的订单</span>
@@ -32,19 +26,19 @@
         </div>
       </router-link>
       <div class="nav-bar-content border-top-gray">
-        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=pendpay">
+        <router-link class="flex-box nav-bar-content-margin" to="/orders/toPay">
           <i class="iconfont ic-daishouhuo"></i>
           <span>代付款</span>
         </router-link>
-        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=goods">
+        <router-link class="flex-box nav-bar-content-margin" to="/orders/toDeliver">
           <i class="iconfont ic-daishouhuo"></i>
           <span>待发货</span>
         </router-link>
-        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=receivergoods">
+        <router-link class="flex-box nav-bar-content-margin" to="/orders/toReceive">
           <i class="iconfont ic-daishouhuo"></i>
           <span>待收货</span>
         </router-link>
-        <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=evalute">
+        <router-link class="flex-box nav-bar-content-margin" to="/orders/toAppraise">
           <i class="iconfont ic-daishouhuo"></i>
           <span>待评价</span>
         </router-link>

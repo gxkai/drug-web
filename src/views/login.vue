@@ -41,7 +41,7 @@
             <i class="iconfont ic-anquanrenzheng anquanrenzheng"></i>
           </div>
           <div class="right">
-            <input class="input21" type="password" placeholder="请输入验证码" v-model="captcha">
+            <input class="input21"  placeholder="请输入验证码" v-model="captcha">
           </div>
         </div>
         <div class="input3">
@@ -49,7 +49,7 @@
             <i class="iconfont ic-xinmima xinmima"></i>
           </div>
           <div class="right">
-            <input class="input31" placeholder="请输入密码" v-model="registerPassword">
+            <input class="input31" placeholder="请输入密码" type="password" v-model="registerPassword">
           </div>
         </div>
         <button class="button2" @click="register()">
@@ -90,12 +90,6 @@
         username: '18896781024',
         password: '123456',
         clientId: '1',
-        span: [
-          {},
-          {}
-        ],
-        qwere: 0,
-        qwere1: 1,
         registerUsername: '18896781024',
         captcha: '',
         registerPassword: '123456'
@@ -123,6 +117,16 @@
           .catch((error) => {
             this.exception(error);
           });
+      },
+      checkCaptcha() {
+        this.$http.post('/captchas/check', {
+          'username': this.registerUsername,
+          'captcha': this.captcha
+        }).then(res => {
+          this.register();
+        }).catch(error => {
+          this.exception(error);
+        });
       },
       setInt() {
         const TIME_COUNT = 60;

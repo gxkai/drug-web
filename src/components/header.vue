@@ -90,10 +90,10 @@
     font-size: 50px;
   }
   .low {
-    height: 80px;
+    height: 80px!important;
   }
   .high {
-    height: 150px;
+    height: 150px!important;
   }
   .middle {
     height: 130px;
