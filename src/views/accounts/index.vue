@@ -1,11 +1,10 @@
 <template>
   <div class="account-container">
-    <!-- 头部 -->
+    <!-- TODO  小图标 -->
     <mt-header>
       <router-link to="/messageTypes" slot="left">
         <i class=" iconfont ic-xiaoxi"></i>
       </router-link>
-
       <router-link to="/setting" slot="right">
         <i class=" iconfont ic-shezhi1"></i>
       </router-link>

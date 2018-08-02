@@ -58,6 +58,7 @@
           <tr>
             <td><img class="is-30x30" src="../../assets/image/rxs/recipe_4.png"></td>
             <td><span class="td-width-55 ellipsis">倒计时</span></td>
+            <!-- TODO 倒计时 -->
             <td><span class="td-width-250 ellipsis">2018-12-19 12:06:00</span></td>
             <td class="text-center">该处方已失效</td>
           </tr>
