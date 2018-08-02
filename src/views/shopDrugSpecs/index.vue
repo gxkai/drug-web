@@ -39,7 +39,6 @@
         <span >{{shopDrugSpec.spec}}</span>
       </div>
     </div>
-
     <!--库存结束-->
 
     <!--配送商家开始-->
@@ -50,11 +49,11 @@
       </div>
       <div class="width-percent-32 d-inline-block">
         <i class="icon iconfont ic-zitidai text-1AB6FD business"></i>
-        <span>商家配送</span>
+        <span>门店自提</span>
       </div>
       <div class="width-percent-32 d-inline-block">
         <i class="icon iconfont ic-mianfei text-1AB6FD business"></i>
-        <span>商家配送</span>
+        <span>免费配送</span>
       </div>
     </div>
     <!--配送商家结束-->
