@@ -1,10 +1,8 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="screen">
-
     <new-header :title="head">
-      <router-link to="#" slot="left" class="iconfont ic-arrow-right text-white">
-      </router-link>
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
       <router-link to="#" slot="right" >
         <router-link class="text-white" to="/">重置</router-link>
       </router-link>

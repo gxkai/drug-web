@@ -1,18 +1,17 @@
 <template>
   <div class="container">
     <new-header title="全部商品" :style="{background:bgColor,color:color}">
-      <div class="left" :style="{color:leftColor}">
-        <i class="icon iconfont ic-sanx-up" name="left"></i>
-      </div>
+      <router-link tag="i" :style="{color:leftColor}" to="/messageTypes" class=" iconfont ic-arrow-right" slot="left">
+      </router-link>
     </new-header>
     <ul v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
       <div class="width-percent-100">
-        <router-link class="f_shop_all_drugs_list" v-for="(drug,index) in drugs"
+        <router-link class="border-bottom-grey" v-for="(drug,index) in drugs"
                      :key="index"
                      :to="{path: '/shopDrugSpecs', query: {id: drug.id}}">
-          <div class="width-percent-96 m-auto drugs-full">
+          <div class="drugs-box m-auto drugs-full bg-white">
             <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3990342075,2367006974&fm=200&gp=0.jpg"
                  class="fl drug-img d-inline-block"/>
             <div class="elpsTwo drug-title d-inline-block fl">
@@ -65,7 +64,7 @@
         this.loading = false;
         if (this.pages === null || this.pageNum < this.pages) {
           if (this.typeId) {
-            this.loadData1();
+            this.loadData();
           } else {
             this.loadData();
           }
@@ -114,6 +113,12 @@
     margin-top: 26px;
   }
 
+  .bg-white{
+    background: white;
+  }
+  .border-bottom-grey{
+    border-bottom: 1px #f5f5f5 solid;
+  }
   .drug-country {
     width: 231px;
     height: 28px;
@@ -126,5 +131,10 @@
     font-size: 22px;
     color: rgba(255, 0, 0, 1);
     margin-top: 13px;
+  }
+
+  .drugs-box{
+    padding: 0 10px;
+    box-sizing: border-box;
   }
 </style>

@@ -1,26 +1,27 @@
 <template>
   <div>
     <footer>
-      <router-link tag="div" to="/" :class="{active:urlRouter == '/'}">
+      <router-link tag="div" to="/chats" :class="{active:urlRouter === '/chats'}">
         <i class="iconfont ic-zixun"></i>
         <p>咨询</p>
       </router-link>
-      <router-link tag="div" to="/rxs" :class="{active:urlRouter == '/rxs'}">
+      <router-link tag="div" to="/shops" :class="{active:urlRouter === '/shops'}">
         <i class="iconfont ic-drugstore"></i>
         <p>药店</p>
       </router-link>
-      <router-link tag="div" to="/drugTypes" :class="{active:urlRouter == '/drugTypes'}">
+      <router-link tag="div" to="/collects" :class="{active:urlRouter === '/collects'}">
         <i class="iconfont ic-shoucang"></i>
         <p>收藏</p>
       </router-link>
-      <router-link tag="div" to="/drugTypes" :class="{active:urlRouter == '/drugTypes'}">
+      <router-link tag="div" to="/carts" :class="{active:urlRouter === '/carts'}">
         <i class="iconfont ic-gouwuche2"></i>
         <p>购物车</p>
       </router-link>
       <div class="joincar" @click="joinCar()">
         <p>加入购物车</p>
       </div>
-      <router-link tag="div" to="/accounts" :class="{active:urlRouter == '/accounts'}" class="immediately-buy">
+      <!-- FIXME -->
+      <router-link tag="div" to="/accounts" :class="{active:urlRouter === '/accounts'}" class="immediately-buy">
         <p>立即购买</p>
       </router-link>
     </footer>
@@ -226,6 +227,7 @@
     width: 720px;
     height: 100px;
     background: white;
+    z-index: 999;
   }
 
   footer div {

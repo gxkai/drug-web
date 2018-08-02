@@ -3,10 +3,8 @@
     <new-header title="我的评价" ref="header">
       <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
-    <ul class="body" v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="loading"
-        infinite-scroll-distance="10" ref="body">
-      <li v-for="item in list">
+    <div class="body" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" ref="body">
+      <div class="drugAppraises-main" v-for="item in list">
         <div class="line1">
           <div>
             <img v-lazy="account.headImg">
@@ -20,15 +18,16 @@
         <div class="line3">
           <img v-lazy="item.logo">
           <div class="right">
-            <p>{{item.name}}</p>
-            <p>{{item.spec}}</p>
+            <p>药品名称：{{item.name}}</p>
+            <p>规格:{{item.spec}}</p>
           </div>
         </div>
-      </li>
+      </div>
       <new-no-data v-if="list.length===0"></new-no-data>
       <new-loading v-if="process"></new-loading>
       <new-all-data v-if="loading"></new-all-data>
-    </ul>
+    </div>
+
   </div>
 </template>
 
@@ -85,6 +84,13 @@
 </script>
 
 <style scoped>
+  .drugAppraises-main{
+    width:680px;
+    height:328px;
+    margin: auto;
+    margin-bottom: 40px;
+    background:rgba(255,255,255,1);
+  }
   .main {
     background: rgba(241, 239, 240, 1);
     width: 720px;
@@ -109,12 +115,15 @@
   }
 
   .line1 div:nth-child(1) img {
-    height: 65px;
-    border-radius: 50px;
+    width:62px;
+    height:62px;
+    margin-right: 21px;
   }
 
   .line1 div:nth-child(1) span {
-    margin-left: 10px;
+    font-size:28px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(102,102,102,1);
   }
 
   .line1 div:nth-child(2) span {
@@ -127,7 +136,8 @@
     font-size: 22px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
-    line-height: 88px;
+    margin-top: 10px;
+    margin-bottom: 15px;
   }
 
   .line3 {
@@ -143,6 +153,7 @@
     width: 201px;
     height: 144px;
     margin-left: 10px;
+    margin-right: 31px;
   }
 
   .line3 .right {

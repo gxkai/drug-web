@@ -2,7 +2,7 @@
   <div class="container">
     <new-header>
       <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
-      <input type="text" placeholder="搜索店内商品" style="background:none;"/>
+      <input type="text" placeholder="搜索店内商品" class="bg-none"/>
     </new-header>
 
     <div class="shop-header">
@@ -59,7 +59,8 @@
 
     <div class="shop-footer" spellcheck="false" cellspacing="0">
       <router-link :to="{ path: '/shops/info', query: { id: shopId }}">商家介绍</router-link>
-      <router-link :to="{ path: '/shops/drugs', query: { id: shopId }}">全部商品</router-link>
+      <!-- FIXME typeId-->
+      <router-link :to="{ path: '/shops/drugs', query: { id: shopId,typeId: 3 }}">全部商品</router-link>
       <router-link :to="{ path: '/chats', query: { id: shopId }}">在线咨询</router-link>
     </div>
   </div>
@@ -289,6 +290,8 @@
     text-align: center;
     color: rgba(102, 102, 102, 1);
   }
-
+.bg-none{
+  background:none;
+}
 
 </style>

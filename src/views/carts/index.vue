@@ -1,7 +1,7 @@
 <template>
   <div>
       <new-header title="购物车" ref="header">
-        <i class="iconfont ic-arrow-right" slot="left"></i>
+        <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
         <span slot="right" @click="onRemoveBatch()">删除</span>
       </new-header>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
@@ -12,7 +12,7 @@
         <span>全选</span>
       </div>
       <div class="right">
-        <span>不含运费 合计:</span>
+        <span>合计:</span>
         <span>￥{{allPrice}}</span>
         <button>
           <span @click.stop="onOrder()">结算({{allQuantity}})</span>

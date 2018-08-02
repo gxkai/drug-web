@@ -85,9 +85,12 @@
     },
     methods: {
       send() {
-        if (!this.value) {
-          let url = '/chats';
-          this.$http.post(url, {
+        console.log(this.value);
+        console.log(this.value === '');
+        if (this.value === '') {
+          MessageBox('提示', '消息不能为空');
+        } else {
+          this.$http.post('/chats', {
             'type': 'ACCOUNT',
             'message': this.value,
             'shopId': this.shopId
@@ -99,8 +102,6 @@
             this.list.push(chat);
             this.value = '';
           });
-        } else {
-          MessageBox('提示', '消息不能为空');
         }
       }
     }

@@ -71,14 +71,19 @@
             </ul>
           </div>
         </div>
-
       </div>
     </div>
 
     <!--让利惠民-->
     <div class="discount">
       <div class="separate-content all-center">
-        <span class="text-13C1FE">让利惠民</span>
+        <span class="new-line"></span><span class="text-13C1FE">让利惠民</span><span class="new-liner"></span>
+      </div>
+      <div class="width-percent-100 bg-white">
+        <div class="bg-white width-percent-96 m-auto time-down">
+          <i class="icon iconfont ic-shijian2 text-FF9800 mr-5 font-weight-bold display-block"></i>
+          <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
+        </div>
       </div>
       <ul class="flex-wrap position-relative bg-white">
         <router-link v-for="(discountList,index) in discountLists"
@@ -128,7 +133,7 @@
     <!-- 医保定点药房 -->
     <div class="shop-show">
       <div class="separate-content all-center">
-        <span class="text-13C1FE">医保定点药房</span>
+        <span class="new-line"></span><span class="text-13C1FE">医保定点药房</span> <span class="new-liner"></span>
       </div>
       <div class="shop-content">
         <swiper :options="swiperOptions">
@@ -154,8 +159,9 @@
     <!-- 好货推荐 -->
     <div class="recommend">
       <div class="separate-content all-center">
-        <i class="iconfont ic-aixin text-red"></i>
-        <span class="text-13C1FE">好货推荐</span>
+
+        <span class="new-line"></span><span class="text-13C1FE"><i class="iconfont ic-aixin text-red"></i>好货推荐</span>
+        <span class="new-liner"></span>
       </div>
       <div class="bg-white of-hidden">
         <ul class="flex-wrap">
@@ -179,14 +185,15 @@
     <!-- 撑屏容器 -->
     <div class="add-container is-720x100">
     </div>
+
     <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
 <script>
   import {BmMarker, BmLabel} from 'vue-baidu-map';
+  import DownTime from '../components/timeDown';
   import {Toast} from 'mint-ui';
   import axios from 'axios';
-
   export default {
     name: 'home',
     data() {
@@ -196,7 +203,7 @@
         rightIndex: '',
         index: '',
         imgPath: 'http://172.16.0.107:8081',
-        endTime: '2018-12-19 12:06:00',
+        endTime: '2018-12-29 12:06:00',
         hour: '',
         minutes: '',
         seconds: '',
@@ -230,8 +237,6 @@
           autoplay: 3000,
           speed: 1000,
           effect: 'coverflow',
-          grabCursor: true,
-          centeredSlides: true,
           slidesPerView: 'auto',
           loop: true
         },
@@ -246,7 +251,8 @@
     },
     components: {
       BmMarker,
-      BmLabel
+      BmLabel,
+      DownTime
     },
     computed: {
       top() {
@@ -255,7 +261,7 @@
     },
     mounted() {
       setInterval(_ => {
-        if (this.activeIndex <= this.prizeList.length) {
+        if (this.activeIndex < 3) {
           this.activeIndex++;
         } else {
           this.activeIndex = 1;
@@ -372,20 +378,24 @@
   };
 </script>
 <style lang="scss">
+  .discount {
+    width: 720px;
+  }
+
   .border-left-gray {
-    border-left: 1px rgba(238, 238, 238, 1) solid !important;
+    border-left: 0.8px rgba(238, 238, 238, 1) solid !important;
   }
 
   .border-right-gray {
-    border-right: 1px rgba(238, 238, 238, 1) solid !important;
+    border-right: 0.8px rgba(238, 238, 238, 1) solid !important;
   }
 
   .border-top-gray {
-    border-top: 1px rgba(238, 238, 238, 1) solid !important;
+    border-top: 0.8px rgba(238, 238, 238, 1) solid !important;
   }
 
   .border-bottom-gray {
-    border-bottom: 1px rgba(238, 238, 238, 1) solid !important;
+    border-bottom: 0.8px rgba(238, 238, 238, 1) solid !important;
   }
 
   .separate-content {
@@ -554,7 +564,6 @@
     width: 720px;
     height: 330px;
     background: rgba(238, 238, 238, 1);
-    z-index: -9;
   }
 
   /* 撑屏容器 */
@@ -574,7 +583,7 @@
 
   .scroll-wrap {
     width: 641px;
-    height: 45px;
+    height: 40px;
     overflow: hidden;
   }
 
@@ -592,7 +601,7 @@
   }
 
   .health-img {
-    width:70px;
+    width: 70px;
     height: 70px;
   }
 
@@ -600,16 +609,16 @@
     width: 53px;
     height: 35px;
     line-height: 35px;
-    font-size: 8px!important;
+    font-size: 8px !important;
     color: #FF9800;
-    border: 1px solid #FF9800;
+    border: 0.8px solid #FF9800;
     display: inline-block;
     margin-left: 9px;
     text-align: center;
   }
 
   .swiper-container {
-    width: 720px;
+    width: 100%;
     padding-top: 50px;
     padding-bottom: 50px;
   }
@@ -626,6 +635,7 @@
     font-size: 22px;
     color: rgba(119, 119, 119, 1);
   }
+
   .swiper-img {
     width: 275px !important;
     height: 238px !important;
@@ -638,8 +648,49 @@
   .fz20 {
     font-size: 20px;
   }
-  .shop-content{
+
+  .shop-content {
     z-index: -9999;
   }
 
+  .down-time {
+    margin-top: 14px;
+  }
+
+  .icon {
+    width: 0rem;
+    height: 0rem;
+  }
+
+  .ic-shijian2 {
+    margin-right: 19px !important;
+    margin-top: 20px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .time-down {
+    height: 45px;
+    line-height: 45px;
+  }
+
+  .new-line {
+    width: 117px !important;
+    height: 1.5px !important;
+    display: inline-block;
+    background: rgba(191, 191, 191, 1);
+    margin-right: 13px;
+  }
+
+  .new-liner {
+    width: 117px !important;
+    height: 1.5px !important;
+    display: inline-block;
+    background: rgba(191, 191, 191, 1);
+    margin-left: 13px;
+  }
+
+  a {
+    color: #333333;
+  }
 </style>

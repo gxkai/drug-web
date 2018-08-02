@@ -1,12 +1,9 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="account-container">
-
-    <mt-header title="账户信息">
-      <router-link to="/accounts/view" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+    <new-header title="账户信息">
+      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
+    </new-header>
 
     <div class="a-content-list flex-stream-sb padding-10" @click="changeVisible">
       <span>头像</span>
