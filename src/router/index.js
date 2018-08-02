@@ -253,11 +253,11 @@ export default new Router({
       component: () => import('@/views/drugs/shops/index.vue')
     },
     {
-      path: '/shops/index',
+      path: '/shops',
       component: () => import('@/views/shops/index.vue')
     },
     {
-      path: '/shops/drugs/index',
+      path: '/shops/drugs',
       component: () => import('@/views/shops/drugs/index.vue')
     }
   ]
