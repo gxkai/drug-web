@@ -43,7 +43,6 @@
     </div>
   </div>
 </template>
-
 <script>
   export default {
     name: 'drugInfo',
@@ -55,7 +54,6 @@
     }
 };
 </script>
-
 <style scoped>
   * {
     box-sizing: border-box;

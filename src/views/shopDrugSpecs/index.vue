@@ -1,7 +1,7 @@
 <template>
   <div class="bind-container">
     <new-header title="商品详情" ref="header">
-      <i class="iconfont ic-arrow-right" slot="left"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/')"></i>
     </new-header>
     <drugView :shopDrugSpec="alldrugInfo" class="d-none"></drugView>
     <!--上方轮播开始-->
@@ -19,9 +19,7 @@
           <p class="drug-function elps text-center">{{shopDrugSpec.introduce}}</p>
           <p class="drug-price text-center">¥{{shopDrugSpec.price}}</p>
         </div>
-        <div class="broadcast-title-two position-absolute">
-
-        </div>
+        <div class="broadcast-title-two position-absolute"></div>
       </div>
     </div>
     <!--库存开始-->
@@ -138,7 +136,6 @@
           <span class="d-inline-block fr">查看全部评价</span>
         </router-link>
       </div>
-
       <div v-for="drugAppraise in pageList">
         <div class="stars width-percent-94 m-auto">
           <span class="fl d-inline-block"> <new-star :size="drugAppraise.score" disabled></new-star></span>

@@ -9,12 +9,11 @@
         <li class="text-center width-percent-50 fl" @click="shop(0)" :class="{active:number==0}">服务保障</li>
       </ul>
     </div>
-    <keep-alive> <!--这里的keep-alive是内置组件-->
+    <keep-alive>
       <component :is="showComponent"></component>
     </keep-alive>
    </div>
 </template>
-
 <script>
   import drugAppraise from '../shopDrugSpecs/child/appraise';
   import drugInfo from '../shopDrugSpecs/child/info';
