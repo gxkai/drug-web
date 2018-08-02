@@ -1,4 +1,4 @@
-<!-- FIXME 字体大小 -->
+<!-- FIXME 字体大小-->
 <template>
   <div class="f_body">
     <div class="f_body" style="overflow: scroll">
@@ -44,8 +44,6 @@
                        :to="{path:'/drugs/shops',query:{id:item.id,specId:item.drugSpecId}}">
           <new-drug-shops class="border-bottom-grey" :drugName="item.name" :sfda="item.sfda" :price="item.price" :count="item.shopCount"></new-drug-shops>
           </router-link>
-          <div v-show="allLoaded">就这么多啦,回顶部再看看吧</div>
-          <div v-show="nullLoaded">没有数据</div>
         </ul>
       </div>
     </div>
@@ -61,23 +59,7 @@
         pageNum: 0,
         pageSize: 15,
         totalPage: 0,
-        pageList: [{
-          id: '12',
-          drugSpecId: '1',
-          name: '测试测试测试测试测试测试测试测试测试测试测试',
-          sfda: '国药准字号H20051424',
-          price: '12.5',
-          shopCount: 42
-        },
-        {
-          id: '12',
-          drugSpecId: '1',
-          name: '测试测试测试测试测试测试测试测试测试测试测试',
-          sfda: '国药准字号H20051424',
-          price: '12.5',
-          shopCount: 42
-        }],
-        allLoaded: false,
+        pageList: [],
         bottomPullText: '上拉加载更多',
         showDrugTitle: '',
         pageFrom: '',
@@ -98,8 +80,7 @@
         default2: -2,
         default3: -3,
         default4: -4,
-        pages: null,
-        nullLoaded: false
+        pages: null
       };
     },
     components: {
@@ -119,14 +100,12 @@
           this.initData();
         } else {
           this.loading = true;
-          this.allLoaded = true;
         }
       },
       initData() {
         this.$http.get(this.getRequestUrl())
           .then(res => {
             if (this.pages === 0) {
-              this.nullLoaded = true;
               this.loading = true;
             }
             this.pageList = this.pageList.concat(res.data.list);
@@ -141,7 +120,6 @@
         this.default4 = 7;
         this.pageNum = 1;
         this.drugSort = orderBy;
-        this.allLoaded = false;
         this.pageNum = 0;
         this.pageList = [];
         this.initData();
@@ -153,7 +131,6 @@
         } else {
           this.reOrderBy('PRICE_MORE');
         }
-        ;
         this.default2 = 2;
         this.default1 = 7;
         this.default3 = 7;
@@ -200,11 +177,11 @@
 
       getRequestUrl() {
         let urlArr = [];
-        // 页面来源
+        // 页面来源 FIXME
         if (this.pageFrom === 'drugType') {
           urlArr.push('/drugs?drugTypeId=' + this.drugTypeId);
         } else {
-          urlArr.push('/drugs/search?keyword=' + this.keyword);
+          urlArr.push('/drugs?keyword=' + this.keyword);
         }
         if (this.filterData !== undefined) {
           if (typeof this.filterData === 'string') {

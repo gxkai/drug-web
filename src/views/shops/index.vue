@@ -2,9 +2,11 @@
   <div class="full-container">
     <header :style="{background:bgColor,color:color}" class="height130">
       <div class="header-top"></div>
-      <slot name="left"><i class="iconfont ic-arrow-right d-inline-block fl"></i></slot>
+      <slot name="left"><i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i></slot>
       <slot name="center">
+        <!--TODO 搜索 -->
         <div class="d-inline-block fl position-absolute">
+
           <i class="iconfont ic-search d-inline-block fl position-absolute"></i>
           <input type="text" placeholder="           达康药业"
                  class="border-0 width-percent-100 border-radius25 head-center text-white position-absolute"/>
@@ -31,9 +33,9 @@
     </div>
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
 
-      <router-link class="f_all_shop_list" v-for="(shopList,index) in shopLists"
+      <router-link v-for="(shopList,index) in shopLists"
                    :key="index"
-                   :to="{ name: '/shops/view', query: { id: shopList.id }}">
+                   :to="{ path: '/shops/view', query: { id: shopList.id }}">
         <div class="specific">
           <div class="width-percent-96 m-auto">
             <div class="shop-store d-inline-block fl">
@@ -58,7 +60,7 @@
         </div>
       </router-link>
     </ul>
-    <div v-show="allLoaded" class="text-center bg-white">就这么多啦,回顶部再看看吧</div>
+    <new-all-data v-if="loading"></new-all-data>
   </div>
 </template>
 <script>

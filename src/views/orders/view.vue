@@ -20,8 +20,8 @@
         <span>剩</span>
         <!-- TODO 倒计时-->
         <!--<count-down v-on:end_callback="countDownE_cb"-->
-                    <!--:currentTime="startTime" :startTime="startTime" :endTime="endTime" hourTxt="小时" minutesTxt="分"-->
-                    <!--secondsTxt="秒"></count-down>-->
+        <!--:currentTime="startTime" :startTime="startTime" :endTime="endTime" hourTxt="小时" minutesTxt="分"-->
+        <!--secondsTxt="秒"></count-down>-->
         <span>自动关闭</span>
         <span><i class="icon iconfont ic-qianbao"></i>千百</span>
       </div>
@@ -125,7 +125,8 @@
 </template>
 
 <script>
-  import { MessageBox } from 'mint-ui';
+  import {MessageBox} from 'mint-ui';
+
   export default {
     data() {
       return {
@@ -199,8 +200,7 @@
         showNor: true
       };
     },
-    components: {
-    },
+    components: {},
     methods: {
       initData() {
         this.$http.get('/orders/' + this.orderId)
@@ -294,7 +294,7 @@
 </script>
 
 <style scoped>
-  .change-box div{
+  .change-box div {
     margin-left: 20px;
     border: 1px #1AB6FD solid;
     border-radius: 15px;
@@ -302,63 +302,79 @@
     padding: 2px 5px;
     box-sizing: border-box;
   }
-  .m-tb-20{
+
+  .m-tb-20 {
     margin-top: 20px !important;
     margin-bottom: 20px !important;
   }
-  .flex-end{
+
+  .flex-end {
     justify-content: flex-end;
   }
-  .flex-center{
+
+  .flex-center {
     justify-content: center;
   }
-  .order-detail{
-    width:720px;
-    height:162px;
-    background:rgba(245,245,245,1);
+
+  .order-detail {
+    width: 720px;
+    height: 162px;
+    background: rgba(245, 245, 245, 1);
   }
-  .is-35x35{
+
+  .is-35x35 {
     width: 35px;
     height: 35px;
   }
-  .is-175x160{
+
+  .is-175x160 {
     width: 175px;
     height: 160px;
   }
-  .order-type{
+
+  .order-type {
     width: 720px;
     height: 160px;
     background: #13c1fe;
   }
-  .is-flex{
+
+  .is-flex {
     display: flex !important;
   }
-  .flex-row{
+
+  .flex-row {
     flex-direction: row;
   }
-  .flex-column{
+
+  .flex-column {
     flex-direction: column;
   }
-  .flex-item{
+
+  .flex-item {
     align-items: center;
   }
-  .flex-sb{
+
+  .flex-sb {
     justify-content: space-between;
   }
-  .p-lr-20{
+
+  .p-lr-20 {
     padding-left: 20px;
     padding-right: 20px;
     box-sizing: border-box;
   }
-  .mt-10{
+
+  .mt-10 {
     margin-top: 10px !important;
   }
-  .price-box{
+
+  .price-box {
     width: 720px;
     height: 120px;
-    background: rgba(245,245,245,1);
+    background: rgba(245, 245, 245, 1);
   }
-  .address-box{
+
+  .address-box {
     width: 720px;
     height: 127px;
     border-bottom: #f5f5f5 1px solid;

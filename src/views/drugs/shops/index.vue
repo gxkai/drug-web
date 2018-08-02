@@ -1,52 +1,52 @@
 <!-- FIXME 字体大小 -->
 <template>
-   <div class="fruit-body">
-      <div class="drug-bg-img">
-        <div class="drug-type">处</div>
-        <div class="drug-img"></div>
-     </div>
-     <div class="drug-div1 position-relative">
-       <div class="drug-div2 position-absolute">
-            <p class="elps drug-head-line">{{drugInfo.name}}</p>
-            <p class="elpsTwo drug-head-benefit">{{drugInfo.introduce}}</p>
-            <p class="drug-firm elps">{{drugInfo.sfda}}</p>
-            <p class="drug-firm elps">厂商：{{drugInfo.originName}}</p>
-       </div>
-     </div>
-     <div class="drug-offer">
-          <div class="width-percent-96 m-auto merchant">
-              <div class="d-inline-block fl"><span class="text-1AB6FD">{{total}}</span><span>商家报价</span></div>
-              <div class="d-inline-block fr"><i class="icon iconfont ic-xiajiantou"></i> </div>
-          </div>
-       <div class="comprehensive">
-          <div class="d-inline-block" @click="orderById()">综合<i class="ic-sanx-up icon iconfont text-1AB6FD"></i></div>
-          <div class="d-inline-block" @click="orderByDistance()">距离</div>
-          <div class="d-inline-block" @click="orderByPrice()">价格</div>
-       </div>
+  <div class="fruit-body">
+    <div class="drug-bg-img">
+      <div class="drug-type">处</div>
+      <div class="drug-img"></div>
     </div>
-     <div class="width-percent-100 bg-white drug-shops"  v-for="(shopList,index) in shopLists" :key="index">
-        <div class="ordinary width-percent-96 m-auto">
-              <div class="drug-ordinary">
-                <span class="d-inline-block fl drug-shop">{{shopList.name}}</span>
-                <span class="text-red d-inline-block fr drug-price">¥{{shopList.price}}</span>
-              </div>
-               <div class="rote">
+    <div class="drug-div1 position-relative">
+      <div class="drug-div2 position-absolute">
+        <p class="elps drug-head-line">{{drugInfo.name}}</p>
+        <p class="elpsTwo drug-head-benefit">{{drugInfo.introduce}}</p>
+        <p class="drug-firm elps">{{drugInfo.sfda}}</p>
+        <p class="drug-firm elps">厂商：{{drugInfo.originName}}</p>
+      </div>
+    </div>
+    <div class="drug-offer">
+      <div class="width-percent-96 m-auto merchant">
+        <div class="d-inline-block fl"><span class="text-1AB6FD">{{total}}</span><span>商家报价</span></div>
+        <div class="d-inline-block fr"><i class="icon iconfont ic-xiajiantou"></i></div>
+      </div>
+      <div class="comprehensive">
+        <div class="d-inline-block" @click="orderById()">综合<i class="ic-sanx-up icon iconfont text-1AB6FD"></i></div>
+        <div class="d-inline-block" @click="orderByDistance()">距离</div>
+        <div class="d-inline-block" @click="orderByPrice()">价格</div>
+      </div>
+    </div>
+    <div class="width-percent-100 bg-white drug-shops" v-for="(shopList,index) in shopLists" :key="index">
+      <div class="ordinary width-percent-96 m-auto">
+        <div class="drug-ordinary">
+          <span class="d-inline-block fl drug-shop">{{shopList.name}}</span>
+          <span class="text-red d-inline-block fr drug-price">¥{{shopList.price}}</span>
+        </div>
+        <div class="rote">
                    <span>
                       <i class="icon iconfont ic-ditu text-1AB6FD"></i>{{shopList.address}}
                    </span>
-                   <span>
+          <span>
                       <i class="icon iconfont ic-aixin text-1AB6FD"></i>评分：{{shopList.score}}分
                    </span>
-                   <span>
+          <span>
                       <i class="icon iconfont ic-kucun text-1AB6FD"></i>库存：{{shopList.stock}}
                    </span>
-               </div>
-                <div class="fr rote shopping-car">
-                  <i class="icon iconfont ic-gouwuche3 text-1AB6FD"></i>
-                </div>
         </div>
-     </div>
-   </div>
+        <div class="fr rote shopping-car">
+          <i class="icon iconfont ic-gouwuche3 text-1AB6FD"></i>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 
@@ -54,14 +54,8 @@
   export default {
     data() {
       return {
-        shopLists: [{
-          name: '名字名字名字',
-          price: '12.5',
-          address: '地址地址地址',
-          score: '5',
-          stock: '4'
-        }],
-        drugInfo: {},
+        shopLists: [],
+        drugInfo: [],
         arrowdown: false,
         hide: false,
         tips: [],
@@ -79,7 +73,8 @@
     props: ['message'],
     methods: {
       getShopLists() {
-        this.$http.get('/drugs/' + this.drugId + '/drugSpecs/' + this.specId + '/shops?drugShopSort=' + this.drugShopSort + '&lat=' + this.lat + '&lng=' + this.lng).then((res) => {
+        var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.specId + '/shops?drugShopSort=' + this.drugShopSort + '&lat=' + this.lat + '&lng=' + this.lng;
+        this.$http.get(url).then((res) => {
           this.total = res.data.total;
           this.shopLists = res.data.list;
         });
@@ -125,7 +120,8 @@
         if (data !== '') {
           data = data || this.drugId;
           // 根据选择的值修改页面
-          this.$http.get('/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort).then((res) => {
+          const url = '/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort;
+          this.$http.get(url).then((res) => {
             this.total = res.data.total;
             this.shopLists = res.data.list;
           });
@@ -144,7 +140,8 @@
     created: function () {
       this.drugId = this.$route.query.id;
       this.specId = this.$route.query.specId;
-      this.$http.get('/drugs/' + this.drugId).then((res) => {
+      const drugURL = '/drugs/' + this.drugId;
+      this.$http.get(drugURL).then((res) => {
         this.drugInfo = res.data;
         // 规格信息
         this.tips = res.data.drugSpecs;
@@ -167,126 +164,148 @@
 </script>
 
 <style scoped>
-  .fruit-body{
+  .fruit-body {
     background: #fbf7f7;
   }
-  .icon{
+
+  .icon {
     width: auto;
     height: auto;
   }
-.drug-bg-img{
-  width:720px;
-  height:413px;
-  background:rgba(255,255,255,1);
-}
- .drug-type{
-    width:42px;
-    height:25px;
-    background:rgba(43,178,146,1);
+
+  .drug-bg-img {
+    width: 720px;
+    height: 413px;
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .drug-type {
+    width: 42px;
+    height: 25px;
+    background: rgba(43, 178, 146, 1);
     color: white;
     text-align: center;
     line-height: 25px;
     margin-top: 11px;
     margin-left: 22px;
-    border-radius:42px/21px;
+    border-radius: 42px/21px;
   }
-  .drug-img{
+
+  .drug-img {
     width: 720px;
-    height:295px;
+    height: 295px;
     background: #ffffff;
   }
-  .drug-div1{
-    width:680px;
-    height:228px;
-    background:rgba(255,255,255,1);
-    box-shadow:1px 1px 1px rgba(0,0,0,0.05);
+
+  .drug-div1 {
+    width: 680px;
+    height: 228px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
     margin-left: 20px;
-    border:1px solid #13C1FE;
+    border: 1px solid #13C1FE;
   }
-  .drug-div2{
-    width:660px;
-    height:246px;
-    background:rgba(255,255,255,1);
+
+  .drug-div2 {
+    width: 660px;
+    height: 246px;
+    background: rgba(255, 255, 255, 1);
     margin-left: 10px;
     z-index: 9;
-    border:1px solid #13C1FE;
+    border: 1px solid #13C1FE;
     margin-bottom: 10px;
-    top:-28px;
+    top: -28px;
   }
-  .drug-head-line{
-    width:600px;
-    height:26px;
-    font-size:24px;
-    color:rgba(51,51,51,1);
-    line-height:26px;
+
+  .drug-head-line {
+    width: 600px;
+    height: 26px;
+    font-size: 24px;
+    color: rgba(51, 51, 51, 1);
+    line-height: 26px;
     margin: 26px 0 0 30px;
   }
-  .drug-head-benefit{
-    width:583px;
-    height:50px;
-    font-size:18px;
-    color:rgba(51,51,51,1);
-    line-height:25px;
+
+  .drug-head-benefit {
+    width: 583px;
+    height: 50px;
+    font-size: 18px;
+    color: rgba(51, 51, 51, 1);
+    line-height: 25px;
     margin: 27px 0 0 30px;
   }
-  .drug-firm{
-    width:500px;
-    height:25px;
-    font-size:20px;
-    color:rgba(153,153,153,1);
-    line-height:20px;
+
+  .drug-firm {
+    width: 500px;
+    height: 25px;
+    font-size: 20px;
+    color: rgba(153, 153, 153, 1);
+    line-height: 20px;
     margin: 22px 0px 16px 30px;
   }
-  .drug-offer{
+
+  .drug-offer {
     margin-top: 10px;
     width: 720px;
     height: 117px;
     background: white;
   }
-  .merchant{
-    height:50px;
+
+  .merchant {
+    height: 50px;
     line-height: 50px;
-    font-size:24px;
+    font-size: 24px;
     border-bottom: 1px solid #f5f5f5;
   }
-  .comprehensive{
-    font-size:24px;
+
+  .comprehensive {
+    font-size: 24px;
     height: 67px;
     line-height: 67px;
   }
-  .comprehensive div:first-child{
+
+  .comprehensive div:first-child {
     margin-left: 98px;
-   }
-  .comprehensive div:nth-child(2){
+  }
+
+  .comprehensive div:nth-child(2) {
     margin-left: 165px;
   }
-  .comprehensive div:nth-child(3){
+
+  .comprehensive div:nth-child(3) {
     margin-left: 179px;
   }
-  .ordinary{
+
+  .ordinary {
     margin-top: 15px;
-    height:130px;
+    height: 130px;
   }
-  .drug-ordinary{
+
+  .drug-ordinary {
     margin-top: 22px;
     height: 69px;
-    line-height:69px;
-   }
-  .drug-shop{
+    line-height: 69px;
+  }
+
+  .drug-shop {
     margin-left: 20px;
-    font-size:26px;
-   }
-  .drug-price{
+    font-size: 26px;
+  }
+
+  .drug-price {
     margin-right: 21px;
-    font-size:24px;
-   }
-  .rote{
+    font-size: 24px;
+  }
+
+  .rote {
     font-size: 20px;
   }
-  .rote i{
+
+  .rote i {
     font-size: 20px;
   }
-  .shopping-car{
+
+  .shopping-car {
     height: 34px;
     line-height: 34px;
   }
