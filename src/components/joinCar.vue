@@ -149,10 +149,9 @@
     height:32px;
     background:rgba(234,234,234,1);
     border-radius:3px;
-    margin: 0px 7px 0px 7px;
+    margin: 26px 7px 0px 7px;
     text-align: center;
     line-height: 32px;
-    margin-top: 26px;
     font-size:23px;
   }
   .drug-add{
