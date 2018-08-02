@@ -52,15 +52,11 @@ export default {
         this.MessageBox('提示', '医保不能为空');
         return;
       }
-      this.$http.put(this.URL_PATH + '/accounts', this.account, {
-        headers: {
-          'Authorization': this.$store.getters.token
-        }
-      })
+      this.$http.put('/accounts', this.account)
         .then((res) => {
           this.$store.commit('SET_ACCOUNT', this.account);
           this.$router.push({
-            name: '/accounts/bind/success',
+            path: '/accounts/bind/success',
             params: {
               bind: 1
             }
