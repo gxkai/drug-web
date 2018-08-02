@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <new-header :title="title">
-      <router-link tag="i" to="/repositoryTypes" class="icon-font ic-arrow-right" slot="left"></router-link>
-      <router-link tag="i" to="/messageTypes" class="icon-font ic-xiaoxi" slot="right"></router-link>
+      <router-link tag="i" to="/repositoryTypes" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi" slot="right"></router-link>
     </new-header>
 
     <div class="body-main">
@@ -15,7 +15,7 @@
             <div class="repList-left">
               <div class="rep-title">
                 <span>{{ repositoryContent.title }} </span>
-                <i class="icon-font ic-youjiantou "></i>
+                <i class="iconfont ic-youjiantou "></i>
               </div>
               <span class="rep-content">{{ repositoryContent.content | delHtmlTag(repositoryContent.content)}}</span>
             </div>

@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <new-header title="商家介绍">
-      <i class="icon-font ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
     </new-header>
 
     <div class="shop-header">
       <img :src="getImgURL(resultData.logo, 'LOGO') "/>
       <span class="shop-name">{{resultData.name}}</span>
-      <i class="icon icon-font ic-anquanrenzheng ic-size" style="color:white;font-size:50px;"></i>
+      <i class="icon iconfont ic-anquanrenzheng ic-size" style="color:white;font-size:50px;"></i>
     </div>
 
     <div class="shop-main">

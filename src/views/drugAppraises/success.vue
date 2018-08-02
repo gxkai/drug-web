@@ -1,7 +1,7 @@
 <template>
   <new-main>
     <new-header title="评价成功" bgColor = "" color="rgba(51,51,51,1)" rightColor="rgba(19,193,254,1)" leftColor = "rgba(51,51,51,1)">
-      <i class="icon-font ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
       <span slot="right" tag="span" @click="$router.replace('/drugAppraises')">完成</span>
     </new-header>
     <div class="body1">

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <new-header title="我的意见">
-      <router-link tag="i" to="/accounts" class="icon-font ic-arrow-right" slot="left"></router-link>
+      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
       <span slot="right" @click="commit()">提交</span>
     </new-header>
     <div>

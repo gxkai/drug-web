@@ -8,22 +8,22 @@
 
     <div class="content-lists">
         <div class="content-list">
-          <i class="icon-font ic-xingming"></i>
+          <i class="iconfont ic-xingming"></i>
           <span>{{this.account.name}}</span>
         </div>
 
         <div class="content-list">
-          <i class="icon-font ic-Id"></i>
+          <i class="iconfont ic-Id"></i>
           <span>{{this.account.identityNumber}}</span>
         </div>
 
         <div class="content-list">
-          <i class="icon-font ic-shouji" ></i>
+          <i class="iconfont ic-shouji" ></i>
           <span>{{this.account.username}}</span>
         </div>
 
         <div class="content-list">
-          <i class="icon-font ic-Id"></i>
+          <i class="iconfont ic-Id"></i>
           <span>{{this.account.medicalNumber}}</span>
         </div>
       </div>
@@ -88,7 +88,7 @@
      margin-top: 15px;
    }
 
-   .icon-font{
+   .iconfont{
      font-size: 50px;
      color: #13c1fe;
      margin-top: 20px;

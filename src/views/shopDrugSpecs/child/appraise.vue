@@ -1,8 +1,8 @@
 <template>
   <div class="bind-container" id="data-list-content">
       <new-header  title="评价" :style="{background:bgColor,color:color}">
-         <i class="icon-font ic-arrow-right" slot="left" :style="{color:color}"></i>
-         <i class="icon-font ic-fenxiang" slot="right" :style="{color:color}"></i>
+         <i class="iconfont ic-arrow-right" slot="left" :style="{color:color}"></i>
+         <i class="iconfont ic-fenxiang" slot="right" :style="{color:color}"></i>
        </new-header>
    <div class="bg-white">
      <div class="all-appraise width-percent-96 m-auto line-height-l-20">

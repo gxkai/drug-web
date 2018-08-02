@@ -3,8 +3,8 @@
     <div ref="header">
 
       <new-header title="待评价"  >
-        <i class="icon-font ic-arrow-right" slot="left" @click.stop="$router.push('/accounts')"></i>
-        <i class="icon-font ic-sousuo" slot="right" @click.stop="$router.push('/orders/search')"></i>
+        <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/accounts')"></i>
+        <i class="iconfont ic-sousuo" slot="right" @click.stop="$router.push('/orders/search')"></i>
       </new-header>
       <new-order-tab :urlRouter="$route.path"></new-order-tab>
     </div>
