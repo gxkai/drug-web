@@ -59,7 +59,7 @@
         </div>
       </router-link>
     </ul>
-    <div v-show="allLoaded" class="text-center bg-white">就这么多啦,回顶部再看看吧</div>
+    <new-all-data v-if="loading"></new-all-data>
   </div>
 </template>
 <script>

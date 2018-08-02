@@ -25,7 +25,7 @@
         </new-header>
         <new-line></new-line>
         <div class="nav-bar-order">
-          <router-link tag="div" to="/orders/toAppraise">
+          <router-link tag="div" to="/orders/toPay">
             <i class="iconfont ic-icon-test"></i>
             <p>待付款</p>
           </router-link>

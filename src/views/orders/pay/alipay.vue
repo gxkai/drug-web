@@ -10,7 +10,7 @@
       </div>
       <div class="line3">
         <router-link tag="button" to="/">随意逛逛</router-link>
-        <router-link tag="button" :to="{path:'/orders/view',query:{orderId:orderId}}">查看订单</router-link>
+        <router-link tag="button" to="/orders">查看订单</router-link>
       </div>
     </div>
   </div>
@@ -35,11 +35,11 @@
         seller_id: '',
         timestamp: '',
         orderId: '',
-        show: false
+        show: true
       };
     },
     created: function () {
-      this.init();
+      // this.init();
     },
     methods: {
       init() {

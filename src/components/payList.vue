@@ -37,14 +37,18 @@
       }
     },
     methods: {
-      pay(item) {
+      pay(item, index) {
         this.$http.get('/orders/' + item.id + '/pay')
           .then(res => {
-            this.$storage.set('orderId', item.id);
-            const div = document.createElement('div');
-            div.innerHTML = res.data;
-            document.body.appendChild(div);
-            document.forms[0].submit();
+            // this.$storage.set('orderId', item.id);
+            // const div = document.createElement('div');
+            // div.innerHTML = res.data;
+            // document.body.appendChild(div);
+            // document.forms[0].submit();
+            this.list.splice(index, 1);
+            if (this.list.length === 0) {
+              this.$router.push('/pay/alipay');
+            }
           }).catch((error) => {
             this.exception(error);
           });
