@@ -256,5 +256,9 @@ export default new Router({
       path: '/shops/index',
       component: () => import('@/views/shops/index.vue')
     },
+    {
+      path: '/shops/drugs/index',
+      component: () => import('@/views/shops/drugs/index.vue')
+    }
   ]
 });
