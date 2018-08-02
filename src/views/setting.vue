@@ -7,11 +7,11 @@
     </mt-header>
     <router-link class="a-content-list flex-stream-sb padding-10" to="/version">
       <span>当前版本</span>
-      <i class="icon-font ic-youjiantou"></i>
+      <i class="iconfont ic-youjiantou"></i>
     </router-link>
     <router-link class="a-content-list flex-stream-sb padding-10" to="/about">
       <span>关于我们</span>
-      <i class="icon-font ic-youjiantou"></i>
+      <i class="iconfont ic-youjiantou"></i>
     </router-link>
     <div class="setting-fixed">
       <button class="sign-out" @click="logout">退出当前账号</button>

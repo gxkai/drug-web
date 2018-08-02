@@ -1,7 +1,7 @@
 <template>
   <div id="OrderDetails">
     <new-header :title="title">
-      <router-link to="/orders?parameter=goods" slot="left" class="icon-font ic-arrow-right text-white">
+      <router-link to="/orders?parameter=goods" slot="left" class="iconfont ic-arrow-right text-white">
       </router-link>
     </new-header>
 
@@ -23,11 +23,11 @@
                     <!--:currentTime="startTime" :startTime="startTime" :endTime="endTime" hourTxt="小时" minutesTxt="分"-->
                     <!--secondsTxt="秒"></count-down>-->
         <span>自动关闭</span>
-        <span><i class="icon icon-font ic-qianbao"></i>千百</span>
+        <span><i class="icon iconfont ic-qianbao"></i>千百</span>
       </div>
     </div>
     <div v-if="order.deliveryType === 'DELIVERY'" class="address-box is-flex flex-row flex-item p-lr-20">
-      <div><i class=" icon-font ic-dizhi"></i></div>
+      <div><i class=" iconfont ic-dizhi"></i></div>
       <div class="p-lr-20">
         <div><span>收货人：</span> <span>{{order.consignee}}</span><span>{{order.tel}}</span></div>
         <div><span>收货地址：</span> <span>{{order.address}}</span></div>
@@ -40,7 +40,7 @@
         <div class="p-lr-20">
           <span><img src="../../assets/image/prescription.png" class="is-35x35"/></span>
           <span>处方单</span>
-          <span @click="setShowRx"><i class="icon icon-font icon-xiala"></i></span>
+          <span @click="setShowRx"><i class="icon iconfont icon-xiala"></i></span>
         </div>
 
         <div v-for="rxDrug in order.rxDrugs" v-show="showRx">
@@ -55,7 +55,7 @@
         <div v-if="order.hasRxDrug" class="p-lr-20">
           <span><img src="../../assets/image/noprescription.png" class="is-35x35"/></span>
           <span>非处方单</span>
-          <span @click="setShowNor"><i class="icon icon-font icon-xiala"></i></span>
+          <span @click="setShowNor"><i class="icon iconfont icon-xiala"></i></span>
         </div>
         <div v-for="item in order.norDrugs" v-show="showNor">
           <refund-drug class="mt-10" :drugName="item.drugName" :spec="item.spec" :price="item.price"

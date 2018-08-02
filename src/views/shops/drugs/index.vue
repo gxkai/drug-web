@@ -2,7 +2,7 @@
   <div class="container">
     <new-header title="全部商品" :style="{background:bgColor,color:color}">
       <div class="left" :style="{color:leftColor}">
-        <i class="icon icon-font ic-sanx-up" name="left"></i>
+        <i class="icon iconfont ic-sanx-up" name="left"></i>
       </div>
     </new-header>
     <ul v-infinite-scroll="loadMore"

@@ -3,7 +3,7 @@
     <div class="f_body" style="overflow: scroll">
       <div>
         <new-header :title="showDrugTitle">
-          <router-link to="/drugTypes" slot="left" class="icon-font ic-arrow-right"></router-link>
+          <router-link to="/drugTypes" slot="left" class="iconfont ic-arrow-right"></router-link>
           <router-link :to="{path:'/components/search'}">
             <img src="static/img/search2.png" /></router-link>
         </new-header>
@@ -11,27 +11,27 @@
             <li @click="reOrderBy('SYNTHESIZE_LESS')" class="is-flex flex-row" :class="{'blueactive1': index1==default1}">
               默认
               <div class="is-flex position-relative">
-                <i class="icon-font ic-arrLeft-fill1 position-absolute position-top"></i>
-                <i class="icon-font ic-arrLeft-fill position-absolute position-bottom"></i>
+                <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"></i>
+                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"></i>
               </div>
             </li>
 
             <li @click="reOrderByPrice()" class="is-flex flex-row" :class="{'blueactive1':index2==default2}">价格
               <div class="is-flex position-relative">
-                <i class="icon-font ic-arrLeft-fill1 position-absolute position-top" :class="val==1?'unActive':'blueActive'"></i>
-                <i class="icon-font ic-arrLeft-fill position-absolute position-bottom" :class="val==1?'blueActive':'unActive'"></i>
+                <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="val==1?'unActive':'blueActive'"></i>
+                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="val==1?'blueActive':'unActive'"></i>
               </div>
             </li>
             <li @click="reOrderBySales()" class="is-flex flex-row" :class="{'blueactive1':index3==default3}">
               <span>销量</span>
               <div class="is-flex position-relative">
-                <i class="icon-font ic-arrLeft-fill1 position-absolute position-top" :class="salesVolume==1?'unActive':'blueActive'"></i>
-                <i class="icon-font ic-arrLeft-fill position-absolute position-bottom" :class="salesVolume==1?'blueActive':'unActive'"></i>
+                <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="salesVolume==1?'unActive':'blueActive'"></i>
+                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="salesVolume==1?'blueActive':'unActive'"></i>
               </div>
             </li>
             <li @click="conditionFilter()" class="is-flex flex-row" :class="{'blueactive1':index4==default4}">筛选条件
               <div class="is-flex position-relative">
-                <i class="icon-font ic-arrLeft-fill position-absolute position-bottom" :class="screen==1?'blueActive':'unActive'"></i>
+                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="screen==1?'blueActive':'unActive'"></i>
               </div>
             </li>
         </ul>

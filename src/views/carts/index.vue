@@ -1,14 +1,14 @@
 <template>
   <div>
       <new-header title="购物车" ref="header">
-        <i class="icon-font ic-arrow-right" slot="left"></i>
+        <i class="iconfont ic-arrow-right" slot="left"></i>
         <span slot="right" @click="onRemoveBatch()">删除</span>
       </new-header>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
     <div class="close" ref="close">
       <div class="left icon1" @click.stop="onRadio(All)">
-        <i class="icon-font ic-radiobox" v-show="!chooseAll"></i>
-        <i class="icon-font ic-radiochecked" v-show="chooseAll"></i>
+        <i class="iconfont ic-radiobox" v-show="!chooseAll"></i>
+        <i class="iconfont ic-radiochecked" v-show="chooseAll"></i>
         <span>全选</span>
       </div>
       <div class="right">
@@ -25,10 +25,10 @@
         <li v-for="cartShop in cartShops">
           <new-header bgColor="white" height="low" leftSize="small" leftColor="black">
             <div slot="left" class="icon1" @click.stop="onRadio(SHOP,cartShop)">
-              <i class="icon-font ic-radiobox" v-show="!cartShop.radio"></i>
-              <i class="icon-font ic-radiochecked" v-show="cartShop.radio"></i>
+              <i class="iconfont ic-radiobox" v-show="!cartShop.radio"></i>
+              <i class="iconfont ic-radiochecked" v-show="cartShop.radio"></i>
             </div>
-            <i class="icon-font ic-yaodian" slot="left"></i>
+            <i class="iconfont ic-yaodian" slot="left"></i>
             <span slot="left">{{cartShop.shopName}}</span>
           </new-header>
           <ul class="cartRxs">
@@ -37,17 +37,17 @@
                 <new-header bgColor="white" height="low" leftSize="small" leftColor="black"
                             v-if="cartRx.rxId && cartRx.rxState == 'ENABLED'">
                   <div slot="left" class="icon1" @click.stop="onRadio(RX,cartShop,cartRx)">
-                    <i class="icon-font ic-radiobox" v-show="!cartRx.radio"></i>
-                    <i class="icon-font ic-radiochecked" v-show="cartRx.radio"></i>
+                    <i class="iconfont ic-radiobox" v-show="!cartRx.radio"></i>
+                    <i class="iconfont ic-radiochecked" v-show="cartRx.radio"></i>
                   </div>
-                  <i class="icon-font ic-chufangdanluru" slot="left"></i>
+                  <i class="iconfont ic-chufangdanluru" slot="left"></i>
                   <span slot="left" class="chufangdan">处方单</span>
                   <router-link tag="span" slot="right" class="chakanchufan"
                                :to="{path:'/rxs/view',query:{rxId:cartRx.rxId}}">查看处方>
                   </router-link>
                 </new-header>
                 <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
-                  <i class="icon-font ic-jisongchufangdan color-333" slot="left"></i>
+                  <i class="iconfont ic-jisongchufangdan color-333" slot="left"></i>
                   <span slot="left" class="chufangdan" >非处方单</span>
                 </new-header>
                 <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs" :key="cartDrugIndex">
@@ -61,8 +61,8 @@
                     ]">
                     <div class="slide-content">
                       <div class="icon1" @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
-                        <i class="icon-font ic-radiobox" v-show="!cartDrug.radio"></i>
-                        <i class="icon-font ic-radiochecked" v-show="cartDrug.radio"></i>
+                        <i class="iconfont ic-radiobox" v-show="!cartDrug.radio"></i>
+                        <i class="iconfont ic-radiochecked" v-show="cartDrug.radio"></i>
                       </div>
                       <div class="image">
                         <div class="chu" v-if="cartDrug.otc">处</div>

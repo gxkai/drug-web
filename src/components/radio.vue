@@ -1,8 +1,8 @@
 <template>
   <div>
     <div @click="onRadio()">
-      <i class="icon-font ic-radiobox" v-show="!radio"></i>
-      <i class="icon-font ic-radiochecked" v-show="radio"></i>
+      <i class="iconfont ic-radiobox" v-show="!radio"></i>
+      <i class="iconfont ic-radiochecked" v-show="radio"></i>
     </div>
   </div>
 </template>
