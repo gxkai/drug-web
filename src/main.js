@@ -12,15 +12,16 @@ import axios from 'axios';
 import storage from 'good-storage';
 import 'jquery';
 import '../src/assets/js/flex';
-import 'font-awesome/css/font-awesome.min.css';
 import '../src/assets/css/bulma.css';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
 import VueTouch from 'vue-touch';
+import filters from './assets/js/filters';
 // import './assets/js/vconsole';
 
 axios.defaults.baseURL = process.env.API_ROOT;
+axios.defaults.timeout = 5000;
 axios.interceptors.request.use(
   config => {
     config.headers = {
@@ -90,6 +91,10 @@ VueTouch.config.swipe = {
   direction: 'horizontal',
   threshold: 200
 };
+/**
+ * 过滤器
+ */
+Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
 
 /* eslint-disable no-new */
 new Vue({

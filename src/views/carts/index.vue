@@ -1,11 +1,13 @@
 <template>
   <div>
-    <new-header title="购物车">
-      <i class="iconfont ic-arrow-right" slot="left"></i>
-      <span slot="right" @click="onRemoveBatch()">删除</span>
-    </new-header>
-
-    <div class="close">
+    <div ref="header">
+      <new-header title="购物车">
+        <i class="iconfont ic-arrow-right" slot="left"></i>
+        <span slot="right" @click="onRemoveBatch()">删除</span>
+      </new-header>
+    </div>
+    <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
+    <div class="close" ref="close">
       <div class="left icon1" @click.stop="onRadio(All)">
         <i class="iconfont ic-radiobox" v-show="!chooseAll"></i>
         <i class="iconfont ic-radiochecked" v-show="chooseAll"></i>
@@ -19,7 +21,7 @@
         </button>
       </div>
     </div>
-    <div class="body">
+    <div class="body" ref="body">
       <new-no-data v-if="cartShops.length === 0"></new-no-data>
       <ul class="cartShops">
         <li v-for="cartShop in cartShops">
@@ -42,7 +44,9 @@
                   </div>
                   <i class="iconfont ic-chufangdanluru" slot="left"></i>
                   <span slot="left" class="chufangdan">处方单</span>
-                  <router-link tag="span" slot="right" class="chakanchufan" :to="{path:'/rxs/view',query:{rxId:cartRx.rxId}}">查看处方></router-link>
+                  <router-link tag="span" slot="right" class="chakanchufan"
+                               :to="{path:'/rxs/view',query:{rxId:cartRx.rxId}}">查看处方>
+                  </router-link>
                 </new-header>
                 <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
                   <i class="iconfont ic-jisongchufangdan" slot="left"></i>
@@ -79,7 +83,9 @@
                               <span>x{{cartDrug.quantity}}</span>
                             </div>
                             <div class="multi-input">
-                              <input value="-" type="button" @click.stop="onCut(cartDrug)"><input v-model="cartDrug.quantity" type="button"><input value="+" type="button" @click.stop="onAdd(cartDrug)">
+                              <input value="-" type="button" @click.stop="onCut(cartDrug)"><input
+                              v-model="cartDrug.quantity" type="button"><input value="+" type="button"
+                                                                               @click.stop="onAdd(cartDrug)">
                             </div>
                           </div>
                         </div>
@@ -93,12 +99,11 @@
         </li>
       </ul>
     </div>
-    <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
 <script>
   import {MessageBox} from 'mint-ui';
-  import { mapGetters, mapMutations } from 'vuex';
+  // import { mapGetters, mapMutations } from 'vuex';
   export default {
     name: 'carts',
     data() {
@@ -107,13 +112,13 @@
         All: 'ALL',
         SHOP: 'SHOP',
         RX: 'RX',
-        DRUG: 'DRUG'
+        DRUG: 'DRUG',
+        cartShops: []
       };
     },
-    components: {
-    },
+    components: {},
     computed: {
-      ...mapGetters(['cartShops']),
+      // ...mapGetters(['cartShops']),
       allPrice() {
         let sum = 0;
         this.cartShops.forEach(e => {
@@ -146,22 +151,36 @@
     },
     methods: {
       getData() {
-        if (this.cartShops.length === 0) {
-          this.$http.get('/carts').then(res => {
-            res.data.cartShops.forEach(e => {
+        // if (this.cartShops.length === 0) {
+        //   this.$http.get('/carts').then(res => {
+        //     res.data.cartShops.forEach(e => {
+        //       e.radio = false;
+        //       e.rxs.forEach(e => {
+        //         e.radio = false;
+        //         e.drugs.forEach(e => {
+        //           e.radio = false;
+        //         });
+        //       });
+        //     });
+        //     this.setCartShops(res.data.cartShops);
+        //   }).catch(error => {
+        //     this.exception(error);
+        //   });
+        // }
+        this.$http.get('/carts').then(res => {
+          res.data.cartShops.forEach(e => {
+            e.radio = false;
+            e.rxs.forEach(e => {
               e.radio = false;
-              e.rxs.forEach(e => {
+              e.drugs.forEach(e => {
                 e.radio = false;
-                e.drugs.forEach(e => {
-                  e.radio = false;
-                });
               });
-              this.cartShops.push(e);
             });
-          }).catch(error => {
-            this.exception(error);
           });
-        }
+          this.cartShops = res.data.cartShops;
+        }).catch(error => {
+          this.exception(error);
+        });
       },
       /**
        * 减少数量
@@ -272,7 +291,7 @@
         }
         this.$http.get('/orders/cart?cartIds=' + cartIds).then(res => {
           this.remove();
-          this.$router.push({path: '/orders/createFromCart', query: {cart: JSON.stringify(res.data)}});
+          this.$router.push({path: '/orders/create/fromCart', query: {cart: JSON.stringify(res.data)}});
         }).catch(error => {
           this.exception(error);
         });
@@ -363,20 +382,20 @@
               }
             }
         }
-      },
-      ...mapMutations({
-        setCartShops: 'SET_CART_SHOPS'
-      })
+      }
+      // ...mapMutations({
+      //   setCartShops: 'SET_CART_SHOPS'
+      // })
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.close.clientHeight - this.$refs.footer.$el.clientHeight
+      ) + 'px';
+      this.$refs.body.style.overflow = 'scroll';
     }
   };
 </script>
 
-<style lang="scss" scoped>
-  .body {
-    height: calc(100vh - 98px - 130px - 100px);
-    overflow: scroll;
-  }
-
+<style scoped>
   /*结算栏*/
   .close {
     display: inline-flex;
@@ -513,21 +532,20 @@
 
   .slide-content .text .bottom .quantity div:nth-child(1) {
     align-self: flex-end;
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(153,153,153,1);
+    font-size: 24px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(153, 153, 153, 1);
   }
 
-
-  .multi-input input:nth-child(1),.multi-input input:nth-child(3) {
-    width:37px;
-    height:29px;
-    background:rgba(210,210,210,1);
-    border: 2px rgba(153,153,153,1);
+  .multi-input input:nth-child(1), .multi-input input:nth-child(3) {
+    width: 37px;
+    height: 29px;
+    background: rgba(210, 210, 210, 1);
+    border: 2px rgba(153, 153, 153, 1);
     outline: none;
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
+    font-size: 24px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
     line-height: 0.1rem;
   }
 </style>
