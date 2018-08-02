@@ -1,10 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
-import shops from '@/components/shops';
-import rxshopdrug from '@/components/rxshopdrug';
-import drugRefund from '@/components/drugRefund';
-import refundDrugs from '@/components/refund-drugs';
 
 Vue.use(Router);
 
@@ -14,26 +10,6 @@ export default new Router({
       path: '/hello',
       name: 'HelloWorld',
       component: HelloWorld
-    },
-    {
-      path: '/shops',
-      name: 'shops',
-      component: shops
-    },
-    {
-      path: '/rxshopdrug',
-      name: 'rxshopdrug',
-      component: rxshopdrug
-    },
-    {
-      path: '/drugRefund',
-      name: 'drugRefund',
-      component: drugRefund
-    },
-    {
-      path: '/refundDrugs',
-      name: 'refundDrugs',
-      component: refundDrugs
     },
     {
       path: '/',
@@ -249,7 +225,27 @@ export default new Router({
       component: () => import('@/views/shopDrugSpecs/child/appraise.vue')
     },
     {
-      path: '/drugs/shops/index',
+      path: '/orders/delivery',
+      component: () => import('@/views/orders/delivery.vue')
+    },
+    {
+      path: '/orderRefunds/view',
+      component: () => import('@/views/orderRefunds/view.vue')
+    },
+    {
+      path: '/drugs',
+      component: () => import('@/views/drugs/index.vue')
+    },
+    {
+      path: '/drugs/screen',
+      component: () => import('@/views/drugs/screen.vue')
+    },
+    {
+      path: '/drugs/screenConfirm',
+      component: () => import('@/views/drugs/screenConfirm.vue')
+    },
+    {
+      path: '/drugs/shops',
       component: () => import('@/views/drugs/shops/index.vue')
     },
     {

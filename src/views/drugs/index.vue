@@ -1,75 +1,54 @@
 <template>
   <div class="f_body">
     <div class="f_body" style="overflow: scroll">
-      <div style="color:white;position:fixed;top:0px;width:100%;z-index:999999;">
-
-        <mt-header :title="showDrugTitle" style="background:#1AB6FD;">
-          <router-link to="/drugTypes" slot="left" style="color:white">
-            <mt-button icon="back" style="color:white"></mt-button>
-          </router-link>
-          <mt-button slot="right">
-            <router-link :to="{path:'/components/search'}">
-              <img src="static/img/search2.png" class="width-65 mt1"/></router-link>
-          </mt-button>
-        </mt-header>
-
-        <div class="header1">
-          <ul class="disFix">
-
-            <li @click="reOrderBy('SYNTHESIZE_LESS')" style="display:flex;" :class="{'blueactive1': index1==default1}">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;默认
-              <div class="d_drugs_index" style="display:none;">
-                <i class="icon iconfont ic-arrLeft-fill1 blueActiver" style="display:block;"></i>
-                <i class="icon iconfont ic-arrLeft-fill blueActiver"></i>
+      <div>
+        <new-header :title="showDrugTitle">
+          <router-link to="/drugTypes" slot="left" class="iconfont ic-arrow-right"></router-link>
+          <router-link :to="{path:'/components/search'}">
+            <img src="static/img/search2.png" /></router-link>
+        </new-header>
+        <ul class="is-flex flex-row flex-sa p-tb-20 all-border border-bottom-grey">
+            <li @click="reOrderBy('SYNTHESIZE_LESS')" class="is-flex flex-row" :class="{'blueactive1': index1==default1}">
+              默认
+              <div class="is-flex position-relative">
+                <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"></i>
+                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"></i>
               </div>
             </li>
 
-
-            <li @click="reOrderByPrice()" :class="{'blueactive1':index2==default2}" style="display:flex;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价格
-              <div class="d_drugs_index">
-                <i class="icon iconfont ic-arrLeft-fill1" :class="val==1?'samespan':'blueActiver'"
-                   style="display:block;"></i>
-                <i class="icon iconfont ic-arrLeft-fill" :class="val==1?'blueActiver':'samespan'"></i>
+            <li @click="reOrderByPrice()" class="is-flex flex-row" :class="{'blueactive1':index2==default2}">价格
+              <div class="is-flex position-relative">
+                <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="val==1?'unActive':'blueActive'"></i>
+                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="val==1?'blueActive':'unActive'"></i>
               </div>
             </li>
-            <li @click="reOrderBySales()" :class="{'blueactive1':index3==default3}" style="display:flex;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销量
-              <div class="d_drugs_index">
-                <i class="icon iconfont ic-arrLeft-fill1" :class="salesVolume==1?'samespan':'blueActiver'"
-                   style="display:block;"></i>
-                <i class="icon iconfont ic-arrLeft-fill" :class="salesVolume==1?'blueActiver':'samespan'"></i>
+            <li @click="reOrderBySales()" class="is-flex flex-row" :class="{'blueactive1':index3==default3}">
+              <span>销量</span>
+              <div class="is-flex position-relative">
+                <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="salesVolume==1?'unActive':'blueActive'"></i>
+                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="salesVolume==1?'blueActive':'unActive'"></i>
               </div>
             </li>
-            <li @click="conditionFilter()" :class="{'blueactive1':index4==default4}" style="display:flex;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;筛选条件
-              <div>
-                <i class="icon iconfont ic-arrLeft-fill" :class="screen==1?'blueActiver':'samespan'"></i>
+            <li @click="conditionFilter()" class="is-flex flex-row" :class="{'blueactive1':index4==default4}">筛选条件
+              <div class="is-flex position-relative">
+                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="screen==1?'blueActive':'unActive'"></i>
               </div>
             </li>
-          </ul>
-        </div>
+        </ul>
       </div>
-      <div style="clear:both;height:8rem;"></div>
-      <div  style="height: 100vh" >
+
+      <div>
         <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-          <router-link class="f_shop_all_drugs_list" v-for="(item,index) in pageList"
-                       :key="index"
+          <router-link v-for="(item,index) in pageList" :key="index"
                        :to="{path:'/drugs/shops',query:{id:item.id,specId:item.drugSpecId}}">
-            <div class="f_shop_all_drugs_list_left">
-              <img v-lazy = "item.imgUrl" alt=""/>
-            </div>
-            <div class="f_shop_all_drugs_list_right">
-              <span class="d_shop_all_list">{{item.name}}</span>
-              <span class="d_shop_all_color">{{item.sfda}}</span>
-              <div class="f_shop_all_drugs_list_right_tips">
-                <span>&yen; {{item.price}}</span>
-                <span>{{item.shopCount}}个商家在售</span>
-              </div>
-            </div>
+          <new-drug-shops class="border-bottom-grey" :drugName="item.name" :sfda="item.sfda" :price="item.price" :count="item.shopCount"></new-drug-shops>
           </router-link>
-          <div v-show="allLoaded" style="text-align: center">就这么多啦,回顶部再看看吧</div>
-          <div v-show="nullLoaded" style="text-align: center">没有数据</div>
+          <div v-show="allLoaded">就这么多啦,回顶部再看看吧</div>
+          <div v-show="nullLoaded">没有数据</div>
         </ul>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -81,14 +60,29 @@
         pageNum: 0,
         pageSize: 15,
         totalPage: 0,
-        pageList: [],
+        pageList: [{
+          id: '12',
+          drugSpecId: '1',
+          name: '测试测试测试测试测试测试测试测试测试测试测试',
+          sfda: '国药准字号H20051424',
+          price: '12.5',
+          shopCount: 42
+        },
+        {
+          id: '12',
+          drugSpecId: '1',
+          name: '测试测试测试测试测试测试测试测试测试测试测试',
+          sfda: '国药准字号H20051424',
+          price: '12.5',
+          shopCount: 42
+        }],
         allLoaded: false,
         bottomPullText: '上拉加载更多',
-        showDrugTitle: this.$route.query.showDrugTitle,
-        pageFrom: this.$route.query.pageFrom,
-        drugTypeId: this.$route.query.typeId,
-        keyword: this.$route.query.keyword,
-        filterData: this.$route.query.filterData,
+        showDrugTitle: '',
+        pageFrom: '',
+        drugTypeId: '',
+        keyword: '',
+        filterData: '',
         drugSort: 'SYNTHESIZE_LESS',
         val: -1,
         salesVolume: -1,
@@ -109,8 +103,12 @@
     },
     components: {
     },
-
     created: function () {
+      this.showDrugTitle = this.$route.query.showDrugTitle;
+      this.pageFrom = this.$route.query.pageFrom;
+      this.drugTypeId = this.$route.query.typeId;
+      this.keyword = this.$route.query.keyword;
+      this.filterData = this.$route.query.filterData;
     },
     methods: {
       loadMore() {
@@ -123,14 +121,6 @@
           this.allLoaded = true;
         }
       },
-      showPics() {
-        this.pageList.forEach((e) => {
-          if (e.imgUrl === undefined) {
-            e.imgUrl = '/files/' + e.fileId + '/image?resolution=LARGE_LOGO';
-          }
-        });
-      },
-
       initData() {
         this.$http.get(this.getRequestUrl())
           .then(res => {
@@ -141,7 +131,6 @@
             this.pageList = this.pageList.concat(res.data.list);
             this.totalPage = res.data.lastPage;
             this.pages = res.data.pages;
-            this.showPics();
           });
       },
       reOrderBy(orderBy) {
@@ -191,7 +180,6 @@
           this.reOrderBy('QUOTATION_MORE');
         }
       },
-
       conditionFilter() {
         this.$router.push({
           path: '/drugs/screen',
@@ -240,151 +228,34 @@
     }
   };
 </script>
-<style lang="scss">
-
-  .header {
-    background: #1AB6FD;
-    width: 100%;
+<style>
+  .is-flex{
+    display: flex !important;
   }
-
-  .header1 {
-    background: white;
-  }
-
-  .disFix li {
-    color: #333333;
-  }
-
-  .mint-header {
-    background: #1AB6FD !important;
-    color: white;
-    height: 4rem;
-  }
-
-  .samespan {
-    width: 10px;
-    margin-bottom: 0.2rem;
-    color: #d6cfcf !important;
-    display: inline-block;
-    font-size: 1.6rem;
-  }
-
-  .blueActiver {
-    color: #1AB6FD !important;
-    width: 10px;
-
-    display: inline-block;
-    font-size: 1.6rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .disFix {
-    display: flex;
+  .flex-row{
     flex-direction: row;
-    justify-content: space-between;
   }
-
-  .disFix li {
-    flex: 1;
-    float: right;
-    height: 4rem;
-    line-height: 4rem;
+  .flex-sa{
+    justify-content: space-around;
   }
-
-  .disFix li:last-child {
-    flex: 1.5;
-  }
-
-  .shopimg {
-    height: 8rem;
-  }
-
-  .ii {
-    color: #1AB6FD !important;
-    font-style: normal;
-  }
-
-  .f_shop_all_drugs_lists {
-    padding-bottom: 1rem;
-  }
-
-  .f_shop_all_drugs_list {
-    background: white;
+  .p-tb-20{
+    padding: 20px 0;
     box-sizing: border-box;
-    padding: 0 0.5rem 0.5rem 0.5rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    border-bottom: 1px #F5F5F5 solid;
+  }
+  .position-top{
+    top:-6px;
+  }
+  .position-bottom{
+    bottom:-8px;
+  }
+  .border-bottom-grey{
+    border-bottom: 1px #f3f3f3 solid;
+  }
+  .unActive {
+    color: #d6cfcf !important;
+  }
+  .blueActive {
+    color: #1AB6FD;
   }
 
-  .f_shop_all_drugs_list_left {
-    width: 30%;
-  }
-
-  .f_shop_all_drugs_list_left > img {
-    width: 8rem;
-    height: 8rem;
-  }
-
-  .f_shop_all_drugs_list_right {
-    width: 68%;
-    margin-left: 2%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .f_shop_all_drugs_list_right > span {
-    font-size: 1rem;
-    margin-top: 0.5rem;
-  }
-
-  .f_shop_all_drugs_list_right :nth-child(3) {
-    color: #afafaf;
-    margin-top: 0.5rem;
-  }
-
-  .f_shop_all_drugs_list_right_tips {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-  }
-
-  .f_shop_all_drugs_list_right_tips :first-child {
-    color: red;
-  }
-
-  .d_drugs_index {
-    flex: 1;
-    margin-top: -2px;
-    line-height: 0.5rem;
-    margin-top: 1.5rem !important;
-  }
-
-  .mint-button-icon i {
-    color: white !important;
-  }
-
-  .d_shop_all_list {
-    margin-top: -2.2rem !important;
-    height: 3rem;
-    font-size: 1.1rem !important;
-    line-height: 3rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .mint-loadmore-content {
-    margin-top: 1rem;
-  }
-
-  .d_shop_all_color {
-    color: #999999;
-  }
-
-  .blueactive1 {
-    color: #1AB6FD !important;
-  }
 </style>

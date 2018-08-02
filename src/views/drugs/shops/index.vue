@@ -53,8 +53,14 @@
   export default {
     data() {
       return {
-        shopLists: [],
-        drugInfo: [],
+        shopLists: [{
+          name: '名字名字名字',
+          price: '12.5',
+          address: '地址地址地址',
+          score: '5',
+          stock: '4'
+        }],
+        drugInfo: {},
         arrowdown: false,
         hide: false,
         tips: [],
@@ -72,8 +78,7 @@
     props: ['message'],
     methods: {
       getShopLists() {
-        var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.specId + '/shops?drugShopSort=' + this.drugShopSort + '&lat=' + this.lat + '&lng=' + this.lng;
-        this.$http.get(url).then((res) => {
+        this.$http.get('/drugs/' + this.drugId + '/drugSpecs/' + this.specId + '/shops?drugShopSort=' + this.drugShopSort + '&lat=' + this.lat + '&lng=' + this.lng).then((res) => {
           this.total = res.data.total;
           this.shopLists = res.data.list;
         });
@@ -119,8 +124,7 @@
         if (data !== '') {
           data = data || this.drugId;
           // 根据选择的值修改页面
-          const url = '/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort;
-          this.$http.get(url).then((res) => {
+          this.$http.get('/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort).then((res) => {
             this.total = res.data.total;
             this.shopLists = res.data.list;
           });
@@ -139,8 +143,7 @@
     created: function () {
       this.drugId = this.$route.query.id;
       this.specId = this.$route.query.specId;
-      const drugURL = this.URL_PATH + '/drugs/' + this.drugId;
-      this.$http.get(drugURL).then((res) => {
+      this.$http.get('/drugs/' + this.drugId).then((res) => {
         this.drugInfo = res.data;
         // 规格信息
         this.tips = res.data.drugSpecs;

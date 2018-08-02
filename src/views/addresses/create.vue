@@ -68,7 +68,6 @@
     },
     methods: {
       save() {
-        debugger;
         this.$http.post('/addresses', this.address)
           .then((res) => {
             MessageBox('提示', '保存成功').then(action => {
@@ -84,35 +83,9 @@
 </script>
 
 <style scoped>
-  .header1 {
-    width:720px;
-    height:130px;
-    font-size:36px;
-    background:rgba(255,255,255,1);
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .header1 i {
-  }
-
   .ic-arrow-right:before{
     font-size: 50px;
   }
-
-  .header1 .span1 {
-  }
-
-  .header1 .span2 {
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
-    line-height:40px;
-    padding-right: 11px;
-  }
-
 
   .body {
     background-color: whitesmoke;
@@ -256,9 +229,4 @@
     background: #1AB6FD;
   }
 
-  .mint-button-text {
-    font-size:13px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
-  }
 </style>

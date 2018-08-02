@@ -13,6 +13,7 @@ import joincarBottom from '../../components/joincarBottom';
 import drugRefund from '../../components/drugRefund';
 import drugs from '../../components/drugs';
 import refundDrugs from '../../components/refund-drugs';
+import drugShops from '../../components/drug-shops';
 
 export default {
   install(Vue, options) {
@@ -31,5 +32,6 @@ export default {
     Vue.component('new-drug-refund', drugRefund);
     Vue.component('new-drug', drugs);
     Vue.component('refund-drug', refundDrugs);
+    Vue.component('new-drug-shops', drugShops);
   }
 };
