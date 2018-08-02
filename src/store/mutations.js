@@ -12,5 +12,11 @@ export default {
   },
   [types.SET_CART_SHOPS](state, cart) {
     state.cart = cart;
+  },
+  [types.SET_ADDRESSES](state, addresses) {
+    state.addresses = addresses;
+  },
+  [types.SET_RECEIVE_ADDRESS](state, receiveAddress) {
+    state.receiveAddress = receiveAddress;
   }
 };
