@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="bar header">
+    <div class="bar" ref="header">
       <div class="out">
         <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
         <div class="inner">
@@ -10,9 +10,24 @@
         <span @click="onSearch()">搜索</span>
       </div>
     </div>
-    <div  class="body">
-      <div v-for="order in orderList">
-        <new-order :order="order"></new-order>
+    <div ref="body">
+      <div class="history" v-if="!this.keyword">
+        <div class="history-titele">
+          <span>历史搜索</span>
+        </div>
+        <div class="history-buttons" v-if="$storage.get('orderHis')">
+          <button v-for="item in $storage.get('orderHis')" @click="onButton()">{{item}}</button>
+        </div>
+      </div>
+      <div v-infinite-scroll="loadMore"
+           infinite-scroll-disabled="loading"
+           infinite-scroll-distance="0" v-else>
+        <div v-for="order in orderList">
+          <new-order :order.sync="order"></new-order>
+        </div>
+        <new-loading v-if="process"></new-loading>
+        <new-all-data v-if="loading"></new-all-data>
+        <new-no-data v-if="orderList.length === 0 && hasSearch"></new-no-data>
       </div>
     </div>
   </div>
@@ -25,7 +40,8 @@
       return {
         keyword: '',
         loading: false,
-        url: '',
+        process: false,
+        hasSearch: false,
         pageNum: 0,
         pageSize: 5,
         pages: null,
@@ -33,40 +49,66 @@
       };
     },
     created() {
-
+    },
+    watch: {
+      keyword(value) {
+        if (!value) {
+          this.reset();
+          this.hasSearch = false;
+        }
+      }
     },
     methods: {
+      onButton() {
+        this.keyword = event.target.textContent;
+        this.onSearch();
+      },
       onSearch() {
-        this.reset();
-        this.loadMore();
+        if (this.keyword) {
+          this.setHistory();
+          this.reset();
+          this.loadMore();
+          this.hasSearch = true;
+        }
+      },
+      setHistory() {
+        this.saveSearch(this.keyword);
       },
       reset() {
         this.pages = null;
         this.pageNum = 0;
         this.orderList = [];
-        this.loading = true;
+        this.loading = false;
+        this.process = false;
       },
       loadMore() {
-        this.pageNum++;
-        if (!this.pages || this.pageNum < this.pages) {
-          this.loadData();
-        } else {
-          this.loading = true;
+        if (this.keyword && this.hasSearch) {
+          this.pageNum++;
+          if (!this.pages || this.pageNum < this.pages) {
+            this.loadData();
+          } else {
+            this.loading = true;
+          }
         }
       },
       loadData() {
-        // this.$http.get('/orders/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize + '&keyword=' + this.keyword)
-        //   .then(res => {
-        //     this.orderList = this.orderList.concat(res.data.list);
-        //     if (!this.pages) {
-        //       this.pages = res.data.pages;
-        //     }
-        //   }).catch(error => {
-        //     this.exception(error);
-        //   });
+        this.process = true;
+        this.$http.get('/orders/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize + '&keyword=' + this.keyword)
+          .then(res => {
+            this.orderList = this.orderList.concat(res.data.list);
+            if (!this.pages) {
+              this.pages = res.data.pages;
+            }
+            this.process = false;
+          }).catch(error => {
+            this.exception(error);
+            this.process = false;
+          });
       }
     },
     mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'scroll';
     }
   };
 </script>
@@ -75,11 +117,27 @@
   .main {
     background: rgba(246, 246, 246, 1);
     width: 720px;
+    height: 100vh;
+  }
+  .history-titele {
+    margin: 20px;
+  }
+  .history-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .history-buttons button:nth-child(1) {
+    background-color: rgba(19,193,254,1);
   }
 
-  .body {
-    width: 720px;
-    height: 100px;
+  .history-buttons button {
+    background-color: rgba(246, 246, 246, 1);
+    min-width: 100px;
+    height: 50px;
+    border-radius: 50px;
+    outline: none;
+    margin: 20px;
   }
 
   /**

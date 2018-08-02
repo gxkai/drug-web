@@ -1,4 +1,20 @@
 import {MessageBox} from 'mint-ui';
+import storage from 'good-storage';
+const SEARCH_KEY = 'orderHis';
+const SEARCH_MAX_LENGTH = 15;
+function insertArray(arr, val, compare, maxlen) {
+  const index = arr.findIndex(compare);
+  if (index === 0) {
+    return;
+  }
+  if (index > 0) {
+    arr.splice(index, 1);
+  }
+  arr.unshift(val);
+  if (maxlen && arr.length > maxlen) {
+    arr.pop();
+  }
+}
 export default {
   install(Vue, options) {
     /**
@@ -11,6 +27,9 @@ export default {
           case 400:
             if (error.response.data.fieldErrors) {
               MessageBox('提示', error.response.data.fieldErrors[0].message);
+            }
+            if (error.response.data.message) {
+              MessageBox('提示', error.response.data.message);
             }
             break;
           case 401:
@@ -66,18 +85,11 @@ export default {
     /**
      * 获取图片链接
      * @param fileId
-     * @returns {string}
-     */
-    Vue.prototype.getImgURL = (fileId) => {
-      return 'http://localhost:8081/api/files/' + fileId + '/image';
-    };
-    /**
-     * 获取图片链接
-     * @param fileId
      * @param resolution
      * @returns {string}
      */
     Vue.prototype.getImgURL = (fileId, resolution) => {
+      resolution = resolution || 'LARGE_LOGO';
       return 'http://localhost:8081/api/files/' + fileId + '/image?resolution=' + resolution;
     };
 
@@ -116,6 +128,19 @@ export default {
         case 'CLOSES':
           return '订单关闭';
       }
+    };
+    /**
+     * 搜索历史存储
+     * @param str
+     * @returns {*}
+     */
+    Vue.prototype.saveSearch = (str) => {
+      let searches = storage.get(SEARCH_KEY, []);
+      insertArray(searches, str, (item) => {
+        return item === str;
+      }, SEARCH_MAX_LENGTH);
+      storage.set(SEARCH_KEY, searches);
+      return searches;
     };
   }
 };
