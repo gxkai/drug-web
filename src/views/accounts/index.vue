@@ -33,19 +33,19 @@
       </router-link>
       <div class="nav-bar-content border-top-gray">
         <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=pendpay">
-          <i class="iconfont ic-daishouhuo"></i>
-          <span>代付款</span>
+          <img src="../../assets/image/accounts/toPay.png"/>
+          <span>待付款</span>
         </router-link>
         <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=goods">
-          <i class="iconfont ic-daishouhuo"></i>
+          <img src="../../assets/image/accounts/toSend.png"/>
           <span>待发货</span>
         </router-link>
         <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=receivergoods">
-          <i class="iconfont ic-daishouhuo"></i>
+          <img src="../../assets/image/accounts/toReceive.png"/>
           <span>待收货</span>
         </router-link>
         <router-link class="flex-box nav-bar-content-margin" to="/orders?parameter=evalute">
-          <i class="iconfont ic-daishouhuo"></i>
+          <img src="../../assets/image/accounts/toComment.png"/>
           <span>待评价</span>
         </router-link>
       </div>
@@ -103,9 +103,6 @@
         account: {},
         isLogin: false
       };
-    },
-    components: {
-      // 'allBottom': allBottom
     },
     methods: {
       maxnumber(number) {
