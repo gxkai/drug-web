@@ -22,8 +22,7 @@
     <!-- 轮播 -->
     <swiper :options="swiperOption">
       <swiper-slide v-for="(advertList,index) in advertLists" :key="index">
-        <img :src="imgPath+'/api/files/'+advertList.fileId+'/image?resolution=MIDDLE_PIC#/'" class="dluboimgh"
-             @click="see(advertList)"/>
+        <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" class="dluboimgh" @click="see(advertList)"/>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -158,15 +157,15 @@
       </div>
       <div class="bg-white of-hidden">
         <ul class="flex-wrap">
-          <li
+          <router-link
             class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
-            v-for="(recommendList,index) in recommendLists">
+            v-for="(recommendList,index) in recommendLists" :key="index" :to="{path:'/shopDrugSpecs',query:{id:recommendList.id}}">
             <span class="toc-tip position-absolute all-center" v-if="recommendLists.isOtc === true">非处</span>
             <span class="toc-tip position-absolute all-center" v-else>处</span>
             <img class="is-260x193" src="http://ovhq5iw4e.bkt.clouddn.com/work-3.jpg">
             <span class="elps">{{recommendList.name}}{{recommendList.spec}}</span>
             <span class="text-red">¥ {{recommendList.price}} /盒</span>
-          </li>
+          </router-link>
           <li
             class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
             v-if="recommendLists.length !== 0">
@@ -179,7 +178,7 @@
     <div class="add-container is-720x100">
     </div>
 
-     <new-footer :urlRouter="$route.path"></new-footer>
+    <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
 <script>
@@ -336,9 +335,7 @@
         if (district.indexOf('昆山市') < 0) {
           Toast('不在有效区域');
         }
-        ;
       }
-      ;
       if (address) {
         this.lat = lat;
         this.lng = lng;
@@ -346,7 +343,6 @@
       } else {
         this.startAddress();
       }
-      ;
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
         this.discountLists = res.data;
@@ -360,6 +356,7 @@
       // 广告
       this.$http.get('/adverts').then(res => {
         this.advertLists = res.data;
+        console.log(res.data);
       });
       // 好货推荐
       this.$http.get('/drugs/recommend').then(res => {
@@ -606,8 +603,6 @@
 
   .swiper-container {
     width: 100%;
-    padding-top: 50px;
-    padding-bottom: 50px;
   }
 
   .swiper-slides {
