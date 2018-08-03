@@ -3,7 +3,7 @@
   <!--TODO 倒计时 -->
   <div class="bg-f8">
     <div class="bg-blue index-header">
-      <div class="flex-stream-sb padding-lr-10">
+      <div class="flex-stream-sb padding-lr-10 mtop-30">
         <i class="iconfont ic-ditu text-white is-16x22"></i>
         <span @click="nearby" class="text-white fz22 elps d-inline-block">{{chooseAddress}}</span>
         <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
@@ -18,6 +18,7 @@
         <i class="iconfont ic-lingdang text-white "></i>
       </div>
     </div>
+    <div class="index-hidden-width"></div>
 
     <!-- 轮播 -->
     <swiper :options="swiperOption">
@@ -61,7 +62,7 @@
               </router-link>
             </ul>
           </div>
-           <div class="scroll-wrap d-block"><span class="hot">必读</span>
+          <div class="scroll-wrap d-block"><span class="hot">必读</span>
             <ul class="scroll-content" :style="{ top }">
               <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeList1" :key="index"
                            :to="{path:'/repositories/view',query:{repositoryTypeId:repositoryType.id,title:repositoryType.title}}">
@@ -92,12 +93,12 @@
             <router-link v-for="(discountList,index) in discountLists"
                          :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
                          :key="index" v-if="index===0">
-            <img class="is-120x120 mr-20" :src="getImgURL(discountList.fileId, 'MIDDLE_LOGO')"
-                  v-if="index===0">
-            <div class="is-flex flex-column">
-              <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-              <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
-            </div>
+              <img class="is-120x120 mr-20" :src="getImgURL(discountList.fileId, 'MIDDLE_LOGO')"
+                   v-if="index===0">
+              <div class="is-flex flex-column">
+                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
+                <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
+              </div>
             </router-link>
           </div>
 
@@ -105,33 +106,33 @@
             <router-link v-for="(discountList,index) in discountLists"
                          :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
                          :key="index" v-if="index===1">
-            <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===1">
-            <div class="is-flex flex-column">
-              <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-              <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
-            </div>
+              <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===1">
+              <div class="is-flex flex-column">
+                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
+                <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
+              </div>
             </router-link>
           </div>
           <div class="drug-box-2 flex-column-center border-right-gray" v-if="index === 2">
             <router-link v-for="(discountList,index) in discountLists"
                          :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
                          :key="index" v-if="index===2">
-            <img class="is-145x145" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===2">
-            <div class="is-flex flex-column">
-              <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-              <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
-            </div>
+              <img class="is-145x145" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===2">
+              <div class="is-flex flex-column">
+                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
+                <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
+              </div>
             </router-link>
           </div>
           <div class="drug-box-34 flex-row-center border-bottom-gray" style="float: right" v-if="index === 3 ">
             <router-link v-for="(discountList,index) in discountLists"
                          :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
                          :key="index" v-if="index===3">
-            <img class="is-135x85 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===3">
-            <div class="is-flex flex-column">
-              <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-              <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
-            </div>
+              <img class="is-135x85 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===3">
+              <div class="is-flex flex-column">
+                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
+                <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
+              </div>
             </router-link>
           </div>
           <div class="drug-box-34 flex-row-center position-absolute position-rb" style="float: right"
@@ -139,11 +140,11 @@
             <router-link v-for="(discountList,index) in discountLists"
                          :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
                          :key="index" v-if="index===4">
-            <img class="is-135x85 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===4">
-            <div class="is-flex flex-column">
-              <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-              <span class="text-red">¥ {{discountList.price}} /盒</span>
-            </div>
+              <img class="is-135x85 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===4">
+              <div class="is-flex flex-column">
+                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
+                <span class="text-red">¥ {{discountList.price}} /盒</span>
+              </div>
             </router-link>
           </div>
         </router-link>
@@ -156,22 +157,13 @@
         <span class="new-line"></span><span class="text-13C1FE">医保定点药房</span> <span class="new-liner"></span>
       </div>
       <div class="shop-content">
-        <swiper :options="swiperOptions">
-          <swiper-slide
-            style="background-image:url('http://img5.imgtn.bdimg.com/it/u=677237743,375309874&fm=27&gp=0.jpg');"
-            class="swiper-img"></swiper-slide>
-          <swiper-slide
-            style="background-image:url('http://img1.imgtn.bdimg.com/it/u=3849652622,645057021&fm=27&gp=0.jpg');"
-            class="swiper-img"></swiper-slide>
-          <swiper-slide
-            style="background-image:url('http://img1.imgtn.bdimg.com/it/u=3849652622,645057021&fm=27&gp=0.jpg');"
-            class="swiper-img"></swiper-slide>
-          <swiper-slide
-            style="background-image:url('http://img4.imgtn.bdimg.com/it/u=565690167,1058111077&fm=27&gp=0.jpg');"
-            class="swiper-img"></swiper-slide>
-          <swiper-slide
-            tyle="background-image:url('http://img4.imgtn.bdimg.com/it/u=565690167,1058111077&fm=27&gp=0.jpg');"
-            class="swiper-img"></swiper-slide>
+        <swiper :options="swiperOptions" id="medical">
+           <swiper-slide class="swiper-img" :style="{background: 'url('+getImgURL(item.fileId, 'MIDDLE_LOGO')+')'}" v-for="(item,index) in showLists">
+             <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
+          </swiper-slide>
+
+          <!--  <swiper-slide class="swiper-img" v-lazy:background-image.container="getImgURL(item.fileId, 'MIDDLE_LOGO')">
+            </swiper-slide>-->
         </swiper>
       </div>
     </div>
@@ -179,7 +171,6 @@
     <!-- 好货推荐 -->
     <div class="recommend">
       <div class="separate-content all-center">
-
         <span class="new-line"></span><span class="text-13C1FE"><i class="iconfont ic-aixin text-red"></i>好货推荐</span>
         <span class="new-liner"></span>
       </div>
@@ -187,7 +178,8 @@
         <ul class="flex-wrap">
           <router-link
             class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
-            v-for="(recommendList,index) in recommendLists" :key="index" :to="{path:'/shopDrugSpecs',query:{id:recommendList.id}}">
+            v-for="(recommendList,index) in recommendLists" :key="index"
+            :to="{path:'/shopDrugSpecs',query:{id:recommendList.id}}">
             <span class="toc-tip position-absolute all-center" v-if="recommendLists.isOtc === true">非处</span>
             <span class="toc-tip position-absolute all-center" v-else>处</span>
             <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'MIDDLE_LOGO')">
@@ -214,6 +206,7 @@
   import DownTime from '../components/timeDown';
   import {Toast} from 'mint-ui';
   import axios from 'axios';
+
   export default {
     name: 'home',
     data() {
@@ -289,6 +282,9 @@
       }, 1000);
     },
     methods: {
+      fns(e) {
+        alert(1);
+      },
       see(e) {
         window.location.href = e.url;
       },
@@ -376,7 +372,6 @@
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
         this.discountLists = res.data;
-         // getImages(this.discountLists, this, 'LARGE_LOGO');
       });
 
       // 医保定点
@@ -386,7 +381,6 @@
       // 广告
       this.$http.get('/adverts').then(res => {
         this.advertLists = res.data;
-        console.log(res.data);
       });
       // 好货推荐
       this.$http.get('/drugs/recommend').then(res => {
@@ -396,6 +390,10 @@
   };
 </script>
 <style lang="scss">
+  .mtop-30 {
+    margin-top: 20px;
+  }
+
   .discount {
     width: 720px;
   }
@@ -496,11 +494,17 @@
   /*搜索框*/
   .index-header {
     width: 720px;
-    height: 75px;
+    height: 114px;
     background: #1ab6fd;
     line-height: 75px;
     position: fixed;
     top: 0px;
+    z-index: 99999;
+  }
+
+  .index-hidden-width {
+    width: 720px;
+    height: 114px;
   }
 
   .search-box {
@@ -612,7 +616,7 @@
     transition: top 0.5s;
     width: 501px;
     margin-left: 80px;
-    margin-top:-5px;
+    margin-top: -5px;
   }
 
   .scroll-content li {
@@ -665,7 +669,7 @@
   }
 
   .fz20 {
-    font-size:20px;
+    font-size: 20px;
   }
 
   .shop-content {
@@ -696,7 +700,7 @@
 
   .new-line {
     width: 117px !important;
-    height:2.2px !important;
+    height: 2.2px !important;
     display: inline-block;
     background: rgba(191, 191, 191, 1);
     margin-right: 13px;
@@ -713,13 +717,34 @@
   a {
     color: #333333;
   }
-  .width-144{
+
+  .width-144 {
     width: 144px;
   }
-  .width-180{
+
+  .width-180 {
     width: 200px;
   }
-  .scroll-content{
 
+  .scroll-content {
+
+  }
+
+  .ic-ditu {
+    font-size: 20px;
+  }
+
+  .ic-lingdang {
+    font-size: 20px;
+  }
+  .dluboimgh{
+    width:720px;
+    height:300px;
+  }
+  .swiper-div-cover{
+    width:275px;
+    height:238px;
+    background: white;
+    opacity: 0;
   }
 </style>
