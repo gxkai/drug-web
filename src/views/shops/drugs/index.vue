@@ -1,12 +1,9 @@
 <template>
   <div class="container">
     <new-header title="全部商品" :style="{background:bgColor,color:color}">
-      <router-link tag="i" :style="{color:leftColor}" to="/messageTypes" class=" iconfont ic-arrow-right" slot="left">
-      </router-link>
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"  slot="left"  :style="{color:leftColor}" ></i>
     </new-header>
-    <ul v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="loading"
-        infinite-scroll-distance="10">
+    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <div class="width-percent-100">
         <router-link class="border-bottom-grey" v-for="(drug,index) in drugs"
                      :key="index"
