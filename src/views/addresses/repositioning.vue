@@ -1,7 +1,9 @@
 <template>
   <div id="repositioning">
     <new-header>
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left"></i>
+      <div  slot="left">
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      </div>
       <input v-model="inputVal" slot="center" class="header-input">
       <span slot="right" @click="search()">搜索</span>
     </new-header>
@@ -133,7 +135,6 @@
       //   }
       // },
       getPositionList() {
-        debugger;
         var url = 'http://localhost:8083/api/outside/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true';
         this.$http.get(url).then(res => {
           this.positionList = res.data.body.pois;

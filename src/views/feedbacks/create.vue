@@ -25,22 +25,14 @@
       commit() {
         this.$http.post('/feedbacks', {
           'content': this.content
-        }, {
-          headers: {
-            'Authorization': this.$store.getters.token
-          }
         })
           .then((res) => {
-            if (res.status === 200) {
-              MessageBox('提示', '感谢您的反馈！').then(action => {
-                this.$router.go(-1);
-              });
-            }
+            MessageBox('提示', '感谢您的反馈！').then(action => {
+              this.$router.go(-1);
+            });
           })
           .catch((error) => {
-            if (error.response.status === 400) {
-              MessageBox('提示', '提交失败');
-            }
+            this.exception(error);
           });
       }
     },
@@ -54,6 +46,10 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
+  }
+  .container {
+    background-color: lightgrey;
+    height: 100vh;
   }
   textarea{
     display: block;

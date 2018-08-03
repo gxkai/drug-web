@@ -2,7 +2,9 @@
 <template>
   <div class="screen">
     <new-header :title="head">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <div  slot="left">
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      </div>
       <router-link to="#" slot="right" >
         <router-link class="text-white" to="/">重置</router-link>
       </router-link>

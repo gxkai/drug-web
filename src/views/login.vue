@@ -71,15 +71,17 @@
       return {
         swiperOption: {
           autoplay: false,
-          speed: 1000,
+          speed: 500,
           effect: 'cube',
           pagination: '.swiper-pagination',
           paginationType: 'bullets',
           paginationClickable: true,
-          notNextTick: true
+          notNextTick: true,
+          observer: true,
+          observeParents: true
         },
         cubeEffect: {
-          slideShadows: true,
+          slideShadows: false,
           shadow: false,
           shadowOffset: 20,
           shadowScale: 0.64
@@ -87,12 +89,12 @@
         showCode: true,
         count: '',
         time: null,
-        username: '18896781024',
-        password: '123456',
+        username: '',
+        password: '',
         clientId: '1',
-        registerUsername: '18896781024',
+        registerUsername: '',
         captcha: '',
-        registerPassword: '123456'
+        registerPassword: ''
       };
     },
     computed: {

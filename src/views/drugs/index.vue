@@ -4,7 +4,9 @@
     <div class="f_body" style="overflow: scroll">
       <div>
         <new-header :title="showDrugTitle">
-          <router-link to="/drugTypes" slot="left" class="iconfont ic-arrow-right"></router-link>
+          <div slot="left">
+          <router-link tag="i" to="/drugTypes"  class="iconfont ic-arrow-right"></router-link>
+          </div>
           <router-link :to="{path:'/components/search'}">
             <img src="static/img/search2.png" /></router-link>
         </new-header>
@@ -42,7 +44,7 @@
         <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
           <router-link v-for="(item,index) in pageList" :key="index"
                        :to="{path:'/drugs/shops',query:{id:item.id,specId:item.drugSpecId}}">
-          <new-drug-shops class="border-bottom-grey" :drugName="item.name" :sfda="item.sfda" :price="item.price" :count="item.shopCount"></new-drug-shops>
+          <new-drug-shops class="border-bottom-grey" :item="item"></new-drug-shops>
           </router-link>
         </ul>
       </div>

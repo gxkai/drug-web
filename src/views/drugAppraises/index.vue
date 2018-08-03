@@ -1,22 +1,24 @@
 <template>
   <div class="main">
     <new-header title="我的评价" ref="header">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <div slot="left">
+      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+      </div>
     </new-header>
     <div class="body" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" ref="body">
       <div class="drugAppraises-main" v-for="item in list">
         <div class="line1">
           <div>
-            <img v-lazy="account.headImg">
+            <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')">
             <span>{{account.username}}</span>
           </div>
-          <span>{{item.createdDate}}</span>
+          <span>{{item.createdDate|timeConvert}}</span>
         </div>
         <div class="line2">
           {{item.content}}
         </div>
         <div class="line3">
-          <img v-lazy="item.logo">
+          <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
           <div class="right">
             <p>药品名称：{{item.name}}</p>
             <p>规格:{{item.spec}}</p>
@@ -46,7 +48,6 @@
       };
     },
     created() {
-      this.account.headImg = this.getImgURL(this.account.fileId, 'LARGE_LOGO');
     },
     methods: {
       loadMore() {
@@ -61,10 +62,6 @@
         this.process = true;
         this.$http.get('/drugAppraises/mine?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            res.data.list.forEach(e => {
-              e.logo = this.getImgURL(e.fileId);
-              e.createdDate = this.timeConvert(e.createdDate);
-            });
             this.list = this.list.concat(res.data.list);
             if (!this.pages) {
               this.pages = res.data.pages;
