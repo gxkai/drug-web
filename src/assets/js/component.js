@@ -21,6 +21,7 @@ import newOrder from '../../components/order';
 import newAllData from '../../components/allData';
 import newLoading from '../../components/loading';
 import rxCart from '../../components/rxCart';
+import newCloseNormal from '../../components/closeNormal';
 
 export default {
   install(Vue, options) {
@@ -47,5 +48,6 @@ export default {
     Vue.component('new-all-data', newAllData);
     Vue.component('new-loading', newLoading);
     Vue.component('new-rxCart', rxCart);
+    Vue.component('new-close-normal', newCloseNormal);
   }
 };

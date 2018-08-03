@@ -21,7 +21,7 @@
             <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs" :key="cartDrugIndex">
               <div class="slide-content">
                 <div class="image">
-                  <img v-lazy="">
+                  <img v-lazy="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
                 </div>
                 <div class="text">
                   <div class="top">
