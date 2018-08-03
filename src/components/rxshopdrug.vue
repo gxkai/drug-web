@@ -5,11 +5,6 @@
     <img class="is-200x200" :src="getImgURL(fileId, 'LOGO')">
     <div class="box-right is-flex flex-column flex-sa ml-40">
       <div>
-        <i class="iconfont ic-changfang text-13C1FE"></i>
-        <span class="text-box">厂商:</span>
-        <span class="">{{manu}}</span>
-      </div>
-      <div>
         <i class="iconfont ic-yao text-13C1FE"></i>
         <span class="text-box">名称:</span>
         <span class="">{{name}}</span>
@@ -48,11 +43,7 @@
         },
         fileId: {
           default: '1'
-        },
-        manu: {
-          default: '厂商名字'
         }
-
       }
     };
 </script>
@@ -118,5 +109,4 @@
     width: 90px !important;
     display: inline-block;
   }
-
 </style>
