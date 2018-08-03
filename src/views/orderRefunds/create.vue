@@ -2,7 +2,9 @@
 <template>
   <div class="refund-container">
     <new-header title="申请退款">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <div slot="left">
+      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+      </div>
     </new-header>
 
     <ul class="">

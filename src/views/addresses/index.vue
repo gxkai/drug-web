@@ -1,7 +1,9 @@
 <template>
   <div class="address-body">
     <new-header title="地址管理">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <div slot="left">
+      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+      </div>
     </new-header>
     <div class="address-content" v-for="(address,index) in addressList" :key="index">
       <div class="address-content-lineOne">

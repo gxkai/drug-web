@@ -1,14 +1,14 @@
 <template>
   <div class="refund-box is-flex flex-row flex-item p-lr-20 position-relative">
-    <span class="toc-tip position-absolute all-center" v-if="isOtc === true">非处</span>
+    <span class="toc-tip position-absolute all-center" v-if="item.otc === true">非处</span>
     <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
-    <img class="is-200x200" :src="getImgURL(fileId, 'LOGO')">
+    <img class="is-200x200" v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
     <div class="box-right pl-40 is-flex flex-column flex-sa">
-      <span class="text-666666">{{ drugName }}</span>
-      <span class="text-666666">{{ sfda }}</span>
+      <span class="text-666666">{{ item.name }}</span>
+      <span class="text-666666">{{ item.sfda }}</span>
       <div class="is-flex flex-sb mt-20">
-        <div class="text-666666"><span class="text-red">&yen; {{price}}</span> 起</div>
-        <div class="text-666666"><span class="text-13C1FE">{{count}}</span>个商家在售</div>
+        <div class="text-666666"><span class="text-red">&yen; {{item.price}}</span> 起</div>
+        <div class="text-666666"><span class="text-13C1FE">{{item.shopCount}}</span>个商家在售</div>
       </div>
     </div>
   </div>
@@ -16,26 +16,7 @@
 <script>
   export default {
     name: 'drug-shops',
-    props: {
-      drugName: {
-        default: '甲個按胶囊 夸信制药有限股份公司'
-      },
-      sfda: {
-        default: '国药准字号H20051424'
-      },
-      count: {
-        default: '1'
-      },
-      isOtc: {
-        default: true
-      },
-      fileId: {
-        default: 1
-      },
-      price: {
-        default: 58.5
-      }
-    }
+    props: ['item']
   };
 </script>
 

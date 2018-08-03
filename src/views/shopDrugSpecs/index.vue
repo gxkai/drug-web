@@ -1,7 +1,9 @@
 <template>
   <div class="bind-container">
     <new-header title="商品详情" ref="header">
-      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/')"></i>
+      <div slot="left">
+      <i class="iconfont ic-arrow-right"  @click.stop="$router.push('/')"></i>
+      </div>
     </new-header>
     <drugView :shopDrugSpec="alldrugInfo" class="d-none"></drugView>
     <!--上方轮播开始-->
@@ -82,7 +84,7 @@
     <div class="company">
       <div class="companys">
         <div class="d-inline-block company-logo">
-          <img v-lazy="headImg" class="logo"/>
+          <img v-lazy="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')" class="logo"/>
         </div>
         <div class="company-name d-inline-block">
           <p class="elps">{{shopDrugSpec.shopName}}</p>
@@ -165,36 +167,24 @@
       };
     },
     created() {
-      let id = '1';
-      this.$http.get('/shopDrugSpecs/' + id)
+      debugger;
+      this.$http.get('/shopDrugSpecs/' + this.$route.query.id)
         .then(res => {
-          if (res.status === 200) {
-            this.shopDrugSpec = res.data;
-            this.alldrugInfo = res.data;
-            this.shopDrugSpec.fileIds.forEach(fileId => {
-              let URL = '/files/' + fileId + '/image?resolution=LARGE_PIC';
-              this.drugImgs.push(URL);
-            });
-            this.shopTotalAppraise = this.shopDrugSpec.shopTotalAppraise;
-            this.pageList = this.shopDrugSpec.drugAppraises.list;
-            this.drugAppraises = this.shopDrugSpec.drugAppraises;
-            this.headImg = '/files/' + this.shopDrugSpec.shopLogo + '/image?resolution=LARGE_LOGO';
-          }
+          this.shopDrugSpec = res.data;
+          this.alldrugInfo = res.data;
+          this.shopDrugSpec.fileIds.forEach(fileId => {
+            let URL = '/files/' + fileId + '/image?resolution=LARGE_PIC';
+            this.drugImgs.push(URL);
+          });
+          this.shopTotalAppraise = this.shopDrugSpec.shopTotalAppraise;
+          this.pageList = this.shopDrugSpec.drugAppraises.list;
+          this.drugAppraises = this.shopDrugSpec.drugAppraises;
+          this.headImg = '/files/' + this.shopDrugSpec.shopLogo + '/image?resolution=LARGE_LOGO';
+        }).catch(error => {
+          this.exception(error);
         });
     },
-    methods: {},
-    filters: {
-      TYPES(drugtype) {
-        if (drugtype) {
-          return '非处方药';
-        } else {
-          return '处方药';
-        }
-      },
-      timeConvert(date) {
-        return this.timeConvert(date);
-      }
-    }
+    methods: {}
   };
 </script>
 

@@ -6,7 +6,7 @@
     </new-header>
     <div ref="body">
       <div class="header all-center" v-if="JSON.stringify(account) !== '{}'">
-        <img class="header-img" v-lazy="account.logoUrl"/>
+        <img class="header-img" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
         <span class="header-text">{{account.name}}</span>
       </div>
 
@@ -109,7 +109,6 @@
     },
     created() {
       if (JSON.stringify(this.account) !== '{}') {
-        this.account.logoUrl = this.getImgURL(this.account.fileId, 'LARGE_LOGO');
         this.$http.get('/orders/count?')
           .then(res => {
             this.countList = res.data;

@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <new-header title="咨询列表">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <div slot="left">
+      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+      </div>
       <router-link tag="i" to="/messageTypes" class="iconfont ic-lingdang" slot="right"></router-link>
     </new-header>
     <ul class="item">

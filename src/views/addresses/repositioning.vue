@@ -1,7 +1,9 @@
 <template>
   <div id="repositioning">
     <new-header>
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left"></i>
+      <div  slot="left">
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      </div>
       <input v-model="inputVal" slot="center" class="header-input">
       <span slot="right" @click="search()">搜索</span>
     </new-header>

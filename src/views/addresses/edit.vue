@@ -1,7 +1,9 @@
 <template>
   <div class="body">
     <new-header title="编辑收货地址">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <div  slot="left">
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      </div>
       <span slot="right" @click="save()">保存</span>
     </new-header>
     <div class="body1">

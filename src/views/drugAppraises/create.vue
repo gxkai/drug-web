@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <new-header title="发表评论" ref="header">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <div  slot="left">
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      </div>
       <span slot="right" @click="commit()">发布</span>
     </new-header>
     <div class="body" ref="body">

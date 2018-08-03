@@ -1,7 +1,9 @@
 <template>
   <div>
       <new-header title="购物车" ref="header">
-        <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+        <div slot="left">
+           <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+        </div>
         <span slot="right" @click="onRemoveBatch()">删除</span>
       </new-header>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
@@ -28,8 +30,12 @@
               <i class="iconfont ic-radiobox" v-show="!cartShop.radio"></i>
               <i class="iconfont ic-radiochecked" v-show="cartShop.radio"></i>
             </div>
+            <div slot="left">
             <i class="iconfont ic-yaodian" slot="left"></i>
-            <span slot="left">{{cartShop.shopName}}</span>
+            </div>
+            <div slot="left">
+            <span>{{cartShop.shopName}}</span>
+            </div>
           </new-header>
           <ul class="cartRxs">
             <li v-for="cartRx in cartShop.rxs">
@@ -40,21 +46,25 @@
                     <i class="iconfont ic-radiobox" v-show="!cartRx.radio"></i>
                     <i class="iconfont ic-radiochecked" v-show="cartRx.radio"></i>
                   </div>
-                  <i class="iconfont ic-chufangdanluru" slot="left"></i>
+                  <div slot="left">
+                  <i class="iconfont ic-chufangdanluru" ></i>
+                  </div>
                   <span slot="left" class="chufangdan">处方单</span>
                   <router-link tag="span" slot="right" class="chakanchufan"
                                :to="{path:'/rxs/view',query:{rxId:cartRx.rxId}}">查看处方>
                   </router-link>
                 </new-header>
                 <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
-                  <i class="iconfont ic-jisongchufangdan color-333" slot="left"></i>
+                  <div slot="left">
+                  <i class="iconfont ic-jisongchufangdan color-333" ></i>
+                  </div>
                   <span slot="left" class="chufangdan" >非处方单</span>
                 </new-header>
                 <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs" :key="cartDrugIndex">
                   <mt-cell-swipe
                     :right="[
                       {
-                        content: 'Delete',
+                        content: '删除',
                         style: { background: 'rgba(19,193,254,1)', color: '#fff'},
                         handler: () => onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)
                       }
@@ -463,6 +473,11 @@
     align-items: center;
     width: 120px;
     justify-content: space-around;
+  }
+  .close .left span {
+    font-size:28px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(51,51,51,1);
   }
 
   /*字体颜色单独设置*/

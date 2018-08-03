@@ -66,5 +66,21 @@ export default {
       case 'CLOSED':
         return '订单关闭';
     }
+  },
+  /**
+   * yyyy-MM-dd hh:MM:ss
+   * @param timer
+   * @returns {string}
+   */
+  timeConvert: function (timer) {
+    var date = new Date(timer);
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    var allTime = Y + M + D + h + m + s;
+    return allTime;
   }
 };

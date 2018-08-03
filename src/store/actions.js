@@ -91,7 +91,7 @@ export function REGISTER({commit}, userInfo) {
  * @returns {Promise<any>}
  * @constructor
  */
-export function LOGINOUT({commit}) {
+export function LOGIN_OUT({commit}) {
   return new Promise((resolve, reject) => {
     axios({
       method: 'get',
