@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <new-header>
-      <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" tag="i" slot="left"></i>
       <input type="text" placeholder="搜索店内商品" class="bg-none"/>
     </new-header>
 
@@ -290,8 +290,9 @@
     text-align: center;
     color: rgba(102, 102, 102, 1);
   }
-.bg-none{
-  background:none;
-}
+
+  .bg-none {
+    background: none;
+  }
 
 </style>

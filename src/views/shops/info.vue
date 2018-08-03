@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <new-header title="商家介绍">
-      <div slot="left">
-      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
-      </div>
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left"></i>
     </new-header>
 
     <div class="shop-header">
-      <img :src="getImgURL(resultData.logo, 'LOGO') "/>
-      <span class="shop-name">{{resultData.name}}</span>
-      <i class="icon iconfont ic-anquanrenzheng ic-size" style="color:white;font-size:50px;"></i>
+      <div>
+        <img :src="getImgURL(resultData.logo, 'LOGO') "/>
+        <span class="shop-name">{{resultData.name}}</span>
+        <i class="icon iconfont ic-anquanrenzheng ic-size" style="color:white;font-size:50px;"></i>
+      </div>
     </div>
 
     <div class="shop-main">
@@ -28,36 +28,21 @@
         <div class="shop-list-score">
           <span>配送速度: </span>
           <span class="shop-score">{{resultData.describeScore}}</span>
-          <span>领先<span style="color: #00ADB3">85%</span>的商家</span>
         </div>
 
         <div class="shop-list-score">
           <span>服务态度: </span>
           <span class="shop-score">{{resultData.deliveryScore}}</span>
-          <span>领先<span style="color: #00ADB3">85%</span>的商家</span>
         </div>
 
         <div class="shop-list-score">
           <span>描述相符: </span>
           <span class="shop-score">{{resultData.serviceScore}}</span>
-          <span>领先<span style="color: #00ADB3">85%</span>的商家</span>
         </div>
 
         <div class="shop-list-score">
           <span>商品包装: </span>
           <span class="shop-score">{{resultData.packageScore}}</span>
-          <span>领先<span style="color: #00ADB3">85%</span>的商家</span>
-        </div>
-      </div>
-
-      <div class="shop-list-return">
-        <div>
-          <span class="shop-list-return-title">退单率:</span>
-          <span class="shop-list-return-value">0.0%</span>
-        </div>
-        <div>
-          <span class="shop-list-return-title">平均发货时长：</span>
-          <span class="shop-list-return-value">8.3小时</span>
         </div>
       </div>
 
@@ -103,10 +88,15 @@
   }
 
   .shop-header {
-    margin-top: 2px;
     width: 720px;
+    margin-top: 2px;
     height: 167px;
     background: rgba(19, 193, 254, 1);
+
+  }
+
+  .shop-header > div {
+    height: 167px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -137,14 +127,13 @@
   }
 
   .shop-list-scores {
+    width: 400px;
     height: 209px;
   }
 
   .shop-list-score-sum {
-    width: 415px;
     height: 20px;
     display: flex;
-    justify-content: space-between;
     margin-left: 20px;
     margin-bottom: 27px;
     font-size: 24px;
@@ -152,10 +141,8 @@
   }
 
   .shop-list-score {
-    width: 360px;
     height: 20px;
     display: flex;
-    justify-content: space-between;
     margin-left: 20px;
     margin-bottom: 16px;
     font-size: 18px;
@@ -165,27 +152,10 @@
   .shop-score {
     font-size: 20px;
     color: rgba(255, 0, 0, 1);
-  }
-
-  .shop-list-return {
-    width: 700px;
-    height: 87px;
-    margin-left: 20px;
-  }
-
-  .shop-list-return-title {
-    font-size: 18px;
-    color: rgba(102, 102, 102, 1);
-  }
-
-  .shop-list-return-value {
-    font-size: 24px;
-    color: #FF0000;
+    margin-left: 30px;
   }
 
   .shop-list-aptitude {
-    width: 720px;
-    height: 100vh;
     display: block;
     margin-top: 34px;
   }
@@ -198,12 +168,17 @@
   }
 
   .shop-list-aptitude-imgs {
-    width: 360px;
+    width: 720px;
+  }
+
+  .shop-list-aptitude img {
+    width: 305px;
     height: 243px;
+    margin: 20px 20px 20px 20px;
     float: left;
-    display: flex;
     justify-content: center;
     align-items: center;
   }
+
 
 </style>

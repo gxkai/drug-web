@@ -208,8 +208,8 @@
   }
 
   .shop-store-img {
-    width: 300px;
-    height: 250px;
+    width:300px;
+    height:249px;
   }
 
   .shops-nav {
