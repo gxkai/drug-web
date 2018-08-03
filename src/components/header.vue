@@ -54,12 +54,15 @@
 </script>
 
 <style scoped>
-  header {
+ header {
     width: 720px;
     font-size: 36px;
     font-family: HiraginoSansGB-W3;
     height: 130px;
     display: flex;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
     align-items: center;
     justify-content: space-between;
     padding-left: 10px;
