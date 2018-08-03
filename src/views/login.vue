@@ -1,13 +1,50 @@
 <template>
-  <div class="top">
+  <div class="top position-relative">
     <div class="mid1">
       <div class="font1">
         药品网上服务平台
       </div>
     </div>
-    <swiper class="mid2" :options="swiperOption" ref="mySwiper">
+
+    <swiper :options="swiperOption">
+      <swiper-slide class="login">
+        <div class="tel">
+          <i class="iconfont ic-shouji shouji"></i>
+          <input type="number" placeholder="请输入手机号码" v-model="username" class="telephone"/>
+        </div>
+        <div class="password">
+          <i class="iconfont ic-icon2 icon2"></i>
+          <input type="password" placeholder="请输入密码" v-model="password" class="psd">
+        </div>
+        <div  @click="login()" class="login-btn">
+          登录
+        </div>
+      </swiper-slide>
+      <swiper-slide class="login">
+        <div class="tel">
+          <i class="iconfont ic-shouji shouji"></i>
+          <input type="number" placeholder="请输入手机号码" v-model="registerUsername" class="telephone"/>
+          <button class="button1" @click="getCaptcha()" v-show="showCode">获取验证码</button>
+          <button class="button1" v-show="!showCode">{{count}}</button>
+        </div>
+        <div class="password mt-13">
+          <i class="iconfont ic-anquanrenzheng icon2"></i>
+          <input type="password" placeholder="请输入验证码" v-model="captcha" class="psd">
+        </div>
+        <div class="password mt-13">
+          <i class="iconfont ic-xinmima icon2"></i>
+          <input type="password" placeholder="请输入密码" v-model="registerPassword" class="psd">
+        </div>
+        <div  @click="register()" class="login-btn">
+          注册
+        </div>
+      </swiper-slide>
+    </swiper>
+
+
+    <swiper class="mid2" :options="swiperOption" style="display: none">
       <swiper-slide class="slide1">
-        <div class="input1">
+        <!--<div class="input1">
           <div class="left">
             <i class="iconfont ic-shouji shouji"></i>
           </div>
@@ -23,10 +60,10 @@
         </div>
         <button class="button1" @click="login()">
           登录
-        </button>
+        </button>-->
       </swiper-slide>
-      <swiper-slide class="slide2">
-        <div class="input1">
+      <swiper-slide class="slide2">4444
+        <!--<div class="input1">
           <div class="left">
             <i class="iconfont ic-shouji shouji"></i>
           </div>
@@ -54,7 +91,7 @@
         </div>
         <button class="button2" @click="register()">
           注册
-        </button>
+        </button>-->
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -64,37 +101,28 @@
 
 <script>
   import {MessageBox} from 'mint-ui';
-
   export default {
     name: 'login',
     data() {
       return {
         swiperOption: {
-          autoplay: false,
-          speed: 500,
-          effect: 'cube',
-          pagination: '.swiper-pagination',
-          paginationType: 'bullets',
-          paginationClickable: true,
-          notNextTick: true,
-          observer: true,
-          observeParents: true
+          effect: 'cube'
         },
         cubeEffect: {
-          slideShadows: false,
+          slideShadows: true,
           shadow: false,
-          shadowOffset: 20,
-          shadowScale: 0.64
+          shadowOffset: 0,
+          shadowScale: 0
         },
         showCode: true,
         count: '',
         time: null,
-        username: '',
-        password: '',
+        username: '18896781024',
+        password: '123456',
         clientId: '1',
-        registerUsername: '',
+        registerUsername: '18896781024',
         captcha: '',
-        registerPassword: ''
+        registerPassword: '123456'
       };
     },
     computed: {
@@ -210,218 +238,96 @@
     padding-left: 163px;
   }
 
-  .mid2 {
-    width: 660px;
-    height: 500px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 32px rgba(51, 51, 51, 0.33);
-    position: absolute;
-    top: 380px;
-    left: 30px;
-  }
+
 
   /*slide1*/
-  .slide1 .input1, .input2 {
-    width: 489px;
-    height: 70px;
-    background: rgba(238, 238, 238, 1);
-    position: absolute;
-    border-radius: 5px;
-    left: 86px;
-  }
-
-  .slide1 .input1 {
-    top: 87px;
-  }
-
-  .slide1 .input2 {
-    top: 195px;
-  }
-
-  .slide1 .input1 .left, .slide1 .input2 .left {
-    width: 65px;
-    height: 70px;
-    float: left;
-    background: rgba(238, 238, 238, 1);
-  }
-
-  .slide1 .input1 .right, .slide1 .input2 .right {
-    width: 420px;
-    height: 70px;
-    border: 0;
-    outline: none;
-    float: right;
-    background: rgba(238, 238, 238, 1);
-    font-size: 24px;
-    font-family: MicrosoftYaHei;
-  }
-
-  .slide1 .input2 .right .input21 {
-    width: 420px;
-    height: 70px;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    outline: none;
-    background: rgba(238, 238, 238, 1);
-    font-size: 24px;
-    font-family: MicrosoftYaHei;
-  }
-
-  .slide1 .button1 {
-    width: 198px;
-    height: 59px;
-    background: rgba(26, 182, 253, 1);
-    position: absolute;
-    left: 231px;
-    top: 331px;
-    border-radius: 30px;
-    font-size: 32px;
-    font-family: MicrosoftYaHei;
-    color: rgba(255, 255, 255, 1);
-    outline: none;
-    border-width: 0;
-  }
-
-  .slide1 .shouji, .slide1 .ic-icon2 {
-    color: #1AB5FB;
-  }
-
-  .slide1 .shouji:before, .slide1 .icon2:before {
-    font-size: 50px;
-  }
-
-  /*slide2*/
-  .slide2 .input1 {
-    width: 489px;
-    height: 70px;
-    background: rgba(238, 238, 238, 1);
-    border-radius: 5px;
-    position: absolute;
-    left: 86px;
-    top: 87px;
-  }
-
-  .slide2 .input1 .left, .slide2 .input2 .left, .slide2 .input3 .left {
-    width: 65px;
-    height: 70px;
-    float: left;
-    background: rgba(238, 238, 238, 1);
-  }
-
-  .slide2 .shouji, .slide2 .anquanrenzheng, .slide2 .xinmima {
-    color: #1AB5FB;
-  }
-
-  .slide2 .shouji:before, .slide2 .anquanrenzheng:before, .slide2 .xinmima:before {
-    font-size: 50px;
-  }
-
-  .slide2 .input1 .right, .slide2 .input2 .right {
-    width: 420px;
-    height: 70px;
-    border: 0;
-    outline: none;
-    float: right;
-    background: rgba(238, 238, 238, 1);
-    font-size: 24px;
-    font-family: MicrosoftYaHei;
-  }
-
-  .slide2 .input1 .right .input11 {
-    width: 260px;
-    height: 70px;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    outline: none;
-    background: rgba(238, 238, 238, 1);
-    font-size: 24px;
-    font-family: MicrosoftYaHei;
-  }
-
-  .slide2 .button1 {
-    width: 155px;
-    height: 70px;
-    background: rgba(26, 182, 253, 1);
-    border-radius: 5px;
-    float: right;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    outline: none;
-    text-align: center;
-    font-size: 26px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 254, 254, 1);
-  }
-
-  .slide2 .input2 {
-    width: 489px;
-    height: 70px;
-    background: rgba(238, 238, 238, 1);
-    border-radius: 5px;
-    position: absolute;
-    left: 86.1px;
-    top: 170px;
-  }
-
-  .slide2 .input2 .right .input21 {
-    width: 420px;
-    height: 70px;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    outline: none;
-    background: rgba(238, 238, 238, 1);
-    font-size: 24px;
-    font-family: MicrosoftYaHei;
-  }
-
-  .slide2 .input3 {
-    width: 489px;
-    height: 70px;
-    background: rgba(238, 238, 238, 1);
-    border-radius: 5px;
-    position: absolute;
-    left: 86.1px;
-    top: 253px;
-  }
-
-  .slide2 .input3 .right .input31 {
-    width: 420px;
-    height: 70px;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    outline: none;
-    background: rgba(238, 238, 238, 1);
-    font-size: 24px;
-    font-family: MicrosoftYaHei;
-  }
-
-  .slide2 .button2 {
-    width: 198px;
-    height: 59px;
-    background: rgba(26, 182, 253, 1);
-    border-radius: 30px;
-    position: absolute;
-    left: 231px;
-    top: 359px;
-    font-size: 32px;
-    font-family: MicrosoftYaHei;
-    color: rgba(255, 255, 255, 1);
-    border: 0;
-    outline: none;
-  }
 
   .foot1 {
     text-align: center;
     width: 100%;
     font-size: 28px;
-    font-family: MicrosoftYaHei;
     color: rgba(102, 102, 102, 1);
     position: absolute;
     top: 1137px;
+  }
+ .login{
+   width:660px;
+   height:500px!important;
+   background:rgba(255,255,255,1);
+   box-shadow:0px 0px 32px rgba(51,51,51,0.33);
+ }
+  .tel,.password{
+    width:489px;
+    height:69px;
+    background:rgba(238,238,238,1);
+    border-radius:5px;
+    margin-left: 86px;
+    line-height: 69px;
+  }
+  .tel{
+    margin-top: 87px;
+  }
+  .password{
+    margin-top: 38px;
+  }
+  .ic-shouji,.ic-icon2,.ic-anquanrenzheng,.ic-xinmima{
+    margin-left: 16px;
+    margin-top: 18px;
+    font-size: 30px;
+  }
+  .telephone{
+    display: inline-block;
+    width: 304px;
+    margin-left: 27px;
+    border:none;
+    background:rgba(238,238,238,1);
+    height: 69px;
+    line-height: 69px;
+  }
+
+  .psd{
+    width: 304px;
+    margin-left: 27px;
+    border:none;
+    background:rgba(238,238,238,1);
+    height: 69px;
+    line-height: 69px;
+  }
+  .login-btn{
+    width:198px;
+    height:59px;
+    background:rgba(26,182,253,1);
+    border-radius:30px;
+    font-size:32px;
+    text-align: center;
+    line-height: 59px;
+    margin-top: 66px;
+    margin-left: 231px;
+    color: white;
+  }
+  .mt-13{
+    margin-top: 13px!important;
+  }
+  .button1{
+    position: absolute;
+    width:155px;
+    height:70px;
+    background:rgba(26,182,253,1);
+    border-radius:5px;
+    color: white;
+    text-align: center;
+    line-height: 70px;
+    border: none;
+    font-size:26px;
+    left: 420px;
+  }
+  input{
+    font-size:24px;
+  }
+  .swiper-wrapper{
+    height: 500px!important;
+  }
+  .full{
+    width: 720px;
   }
 </style>
