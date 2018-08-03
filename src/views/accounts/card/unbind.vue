@@ -49,14 +49,10 @@
     methods: {
       unbind: function () {
         this.account.medicalNumber = null;
-        this.$http.put(this.URL_PATH + '/accounts', this.account, {
-          headers: {
-            'Authorization': this.$store.getters.token
-          }
-        })
+        this.$http.put('/accounts', this.account)
           .then((res) => {
             this.$store.commit('SET_ACCOUNT', this.account);
-            this.$router.push({name: '/accounts/bind/success'});
+            this.$router.push({path: '/accounts/bind/success'});
           })
           .catch((error) => {
             this.exception.message(error);
