@@ -5,7 +5,7 @@
     <div class="bg-blue index-header">
       <div class="flex-stream-sb padding-lr-10">
         <i class="iconfont ic-ditu text-white is-16x22"></i>
-        <span @click="nearby" class="text-white fz22">{{chooseAddress}}</span>
+        <span @click="nearby" class="text-white fz22 elps d-inline-block">{{chooseAddress}}</span>
         <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
         <div class="search-box position-relative all-center no-border">
           <img src="../assets/image/search.png" class=" is-24x24"/>
@@ -646,7 +646,7 @@
   }
 
   .fz20 {
-    font-size: 20px;
+    font-size:20px;
   }
 
   .shop-content {
@@ -667,6 +667,7 @@
     margin-top: 20px;
     width: 26px;
     height: 26px;
+    font-size: 20px;
   }
 
   .time-down {

@@ -133,7 +133,6 @@
       //   }
       // },
       getPositionList() {
-        debugger;
         var url = 'http://localhost:8083/api/outside/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true';
         this.$http.get(url).then(res => {
           this.positionList = res.data.body.pois;
