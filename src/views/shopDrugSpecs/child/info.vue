@@ -46,13 +46,11 @@
 <script>
   export default {
     name: 'drugInfo',
+    props: ['shopDrugSpec'],
     data: {
       shopDrugSpec: []
-    },
-    created() {
-      this.shopDrugSpec = JSON.parse(this.$route.query.shopDrugSpec);
     }
-};
+  };
 </script>
 <style scoped>
   * {

@@ -31,12 +31,10 @@
       shop(index) {
         if (index === 0) {
           this.showComponent = drugAppraise;
-          console.log(drugAppraise);
           this.number = index;
         }
         if (index === 1) {
           this.showComponent = drugInfo;
-          console.log(drugInfo);
           this.number = index;
         }
       },
