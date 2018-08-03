@@ -167,7 +167,6 @@
       };
     },
     created() {
-      debugger;
       this.$http.get('/shopDrugSpecs/' + this.$route.query.id)
         .then(res => {
           this.shopDrugSpec = res.data;
