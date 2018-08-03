@@ -25,6 +25,7 @@ export default {
      * 刷新 vux -> storage
      */
     window.addEventListener('beforeunload', () => {
+      debugger;
       this.$storage.set('account', this.$store.getters.account);
       this.$storage.set('token', this.$store.getters.token);
     });

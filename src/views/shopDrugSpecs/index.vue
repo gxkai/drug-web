@@ -1,17 +1,15 @@
 <template>
   <div class="bind-container">
     <new-header title="商品详情" ref="header">
-      <div slot="left">
-      <i class="iconfont ic-arrow-right"  @click.stop="$router.push('/')"></i>
-      </div>
+      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/')"></i>
     </new-header>
-    <drugView :shopDrugSpec="alldrugInfo" class="d-none"></drugView>
+    <view :shopDrugSpec="shopDrugSpec" class="d-none"></view>
     <!--上方轮播开始-->
     <div class="broadcast">
       <div class="broadcast-content" style="background:red;">
         <mt-swipe :auto="4000">
-          <mt-swipe-item v-for="(drugImg,index) in drugImgs" :key="index">
-            <img v-lazy="drugImg" class="width-percent-100"/>
+          <mt-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
+            <img v-lazy="getImgURL(fileId,'LARGE_PIC')" class="width-percent-100"/>
           </mt-swipe-item>
         </mt-swipe>
       </div>
@@ -84,12 +82,12 @@
     <div class="company">
       <div class="companys">
         <div class="d-inline-block company-logo">
-          <img v-lazy="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')" class="logo"/>
+          <img v-lazy="getImgURL(shopDrugSpec.id,'SMALL_LOGO')" class="logo"/>
         </div>
         <div class="company-name d-inline-block">
           <p class="elps">{{shopDrugSpec.shopName}}</p>
           <p class="elps">
-            <new-star :size="shopTotalAppraise.serviceScore" disabled></new-star>
+            <new-star :size="shopDrugSpec.shopTotalAppraise.score" disabled></new-star>
           </p>
         </div>
         <div class="d-inline-block fr">
@@ -100,19 +98,19 @@
       <div class="width-percent-90 customer">
         <div class="d-inline-block width-percent-22 text-center">
           <p>客户服务</p>
-          <p class="text-red">{{shopTotalAppraise.serviceScore}}分</p>
+          <p class="text-red">{{shopDrugSpec.shopTotalAppraise.serviceScore}}分</p>
         </div>
         <div class="d-inline-block width-percent-22 text-center">
           <p>发货速度</p>
-          <p class="text-red">{{shopTotalAppraise.deliveryScore}}分</p>
+          <p class="text-red">{{shopDrugSpec.shopTotalAppraise.deliveryScore}}分</p>
         </div>
         <div class="d-inline-block width-percent-22 text-center">
           <p>物流速度</p>
-          <p class="text-red">{{shopTotalAppraise.describeScore}}分</p>
+          <p class="text-red">{{shopDrugSpec.shopTotalAppraise.describeScore}}分</p>
         </div>
         <div class="d-inline-block width-percent-22 text-center">
           <p>商品包装</p>
-          <p class="text-red">{{shopTotalAppraise.packageScore}}分</p>
+          <p class="text-red">{{shopDrugSpec.shopTotalAppraise.packageScore}}分</p>
         </div>
         <router-link :to="{path:'/shops/view',query:{id:shopDrugSpec.shopId}}">
           <div class="enter-shop text-white">
@@ -127,13 +125,13 @@
     <!--评论开始-->
     <div class="comment width-percent-100">
       <div class="content-comment width-percent-94 m-auto border-bottom-f1f1f1">
-        <span class="d-inline-block fl">顾客评论（{{drugAppraises.total}}）</span>
+        <span class="d-inline-block fl">顾客评论（{{shopDrugSpec.drugAppraises.total}}）</span>
         <router-link tag="span" :to="{path: '/shopDrugSpecs/view', query: {index: 0}}">
           <span class="d-inline-block fr">查看全部评价</span>
         </router-link>
       </div>
 
-      <div v-for="drugAppraise in pageList">
+      <div v-for="drugAppraise in shopDrugSpec.drugAppraises.list">
         <div class="stars width-percent-94 m-auto">
           <span class="fl d-inline-block"> <new-star :size="drugAppraise.score" disabled></new-star></span>
           <span class="fr d-inline-block">{{drugAppraise.username}}</span>
@@ -146,45 +144,32 @@
         </div>
       </div>
 
-      <new-join-car :drugInfo="alldrugInfo"></new-join-car>
+      <new-join-car :drugInfo="shopDrugSpec"></new-join-car>
     </div>
     <!--评论结束-->
   </div>
 </template>
 
 <script>
+  import view from './view';
   export default {
     data() {
       return {
-        shopTotalAppraise: '',
-        drugImgs: [],
-        shopDrugSpec: [],
-        drugAppraises: '',
-        headImg: '',
-        pageList: '',
-        createdDate: '',
-        allDrugInfo: []
+        shopDrugSpec: []
       };
     },
     created() {
-      debugger;
       this.$http.get('/shopDrugSpecs/' + this.$route.query.id)
         .then(res => {
           this.shopDrugSpec = res.data;
-          this.alldrugInfo = res.data;
-          this.shopDrugSpec.fileIds.forEach(fileId => {
-            let URL = '/files/' + fileId + '/image?resolution=LARGE_PIC';
-            this.drugImgs.push(URL);
-          });
-          this.shopTotalAppraise = this.shopDrugSpec.shopTotalAppraise;
-          this.pageList = this.shopDrugSpec.drugAppraises.list;
-          this.drugAppraises = this.shopDrugSpec.drugAppraises;
-          this.headImg = '/files/' + this.shopDrugSpec.shopLogo + '/image?resolution=LARGE_LOGO';
         }).catch(error => {
           this.exception(error);
         });
     },
-    methods: {}
+    methods: {},
+    component: {
+      'view': view
+    }
   };
 </script>
 

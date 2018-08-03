@@ -18,7 +18,7 @@
         </new-header>
         <img src="../../../assets/image/colorbackground.png">
       </router-link>
-      <new-close-list :cartShops="cart.cartShops" class="new-close-list"></new-close-list>
+      <new-close-normal :shopInfo="shopInfo" class="new-close-normal"></new-close-normal>
       <div class="delivery">
         <div class="top">
           <i class="iconfont ic-peisongfangshi"></i>
@@ -50,16 +50,16 @@
       <div class="amount">
         <div>
           <span>实付金额：</span>
-          <span>￥{{cart.payAmount}}</span>
+          <span>￥{{shopInfo.payAmount}}</span>
         </div>
         <div>
           <span>商品金额：</span>
-          <span>￥{{cart.amount}}</span>
+          <span>￥{{shopInfo.amount}}</span>
           <span>(包含运费：0.00)</span>
         </div>
         <div>
           <span>医保扣除：</span>
-          <span>￥{{cart.medicaidAmount}}</span>
+          <span>￥{{shopInfo.medicaidAmount}}</span>
         </div>
       </div>
 
@@ -96,7 +96,7 @@
       <div class="right">
         <div class="left">
           <span>实付金额:</span>
-          <span>￥{{cart.payAmount}}</span>
+          <span>￥{{shopInfo.payAmount}}</span>
         </div>
         <button @click.stop="onOrder()">提交订单</button>
       </div>
@@ -114,9 +114,11 @@
       return {
         name: '订单结算',
         account: this.$store.getters.account,
-        cart: JSON.parse(this.$route.query.cart),
+        shopDrugSpecId: this.$route.query.shopDrugSpecId,
+        quantity: this.$route.query.quantity,
         deliveryType: 'SELF',
-        payType: 'ALIPAY'
+        payType: 'ALIPAY',
+        shopInfo: []
       };
     },
     components: {},
@@ -137,21 +139,14 @@
             this.exception(error);
           });
         }
-      },
-      /**
-       * 获取购物车ID数组
-       * @returns {Array}
-       */
-      getCartIds() {
-        let cartIds = [];
-        this.cart.cartShops.forEach(e => {
-          e.rxs.forEach(e => {
-            e.drugs.forEach(e => {
-              cartIds.push(e.cartId);
-            });
+
+        this.$http.get('/orders/shopDrugSpec?shopDrugSpecId=' +
+          this.shopDrugSpecId + '&quantity=' + this.quantity)
+          .then(res => {
+            this.shopInfo = res.data;
+          }).catch((error) => {
+            this.exception(error);
           });
-        });
-        return cartIds;
       },
       onOrder() {
         if (this.deliveryType === 'DELIVERY' && JSON.stringify(this.receiveAddress) === '{}') {
@@ -159,18 +154,14 @@
         } else {
           let data = {
             'addressId': this.receiveAddress.id,
-            'cartIds': this.getCartIds(),
+            'shopDrugSpecId': this.shopDrugSpecId,
+            'quantity': this.quantity,
             'deliveryType': this.deliveryType,
             'payType': this.payType
           };
-          this.$http.post('/orders', data).then(res => {
-            let str = '';
-            res.data.forEach(e => {
-              str += 'orderIds=' + e + '&';
-            });
-            str = str.substring(0, str.length - 1);
+          this.$http.post('/orders/shopDrugSpec', data).then(res => {
             this.$router.push({
-              path: '/orders/pay?' + str + '&deliveryType=' + this.deliveryType
+              path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType
             });
           }).catch(error => {
             this.exception(error);
@@ -363,7 +354,6 @@
   footer .right button {
     width: 214px;
     height: 100px;
-    box-sizing: border-box;
     background: rgba(240, 43, 43, 1);
     font-size: 30px;
     font-family: HiraginoSansGB-W3;
