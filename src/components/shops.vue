@@ -4,22 +4,22 @@
   <div class="shop-content flex-sb flex-column position-relative">
     <div>
       <i v-show="showIcon" class="iconfont ic-yinanbingli text-1AB6FD"></i>
-      <span><b>{{shopName}}</b></span>
+      <span class="text-title"><b>{{shopName}}</b></span>
     </div>
     <div v-show="showStar">
       <new-star disabled size="small" :score.sync="score"></new-star>
     </div>
     <div>
       <i v-show="showIcon" class="iconfont ic-dianhua text-1AB6FD"></i>
-      <span>{{phone}}</span>
+      <span class="text-black">{{phone}}</span>
     </div>
     <div>
       <i v-show="showIcon" class="iconfont ic-address text-1AB6FD"></i>
-      <span>{{address}}</span>
+      <span class="text-black">{{address}}</span>
     </div>
     <div>
       <i v-show="showIcon" class="iconfont ic-qianbao text-1AB6FD"></i>
-      <span class="text-red"> &yen; {{price}}</span>
+      <span class="text-price"> &yen; {{price}}</span>
     </div>
     <div><i class="iconfont ic-gouwuche1 position-absolute position-rb icon-size" v-show="cart"></i></div>
   </div>
@@ -108,5 +108,26 @@
   .icon-size{
     font-size: 50px;
     color:rgba(240,43,43,1);
+  }
+  .text-black{
+    color: #333333;
+    width:239px;
+    height:21px;
+    font-size:22px;
+    line-height:36px;
+  }
+  .text-title{
+    width:163px;
+    height:26px;
+    font-size:28px;
+    color:rgba(69,69,69,1);
+    line-height:0px;
+  }
+  .text-price{
+    width:77px;
+    height:18px;
+    font-size:22px;
+    color:rgba(255,0,0,1);
+    line-height:88px;
   }
 </style>
