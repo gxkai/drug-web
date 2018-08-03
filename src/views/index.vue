@@ -96,8 +96,8 @@
               <img class="is-120x120 mr-20" :src="getImgURL(discountList.fileId, 'MIDDLE_LOGO')"
                    v-if="index===0">
               <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-                <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
+                <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
+                <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
               </div>
             </router-link>
           </div>
@@ -108,8 +108,8 @@
                          :key="index" v-if="index===1">
               <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===1">
               <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-                <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
+                <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
+                <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
               </div>
             </router-link>
           </div>
@@ -119,8 +119,8 @@
                          :key="index" v-if="index===2">
               <img class="is-145x145" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===2">
               <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-                <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
+                <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
+                <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
               </div>
             </router-link>
           </div>
@@ -130,8 +130,8 @@
                          :key="index" v-if="index===3">
               <img class="is-135x85 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===3">
               <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-                <span class="text-red text-center">¥ {{discountList.price}} /盒</span>
+                <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
+                <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
               </div>
             </router-link>
           </div>
@@ -142,8 +142,8 @@
                          :key="index" v-if="index===4">
               <img class="is-135x85 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===4">
               <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block">{{discountList.name}}</span>
-                <span class="text-red">¥ {{discountList.price}} /盒</span>
+                <span class="elps width-144 d-inline-block  fz16">{{discountList.name}}</span>
+                <span class="text-red fz18">¥ {{discountList.price}} /盒</span>
               </div>
             </router-link>
           </div>
@@ -158,7 +158,7 @@
       </div>
       <div class="shop-content">
         <swiper :options="swiperOptions" id="medical">
-           <swiper-slide class="swiper-img" :style="{background: 'url('+getImgURL(item.fileId, 'MIDDLE_LOGO')+')'}" v-for="(item,index) in showLists">
+           <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId, 'MIDDLE_LOGO')+') no-repeat'}" v-for="(item,index) in showLists">
              <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
           </swiper-slide>
 
@@ -183,8 +183,8 @@
             <span class="toc-tip position-absolute all-center" v-if="recommendLists.isOtc === true">非处</span>
             <span class="toc-tip position-absolute all-center" v-else>处</span>
             <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'MIDDLE_LOGO')">
-            <span class="elps width-180">{{recommendList.name}}{{recommendList.spec}}</span>
-            <span class="text-red">¥ {{recommendList.price}} /盒</span>
+            <span class="elps width-180 fz22">{{recommendList.name}}{{recommendList.spec}}</span>
+            <span class="text-red fz24">¥ {{recommendList.price}} /盒</span>
           </router-link>
           <li
             class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
@@ -588,7 +588,7 @@
     width: 720px;
     height: 330px;
     background: rgba(238, 238, 238, 1);
-  }
+   }
 
   /* 撑屏容器 */
   .is-720x100 {
@@ -747,4 +747,12 @@
     background: white;
     opacity: 0;
   }
+  .swiper-wrapper{
+    margin-top: 52px;
+  }
+  .fz18{font-size: 18px;}
+  .fz17{font-size: 17px;}
+  .fz16{font-size: 16px;}
+  .fz22{font-size: 22px;}
+  .fz24{font-size: 24px;}
 </style>
