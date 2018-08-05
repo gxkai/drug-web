@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <new-header title="我的意见">
-      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
-      <span slot="right" @click="commit()">提交</span>
-    </new-header>
+      <div slot="left"><router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link></div>
+      <div slot="right">
+        <span @click="commit()">提交</span>
+      </div>
+     </new-header>
     <div>
       <textarea name="" rows="" cols="" v-model="content"
                 placeholder="您的意见对我们非常重要，我们会不断的优化和改善，努力为您带来更高的体验，谢谢"></textarea>

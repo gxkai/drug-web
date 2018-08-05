@@ -1,10 +1,13 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-content position-relative">
-    <new-header :title="shopName || hospitalName">
-      <router-link to="/messageTypes" slot="left" class="iconfont ic-arrow-right text-white">
-      </router-link>
-    </new-header>
+    <new-header :title="shopName">
+      <div slot="left">
+        <router-link to="/messageTypes">
+          <i class=" iconfont ic-xiaoxi"></i>
+        </router-link>
+      </div>
+   </new-header>
 
     <div class="hr-box">
       <span class="line mr-30"></span>
@@ -69,9 +72,10 @@
             </div>
           </div>
         </div>
-      </li>
 
+      </li>
     </ul>
+
     <div class="rx-total ml-20">
       <i class="iconfont ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥ {{amount}}</span>
     </div>

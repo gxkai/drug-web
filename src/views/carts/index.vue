@@ -81,7 +81,7 @@
                       </div>
                       <div class="text">
                         <div class="top">
-                          <div class="name">{{cartDrug.name}}</div>
+                          <div class="name elips">{{cartDrug.name}}</div>
                           <div class="spec">{{cartDrug.spec}}</div>
                         </div>
                         <div class="bottom">
@@ -410,27 +410,28 @@
   .chu {
     position: absolute;
     width:42px;
-    height:25px;
+    height:22px;
     background:rgba(43,178,146,1);
     font-size:18px;
     font-family:HiraginoSansGB-W3;
     color:rgba(255,255,255,1);
     text-align: center;
     line-height: 20px;
-    border-radius: 20px;
+    border-radius: 21px/11px;
   }
 
   .feichu {
     position: absolute;
     width:60px;
-    height:25px;
+    height:30px;
     background:rgba(191,191,191,1);
     font-size:16px;
     font-family:HiraginoSansGB-W3;
     color:rgba(102,102,102,1);
     text-align: center;
-    line-height: 20px;
-    border-radius: 20px;
+    line-height: 30px;
+    border-radius:30px/15px;
+
   }
   /*结算栏*/
   .close {
@@ -476,8 +477,9 @@
   }
   .close .left span {
     font-size:28px;
-    font-family:HiraginoSansGB-W3;
+    line-height: 25px;
     color:rgba(51,51,51,1);
+    display: inline-block;
   }
 
   /*字体颜色单独设置*/
@@ -547,6 +549,7 @@
     font-size: 18px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
+    margin-top: 12px;
   }
 
   .slide-content .text .bottom {
@@ -591,6 +594,18 @@
   }
   .color-333 {
     color: #333;
+  }
+  input[type='button']{
+    -webkit-appearance: none;
+    border: none;
+    height: 29px;
+    line-height: 29px;
+  }
+  .quantity span{
+    margin-right: 16px;
+  }
+  .multi-input{
+    margin-right: 16px;
   }
 </style>
 

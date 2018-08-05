@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <new-header title="全部商品" :style="{background:bgColor,color:color}">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"  slot="left"  :style="{color:leftColor}" ></i>
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left" :style="{color:leftColor}"></i>
     </new-header>
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <div class="width-percent-100">
@@ -43,7 +43,9 @@
     },
     created: function () {
       this.shopId = this.$route.query.id;
-      this.typeId = this.$route.query.typeId;
+      if (typeof (this.$route.query.typeId) !== 'undefined') {
+        this.typeId = this.$route.query.typeId;
+      }
     },
     props: {
       title: {
@@ -110,12 +112,14 @@
     margin-top: 26px;
   }
 
-  .bg-white{
+  .bg-white {
     background: white;
   }
-  .border-bottom-grey{
+
+  .border-bottom-grey {
     border-bottom: 1px #f5f5f5 solid;
   }
+
   .drug-country {
     width: 231px;
     height: 28px;
@@ -130,7 +134,7 @@
     margin-top: 13px;
   }
 
-  .drugs-box{
+  .drugs-box {
     padding: 0 10px;
     box-sizing: border-box;
   }

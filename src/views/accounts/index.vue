@@ -1,8 +1,12 @@
 <template>
   <div class="account-container">
     <new-header height="low" ref="header">
-      <router-link tag="i" to="/messageTypes" class=" iconfont ic-xiaoxi" slot="left"></router-link>
-      <router-link tag="i" to="/setting" class=" iconfont ic-shezhi1" slot="right"></router-link>
+      <div slot="left">
+          <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi"></router-link>
+      </div>
+      <div slot="right">
+         <router-link tag="i" to="/setting" class=" iconfont ic-shezhi1"></router-link>
+      </div>
     </new-header>
     <div ref="body">
       <div class="header all-center" v-if="JSON.stringify(account) !== '{}'">

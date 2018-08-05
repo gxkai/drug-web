@@ -2,7 +2,9 @@
 <template>
   <div class="account-container">
     <new-header title="账户信息">
-      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <div slot="left">
+        <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link>
+      </div>
     </new-header>
 
     <div class="a-content-list flex-stream-sb padding-10" @click="changeVisible">

@@ -18,7 +18,7 @@
 
         <div class="slide-content" v-for="item in order.list">
           <div class="image">
-            <img v-lazy="item.logo">
+            <img v-lazy="getImgURL(item.fileId, 'MIDDLE_LOGO')">
           </div>
           <div class="text">
             <div class="top">
@@ -99,7 +99,7 @@
         <div class="slide-content" v-for="item in order.list">
           <div class="image">
             <div class="chu" v-if="item.otc">处</div>
-            <div class="feichu" v-else>非处</div>
+            <div class="feichu" v-else>非</div>
             <img v-lazy="item.logo">
           </div>
           <div class="text">
@@ -258,15 +258,15 @@
 
   .feichu {
     position: absolute;
-    width:50px;
-    height:25px;
+    width:60px;
+    height:30px;
     background:rgba(191,191,191,1);
     font-size:16px;
     font-family:HiraginoSansGB-W3;
     color:rgba(102,102,102,1);
     text-align: center;
-    line-height: 20px;
-    border-radius: 20px;
+    line-height: 30px;
+    border-radius: 30px/15px;
   }
 
   .slide-content .text {
@@ -341,19 +341,26 @@
   }
 
   .item-bottom-buttons button {
+    appearance:none!important;
     width: 118px;
     height: 40px;
     background: white;
     border-radius: 20px;
     font-size: 20px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
     outline: none;
+    display: inline-block;
+    -webkit-appearance: none!important;
+    border: none;
+    border:1px solid #757575;
   }
 
   .item-bottom-button-active {
-    color: #00ADB3 !important;
-    border-color: #00ADB3 !important;
+    color: rgb(19, 193, 254) !important;
+    border:1px solid rgb(19, 193, 254)!important;
+  }
+  .item1{
+    width: 720px;
   }
 
 </style>
