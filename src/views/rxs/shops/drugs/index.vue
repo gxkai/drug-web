@@ -1,9 +1,8 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-content position-relative">
-    <new-header :title="shopName">
-      <router-link to="/messageTypes" slot="left">
-        <i class=" iconfont ic-xiaoxi"></i>
+    <new-header :title="shopName || hospitalName">
+      <router-link to="/messageTypes" slot="left" class="iconfont ic-arrow-right text-white">
       </router-link>
     </new-header>
 
@@ -70,10 +69,9 @@
             </div>
           </div>
         </div>
-
       </li>
-    </ul>
 
+    </ul>
     <div class="rx-total ml-20">
       <i class="iconfont ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥ {{amount}}</span>
     </div>
