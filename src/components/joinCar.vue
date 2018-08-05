@@ -134,6 +134,11 @@
 </script>
 
 <style scoped>
+  footer{
+    height: 141px;
+    position: absolute;
+    bottom: 0px;
+  }
   .drug-buy-number{
     height: 86px;
   }
