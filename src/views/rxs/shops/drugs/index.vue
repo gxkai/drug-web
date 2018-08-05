@@ -12,19 +12,6 @@
       <span class="txt">药店列表</span>
       <span class="line ml-30"></span>
     </div>
-
-    <div class="bg-white chose-box p-lr-20 is-flex flex-sb">
-      <span>
-        <i class="iconfont ic-changshangbaojia text-13C1FE"></i>
-        选择厂商
-      </span>
-      <span>
-         <i class="iconfont text-1AB6FD" @click="lookMore(index)" :class="{'ic-xiajiantou':isActive}"></i>
-         <i class="iconfont text-1AB6FD" @click="lookMore(index)" :class="{'ic-youjiantou':!isActive}"></i>
-      </span>
-    </div>
-
-    <!-- 遮罩 -->
     <div v-show="show" class="shadow-box">
       <div class="shadow-content position-relative">
         <i class="iconfont ic-guanbi2 position-absolute position-tr" @click="takeUp"></i>
@@ -32,32 +19,63 @@
           <span><i class="iconfont ic-changshangbaojia text-13C1FE"></i> 选择厂商</span>
         </div>
         <div>
-            <div class="is-flex flex-sb p-10-20">
-              <div class="text-13C1FE">
-                <i class="iconfont ic-changfang"></i>
-                <span>厂商名称</span>
-              </div>
-              <div class="text-13C1FE">
-                <i class="iconfont ic-jiage"></i>
-                <span>价格</span>
-              </div>
+          <div class="is-flex flex-sb p-10-20">
+            <div class="text-13C1FE">
+              <i class="iconfont ic-changfang"></i>
+              <span>厂商名称</span>
             </div>
-            <div v-for="(origin,index) in origins" @click="choose(index)" class="is-flex flex-sb p-10-20">
-              <span>{{origin.originName}}</span>
-              <span class="text-red">¥ {{origin.price}}</span>
+            <div class="text-13C1FE">
+              <i class="iconfont ic-jiage"></i>
+              <span>价格</span>
             </div>
           </div>
+          <div v-for="(origin,index) in origins" @click="choose(index)" class="is-flex flex-sb p-10-20">
+            <span>{{origin.originName}}</span>
+            <span class="text-red">¥ {{origin.price}}</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <ul>
-      <li v-for="(cart,index) in carts" :key="index" class="m-10">
-        <new-rx-shop-drugs :isOtc="cart.isOtc" :name="cart.name" :spec="cart.spec" :fileId="cart.fileId"
-                           :price="cart.price"></new-rx-shop-drugs>
+      <li v-for="(drug,index) in drugs" :key="index" class="m-10">
+        <div class="rx-shop-drugs-box is-flex flex-row flex-item pl-20 position-relative">
+          <span class="toc-tip position-absolute all-center" v-if="carts[index].otc === true">非处</span>
+          <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
+          <img class="is-200x200" :src="getImgURL(carts[index].fileId, 'LOGO')">
+          <div class="box-right is-flex flex-column flex-sa ml-40">
+            <div class="position-relative">
+              <i class="iconfont ic-changfang text-13C1FE"></i>
+              <span class="text-box">厂商:</span>
+              <span class="text-info">{{carts[index].originName}}</span>
+              <i @click="lookMore(index)" :class="{'iconfont ic-youjiantou':isActive}"></i>
+              <i @click="lookMore(index)" :class="{'iconfont ic-xiajiantou':!isActive}"></i>
+            </div>
+            <div>
+              <i class="iconfont ic-yao text-13C1FE"></i>
+              <span class="text-box">名称:</span>
+              <span class="">{{carts[index].name}}</span>
+            </div>
+            <div>
+        <span>
+           <i class="iconfont ic-yaopinshuju text-13C1FE"></i>
+           <span class="text-box">规格:</span>
+           <span class="">{{carts[index].spec}}</span>
+        </span>
+            </div>
+            <div>
+              <i class="iconfont ic-qian text-13C1FE"></i>
+              <span class="text-box">最低价:</span>
+              <span class="text-red">&yen; {{carts[index].price}}</span>
+            </div>
+          </div>
+        </div>
+
       </li>
     </ul>
+
     <div class="rx-total ml-20">
-      <i class="iconfont ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥127.2</span>
+      <i class="iconfont ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥ {{amount}}</span>
     </div>
 
     <new-rxCart @createCart="createCart"></new-rxCart>
@@ -79,7 +97,8 @@
         index: 0,
         carts: [],
         account: {},
-        isActive: true
+        isActive: true,
+        amount: 0
       };
     },
     created() {
@@ -96,7 +115,6 @@
         this.$http.get('/rxs/' + this.id + '/shops/' + this.shopId + '/drugs')
           .then(res => {
             this.drugs = res.data;
-            console.log(res.data);
             this.initCart();
           });
       },
@@ -107,7 +125,8 @@
         this.isActive = !this.isActive;
       },
       takeUp() {
-        this.show = false;
+        this.show = !this.show;
+        this.isActive = !this.isActive;
       },
       initCart() {
         this.drugs.forEach(drug => {
@@ -121,8 +140,13 @@
             spec: drug.spec,
             price: drug.drugs[0].price,
             quantity: drug.quantity,
-            fileId: drug.drugs[0].fileId
+            fileId: drug.drugs[0].fileId,
+            otc: drug.otc,
+            originName: drug.drugs[0].originName
           });
+        });
+        this.carts.forEach(e => {
+          this.amount += e.price;
         });
       },
       choose(index) {
@@ -131,7 +155,13 @@
         cart.shopDrugSpecId = this.origins[index].shopDrugSpecId;
         cart.price = this.origins[index].price;
         cart.fileId = this.origins[index].fileId;
-        this.show = false;
+
+        this.amount = 0;
+        this.carts.forEach(e => {
+          this.amount += e.price;
+        });
+        this.show = !this.show;
+        this.isActive = !this.isActive;
       },
       createCart() {
         this.carts.forEach(cart =>
@@ -192,15 +222,6 @@
     margin-top: 10px !important;
     box-sizing: border-box;
   }
-  .chose-box{
-    width: 720px;
-    height: 35px;
-    line-height: 35px;
-    display: inline-block;
-  }
-  .p-lr-20{
-    padding: 0 20px;
-  }
 
   .hr-box{
     height: 90px;
@@ -254,4 +275,75 @@
     font-size:30px;
     text-align: center;
   }
+
+
+  /* 组件 */
+  .rx-shop-drugs-box{
+    width: 720px;
+    height:216px;
+    background:rgba(255,255,255,1);
+  }
+  .is-200x200{
+    width: 200px;
+    height: 200px;
+  }
+  .pl-20{
+    padding-left: 20px !important;
+    box-sizing: border-box;
+  }
+  .ml-40{
+    margin-left: 40px !important;
+  }
+  .is-flex{
+    display: flex !important;
+  }
+
+  .flex-row{
+    flex-direction: row;
+  }
+  .flex-column{
+    flex-direction: column;
+  }
+  .flex-sa{
+    justify-content: space-around;
+  }
+  .flex-sb{
+    justify-content: space-between;
+  }
+  .flex-item{
+    align-items: center;
+  }
+
+  .box-right{
+    height: 150px;
+  }
+  /*处方标识*/
+  .toc-tip{
+    left: 5px;
+    top: 5px;
+    width:50px;
+    height:30px;
+    background:#bfbfbf;
+    color:#666666;
+    border-radius:100px / 50px;
+  }
+  .all-center{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .bg-2BB292{
+    background: #2BB292;
+    color: white;
+  }
+  .text-box{
+    width: 90px !important;
+    display: inline-block;
+  }
+  .text-info{
+    width: 180px !important;
+    display: inline-block;
+  }
+
 </style>
