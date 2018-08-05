@@ -23,7 +23,7 @@
         <div class="drug-spec width-percent-96 m-auto">
           <div v-for="item in drugSpecs">
             <div class="radio-item">
-              <label for="item.id">{{item.name}}</label><input type="radio" name="drugSpec"  :checked="item.radio"
+              <label for="item.id">{{item.name}}</label><input type="radio"  v-model="drugSpec" :value="item"
                                                                id="item.id"/>
             </div>
           </div>
@@ -42,7 +42,8 @@
     value: '',
     props: ['drugSpecs', 'drugSpec', 'drugInfo'],
     data() {
-      return {};
+      return {
+      };
     },
     watch: {
       drugSpec(value) {
@@ -51,11 +52,6 @@
     },
     methods: {
       close() {
-        this.drugSpecs.forEach(e => {
-          if (e.radio) {
-            this.drugSpec = e;
-          }
-        });
         this.$emit('close');
       }
     },
@@ -232,8 +228,9 @@
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
+
   .radio-item input {
-    width:29px;
-    height:29px;
+    width: 29px;
+    height: 29px;
   }
 </style>
