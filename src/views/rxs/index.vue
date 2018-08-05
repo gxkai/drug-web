@@ -41,25 +41,25 @@
           <table class="position-relative">
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_1.png"></td>
-              <td><span class="td-width-55 ellipsis">地址</span></td>
-              <td><span class="td-width-250 ellipsis">{{rx.hospital}}</span></td>
+              <td><span class="td-width-55 ellipsis text-small">地址</span></td>
+              <td><span class="td-width-250 ellipsis text-black">{{rx.hospital}}</span></td>
               <td class="text-center"><span class="text-13C1FE">{{rx.number}}</span></td>
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_2.png"></td>
-              <td><span class="td-width-55 ellipsis">日期</span></td>
-              <td><span class="td-width-250 ellipsis">{{rx.rxDate|timeConvert}}</span></td>
+              <td><span class="td-width-55 ellipsis text-small">日期</span></td>
+              <td><span class="td-width-250 ellipsis text-black">{{rx.rxDate|timeConvert}}</span></td>
               <td></td>
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_3.png"></td>
-              <td><span class="td-width-55 ellipsis">症状</span></td>
-              <td><span class="td-width-250 ellipsis">{{rx.illness}}</span></td>
+              <td><span class="td-width-55 ellipsis text-small">症状</span></td>
+              <td><span class="td-width-250 ellipsis text-black">{{rx.illness}}</span></td>
               <td></td>
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_4.png"></td>
-              <td><span class="td-width-55 ellipsis">倒计时</span></td>
+              <td><span class="td-width-55 ellipsis text-small">倒计时</span></td>
               <!-- TODO 倒计时 -->
               <td><span class="td-width-250 ellipsis">2018-12-19 12:06:00</span></td>
             </tr>
@@ -259,12 +259,6 @@
     text-overflow: ellipsis;
   }
 
-  /* 撑屏容器 */
-  .is-720x100 {
-    width: 720px;
-    height: 100px;
-  }
-
   .flex-row-center {
     display: flex;
     flex-direction: row;
@@ -279,6 +273,21 @@
   .position-search {
     top: 17px;
     left: 10px;
+  }
+
+  .text-black{
+    color: black;
+    width:222px;
+    height:24px;
+    font-size:25px;
+    line-height:36px;
+  }
+  .text-small{
+    color: #888888;
+    font-size:16px;
+    width:48px;
+    height:16px;
+    line-height:36px;
   }
 </style>
 

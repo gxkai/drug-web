@@ -261,7 +261,7 @@
     height:69px;
     background:rgba(238,238,238,1);
     border-radius:5px;
-    margin-left: 86px;
+    margin-left: 110px;
     line-height: 69px;
   }
   .tel{
@@ -319,7 +319,7 @@
     line-height: 70px;
     border: none;
     font-size:26px;
-    left: 420px;
+    left: 445px;
   }
   input{
     font-size:24px;

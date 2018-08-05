@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <new-header title="我的消息">
-      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left"></i>
     </new-header>
 
     <div class="news-lists">

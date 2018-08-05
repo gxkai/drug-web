@@ -8,7 +8,6 @@ import newMain from '../../components/main';
 import newCloseList from '../../components/closeList';
 import newLine from '../../components/line';
 import newShops from '../../components/shops';
-import newRxShopDrug from '../../components/rxshopdrug';
 import joinCar from '../../components/joinCar';
 import drugRefund from '../../components/drugRefund';
 import drugs from '../../components/drugs';
@@ -34,7 +33,6 @@ export default {
     Vue.component('new-edit-line', newEditLine);
     Vue.component('new-main', newMain);
     Vue.component('new-shop', newShops);
-    Vue.component('new-rx-shop-drugs', newRxShopDrug);
     Vue.component('new-close-list', newCloseList);
     Vue.component('new-line', newLine);
     Vue.component('new-join-car', joinCar);
