@@ -1,4 +1,4 @@
-<template>
+item in showLists"<template>
   <!--TODO swiper 滚动 -->
   <!--TODO 倒计时 -->
   <div class="bg-f8">
