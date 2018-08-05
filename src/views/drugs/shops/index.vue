@@ -70,7 +70,6 @@
   export default {
     data() {
       return {
-        drugShopSort: 'SYNTHESIZE',
         shopLists: [],
         drugInfo: [],
         drugSpecs: [],
@@ -98,7 +97,7 @@
     },
     methods: {
       getShopLists() {
-        var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.drugSpec.id + '/shops?drugShopSort=' + this.drugShopSort + '&lat=' + this.lat + '&lng=' + this.lng;
+        var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.drugSpec.id + '/shops?sort=' + this.sort + '&lat=' + this.lat + '&lng=' + this.lng;
         this.$http.get(url).then((res) => {
           this.total = res.data.total;
           this.shopLists = res.data.list;
@@ -108,11 +107,11 @@
       },
 
       orderById() {
-        this.drugShopSort = 'SYNTHESIZE';
+        this.sort = 'SYNTHESIZE';
         this.getShopLists();
       },
       orderByDistance() {
-        this.drugShopSort = 'DISTANCE';
+        this.sort = 'DISTANCE';
         this.getLocation();
       },
       getLocation() {
@@ -144,11 +143,12 @@
         }
       },
       orderByPrice() {
+        debugger;
         this.val = -(this.val);
         if (this.val === -1) {
-          this.drugShopSort = 'PRICE_LESS';
+          this.sort = 'PRICE_ASC';
         } else {
-          this.drugShopSort = 'PRICE_MORE';
+          this.sort = 'PRICE_DESC';
         }
         this.getShopLists();
       },
@@ -162,9 +162,7 @@
         this.drugInfo = res.data;
         this.drugSpecs = res.data.drugSpecs;
         this.drugSpecs.forEach(e => {
-          e.radio = false;
           if (e.id === this.drugSpecId) {
-            e.radio = true;
             this.drugSpec = e;
           }
         });
@@ -355,6 +353,12 @@
   .swiper-body {
     width:720px;
     height:413px;
+    text-align: center;
+    background-color: white;
+  }
+
+  .swiper-body img {
+    height: 400px;
   }
 
   a span{

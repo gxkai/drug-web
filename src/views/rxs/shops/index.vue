@@ -43,9 +43,12 @@
       </li>
     </ul>
     <ul>
-      <!-- TODO 医院 -->
-      <new-shop :showStar="false" :fileId="3" :newScore="4" :shopName="昆山市中医院" :phone="'0512-56498211'"
-                :address="昆山市朝阳路189号" :price="58.00" :newCart="true" :showIcon="true"></new-shop>
+      <!-- FIXME rxId -->
+      <router-link :to="{path:'/rxs/shops/drugs',query:{rxId:id}}">
+      <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
+                :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
+      </router-link>
+
       <li v-for="rxShop in rxShops">
         <router-link :to="{path:'/rxs/shops/drugs',query:{id:id,shopId:rxShop.id,shopName:rxShop.name}}">
         <new-shop :showStar="true" :fileId="rxShop.fileId" :newScore="rxShop.score" :shopName="rxShop.name" :phone="rxShop.tel"
@@ -74,12 +77,16 @@
         index4: 4,
         comprehensive2: -2,
         comprehensive3: -3,
-        comprehensive4: -4
+        comprehensive4: -4,
+        hospitalId: '',
+        hospital: {}
       };
     },
     created() {
       this.id = this.$route.query.id;
+      this.hospitalId = this.$route.query.hospitalId;
       this.getRxShops();
+      this.getHospital();
     },
     methods: {
       getRxShops() {
@@ -87,6 +94,14 @@
           .then(res => {
             this.rxShops = res.data;
           });
+      },
+      getHospital() {
+        this.$http.get('/rxs/' + this.id + '/hospitals')
+          .then(res => {
+            this.hospital = res.data;
+            console.log(res.data);
+          })
+        ;
       },
       orderById() {
         this.rxShops = this.orderListsById(this.rxShops);
