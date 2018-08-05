@@ -1,6 +1,4 @@
 <template>
-  <!--TODO swiper 滚动 -->
-  <!--TODO 倒计时 -->
   <div class="bg-f8">
     <div class="bg-blue index-header">
       <div class="flex-stream-sb padding-lr-10 mtop-30">
