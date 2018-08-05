@@ -38,7 +38,7 @@
        <span>{{shopDrugSpec.origin.company}}</span>
      </div>
      <div>
-       <img :src="drugImg" v-for="drugImg in shopDrugSpec.drugImgs"/>
+       <img v-lazy="getImgURL(fileId,'LARGE_LOGO')" v-for="fileId in shopDrugSpec.fileIds"/>
      </div>
     </div>
   </div>
@@ -48,9 +48,10 @@
     name: 'drugInfo',
     props: ['shopDrugSpec'],
     data: {
-      shopDrugSpec: []
+    },
+    created() {
     }
-  };
+};
 </script>
 <style scoped>
   * {
