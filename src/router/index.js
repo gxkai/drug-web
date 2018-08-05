@@ -237,6 +237,10 @@ export default new Router({
       component: () => import('@/views/orders/create/fromShop.vue')
     },
     {
+      path: '/orders/create/fromHospital',
+      component: () => import('@/views/orders/create/fromHospital.vue')
+    },
+    {
       path: '/orders/addresses',
       component: () => import('@/views/orders/addresses/index.vue')
     },
@@ -267,6 +271,10 @@ export default new Router({
     {
       path: '/orders/search',
       component: () => import('@/views/orders/search.vue')
+    },
+    {
+      path: '/orders/takeDrug',
+      component: () => import('@/views/orders/takeDrug.vue')
     },
     {
       path: '/pay/alipay',
