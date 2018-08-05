@@ -1,28 +1,33 @@
 <template>
   <div class="drugDetail">
-    <new-header title="详情" class="bg-white text-333333">
-      <i class="iconfont ic-arrow-right text-333333" slot="left" @click.stop="$router.push('/shopDrugSpecs')"></i>
-    </new-header>
-    <div class="view-nav width-percent-96 m-auto">
-      <ul>
-        <li class="text-center width-percent-49 fl" @click="shop(1)" :class="{active:number==1}">基本信息</li>
-        <li class="text-center width-percent-50 fl" @click="shop(0)" :class="{active:number==0}">服务保障</li>
-      </ul>
+    <div ref="header">
+      <new-header title="详情" class="bg-white text-333333">
+        <i class="iconfont ic-arrow-right text-333333" slot="left" @click.stop="$router.go(-1)"></i>
+      </new-header>
+      <div class="view-nav width-percent-96 m-auto">
+        <ul>
+          <li class="text-center width-percent-49 fl" @click="shop(1)" :class="{active:number==1}">基本信息</li>
+          <li class="text-center width-percent-50 fl" @click="shop(0)" :class="{active:number==0}">服务保障</li>
+        </ul>
+      </div>
     </div>
-    <keep-alive>
-      <component :is="showComponent"></component>
-    </keep-alive>
-   </div>
+    <div ref="body">
+      <keep-alive>
+        <component :is="showComponent" :shopDrugSpec="shopDrugSpec"></component>
+      </keep-alive>
+    </div>
+  </div>
 </template>
 <script>
   import drugAppraise from '../shopDrugSpecs/child/appraise';
   import drugInfo from '../shopDrugSpecs/child/info';
+
   export default {
     name: 'drugDetail',
     data() {
       return {
         shows: 0,
-        shopDrugSpec: null,
+        shopDrugSpec: JSON.parse(this.$route.query.shopDrugSpec),
         number: 1,
         showComponent: drugInfo
       };
@@ -37,14 +42,6 @@
           this.showComponent = drugInfo;
           this.number = index;
         }
-      },
-      showComponent: function () {
-        switch (this.compountIsshow) {
-          case 1:
-            return 'drugInfo';
-          case 2:
-            return 'drugAppraise';
-        }
       }
     },
     components: {
@@ -53,6 +50,10 @@
     },
     created() {
       this.shop(this.$route.query.index);
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>
@@ -77,5 +78,6 @@
   .view-nav ul {
     height: 40px;
     line-height: 40px;
+    font-size: 30px;
   }
 </style>
