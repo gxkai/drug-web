@@ -21,9 +21,9 @@
         <p>加入购物车</p>
       </div>
       <!-- FIXME -->
-      <router-link tag="div" to="/accounts" :class="{active:urlRouter === '/accounts'}" class="immediately-buy">
+      <div class="immediately-buy" @click.stop="onBuy">
         <p>立即购买</p>
-      </router-link>
+      </div>
     </footer>
 
 
@@ -33,7 +33,7 @@
       <div class="hide-drug-detail" v-show="show">
         <div class="width-percent-100 drug-top">
           <div class="d-inline-block fl">
-            <img v-lazy="'/files/' + drugInfo.shopLogo + '/image?resolution=LARGE_LOGO'" class="drug-img"/>
+            <img v-lazy="getImgURL(drugInfo.shopLogo,'LARGE_LOGO')" class="drug-img"/>
           </div>
           <div class="drug-close">
             <i class="icon iconfont ic-guanbi2" @click="close()"></i>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import {MessageBox, Toast} from 'mint-ui';
+  import {Toast} from 'mint-ui';
   export default {
     name: 'newFooter',
     data() {
@@ -71,16 +71,14 @@
         number: 1,
         show: false,
         popupVisible: false,
-        drugInfos: [],
-        headimg: ''
+        type: 0
       };
     },
     created() {
-      this.headImg = '/files/' + this.drugInfo.shopLogo + '/image?resolution=LARGE_LOGO';
     },
     props: {
       drugInfo: {
-        type: Array,
+        type: Object,
         required: true
       },
       urlRouter: {
@@ -88,6 +86,11 @@
       }
     },
     methods: {
+      onBuy() {
+        this.show = !this.show;
+        this.type = 1;
+        this.popupVisible = true;
+      },
       drugReduce() {
         if (this.number === 1) {
           this.number = 1;
@@ -101,6 +104,7 @@
       },
       joinCar() {
         this.show = !this.show;
+        this.type = 0;
         this.popupVisible = true;
       },
       close() {
@@ -108,16 +112,22 @@
         this.show = !this.show;
       },
       onConfirm() {
-        this.$http.post('/carts', {
-          shopId: this.drugInfo.shopId,
-          drugSpecId: this.drugInfo.drugSpecId,
-          shopDrugSpecId: this.drugInfo.id,
-          quantity: this.number
-        }).then(res => {
-          MessageBox('提示', '加入成功').then(action => {
+        if (this.type === 0) {
+          this.$http.post('/carts', {
+            shopId: this.drugInfo.shopId,
+            drugSpecId: this.drugInfo.drugSpecId,
+            shopDrugSpecId: this.drugInfo.id,
+            quantity: this.number
+          }).then(res => {
+            Toast({
+              message: '加入成功',
+              duration: 500
+            });
             this.close();
           });
-        });
+        } else {
+          this.$router.push('/orders/create/fromShop?shopDrugSpecId=' + this.drugInfo.id + '&quantity=' + this.number);
+        }
       }
     }
   };

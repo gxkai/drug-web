@@ -2,7 +2,7 @@
   <div class="container">
     <new-header title="知识库查阅">
       <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
-      <router-link tag="i" to="/messaypes" class="iconfont ic-xiaoxi" slot="right"></router-link>
+      <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi" slot="right"></router-link>
     </new-header>
     <div class="types">
       <router-link class="type-list" v-for="(repositoryType,index) in repositoryTypeList" :key="index"

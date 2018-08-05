@@ -186,7 +186,7 @@
         this.$store.dispatch('LOGIN', userInfo)
           .then((res) => {
             this.account = res;
-            this.$router.push({path: '/accounts'});
+            this.$router.push({path: '/'});
           })
           .catch((error) => {
             this.exception(error);

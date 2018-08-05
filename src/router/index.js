@@ -233,6 +233,10 @@ export default new Router({
       component: () => import('@/views/orders/create/fromCart.vue')
     },
     {
+      path: '/orders/create/fromShop',
+      component: () => import('@/views/orders/create/fromShop.vue')
+    },
+    {
       path: '/orders/addresses',
       component: () => import('@/views/orders/addresses/index.vue')
     },
