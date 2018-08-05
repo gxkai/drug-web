@@ -1,9 +1,8 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-content position-relative">
-    <new-header :title="shopName">
-      <router-link to="/messageTypes" slot="left">
-        <i class=" iconfont ic-xiaoxi"></i>
+    <new-header :title="shopName || hospitalName">
+      <router-link to="/messageTypes" slot="left" class="iconfont ic-arrow-right text-white">
       </router-link>
     </new-header>
 
@@ -70,8 +69,39 @@
             </div>
           </div>
         </div>
-
       </li>
+
+      <li v-for="(item,index) in hospital.list" :key="index" class="m-10">
+        <div class="rx-shop-drugs-box is-flex flex-row flex-item pl-20 position-relative">
+          <img class="is-200x200" :src="getImgURL('', 'SMALL_LOGO')">
+          <div class="box-right is-flex flex-column flex-sa ml-40">
+            <div class="position-relative">
+              <i class="iconfont ic-changfang text-13C1FE"></i>
+              <span class="text-box">厂商:</span>
+              <span class="text-info">{{hospitalName}}</span>
+            </div>
+            <div>
+              <i class="iconfont ic-yao text-13C1FE"></i>
+              <span class="text-box">名称:</span>
+              <span class="">{{item.list.name}}</span>
+            </div>
+            <div>
+        <span>
+           <i class="iconfont ic-yaopinshuju text-13C1FE"></i>
+           <span class="text-box">规格:</span>
+           <span class="">{{item.list.spec}}</span>
+        </span>
+            </div>
+            <div>
+              <i class="iconfont ic-qian text-13C1FE"></i>
+              <span class="text-box">最低价:</span>
+              <span class="text-red">&yen; {{item.list.price}}</span>
+            </div>
+          </div>
+        </div>
+      </li>
+
+
     </ul>
 
     <div class="rx-total ml-20">
@@ -98,13 +128,18 @@
         carts: [],
         account: {},
         isActive: true,
-        amount: 0
+        amount: 0,
+        hospital: {},
+        hospitalId: '',
+        hospitalName: ''
       };
     },
     created() {
       this.id = this.$route.query.id;
       this.shopId = this.$route.query.shopId;
+      this.hospitalId = this.$route.query.hospitalId;
       this.shopName = this.$route.query.shopName;
+      this.hospitalName = this.$route.query.hospitalName;
       if (this.$store.getters.account) {
         this.account = this.$store.getters.account;
       }
@@ -116,6 +151,10 @@
           .then(res => {
             this.drugs = res.data;
             this.initCart();
+          });
+        this.$http.get('/orders/hospital?rxId=' + this.id)
+          .then(res => {
+            this.hospital = res.data;
           });
       },
       lookMore(index) {

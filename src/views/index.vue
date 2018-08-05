@@ -1,4 +1,4 @@
-item in showLists"<template>
+<template>
   <!--TODO swiper 滚动 -->
   <!--TODO 倒计时 -->
   <div class="bg-f8">
@@ -158,7 +158,7 @@ item in showLists"<template>
       </div>
       <div class="shop-content">
         <swiper :options="swiperOptions" id="medical">
-           <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId)+') no-repeat'}" v-for="(item,index) in showLists">
+           <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId)+') no-repeat'}" v-for="(item,index) in showLists" :key="index">
              <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
           </swiper-slide>
        </swiper>
