@@ -38,7 +38,7 @@
        <span>{{shopDrugSpec.origin.company}}</span>
      </div>
      <div>
-       <img :src="drugImg" v-for="drugImg in shopDrugSpec.drugImgs"/>
+       <img v-lazy="getImgURL(fileId,'LARGE_LOGO')" v-for="fileId in shopDrugSpec.fileIds"/>
      </div>
     </div>
   </div>
@@ -46,11 +46,10 @@
 <script>
   export default {
     name: 'drugInfo',
+    props: ['shopDrugSpec'],
     data: {
-      shopDrugSpec: []
     },
     created() {
-      this.shopDrugSpec = JSON.parse(this.$route.query.shopDrugSpec);
     }
 };
 </script>

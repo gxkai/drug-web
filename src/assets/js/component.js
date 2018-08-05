@@ -1,5 +1,5 @@
 import newHeader from '../../components/header';
-import newStar from '../../components/start';
+import newStar from '../../components/star';
 import newFooter from '../../components/footer';
 import newNoData from '../../components/noData';
 import newEditDiv from '../../components/editDiv';
@@ -22,6 +22,7 @@ import newAllData from '../../components/allData';
 import newLoading from '../../components/loading';
 import rxCart from '../../components/rxCart';
 import newCloseNormal from '../../components/closeNormal';
+import newDrugBottom from '../../components/drugBottom';
 
 export default {
   install(Vue, options) {
@@ -49,5 +50,6 @@ export default {
     Vue.component('new-loading', newLoading);
     Vue.component('new-rxCart', rxCart);
     Vue.component('new-close-normal', newCloseNormal);
+    Vue.component('new-drug-buttom', newDrugBottom);
   }
 };
