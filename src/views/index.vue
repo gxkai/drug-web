@@ -804,5 +804,5 @@ item in showLists"<template>
   .ic-ditu{margin-left: 15px;}
   .ic-shijian2:before { content: "\e6c2"; }
 .mr-7{margin-top: 7px!important;display: inline-block!important;}
-  .d_Downtime:first-child{margin-left: 0.4rem;}
+  .d_Downtime:first-child{margin-left:0rem;}
 </style>
