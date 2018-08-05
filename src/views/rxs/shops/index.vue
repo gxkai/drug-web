@@ -22,10 +22,10 @@
       </li>
     </ul>
     <ul>
-      <!-- TODO 医院接口 -->
-      <router-link :to="{path:'/rxs/shops/drugs',query:{id:id,hospitalId:hospitalId,hospitalName:hospital.name}}">
+      <!-- FIXME rxId -->
+      <router-link :to="{path:'/rxs/shops/drugs',query:{rxId:id}}">
       <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
-                :address="hospital.address" :price="58.00" :newCart="true" :showIcon="true"></new-shop>
+                :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
       </router-link>
 
       <li v-for="rxShop in rxShops">
@@ -73,7 +73,7 @@
           });
       },
       getHospital() {
-        this.$http.get('/hospitals/' + this.hospitalId)
+        this.$http.get('/rxs/' + this.id + '/hospitals')
           .then(res => {
             this.hospital = res.data;
             console.log(res.data);
