@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="content1" v-for="(item,index) in list" :key="index">
+    <div class="content1">
       <div class="title1">
         <i class="iconfont ic-yaodian"></i>
         <span>{{hospitalName}}</span>
@@ -9,15 +9,19 @@
       <div class="child1">
         <div class="line1">
           <span>订单编号</span>
-          <span>{{item.number}}</span>
+          <span>{{order.number}}</span>
         </div>
         <div class="line2">
-          <span>数量</span>
-          <span>{{item.quantity}}</span>
+          <span>件数</span>
+          <span>{{order.quantity}}</span>
         </div>
         <div class="line3">
-          <span>金额</span>
-          <span>￥{{item.price}}</span>
+          <span>取药号</span>
+          <span>{{order.takeNumber}}</span>
+        </div>
+        <div class="line4">
+          <span>取药地址</span>
+          <span>{{order.address}}</span>
         </div>
       </div>
     </div>
@@ -28,8 +32,8 @@
   export default {
     name: 'newTakeList',
     props: {
-      list: {
-        type: Array,
+      order: {
+        type: Object,
         default: []
       },
       hospitalName: {
@@ -82,27 +86,11 @@
   .child1 .line3 span:nth-child(2) {
     font-size:24px;
     font-family:HiraginoSansGB-W3;
-    color:rgba(255,0,0,1);
-    margin-left: 60px;
+    margin-left: 30px;
   }
-
-  .child1 .line4 {
-    display: flex;
-    justify-content: flex-end;
+  .child1 .line4 span:nth-child(2){
+    margin-left: 10px;
   }
-
-  .child1 .line4 button {
-    width:120px;
-    height:46px;
-    background:rgba(19,193,254,1);
-    outline: none;
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
-    margin-right: 20px;
-    border: 0;
-  }
-
   .iconfont {
     font-size: 50px;
   }

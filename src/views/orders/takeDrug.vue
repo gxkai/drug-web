@@ -1,9 +1,9 @@
 <template>
   <div class="main">
     <new-header title="取药信息">
-      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
+      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/orders/toReceive')"></i>
     </new-header>
-    <new-take-list :list="list" :hospitalName="hospitalName"></new-take-list>
+    <new-take-list :order="order" :hospitalName="hospitalName"></new-take-list>
   </div>
 </template>
 
@@ -16,7 +16,7 @@
         deliveryType: this.$route.query.deliveryType,
         rxId: this.$route.query.rxId,
         hospitalName: this.$route.query.hospitalName,
-        list: []
+        order: []
       };
     },
     computed: {
@@ -26,8 +26,8 @@
     },
     methods: {
       getList() {
-        this.$http.get('/orders/hospital?rxId=' + this.rxId).then(res => {
-          this.list = res.data;
+        this.$http.post('/orders/hospital?rxId=' + this.rxId).then(res => {
+          this.order = res.data;
         }).catch(error => {
           this.exception(error);
         });

@@ -23,7 +23,7 @@
     </ul>
     <ul>
       <!-- FIXME rxId -->
-      <router-link :to="{path:'/rxs/shops/drugs',query:{rxId:id}}">
+      <router-link :to="{path:'/orders/create/fromHospital',query:{rxId:id}}">
       <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
                 :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
       </router-link>
@@ -42,7 +42,7 @@
   export default {
     data() {
       return {
-        id: '',
+        id: this.$route.query.id,
         rxShops: [],
         lng: 120.9809,
         lat: 31.3872,
@@ -55,13 +55,11 @@
         comprehensive2: -2,
         comprehensive3: -3,
         comprehensive4: -4,
-        hospitalId: '',
+        hospitalId: this.$route.query.hospitalId,
         hospital: {}
       };
     },
     created() {
-      this.id = this.$route.query.id;
-      this.hospitalId = this.$route.query.hospitalId;
       this.getRxShops();
       this.getHospital();
     },

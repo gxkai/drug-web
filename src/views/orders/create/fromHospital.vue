@@ -96,7 +96,7 @@
       <div class="right">
         <div class="left">
           <span>实付金额:</span>
-          <span>￥{{shopInfo.payAmount}}</span>
+          <span>￥{{hospitalInfo.payAmount}}</span>
         </div>
         <button @click.stop="onOrder()">提交订单</button>
       </div>
@@ -138,7 +138,6 @@
             this.exception(error);
           });
         }
-
         this.$http.get('/orders/hospital?rxId=' + this.rxId)
           .then(res => {
             this.hospitalInfo = res.data;
