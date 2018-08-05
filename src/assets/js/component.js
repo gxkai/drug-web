@@ -22,6 +22,7 @@ import newLoading from '../../components/loading';
 import rxCart from '../../components/rxCart';
 import newCloseNormal from '../../components/closeNormal';
 import newDrugBottom from '../../components/drugBottom';
+import drugSearch from '../../components/drugSearch';
 
 export default {
   install(Vue, options) {
@@ -49,5 +50,6 @@ export default {
     Vue.component('new-rxCart', rxCart);
     Vue.component('new-close-normal', newCloseNormal);
     Vue.component('new-drug-buttom', newDrugBottom);
+    Vue.component('drug-search', drugSearch);
   }
 };
