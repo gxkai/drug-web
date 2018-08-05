@@ -1,14 +1,11 @@
 <template>
-  <div class="bind-container" id="bindContainer" ref="scroller" :style="{height:height}">
-    <div ref="header">
+  <div class="bind-container">
     <new-header title="商品详情">
       <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/')"></i>
     </new-header>
-    </div>
-    <view :shopDrugSpec="shopDrugSpec" class="d-none"></view>
     <!--上方轮播开始-->
     <div class="broadcast">
-      <div class="broadcast-content" style="background:red;">
+      <div class="broadcast-content">
         <mt-swipe :auto="4000">
           <mt-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
             <img v-lazy="getImgURL(fileId,'LARGE_PIC')" class="width-percent-100"/>
@@ -28,7 +25,7 @@
     <div class="stock is-flex flex-sa">
       <div>
         <span class="text-1AB6FD">国药准字：</span>
-        <span>{{shopDrugSpec.sfda.replace('国药准字','')}}</span>
+        <span>{{shopDrugSpec.sfda}}</span>
       </div>
       <span>|</span>
       <div>
@@ -36,9 +33,9 @@
         <span>{{shopDrugSpec.stock}}</span>
       </div>
       <span>|</span>
-      <div >
+      <div>
         <span class="text-1AB6FD">包装规格：</span>
-        <span >{{shopDrugSpec.spec}}</span>
+        <span>{{shopDrugSpec.spec}}</span>
       </div>
     </div>
     <!--库存结束-->
@@ -63,14 +60,14 @@
     <!--商品详情开始-->
     <div class="shop-detail">
       <div class="height-l-20"></div>
-      <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 1}}">
+      <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}}">
         <div class="shop-details">
           <i class="icon iconfont ic-liwu-copy text-1AB6FD predetnt"></i>
           <span class="text-666666">商品详情</span>
           <i class="icon iconfont ic-youjiantou1 text-333333"></i>
         </div>
       </router-link>
-      <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 0}}">
+      <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}}">
         <div class="shop-details">
           <i class="icon iconfont ic-pingjia text-1AB6FD predetnt"></i>
           <span class="text-666666">商品评价</span>
@@ -89,7 +86,7 @@
         <div class="company-name d-inline-block">
           <p class="elps">{{shopDrugSpec.shopName}}</p>
           <p class="elps">
-            <new-star :size="shopDrugSpec.shopTotalAppraise.score" disabled></new-star>
+            <new-star :score="shopDrugSpec.shopTotalAppraise.score" size="small" disabled></new-star>
           </p>
         </div>
         <div class="d-inline-block fr">
@@ -128,7 +125,8 @@
     <div class="comment width-percent-100">
       <div class="content-comment width-percent-94 m-auto border-bottom-f1f1f1">
         <span class="d-inline-block fl">顾客评论（{{shopDrugSpec.drugAppraises.total}}）</span>
-        <router-link tag="span" :to="{path: '/shopDrugSpecs/view', query: {index: 0}}">
+        <router-link tag="span"
+                     :to="{path: '/shopDrugSpecs/view', query: {index: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}}">
           <span class="d-inline-block fr">查看全部评价</span>
         </router-link>
       </div>
@@ -145,27 +143,26 @@
           {{timeConvert(drugAppraise.createdDate)}}
         </div>
       </div>
-     </div>
+      <new-join-car :drugInfo="shopDrugSpec" ref="footer"></new-join-car>
+    </div>
     <!--评论结束-->
-    <new-join-car :drugInfo="shopDrugSpec"></new-join-car>
   </div>
 </template>
 
 <script>
   import view from './view';
+
   export default {
     data() {
       return {
-        height: '',
         shopDrugSpec: []
       };
-    },
-    mounted() {
     },
     created() {
       this.$http.get('/shopDrugSpecs/' + this.$route.query.id)
         .then(res => {
           this.shopDrugSpec = res.data;
+          this.shopDrugSpec.sfda = this.shopDrugSpec.sfda.replace('国药准字', '');
         }).catch(error => {
           this.exception(error);
         });
@@ -178,15 +175,14 @@
 </script>
 
 <style scoped>
-  .bind-container{
-   padding-bottom: 4rem;
-  }
-  .is-flex{
+  .is-flex {
     display: flex !important;
   }
-  .flex-sa{
+
+  .flex-sa {
     justify-content: space-around;
   }
+
   .bind-container {
     width: 720px;
     background: #f5f5f5;
@@ -233,7 +229,7 @@
 
   .drug-function {
     width: 349px;
-    height: 25px;
+    height: 20px;
     font-size: 18px;
     color: rgba(255, 255, 255, 1);
     line-height: 20px;
@@ -332,9 +328,9 @@
 
   .company {
     width: 720px;
+    height: 277px;
     margin-top: 15px;
     background: white;
-    padding-bottom: 26px;
   }
 
   .companys {

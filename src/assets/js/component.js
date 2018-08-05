@@ -1,5 +1,5 @@
 import newHeader from '../../components/header';
-import newStar from '../../components/start';
+import newStar from '../../components/star';
 import newFooter from '../../components/footer';
 import newNoData from '../../components/noData';
 import newEditDiv from '../../components/editDiv';
@@ -8,7 +8,6 @@ import newMain from '../../components/main';
 import newCloseList from '../../components/closeList';
 import newLine from '../../components/line';
 import newShops from '../../components/shops';
-import newRxShopDrug from '../../components/rxshopdrug';
 import joinCar from '../../components/joinCar';
 import drugRefund from '../../components/drugRefund';
 import drugs from '../../components/drugs';
@@ -22,6 +21,7 @@ import newAllData from '../../components/allData';
 import newLoading from '../../components/loading';
 import rxCart from '../../components/rxCart';
 import newCloseNormal from '../../components/closeNormal';
+import newDrugBottom from '../../components/drugBottom';
 
 export default {
   install(Vue, options) {
@@ -33,7 +33,6 @@ export default {
     Vue.component('new-edit-line', newEditLine);
     Vue.component('new-main', newMain);
     Vue.component('new-shop', newShops);
-    Vue.component('new-rx-shop-drugs', newRxShopDrug);
     Vue.component('new-close-list', newCloseList);
     Vue.component('new-line', newLine);
     Vue.component('new-join-car', joinCar);
@@ -49,5 +48,6 @@ export default {
     Vue.component('new-loading', newLoading);
     Vue.component('new-rxCart', rxCart);
     Vue.component('new-close-normal', newCloseNormal);
+    Vue.component('new-drug-buttom', newDrugBottom);
   }
 };
