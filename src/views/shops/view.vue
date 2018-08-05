@@ -6,7 +6,7 @@
     </new-header>
 
     <div class="shop-header">
-      <img :src="shopInfo.fileId"/>
+      <img :src="getImgURL(shopInfo.fileId, 'SMALL_LOGO')"/>
       <span class="shop-name">{{shopInfo.name}}</span>
       <div class="shop-collect" :class="{'activeColor':activeColor}" @click="collect">
         {{collectz}}
@@ -51,7 +51,7 @@
                    v-for="(recommendList,index) in recommendLists"
                    :key="index"
                    :to="{path :'/shopDrugSpecs',query:{id:recommendList.id}}">
-        <img :src="recommendList.fileId "/>
+        <img :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')"/>
         <span>{{recommendList.name}}</span>
         <span style="color: red;">&yen; {{recommendList.price}}</span>
       </router-link>

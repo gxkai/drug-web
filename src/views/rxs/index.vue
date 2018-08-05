@@ -289,5 +289,8 @@
     height:16px;
     line-height:36px;
   }
+  .ic-wo,.ic-Id{
+    font-size: 30px;
+  }
 </style>
 

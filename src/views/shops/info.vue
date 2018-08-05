@@ -1,24 +1,25 @@
 <template>
   <div class="container">
-    <new-header title="商家介绍">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left"></i>
+    <new-header title="商家介绍" :style="{background:bgColor, color: color}">
+      <i class="iconfont ic-arrow-right text-333333" @click="$router.go(-1)" slot="left"></i>
     </new-header>
 
     <div class="shop-header">
       <div>
-        <img :src="getImgURL(resultData.logo, 'LOGO') "/>
-        <span class="shop-name">{{resultData.name}}</span>
-        <i class="icon iconfont ic-anquanrenzheng ic-size" style="color:white;font-size:50px;"></i>
+        <img :src="getImgURL(logo, 'SMALL_LOGO') "/>
+        <span class="shop-name elps">{{resultData.name}}</span>
+        <i class="icon iconfont ic-anquanrenzheng ic-size text-white"></i>
       </div>
     </div>
 
     <div class="shop-main">
-      <div class="shop-list-address">
-        <span style="color: #a2a2a2;font-size: 18px">门店地址：</span>
-        <span>{{resultData.area}}{{resultData.address}}</span>
+      <div class="shop-list-address bg-white shop-store">
+
+
+        <span class="fz24 d-inline-block elps"><span class="fz18">门店地址：</span>{{resultData.area}}{{resultData.address}}</span>
       </div>
 
-      <div class="shop-list-scores">
+      <div class="shop-list-scores bg-white">
         <div class="shop-list-score-sum">
           <span>服务总评: </span>
           <span class="shop-score">{{resultData.score}}</span>
@@ -46,10 +47,10 @@
         </div>
       </div>
 
-      <div class="shop-list-aptitude">
+      <div class="shop-list-aptitude bg-white">
         <span>商家资质</span>
-        <div class="shop-list-aptitude-imgs" v-for="(fileId, index) in resultData.fileIds" :key="index">
-          <img :src="getImgURL(fileId, 'PIC')"/>
+        <div class="shop-list-aptitude-imgs bg-white" v-for="(item, index) in resultData1" :key="index">
+          <img :src="getImgURL(item, 'LARGE_PIC')"/>
         </div>
       </div>
     </div>
@@ -61,13 +62,17 @@
     data() {
       return {
         resultData: [],
-        imgLists: []
+        logo: '',
+        imgLists: [],
+        bgColor: 'white',
+        color: '#333333'
       };
     },
     created: function () {
       this.$http.get('/shops/' + this.$route.query.id).then(res => {
+        this.resultData1 = res.data.fileIds;
         this.resultData = res.data;
-        this.getImage(this.resultData, this);
+        this.logo = res.data.logo;
       });
     }
   }
@@ -84,7 +89,7 @@
   .container {
     width: 720px;
     height: 100vh;
-    background: rgba(255, 255, 255, 1);
+    background: #f5f5f5;
   }
 
   .shop-header {
@@ -108,13 +113,18 @@
     border-radius: 50%;
     border: 1px solid #FFFEFE;
     background: rgb(255, 254, 254);
-    display: block;
+    display: inline-block;
     margin-left: 59px;
+    float: left;
   }
 
   .shop-name {
     font-size: 36px;
     color: rgba(255, 254, 254, 1);
+    width:400px;
+    height:34px;
+    line-height: 34px;
+    display: inline-block;
   }
 
   .shop-list-address {
@@ -127,17 +137,17 @@
   }
 
   .shop-list-scores {
-    width: 400px;
+    width: 720px;
     height: 209px;
   }
 
   .shop-list-score-sum {
-    height: 20px;
+    height: 52px;
     display: flex;
     margin-left: 20px;
-    margin-bottom: 27px;
     font-size: 24px;
     color: rgba(0, 0, 0, 1);
+    border-bottom: 1px solid #f5f5f5;
   }
 
   .shop-list-score {
@@ -158,6 +168,7 @@
   .shop-list-aptitude {
     display: block;
     margin-top: 34px;
+    overflow: hidden;
   }
 
   .shop-list-aptitude span {
@@ -180,5 +191,31 @@
     align-items: center;
   }
 
+  .icon{
+    width:auto;
+    height: auto;
+  }
+  .ic-anquanrenzheng{
+    display: inline-block;
+    margin-left: 108px;
+    font-size: 55px;
+    margin-right: 32px;
+  }
+  .shopname-address{
+    font-size: 18px;
+    display: inline-block;
+  }
+  .fz24{
+    font-size:24px;
 
+  }
+  .shop-store{
+    width:720px;
+    height:73px;
+    background:rgba(255,255,255,1);
+    line-height: 73px;
+  }
+  .fz18{
+    font-size: 18px;
+  }
 </style>

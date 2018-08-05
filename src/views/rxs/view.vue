@@ -7,7 +7,6 @@
 
     <div class="">
       <span class="rxs-title border-bottom-black">处方笺</span>
-      <!-- TODO -->
       <div class="p-lr-20">
         <div class="is-flex mt-20 flex-sb ">
           <div class="border-bottom-grey">NO：{{rxList.number}}</div>
@@ -40,7 +39,8 @@
       </div>
     </div>
     <div class="">
-      <router-link class="btn-fixed bg-blue" v-if="rxList.state === 'ENABLED'" :to="{path:'/rxs/shops',query:{id:id}}">购药</router-link>
+      <router-link class="btn-fixed bg-blue" v-if="rxList.state === 'ENABLED'"
+                   :to="{path:'/rxs/shops',query:{id:id,hospitalId:rxList.hospitalId}}">购药</router-link>
       <button class="btn-fixed bg-grey" v-else>购药</button>
     </div>
 
@@ -64,7 +64,7 @@
     },
     methods: {
       getData() {
-        // TODO 测试链接
+        // FIXME 测试链接
         this.$http.get('/rxs/1').then(
           res => {
             this.rxList = res.data;
