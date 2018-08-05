@@ -2,7 +2,9 @@
 <template>
   <div class="container">
     <new-header title="退款详情">
-      <router-link tag="i" to="/orderRefunds" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <div slot="left">
+        <router-link tag="i" to="/orderRefunds" class="iconfont ic-arrow-right"></router-link>
+      </div>
     </new-header>
     <div class="refunds-header">
       <span class="refunds-header-state">{{list.state}}</span>

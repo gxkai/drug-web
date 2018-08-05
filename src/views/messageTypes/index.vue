@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header title="我的消息">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left"></i>
+      <div slot="left">
+        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      </div>
     </new-header>
 
     <div class="news-lists">

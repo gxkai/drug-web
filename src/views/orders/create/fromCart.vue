@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <new-header title="订单结算">
-      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
+      <div slot="left">
+      <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
+      </div>
     </new-header>
     <div class="body">
       <router-link tag="div" to="/orders/addresses" v-if="deliveryType === 'DELIVERY'">

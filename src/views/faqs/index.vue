@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header title="常见问题">
-      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <div slot="left">
+        <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link>
+      </div>
     </new-header>
 
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">

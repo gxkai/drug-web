@@ -2,22 +2,26 @@
 <template>
   <div class="rxs-shop-contanier">
     <!-- TODO 搜索 -->
-    <new-header></new-header>
+    <new-header>
+      <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <input tag="a"  slot="center" class="header-search" @click="$router.push('/drugSearch')">
+    </new-header>
+
     <ul class="is-flex flex-row flex-sa p-tb-20 all-border">
-      <li @click="orderById()" :class="{'blueactive1':index1==comprehensive1}">
+      <li @click="orderById()" :class="{'blueactive1':index1===comprehensive1}">
         <span>综合</span>
       </li>
-      <li @click="orderByDistance()" :class="{'blueactive1':index2==comprehensive2}">
+      <li @click="orderByDistance()" :class="{'blueactive1':index2===comprehensive2}">
         <span>距离最近</span>
       </li>
-      <li @click="orderByScore()" :class="{'blueactive1':index3==comprehensive3}">
+      <li @click="orderByScore()" :class="{'blueactive1':index3===comprehensive3}">
         <span>好评优先</span>
       </li>
-      <li @click="orderByPrice()" class="is-flex flex-row " :class="{'blueactive1':index4==comprehensive4}">
+      <li @click="orderByPrice()" class="is-flex flex-row " :class="{'blueactive1':index4===comprehensive4}">
         <span>价格</span>
         <div class="is-flex  position-relative">
-          <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="val==1?'unActive':'blueActive'"></i>
-          <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="val==1?'blueActive':'unActive'"></i>
+          <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="val===1?'unActive':'blueActive'"></i>
+          <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="val===1?'blueActive':'unActive'"></i>
         </div>
       </li>
     </ul>
@@ -205,6 +209,19 @@
   }
   .blueActive {
     color: #1AB6FD;
+  }
+  .header-search{
+    width:560px;
+    height:40px;
+    background:rgba(255,255,255,1);
+    border-radius:10px;
+    border: 0;
+    outline: none;
+    padding: 0 20px;
+  }
+  .msg-icon{
+    width:31px;
+    height:36px;
   }
 
 </style>

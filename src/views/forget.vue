@@ -3,8 +3,10 @@
     <div v-if="0 === this.state" class="body1">
       <div>
         <new-header title="忘记密码">
-          <router-link tag="i" to="/login" class="iconfont ic-arrow-right" slot="left"></router-link>
-        </new-header>
+          <div slot="left">
+            <router-link tag="i" to="/login" class="iconfont ic-arrow-right"></router-link>
+          </div>
+   </new-header>
         <input type="number" class="input1" placeholder="请输入手机号码" v-model="username">
         <div class="line1"></div>
         <div class="input2">

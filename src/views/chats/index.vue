@@ -2,9 +2,11 @@
   <div class="main">
     <new-header title="咨询列表">
       <div slot="left">
-      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+        <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
       </div>
-      <router-link tag="i" to="/messageTypes" class="iconfont ic-lingdang" slot="right"></router-link>
+      <div slot="right">
+        <router-link tag="i" to="/messageTypes" class="iconfont ic-lingdang"></router-link>
+      </div>
     </new-header>
     <ul class="item">
       <li class="line" v-for="(item,index) in list" :key="index">

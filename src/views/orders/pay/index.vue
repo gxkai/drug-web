@@ -1,8 +1,12 @@
 <template>
   <div class="main">
     <new-header title="订单提交成功" bgColor="rgba(246, 246, 246, 1)" color="rgba(51,51,51,1)" leftColor="rgba(51,51,51,1)" rightColor="rgba(19,193,254,1)" >
-      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
-      <router-link tag="span" to="/orders" slot="right">我的订单</router-link>
+      <div slot="left">
+        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
+      </div>
+     <div slot="right">
+       <router-link tag="span" to="/orders">我的订单</router-link>
+     </div>
     </new-header>
     <div v-if="deliveryType === 'DELIVERY'">
       <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address">

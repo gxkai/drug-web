@@ -1,7 +1,9 @@
 <template>
   <div class="bind-container">
     <new-header title="商品详情">
-      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/')"></i>
+      <div slot="left">
+      <i class="iconfont ic-arrow-right" @click.stop="$router.push('/')"></i>
+      </div>
     </new-header>
     <!--上方轮播开始-->
     <div class="broadcast">
@@ -145,6 +147,7 @@
       </div>
       <new-join-car :drugInfo="shopDrugSpec" ref="footer"></new-join-car>
     </div>
+    <div class="height-l-30 width-percent-100"></div>
     <!--评论结束-->
   </div>
 </template>
@@ -182,10 +185,11 @@
   .flex-sa {
     justify-content: space-around;
   }
-
+/*FIXME*/
   .bind-container {
     width: 720px;
     background: #f5f5f5;
+    padding-bottom: 2rem;
   }
 
   .broadcast {

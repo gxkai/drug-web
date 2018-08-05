@@ -2,8 +2,10 @@
 <template>
   <div class="collect-body">
     <new-header title="我的收藏">
-      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
-    </new-header>
+      <div slot="left">
+        <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link>
+      </div>
+   </new-header>
 
     <ul class="flex-stream-sb">
       <li @click="shop(1)" class="padding-tb-10">
