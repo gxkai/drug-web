@@ -2,10 +2,12 @@
 <template>
   <div class="rxs-content position-relative">
     <new-header :title="shopName">
-      <router-link to="/messageTypes" slot="left">
-        <i class=" iconfont ic-xiaoxi"></i>
-      </router-link>
-    </new-header>
+      <div slot="left">
+        <router-link to="/messageTypes">
+          <i class=" iconfont ic-xiaoxi"></i>
+        </router-link>
+      </div>
+   </new-header>
 
     <div class="hr-box">
       <span class="line mr-30"></span>

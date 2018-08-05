@@ -2,7 +2,9 @@
 <template>
   <div id="rxs-container">
     <new-header title="电子处方">
-      <i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i>
+      <div slot="left">
+        <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+      </div>
     </new-header>
 
     <div class="">

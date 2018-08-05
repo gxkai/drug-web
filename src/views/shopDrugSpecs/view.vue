@@ -2,7 +2,9 @@
   <div class="drugDetail">
     <div ref="header">
       <new-header title="详情" class="bg-white text-333333">
-        <i class="iconfont ic-arrow-right text-333333" slot="left" @click.stop="$router.go(-1)"></i>
+        <div slot="left" >
+          <i class="iconfont ic-arrow-right text-333333" @click.stop="$router.go(-1)"></i>
+        </div>
       </new-header>
       <div class="view-nav width-percent-96 m-auto">
         <ul>

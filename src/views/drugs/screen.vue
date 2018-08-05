@@ -10,7 +10,7 @@
       </router-link>
     </new-header>
 
-    <div class="width96 marginAuto">
+    <div class="width96 m-auto">
       <div @click="filterSearch(1)">
         <mt-cell title="商品名/品牌" is-link :value="filterData.showName" class="elps"></mt-cell>
       </div>

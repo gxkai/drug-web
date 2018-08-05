@@ -1,8 +1,12 @@
 <template>
   <div class="container">
-    <new-header>
-      <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
+    <new-header :title="分类列表">
+      <div slot="left">
+         <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
+      </div>
+      <div slot="right">
       <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi" slot="right"></router-link>
+      </div>
     </new-header>
 
     <div class="container-main">

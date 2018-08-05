@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <new-header>
+    <new-header title="商家介绍">
       <i class="iconfont ic-arrow-right" @click="$router.go(-1)" tag="i" slot="left"></i>
       <input type="text" placeholder="搜索店内商品" class="bg-none"/>
     </new-header>
@@ -46,14 +46,14 @@
 
     <div class="shop-recommend">—— 商家推荐 ——</div>
 
-    <div class="shop-goods">
+    <div class="shop-goods text-center m-auto">
       <router-link class="shop-goods-list"
                    v-for="(recommendList,index) in recommendLists"
                    :key="index"
                    :to="{path :'/shopDrugSpecs',query:{id:recommendList.id}}">
         <img :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')"/>
-        <span>{{recommendList.name}}</span>
-        <span style="color: red;">&yen; {{recommendList.price}}</span>
+        <span class="d-inline-block elps text-center">{{recommendList.name}}</span>
+        <span class="text-red d-inline-block elps text-center">&yen; {{recommendList.price}}</span>
       </router-link>
     </div>
 
@@ -266,7 +266,7 @@
     height: 20px;
     font-size: 20px;
     color: rgba(102, 102, 102, 1);
-    line-height: 36px;
+    line-height:20px;
     display: block;
     text-align: center;
     margin: auto;

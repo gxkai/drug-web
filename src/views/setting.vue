@@ -38,19 +38,11 @@
 </script>
 
 <style scoped>
-  .body {
-    font-size:26px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(102,102,102,1);
-  }
-  .body .iconfont {
-    font-size: 40px;
-  }
-
   .setting-container {
     width: 720px;
     height: 100vh;
     background: #f5f5f5;
+    color:rgba(102,102,102,1);
   }
 
   .setting-fixed {

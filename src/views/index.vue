@@ -4,18 +4,20 @@ item in showLists"<template>
   <div class="bg-f8">
     <div class="bg-blue index-header">
       <div class="flex-stream-sb padding-lr-10 mtop-30">
-        <i class="iconfont ic-ditu text-white is-16x22"></i>
-        <span @click="nearby" class="text-white fz22 elps d-inline-block">{{chooseAddress}}</span>
+       <span @click="nearby" class="text-white fz22 elps d-inline-block"><i class="iconfont ic-ditu text-white is-16x22"></i>{{chooseAddress}}</span>
         <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
-        <div class="search-box position-relative all-center no-border">
+        <div class="search-box all-center no-border">
           <img src="../assets/image/search.png" class=" is-24x24"/>
           <input type="text" v-model="shopName" placeholder="通用名、商品名、症状"
                  @blur="$router.push('/components/search')"
                  @keyup.enter="$router.push('/components/search')"
                  @click="$router.push('/components/search')"
                  class="no-border fz20"/>
-        </div>
-        <i class="iconfont ic-lingdang text-white "></i>
+         </div>
+        <span class="d-inline-block">
+          <i class="iconfont ic-lingdang text-white"></i>
+        </span>
+
       </div>
     </div>
     <div class="index-hidden-width"></div>
@@ -81,7 +83,7 @@ item in showLists"<template>
       </div>
       <div class="width-percent-100 bg-white">
         <div class="bg-white width-percent-96 m-auto time-down">
-          <i class="icon iconfont ic-shijian2 text-FF9800 mr-5 font-weight-bold display-block"></i>
+          <i class="icon iconfont ic-shijian1 text-FF9800 mr-7 font-weight-bold display-block"></i>
           <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
         </div>
       </div>
@@ -95,7 +97,7 @@ item in showLists"<template>
                          :key="index" v-if="index===0">
               <img class="is-120x120 mr-20" :src="getImgURL(discountList.fileId, 'MIDDLE_LOGO')"
                    v-if="index===0">
-              <div class="is-flex flex-column">
+              <div class="is-flex flex-column text-center">
                 <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
                 <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
               </div>
@@ -107,7 +109,7 @@ item in showLists"<template>
                          :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
                          :key="index" v-if="index===1">
               <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===1">
-              <div class="is-flex flex-column">
+              <div class="is-flex flex-column text-center">
                 <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
                 <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
               </div>
@@ -156,12 +158,46 @@ item in showLists"<template>
       <div class="separate-content all-center">
         <span class="new-line"></span><span class="text-13C1FE">医保定点药房</span> <span class="new-liner"></span>
       </div>
-      <div class="shop-content">
+     <!-- <div class="shop-content">
         <swiper :options="swiperOptions" id="medical">
-           <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId)+') no-repeat'}" v-for="(item,index) in showLists">
+           <swiper-slide class="swiper-img" style="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533478192586&di=8289bc6ba7493988e2e62a29e299818a&imgtype=0&src=http%3A%2F%2Fimg.12yao.com%2Fothers%2Fpharmacy%2F308%2F201412%2F7%2F20141208012514fYmynfRK.jpg" v-for="(item,index) in showLists">
              <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
           </swiper-slide>
+          <swiper-slide class="swiper-img" style="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533478192586&di=8289bc6ba7493988e2e62a29e299818a&imgtype=0&src=http%3A%2F%2Fimg.12yao.com%2Fothers%2Fpharmacy%2F308%2F201412%2F7%2F20141208012514fYmynfRK.jpg" v-for="(item,index) in showLists">
+            <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
+          </swiper-slide>
+          <swiper-slide class="swiper-img" style="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533478192586&di=8289bc6ba7493988e2e62a29e299818a&imgtype=0&src=http%3A%2F%2Fimg.12yao.com%2Fothers%2Fpharmacy%2F308%2F201412%2F7%2F20141208012514fYmynfRK.jpg" v-for="(item,index) in showLists">
+            <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
+          </swiper-slide>
        </swiper>
+      </div>-->
+
+      <div class="shop-content">
+        <swiper :options="swiperOptions" id="medical">
+
+             <swiper-slide style="background-image:url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533478416224&di=337c071e8beee430d7249a5a81a12f74&imgtype=0&src=http%3A%2F%2Fimg.25pp.com%2Fuploadfile%2Fapp%2Ficon%2F20160624%2F1466703524874348.jpg');background-size:100% 100%" class="swiper-img">
+               <router-link to="/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw"><div class="swiper-div-cover">rrerewrwew</div></router-link>
+             </swiper-slide>
+
+
+
+          <swiper-slide style="background-image:url('https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3626584942,623127189&fm=27&gp=0.jpg');background-size:100% 100%" class="swiper-img" @click="$router.push('/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw')">
+            <router-link to="/shops/view?id=1"><div class="swiper-div-cover">rrerewrwew</div></router-link>
+          </swiper-slide>
+
+
+
+            <swiper-slide style="background-image:url('https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1108168550,3016794404&fm=27&gp=0.jpg');background-size:100% 100%" class="swiper-img" @click="$router.push('/shops/view?id=1')">
+              <router-link to="/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw"><div class="swiper-div-cover">rrerewrwew</div></router-link>
+            </swiper-slide>
+
+
+
+            <swiper-slide style="background-image:url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533478944055&di=5d922131802d4cc54f7bd27056ea7c29&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2963956434%2C956551516%26fm%3D214%26gp%3D0.jpg');background-size:100% 100%" class="swiper-img" @click="$router.push('/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw')">
+              <router-link to="/shops/view?id=1"><div class="swiper-div-cover">rrerewrwew</div></router-link>
+            </swiper-slide>
+
+        </swiper>
       </div>
     </div>
 
@@ -505,7 +541,7 @@ item in showLists"<template>
   }
 
   .search-box {
-    width: 470px;
+    width: 400px;
     height: 36px;
     background: white;
   }
@@ -617,7 +653,7 @@ item in showLists"<template>
   }
 
   .scroll-content li {
-    line-height: 50px;
+    line-height: 80px;
     text-align: center;
     height: 50px;
   }
@@ -682,7 +718,7 @@ item in showLists"<template>
     height: 0rem;
   }
 
-  .ic-shijian2 {
+  .ic-shijian2{
     margin-right: 19px !important;
     margin-top: 20px;
     width: 26px;
@@ -755,4 +791,18 @@ item in showLists"<template>
     width: 100%;
     height: 100%;
   }
+  .ic-ditu,.ic-lingdang{
+    width: auto;
+    height: auto;
+    font-size: 36px;
+  }
+  .ic-arrLeft-fill{
+    width: auto;
+    height: auto;
+    font-size: 24px;
+  }
+  .ic-ditu{margin-left: 15px;}
+  .ic-shijian2:before { content: "\e6c2"; }
+.mr-7{margin-top: 7px!important;display: inline-block!important;}
+  .d_Downtime:first-child{margin-left: 0.4rem;}
 </style>

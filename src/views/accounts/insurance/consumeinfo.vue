@@ -2,10 +2,12 @@
 <template>
   <div class="insurance-container">
    <mt-header title="账户信息">
-      <router-link to="/" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+      <div slot="left">
+        <router-link to="/">
+          <mt-button icon="back"></mt-button>
+        </router-link>
+      </div>
+  </mt-header>
 
     <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
       <span>姓名</span>

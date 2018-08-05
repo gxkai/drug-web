@@ -18,7 +18,7 @@ import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
 import VueTouch from 'vue-touch';
 import filters from './assets/js/filters';
-import './assets/js/vconsole';
+// import './assets/js/vconsole';
 
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.defaults.timeout = 5000;

@@ -35,6 +35,7 @@
       </div>
     </div>
     <div class="width-percent-100 bg-white drug-shops" v-for="(shopList,index) in shopLists" :key="index">
+      <router-link :to="{path:'/shopDrugSpecs',query:{id:shopList.shopDrugSpecId}}">
       <div class="ordinary width-percent-96 m-auto">
         <div class="drug-ordinary">
           <span class="d-inline-block fl drug-shop">{{shopList.name}}</span>
@@ -55,10 +56,11 @@
           <i class="icon iconfont ic-gouwuche3 text-1AB6FD"></i>
         </div>
       </div>
+      </router-link>
     </div>
 
     <div v-show="!hide">
-    <new-drug-buttom   :drugSpecs='drugSpecs' :drugInfo='drugInfo' :drugSpec.sync="drugSpec"
+         <new-drug-buttom   :drugSpecs='drugSpecs' :drugInfo='drugInfo' :drugSpec.sync="drugSpec"
                  @close="changeIcon()"></new-drug-buttom>
     </div>
   </div>
@@ -353,6 +355,10 @@
   .swiper-body {
     width:720px;
     height:413px;
+  }
+
+  a span{
+    color: #333333;
   }
 </style>
 

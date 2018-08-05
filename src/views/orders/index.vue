@@ -2,8 +2,13 @@
   <div>
     <div class="header" ref="header">
       <new-header title="全部订单">
-        <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/accounts')"></i>
-        <i class="iconfont ic-sousuo" slot="right" @click.stop="$router.push('/orders/search')"></i>
+       <div slot="left">
+         <i class="iconfont ic-arrow-right"  @click.stop="$router.push('/accounts')"></i>
+       </div>
+        <div slot="right">
+          <i class="iconfont ic-sousuo"  @click.stop="$router.push('/orders/search')"></i>
+        </div>
+
       </new-header>
       <new-order-tab :urlRouter="$route.path"></new-order-tab>
     </div>
