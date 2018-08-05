@@ -1,4 +1,4 @@
-<template>
+item in showLists"<template>
   <!--TODO swiper 滚动 -->
   <!--TODO 倒计时 -->
   <div class="bg-f8">
@@ -21,9 +21,9 @@
     <div class="index-hidden-width"></div>
 
     <!-- 轮播 -->
-    <swiper :options="swiperOption">
-      <swiper-slide v-for="(advertList,index) in advertLists" :key="index">
-        <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" class="dluboimgh" @click="see(advertList)"/>
+    <swiper :options="swiperOption" class="mt-0">
+      <swiper-slide v-for="(advertList,index) in advertLists" :key="index" class="mt-0">
+        <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" class="dluboimgh mt-0" @click="see(advertList)"/>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -158,13 +158,10 @@
       </div>
       <div class="shop-content">
         <swiper :options="swiperOptions" id="medical">
-           <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId, 'MIDDLE_LOGO')+') no-repeat'}" v-for="(item,index) in showLists">
+           <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId)+') no-repeat'}" v-for="(item,index) in showLists">
              <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
           </swiper-slide>
-
-          <!--  <swiper-slide class="swiper-img" v-lazy:background-image.container="getImgURL(item.fileId, 'MIDDLE_LOGO')">
-            </swiper-slide>-->
-        </swiper>
+       </swiper>
       </div>
     </div>
 
@@ -747,12 +744,15 @@
     background: white;
     opacity: 0;
   }
-  .swiper-wrapper{
-    margin-top: 52px;
-  }
+
   .fz18{font-size: 18px;}
   .fz17{font-size: 17px;}
   .fz16{font-size: 16px;}
   .fz22{font-size: 22px;}
   .fz24{font-size: 24px;}
+  .mt-0{margin-top: 0px!important;}
+  .swiper-slide img{
+    width: 100%;
+    height: 100%;
+  }
 </style>

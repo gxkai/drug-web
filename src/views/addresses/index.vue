@@ -92,7 +92,7 @@
   }
 
   .address-content-lineTwo {
-    width: 720px;
+
     height: 42px;
     display: flex;
   }
@@ -144,4 +144,8 @@
     bottom: 0;
   }
 
+  button{
+    background: none;
+    border: none;
+  }
 </style>
