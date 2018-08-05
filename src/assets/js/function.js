@@ -67,7 +67,7 @@ export default {
       var date = new Date(timer);
       var Y = date.getFullYear() + '/';
       var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
-      var D = date.getDate() + ' ';
+      var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + '   ';
       var h = date.getHours() + ':';
       var m = date.getMinutes() + ':';
       var s = date.getSeconds();
@@ -90,7 +90,7 @@ export default {
      */
     Vue.prototype.getImgURL = (fileId, resolution) => {
       resolution = resolution || 'LARGE_LOGO';
-      return 'http://localhost:8081/api/files/' + fileId + '/image?resolution=' + resolution;
+      return 'http://58.210.169.168:8081/api/files/' + fileId + '/image?resolution=' + resolution;
     };
 
     /**

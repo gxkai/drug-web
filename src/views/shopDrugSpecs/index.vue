@@ -1,8 +1,10 @@
 <template>
-  <div class="bind-container">
-    <new-header title="商品详情" ref="header">
+  <div class="bind-container" id="bindContainer" ref="scroller" :style="{height:height}">
+    <div ref="header">
+    <new-header title="商品详情">
       <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/')"></i>
     </new-header>
+    </div>
     <view :shopDrugSpec="shopDrugSpec" class="d-none"></view>
     <!--上方轮播开始-->
     <div class="broadcast">
@@ -143,10 +145,9 @@
           {{timeConvert(drugAppraise.createdDate)}}
         </div>
       </div>
-
-      <new-join-car :drugInfo="shopDrugSpec"></new-join-car>
-    </div>
+     </div>
     <!--评论结束-->
+    <new-join-car :drugInfo="shopDrugSpec"></new-join-car>
   </div>
 </template>
 
@@ -155,8 +156,11 @@
   export default {
     data() {
       return {
+        height: '',
         shopDrugSpec: []
       };
+    },
+    mounted() {
     },
     created() {
       this.$http.get('/shopDrugSpecs/' + this.$route.query.id)
@@ -174,6 +178,9 @@
 </script>
 
 <style scoped>
+  .bind-container{
+   padding-bottom: 4rem;
+  }
   .is-flex{
     display: flex !important;
   }
@@ -226,10 +233,10 @@
 
   .drug-function {
     width: 349px;
-    height: 18px;
+    height: 25px;
     font-size: 18px;
     color: rgba(255, 255, 255, 1);
-    line-height: 18px;
+    line-height: 20px;
     margin-top: 15px;
     margin-left: 170px;
   }
@@ -325,9 +332,9 @@
 
   .company {
     width: 720px;
-    height: 277px;
     margin-top: 15px;
     background: white;
+    padding-bottom: 26px;
   }
 
   .companys {
