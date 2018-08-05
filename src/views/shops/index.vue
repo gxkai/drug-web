@@ -38,8 +38,9 @@
                    :to="{ path: '/shops/view', query: { id: shopList.id }}">
         <div class="specific">
           <div class="width-percent-96 m-auto">
+
             <div class="shop-store d-inline-block fl">
-              <img v-lazy="shopList.imgUrl" class="shop-store-img"/>
+              <img :src="getImgURL(shopList.fileId,'LARGE_LOGO')" class="shop-store-img"/>
             </div>
             <div>
               <div class="height-43"></div>

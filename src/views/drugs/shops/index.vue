@@ -1,10 +1,17 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="fruit-body">
-    <div class="drug-bg-img">
-      <div class="drug-type">处</div>
-      <div class="drug-img"></div>
-    </div>
+    <new-header :title="drugInfo.name">
+      <div slot="left">
+        <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+      </div>
+    </new-header>
+    <swiper :options="swiperOption" class="swiper-body">
+      <swiper-slide v-for="(pic,index) in drugSpec.pics" :key="index">
+        <img v-lazy="getImgURL(pic, 'MIDDLE_PIC')"/>
+      </swiper-slide>
+      <div class="swiper-pagination" slot="pagination"></div>
+    </swiper>
     <div class="drug-div1 position-relative">
       <div class="drug-div2 position-absolute">
         <p class="elps drug-head-line">{{drugInfo.name}}</p>
@@ -16,10 +23,9 @@
     <div class="drug-offer">
       <div class="width-percent-96 m-auto merchant">
         <div class="d-inline-block fl"><span class="text-1AB6FD">{{total}}</span><span>商家报价</span></div>
-        <div class="d-inline-block fr">
-         <!--<i class="icon iconfont ic-xiajiantou"></i>-->
-          <i class="icon iconfont ic-youjiantou" @click="dropDown()" v-if="!arrowdown"></i>
-          <i class="icon iconfont ic-arrowdown" @click="arrowDown()" v-if="arrowdown"></i>
+        <div class="d-inline-block fr" @click="changeIcon()">
+          <i class="icon iconfont ic-youjiantou"  v-if="hide"></i>
+          <i class="icon iconfont ic-arrowdown"  v-if="!hide"></i>
         </div>
       </div>
       <div class="comprehensive">
@@ -51,60 +57,66 @@
       </div>
     </div>
 
-
-    <drugBottom v-show="hide" :spec="spec" :tips='tips' :drugInfo='drugInfo'
-                v-on:close="close()"></drugBottom>
+    <div v-show="!hide">
+    <new-drug-buttom   :drugSpecs='drugSpecs' :drugInfo='drugInfo' :drugSpec.sync="drugSpec"
+                 @close="changeIcon()"></new-drug-buttom>
+    </div>
   </div>
 </template>
 <script>
-  import drugBottom from '@/components/drugBottom';
+  import {MessageBox} from 'mint-ui';
   export default {
     data() {
       return {
-        drugShopSort: 'SYNTHESIZE',
-        spec: '',
         shopLists: [],
         drugInfo: [],
-        arrowdown: false,
-        down: false,
-        hide: false,
-        tips: [],
-        total: '',
-        picUrls: '',
-        drugId: '',
+        drugSpecs: [],
+        drugSpec: {},
+        drugId: this.$route.query.drugId,
+        drugSpecId: this.$route.query.id,
+        hide: true,
+        total: 0,
         sort: 'SYNTHESIZE',
-        specId: '',
         val: -1,
-        lng: null,
-        lat: null
+        lat: '31.39',
+        lng: '120.95',
+        swiperOption: {
+          autoplay: 3500,
+          pagination: '.swiper-pagination',
+          paginationClickable: true,
+          speed: 1000
+        }
       };
     },
-    props: ['message'],
-    components: {
-      'drugBottom': drugBottom
+    watch: {
+      drugSpec(value) {
+        this.getShopLists();
+      }
     },
     methods: {
       getShopLists() {
-        var url = this.URL_PATH + '/drugs/' + this.drugId + '/drugSpecs/' + this.specId + '/shops?drugShopSort=' + this.drugShopSort + '&lat=' + this.lat + '&lng=' + this.lng;
+        var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.drugSpec.id + '/shops?sort=' + this.sort + '&lat=' + this.lat + '&lng=' + this.lng;
         this.$http.get(url).then((res) => {
           this.total = res.data.total;
           this.shopLists = res.data.list;
+        }).catch(error => {
+          this.exception(error);
         });
       },
 
       orderById() {
-        this.drugShopSort = 'SYNTHESIZE';
+        this.sort = 'SYNTHESIZE';
         this.getShopLists();
       },
       orderByDistance() {
-        this.drugShopSort = 'DISTANCE';
+        this.sort = 'DISTANCE';
         this.getLocation();
       },
       getLocation() {
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(this.showPosition);
+          navigator.geolocation.getCurrentPosition(this.showPosition, this.showError);
         } else {
-          alert('浏览器不支持');
+          MessageBox('提示', '浏览器不支持获取地理位置');
         }
       },
       showPosition(position) {
@@ -112,66 +124,50 @@
         this.lng = position.coords.longitude;
         this.getShopLists();
       },
+      showError(error) {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            MessageBox('提示', 'User denied the request for Geolocation.');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            MessageBox('提示', 'Location information is unavailable.');
+            break;
+          case error.TIMEOUT:
+            MessageBox('提示', 'The request to get user location timed out.');
+            break;
+          case error.UNKNOWN_ERROR:
+            MessageBox('提示', 'An unknown error occurred.');
+            break;
+        }
+      },
       orderByPrice() {
+        debugger;
         this.val = -(this.val);
         if (this.val === -1) {
-          this.drugShopSort = 'PRICE_LESS';
+          this.sort = 'PRICE_ASC';
         } else {
-          this.drugShopSort = 'PRICE_MORE';
+          this.sort = 'PRICE_DESC';
         }
         this.getShopLists();
       },
-      dropDown() {
+      changeIcon() {
         this.hide = !this.hide;
-        this.arrowdown = true;
-      },
-      arrowDown() {
-        this.arrowdown = false;
-        this.hide = !this.hide;
-      },
-      close(data) {
-        if (data !== '') {
-          data = data || this.drugId;
-          // 根据选择的值修改页面
-          const url = this.URL_PATH + '/drugs/' + this.drugId + '/drugSpecs/' + data + '/shops?drugShopSort=' + this.drugShopSort;
-          this.$http.get(url).then((res) => {
-            this.total = res.data.total;
-            this.shopLists = res.data.list;
-          });
-          this.tips.forEach(e => {
-            if (e.value === data) {
-              this.drugInfo.value = e.value;
-              this.picUrls = e.picUrls;
-              this.spec = e.name;
-            }
-          });
-        }
-        this.hide = false;
-        this.arrowdown = false;
       }
     },
     created: function () {
-      this.drugId = this.$route.query.id;
-      this.specId = this.$route.query.specId;
-      const drugURL = this.URL_PATH + '/drugs/' + this.drugId;
+      const drugURL = '/drugs/' + this.drugId;
       this.$http.get(drugURL).then((res) => {
         this.drugInfo = res.data;
-        // 规格信息
-        this.tips = res.data.drugSpecs;
-        this.tips.forEach(e => {
-          e.label = e.name;
-          e.value = e.id;
-          e.logoUrl = this.URL_PATH + '/files/' + e.logo + '/image?resolution=' + 'LARGE_LOGO';
-          e.picUrls = [];
-          e.pics.forEach(e1 => {
-            e.picUrls.push(this.URL_PATH + '/files/' + e1 + '/image?resolution=' + 'LARGE_PIC');
-          });
+        this.drugSpecs = res.data.drugSpecs;
+        this.drugSpecs.forEach(e => {
+          if (e.id === this.drugSpecId) {
+            this.drugSpec = e;
+          }
         });
-        this.drugInfo.value = this.tips[0].value;
-        this.spec = this.tips[0].name;
-        this.picUrls = this.tips[0].picUrls;
+        this.getLocation();
+      }).catch(error => {
+        this.exception(error);
       });
-      this.getLocation();
     }
   };
 </script>
@@ -350,6 +346,17 @@
   /*进入过渡的开始状*/
   .slide-fades-enter {
     bottom: -22rem !important;
+  }
+
+  .swiper-body {
+    width:720px;
+    height:413px;
+    text-align: center;
+    background-color: white;
+  }
+
+  .swiper-body img {
+    height: 400px;
   }
 </style>
 

@@ -43,7 +43,7 @@
       <div>
         <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
           <router-link v-for="(item,index) in pageList" :key="index"
-                       :to="{path:'/drugs/shops',query:{id:item.id,specId:item.drugSpecId}}">
+                       :to="{path:'/drugs/shops',query:{id:item.id,drugId:item.drugId}}">
           <new-drug-shops class="border-bottom-grey" :item="item"></new-drug-shops>
           </router-link>
         </ul>
@@ -113,6 +113,8 @@
             this.pageList = this.pageList.concat(res.data.list);
             this.totalPage = res.data.lastPage;
             this.pages = res.data.pages;
+          }).catch(error => {
+            this.exception(error);
           });
       },
       reOrderBy(orderBy) {

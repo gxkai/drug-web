@@ -4,16 +4,16 @@
       <div class="all-appraise width-percent-96 m-auto line-height-l-20">
         <div class="width-percent-100">
           <span class="d-inline-block total-appraise fl">
-           <p>总评分：{{shopTotalAppraise.score}}分</p>
-           <new-star size="4" disabled class="new-star"></new-star>
+           <p>总评分：{{shopDrugSpec.shopTotalAppraise.score}}分</p>
+           <new-star :score="shopDrugSpec.shopTotalAppraise.score"  disabled class="new-star"></new-star>
          </span>
-          <span class="d-inline-block fr net-friend elips">共有{{totalNum}}位网友评论</span>
+          <span class="d-inline-block fr net-friend elips">共有{{shopDrugSpec.drugAppraises.total}}位网友评论</span>
         </div>
       </div>
     </div>
 
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-      <div class="content-appraise width-percent-100 bg-white" v-for="item in pageList">
+      <div class="content-appraise width-percent-100 bg-white" v-for="item in list">
         <div class="width-percent-96 m-auto border-bottom-f1f1f1 time">
           <span class="d-inline-block fl">{{item.username}}</span>
           <span class="d-inline-block fr">{{timeConvert(item.createdDate)}}</span>
@@ -26,9 +26,9 @@
         </div>
       </div>
     </ul>
-    <div v-show="allLoaded" class="text-center drug-flull height-l-100 line-height-l-100">
-      就这么多啦,回顶部再看看吧
-    </div>
+    <new-no-data v-if="list.length===0"></new-no-data>
+    <new-loading v-if="process"></new-loading>
+    <new-all-data v-if="loading"></new-all-data>
   </div>
 </template>
 
@@ -37,62 +37,38 @@
     props: ['shopDrugSpec'],
     data() {
       return {
-        shopTotalAppraise: '',
+        list: [],
         pageNum: 0,
-        pageSize: '',
-        totalPage: '',
-        totalNum: '',
-        pageList: [],
-        allLoaded: false,
-        bottomPullText: '上拉加载更多',
-        autoFill: false,
-        bgColor: 'white',
-        color: '#000000'
+        pageSize: 5,
+        pages: null,
+        loading: false,
+        process: false
       };
     },
-    watch: {
-      pageList: 'scrollToBottom'
-    },
     created() {
-      this.shopTotalAppraise = this.shopDrugSpec.shopTotalAppraise;
-      this.pageSize = this.shopDrugSpec.drugAppraises.pageSize;
-      this.totalPage = this.shopDrugSpec.drugAppraises.pages;
-      this.totalNum = this.shopDrugSpec.drugAppraises.total;
-      this.pageList = this.shopDrugSpec.drugAppraises.list;
-      this.loadMore();
     },
     methods: {
       loadMore() {
-        this.loading = false;
-        if (this.pageNum < this.totalPage) {
-          this.pageNum++;
-          this.$http.get('/drugAppraises?shopDrugSpecId=' + this.shopDrugSpec.id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
-            .then(res => {
-              console.log(res);
-              this.pageList = this.pageList.concat(res.data.list);
-            });
+        this.pageNum++;
+        if (!this.pages || this.pageNum < this.pages) {
+          this.loadData();
         } else {
           this.loading = true;
-          this.allLoaded = true;
         }
       },
-      scrollToBottom() {
-        this.$nextTick(() => {
-          let div = document.getElementById('data-list-content');
-          div.scrollTop = div.scrollHeight;
-        });
-      }
-    },
-    filters: {
-      TYPES(drugtype) {
-        if (drugtype) {
-          return '非处方药';
-        } else {
-          return '处方药';
-        }
-      },
-      timeConvert(date) {
-        return this.timeConvert(date);
+      loadData() {
+        this.process = true;
+        this.$http.get('/drugAppraises?shopDrugSpecId=' + this.shopDrugSpec.id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+          .then(res => {
+            this.list = this.list.concat(res.data.list);
+            if (!this.pages) {
+              this.pages = res.data.pages;
+            }
+            this.process = false;
+          }).catch(error => {
+            this.process = false;
+            this.exception(error);
+          });
       }
     }
   };

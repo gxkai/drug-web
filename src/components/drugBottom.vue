@@ -1,102 +1,61 @@
 <template>
   <footer>
-   <div id="cartBottomModel"></div>
+    <div id="cartBottomModel"></div>
     <transition name="slide-fades">
-    <div class="drug-bottom bg-white" ref="allBottoms">
-      <div>
-        <div class="drug-top position-relative">
-          <div class="left d-inline-block fl position-relative width-percent-30">
-            <img v-lazy="logoUrl" class="drug-img"/>
-          </div>
-          <div class="right d-inline-block fl width-percent-70">
-            <div class="drug-close text-right width-percent-100">
-              <i class="icon iconfont ic-guanbi2" @click="closed()"></i>
+      <div class="drug-bottom bg-white" ref="allBottoms">
+        <div>
+          <div class="drug-top position-relative">
+            <div class="left d-inline-block fl position-relative width-percent-30">
+              <img v-lazy="getImgURL(drugSpec.logo,'SMALL_LOGO')" class="drug-img"/>
             </div>
-            <div>
-              <span class="d-block elpsTwo drug-title">{{drugInfo.name}} {{spec || ''}} -{{drugInfo.originName}}</span>
-              <span class="text-1AB6FD drug-country">{{drugInfo.sfda}}</span>
+            <div class="right d-inline-block fl width-percent-70">
+              <div class="drug-close text-right width-percent-100">
+                <i class="icon iconfont ic-guanbi2" @click="close()"></i>
+              </div>
+              <div>
+                <span
+                  class="d-block elpsTwo drug-title">{{drugInfo.name}} {{drugSpec.name}} -{{drugInfo.originName}}</span>
+                <span class="text-1AB6FD drug-country">{{drugInfo.sfda}}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="drug-spec width-percent-96 m-auto">
-        <mt-radio title="选择规格" v-model="value" :options="tips" align="right">
-        </mt-radio>
-      </div>
-      <div class="bg-13C1FE text-white text-center drug-choose" @click="sure">
-        选择
-      </div>
+        <div class="drug-spec width-percent-96 m-auto">
+          <div v-for="item in drugSpecs">
+            <div class="radio-item">
+              <label for="item.id">{{item.name}}</label><input type="radio"  v-model="drugSpec" :value="item"
+                                                               id="item.id"/>
+            </div>
+          </div>
+        </div>
+        <div class="bg-13C1FE text-white text-center drug-choose" @click="close()">
+          选择
+        </div>
       </div>
     </transition>
   </footer>
 </template>
 
 <script>
-  import {Toast} from 'mint-ui';
-  import drugBottom from '@/components/drugBottom';
   export default {
-    name: 'cartBottom',
+    name: 'drugBottom',
     value: '',
-    props: ['shopDrugSpec', 'tips', 'drugInfo', 'spec'],
+    props: ['drugSpecs', 'drugSpec', 'drugInfo'],
     data() {
       return {
-        hide: false,
-        props: ['shopDrugSpec', 'tips', 'drugInfo', 'spec'],
-        arrowdownhide: false,
-        buyNumber: 1,
-        accountId: '',
-        logoUrl: this.tips[0].logoUrl,
-        value: this.drugInfo.value
       };
     },
-    components: {
-      'drugBottom': drugBottom
-    },
-    methods: {
-      closed() {
-        this.$emit('close', '');
-      },
-      buy(flag) {
-        if (flag === true) {
-          this.buyNumber -= 1;
-          if (this.buyNumber <= 1) {
-            this.buyNumber = 1;
-          }
-        } else {
-          this.buyNumber += 1;
-        }
-      },
-      joinCar() {
-        this.hide = true;
-      },
-      collect() {
-        this.$http.post('/collects/drug?' + '&shopId=' + this.shopDrugSpec.shopId + '&drugSpecId=' + this.shopDrugSpec.drugSpecId + '&shopDrugSpecId=' + this.shopDrugSpec.id, {
-          headers: {
-            'Authorization': this.$store.getters.token
-          }
-        })
-          .then(res => {
-            if (res.status === 200) {
-              Toast({
-                message: '收藏成功',
-                position: 'middle',
-                duration: 3000
-              });
-            }
-          });
-      },
-      // 向父组件传值
-      sure() {
-        this.$emit('close', this.value);
-        this.tips.forEach(res => {
-          if (this.value === res.value) {
-            this.$emit('fication', res.label);
-          }
-        });
+    watch: {
+      drugSpec(value) {
+        this.$emit('update:drugSpec', value);
       }
     },
-    created: function () {
-      this.accountId = this.$store.getters.account.id;
+    methods: {
+      close() {
+        this.$emit('close');
+      }
+    },
+    created() {
     }
   };
 </script>
@@ -159,6 +118,7 @@
   #allBottom {
     z-index: 9999999999999;
   }
+
   .drug-img {
     width: 164px;
     height: 154px;
@@ -253,5 +213,24 @@
   /*进入过渡的开始状*/
   .slide-fades-enter {
     bottom: -22rem !important;
+  }
+
+  .radio-item {
+    width: 668px;
+    height: 46px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .radio-item label {
+    font-size: 22px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
+  }
+
+  .radio-item input {
+    width: 29px;
+    height: 29px;
   }
 </style>
