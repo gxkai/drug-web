@@ -61,7 +61,6 @@
     </div>
 
     <new-rxCart @createCart="createCart"></new-rxCart>
-
   </div>
 </template>
 
@@ -97,6 +96,7 @@
         this.$http.get('/rxs/' + this.id + '/shops/' + this.shopId + '/drugs')
           .then(res => {
             this.drugs = res.data;
+            console.log(res.data);
             this.initCart();
           });
       },
@@ -119,7 +119,6 @@
             shopDrugSpecId: drug.drugs[0].shopDrugSpecId,
             name: drug.name,
             spec: drug.spec,
-            brand: drug.drugs[0].brand,
             price: drug.drugs[0].price,
             quantity: drug.quantity,
             fileId: drug.drugs[0].fileId
@@ -127,11 +126,9 @@
         });
       },
       choose(index) {
-        console.log(this.carts[index]);
         let cart = this.carts[this.index];
         cart.drugSpecId = this.origins[index].drugSpecId;
         cart.shopDrugSpecId = this.origins[index].shopDrugSpecId;
-        cart.brand = this.origins[index].brand;
         cart.price = this.origins[index].price;
         cart.fileId = this.origins[index].fileId;
         this.show = false;
