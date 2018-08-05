@@ -60,7 +60,7 @@
     <div class="shop-footer" spellcheck="false" cellspacing="0">
       <router-link :to="{ path: '/shops/info', query: { id: shopId }}">商家介绍</router-link>
       <!-- FIXME typeId-->
-      <router-link :to="{ path: '/shops/drugs', query: { id: shopId,typeId: 3 }}">全部商品</router-link>
+      <router-link :to="{ path: '/shops/drugs', query: { id: shopId }}">全部商品</router-link>
       <router-link :to="{ path: '/chats', query: { id: shopId }}">在线咨询</router-link>
     </div>
   </div>
@@ -84,7 +84,7 @@
     methods: {
       collect() {
         this.activeColor = !this.activeColor;
-        var data = new FormData();
+        let data = new FormData();
         data.append('shopId', this.shopId);
         data.append('isCollect', this.activeColor);
         this.$http.post('/collects/shop', data).then(res => {

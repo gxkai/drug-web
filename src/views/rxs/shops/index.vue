@@ -2,34 +2,10 @@
 <template>
   <div class="rxs-shop-contanier">
     <!-- TODO 搜索 -->
-<<<<<<< HEAD
-   <!-- <new-header></new-header>-->
-
-    <header :style="{background:bgColor,color:color}" class="height130">
-      <div class="header-top"></div>
-      <slot name="left"><i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i></slot>
-      <slot name="center">
-        <!--TODO 搜索 -->
-        <div class="d-inline-block fl position-absolute">
-
-          <i class="iconfont ic-search d-inline-block fl position-absolute"></i>
-          <input type="text" placeholder="           达康药业"
-                 class="border-0 width-percent-100 border-radius25 head-center text-white position-absolute"/>
-        </div>
-      </slot>
-      <slot name="right">
-        <div class="d-inline-block fr position-relative">
-          <i class="iconfont ic-lingdang"></i>
-          <span class="dot position-absolute"></span>
-        </div>
-      </slot>
-    </header>
-=======
     <new-header>
       <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
       <input tag="a"  slot="center" class="header-search" @click="$router.push('/drugSearch')">
     </new-header>
->>>>>>> master
 
     <ul class="is-flex flex-row flex-sa p-tb-20 all-border">
       <li @click="orderById()" :class="{'blueactive1':index1===comprehensive1}">
@@ -70,8 +46,6 @@
   export default {
     data() {
       return {
-        bgColor: '#13C1FE',
-        color: 'white',
         id: '',
         rxShops: [],
         lng: 120.9809,
@@ -238,31 +212,6 @@
   .blueActive {
     color: #1AB6FD;
   }
-<<<<<<< HEAD
-  .shop-tel {
-    margin-top: 15px;
-    font-size: 22px;
-  }
-
-  .height-43 {
-    height: 43px;
-  }
-
-  .full-container {
-    background: #f5f5f5;
-    width: 720px;
-  }
-
-  .shop-store {
-    width: 300px;
-    height: 250px;
-    margin: 15px 29px 16px 20px;
-  }
-
-  .shop-store-img {
-    width:300px;
-    height:249px;
-=======
   .header-search{
     width:560px;
     height:40px;
@@ -275,112 +224,6 @@
   .msg-icon{
     width:31px;
     height:36px;
->>>>>>> master
   }
 
-  .shops-nav {
-    height: 79px;
-    line-height: 79px;
-    font-size: 26px;
-    color: rgba(153, 153, 153, 1);
-    border-bottom: 1px solid #E5E5E5;
-  }
-
-  .comprehensive {
-    width: 68px;
-  }
-
-  .active {
-    color: #454545;
-  }
-
-  .samediv {
-    width: 23%;
-    text-align: center;
-  }
-
-  .icon {
-    width: 0;
-    height: 0;
-    margin-left: 4px;
-    display: inline-block;
-  }
-
-  .specific {
-    width: 720px;
-    height: 281px;
-    background: rgba(255, 255, 255, 1);
-    margin-bottom: 15px;
-  }
-
-  .shop-title {
-    font-size: 30px;
-    color: #454545;
-  }
-
-  .shop-star {
-    margin-top: 11px;
-  }
-
-  .height {
-    height: 130px;
-  }
-
-  .head-center {
-    width: 530px;
-    height: 50px;
-    background: rgba(255, 255, 255, 1);
-    opacity: 0.21;
-    border-radius: 25px;
-    margin-left: 53px;
-  }
-
-  .border-radius25 {
-    border-radius: 25px;
-  }
-
-  .ic-arrow-right {
-    margin-left: 21px;
-  }
-
-  .dot {
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 0, 0, 1);
-    display: inline-block;
-    border-radius: 5px;
-    top: 5px;
-    left: 25px;
-  }
-
-  .ic-lingdang {
-    font-size: 40px;
-  }
-
-  .ic-arrow-right {
-    font-size: 40px;
-  }
-
-  header {
-    width: 720px;
-  }
-
-  .height130 {
-    height: 130px;
-  }
-
-  .header-top {
-    height: 45px;
-  }
-
-  input::-webkit-input-placeholder {
-    color: red; /*rgb(49, 96, 113)*/
-    font-size: 30px;
-    line-height: 50px;
-  }
-
-  .ic-search {
-    left: 80px;
-    font-size: 30px;
-  }
 </style>
