@@ -27,28 +27,9 @@
     </ul>
     <ul>
       <!-- FIXME rxId -->
-      <router-link :to="{path:'/rxs/shops/drugs',query:{rxId:id}}">
-      <!--<new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"-->
-                <!--:address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>-->
-
-      <div class="shop-box is-flex flex-center">
-        <img class="is-280x250" :src="getImgURL(hospital.fileId, 'SMALL_LOGO')">
-        <div class="shop-content flex-sb flex-column position-relative">
-          <div>
-            <span class="text-title"><b>{{hospital.name}}</b></span>
-          </div>
-          <div>
-            <span class="text-black">{{hospital.phone}}</span>
-          </div>
-          <div>
-            <span class="text-black">{{hospital.address}}</span>
-          </div>
-          <div>
-            <span class="text-price"> &yen; {{hospital.amount}}</span>
-          </div>
-          <div><i class="iconfont ic-gouwuche1 position-absolute position-rb icon-size"></i></div>
-        </div>
-      </div>
+      <router-link :to="{path:'/orders/create/fromHospital',query:{rxId:id}}">
+      <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
+                :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
       </router-link>
 
       <li v-for="rxShop in rxShops">

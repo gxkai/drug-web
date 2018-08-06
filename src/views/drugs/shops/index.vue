@@ -143,7 +143,6 @@
         }
       },
       orderByPrice() {
-        debugger;
         this.val = -(this.val);
         if (this.val === -1) {
           this.sort = 'PRICE_ASC';

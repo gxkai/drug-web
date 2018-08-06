@@ -1,6 +1,6 @@
 <template>
 <div class="shop-box is-flex flex-center">
-  <img class="is-280x250" :src="getImgURL(fileId, 'SMALL_LOGO')">
+  <img class="is-280x250" :v-lazy="getImgURL(fileId, 'SMALL_LOGO')">
   <div class="shop-content flex-sb flex-column position-relative">
     <div>
       <i v-show="showIcon" class="iconfont ic-yinanbingli text-1AB6FD"></i>
