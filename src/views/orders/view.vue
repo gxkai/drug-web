@@ -1,10 +1,11 @@
 <template>
   <div id="OrderDetails">
-    <new-header :title="title">
-      <router-link to="/orders?parameter=goods" slot="left" class="iconfont ic-arrow-right text-white">
-      </router-link>
+    <new-header :title="title" :style="{background:bgColor,color:color}">
+      <div slot="left">
+        <router-link to="/orders?parameter=goods" class="iconfont ic-arrow-right text-333333">
+        </router-link>
+      </div>
     </new-header>
-
     <div class="order-type is-flex flex-row flex-item flex-sb p-lr-20">
       <span class="text-white">{{userPrompt[order.state]}}</span>
       <span v-if="order.state === 'TO_PAY'">
@@ -132,12 +133,14 @@
       return {
         title: '订单详情',
         orderId: '',
+        bgColor: 'white',
+        color: '#333333',
         order: {
           id: 12,
           state: 'TO_RECEIVED',
           deliveryType: 'DELIVERY',
-          consignee: '收货人xx',
-          address: '收货地址xxxx',
+          consignee: '收货人测试xx',
+          address: '收货地址测试xxxx',
           totalAmount: '85.5',
           medicaidAmount: '12',
           payNo: 'No1231231',
@@ -205,15 +208,15 @@
       initData() {
         this.$http.get('/orders/' + this.orderId)
           .then(res => {
-            // this.order = res.data;
-            // this.order.createdDate = new Date(res.data.createdDate);
-            // if (this.order.state === 'TO_PAY') {
-            //   this.endTime = Date.parse(this.order.createdDate) + 1800 * 1000;
-            //   this.startTime = Date.parse(new Date());
-            //   if (this.endTime <= this.startTime) {
-            //     this.order.state = 'CLOSED';
-            //   }
-            // }
+            this.order = res.data;
+            this.order.createdDate = new Date(res.data.createdDate);
+            if (this.order.state === 'TO_PAY') {
+              this.endTime = Date.parse(this.order.createdDate) + 1800 * 1000;
+              this.startTime = Date.parse(new Date());
+              if (this.endTime <= this.startTime) {
+                this.order.state = 'CLOSED';
+              }
+            }
           });
       },
       countDownE_cb() {

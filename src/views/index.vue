@@ -2,8 +2,8 @@
   <div class="bg-f8">
     <div class="bg-blue index-header">
       <div class="flex-stream-sb padding-lr-10 mtop-30">
-        <i class="iconfont ic-ditu text-white is-16x22"></i>
-        <span @click="nearby" class="text-white fz22 elps d-inline-block">{{chooseAddress}}</span>
+
+        <span @click="nearby" class="text-white fz22 elps d-inline-block"><i class="iconfont ic-ditu text-white is-16x22"></i>{{chooseAddress}}</span>
         <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
         <div class="search-box position-relative all-center no-border">
           <img src="../assets/image/search.png" class=" is-24x24"/>
@@ -79,7 +79,7 @@
       </div>
       <div class="width-percent-100 bg-white">
         <div class="bg-white width-percent-96 m-auto time-down">
-          <i class="icon iconfont ic-shijian2 text-FF9800 mr-5 font-weight-bold display-block"></i>
+          <i class="icon iconfont ic-shijian1 text-FF9800 mr-5 font-weight-bold display-block"></i>
           <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
         </div>
       </div>
@@ -801,5 +801,8 @@
   .swiper-slide img {
     width: 100%;
     height: 100%;
+  }
+  .ic-shijian1{
+    margin-top: -10px;
   }
 </style>

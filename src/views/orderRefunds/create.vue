@@ -32,10 +32,39 @@
       </div>
     </div>
     <div class="refund-image">
-
+          上传凭证
     </div>
 
-  </div>
+    <div class="upphotos fl heiauto">
+      <!--新版上传图片开始-->
+      <input type="hidden" id="picIndex" value="0">
+      <div id='image-list' class="row image-list">
+        <div class="image-item space upscolor" @click="showActionSheet()">
+          +
+          <div class="image-up"></div>
+        </div>
+      </div>
+    </div>
+
+    <br/>
+    <div id="shangchuanpic" class="div1">
+      <ul>
+        <li  class="imgLi div2" v-for="(item, index) in duploadURLs">
+          <img :src='item' class="upload_img"/>
+          <span @click="delImg(index)"><span class="file-remove">x</span></span>
+        </li>
+      </ul>
+    </div>
+    <div class="div1">
+      <ul>
+        <li  class="imgLi div2" v-for="(item, index) in copyuploadURLs">
+          <img :src='item.url' class="upload_img div3"/>
+          <span @click="shanchupic(item.id,index)"><span class="file-remove" v-if="tjshow">+</span></span>
+        </li>
+      </ul>
+    </div>
+
+ </div>
 </template>
 
 <script>
@@ -45,6 +74,10 @@
     name: 'orderRefundsCreate',
     data() {
       return {
+        uploadURLs: [],
+        duploadURLs: [],
+        duploadURLs: [], // 上传的图片数组
+        copyuploadURLs: [], // 渲染获取过来的pic
         value: '',
         popupVisible: false,
         flieBtn: true,
@@ -67,6 +100,96 @@
       };
     },
     methods: {
+      shanchupic(imgid, index) {
+        let person = JSON.parse(localStorage.getItem('person'));
+        let tokens = person.tokens;
+        getData('post', 'http://10.9.0.37:18000/app/schoolTableImg/delete', {
+          'id': imgid
+        })
+          .then(res => {
+            if (res.data.stateNum == '1') {
+              this.copyuploadURLs.splice(index, 1);
+            }
+          });
+      },
+      showActionSheet() {
+        let _this = this;
+        var bts = [{
+          title: '拍照'
+        }, {
+          title: '从相册选择'
+        }];// eslint-disable-next-line
+        plus.nativeUI.actionSheet({
+          cancel: '取消',
+          buttons: bts
+        },
+        function (e) {
+          if (e.index === 1) {
+            _this.getImage();
+          } else if (e.index === 2) {
+            _this.galleryImgs();
+          }
+        }
+        );
+      },
+      getImage() {
+        let _this = this;// eslint-disable-next-line
+        var cmr = plus.camera.getCamera();
+        cmr.captureImage(function (p) { // eslint-disable-next-line
+          plus.io.resolveLocalFileSystemURL(p, function (entry) {
+            _this.compressImage(entry.toLocalURL(), entry.name);
+          }, function (e) { // eslint-disable-next-line
+            plus.nativeUI.toast('读取拍照文件错误：' + e.message);
+          });
+        }, function (e) {
+        }, {
+          filter: 'image'
+        });
+      },
+      galleryImgs() {
+        let _this = this;// eslint-disable-next-line
+        plus.gallery.pick(function (e) {
+          var name = e.substr(e.lastIndexOf('/') + 1);
+          _this.compressImage(e, name);
+        }, function (e) {
+        }, {
+          filter: 'image'
+        });
+      },
+      compressImage(url, filename) {
+        let _this = this;
+        var name = '_doc/upload/' + filename;// eslint-disable-next-line
+        plus.zip.compressImage({
+          src: url,
+          dst: name,
+          quality: 40,
+          overwrite: true
+        },
+        function (zip) {
+          // 页面显示图片
+          _this.showPics(zip.target, name);
+        });
+      },
+      showPics(url, name) {
+        let _this = this;
+        // eslint-disable-next-line
+        plus.io.resolveLocalFileSystemURL(url, function (entry) {
+          entry.file(function (file) { // eslint-disable-next-line
+            let fileReader = new plus.io.FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onloadend = function (e) {
+              let picUrl = e.target.result.toString();
+              alert(1);
+              _this.uploadURLs.push(picUrl.split(',')[1]);
+              _this.duploadURLs.push(picUrl);
+            };
+          });
+        });
+      },
+      delImg(index) {
+        this.duploadURLs.splice(index, 1);
+        this.uploadURLs.splice(index, 1);
+      },
       handleClick: function () {
         this.popupVisible = true;
       },
@@ -216,5 +339,19 @@
     outline: none;
     border: 0;
     line-height:45px;
+  }
+  .upphotos{
+    width:100px;
+    height:100px;
+    line-height: 90px;
+    text-align: center;
+    font-size: 50px;
+    border: 5px solid #f5f5f5;
+  }
+  .image-item{
+    line-height: 70px;
+  }
+  .upload_img{
+    width: 100px;height: 100px;
   }
 </style>
