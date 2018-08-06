@@ -11,8 +11,9 @@
     <div class="refund-reason">
       <div>
         <span>退款原因</span>
+        <span>{{reason}}</span>
       </div>
-      <div>
+      <div @click="handleClick()">
         <span>请选择<i class="iconfont ic-youjiantou"></i></span>
       </div>
     </div>
@@ -27,19 +28,34 @@
         <span>退款说明</span>
       </div>
       <div>
-        <textarea placeholder="选填 最多50字" maxlength="50" rows="3" >
+        <textarea placeholder="选填 最多50字" maxlength="50" rows="3" v-model="explain">
         </textarea>
       </div>
     </div>
     <div class="refund-image">
 
     </div>
-
+    <mt-popup
+      v-model="popupVisible"
+      position="bottom" closeOnClickModal="false">
+      <div class="refund-reason-choose">
+        <div class="refund-reason-choose-item" v-for="(item,index) in reasonList">
+          <label for="index">{{item}}</label><input type="radio"  v-model="reason" :value="item"
+                                                           id="index"/>
+        </div>
+      </div>
+      <div class="refund-reason-close" @click="onClose()">
+        <span>关闭</span>
+      </div>
+    </mt-popup>
+    <div class="refund-commit" @click="onCommit()">
+      <span>提交</span>
+    </div>
   </div>
 </template>
 
 <script>
-  import {Toast} from 'mint-ui';
+  import {Popup} from 'mint-ui';
 
   export default {
     name: 'orderRefundsCreate',
@@ -47,87 +63,38 @@
       return {
         value: '',
         popupVisible: false,
-        flieBtn: true,
-        pleasechoose: '请选择',
-        rxDrugs: [],
-        norDrugs: [],
-        onUploadFiles: [],
         orderInfo: {},
         explain: '',
-        reason: '请选择',
-        price: '',
+        reason: '',
         reasonList: [
-          '买错了',
-          '错买了',
-          '不想买了'
+          '多拍/拍错/不想要',
+          '不想要'
         ],
-        fileId: '',
         orderId: this.$route.query.orderId,
         account: this.$store.getters.account
       };
     },
+    component: {
+      'mt-popup': Popup
+    },
     methods: {
-      handleClick: function () {
+      handleClick() {
         this.popupVisible = true;
       },
-      sure: function () {
+      onClose() {
         this.popupVisible = false;
-        this.pleasechoose = this.reason;
       },
-      commit: function () {
+      onCommit() {
+        debugger;
         this.$http.post('/orderRefunds', {
           'explain': this.explain,
           'orderId': this.orderId,
-          'price': this.price,
+          'price': this.orderInfo.totalAmount,
           'reason': this.reason
         }).then(res => {
           this.$router.push({path: '/orderRefunds/view', query: {id: res.data}});
         }).catch(error => {
           this.exception(error);
-        });
-      },
-      delete: function (index) {
-        this.onUploadFiles.splice(index, 1);
-      },
-      onUpload: function (e) {
-        let _THIS = this;
-        var file = document.getElementById('file').files;
-        var result = document.getElementById('result');
-        if (file.length > 3) {
-          Toast({
-            message: '最多只能传3张',
-            position: 'middle',
-            duration: 3000
-          });
-          this.flieBtn = false;
-        }
-        ;
-        for (var i = 0; i < file.length; i++) {
-          var reader = new FileReader();
-          reader.readAsDataURL(file[i]);
-          reader.onload = function (e) {
-            result.innerHTML = result.innerHTML + '<img style="width:6rem;height:6rem;margin-right:1rem;" src="' + this.result + '" alt="" />';
-            _THIS.onUploadFiles.push(this.result);
-            if (_THIS.onUploadFiles.length > 2) {
-              Toast({
-                message: '最多只能传3张',
-                position: 'middle',
-                duration: 3000
-              });
-              this.flieBtn = false;
-              return false;
-            }
-            ;
-          };
-        }
-        ;
-        let formDta = new FormData();
-        formDta.append('file', _THIS.onUploadFiles);
-        formDta.append('fileType', 'IMAGE_PIC');
-        _THIS.$http.post('/files/image?resolution=LARGE_LOGO', {
-          data: formDta
-        }).then(res => {
-          this.fileId = res.data;
         });
       }
     },
@@ -157,6 +124,9 @@
     font-family:HiraginoSansGB-W3;
     color:rgba(51,51,51,1);
     margin-left: 21px;
+  }
+  .refund-reason div:nth-child(1)>span:nth-child(2){
+    color: #0f81cc;
   }
   .refund-reason div:nth-child(2) {
     font-size:24px;
@@ -216,5 +186,60 @@
     outline: none;
     border: 0;
     line-height:45px;
+  }
+
+  .refund-reason-choose {
+    width:720px;
+    height:calc(421px - 114px);
+    background:rgba(255,255,255,1);
+  }
+
+  .refund-reason-choose-item {
+    margin-top: 40px;
+  }
+
+  .refund-reason-choose-item {
+    width: 720px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  .refund-reason-choose-item label {
+    font-size:32px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(51,51,51,1);
+    line-height:30px;
+  }
+  .refund-reason-choose-item input {
+    width:34px;
+    height:34px;
+    background:rgba(19,193,254,1);
+  }
+
+  .refund-reason-close {
+    width:720px;
+    height:114px;
+    background:rgba(19,193,254,1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size:36px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(255,255,255,1);
+  }
+
+  .refund-commit {
+    width:720px;
+    height:108px;
+    background:rgba(19,193,254,1);
+    font-size:36px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(255,255,255,1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
   }
 </style>

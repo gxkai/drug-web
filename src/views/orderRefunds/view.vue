@@ -36,14 +36,14 @@
             <img src="../../assets/image/fei.png"/>
           </div>
           <div class="refunds-info-detail-drugImg">
-            <img :src="drug.drugLogo"/>
+            <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')"/>
           </div>
         </div>
         <div class="refunds-info-detail-message">
           <span class="refunds-info-detail-message-name">{{drug.name}}</span>
           <span class="refunds-info-detail-message-size">
-            <p style="font-size: 18px;color:#999999;">规格:{{drug.spec}}</p>
-            <p style="font-size:24px; color:#666666;">x{{drug.quantity}}</p>
+            <p style="font-size: 0.1rem;color:#999999;">规格:{{drug.spec}}</p>
+            <p style="font-size:0.1rem; color:#666666;">x{{drug.quantity}}</p>
           </span>
         </div>
       </router-link>
@@ -74,9 +74,6 @@
       this.$http.get('/orderRefunds/' + this.id)
         .then(res => {
           if (res.data !== '') {
-            res.data.drugs.forEach(item => {
-              item.drugLogo = '/files/' + item.fileId + '/image?resolution=LARGE_LOGO';
-            });
             this.list = res.data;
             this.list.state = this.transform(this.list.state);
           }
