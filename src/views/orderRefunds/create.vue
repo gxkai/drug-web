@@ -19,7 +19,7 @@
     <div class="refund-price">
       <div>
         <span>退款金额：</span>
-        <span>￥182.2</span>
+        <span>￥{{orderInfo.totalAmount}}</span>
       </div>
     </div>
     <div class="refund-description">
