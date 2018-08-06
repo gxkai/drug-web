@@ -75,7 +75,6 @@
     data() {
       return {
         uploadURLs: [],
-        duploadURLs: [],
         duploadURLs: [], // 上传的图片数组
         copyuploadURLs: [], // 渲染获取过来的pic
         value: '',
@@ -101,16 +100,16 @@
     },
     methods: {
       shanchupic(imgid, index) {
-        let person = JSON.parse(localStorage.getItem('person'));
-        let tokens = person.tokens;
-        getData('post', 'http://10.9.0.37:18000/app/schoolTableImg/delete', {
-          'id': imgid
-        })
-          .then(res => {
-            if (res.data.stateNum == '1') {
-              this.copyuploadURLs.splice(index, 1);
-            }
-          });
+        // let person = JSON.parse(localStorage.getItem('person'));
+        // let tokens = person.tokens;
+        // getData('post', 'http://10.9.0.37:18000/app/schoolTableImg/delete', {
+        //   'id': imgid
+        // })
+        //   .then(res => {
+        //     if (res.data.stateNum === '1') {
+        //       this.copyuploadURLs.splice(index, 1);
+        //     }
+        //   });
       },
       showActionSheet() {
         let _this = this;
