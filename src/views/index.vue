@@ -2,10 +2,10 @@
   <div class="bg-f8">
     <div class="bg-blue index-header">
       <div class="flex-stream-sb padding-lr-10 mtop-30">
-        <i class="iconfont ic-ditu text-white is-16x22"></i>
-        <span @click="nearby" class="text-white fz22 elps d-inline-block">{{chooseAddress}}</span>
+        <span @click="nearby" class="text-white fz22 elps d-inline-block"><i
+          class="iconfont ic-ditu text-white is-16x22"></i>{{chooseAddress}}</span>
         <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
-        <div class="search-box position-relative all-center no-border">
+        <div class="search-box all-center no-border">
           <img src="../assets/image/search.png" class=" is-24x24"/>
           <input type="text" v-model="shopName" placeholder="通用名、商品名、症状"
                  @blur="$router.push('/components/search')"
@@ -13,7 +13,10 @@
                  @click="$router.push('/components/search')"
                  class="no-border fz20"/>
         </div>
-        <i class="iconfont ic-lingdang text-white "></i>
+        <span class="d-inline-block">
+          <i class="iconfont ic-lingdang text-white"></i>
+        </span>
+
       </div>
     </div>
     <div class="index-hidden-width"></div>
@@ -75,11 +78,13 @@
     <!--让利惠民-->
     <div class="discount">
       <div class="separate-content all-center">
-        <span class="new-line"></span><span class="text-13C1FE">让利惠民</span><span class="new-liner"></span>
+        <span class="new-line"></span>
+        <span class="text-13C1FE">让利惠民</span>
+        <span class="new-liner"></span>
       </div>
       <div class="width-percent-100 bg-white">
         <div class="bg-white width-percent-96 m-auto time-down">
-          <i class="icon iconfont ic-shijian2 text-FF9800 mr-5 font-weight-bold display-block"></i>
+          <i class="icon iconfont ic-shijian1 text-FF9800"></i>
           <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
         </div>
       </div>
@@ -155,11 +160,15 @@
         <span class="new-line"></span><span class="text-13C1FE">医保定点药房</span> <span class="new-liner"></span>
       </div>
       <div class="shop-content">
-        <swiper :options="swiperOptions" id="medical">
-           <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId)+') no-repeat'}" v-for="(item,index) in showLists" :key="index">
-             <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
-          </swiper-slide>
-       </swiper>
+        <carousel-3d :count="discountLists.length" width="250" height="160" display="3">
+          <slide v-for="(slide, i) in discountLists" :index="i" :key="i">
+            <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
+              <img :data-index="index"
+                   :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
+                   :src="getImgURL(slide.fileId, 'MIDDLE_LOGO')">
+            </template>
+          </slide>
+        </carousel-3d>
       </div>
     </div>
 
@@ -201,6 +210,7 @@
   import DownTime from '../components/timeDown';
   import {Toast} from 'mint-ui';
   import axios from 'axios';
+  import {Carousel3d, Slide} from 'vue-carousel-3d';
 
   export default {
     name: 'home',
@@ -216,7 +226,31 @@
         minutes: '',
         seconds: '',
         news: [],
-        discountLists: [],
+        discountLists: [{
+          id: '-JDp2p05Rm6NwfK6XQGszA',
+          name: '右旋布洛芬栓',
+          spec: '0.5gx60粒/瓶',
+          otc: false,
+          price: 16.5,
+          originalPrice: 21.0,
+          fileId: 'bo1UWeczRiaB2ZHOqRj0pg'
+        }, {
+          id: 't0l7SUv2TW2ZMP40tlSc1g',
+          name: '修正 氨基葡萄糖硫酸软骨素钙胶囊',
+          spec: '100ml/瓶',
+          otc: false,
+          price: 20.0,
+          originalPrice: 25.5,
+          fileId: 'WGyEBsYiS2mhyriyM8Ajrg'
+        }, {
+          id: 'VodgTMHFQaKWXpbB2EQaHg',
+          name: '999 强力枇杷露',
+          spec: '100ml/瓶',
+          otc: true,
+          price: 12.0,
+          originalPrice: 15.0,
+          fileId: 'LPHVfANNROevkaMwxcpUhw'
+        }],
         showLists: [],
         recommendLists: [],
         advertLists: [],
@@ -239,7 +273,6 @@
           mousewheelControl: true,
           observeParents: true
         },
-
         swiperSlides: [1, 2, 3, 4, 5],
         swiperOptions: {// swiper3
           autoplay: 3000,
@@ -260,7 +293,9 @@
     components: {
       BmMarker,
       BmLabel,
-      DownTime
+      DownTime,
+      Carousel3d,
+      Slide
     },
     computed: {
       top() {
@@ -583,7 +618,7 @@
     width: 720px;
     height: 330px;
     background: rgba(238, 238, 238, 1);
-   }
+  }
 
   /* 撑屏容器 */
   .is-720x100 {
@@ -732,25 +767,79 @@
   .ic-lingdang {
     font-size: 20px;
   }
-  .dluboimgh{
-    width:720px;
-    height:300px;
+
+  .dluboimgh {
+    width: 720px;
+    height: 300px;
   }
-  .swiper-div-cover{
-    width:275px;
-    height:238px;
+
+  .swiper-div-cover {
+    width: 275px;
+    height: 238px;
     background: white;
     opacity: 0;
   }
 
-  .fz18{font-size: 18px;}
-  .fz17{font-size: 17px;}
-  .fz16{font-size: 16px;}
-  .fz22{font-size: 22px;}
-  .fz24{font-size: 24px;}
-  .mt-0{margin-top: 0px!important;}
-  .swiper-slide img{
+  .fz18 {
+    font-size: 18px;
+  }
+
+  .fz17 {
+    font-size: 17px;
+  }
+
+  .fz16 {
+    font-size: 16px;
+  }
+
+  .fz22 {
+    font-size: 22px;
+  }
+
+  .fz24 {
+    font-size: 24px;
+  }
+
+  .mt-0 {
+    margin-top: 0px !important;
+  }
+
+  .swiper-slide img {
     width: 100%;
     height: 100%;
+  }
+
+  .ic-ditu, .ic-lingdang {
+    width: auto;
+    height: auto;
+    font-size: 36px;
+  }
+
+  .ic-arrLeft-fill {
+    width: auto;
+    height: auto;
+    font-size: 24px;
+  }
+
+  .ic-ditu {
+    margin-left: 15px;
+  }
+
+  .ic-shijian2:before {
+    content: "\e6c2";
+  }
+
+  .mr-7 {
+    margin-top: 7px !important;
+    display: inline-block !important;
+  }
+
+  .d_Downtime:first-child {
+    margin-left: 5px;
+  }
+
+  .ic-shijian1 {
+    margin-top: 5px;
+    font-size: 30px;
   }
 </style>
