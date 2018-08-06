@@ -28,14 +28,54 @@
     <ul>
       <!-- FIXME rxId -->
       <router-link :to="{path:'/rxs/shops/drugs',query:{rxId:id}}">
-      <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
-                :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
+      <!--<new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"-->
+                <!--:address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>-->
+
+      <div class="shop-box is-flex flex-center">
+        <img class="is-280x250" :src="getImgURL(hospital.fileId, 'SMALL_LOGO')">
+        <div class="shop-content flex-sb flex-column position-relative">
+          <div>
+            <span class="text-title"><b>{{hospital.name}}</b></span>
+          </div>
+          <div>
+            <span class="text-black">{{hospital.phone}}</span>
+          </div>
+          <div>
+            <span class="text-black">{{hospital.address}}</span>
+          </div>
+          <div>
+            <span class="text-price"> &yen; {{hospital.amount}}</span>
+          </div>
+          <div><i class="iconfont ic-gouwuche1 position-absolute position-rb icon-size"></i></div>
+        </div>
+      </div>
       </router-link>
 
       <li v-for="rxShop in rxShops">
         <router-link :to="{path:'/rxs/shops/drugs',query:{id:id,shopId:rxShop.id,shopName:rxShop.name}}">
-        <new-shop :showStar="true" :fileId="rxShop.fileId" :newScore="rxShop.score" :shopName="rxShop.name" :phone="rxShop.tel"
-                  :address="rxShop.area + rxShop.address" :price="rxShop.amount" :newCart="true"></new-shop>
+        <!--<new-shop :showStar="true" :fileId="rxShop.fileId" :newScore="rxShop.score" :shopName="rxShop.name" :phone="rxShop.tel"-->
+                  <!--:address="rxShop.area + rxShop.address" :price="rxShop.amount" :newCart="true"></new-shop>-->
+        <div class="shop-box is-flex flex-center">
+          <img class="is-280x250" :src="getImgURL(rxShop.fileId, 'SMALL_LOGO')">
+          <div class="shop-content flex-sb flex-column position-relative">
+            <div>
+              <span class="text-title"><b>{{rxShop.name}}</b></span>
+            </div>
+            <div>
+              <new-star disabled size="small" :score.sync="rxShop.score"></new-star>
+            </div>
+            <div>
+              <span class="text-black">{{rxShop.tel}}</span>
+            </div>
+            <div>
+              <span class="text-black">{{rxShop.area + rxShop.address}}</span>
+            </div>
+            <div>
+              <span class="text-price"> &yen; {{rxShop.amount}}</span>
+            </div>
+            <div><i class="iconfont ic-gouwuche1 position-absolute position-rb icon-size"></i></div>
+          </div>
+        </div>
         </router-link>
       </li>
     </ul>
@@ -226,4 +266,64 @@
     height:36px;
   }
 
+  /*组件*/
+  .shop-box{
+    width:719px;
+    height:283px;
+    background:rgba(255,255,255,1);
+  }
+  .is-280x250{
+    width:292px;
+    height:250px;
+  }
+  .flex-center{
+    justify-content: center;
+    align-items: center;
+  }
+  .flex-column{
+    display: flex;
+    flex-direction: column;
+  }
+  .flex-sb{
+    justify-content: space-between;
+  }
+  .shop-content{
+    width: 400px;
+    height:250px;
+  }
+  .shop-content > div{
+    padding-left: 20px;
+    box-sizing: border-box;
+  }
+
+  .position-rb{
+    right:10px;
+    bottom:-10px;
+  }
+
+  .icon-size{
+    font-size: 50px;
+    color:rgba(240,43,43,1);
+  }
+  .text-black{
+    color: #333333;
+    width:239px;
+    height:21px;
+    font-size:22px;
+    line-height:36px;
+  }
+  .text-title{
+    width:163px;
+    height:26px;
+    font-size:28px;
+    color:rgba(69,69,69,1);
+    line-height:0px;
+  }
+  .text-price{
+    width:77px;
+    height:18px;
+    font-size:22px;
+    color:rgba(255,0,0,1);
+    line-height:88px;
+  }
 </style>
