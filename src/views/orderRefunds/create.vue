@@ -178,7 +178,6 @@
             fileReader.readAsDataURL(file);
             fileReader.onloadend = function (e) {
               let picUrl = e.target.result.toString();
-              alert(1);
               _this.uploadURLs.push(picUrl.split(',')[1]);
               _this.duploadURLs.push(picUrl);
             };
@@ -266,91 +265,101 @@
 
 <style scoped>
   .refund-reason {
-    width:719px;
-    height:60px;
-    background:rgba(246,246,246,1);
+    width: 719px;
+    height: 60px;
+    background: rgba(246, 246, 246, 1);
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 15px;
   }
+
   .refund-reason div:nth-child(1) {
-    font-size:26px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
+    font-size: 26px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
     margin-left: 21px;
   }
+
   .refund-reason div:nth-child(2) {
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(102,102,102,1);
+    font-size: 24px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
   }
 
   .refund-price {
-    width:719px;
-    height:60px;
-    background:rgba(246,246,246,1);
+    width: 719px;
+    height: 60px;
+    background: rgba(246, 246, 246, 1);
     margin-top: 15px;
     display: flex;
     align-items: center;
   }
+
   .refund-price div:nth-child(1) {
     margin-left: 21px;
   }
+
   .refund-price div:nth-child(1) span:nth-child(1) {
-    font-size:26px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
+    font-size: 26px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
   }
+
   .refund-price div:nth-child(1) span:nth-child(2) {
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,0,0,1);
+    font-size: 24px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(255, 0, 0, 1);
   }
 
   .refund-description {
-    width:719px;
-    height:116px;
-    background:rgba(246,246,246,1);
+    width: 719px;
+    height: 116px;
+    background: rgba(246, 246, 246, 1);
     margin-top: 15px;
     display: flex;
   }
 
-  .refund-description> div:nth-child(1) {
+  .refund-description > div:nth-child(1) {
     width: 131px;
     height: 116px;
   }
 
-  .refund-description> div:nth-child(1) span:nth-child(1) {
+  .refund-description > div:nth-child(1) span:nth-child(1) {
     margin-left: 20px;
-    line-height:45px;
+    line-height: 45px;
   }
 
-  .refund-description> div:nth-child(2) {
+  .refund-description > div:nth-child(2) {
     width: calc(720px - 131px);
     height: 116px;
   }
-  .refund-description> div:nth-child(2) textarea {
+
+  .refund-description > div:nth-child(2) textarea {
     width: calc(720px - 131px);
     height: 116px;
-    background:rgba(246,246,246,1);
+    background: rgba(246, 246, 246, 1);
     resize: none;
     outline: none;
     border: 0;
-    line-height:45px;
+    line-height: 45px;
   }
-  .upphotos{
-    width:100px;
-    height:100px;
+
+  .upphotos {
+    width: 100px;
+    height: 100px;
     line-height: 90px;
     text-align: center;
     font-size: 50px;
     border: 5px solid #f5f5f5;
   }
-  .image-item{
+
+  .image-item {
     line-height: 70px;
   }
-  .upload_img{
-    width: 100px;height: 100px;
+
+  .upload_img {
+    width: 100px;
+    height: 100px;
   }
 </style>

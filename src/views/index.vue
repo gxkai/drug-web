@@ -2,10 +2,9 @@
   <div class="bg-f8">
     <div class="bg-blue index-header">
       <div class="flex-stream-sb padding-lr-10 mtop-30">
-
         <span @click="nearby" class="text-white fz22 elps d-inline-block"><i class="iconfont ic-ditu text-white is-16x22"></i>{{chooseAddress}}</span>
         <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
-        <div class="search-box position-relative all-center no-border">
+        <div class="search-box all-center no-border">
           <img src="../assets/image/search.png" class=" is-24x24"/>
           <input type="text" v-model="shopName" placeholder="通用名、商品名、症状"
                  @blur="$router.push('/components/search')"
@@ -13,7 +12,10 @@
                  @click="$router.push('/components/search')"
                  class="no-border fz20"/>
         </div>
-        <i class="iconfont ic-lingdang text-white "></i>
+        <span class="d-inline-block">
+          <i class="iconfont ic-lingdang text-white"></i>
+        </span>
+
       </div>
     </div>
     <div class="index-hidden-width"></div>
@@ -75,11 +77,13 @@
     <!--让利惠民-->
     <div class="discount">
       <div class="separate-content all-center">
-        <span class="new-line"></span><span class="text-13C1FE">让利惠民</span><span class="new-liner"></span>
+        <span class="new-line"></span>
+        <span class="text-13C1FE">让利惠民</span>
+        <span class="new-liner"></span>
       </div>
       <div class="width-percent-100 bg-white">
         <div class="bg-white width-percent-96 m-auto time-down">
-          <i class="icon iconfont ic-shijian1 text-FF9800 mr-5 font-weight-bold display-block"></i>
+          <i class="icon iconfont ic-shijian1 text-FF9800"></i>
           <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
         </div>
       </div>
@@ -155,41 +159,14 @@
         <span class="new-line"></span><span class="text-13C1FE">医保定点药房</span> <span class="new-liner"></span>
       </div>
       <div class="shop-content">
-        <swiper :options="swiperOptions" id="medical">
-          <!--  <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId)+') no-repeat'}" v-for="(item,index) in showLists" :key="index">
-              <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
-           </swiper-slide>-->
-
-          <swiper-slide
-            style="background-image:url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533478416224&di=337c071e8beee430d7249a5a81a12f74&imgtype=0&src=http%3A%2F%2Fimg.25pp.com%2Fuploadfile%2Fapp%2Ficon%2F20160624%2F1466703524874348.jpg');background-size:100% 100%"
-            class="swiper-img">
-            <router-link to="/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw">
-              <div class="swiper-div-cover"></div>
-            </router-link>
-          </swiper-slide>
-          <swiper-slide
-            style="background-image:url('https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3626584942,623127189&fm=27&gp=0.jpg');background-size:100% 100%"
-            class="swiper-img" @click="$router.push('/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw')">
-            <router-link to="/shops/view?id=1">
-              <div class="swiper-div-cover"></div>
-            </router-link>
-          </swiper-slide>
-          <swiper-slide
-            style="background-image:url('https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1108168550,3016794404&fm=27&gp=0.jpg');background-size:100% 100%"
-            class="swiper-img" @click="$router.push('/shops/view?id=1')">
-            <router-link to="/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw">
-              <div class="swiper-div-cover"></div>
-            </router-link>
-          </swiper-slide>
-          <swiper-slide
-            style="background-image:url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533478944055&di=5d922131802d4cc54f7bd27056ea7c29&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2963956434%2C956551516%26fm%3D214%26gp%3D0.jpg');background-size:100% 100%"
-            class="swiper-img" @click="$router.push('/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw')">
-            <router-link to="/shops/view?id=1">
-              <div class="swiper-div-cover"></div>
-            </router-link>
-          </swiper-slide>
-         </swiper>
-      </div>
+        <carousel-3d :count="discountLists.length">
+          <slide v-for="(slide, i) in discountLists" :index="i" :key="i">
+            <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
+              <img :data-index="index" :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }" :src="getImgURL(slide.fileId, 'MIDDLE_LOGO')">
+            </template>
+          </slide>
+        </carousel-3d>
+        </div>
     </div>
 
     <!-- 好货推荐 -->
@@ -230,7 +207,7 @@
   import DownTime from '../components/timeDown';
   import {Toast} from 'mint-ui';
   import axios from 'axios';
-
+  import { Carousel3d, Slide } from 'vue-carousel-3d';
   export default {
     name: 'home',
     data() {
@@ -283,13 +260,32 @@
           depth: 1000,
           modifier: 1,
           slideShadows: false
-        }
+        },
+        slides: [
+          {
+            title: 'Slide 1',
+            desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, maxime.',
+            src: 'https://placehold.it/100x50'
+          },
+          {
+            title: 'Slide 2',
+            desc: 'Lorem ipsum dolor sit amet ',
+            src: 'https://placehold.it/100x50'
+          },
+          {
+            title: 'Slide 3',
+            desc: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. ',
+            src: 'https://placehold.it/100x50'
+          }
+        ]
       };
     },
     components: {
       BmMarker,
       BmLabel,
-      DownTime
+      DownTime,
+      Carousel3d,
+      Slide
     },
     computed: {
       top() {
@@ -802,7 +798,400 @@
     width: 100%;
     height: 100%;
   }
-  .ic-shijian1{
-    margin-top: -10px;
+
+  .carousel-3d-slide img{}
+
+  .ic-lingdang,.ic-ditu{
+    font-size: 20px;
+  }
+
+
+  .mtop-30 {
+    margin-top: 20px;
+  }
+
+  .discount {
+    width: 720px;
+  }
+
+  .border-left-gray {
+    border-left: 0.8px rgba(238, 238, 238, 1) solid !important;
+  }
+
+  .border-right-gray {
+    border-right: 0.8px rgba(238, 238, 238, 1) solid !important;
+  }
+
+  .border-top-gray {
+    border-top: 0.8px rgba(238, 238, 238, 1) solid !important;
+  }
+
+  .border-bottom-gray {
+    border-bottom: 0.8px rgba(238, 238, 238, 1) solid !important;
+  }
+
+  .separate-content {
+    width: 720px;
+    height: 80px;
+  }
+
+  .all-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flex-stream-sa {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .flex-stream-sb {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .flex-column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .flex-row-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .flex-column {
+    flex-direction: column;
+  }
+
+  .flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .drug-box {
+    width: 360px;
+    height: 330px;
+  }
+
+  .drug-box-01 {
+    width: 360px;
+    height: 223px;
+  }
+
+  .drug-box-2 {
+    width: 360px;
+    height: 345px;
+  }
+
+  .drug-box-34 {
+    width: 360px;
+    height: 170px;
+  }
+
+  .is-260x193 {
+    width: 260px;
+    height: 193px;
+  }
+
+  .position-rb {
+    bottom: 0;
+    right: 0;
+  }
+
+  /*搜索框*/
+  .index-header {
+    width: 720px;
+    height: 114px;
+    background: #1ab6fd;
+    line-height: 75px;
+    position: fixed;
+    top: 0px;
+    z-index: 99999;
+  }
+
+  .index-hidden-width {
+    width: 720px;
+    height: 114px;
+  }
+
+  .search-box {
+    width: 400px;
+    height: 36px;
+    background: white;
+  }
+
+  .no-border {
+    border: 0;
+    outline: 0;
+  }
+
+  /*小图标*/
+  .is-24x24 {
+    width: 24px;
+    height: 24px;
+  }
+
+  .is-16x16 {
+    font-size: 16px;
+  }
+
+  .is-16x22 {
+    font-size: 16px;
+  }
+
+  /*swiper*/
+  .swiper-slide {
+    width: 720px !important;
+    height: 300px !important;
+  }
+
+  /*导航*/
+  .nav-bar {
+    width: 720px;
+    height: 160px;
+    background: white;
+  }
+
+  .is-90x90 {
+    width: 90px;
+    height: 90px;
+  }
+
+  /*滚动*/
+  .scroll-bar {
+    width: 720px;
+    height: 100px;
+    background: white;
+  }
+
+  /*  让利惠民 图片样式 */
+  .is-120x120 {
+    width: 120px;
+    height: 120px;
+  }
+
+  .is-135x85 {
+    width: 135px;
+    height: 85px;
+  }
+
+  .is-145x145 {
+    width: 145px;
+    height: 145px;
+  }
+
+  /*处方标识*/
+  .toc-tip {
+    left: 5px;
+    top: 5px;
+    width: 50px;
+    height: 30px;
+    background: #bfbfbf;
+    color: #666666;
+    border-radius: 100px / 50px;
+  }
+
+  .shop-content {
+    width: 720px;
+    height: 330px;
+    background: rgba(238, 238, 238, 1);
+  }
+
+  /* 撑屏容器 */
+  .is-720x100 {
+    width: 720px;
+    height: 100px;
+  }
+
+  .mr-20 {
+    margin-right: 20px !important;
+  }
+
+  .padding-lr-10 {
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .scroll-wrap {
+    width: 641px;
+    height: 40px;
+    overflow: hidden;
+  }
+
+  .scroll-content {
+    position: relative;
+    transition: top 0.5s;
+    width: 501px;
+    margin-left: 80px;
+    margin-top: -5px;
+  }
+
+  .scroll-content li {
+    line-height: 80px;
+    text-align: center;
+    height: 50px;
+  }
+
+  .health-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .hot {
+    width: 53px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 8px !important;
+    color: #FF9800;
+    border: 0.8px solid #FF9800;
+    display: inline-block;
+    margin-left: 9px;
+    text-align: center;
+  }
+
+  .swiper-container {
+    width: 100%;
+  }
+
+  .swiper-slides {
+    background-position: center;
+    background-size: cover;
+    width: 80px;
+    height: 40px;
+  }
+
+  .f_knowledgeList li {
+    text-align: left;
+    font-size: 22px;
+    color: rgba(119, 119, 119, 1);
+  }
+
+  .swiper-img {
+    width: 275px !important;
+    height: 238px !important;
+  }
+
+  .fz22 {
+    font-size: 22px;
+  }
+
+  .fz20 {
+    font-size: 20px;
+  }
+
+  .shop-content {
+    z-index: -9999;
+  }
+
+  .down-time {
+    margin-top: 14px;
+  }
+
+  .icon {
+    width: 0rem;
+    height: 0rem;
+  }
+
+  .ic-shijian2{
+    margin-right: 19px !important;
+    margin-top: 20px;
+    width: 26px;
+    height: 26px;
+    font-size: 20px;
+  }
+
+  .time-down {
+    height: 45px;
+    line-height: 45px;
+  }
+
+  .new-line {
+    width: 117px !important;
+    height: 2.2px !important;
+    display: inline-block;
+    background: rgba(191, 191, 191, 1);
+    margin-right: 13px;
+  }
+
+  .new-liner {
+    width: 117px !important;
+    height: 2.2px !important;
+    display: inline-block;
+    background: rgba(191, 191, 191, 1);
+    margin-left: 13px;
+  }
+
+  a {
+    color: #333333;
+  }
+
+  .width-144 {
+    width: 144px;
+  }
+
+  .width-180 {
+    width: 200px;
+  }
+
+  .scroll-content {
+
+  }
+
+  .ic-ditu {
+    font-size: 20px;
+  }
+
+  .ic-lingdang {
+    font-size: 20px;
+  }
+  .dluboimgh{
+    width:720px;
+    height:300px;
+  }
+  .swiper-div-cover{
+    width:275px;
+    height:238px;
+    background: white;
+    opacity: 0;
+  }
+
+  .fz18{font-size: 18px;}
+  .fz17{font-size: 17px;}
+  .fz16{font-size: 16px;}
+  .fz22{font-size: 22px;}
+  .fz24{font-size: 24px;}
+  .mt-0{margin-top: 0px!important;}
+  .swiper-slide img{
+    width: 100%;
+    height: 100%;
+  }
+  .ic-ditu,.ic-lingdang{
+    width: auto;
+    height: auto;
+    font-size: 36px;
+  }
+  .ic-arrLeft-fill{
+    width: auto;
+    height: auto;
+    font-size: 24px;
+  }
+  .ic-ditu{margin-left: 15px;}
+  .ic-shijian2:before { content: "\e6c2"; }
+  .mr-7{margin-top: 7px!important;display: inline-block!important;}
+  .d_Downtime:first-child{margin-left:5px;}
+  .ic-shijian1{margin-top: 5px;font-size: 30px;}
+
+  .carousel-3d-slide{
+    width:500px!important;
+    height:300px!important;
   }
 </style>
