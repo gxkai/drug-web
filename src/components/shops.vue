@@ -35,25 +35,35 @@
         default: 5
       },
       shopName: {
+        type: String,
         default: '测试大药房'
       },
       phone: {
+        type: String,
         default: '1377630466'
       },
       address: {
+        type: String,
         default: '测试地址'
       },
       price: {
+        type: String,
         default: '66666'
       },
       newCart: {
+        type: Boolean,
         default: false
       },
-      fileId: {},
+      fileId: {
+        type: String,
+        default: ''
+      },
       showStar: {
+        type: Boolean,
         default: true
       },
       showIcon: {
+        type: Boolean,
         default: false
       }
     },

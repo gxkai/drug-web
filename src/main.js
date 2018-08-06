@@ -64,7 +64,7 @@ Vue.config.productionTip = false;
 Vue.use(MintUI, {
   lazyload: {
     preLoad: 1.3,
-    error: require('./assets/image/lazyLoad/default.jpeg'),
+    error: require('./assets/image/lazyLoad/default.png'),
     loading: require('./assets/image/lazyLoad/loading.gif'),
     attempt: 1,
     filter: {
