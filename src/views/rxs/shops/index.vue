@@ -26,10 +26,9 @@
       </li>
     </ul>
     <ul>
-      <!-- FIXME rxId -->
       <router-link :to="{path:'/orders/create/fromHospital',query:{rxId:id}}">
-      <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
-                :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
+        <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
+        :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
       </router-link>
 
       <li v-for="rxShop in rxShops">
@@ -38,6 +37,7 @@
                   :address="rxShop.area + rxShop.address" :price="rxShop.amount" :newCart="true"></new-shop>
         </router-link>
       </li>
+
     </ul>
   </div>
 </template>
@@ -46,7 +46,7 @@
   export default {
     data() {
       return {
-        id: this.$route.query.id,
+        id: '',
         rxShops: [],
         lng: 120.9809,
         lat: 31.3872,
@@ -59,11 +59,13 @@
         comprehensive2: -2,
         comprehensive3: -3,
         comprehensive4: -4,
-        hospitalId: this.$route.query.hospitalId,
+        hospitalId: '',
         hospital: {}
       };
     },
     created() {
+      this.id = this.$route.query.id;
+      this.hospitalId = this.$route.query.hospitalId;
       this.getRxShops();
       this.getHospital();
     },
@@ -78,7 +80,6 @@
         this.$http.get('/rxs/' + this.id + '/hospitals')
           .then(res => {
             this.hospital = res.data;
-            console.log(res.data);
           })
         ;
       },
