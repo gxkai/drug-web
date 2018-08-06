@@ -38,42 +38,6 @@
           </div>
         </div>
       </div>
-      <div class="item-bottom">
-        <div>
-          <div class="item-bottom-price">
-            <span>总计{{order.amount}}(含运费)</span>
-          </div>
-          <div>
-            <div class="item-bottom-buttons" v-if="order.state == 'TO_PAY'">
-              <button @click="onCancel()">取消订单</button>
-              <button class="item-bottom-button-active" @click="onPay()">付款</button>
-              <button @click="onDetail()">订单详情</button>
-            </div>
-            <div class="item-bottom-buttons" v-if="order.state == 'TO_APPRAISE'">
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onAppraise()">追加评价</button>
-              <button @click="onDetail()">订单详情</button>
-            </div>
-            <div class="item-bottom-buttons" v-if="order.state == 'TO_RECEIVED'">
-              <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
-              <button class="item-bottom-button-active" @click="onConfirm()">确认收货</button>
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onDetail()">订单详情</button>
-            </div>
-            <div class="item-bottom-buttons" v-if="order.state == 'TO_DELIVERY'">
-              <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onRemind()">提醒发货</button>
-              <button @click="onDetail()">订单详情</button>
-            </div>
-            <div class="item-bottom-buttons" v-if="order.state == 'COMPLETED'">
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onAppraise()">追加评价</button>
-              <button @click="onDetail()">订单详情</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="item1-content" v-else>
       <div class="content1">
@@ -120,43 +84,11 @@
           </div>
         </div>
       </div>
-      <div class="item-bottom">
-        <div>
-          <div class="item-bottom-price">
-            <span>总计{{order.amount}}(含运费)</span>
-          </div>
-          <div>
-            <div class="item-bottom-buttons" v-if="order.state == 'TO_PAY'">
-              <button @click="onCancel()">取消订单</button>
-              <button class="item-bottom-button-active" @click="onPay()">付款</button>
-              <button @click="onDetail()">订单详情</button>
-            </div>
-            <div class="item-bottom-buttons" v-if="order.state == 'TO_APPRAISE' || order.state == 'COMPLETED'">
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onAppraise()">追加评价</button>
-              <button @click="onDetail()">订单详情</button>
-            </div>
-            <div class="item-bottom-buttons" v-if="order.state == 'TO_RECEIVED'">
-              <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
-              <button class="item-bottom-button-active" @click="onConfirm()">确认收货</button>
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onDetail()">订单详情</button>
-            </div>
-            <div class="item-bottom-buttons" v-if="order.state == 'TO_DELIVERY'">
-              <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onRemind()">提醒发货</button>
-              <button @click="onDetail()">订单详情</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
   export default {
     name: 'order',
     props: ['order'],
@@ -168,48 +100,11 @@
     computed: {
     },
     methods: {
-      emitOrder() {
-        this.$emit('update:order', this.order);
-      },
-      onCancel() {
-        this.$http.put('/orders/' + this.order.id + '/close').then(res => {
-          this.order.state = 'CLOSED';
-          this.emitOrder();
-        }).catch(error => {
-          this.exception(error);
-        });
-      },
       onRx() {
         this.$router.push({path: '/rxs/view', query: {rxId: this.order.rxId}});
       },
       onShop() {
         this.$router.push({path: '/shops/view', query: {shopId: this.order.shopId}});
-      },
-      onDetail() {
-        this.$router.push({path: '/orders/view', query: {orderId: this.order.id}});
-      },
-      onPay() {
-        this.$router.push({path: '/orders/pay', query: {orderIds: this.order.id}});
-      },
-      onRefund() {
-        this.$router.push({path: '/orderRefunds/create', query: {orderId: this.order.id}});
-      },
-      onDelivery() {
-        this.$router.push({path: '/orders/delivery', query: {orderId: this.order.id}});
-      },
-      onAppraise() {
-        this.$router.push({path: '/drugAppraises/create', query: {orderId: this.order.id}});
-      },
-      onRemind() {
-        MessageBox.alert('提醒发货成功！', '提示');
-      },
-      onConfirm() {
-        this.$http.put('/orders/' + this.order.id + '/complete').then(res => {
-          this.order.state = 'TO_APPRAISE';
-          this.emitOrder();
-        }).catch(error => {
-          this.exception(error);
-        });
       }
     },
     mounted() {

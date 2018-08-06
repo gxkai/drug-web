@@ -90,7 +90,7 @@ export default {
      */
     Vue.prototype.getImgURL = (fileId, resolution) => {
       resolution = resolution || 'LARGE_LOGO';
-      return 'http://58.210.169.168:8081/api/files/' + fileId + '/image?resolution=' + resolution;
+      return 'http://localhost:8081/api/files/' + fileId + '/image?resolution=' + resolution;
     };
 
     /**

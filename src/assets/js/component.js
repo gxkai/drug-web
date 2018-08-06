@@ -25,6 +25,7 @@ import newDrugBottom from '../../components/drugBottom';
 import drugSearch from '../../components/drugSearch';
 import newCloseHospital from '../../components/closeHospital';
 import newTakeList from '../../components/takeList';
+import newRefund from '../../components/refund';
 
 export default {
   install(Vue, options) {
@@ -55,5 +56,6 @@ export default {
     Vue.component('drug-search', drugSearch);
     Vue.component('new-close-hospital', newCloseHospital);
     Vue.component('new-take-list', newTakeList);
+    Vue.component('new-refund', newRefund);
   }
 };
