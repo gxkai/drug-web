@@ -2,8 +2,8 @@
   <div class="bg-f8">
     <div class="bg-blue index-header">
       <div class="flex-stream-sb padding-lr-10 mtop-30">
-        <i class="iconfont ic-ditu text-white is-16x22"></i>
-        <span @click="nearby" class="text-white fz22 elps d-inline-block">{{chooseAddress}}</span>
+
+        <span @click="nearby" class="text-white fz22 elps d-inline-block"><i class="iconfont ic-ditu text-white is-16x22"></i>{{chooseAddress}}</span>
         <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
         <div class="search-box position-relative all-center no-border">
           <img src="../assets/image/search.png" class=" is-24x24"/>
@@ -79,7 +79,7 @@
       </div>
       <div class="width-percent-100 bg-white">
         <div class="bg-white width-percent-96 m-auto time-down">
-          <i class="icon iconfont ic-shijian2 text-FF9800 mr-5 font-weight-bold display-block"></i>
+          <i class="icon iconfont ic-shijian1 text-FF9800 mr-5 font-weight-bold display-block"></i>
           <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
         </div>
       </div>
@@ -156,10 +156,39 @@
       </div>
       <div class="shop-content">
         <swiper :options="swiperOptions" id="medical">
-           <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId)+') no-repeat'}" v-for="(item,index) in showLists" :key="index">
-             <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
+          <!--  <swiper-slide class="swiper-img" :style="{backgroundSize:cover,background: 'url('+getImgURL(item.fileId)+') no-repeat'}" v-for="(item,index) in showLists" :key="index">
+              <div class="swiper-div-cover" @click="$router.push('/shops/view?id='+item.id)"></div>
+           </swiper-slide>-->
+
+          <swiper-slide
+            style="background-image:url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533478416224&di=337c071e8beee430d7249a5a81a12f74&imgtype=0&src=http%3A%2F%2Fimg.25pp.com%2Fuploadfile%2Fapp%2Ficon%2F20160624%2F1466703524874348.jpg');background-size:100% 100%"
+            class="swiper-img">
+            <router-link to="/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw">
+              <div class="swiper-div-cover"></div>
+            </router-link>
           </swiper-slide>
-       </swiper>
+          <swiper-slide
+            style="background-image:url('https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3626584942,623127189&fm=27&gp=0.jpg');background-size:100% 100%"
+            class="swiper-img" @click="$router.push('/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw')">
+            <router-link to="/shops/view?id=1">
+              <div class="swiper-div-cover"></div>
+            </router-link>
+          </swiper-slide>
+          <swiper-slide
+            style="background-image:url('https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1108168550,3016794404&fm=27&gp=0.jpg');background-size:100% 100%"
+            class="swiper-img" @click="$router.push('/shops/view?id=1')">
+            <router-link to="/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw">
+              <div class="swiper-div-cover"></div>
+            </router-link>
+          </swiper-slide>
+          <swiper-slide
+            style="background-image:url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533478944055&di=5d922131802d4cc54f7bd27056ea7c29&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2963956434%2C956551516%26fm%3D214%26gp%3D0.jpg');background-size:100% 100%"
+            class="swiper-img" @click="$router.push('/shops/view?id=SLQWAd0ZQZKIRUHjkn_UWw')">
+            <router-link to="/shops/view?id=1">
+              <div class="swiper-div-cover"></div>
+            </router-link>
+          </swiper-slide>
+         </swiper>
       </div>
     </div>
 
@@ -583,7 +612,7 @@
     width: 720px;
     height: 330px;
     background: rgba(238, 238, 238, 1);
-   }
+  }
 
   /* 撑屏容器 */
   .is-720x100 {
@@ -732,25 +761,48 @@
   .ic-lingdang {
     font-size: 20px;
   }
-  .dluboimgh{
-    width:720px;
-    height:300px;
+
+  .dluboimgh {
+    width: 720px;
+    height: 300px;
   }
-  .swiper-div-cover{
-    width:275px;
-    height:238px;
+
+  .swiper-div-cover {
+    width: 275px;
+    height: 238px;
     background: white;
     opacity: 0;
   }
 
-  .fz18{font-size: 18px;}
-  .fz17{font-size: 17px;}
-  .fz16{font-size: 16px;}
-  .fz22{font-size: 22px;}
-  .fz24{font-size: 24px;}
-  .mt-0{margin-top: 0px!important;}
-  .swiper-slide img{
+  .fz18 {
+    font-size: 18px;
+  }
+
+  .fz17 {
+    font-size: 17px;
+  }
+
+  .fz16 {
+    font-size: 16px;
+  }
+
+  .fz22 {
+    font-size: 22px;
+  }
+
+  .fz24 {
+    font-size: 24px;
+  }
+
+  .mt-0 {
+    margin-top: 0px !important;
+  }
+
+  .swiper-slide img {
     width: 100%;
     height: 100%;
+  }
+  .ic-shijian1{
+    margin-top: -10px;
   }
 </style>
