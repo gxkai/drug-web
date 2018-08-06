@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <new-header :title="分类列表">
+    <new-header title="分类列表">
       <div slot="left">
          <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
       </div>
@@ -20,7 +20,7 @@
            infinite-scroll-distance="10">
         <div v-for="item in drugkindtwo" class="drugs-details">
           <router-link :to="{path:'/drugs',query:{showDrugTitle:item.type, typeId:item.id, pageFrom:'drugType'}}">
-            <img :src="getImgURL(item.fileId,'MIDDLE_LOGO')" class="img-circle"/>
+            <img v-lazy="getImgURL(item.fileId,'MIDDLE_LOGO')" class="img-circle"/>
             <div class="drugs-name">{{item.type}}</div>
           </router-link>
         </div>

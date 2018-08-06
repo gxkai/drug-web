@@ -26,6 +26,8 @@ import drugSearch from '../../components/drugSearch';
 import newCloseHospital from '../../components/closeHospital';
 import newTakeList from '../../components/takeList';
 import newRefund from '../../components/refund';
+import newTimeDown from '../../components/timeDown';
+import newCountDown from '../../components/countDown';
 
 export default {
   install(Vue, options) {
@@ -57,5 +59,7 @@ export default {
     Vue.component('new-close-hospital', newCloseHospital);
     Vue.component('new-take-list', newTakeList);
     Vue.component('new-refund', newRefund);
+    Vue.component('new-time-down', newTimeDown);
+    Vue.component('new-count-down', newCountDown);
   }
 };
