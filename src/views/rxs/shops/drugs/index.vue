@@ -1,13 +1,9 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-content position-relative">
-    <new-header :title="shopName">
-      <div slot="left">
-        <router-link to="/messageTypes">
-          <i class=" iconfont ic-xiaoxi"></i>
-        </router-link>
-      </div>
-   </new-header>
+    <new-header>
+      <router-link tag="i" :to="$router.go(-1)" class="iconfont ic-arrow-right" slot="left"></router-link>
+    </new-header>
 
     <div class="hr-box">
       <span class="line mr-30"></span>
