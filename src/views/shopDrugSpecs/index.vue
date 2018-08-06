@@ -135,7 +135,7 @@
 
       <div v-for="drugAppraise in shopDrugSpec.drugAppraises.list">
         <div class="stars width-percent-94 m-auto">
-          <span class="fl d-inline-block"> <new-star :size="drugAppraise.score" disabled></new-star></span>
+          <span class="fl d-inline-block"> <new-star :score="drugAppraise.score" disabled></new-star></span>
           <span class="fr d-inline-block">{{drugAppraise.username}}</span>
         </div>
         <div class="width-percent-94 m-auto good-comment">

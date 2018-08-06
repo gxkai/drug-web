@@ -1,7 +1,7 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="container">
-    <new-header title="退款详情">
+    <new-header title="退款详情" bgColor="white" leftColor="#333333" color="#333333">
       <div slot="left">
         <router-link tag="i" to="/orderRefunds" class="iconfont ic-arrow-right"></router-link>
       </div>
