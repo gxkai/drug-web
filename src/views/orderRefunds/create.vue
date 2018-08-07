@@ -85,7 +85,6 @@
         this.popupVisible = false;
       },
       onCommit() {
-        debugger;
         this.$http.post('/orderRefunds', {
           'explain': this.explain,
           'orderId': this.orderId,

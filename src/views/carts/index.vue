@@ -65,7 +65,7 @@
                     :right="[
                       {
                         content: '删除',
-                        style: { background: 'rgba(19,193,254,1)', color: '#fff'},
+                        style: { background: 'rgba(19,193,254,1)', color: '#fff', fontSize: '0.3rem'},
                         handler: () => onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)
                       }
                     ]">
@@ -606,6 +606,9 @@
   }
   .multi-input{
     margin-right: 16px;
+  }
+  .mint-cell-swipe-button{
+    font-size: 24px;
   }
 </style>
 

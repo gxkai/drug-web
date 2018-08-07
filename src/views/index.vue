@@ -79,12 +79,13 @@
     <div class="discount">
       <div class="separate-content all-center">
         <span class="new-line"></span>
-        <span class="text-13C1FE">让利惠民</span>
+        <span class="text-13C1FE fz28">让利惠民</span>
         <span class="new-liner"></span>
       </div>
       <div class="width-percent-100 bg-white">
-        <div class="bg-white width-percent-96 m-auto time-down">
-          <i class="icon iconfont ic-shijian1 text-FF9800"></i>
+        <div class="bg-white width-percent-96 m-auto time-down now-oclock">
+        <!--  <i class="icon iconfont ic-shijian1 text-FF9800"></i>-->
+          <img src="../assets/image/oclock.png" class="oclock"/>
           <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
         </div>
       </div>
@@ -157,7 +158,7 @@
     <!-- 医保定点药房 -->
     <div class="shop-show">
       <div class="separate-content all-center">
-        <span class="new-line"></span><span class="text-13C1FE">医保定点药房</span> <span class="new-liner"></span>
+        <span class="new-line"></span><span class="text-13C1FE fz28">医保定点药房</span> <span class="new-liner"></span>
       </div>
       <div class="shop-content">
         <carousel-3d :count="discountLists.length" width="250" height="160" display="3">
@@ -175,7 +176,7 @@
     <!-- 好货推荐 -->
     <div class="recommend">
       <div class="separate-content all-center">
-        <span class="new-line"></span><span class="text-13C1FE"><i class="iconfont ic-aixin text-red"></i>好货推荐</span>
+        <span class="new-line fz28"></span><span class="text-13C1FE"><i class="iconfont ic-aixin text-red"></i>好货推荐</span>
         <span class="new-liner"></span>
       </div>
       <div class="bg-white of-hidden">
@@ -706,9 +707,7 @@
     z-index: -9999;
   }
 
-  .down-time {
-    margin-top: 14px;
-  }
+
 
   .icon {
     width: 0rem;
@@ -841,5 +840,16 @@
   .ic-shijian1 {
     margin-top: 5px;
     font-size: 30px;
+  }
+  .oclock{
+    width: 26px;
+    height: 26px;
+  }
+  .now-oclock{
+    padding-top: 13px!important;
+  }
+  .fz28{font-size: 28px;}
+  .recommend{
+    margin-top: 15px;
   }
 </style>

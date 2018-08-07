@@ -4,15 +4,15 @@
       <div class="content1">
         <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red>
           <div slot="left" style="display: flex;align-items: center" @click="onShop()">
-            <i class="iconfont ic-yaodian"></i>
-            <span style="color: black">{{order.hospitalName}}</span>
+
+            <span style="color: black"> <i class="iconfont ic-yaodian"></i>{{order.hospitalName}}</span>
           </div>
           <span slot="right">{{order.state|transformOrderState}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE">
-          <i class="iconfont ic-chufangdanluru" slot="left"></i>
-          <span slot="left" style="color: #13C1FE">处方单</span>
+
+          <span slot="left" style="color: #13C1FE">  <i class="iconfont ic-chufangdanluru" slot="left"></i>处方单</span>
           <span slot="right" @click="onRx()">查看处方></span>
         </new-header>
 
@@ -86,14 +86,14 @@
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-if="order.rxId">
-          <i class="iconfont ic-chufangdanluru" slot="left"></i>
-          <span slot="left" style="color: #13C1FE">处方单</span>
+
+          <span slot="left" style="color: #13C1FE">  <i class="iconfont ic-chufangdanluru" slot="left"></i>处方单</span>
           <span slot="right" @click="onRx()">查看处方></span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-else>
-          <i class="iconfont ic-chufangdanluru" slot="left"></i>
-          <span slot="left" style="color: #13C1FE">非处方单</span>
+
+          <span slot="left" style="color: #13C1FE"><i class="iconfont ic-chufangdanluru" slot="left"></i>非处方单</span>
         </new-header>
 
         <div class="slide-content" v-for="item in order.list">
@@ -242,14 +242,14 @@
   .chu {
     position: absolute;
     width:42px;
-    height:25px;
+    height:24px;
     background:rgba(43,178,146,1);
     font-size:18px;
     font-family:HiraginoSansGB-W3;
     color:rgba(255,255,255,1);
     text-align: center;
     line-height: 20px;
-    border-radius: 20px;
+    border-radius: 21px/12px;
   }
 
   .feichu {
