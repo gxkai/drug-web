@@ -1,27 +1,32 @@
 <template>
   <div>
     <footer>
-      <router-link tag="div" to="/chats" :class="{active:urlRouter === '/chats'}">
+      <router-link tag="div" to="/chats" >
         <i class="iconfont ic-zixun"></i>
         <p>咨询</p>
       </router-link>
-      <router-link tag="div" to="/shops" :class="{active:urlRouter === '/shops'}">
+      <router-link tag="div" to="/shops">
         <i class="iconfont ic-drugstore"></i>
         <p>药店</p>
       </router-link>
-      <router-link tag="div" to="/collects" :class="{active:urlRouter === '/collects'}">
-        <i class="iconfont ic-shoucang"></i>
+      <div @click="onCollect()">
+        <i class="iconfont ic-shoucang" :class="{active:isCollect}"></i>
         <p>收藏</p>
-      </router-link>
-      <router-link tag="div" to="/carts" :class="{active:urlRouter === '/carts'}">
+      </div>
+      <div @click="onCollect()">
         <i class="iconfont ic-gouwuche2"></i>
         <p>购物车</p>
-      </router-link>
-      <div class="joincar" @click="joinCar()">
+      </div>
+      <div class="joincar" @click="joinCar()" v-if="drugInfo.otc">
         <p>加入购物车</p>
       </div>
-      <!-- FIXME -->
-      <div class="immediately-buy" @click.stop="onBuy">
+      <div class="joincar" @click="joinCar()" v-else style="background-color: lightgrey">
+        <p>加入购物车</p>
+      </div>
+      <div class="immediately-buy" @click.stop="onBuy()" v-if="drugInfo.otc">
+        <p>立即购买</p>
+      </div>
+      <div class="immediately-buy" @click.stop="onBuy()" style="background-color: #889092" v-else>
         <p>立即购买</p>
       </div>
     </footer>
@@ -63,7 +68,7 @@
 </template>
 
 <script>
-  import {Toast} from 'mint-ui';
+  import {Toast, MessageBox} from 'mint-ui';
   export default {
     name: 'newFooter',
     data() {
@@ -71,10 +76,17 @@
         number: 1,
         show: false,
         popupVisible: false,
-        type: 0
+        type: 0,
+        isCollect: false
       };
     },
     created() {
+      this.$http.get('/collects/drug/one?shopDrugSpecId=' + this.drugInfo.id)
+        .then(res => {
+          this.isCollect = res.data;
+        }).catch(error => {
+          this.exception(error);
+        });
     },
     props: {
       drugInfo: {
@@ -86,10 +98,23 @@
       }
     },
     methods: {
+      onCollect() {
+        this.$http.post('/collects/drug?shopId=' + this.drugInfo.shopId + '&drugSpecId=' + this.drugInfo.drugSpecId +
+      '&shopDrugSpecId=' + this.drugInfo.id + '&isCollect=' + !this.isCollect)
+          .then(res => {
+            this.isCollect = !this.isCollect;
+          }).catch(error => {
+            this.exception(error);
+          });
+      },
       onBuy() {
-        this.show = !this.show;
-        this.type = 1;
-        this.popupVisible = true;
+        if (this.drugInfo.otc) {
+          this.show = !this.show;
+          this.type = 1;
+          this.popupVisible = true;
+        } else {
+          MessageBox('提示', '处方药不能立即购买');
+        }
       },
       drugReduce() {
         if (this.number === 1) {
@@ -103,9 +128,13 @@
         this.number++;
       },
       joinCar() {
-        this.show = !this.show;
-        this.type = 0;
-        this.popupVisible = true;
+        if (this.drugInfo.otc) {
+          this.show = !this.show;
+          this.type = 0;
+          this.popupVisible = true;
+        } else {
+          MessageBox('提示', '处方药不能加入购物车');
+        }
       },
       close() {
         this.popupVisible = false;
@@ -330,6 +359,8 @@
   .slide-fade-enter{
     bottom:-22rem!important;
   }
-
+  .active {
+    color: red;
+  }
 
 </style>

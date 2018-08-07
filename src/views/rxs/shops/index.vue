@@ -3,15 +3,11 @@
   <div class="rxs-shop-contanier">
     <!-- TODO 搜索 -->
     <new-header>
-      <div  slot="left">
-        <router-link tag="i" to="/" class="iconfont ic-arrow-right"></router-link>
-      </div>
-      <div slot="center">
-        <input tag="a"  class="header-search" @click="$router.push('/drugSearch')">
-      </div>
+      <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <input tag="a"  slot="center" class="header-search" @click="$router.push('/drugSearch')">
     </new-header>
 
-    <ul class="is-flex flex-row flex-sa p-tb-20 all-border head-ul">
+    <ul class="is-flex flex-row flex-sa p-tb-20 all-border">
       <li @click="orderById()" :class="{'blueactive1':index1===comprehensive1}">
         <span>综合</span>
       </li>
@@ -23,23 +19,21 @@
       </li>
       <li @click="orderByPrice()" class="is-flex flex-row " :class="{'blueactive1':index4===comprehensive4}">
         <span>价格</span>
-        <div class="is-flex  position-relative arrow-header">
-          <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" style="font-size:14px;" :class="val===1?'unActive':'blueActive'"></i>
-          <i class="iconfont ic-arrLeft-fill" :class="val===1?'blueActive':'unActive'" style="font-size:14px;margin-top: 3px;"></i>
+        <div class="is-flex  position-relative">
+          <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="val===1?'unActive':'blueActive'"></i>
+          <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="val===1?'blueActive':'unActive'"></i>
         </div>
       </li>
     </ul>
-   <ul>
-      <router-link :to="{path:'/orders/create/fromHospital',query:{rxId:id}}">
+    <ul>
+      <div @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:id}})">
         <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
         :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
-      </router-link>
+      </div>
 
-       <li v-for="rxShop in rxShops">
-        <router-link :to="{path:'/rxs/shops/drugs',query:{id:id,shopId:rxShop.id,shopName:rxShop.name}}">
+      <li v-for="(rxShop,index) in rxShops" @click="onShop(rxShop)" :key="index">
         <new-shop :showStar="true" :fileId="rxShop.fileId" :newScore="rxShop.score" :shopName="rxShop.name" :phone="rxShop.tel"
                   :address="rxShop.area + rxShop.address" :price="rxShop.amount" :newCart="true"></new-shop>
-        </router-link>
       </li>
 
     </ul>
@@ -74,16 +68,23 @@
       this.getHospital();
     },
     methods: {
+      onShop(rxShop) {
+        this.$router.push({path: '/rxs/shops/drugs', query: {id: this.id, shopId: rxShop.id, shopName: rxShop.name}});
+      },
       getRxShops() {
         this.$http.get('/rxs/' + this.id + '/shops?lng=' + this.lng + '&lat=' + this.lat)
           .then(res => {
             this.rxShops = res.data;
+          }).catch(error => {
+            this.exception(error);
           });
       },
       getHospital() {
         this.$http.get('/rxs/' + this.id + '/hospitals')
           .then(res => {
             this.hospital = res.data;
+          }).catch(error => {
+            this.exception(error);
           })
         ;
       },
@@ -207,7 +208,7 @@
     top:-6px;
   }
   .position-bottom{
-    bottom:-0px;
+    bottom:-8px;
   }
   .unActive {
     color: #d6cfcf !important;
@@ -227,21 +228,6 @@
   .msg-icon{
     width:31px;
     height:36px;
-  }
-  .iconfont{
-    width:0px!important;
-    height:0px!important;
-   }
-
-  .ic-dianhua{
-    font-size: 360px!important;
-  }
-  .rxs-shop-contanier{
-    width: 720px;
-    max-width: 720px;
-  }
-  .head-ul li span{
-    font-size: 24px;
   }
 
 </style>
