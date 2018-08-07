@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header title="配送详情">
-      <router-link tag="i" to="/orders?parameter=goods" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <div slot="left">
+        <router-link tag="i" to="/orders?parameter=goods" class="iconfont ic-arrow-right" ></router-link>
+      </div>
     </new-header>
 
     <div class="delivery-schedule">
@@ -11,7 +13,7 @@
       </div>
 
       <div>
-        <div v-if="order.state== 'TO_PAY' || order.state== 'TO_DELIVERY'">
+        <div v-if="order.state== 'TO_RECEIVED'">
           <img src="../../assets/image/delivery/distributioning.png"/>
           <div class="delivery-schedule-message text-#999999">配送中</div>
         </div>
@@ -22,7 +24,7 @@
       </div>
 
       <div>
-        <div v-if="order.state== 'TO_PAY' || order.state== 'TO_DELIVERY' || order.state== 'TO_RECEIVED'">
+        <div v-if="order.state== 'TO_APPRAISE' || order.state== 'COMPLETED'">
           <img src="../../assets/image/delivery/receiveing.png"/>
           <div class="delivery-schedule-message text-#999999">已收货</div>
         </div>
@@ -35,12 +37,15 @@
       <p></p>
     </div>
 
-    <div class="delivery-drugstore">
+    <div class="delivery-drugstore of-hidden">
       <div class="delivery-drugstore-name">
-        <img style="width: 25px; height:25px;" src="../../assets/image/drug.png"/>
-        {{order.shopName}}
+       <span class="d-inline-block fl">
+          <i class="iconfont ic-yaodian text-333333"></i>
+          {{order.shopName}}
+       </span>
+       <span class="d-inline-block fr"><i class="iconfont ic-dianhua text-13C1FE fz-50"></i></span>
       </div>
-      <i class="iconfont ic-dianhua text-13C1FE fz-50"></i>
+
     </div>
 
     <div v-for="rxDrug in order.rxDrugs" class="delivery-drugs ">
@@ -70,7 +75,7 @@
         <li>
           <img src="../../assets/image/delivery/pay.png"/>
           <span>已支付</span>
-          <span style="font-size: 24px">¥{{order.payAmount}}</span>
+          <span class="fz24">¥{{order.payAmount}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/address.png"/>
@@ -85,7 +90,7 @@
         <li>
           <img src="../../assets/image/delivery/telNumber.png"/>
           <span>送货人号码</span>
-          <span style="color:#13C1FE;">{{order.courierTel}}</span>
+          <span class="text-13C1FE">{{order.courierTel}}</span>
         </li>
       </ul>
     </div>
@@ -178,9 +183,9 @@
   .delivery-drugstore {
     width: 680px;
     margin: auto;
-    display: flex;
+/*    display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center;*/
     margin-bottom: 47px;
   }
 
@@ -247,4 +252,6 @@
     position: absolute;
     right: 20px;
   }
+  .fz24{font-size: 24px;}
+  .ic-yaodian{font-size: 40px;}
 </style>
