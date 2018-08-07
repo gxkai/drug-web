@@ -1,8 +1,10 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-content position-relative">
-    <new-header>
-      <router-link tag="i" :to="$router.go(-1)" class="iconfont ic-arrow-right" slot="left"></router-link>
+    <new-header title="药店列表">
+      <div slot="left">
+        <i @click="$router.go(-1)" class="iconfont ic-arrow-right" ></i>
+      </div>
     </new-header>
 
     <div class="hr-box">
@@ -73,10 +75,10 @@
     </ul>
 
     <div class="rx-total ml-20">
-      <i class="iconfont ic-qian text-13C1FE"></i>共计三件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥ {{amount}}</span>
+      <i class="iconfont ic-qian text-13C1FE"></i>共计{{drugs.length}}件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥ {{amount}}</span>
     </div>
 
-    <new-rxCart @createCart="createCart"></new-rxCart>
+    <new-rxCart @createCart="createCart" :rxId="id"></new-rxCart>
   </div>
 </template>
 
@@ -86,26 +88,20 @@
   export default {
     data() {
       return {
-        id: '',
-        shopId: '',
-        shopName: '',
+        id: this.$route.query.id,
+        shopId: this.$route.query.shopId,
+        shopName: this.$route.query.shopName,
         drugs: [],
         show: false,
         origins: [],
         index: 0,
         carts: [],
-        account: {},
+        account: this.$store.getters.account,
         isActive: true,
         amount: 0
       };
     },
     created() {
-      this.id = this.$route.query.id;
-      this.shopId = this.$route.query.shopId;
-      this.shopName = this.$route.query.shopName;
-      if (this.$store.getters.account) {
-        this.account = this.$store.getters.account;
-      }
       this.getDrugs();
     },
     methods: {

@@ -117,7 +117,7 @@
         name: '订单结算',
         account: this.$store.getters.account,
         cart: JSON.parse(this.$route.query.cart),
-        deliveryType: 'SELF',
+        deliveryType: this.$storage.get('deliveryType') || 'SELF',
         payType: 'ALIPAY'
       };
     },

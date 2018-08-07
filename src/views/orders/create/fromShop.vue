@@ -116,7 +116,7 @@
         account: this.$store.getters.account,
         shopDrugSpecId: this.$route.query.shopDrugSpecId,
         quantity: this.$route.query.quantity,
-        deliveryType: 'SELF',
+        deliveryType: this.$storage.get('deliveryType') || 'SELF',
         payType: 'ALIPAY',
         shopInfo: []
       };
@@ -170,6 +170,7 @@
       },
       onDeliveryType(item) {
         this.deliveryType = item;
+        this.$storage.set('deliveryType', item);
       },
       onPayType(item) {
         this.payType = item;

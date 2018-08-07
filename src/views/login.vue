@@ -323,6 +323,7 @@
   }
   input{
     font-size:24px;
+    outline: none;
   }
   .swiper-wrapper{
     height: 500px!important;
