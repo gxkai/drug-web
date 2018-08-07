@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <new-header title="关于我们">
-      <div slot="left"  @click="$router.go(-1)">
-        <i class="iconfont ic-arrow-right"></i>
+      <div slot="left" @click="$router.go(-1)">
+      <i class="iconfont ic-arrow-right " ></i>
       </div>
-   </new-header>
+    </new-header>
     <div class="about-img">
       <div class="about-word">
         E慧药致力于提供专业药品服务的第三方互联网交易服务平台，已经获得国家

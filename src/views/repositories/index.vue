@@ -1,8 +1,12 @@
 <template>
   <div class="container">
     <new-header :title="title">
-      <router-link tag="i" to="/repositoryTypes" class="iconfont ic-arrow-right" slot="left"></router-link>
-      <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi" slot="right"></router-link>
+      <div slot="left">
+      <router-link tag="i" to="/repositoryTypes" class="iconfont ic-arrow-right" ></router-link>
+      </div>
+      <div  slot="right">
+        <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi"></router-link>
+      </div>
     </new-header>
 
     <div class="body-main">

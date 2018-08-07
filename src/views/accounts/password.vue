@@ -2,7 +2,9 @@
 <template>
   <div class="account-container">
     <new-header title="修改密码">
-      <div slot="left"><router-link tag="i" to="/accounts/view" class="iconfont ic-arrow-right"></router-link></div>
+      <div slot="left">
+      <router-link tag="i" to="/accounts/view" class="iconfont ic-arrow-right" ></router-link>
+      </div>
     </new-header>
 
     <div class="password-content">

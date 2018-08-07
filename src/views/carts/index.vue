@@ -1,8 +1,8 @@
 <template>
   <div>
       <new-header title="购物车" ref="header">
-        <div slot="left">
-           <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+        <div slot="left" @click="$router.go(-1)">
+           <i class="iconfont ic-arrow-right"  ></i>
         </div>
         <span slot="right" @click="onRemoveBatch()">删除</span>
       </new-header>
