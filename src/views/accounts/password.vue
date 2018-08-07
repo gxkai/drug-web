@@ -2,7 +2,7 @@
 <template>
   <div class="account-container">
     <new-header title="修改密码">
-      <router-link tag="i" to="/accounts/view" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <div slot="left"><router-link tag="i" to="/accounts/view" class="iconfont ic-arrow-right"></router-link></div>
     </new-header>
 
     <div class="password-content">
@@ -42,7 +42,7 @@
             this.$router.push({path: '/accounts/view'});
           })
           .catch((error) => {
-            this.exception.message(error);
+            this.exception(error);
           });
       }
     }

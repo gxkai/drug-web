@@ -7,46 +7,59 @@
       </div>
     </new-header>
 
-    <div class="a-content-list flex-stream-sb padding-10" @click="changeVisible">
-      <span>头像</span>
-      <div class="flex-stream-sb">
-        <img class="is-55x55" v-lazy="aa"/>
-        <i class="iconfont ic-youjiantou"></i>
+
+    <div class="bg-white width-percent-100">
+      <div class="a-content-list flex-stream-sb width-percent-96 m-auto" @click="changeVisible">
+        <span>头像</span>
+        <div class="flex-stream-sb">
+          <img class="is-55x55" v-lazy="aa"/>
+          <i class="iconfont ic-youjiantou"></i>
+        </div>
       </div>
     </div>
-    <router-link class="a-content-list flex-stream-sb padding-10" to='/accounts/edit'>
+
+
+    <div class="width-percent-100 bg-white">
+      <router-link class="a-content-list flex-stream-sb width-percent-96 m-auto" to='/accounts/edit'>
         <span>隐私</span>
         <i class=" iconfont ic-youjiantou"></i>
-    </router-link>
+      </router-link>
+    </div>
 
-    <account-label :label="this.labels[3]"/>
-    <router-link to="/accounts/password" class="text-333333">
-      <account-label :label="this.labels[5]"/>
-    </router-link>
 
-    <!--新版手机拍照上传开始-->
+    <div class="width-percent-100 bg-white">
+      <account-label :label="this.labels[3]" class="width-percent-96 m-auto"/>
+      <div class="width-percent-96 m-auto">
+        <router-link to="/accounts/password" class="text-333333">
+          <account-label :label="this.labels[5]"/>
+        </router-link>
+      </div>
+    </div>
+
+
     <div id="shangchuanpic" class="div1">
       <ul style="padding-bottom:40px;">
-        <li  class="imgLi div2" v-for="(item, index) in duploadURLs" style="float:left;width:50px;height:50px;display:none;">
-          <img v-lazy='item' class="upload_img div3" style="display:none;" />
+        <li class="imgLi div2" v-for="(item, index) in duploadURLs"
+            style="float:left;width:50px;height:50px;display:none;">
+          <img v-lazy='item' class="upload_img div3" style="display:none;"/>
           <span @click="delImg(index)" style="display:none;"><span class="file-remove">+</span></span>
         </li>
       </ul>
     </div>
     <div class="image-item space upscolor fl ml10" style="display:none;" @click="showActionSheet()">
-      加号<div class="image-up"></div>
+      加号
+      <div class="image-up"></div>
     </div>
 
-    <!--新版手机拍照上传结束-->
-    <mt-actionsheet
-      :actions="actions"
-      v-model="fileVisible"/>
+
+    <mt-actionsheet :actions="actions" v-model="fileVisible"/>
   </div>
 </template>
 
 <script>
   import AccountLabel from './child/accountLabel';
-let headPic;
+
+  let headPic;
   export default {
     data() {
       return {
@@ -248,35 +261,42 @@ let headPic;
     background: #1AB6FD;
     color: white;
   }
-  .account-container{
+
+  .account-container {
     width: 720px;
     height: 100vh;
     background: #f5f5f5;
   }
-  .a-content-list{
+
+  .a-content-list {
     display: block;
-    width:720px;
-    height:80px;
-    background:rgba(255,255,255,1);
+
+    height: 80px;
+    background: rgba(255, 255, 255, 1);
     margin-bottom: 15px;
   }
-  .a-content-list span{
+
+  .a-content-list span {
     color: #535353;
   }
-  .flex-stream-sb{
+
+  .flex-stream-sb {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .padding-10{
-    padding:0 10px;
+
+  .padding-10 {
+
     box-sizing: border-box;
   }
 
-  .is-55x55{
+  .is-55x55 {
     width: 55px;
     height: 55px;
   }
-  .f_user_info_list_left span{color: #333333!important;}
-  span{color: #333333!important;}
+
+  span {
+    color: #333333 !important;
+  }
 </style>

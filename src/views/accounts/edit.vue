@@ -1,11 +1,19 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="account-container">
-    <mt-header title="账户信息">
+    <!--<mt-header title="账户信息">
       <router-link to="/accounts/view" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
-    </mt-header>
+    </mt-header>-->
+
+    <new-header title="账户信息">
+      <div slot="left">
+        <router-link tag="i" to="/accounts/view" class="iconfont ic-arrow-right"></router-link>
+      </div>
+    </new-header>
+
+
     <div>
       <div class="content-list flex-stream-sb padding-10">
         <label for="">姓名</label>
