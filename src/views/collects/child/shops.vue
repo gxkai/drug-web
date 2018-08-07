@@ -15,7 +15,7 @@
       </router-link>
       <new-no-data v-if="pageList.length===0"></new-no-data>
       <new-loading v-if="process"></new-loading>
-      <new-all-data v-if="loading"></new-all-data>
+      <new-all-data v-if="pageList.length!=0"></new-all-data>
     </ul>
   </div>
 </template>

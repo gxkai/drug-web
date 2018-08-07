@@ -20,7 +20,7 @@
     </router-link>
 
     <account-label :label="this.labels[3]"/>
-    <router-link to="/accounts/password">
+    <router-link to="/accounts/password" class="text-333333">
       <account-label :label="this.labels[5]"/>
     </router-link>
 
@@ -253,7 +253,6 @@ let headPic;
     height: 100vh;
     background: #f5f5f5;
   }
-
   .a-content-list{
     display: block;
     width:720px;
@@ -278,5 +277,6 @@ let headPic;
     width: 55px;
     height: 55px;
   }
-
+  .f_user_info_list_left span{color: #333333!important;}
+  span{color: #333333!important;}
 </style>
