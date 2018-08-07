@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header title="商家介绍">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" tag="i" slot="left"></i>
+      <div @click="$router.go(-1)"  slot="left">
+      <i class="iconfont ic-arrow-right" ></i>
+      </div>
       <input type="text" placeholder="搜索店内商品" class="bg-none"/>
     </new-header>
 

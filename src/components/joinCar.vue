@@ -13,7 +13,7 @@
         <i class="iconfont ic-shoucang" :class="{active:isCollect}"></i>
         <p>收藏</p>
       </div>
-      <div @click="onCollect()">
+      <div @click="$router.push('/carts')">
         <i class="iconfont ic-gouwuche2"></i>
         <p>购物车</p>
       </div>

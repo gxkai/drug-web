@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header title="商家介绍" :style="{background:bgColor, color: color}">
-      <i class="iconfont ic-arrow-right text-333333" @click="$router.go(-1)" slot="left"></i>
+     <div @click="$router.go(-1)" slot="left">
+      <i class="iconfont ic-arrow-right text-333333" ></i>
+     </div>
     </new-header>
 
     <div class="shop-header">
