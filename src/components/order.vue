@@ -51,7 +51,7 @@
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'TO_APPRAISE'">
               <button @click="onDelivery()">查看物流</button>
-              <button @click="onAppraise()">追加评价</button>
+              <button @click="onAppraise()">评价</button>
               <button @click="onDetail()">订单详情</button>
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'TO_RECEIVED'">
@@ -68,7 +68,7 @@
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'COMPLETED'">
               <button @click="onDelivery()">查看物流</button>
-              <button @click="onAppraise()">追加评价</button>
+              <button @click="onAppraise()">评价</button>
               <button @click="onDetail()">订单详情</button>
             </div>
           </div>
@@ -133,7 +133,7 @@
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'TO_APPRAISE' || order.state == 'COMPLETED'">
               <button @click="onDelivery()">查看物流</button>
-              <button @click="onAppraise()">追加评价</button>
+              <button @click="onAppraise()">评价</button>
               <button @click="onDetail()">订单详情</button>
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'TO_RECEIVED'">

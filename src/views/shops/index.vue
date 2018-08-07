@@ -40,7 +40,7 @@
           <div class="width-percent-96 m-auto">
 
             <div class="shop-store d-inline-block fl">
-              <img :src="getImgURL(shopList.fileId,'LARGE_LOGO')" class="shop-store-img"/>
+              <img v-lazy="getImgURL(shopList.fileId,'LARGE_LOGO')" class="shop-store-img"/>
             </div>
             <div>
               <div class="height-43"></div>
@@ -127,6 +127,8 @@
         };
         this.$http.get(url, {params: data}).then(res => {
           this.shopLists = res.data.list;
+        }).catch(error => {
+          this.exception(error);
         });
       },
       reOrderBySales() { // eslint-disable-next-line
@@ -161,6 +163,8 @@
         };
         this.$http.get(url, {params: data}).then(res => {
           this.shopLists = res.data.list;
+        }).catch(error => {
+          this.exception(error);
         });
       },
       reOrderBy() { // eslint-disable-next-line
@@ -177,6 +181,8 @@
         this.$http.get(url, {params: data}).then(res => {
           this.shopLists = res.data.list;
           this.pages = res.data.pages;
+        }).catch(error => {
+          this.exception(error);
         });
       }
     },

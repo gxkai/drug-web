@@ -1,6 +1,6 @@
 <template>
   <div>
-    <footer v-bind:class="{spaceAround:drugInfo.otc}">
+    <footer>
       <router-link tag="div" to="/chats" :class="{active:urlRouter === '/chats'}">
         <i class="iconfont ic-zixun"></i>
         <p>咨询</p>
@@ -17,16 +17,20 @@
         <i class="iconfont ic-gouwuche2"></i>
         <p>购物车</p>
       </router-link>
-      <div v-if="!drugInfo.otc">
-        <div class="joincar" @click="joinCar()">
-          <p>加入购物车</p>
-        </div>
-        <!-- FIXME -->
-        <div class="immediately-buy" @click.stop="onBuy">
-          <p>立即购买</p>
-        </div>
+      <div class="joincar" @click="joinCar()" v-if="drugInfo.otc">
+        <p>加入购物车</p>
+      </div>
+      <div class="joincar" @click="joinCar()" v-else style="background-color: lightgrey">
+        <p>加入购物车</p>
+      </div>
+      <div class="immediately-buy" @click.stop="onBuy()" v-if="drugInfo.otc">
+        <p>立即购买</p>
+      </div>
+      <div class="immediately-buy" @click.stop="onBuy()" style="background-color: #889092">
+        <p>立即购买</p>
       </div>
     </footer>
+
 
 
     <mt-popup v-model="popupVisible" @click="close()"></mt-popup>
@@ -64,8 +68,7 @@
 </template>
 
 <script>
-  import {Toast} from 'mint-ui';
-
+  import {Toast, MessageBox} from 'mint-ui';
   export default {
     name: 'newFooter',
     data() {
@@ -89,9 +92,13 @@
     },
     methods: {
       onBuy() {
-        this.show = !this.show;
-        this.type = 1;
-        this.popupVisible = true;
+        if (this.drugInfo.otc) {
+          this.show = !this.show;
+          this.type = 1;
+          this.popupVisible = true;
+        } else {
+          MessageBox('提示', '处方药不能立即购买');
+        }
       },
       drugReduce() {
         if (this.number === 1) {
@@ -105,9 +112,13 @@
         this.number++;
       },
       joinCar() {
-        this.show = !this.show;
-        this.type = 0;
-        this.popupVisible = true;
+        if (this.drugInfo.otc) {
+          this.show = !this.show;
+          this.type = 0;
+          this.popupVisible = true;
+        } else {
+          MessageBox('提示', '处方药不能加入购物车');
+        }
       },
       close() {
         this.popupVisible = false;
@@ -136,19 +147,115 @@
 </script>
 
 <style scoped>
-  .spaceAround {
-    justify-content: space-around;
+  footer{
+    height: 141px;
+    position: absolute;
+    bottom: 0px;
+  }
+  .drug-buy-number{
+    height: 86px;
+  }
+  .drug-top{
+    height: 250px;
+  }
+  .drug-buy{
+    margin: 30px 0 0 13px;
+    font-size:24px;
+  }
+  .drug-reduce{
+    width:36px;
+    height:32px;
+    background:rgba(238,238,238,1);
+    opacity:0.6;
+    border-radius:3px;
+    text-align: center;
+    line-height: 32px;
+    margin-top: 26px;
+    font-size:19px;
+  }
+  .drug-number{
+    min-width:48px;
+    height:32px;
+    background:rgba(234,234,234,1);
+    border-radius:3px;
+    margin: 26px 7px 0px 7px;
+    text-align: center;
+    line-height: 32px;
+    font-size:23px;
+  }
+  .drug-add{
+    width:35px;
+    height:32px;
+    background:rgba(220,220,220,1);
+    opacity:0.6;
+    border-radius:3px;
+    text-align: center;
+    line-height: 32px;
+    margin-top: 26px;
+    margin-right: 26px;
+    font-size:19px;
+  }
+  .hide-drug-detail{
+    width:720px;
+    height:455px;
+    background: white;
+    bottom: 0px;
+    position: fixed;
+    z-index: 9999;
+  }
+  .drug-sure{
+    width:690px;
+    height:90px;
+    background:rgba(19,193,254,1);
+    border-radius:8px;
+    font-size:36px;
+    color: white;
+    text-align: center;
+    line-height: 90px;
+    margin-left: 14px;
+  }
+  .drug-info{
+    margin-top: 125px;
+    margin-left: 22px;
+  }
+  .drug-price{
+    width:85px;
+    height:24px;
+    font-size:30px;
+    color:rgba(255,1,1,1);
+    line-height:24px;
+  }
+  .drug-img{
+    width:200px;
+    height:200px;
+    background:rgba(255,255,255,1);
+    border-radius:3px;
+    margin-top: 12px;
+    margin-left: 10px;
+    border: 1px solid #d0d0d0;
+  }
+  .drug-title{
+    margin-bottom: 18px;
+    width:276px;
+    height:24px;
+    font-size:26px;
+    line-height:24px;
+  }
+  .drug-line{
+    width:690px;
+    height:1px;
+    background:rgba(229,229,229,1);
+    margin-left: 10px;
   }
   footer {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     position: fixed;
-    bottom: 0;
+    bottom: -2px;
     width: 720px;
     height: 100px;
     background: white;
-    z-index: 9999;
+    z-index: 999;
   }
 
   footer div {
@@ -164,210 +271,77 @@
     font-size: 35px;
   }
 
-  footer>div:nth-child(5) {
-    display: flex;
-  }
   .active {
     color: rgba(19, 193, 254, 1);
   }
-
-  /*footer{*/
-  /*height: 141px;*/
-  /*position: absolute;*/
-  /*bottom: 0px;*/
-  /*}*/
-  /*.drug-buy-number{*/
-  /*height: 86px;*/
-  /*}*/
-  /*.drug-top{*/
-  /*height: 250px;*/
-  /*}*/
-  /*.drug-buy{*/
-  /*margin: 30px 0 0 13px;*/
-  /*font-size:24px;*/
-  /*}*/
-  /*.drug-reduce{*/
-  /*width:36px;*/
-  /*height:32px;*/
-  /*background:rgba(238,238,238,1);*/
-  /*opacity:0.6;*/
-  /*border-radius:3px;*/
-  /*text-align: center;*/
-  /*line-height: 32px;*/
-  /*margin-top: 26px;*/
-  /*font-size:19px;*/
-  /*}*/
-  /*.drug-number{*/
-  /*min-width:48px;*/
-  /*height:32px;*/
-  /*background:rgba(234,234,234,1);*/
-  /*border-radius:3px;*/
-  /*margin: 26px 7px 0px 7px;*/
-  /*text-align: center;*/
-  /*line-height: 32px;*/
-  /*font-size:23px;*/
-  /*}*/
-  /*.drug-add{*/
-  /*width:35px;*/
-  /*height:32px;*/
-  /*background:rgba(220,220,220,1);*/
-  /*opacity:0.6;*/
-  /*border-radius:3px;*/
-  /*text-align: center;*/
-  /*line-height: 32px;*/
-  /*margin-top: 26px;*/
-  /*margin-right: 26px;*/
-  /*font-size:19px;*/
-  /*}*/
-  /*.hide-drug-detail{*/
-  /*width:720px;*/
-  /*height:455px;*/
-  /*background: white;*/
-  /*bottom: 0px;*/
-  /*position: fixed;*/
-  /*z-index: 9999;*/
-  /*}*/
-  /*.drug-sure{*/
-  /*width:690px;*/
-  /*height:90px;*/
-  /*background:rgba(19,193,254,1);*/
-  /*border-radius:8px;*/
-  /*font-size:36px;*/
-  /*color: white;*/
-  /*text-align: center;*/
-  /*line-height: 90px;*/
-  /*margin-left: 14px;*/
-  /*}*/
-  /*.drug-info{*/
-  /*margin-top: 125px;*/
-  /*margin-left: 22px;*/
-  /*}*/
-  /*.drug-price{*/
-  /*width:85px;*/
-  /*height:24px;*/
-  /*font-size:30px;*/
-  /*color:rgba(255,1,1,1);*/
-  /*line-height:24px;*/
-  /*}*/
-  /*.drug-img{*/
-  /*width:200px;*/
-  /*height:200px;*/
-  /*background:rgba(255,255,255,1);*/
-  /*border-radius:3px;*/
-  /*margin-top: 12px;*/
-  /*margin-left: 10px;*/
-  /*border: 1px solid #d0d0d0;*/
-  /*}*/
-  /*.drug-title{*/
-  /*margin-bottom: 18px;*/
-  /*width:276px;*/
-  /*height:24px;*/
-  /*font-size:26px;*/
-  /*line-height:24px;*/
-  /*}*/
-  /*.drug-line{*/
-  /*width:690px;*/
-  /*height:1px;*/
-  /*background:rgba(229,229,229,1);*/
-  /*margin-left: 10px;*/
-  /*}*/
-  /*footer {*/
-  /*align-items: center;*/
-  /*justify-content: space-around;*/
-  /*position: fixed;*/
-  /*bottom: -2px;*/
-  /*width: 720px;*/
-  /*height: 100px;*/
-  /*background: white;*/
-  /*z-index: 999;*/
-  /*}*/
-
-  /*footer div {*/
-  /*text-align: center;*/
-  /*}*/
-
-  /*footer div p {*/
-  /*font-size: 22px;*/
-  /*font-family: HiraginoSansGB-W3;*/
-  /*}*/
-
-  /*footer div i {*/
-  /*font-size: 35px;*/
-  /*}*/
-
-  .active {
-    color: rgba(19, 193, 254, 1);
-  }
-
-  .joincar {
-    width: 154px;
-    height: 97px;
-    background: rgba(240, 43, 43, 1);
+  .joincar{
+    width:154px;
+    height:97px;
+    background:rgba(240,43,43,1);
     color: white;
     line-height: 97px;
   }
-
-  .immediately-buy {
-    width: 154px;
-    height: 97px;
-    background: rgba(240, 145, 43, 1);
+  .immediately-buy{
+    width:154px;
+    height:97px;
+    background:rgba(240,145,43,1);
     color: white;
     line-height: 97px;
   }
-
-  /*footer div:first-child{*/
-  /*width:12%;*/
-  /*float: left;*/
-  /*}*/
-  /*footer div:nth-child(2){*/
-  /*width:12%;*/
-  /*float: left;*/
-  /*}*/
-  /*footer div:nth-child(3){*/
-  /*width:12%;*/
-  /*float: left;*/
-  /*}*/
-  /*footer div:nth-child(4){*/
-  /*width:12%;*/
-  /*float: left;*/
-  /*}*/
-  /*footer div:nth-child(5){*/
-  /*width:26%;*/
-  /*float: left;*/
-  /*}*/
-  /*footer div:nth-child(6){*/
-  /*width:26%;*/
-  /*float: left;*/
-  /*}*/
-  .drug-close {
+  footer div:first-child{
+    width:12%;
+    float: left;
+  }
+  footer div:nth-child(2){
+    width:12%;
+    float: left;
+  }
+  footer div:nth-child(3){
+    width:12%;
+    float: left;
+  }
+  footer div:nth-child(4){
+    width:12%;
+    float: left;
+  }
+  footer div:nth-child(5){
+    width:26%;
+    float: left;
+  }
+  footer div:nth-child(6){
+    width:26%;
+    float: left;
+  }
+  .drug-close{
     height: 10px;
     line-height: 10px;
     text-align: right;
   }
 
+
+
   /*定义进入过渡的结束状态*/
   .slide-fade-enter-active {
-    transition: all 0.5s ease;
+    transition:all 0.5s ease;
 
   }
-
   /* 定义离开过渡的结束状态*/
-  .slide-fade-leave-active {
-    transition: all 0.5s ease;
+  .slide-fade-leave-active{
+    transition:all 0.5s ease;
   }
 
   /*离开过渡的结束状态*/
   .slide-fade-leave-active {
-    bottom: 0rem !important;
+    bottom:0rem!important;
   }
 
-  .slide-fade-leave-to {
-    bottom: -28rem !important;
+  .slide-fade-leave-to{
+    bottom:-28rem!important;
   }
 
   /*进入过渡的开始状*/
-  .slide-fade-enter {
-    bottom: -22rem !important;
+  .slide-fade-enter{
+    bottom:-22rem!important;
   }
 
 

@@ -1,9 +1,9 @@
 <!-- FIXME 字体大小 -->
 <template>
 <div>
-  <new-header :title="退货列表">
-    <div slot="left">
-      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link>
+  <new-header title="退货列表">
+    <div slot="left"  @click="$router.go(-1)">
+      <i class="iconfont ic-arrow-right"></i>
     </div>
  </new-header>
   <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10"

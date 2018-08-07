@@ -9,14 +9,18 @@
      </div>
     </new-header>
     <div v-if="deliveryType === 'DELIVERY'">
-      <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address">
-        <i class="iconfont ic-dizhi" slot="left"></i>
-        <div slot="center" class="center">
-          <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
-          <p>地址：{{receiveAddress.address}}</p>
+      <div class="order-address">
+        <div>
+          <i class="iconfont ic-weizhi"></i>
         </div>
-        <i class="iconfont ic-youjiantou" slot="right"></i>
-      </new-header>
+        <div>
+            <span>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</span>
+            <span>地址：{{receiveAddress.address}}</span>
+        </div>
+        <div>
+          <i class="iconfont ic-youjiantou"></i>
+        </div>
+      </div>
       <img src="../../../assets/image/colorbackground.png">
     </div>
     <new-pay-list :list="list"></new-pay-list>
@@ -60,5 +64,40 @@
     height: 100vh;
     width: 720px;
   }
+
+  .order-address{
+    display: flex;
+    background-color: white;
+    padding: 20px 0;
+  }
+  .order-address>div:nth-child(1) {
+    width: 10%;
+    text-align: center;
+  }
+  .order-address>div:nth-child(1) i{
+    font-size: 50px;
+  }
+  .order-address>div:nth-child(2) {
+    width: 80%;
+  }
+  .order-address>div:nth-child(2) span {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    display: block;
+    font-size:20px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(51,51,51,1);
+  }
+  .order-address>div:nth-child(3) {
+    width: 10%;
+    text-align: center;
+  }
+
+  .order-address>div:nth-child(3) i{
+    font-size: 50px;
+  }
+
 </style>
 

@@ -1,47 +1,44 @@
 <template>
   <div>
     <footer>
-      <router-link tag="div" to="/chats" :class="{active:urlRouter === '/chats'}">
+      <router-link tag="div" to="/chats">
         <i class="iconfont ic-zixun"></i>
         <p>咨询</p>
       </router-link>
-      <router-link tag="div" to="/shops" :class="{active:urlRouter === '/shops'}">
+      <router-link tag="div" to="/shops">
         <i class="iconfont ic-drugstore"></i>
         <p>药店</p>
       </router-link>
-      <router-link tag="div" to="/collects" :class="{active:urlRouter === '/collects'}">
+      <router-link tag="div" to="/collects">
         <i class="iconfont ic-shoucang"></i>
         <p>收藏</p>
       </router-link>
-      <router-link tag="div" to="/carts" :class="{active:urlRouter === '/carts'}">
+      <router-link tag="div" to="/carts">
         <i class="iconfont ic-gouwuche2"></i>
         <p>购物车</p>
       </router-link>
       <div class="joincar" @click="$emit('createCart')">
         <p>加入购物车</p>
       </div>
-      <!-- FIXME -->
-      <router-link tag="div" to="/accounts" :class="{active:urlRouter === '/accounts'}" class="immediately-buy">
+      <div @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:rxId}})"  :class="{active:urlRouter === '/accounts'}" class="immediately-buy">
         <p>立即购买</p>
-      </router-link>
+      </div>
     </footer>
   </div>
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
   export default {
     name: 'rxCart',
     data() {
       return {
-        number: 1
       };
     },
     created() {
     },
     props: {
-      drugInfo: {
-        type: Array,
+      rxId: {
+        type: String,
         required: true
       },
       urlRouter: {
@@ -49,18 +46,6 @@
       }
     },
     methods: {
-      onConfirm() {
-        this.$http.post('/carts', {
-          shopId: this.drugInfo.shopId,
-          drugSpecId: this.drugInfo.drugSpecId,
-          shopDrugSpecId: this.drugInfo.id,
-          quantity: this.number
-        }).then(res => {
-          MessageBox('提示', '加入成功').then(action => {
-            this.close();
-          });
-        });
-      }
     }
   };
 </script>

@@ -26,16 +26,14 @@
       </li>
     </ul>
     <ul>
-      <router-link :to="{path:'/orders/create/fromHospital',query:{rxId:id}}">
+      <div @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:id}})">
         <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
         :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
-      </router-link>
+      </div>
 
-      <li v-for="rxShop in rxShops">
-        <router-link :to="{path:'/rxs/shops/drugs',query:{id:id,shopId:rxShop.id,shopName:rxShop.name}}">
+      <li v-for="(rxShop,index) in rxShops" @click="onShop(rxShop)" :key="index">
         <new-shop :showStar="true" :fileId="rxShop.fileId" :newScore="rxShop.score" :shopName="rxShop.name" :phone="rxShop.tel"
                   :address="rxShop.area + rxShop.address" :price="rxShop.amount" :newCart="true"></new-shop>
-        </router-link>
       </li>
 
     </ul>
@@ -70,16 +68,23 @@
       this.getHospital();
     },
     methods: {
+      onShop(rxShop) {
+        this.$router.push({path: '/rxs/shops/drugs', query: {id: this.id, shopId: rxShop.id, shopName: rxShop.name}});
+      },
       getRxShops() {
         this.$http.get('/rxs/' + this.id + '/shops?lng=' + this.lng + '&lat=' + this.lat)
           .then(res => {
             this.rxShops = res.data;
+          }).catch(error => {
+            this.exception(error);
           });
       },
       getHospital() {
         this.$http.get('/rxs/' + this.id + '/hospitals')
           .then(res => {
             this.hospital = res.data;
+          }).catch(error => {
+            this.exception(error);
           })
         ;
       },
