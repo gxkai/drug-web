@@ -2,13 +2,13 @@
   <div class="item1">
     <div class="item1-content" v-if="order.type === 'HOSPITAL'">
       <div class="content1">
-        <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red>
-          <div slot="left" style="display: flex;align-items: center" @click="onShop()">
 
-            <span style="color: black"> <i class="iconfont ic-yaodian"></i>{{order.hospitalName}}</span>
+        <div class="bg-white chage-header">
+          <div class="d-inline-block fl" @click="onShop()"><i class="iconfont ic-yaodian"></i>{{order.hospitalName}}</div>
+          <div class="d-inline-block fr text-red chage-sta">
+             {{order.state|transformOrderState}}
           </div>
-          <span slot="right">{{order.state|transformOrderState}}</span>
-        </new-header>
+       </div>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE">
 
@@ -77,13 +77,20 @@
     </div>
     <div class="item1-content" v-else>
       <div class="content1">
-        <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red>
+       <!-- <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red>
           <div slot="left" style="display: flex;align-items: center"  @click="onShop()">
             <i class="iconfont ic-yaodian" slot="left"></i>
             <span slot="left" style="color: black">{{order.shopName}}</span>
           </div>
           <span slot="right">{{order.state|transformOrderState}}</span>
-        </new-header>
+        </new-header>-->
+
+        <div class="bg-white chage-header">
+          <div class="d-inline-block fl" @click="onShop()"><i class="iconfont ic-yaodian"></i>{{order.shopName}}</div>
+          <div class="d-inline-block fr text-red chage-sta">
+            {{order.state|transformOrderState}}
+          </div>
+        </div>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-if="order.rxId">
 
@@ -325,7 +332,7 @@
     width: 720px;
     height: 113px;
     background: rgba(255, 255, 255, 1);
-    box-shadow: 2px 8px 4px rgba(0, 0, 0, 0.14);
+
     justify-content: space-around;
     padding-right: 20px;
   }
@@ -358,5 +365,17 @@
   .item1{
     width: 720px;
   }
-
+  .ic-yaodian{
+    font-size: 36px;
+  }
+  .chage-header{
+    height: 80px;
+    line-height: 80px;
+  }
+  .chage-sta{
+    margin-right: 6px;
+  }
+  .item1{
+    border-bottom: 6px solid #F6F6F6;
+  }
 </style>

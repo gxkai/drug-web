@@ -9,9 +9,10 @@
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
     <div class="close" ref="close">
       <div class="left icon1" @click.stop="onRadio(All)">
-        <i class="iconfont ic-radiobox" v-show="!chooseAll"></i>
-        <i class="iconfont ic-radiochecked" v-show="chooseAll"></i>
-        <span>全选</span>
+       <span>
+          <i class="iconfont ic-radiobox" v-show="!chooseAll"></i>
+          <i class="iconfont ic-radiochecked" v-show="chooseAll"></i>全选
+       </span>
       </div>
       <div class="right">
         <span>合计:</span>
@@ -42,7 +43,7 @@
               <ul class="cartDrugs">
                 <new-header bgColor="white" height="low" leftSize="small" leftColor="black"
                             v-if="cartRx.rxId && cartRx.rxState == 'ENABLED'">
-                  <div slot="left" class="icon1" @click.stop="onRadio(RX,cartShop,cartRx)">
+                  <div slot="left" class="icon1 bg-f6f6f6" @click.stop="onRadio(RX,cartShop,cartRx)">
                     <i class="iconfont ic-radiobox" v-show="!cartRx.radio"></i>
                     <i class="iconfont ic-radiochecked" v-show="cartRx.radio"></i>
                   </div>
@@ -92,10 +93,10 @@
                             <div>
                               <span>x{{cartDrug.quantity}}</span>
                             </div>
-                            <div class="multi-input">
-                              <input value="-" type="button" @click.stop="onCut(cartDrug)"><input
-                              v-model="cartDrug.quantity" type="button"><input value="+" type="button"
-                                                                               @click.stop="onAdd(cartDrug)">
+                            <div class="multi-input bordr1">
+                              <input value="-" type="button" class="onCut" @click.stop="onCut(cartDrug)"><input
+                              v-model="cartDrug.quantity" type="button" class="numBer">
+                              <input value="+" type="button" @click.stop="onAdd(cartDrug)" class="onAdd">
                             </div>
                           </div>
                         </div>
@@ -585,10 +586,7 @@
     width: 37px;
     height: 29px;
     background: rgba(210, 210, 210, 1);
-    border: 2px rgba(153, 153, 153, 1);
-    outline: none;
     font-size: 24px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
     line-height: 0.1rem;
   }
@@ -610,6 +608,40 @@
   .mint-cell-swipe-button{
     font-size: 24px;
   }
+  .bg-f6f6f6{
+    background: #f6f6f6;
+  }
+  .onAdd{
+    width:37px!important;
+    height:29px!important;
+    background:rgb(241, 239, 240)!important;
+    margin-left:-8px;
+    border-left: 1px solid #D2D2D2!important;
+  }
+  .onCut{
+    width:37px!important;
+    height:29px!important;
+    background:rgb(241, 239, 240)!important;
+    border-right: 1px solid #D2D2D2!important;
+
+  }
+  .numBer{
+    width:36px!important;
+    height:29px!important;
+    background:rgb(241, 239, 240)!important;
+    outline: none;
+    font-size: 0.333333rem;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
+    line-height: 0.1rem;
+
+  }
+  .bordr1{
+    border: 1px solid #D2D2D2!important;
+    width: 119px;
+    height: 39px;
+  }
+
 </style>
 
 

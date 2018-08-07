@@ -5,7 +5,7 @@
         <span @click="nearby" class="text-white fz22 elps d-inline-block"><i
           class="iconfont ic-ditu text-white is-16x22"></i>{{chooseAddress}}</span>
         <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
-        <div class="search-box all-center no-border">
+        <div class="search-box all-center no-border ml4">
           <img src="../assets/image/search.png" class=" is-24x24"/>
           <input type="text" v-model="shopName" placeholder="通用名、商品名、症状"
                  @blur="$router.push('/components/search')"
@@ -647,7 +647,7 @@
     transition: top 0.5s;
     width: 501px;
     margin-left: 80px;
-    margin-top: -5px;
+
   }
 
   .scroll-content li {
@@ -818,6 +818,7 @@
     width: auto;
     height: auto;
     font-size: 24px;
+    margin-right: 37px;
   }
 
   .ic-ditu {
@@ -851,5 +852,8 @@
   .fz28{font-size: 28px;}
   .recommend{
     margin-top: 15px;
+  }
+  .ml4{
+    margin-left: 4px;
   }
 </style>
