@@ -1,10 +1,16 @@
 <template>
   <div class="top position-relative">
     <div class="mid1">
-      <div class="font1">
-        药品网上服务平台
-      </div>
+
+     <div>
+        <img src="../assets/image/blue-login.png" class="width-percent-100"/>
+       <div class="font1 position-absolute" style="z-index: 999">
+         药品网上服务平台
+       </div>
+     </div>
+
     </div>
+
 
     <swiper :options="swiperOption">
       <swiper-slide class="login">
@@ -227,15 +233,15 @@
   .mid1 {
     width: 100%;
     height: 435px;
-    background: rgba(26, 182, 253, 1);
+    background: url("/src/assets/image/blue-login.png") no-repeat;
+    background-size: 100% 100%;
   }
 
   .mid1 .font1 {
     font-size: 48px;
-    font-family: MicrosoftYaHei;
     color: rgba(255, 255, 255, 1);
-    padding-top: 212px;
-    padding-left: 163px;
+    top:189px;
+    left: 165px;
   }
 
 
@@ -281,8 +287,8 @@
     margin-left: 27px;
     border:none;
     background:rgba(238,238,238,1);
-    height: 69px;
-    line-height: 69px;
+    height: 65px;
+    line-height: 65px;
   }
 
   .psd{
@@ -290,8 +296,8 @@
     margin-left: 27px;
     border:none;
     background:rgba(238,238,238,1);
-    height: 69px;
-    line-height: 69px;
+    height: 65px;
+    line-height: 65px;
   }
   .login-btn{
     width:198px;

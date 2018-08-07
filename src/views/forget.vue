@@ -24,8 +24,10 @@
     <div v-if="1 === this.state" class="body2">
       <div class="body1">
         <new-header title="找回密码">
-          <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" slot="left"></router-link>
-        </new-header>
+          <div slot="left">
+            <router-link  tag="i" to="/login" class="iconfont ic-arrow-right"></router-link>
+          </div>
+       </new-header>
         <div class="input3">
           <div class="left">
             <span class="span1">新密码</span>
@@ -61,7 +63,6 @@
 </template>
 <script>
 import {MessageBox} from 'mint-ui';
-
 export default {
   data() {
     return {

@@ -175,6 +175,8 @@
   .rxs-container {
     width: 720px;
     background: #f5f5f5;
+    height: 100vh;
+    overflow: scroll;
   }
 
   .is-30x30 {
