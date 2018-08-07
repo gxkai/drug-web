@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header title="当前版本">
-      <i class="iconfont ic-arrow-right " slot="left" @click="$router.go(-1)"></i>
+      <div slot="left" @click="$router.go(-1)">
+      <i class="iconfont ic-arrow-right " ></i>
+      </div>
     </new-header>
 
     <div class="version-title">E慧药</div>

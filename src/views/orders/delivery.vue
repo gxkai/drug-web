@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header title="配送详情">
-      <router-link tag="i" to="/orders?parameter=goods" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <div slot="left">
+        <i @click="$router.push('/orders')" class="iconfont ic-arrow-right"></i>
+      </div>
     </new-header>
 
     <div class="delivery-schedule">

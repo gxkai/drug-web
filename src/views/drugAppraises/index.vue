@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <new-header title="我的评价" ref="header">
-      <div slot="left">
-      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+      <div slot="left" @click="$router.go(-1)">
+      <i class="iconfont ic-arrow-right"  ></i>
       </div>
     </new-header>
     <div class="body" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" ref="body">
@@ -10,7 +10,7 @@
         <div class="line1">
           <div>
             <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')">
-            <span>{{account.username}}</span>
+            <span>{{account.username|asterisk}}</span>
           </div>
           <span>{{item.createdDate|timeConvert}}</span>
         </div>

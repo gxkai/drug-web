@@ -1,8 +1,8 @@
 <template>
   <div class="setting-container">
     <new-header title="设置">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      <div slot="left" @click="$router.go(-1)">
+        <i class="iconfont ic-arrow-right" ></i>
       </div>
     </new-header>
     <div class="body">

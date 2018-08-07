@@ -24,7 +24,9 @@
     <div v-if="1 === this.state" class="body2">
       <div class="body1">
         <new-header title="找回密码">
-          <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" slot="left"></router-link>
+          <div slot="left">
+          <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" ></router-link>
+          </div>
         </new-header>
         <div class="input3">
           <div class="left">
@@ -48,7 +50,9 @@
     </div>
     <div v-if="2 === this.state" class="body3">
       <new-header title="修改成功">
-        <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" slot="left" ></router-link>
+        <div  slot="left">
+        <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" ></router-link>
+        </div>
       </new-header>
       <div class="img1">
         <img src="../assets/image/success.png" class="img11">

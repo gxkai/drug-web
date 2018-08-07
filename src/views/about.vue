@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header title="关于我们">
-      <i class="iconfont ic-arrow-right " slot="left" @click="$router.go(-1)"></i>
+      <div slot="left" @click="$router.go(-1)">
+      <i class="iconfont ic-arrow-right " ></i>
+      </div>
     </new-header>
     <div class="about-img">
       <div class="about-word">

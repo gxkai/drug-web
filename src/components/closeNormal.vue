@@ -1,7 +1,9 @@
 <template>
   <div>
     <new-header bgColor="white" height="low" leftSize="small" leftColor="black">
-      <i class="iconfont ic-yaodian" slot="left"></i>
+      <div  slot="left">
+         <i class="iconfont ic-yaodian"></i>
+      </div>
       <span slot="left">{{shopInfo.shopName}}</span>
     </new-header>
     <div class="slide-content">
