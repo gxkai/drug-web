@@ -1,8 +1,8 @@
 <template>
   <div>
-    <new-header bgColor="white" height="low" leftSize="small" leftColor="black">
-      <i class="iconfont ic-yaodian" slot="left"></i>
-      <span slot="left">{{hospitalInfo.hospital}}</span>
+    <new-header bgColor="white" height="low" leftSize="small" leftColor="black" line-height="1rem">
+
+      <span slot="left"> <i class="iconfont ic-yaodian"></i>{{hospitalInfo.hospital}}</span>
     </new-header>
     <div class="slide-content" v-for="item in hospitalInfo.list">
       <div class="image">

@@ -61,7 +61,7 @@
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_4.png"></td>
               <td><span class="td-width-55 ellipsis text-small">倒计时</span></td>
               <!-- TODO 倒计时 -->
-              <td><span class="td-width-250 ellipsis">2018-12-19 12:06:00</span></td>
+              <td><span class="td-width-250 ellipsis text-333333">2018-12-19 12:06:00</span></td>
             </tr>
             <div class="position-absolute position-rb">
               <img class="is-155x155" src="../../assets/image/rxs/rx-true.png" v-if="rx.state==='TO_USE'">

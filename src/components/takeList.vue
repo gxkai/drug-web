@@ -2,8 +2,7 @@
   <div>
     <div class="content1">
       <div class="title1">
-        <i class="iconfont ic-yaodian"></i>
-        <span>{{hospitalName}}</span>
+         <span><i class="iconfont ic-yaodian"></i>{{hospitalName}}</span>
       </div>
       <new-line></new-line>
       <div class="child1">

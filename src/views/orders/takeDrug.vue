@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <new-header title="取药信息">
-      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.push('/orders/toReceive')"></i>
+      <div slot="left" >
+      <i class="iconfont ic-arrow-right" @click.stop="$router.push('/orders/toReceive')"></i>
+      </div>
     </new-header>
     <new-take-list :order="order" :hospitalName="hospitalName"></new-take-list>
   </div>

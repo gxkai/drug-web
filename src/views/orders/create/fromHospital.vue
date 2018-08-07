@@ -1,14 +1,16 @@
 <template>
   <div class="main">
-    <new-header title="订单结算">
-      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
-    </new-header>
+    <new-header title="订单结算" >
+      <div slot="left">
+        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
+      </div>
+   </new-header>
     <div class="body">
       <router-link tag="div" to="/orders/addresses" v-if="deliveryType === 'DELIVERY'">
         <new-header bgColor="rgba(255,255,255,1)"  title="请维护地址" color = '666666' rightColor="#666666" v-if="JSON.stringify(this.receiveAddress) === '{}'">
           <i class="iconfont ic-youjiantou" slot="right"></i>
         </new-header>
-        <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else>
+        <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else >
           <i class="iconfont ic-dizhi" slot="left"></i>
           <div slot="center" class="center">
             <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
@@ -21,8 +23,7 @@
       <new-close-hospital :hospitalInfo="hospitalInfo" class="new-close-normal"></new-close-hospital>
       <div class="delivery">
         <div class="top">
-          <i class="iconfont ic-peisongfangshi"></i>
-          <span>配送方式</span>
+           <span> <i class="iconfont ic-peisongfangshi"></i>配送方式</span>
         </div>
         <div class="bottom">
           <button :class="{active:deliveryType=='DELIVERY'}">送货</button>
@@ -31,8 +32,7 @@
       </div>
       <div class="pay">
         <div class="top">
-          <i class="iconfont ic-fjzhifufangshi"></i>
-          <span>支付方式</span>
+           <span> <i class="iconfont ic-fjzhifufangshi"></i>支付方式</span>
         </div>
         <div class="bottom">
           <div>
@@ -81,8 +81,8 @@
         </div>
         <div v-else>
           <new-header height="low" bgColor="white" leftColor="black">
-            <i class="iconfont ic-qianbao" slot="left"></i>
-            <span slot="left" class="medical-bangding">医保卡绑定</span>
+
+            <span slot="left" class="medical-bangding"> <i class="iconfont ic-qianbao" slot="left"></i>医保卡绑定</span>
           </new-header>
           <div class="medical-qubangding" @click="$router.push('/accounts/bind')">
             <a>去绑定医保卡</a>
