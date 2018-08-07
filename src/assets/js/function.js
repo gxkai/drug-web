@@ -27,6 +27,7 @@ export default {
           case 400:
             if (error.response.data.fieldErrors) {
               MessageBox('提示', error.response.data.fieldErrors[0].message);
+              return;
             }
             if (error.response.data.message) {
               MessageBox('提示', error.response.data.message);
