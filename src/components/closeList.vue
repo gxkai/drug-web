@@ -2,7 +2,9 @@
   <div>
     <div v-for="cartShop in cartShops">
       <new-header bgColor="white" height="low" leftSize="small" leftColor="black">
-        <i class="iconfont ic-yaodian" slot="left"></i>
+        <div slot="left">
+        <i class="iconfont ic-yaodian" ></i>
+        </div>
         <span slot="left">{{cartShop.shopName}}</span>
       </new-header>
       <ul class="cartRxs">
@@ -10,12 +12,16 @@
           <ul class="cartDrugs">
             <new-header bgColor="white" height="low" leftSize="small" leftColor="black"
                         v-if="cartRx.rxId && cartRx.rxState == 'ENABLED'">
-              <i class="iconfont ic-chufangdanluru" slot="left"></i>
+              <div slot="left">
+              <i class="iconfont ic-chufangdanluru" ></i>
+              </div>
               <span slot="left" class="chufangdan">处方单</span>
               <span slot="right" class="chakanchufan">查看处方></span>
             </new-header>
             <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
-              <i class="iconfont ic-jisongchufangdan" slot="left"></i>
+              <div slot="left">
+              <i class="iconfont ic-jisongchufangdan" ></i>
+              </div>
               <span slot="left" class="chufangdan">非处方单</span>
             </new-header>
             <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs" :key="cartDrugIndex">

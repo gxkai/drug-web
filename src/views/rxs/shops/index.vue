@@ -3,8 +3,10 @@
   <div class="rxs-shop-contanier">
     <!-- TODO 搜索 -->
     <new-header>
-      <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
-      <input tag="a"  slot="center" class="header-search" @click="$router.push('/drugSearch')">
+      <div slot="left">
+        <i class="iconfont ic-arrow-right"></i>
+      </div>
+      <input tag="a" slot="center" class="header-search" @click="$router.push('/drugSearch')">
     </new-header>
 
     <ul class="is-flex flex-row flex-sa p-tb-20 all-border">
@@ -20,19 +22,22 @@
       <li @click="orderByPrice()" class="is-flex flex-row " :class="{'blueactive1':index4===comprehensive4}">
         <span>价格</span>
         <div class="is-flex  position-relative">
-          <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="val===1?'unActive':'blueActive'"></i>
-          <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="val===1?'blueActive':'unActive'"></i>
+          <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"
+             :class="val===1?'unActive':'blueActive'"></i>
+          <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"
+             :class="val===1?'blueActive':'unActive'"></i>
         </div>
       </li>
     </ul>
     <ul>
       <div @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:id}})">
         <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
-        :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
+                  :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
       </div>
 
       <li v-for="(rxShop,index) in rxShops" @click="onShop(rxShop)" :key="index">
-        <new-shop :showStar="true" :fileId="rxShop.fileId" :newScore="rxShop.score" :shopName="rxShop.name" :phone="rxShop.tel"
+        <new-shop :showStar="true" :fileId="rxShop.fileId" :newScore="rxShop.score" :shopName="rxShop.name"
+                  :phone="rxShop.tel"
                   :address="rxShop.area + rxShop.address" :price="rxShop.amount" :newCart="true"></new-shop>
       </li>
 
@@ -42,7 +47,7 @@
 
 <script>
   export default {
-    data() {
+    data () {
       return {
         id: '',
         rxShops: [],
@@ -61,55 +66,55 @@
         hospital: {}
       };
     },
-    created() {
+    created () {
       this.id = this.$route.query.id;
       this.hospitalId = this.$route.query.hospitalId;
       this.getRxShops();
       this.getHospital();
     },
     methods: {
-      onShop(rxShop) {
+      onShop (rxShop) {
         this.$router.push({path: '/rxs/shops/drugs', query: {id: this.id, shopId: rxShop.id, shopName: rxShop.name}});
       },
-      getRxShops() {
+      getRxShops () {
         this.$http.get('/rxs/' + this.id + '/shops?lng=' + this.lng + '&lat=' + this.lat)
           .then(res => {
             this.rxShops = res.data;
           }).catch(error => {
-            this.exception(error);
-          });
+          this.exception(error);
+        });
       },
-      getHospital() {
+      getHospital () {
         this.$http.get('/rxs/' + this.id + '/hospitals')
           .then(res => {
             this.hospital = res.data;
           }).catch(error => {
-            this.exception(error);
-          })
+          this.exception(error);
+        })
         ;
       },
-      orderById() {
+      orderById () {
         this.rxShops = this.orderListsById(this.rxShops);
         this.comprehensive1 = 1;
         this.comprehensive2 = 7;
         this.comprehensive3 = 7;
         this.comprehensive4 = 7;
       },
-      orderByDistance() {
+      orderByDistance () {
         this.rxShops = this.orderListsByDistance(this.rxShops);
         this.comprehensive2 = 2;
         this.comprehensive1 = 7;
         this.comprehensive3 = 7;
         this.comprehensive4 = 7;
       },
-      orderByScore() {
+      orderByScore () {
         this.rxShops = this.orderListsByScore(this.rxShops);
         this.comprehensive3 = 3;
         this.comprehensive1 = 7;
         this.comprehensive2 = 7;
         this.comprehensive4 = 7;
       },
-      orderByPrice() {
+      orderByPrice () {
         this.comprehensive4 = 4;
         this.comprehensive1 = 7;
         this.comprehensive2 = 7;
@@ -121,7 +126,7 @@
           this.rxShops = this.orderListsByPriceDESC(this.rxShops);
         }
       },
-      orderListsByPriceASC(list) {
+      orderListsByPriceASC (list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {
@@ -134,7 +139,7 @@
         }
         return list;
       },
-      orderListsByPriceDESC(list) {
+      orderListsByPriceDESC (list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {
@@ -147,7 +152,7 @@
         }
         return list;
       },
-      orderListsById(list) {
+      orderListsById (list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {
@@ -160,7 +165,7 @@
         }
         return list;
       },
-      orderListsByDistance(list) {
+      orderListsByDistance (list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {
@@ -173,7 +178,7 @@
         }
         return list;
       },
-      orderListsByScore(list) {
+      orderListsByScore (list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {
@@ -190,44 +195,53 @@
   };
 </script>
 
-<style scoped >
-  .flex-row{
+<style scoped>
+  .flex-row {
     flex-direction: row;
   }
-  .flex-sa{
+
+  .flex-sa {
     justify-content: space-around;
   }
-  .p-tb-20{
+
+  .p-tb-20 {
     padding: 20px 0;
     box-sizing: border-box;
   }
-  .all-border{
+
+  .all-border {
     border: 1px #f5f5f5 solid;
   }
-  .position-top{
-    top:-6px;
+
+  .position-top {
+    top: -6px;
   }
-  .position-bottom{
-    bottom:-8px;
+
+  .position-bottom {
+    bottom: -8px;
   }
+
   .unActive {
     color: #d6cfcf !important;
   }
+
   .blueActive {
     color: #1AB6FD;
   }
-  .header-search{
-    width:560px;
-    height:40px;
-    background:rgba(255,255,255,1);
-    border-radius:10px;
+
+  .header-search {
+    width: 560px;
+    height: 40px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 10px;
     border: 0;
     outline: none;
     padding: 0 20px;
   }
-  .msg-icon{
-    width:31px;
-    height:36px;
+
+  .msg-icon {
+    width: 31px;
+    height: 36px;
   }
 
 </style>

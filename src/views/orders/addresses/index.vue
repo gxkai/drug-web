@@ -5,7 +5,7 @@
       <router-link tag="span" to="/addresses" slot="right">管理</router-link>
     </new-header>
     <div class="body1">
-      <div class="content1" v-for="address in addresses" @click.stop="onAddress(address)">
+      <div class="content1" v-for="(address,index) in list" :key="index" @click.stop="onAddress(address)">
         <new-line></new-line>
         <div class="line1">
           <div>
@@ -42,25 +42,22 @@
       this.getList();
     },
     computed: {
-      ...mapGetters(['addresses', 'receiveAddress'])
+      ...mapGetters(['receiveAddress'])
     },
     methods: {
       getList() {
-        if (!this.addresses || this.addresses.length === 0) {
-          this.$http.get('/addresses')
-            .then((res) => {
-              this.setAddresses(res.data);
-            }).catch(error => {
-              this.exception(error);
-            });
-        }
+        this.$http.get('/addresses')
+          .then((res) => {
+            this.list = res.data;
+          }).catch(error => {
+            this.exception(error);
+          });
       },
       onAddress(address) {
         this.setReceiveAddress(address);
         this.$router.go(-1);
       },
       ...mapMutations({
-        setAddresses: 'SET_ADDRESSES',
         setReceiveAddress: 'SET_RECEIVE_ADDRESS'
       })
     }

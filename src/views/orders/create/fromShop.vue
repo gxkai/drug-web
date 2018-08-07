@@ -1,27 +1,35 @@
 <template>
   <div class="main">
     <new-header title="订单结算">
-      <i class="iconfont ic-arrow-right" slot="left" @click.stop="$router.go(-1)"></i>
+      <div slot="left" @click.stop="$router.go(-1)">
+      <i class="iconfont ic-arrow-right" ></i>
+      </div>
     </new-header>
     <div class="body">
       <router-link tag="div" to="/orders/addresses" v-if="deliveryType === 'DELIVERY'">
         <new-header bgColor="rgba(255,255,255,1)"  title="请维护地址" color = '666666' rightColor="#666666" v-if="JSON.stringify(this.receiveAddress) === '{}'">
-          <i class="iconfont ic-youjiantou" slot="right"></i>
+          <div slot="right">
+          <i class="iconfont ic-youjiantou" ></i>
+          </div>
         </new-header>
         <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else>
-          <i class="iconfont ic-dizhi" slot="left"></i>
+          <div slot="left">
+            <i class="iconfont ic-dizhi" ></i>
+          </div>
           <div slot="center" class="center">
             <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
             <p>地址：{{receiveAddress.address}}</p>
           </div>
-          <i class="iconfont ic-youjiantou" slot="right"></i>
+          <div class="iconfont ic-youjiantou" slot="right"></div>
         </new-header>
         <img src="../../../assets/image/colorbackground.png">
       </router-link>
       <new-close-normal :shopInfo="shopInfo" class="new-close-normal"></new-close-normal>
       <div class="delivery">
         <div class="top">
-          <i class="iconfont ic-peisongfangshi"></i>
+          <div>
+            <i class="iconfont ic-peisongfangshi"></i>
+          </div>
           <span>配送方式</span>
         </div>
         <div class="bottom">
@@ -31,7 +39,9 @@
       </div>
       <div class="pay">
         <div class="top">
-          <i class="iconfont ic-fjzhifufangshi"></i>
+          <div>
+           <i class="iconfont ic-fjzhifufangshi"></i>
+          </div>
           <span>支付方式</span>
         </div>
         <div class="bottom">
@@ -81,7 +91,9 @@
         </div>
         <div v-else>
           <new-header height="low" bgColor="white" leftColor="black">
-            <i class="iconfont ic-qianbao" slot="left"></i>
+            <div slot="left">
+              <i class="iconfont ic-qianbao" ></i>
+            </div>
             <span slot="left" class="medical-bangding">医保卡绑定</span>
           </new-header>
           <div class="medical-qubangding" @click="$router.push('/accounts/bind')">

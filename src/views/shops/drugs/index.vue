@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header title="全部商品" :style="{background:bgColor,color:color}">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)" slot="left" :style="{color:leftColor}"></i>
+      <div  @click="$router.go(-1)" slot="left" :style="{color:leftColor}">
+      <i class="iconfont ic-arrow-right"></i>
+      </div>
     </new-header>
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <div class="width-percent-100">
