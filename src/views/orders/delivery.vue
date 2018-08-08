@@ -13,23 +13,23 @@
       </div>
 
       <div>
-        <div v-if="order.state== 'TO_RECEIVED'">
-          <img src="../../assets/image/delivery/distributioning.png"/>
+        <div v-if="order.state== 'TO_RECEIVED' || order.state== 'TO_DELIVERY'||order.state== 'TO_APPRAISE' || order.state== 'COMPLETED'">
+          <img src="../../assets/image/delivery/distribution.png"/>
           <div class="delivery-schedule-message text-#999999">配送中</div>
         </div>
         <div v-else>
-          <img src="../../assets/image/delivery/distribution.png"/></div>
-        <div class="delivery-schedule-message text-#13C1FE">配送中</div>
-
+          <img src="../../assets/image/delivery/distributioning.png"/>
+          <div class="delivery-schedule-message text-#13C1FE">配送中</div>
+        </div>
       </div>
 
       <div>
         <div v-if="order.state== 'TO_APPRAISE' || order.state== 'COMPLETED'">
-          <img src="../../assets/image/delivery/receiveing.png"/>
+          <img src="../../assets/image/delivery/received.png"/>
           <div class="delivery-schedule-message text-#999999">已收货</div>
         </div>
         <div v-else>
-          <img src="../../assets/image/delivery/received.png"/>
+          <img src="../../assets/image/delivery/receiveing.png"/>
           <div class="delivery-schedule-message text-#13C1FE">已收货</div>
         </div>
 
@@ -45,29 +45,6 @@
        </span>
        <span class="d-inline-block fr"><i class="iconfont ic-dianhua text-13C1FE fz-50"></i></span>
       </div>
-
-    </div>
-
-    <div v-for="rxDrug in order.rxDrugs" class="delivery-drugs ">
-      <div v-for="item in rxDrug.drugs" class="delivery-drug">
-        <div class="delivery-drug-dot"><img src="../../assets/image/delivery/circle.png"/></div>
-        <div class="delivery-drug-img"><img v-lazy="item.imgUrl" class="d_distribution_shop"/></div>
-        <div class="delivery-drug-content">
-          <span>{{item.drugName}}</span>
-          <span>¥{{item.price}}/ x{{item.quantity}}</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="delivery-drugs " v-for="item in order.norDrugs">
-      <div class="delivery-drug">
-        <div class="delivery-drug-dot"><img src="../../assets/image/delivery/circle.png"/></div>
-        <div class="delivery-drug-img"><img v-lazy="item.imgUrl"/></div>
-        <div class="delivery-drug-content">
-          <span>{{item.drugName}}</span>
-          <span>¥{{item.price}}/ x{{item.quantity}}</span>
-        </div>
-      </div>
     </div>
 
     <div class="delivery-footer">
@@ -75,22 +52,22 @@
         <li>
           <img src="../../assets/image/delivery/pay.png"/>
           <span>已支付</span>
-          <span class="fz24">¥{{order.payAmount}}</span>
+          <span class="fz24">¥{{order.totalAmount||0.00}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/address.png"/>
           <span>送货地址</span>
-          <span>{{order.address}}</span>
+          <span>{{order.address||'无'}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/number.png"/>
-          <span>运单编号</span>
-          <span>{{order.number}}</span>
+          <span>订单编号</span>
+          <span>{{order.number||'无'}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/telNumber.png"/>
           <span>送货人号码</span>
-          <span class="text-13C1FE">{{order.courierTel}}</span>
+          <span class="text-13C1FE">{{order.courierPhone||'无'}}</span>
         </li>
       </ul>
     </div>

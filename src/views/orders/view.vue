@@ -1,7 +1,7 @@
 <template>
   <div id="OrderDetails">
     <new-header title="订单详情" bgColor="white" leftColor="#333333" color="#333333">
-      <div slot="left">
+      <div slot="left" @click="$router.go(-1)">
         <i class="iconfont ic-arrow-right">
         </i>
       </div>
@@ -58,7 +58,7 @@
         </div>
       </div>
       <div>
-        <img src="../../assets/image/order/payfor.png">
+        <i class="iconfont ic-kucun"></i>
       </div>
     </div>
     <div class="order-address" v-if="order.address">
