@@ -30,10 +30,29 @@
 
       <div class="signin-gift">
          <ul>
-            <li style="background: url('../../assets/image/coupon/wallet.png')"></li>
-            <li style="background: url('/../assets/image/coupon/wallet.png')"></li>
-            <li style="background: url('/assets/image/coupon/wallet.png')"></li>
+            <li :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}">
+              580积分兑换
+            </li>
+           <li :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}">
+             580积分兑换
+           </li>
+           <li :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}">
+             580积分兑换
+           </li>
          </ul>
+      </div>
+
+      <div id="whole" v-show="show"></div>
+      <div class="signin-points" v-show="show">
+          <div class="width-percent-100 text-right">
+            <i class="iconfont ic-guanbi"></i>
+          </div>
+          <div>
+              <img :src="require('../../assets/image/coupon/golen.png')" class="golden"/>
+          </div>
+          <div class="text-center scccsess">签到成功</div>
+          <div class="text-center controduction">恭喜你获得</div>
+          <div class="text-center five-points">5积分</div>
       </div>
     </div>
 
@@ -116,8 +135,51 @@
      font-size: 24px;
   }
   .signin-gift ul li{
-    width:230px;
+    width:228px;
     height:146px;
     color: white;
+    font-size:25px;
+    text-align: center;
+    line-height: 146px;
+    margin-left: 10px;
+    float: left;
+  }
+  .signin-points{
+    position: absolute;
+    width:400px;
+    height:452px;
+    background:rgba(255,255,255,1);
+    top: 50%;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -226px;
+    z-index: 999;
+  }
+  .golden{
+    width:154px;
+    height:105px;
+    margin-top: 67px;
+    margin-left: 123px;
+  }
+
+  .scccsess{
+    font-size:31px;
+    color: #333333;
+    margin-top: 37px;
+  }
+  .controduction{
+    font-size:18px;
+    color: #333333;
+    margin-top: 22px;
+  }
+  .five-points{
+    font-size:31px;
+    color: #FF0000;
+    margin-top: 19px;
+  }
+  .ic-guanbi{
+    margin-top: 18px;
+    margin-right: 14px;
+    color: #999999;
   }
 </style>
