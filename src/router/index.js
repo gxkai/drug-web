@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
-import drugSearch from '@/components/drugSearch';
 
 Vue.use(Router);
 
@@ -9,13 +8,11 @@ export default new Router({
   routes: [
     {
       path: '/hello',
-      name: 'HelloWorld',
       component: HelloWorld
     },
     {
-      path: '/drugSearch',
-      name: 'drugSearch',
-      component: drugSearch
+      path: '/drugs/search',
+      component: () => import('@/views/drugs/search')
     },
     {
       path: '/',
@@ -26,13 +23,13 @@ export default new Router({
       path: '/accounts',
       component: () => import('@/views/accounts/index')
     }, {
-      path: '/accounts/bind',
+      path: '/accounts/card/bind',
       component: () => import('@/views/accounts/card/bind')
     }, {
-      path: '/accounts/unbind',
+      path: '/accounts/card/unbind',
       component: () => import('@/views/accounts/card/unbind')
     }, {
-      path: '/accounts/bind/success',
+      path: '/accounts/card/bind/success',
       component: () => import('@/views/accounts/card/success')
     },
     {

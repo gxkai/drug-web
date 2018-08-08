@@ -2,7 +2,10 @@
   <div class="main">
     <new-header title="取药信息">
       <div slot="left" >
-      <i class="iconfont ic-arrow-right" @click.stop="$router.push('/orders/toReceive')"></i>
+        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
+      </div>
+      <div slot="right" @click.stop="$router.push('/')">
+        <span>完成</span>
       </div>
     </new-header>
     <new-take-list :order="order" :hospitalName="hospitalName"></new-take-list>

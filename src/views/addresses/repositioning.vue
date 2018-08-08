@@ -73,7 +73,7 @@
     },
     methods: {
       search() {
-        var url = 'http://localhost:8083/api/outside/baidu/places.json?query=' + this.inputVal;
+        var url = this.$outside + '/baidu/places.json?query=' + this.inputVal;
         this.$http.get(url).then((res) => {
           this.libraryList = res.data.result;
           this.showMap(false);
@@ -135,7 +135,7 @@
       //   }
       // },
       getPositionList() {
-        var url = 'http://localhost:8083/api/outside/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true';
+        var url = this.$outside + '/outside/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true';
         this.$http.get(url).then(res => {
           this.positionList = res.data.body.pois;
           this.showMap(true);

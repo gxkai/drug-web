@@ -2,17 +2,19 @@
   <div class="item1">
     <div class="item1-content" v-if="order.type === 'HOSPITAL'">
       <div class="content1">
-
-        <div class="bg-white chage-header">
-          <div class="d-inline-block fl" @click="onShop()"><i class="iconfont ic-yaodian"></i>{{order.hospitalName}}</div>
-          <div class="d-inline-block fr text-red chage-sta">
-             {{order.state|transformOrderState}}
+        <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor="red">
+          <div slot="left">
+            <i class="iconfont ic-yaodian" ></i>
           </div>
-       </div>
+          <span slot="left" @click.stop="onShop()">{{order.hospitalName}}</span>
+          <span slot="right">{{order.state|transformOrderState}}</span>
+        </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE">
-
-          <span slot="left" style="color: #13C1FE">  <i class="iconfont ic-chufangdanluru" slot="left"></i>处方单</span>
+          <div slot="left">
+            <i class="iconfont ic-chufangdanluru" ></i>
+          </div>
+          <span slot="left" style="color: #13C1FE"> 处方单</span>
           <span slot="right" @click="onRx()">查看处方></span>
         </new-header>
 
@@ -67,8 +69,6 @@
               <button @click="onDetail()">订单详情</button>
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'COMPLETED'">
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onAppraise()">评价</button>
               <button @click="onDetail()">订单详情</button>
             </div>
           </div>
@@ -77,33 +77,30 @@
     </div>
     <div class="item1-content" v-else>
       <div class="content1">
-       <!-- <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red>
-          <div slot="left" style="display: flex;align-items: center"  @click="onShop()">
-            <i class="iconfont ic-yaodian" slot="left"></i>
-            <span slot="left" style="color: black">{{order.shopName}}</span>
+        <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor="red">
+          <div slot="left">
+            <i class="iconfont ic-yaodian" ></i>
           </div>
+          <span slot="left" @click.stop="onShop()">{{order.shopName}}</span>
           <span slot="right">{{order.state|transformOrderState}}</span>
-        </new-header>-->
-
-        <div class="bg-white chage-header">
-          <div class="d-inline-block fl" @click="onShop()"><i class="iconfont ic-yaodian"></i>{{order.shopName}}</div>
-          <div class="d-inline-block fr text-red chage-sta">
-            {{order.state|transformOrderState}}
-          </div>
-        </div>
+        </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-if="order.rxId">
-
-          <span slot="left" style="color: #13C1FE">  <i class="iconfont ic-chufangdanluru" slot="left"></i>处方单</span>
+          <div slot="left">
+            <i class="iconfont ic-chufangdanluru"></i>
+          </div>
+          <span slot="left" style="color: #13C1FE"> 处方单</span>
           <span slot="right" @click="onRx()">查看处方></span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-else>
-
-          <span slot="left" style="color: #13C1FE"><i class="iconfont ic-chufangdanluru" slot="left"></i>非处方单</span>
+          <div slot="left">
+            <i class="iconfont ic-chufangdanluru" ></i>
+          </div>
+          <span slot="left" style="color: #13C1FE">非处方单</span>
         </new-header>
 
-        <div class="slide-content" v-for="item in order.list">
+        <div class="slide-content" v-for="item in order.list" @click="onDrug(item)">
           <div class="image">
             <div class="chu" v-if="item.otc">处</div>
             <div class="feichu" v-else>非</div>
@@ -138,7 +135,7 @@
               <button class="item-bottom-button-active" @click="onPay()">付款</button>
               <button @click="onDetail()">订单详情</button>
             </div>
-            <div class="item-bottom-buttons" v-if="order.state == 'TO_APPRAISE' || order.state == 'COMPLETED'">
+            <div class="item-bottom-buttons" v-if="order.state == 'TO_APPRAISE'">
               <button @click="onDelivery()">查看物流</button>
               <button @click="onAppraise()">评价</button>
               <button @click="onDetail()">订单详情</button>
@@ -153,6 +150,9 @@
               <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
               <button @click="onDelivery()">查看物流</button>
               <button @click="onRemind()">提醒发货</button>
+              <button @click="onDetail()">订单详情</button>
+            </div>
+            <div class="item-bottom-buttons" v-if="order.state == 'COMPLETED'">
               <button @click="onDetail()">订单详情</button>
             </div>
           </div>
@@ -185,6 +185,9 @@
         }).catch(error => {
           this.exception(error);
         });
+      },
+      onDrug(item) {
+        this.$router.push({path: '/shopDrugSpecs', query: {shopDrugSpecId: item.shopDrugSpecId}});
       },
       onRx() {
         this.$router.push({path: '/rxs/view', query: {rxId: this.order.rxId}});
@@ -239,11 +242,14 @@
 
   .slide-content .image {
     width: 200px;
-    height: 200px;
     background: rgba(255, 255, 255, 1);
     box-shadow: 1px 1px 1px rgba(102, 102, 102, 0.3);
     align-self: center;
     position: relative;
+  }
+
+  .slide-content .image img{
+    width: 100%;
   }
 
   .chu {

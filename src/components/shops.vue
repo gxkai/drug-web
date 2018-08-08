@@ -39,19 +39,19 @@
       },
       shopName: {
         type: String,
-        default: '测试大药房'
+        require: true
       },
       phone: {
         type: String,
-        default: '1377630466'
+        default: '无'
       },
       address: {
         type: String,
-        default: '测试地址'
+        default: '无'
       },
       price: {
-        type: String,
-        default: '66666'
+        type: Number,
+        require: true
       },
       newCart: {
         type: Boolean,

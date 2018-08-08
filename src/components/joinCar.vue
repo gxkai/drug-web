@@ -1,14 +1,14 @@
 <template>
   <div>
     <footer>
-      <router-link tag="div" to="/chats" >
+      <div @click.stop="$router.push({path:'/chats/view',query:{shopId:drugInfo.shopId}})" >
         <i class="iconfont ic-zixun"></i>
         <p>咨询</p>
-      </router-link>
-      <router-link tag="div" to="/shops">
+      </div>
+      <div @click.stop="$router.push({path:'/shops/view',query:{shopId:drugInfo.shopId}})">
         <i class="iconfont ic-drugstore"></i>
         <p>药店</p>
-      </router-link>
+      </div>
       <div @click="onCollect()">
         <i class="iconfont ic-shoucang" :class="{active:isCollect}"></i>
         <p>收藏</p>
@@ -165,8 +165,9 @@
 <style scoped>
   footer{
     height: 141px;
-    position: absolute;
+    position: fixed;
     bottom: 0px;
+    z-index: 999;
   }
   .drug-buy-number{
     height: 86px;

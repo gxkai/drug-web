@@ -2,7 +2,7 @@
 <template>
   <div class="shop-container ">
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-      <router-link v-for="(items,index) in pageList" :to="{path:'/shops/view',query:{id:items.id}}" :key="index">
+      <router-link v-for="(items,index) in pageList" :to="{path:'/shops/view',query:{shopId:items.id}}" :key="index">
         <div class="media">
           <div class="shop-left">
             <img v-lazy="items.imgUrl" alt="Image">

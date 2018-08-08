@@ -1,20 +1,21 @@
 <template>
   <div class="main">
-    <new-header title="订单结算" >
+    <new-header title="订单结算">
       <div slot="left">
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
-   </new-header>
+    </new-header>
     <div class="body">
       <router-link tag="div" to="/orders/addresses" v-if="deliveryType === 'DELIVERY'">
-        <new-header bgColor="rgba(255,255,255,1)"  title="请维护地址" color = '666666' rightColor="#666666" v-if="JSON.stringify(this.receiveAddress) === '{}'">
+        <new-header bgColor="rgba(255,255,255,1)" title="请维护地址" color='666666' rightColor="#666666"
+                    v-if="JSON.stringify(this.receiveAddress) === '{}'">
           <div slot="right">
             <i class="iconfont ic-youjiantou"></i>
           </div>
         </new-header>
-        <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else >
+        <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else>
           <div slot="left">
-            <i class="iconfont ic-dizhi" ></i>
+            <i class="iconfont ic-dizhi"></i>
           </div>
           <div slot="center" class="center">
             <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
@@ -29,16 +30,18 @@
       <new-close-hospital :hospitalInfo="hospitalInfo" class="new-close-normal"></new-close-hospital>
       <div class="delivery">
         <div class="top">
-           <span> <i class="iconfont ic-peisongfangshi"></i>配送方式</span>
+          <div><i class="iconfont ic-peisongfangshi"></i></div>
+          <span> 配送方式</span>
         </div>
         <div class="bottom">
-          <button :class="{active:deliveryType=='DELIVERY'}">送货</button>
+          <!--<button :class="{active:deliveryType=='DELIVERY'}">送货</button>-->
           <button :class="{active:deliveryType=='SELF'}" @click.stop="onDeliveryType('SELF')">上门自提</button>
         </div>
       </div>
       <div class="pay">
         <div class="top">
-           <span> <i class="iconfont ic-fjzhifufangshi"></i>支付方式</span>
+          <div><i class="iconfont ic-fjzhifufangshi"></i></div>
+          <span>支付方式</span>
         </div>
         <div class="bottom">
           <div>
@@ -87,12 +90,12 @@
         </div>
         <div v-else>
           <new-header height="low" bgColor="white" leftColor="black">
-            <div  slot="left">
-            <i class="iconfont ic-qianbao"></i>
+            <div slot="left">
+              <i class="iconfont ic-qianbao"></i>
             </div>
             <span slot="left" class="medical-bangding">医保卡绑定</span>
           </new-header>
-          <div class="medical-qubangding" @click="$router.push('/accounts/bind')">
+          <div class="medical-qubangding" @click="$router.push('/accounts/card/bind')">
             <a>去绑定医保卡</a>
             <button>去绑定</button>
           </div>
@@ -116,6 +119,7 @@
 <script>
   import {mapGetters, mapMutations} from 'vuex';
   import {MessageBox} from 'mint-ui';
+
   export default {
     name: 'createFromCart',
     data() {
@@ -155,7 +159,8 @@
       },
       onOrder() {
         if (this.deliveryType === 'DELIVERY' && JSON.stringify(this.receiveAddress) === '{}') {
-          MessageBox('提示', '请维护收货地址').then(action => {});
+          MessageBox('提示', '请维护收货地址').then(action => {
+          });
         } else {
           this.$router.push({
             path: '/orders/takeDrug?rxId=' + this.rxId + '&hospitalName=' + this.hospitalInfo.hospital
@@ -356,32 +361,33 @@
     outline: none;
   }
 
-
   .medical-bangding {
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(69,69,69,1);
+    font-size: 24px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(69, 69, 69, 1);
     margin-left: 10px;
   }
+
   .ic-qianbao {
     font-size: 24px;
   }
 
-  .medical-qubangding a{
-    font-size:18px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(19,193,254,1);
+  .medical-qubangding a {
+    font-size: 18px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(19, 193, 254, 1);
     text-decoration: underline;
     margin-left: 68px;
   }
+
   .medical-qubangding button {
-    width:132px;
-    height:36px;
-    background:rgba(19,193,254,1);
-    box-shadow:2px 1px 2px rgba(0,0,0,0.33);
-    font-size:22px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
+    width: 132px;
+    height: 36px;
+    background: rgba(19, 193, 254, 1);
+    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.33);
+    font-size: 22px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(255, 255, 255, 1);
     line-height: 10px;
     border-radius: 50px;
     outline: none;

@@ -8,9 +8,9 @@
         <div class="search-box all-center no-border ml4">
           <img src="../assets/image/search.png" class=" is-24x24"/>
           <input type="text" v-model="shopName" placeholder="通用名、商品名、症状"
-                 @blur="$router.push('/components/search')"
-                 @keyup.enter="$router.push('/components/search')"
-                 @click="$router.push('/components/search')"
+                 @blur="$router.push('/drugs/search')"
+                 @keyup.enter="$router.push('/drugs/search')"
+                 @click="$router.push('/drugs/search')"
                  class="no-border fz20"/>
         </div>
         <span class="d-inline-block">
@@ -90,66 +90,15 @@
         </div>
       </div>
       <ul class="flex-wrap position-relative bg-white">
-        <router-link v-for="(discountList,index) in discountLists"
-                     :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
+        <router-link v-for="(discountList,index) in discountList"
+                     :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:discountList.id}}"
                      :key="index">
-          <div class="drug-box-01 flex-row-center border-right-gray border-bottom-gray" v-if="index === 0 ">
-            <router-link v-for="(discountList,index) in discountLists"
-                         :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
-                         :key="index" v-if="index===0">
-              <img class="is-120x120 mr-20" :src="getImgURL(discountList.fileId, 'MIDDLE_LOGO')"
-                   v-if="index===0">
+          <div class="drug-box flex-row-center border-right-gray border-bottom-gray">
+              <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')">
               <div class="is-flex flex-column">
                 <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
                 <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
               </div>
-            </router-link>
-          </div>
-
-          <div class="drug-box-01 flex-row-center border-right-gray border-bottom-gray" v-if="index === 1 ">
-            <router-link v-for="(discountList,index) in discountLists"
-                         :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
-                         :key="index" v-if="index===1">
-              <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===1">
-              <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
-                <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
-              </div>
-            </router-link>
-          </div>
-          <div class="drug-box-2 flex-column-center border-right-gray" v-if="index === 2">
-            <router-link v-for="(discountList,index) in discountLists"
-                         :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
-                         :key="index" v-if="index===2">
-              <img class="is-145x145" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===2">
-              <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
-                <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
-              </div>
-            </router-link>
-          </div>
-          <div class="drug-box-34 flex-row-center border-bottom-gray" style="float: right" v-if="index === 3 ">
-            <router-link v-for="(discountList,index) in discountLists"
-                         :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
-                         :key="index" v-if="index===3">
-              <img class="is-135x85 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===3">
-              <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
-                <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
-              </div>
-            </router-link>
-          </div>
-          <div class="drug-box-34 flex-row-center position-absolute position-rb" style="float: right"
-               v-if="index === 4 ">
-            <router-link v-for="(discountList,index) in discountLists"
-                         :to="{path:'/shopDrugSpecs',query:{id:discountList.id}}"
-                         :key="index" v-if="index===4">
-              <img class="is-135x85 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')" v-if="index===4">
-              <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block  fz16">{{discountList.name}}</span>
-                <span class="text-red fz18">¥ {{discountList.price}} /盒</span>
-              </div>
-            </router-link>
           </div>
         </router-link>
       </ul>
@@ -161,12 +110,12 @@
         <span class="new-line"></span><span class="text-13C1FE fz28">医保定点药房</span> <span class="new-liner"></span>
       </div>
       <div class="shop-content">
-        <carousel-3d :count="discountLists.length" width="250" height="160" display="3">
-          <slide v-for="(slide, i) in discountLists" :index="i" :key="i">
+        <carousel-3d :count="discountList.length" width="250" height="160" display="3">
+          <slide v-for="(slide, i) in showList" :index="i" :key="i">
             <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
               <img :data-index="index"
                    :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
-                   :src="getImgURL(slide.fileId, 'MIDDLE_LOGO')">
+                    v-lazy="getImgURL(slide.fileId, 'MIDDLE_LOGO')">
             </template>
           </slide>
         </carousel-3d>
@@ -183,26 +132,17 @@
         <ul class="flex-wrap">
           <router-link
             class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
-            v-for="(recommendList,index) in recommendLists" :key="index"
-            :to="{path:'/shopDrugSpecs',query:{id:recommendList.id}}">
-            <span class="toc-tip position-absolute all-center" v-if="recommendLists.isOtc === true">非处</span>
+            v-for="(recommendList,index) in recommendList" :key="index"
+            :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
+            <span class="toc-tip position-absolute all-center" v-if="recommendList.isOtc === true">非处</span>
             <span class="toc-tip position-absolute all-center" v-else>处</span>
             <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'MIDDLE_LOGO')">
             <span class="elps width-180 fz22">{{recommendList.name}}{{recommendList.spec}}</span>
             <span class="text-red fz24">¥ {{recommendList.price}} /盒</span>
           </router-link>
-          <li
-            class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
-            v-if="recommendLists.length !== 0">
-          </li>
         </ul>
       </div>
     </div>
-
-    <!-- 撑屏容器 -->
-    <div class="add-container is-720x100">
-    </div>
-
     <new-footer :urlRouter="$route.path"></new-footer>
   </div>
 </template>
@@ -210,7 +150,6 @@
   import {BmMarker, BmLabel} from 'vue-baidu-map';
   import DownTime from '../components/timeDown';
   import {Toast} from 'mint-ui';
-  import axios from 'axios';
   import {Carousel3d, Slide} from 'vue-carousel-3d';
 
   export default {
@@ -221,44 +160,22 @@
         leftIndex: '',
         rightIndex: '',
         index: '',
-        imgPath: 'http://172.16.0.107:8081',
         endTime: '2018-12-29 12:06:00',
         hour: '',
         minutes: '',
         seconds: '',
         news: [],
-        discountLists: [{
-          id: '-JDp2p05Rm6NwfK6XQGszA',
-          name: '右旋布洛芬栓',
-          spec: '0.5gx60粒/瓶',
-          otc: false,
-          price: 16.5,
-          originalPrice: 21.0,
-          fileId: 'bo1UWeczRiaB2ZHOqRj0pg'
-        }, {
-          id: 't0l7SUv2TW2ZMP40tlSc1g',
-          name: '修正 氨基葡萄糖硫酸软骨素钙胶囊',
-          spec: '100ml/瓶',
-          otc: false,
-          price: 20.0,
-          originalPrice: 25.5,
-          fileId: 'WGyEBsYiS2mhyriyM8Ajrg'
-        }, {
-          id: 'VodgTMHFQaKWXpbB2EQaHg',
-          name: '999 强力枇杷露',
-          spec: '100ml/瓶',
-          otc: true,
-          price: 12.0,
-          originalPrice: 15.0,
-          fileId: 'LPHVfANNROevkaMwxcpUhw'
-        }],
-        showLists: [],
-        recommendLists: [],
+        discountList: [],
+        showList: [
+          {'id': '1', 'fileId': '1'},
+          {'id': '1', 'fileId': '1'},
+          {'id': '1', 'fileId': '1'}],
+        recommendList: [],
         advertLists: [],
         longitude: '',
         latitude: '',
-        lat: '31.39',
-        lng: '120.95',
+        lat: '120.95',
+        lng: '31.39',
         zoom: 3,
         shopName: '',
         chooseAddress: '请选择地址',
@@ -347,7 +264,7 @@
       },
       startAddress() {
         this.getLocation();
-        this.$http.get('/baidu/maps?lat=' + this.lat + '&lng=' + this.lng).then(res => {
+        this.$http.get(this.$outside + '/baidu/maps.json?lat=' + this.lat + '&lng=' + this.lng).then(res => {
           this.chooseAddress = res.data.formatted_address;
         });
       },
@@ -358,31 +275,7 @@
     created: function () {
       this.getList();
       this.getList1();
-      if (sessionStorage.IsThisTheFirstTime === 'yes') {
-        if (localStorage.account !== undefined) {
-          sessionStorage.clear();
-          this.$http.get('/accounts/verify').then(ress => {
-            if (ress.status === 200) {
-              axios({
-                method: 'get',
-                url: '/accounts',
-                headers: {'Authorization': ress.data}
-              }).then(res => {
-                if (res.status === 200) {
-                  let person = {
-                    token: ress.data,
-                    account: res.data
-                  };
-                  localStorage.clear();
-                  localStorage.setItem('account', JSON.stringify(person));
-                  this.$store.commit('SET_TOKEN', ress.data);
-                  this.$store.commit('SET_ACCOUNT', res.data);
-                }
-              });
-            }
-          });
-        }
-      }
+      this.$store.dispatch('VERIFY');
       this.getLocation();
       let lat = this.$route.query.lat;
       let lng = this.$route.query.lng;
@@ -402,20 +295,28 @@
       }
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
-        this.discountLists = res.data;
+        this.discountList = res.data;
+      }).catch(error => {
+        this.exception(error);
       });
 
       // 医保定点
       this.$http.get('/shops/show').then(res => {
-        this.showLists = res.data;
+        this.showList = res.data;
+      }).catch(error => {
+        this.exception(error);
       });
       // 广告
       this.$http.get('/adverts').then(res => {
         this.advertLists = res.data;
+      }).catch(error => {
+        this.exception(error);
       });
       // 好货推荐
       this.$http.get('/drugs/recommend').then(res => {
-        this.recommendLists = res.data;
+        this.recommendList = res.data;
+      }).catch(error => {
+        this.exception(error);
       });
     }
   };
@@ -495,21 +396,6 @@
   .drug-box {
     width: 360px;
     height: 330px;
-  }
-
-  .drug-box-01 {
-    width: 360px;
-    height: 223px;
-  }
-
-  .drug-box-2 {
-    width: 360px;
-    height: 345px;
-  }
-
-  .drug-box-34 {
-    width: 360px;
-    height: 170px;
   }
 
   .is-260x193 {

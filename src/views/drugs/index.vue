@@ -4,39 +4,44 @@
     <div class="f_body" style="overflow: scroll">
       <div>
         <new-header :title="showDrugTitle">
-          <div slot="left">
-          <router-link tag="i" to="/drugTypes"  class="iconfont ic-arrow-right"></router-link>
+          <div slot="left" @click="$router.go(-1)">
+            <i class="iconfont ic-arrow-right"></i>
           </div>
           <router-link :to="{path:'/components/search'}">
-            <img src="static/img/search2.png" /></router-link>
+            <img src="static/img/search2.png"/></router-link>
         </new-header>
         <ul class="is-flex flex-row flex-sa p-tb-20 all-border border-bottom-grey">
-            <li @click="reOrderBy('SYNTHESIZE_LESS')" class="is-flex flex-row" :class="{'blueactive1': index1==default1}">
-              默认
-              <div class="is-flex position-relative">
-                <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"></i>
-                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"></i>
-              </div>
-            </li>
+          <li @click="reOrderBy('SYNTHESIZE_LESS')" class="is-flex flex-row" :class="{'blueactive1': index1==default1}">
+            默认
+            <div class="is-flex position-relative">
+              <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"></i>
+              <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"></i>
+            </div>
+          </li>
 
-            <li @click="reOrderByPrice()" class="is-flex flex-row" :class="{'blueactive1':index2==default2}">价格
-              <div class="is-flex position-relative">
-                <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="val==1?'unActive':'blueActive'"></i>
-                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="val==1?'blueActive':'unActive'"></i>
-              </div>
-            </li>
-            <li @click="reOrderBySales()" class="is-flex flex-row" :class="{'blueactive1':index3==default3}">
-              <span>销量</span>
-              <div class="is-flex position-relative">
-                <i class="iconfont ic-arrLeft-fill1 position-absolute position-top" :class="salesVolume==1?'unActive':'blueActive'"></i>
-                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="salesVolume==1?'blueActive':'unActive'"></i>
-              </div>
-            </li>
-            <li @click="conditionFilter()" class="is-flex flex-row" :class="{'blueactive1':index4==default4}">筛选条件
-              <div class="is-flex position-relative">
-                <i class="iconfont ic-arrLeft-fill position-absolute position-bottom" :class="screen==1?'blueActive':'unActive'"></i>
-              </div>
-            </li>
+          <li @click="reOrderByPrice()" class="is-flex flex-row" :class="{'blueactive1':index2==default2}">价格
+            <div class="is-flex position-relative">
+              <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"
+                 :class="val==1?'unActive':'blueActive'"></i>
+              <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"
+                 :class="val==1?'blueActive':'unActive'"></i>
+            </div>
+          </li>
+          <li @click="reOrderBySales()" class="is-flex flex-row" :class="{'blueactive1':index3==default3}">
+            <span>销量</span>
+            <div class="is-flex position-relative">
+              <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"
+                 :class="salesVolume==1?'unActive':'blueActive'"></i>
+              <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"
+                 :class="salesVolume==1?'blueActive':'unActive'"></i>
+            </div>
+          </li>
+          <li @click="conditionFilter()" class="is-flex flex-row" :class="{'blueactive1':index4==default4}">筛选条件
+            <div class="is-flex position-relative">
+              <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"
+                 :class="screen==1?'blueActive':'unActive'"></i>
+            </div>
+          </li>
         </ul>
       </div>
 
@@ -44,7 +49,7 @@
         <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
           <router-link v-for="(item,index) in pageList" :key="index"
                        :to="{path:'/drugs/shops',query:{id:item.id,drugId:item.drugId}}">
-          <new-drug-shops class="border-bottom-grey" :item="item"></new-drug-shops>
+            <new-drug-shops class="border-bottom-grey" :item="item"></new-drug-shops>
           </router-link>
         </ul>
       </div>
@@ -85,8 +90,7 @@
         pages: null
       };
     },
-    components: {
-    },
+    components: {},
     created: function () {
       this.showDrugTitle = this.$route.query.showDrugTitle;
       this.pageFrom = this.$route.query.pageFrom;
@@ -211,31 +215,39 @@
   };
 </script>
 <style>
-  .is-flex{
+  .is-flex {
     display: flex !important;
   }
-  .flex-row{
+
+  .flex-row {
     flex-direction: row;
   }
-  .flex-sa{
+
+  .flex-sa {
     justify-content: space-around;
   }
-  .p-tb-20{
+
+  .p-tb-20 {
     padding: 20px 0;
     box-sizing: border-box;
   }
-  .position-top{
-    top:-6px;
+
+  .position-top {
+    top: -6px;
   }
-  .position-bottom{
-    bottom:-8px;
+
+  .position-bottom {
+    bottom: -8px;
   }
-  .border-bottom-grey{
+
+  .border-bottom-grey {
     border-bottom: 1px #f3f3f3 solid;
   }
+
   .unActive {
     color: #d6cfcf !important;
   }
+
   .blueActive {
     color: #1AB6FD;
   }
