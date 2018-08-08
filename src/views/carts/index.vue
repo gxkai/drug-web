@@ -34,7 +34,7 @@
             <div slot="left">
             <i class="iconfont ic-yaodian" slot="left"></i>
             </div>
-            <div slot="left">
+            <div slot="left" @click.stop="$router.push({path:'/shops/view',query:{shopId:cartShop.id}})">
             <span>{{cartShop.shopName}}</span>
             </div>
           </new-header>
@@ -76,9 +76,9 @@
                         <i class="iconfont ic-radiochecked" v-show="cartDrug.radio"></i>
                       </div>
                       <div class="image">
-                        <div class="chu" v-if="cartDrug.otc">处</div>
-                        <div class="feichu" v-else>非处</div>
-                        <img v-lazy="cartDrug.logo">
+                        <div class="chu" v-if="cartDrug.otc">非处</div>
+                        <div class="feichu" v-else>处</div>
+                        <img v-lazy="getImgURL(cartDrug.fileId, 'LARGE_LOGO')">
                       </div>
                       <div class="text">
                         <div class="top">
@@ -185,7 +185,6 @@
               e.radio = false;
               e.drugs.forEach(e => {
                 e.radio = false;
-                e.logo = this.getImgURL(e.fileId, 'LARGE_LOGO');
               });
             });
           });
@@ -522,10 +521,12 @@
 
   .slide-content .image {
     width: 200px;
-    height: 200px;
     background: rgba(255, 255, 255, 1);
     box-shadow: 1px 1px 1px rgba(102, 102, 102, 0.3);
     align-self: center;
+  }
+  .slide-content .image img{
+    width: 100%;
   }
 
   .slide-content .text {

@@ -3,7 +3,7 @@
     <div class="header" ref="header">
       <new-header title="全部订单">
        <div slot="left">
-         <i class="iconfont ic-arrow-right"  @click.stop="$router.push('/accounts')"></i>
+         <i class="iconfont ic-arrow-right"  @click.stop="$router.go(-1)"></i>
        </div>
         <div slot="right">
           <i class="iconfont ic-sousuo"  @click.stop="$router.push('/orders/search')"></i>

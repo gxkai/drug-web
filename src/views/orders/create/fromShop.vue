@@ -98,7 +98,7 @@
             </div>
             <span slot="left" class="medical-bangding">医保卡绑定</span>
           </new-header>
-          <div class="medical-qubangding" @click="$router.push('/accounts/bind')">
+          <div class="medical-qubangding" @click="$router.push('/accounts/card/bind')">
             <a>去绑定医保卡</a>
             <button>去绑定</button>
           </div>

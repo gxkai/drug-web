@@ -7,6 +7,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
@@ -17,11 +18,17 @@ body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fo
 body, button, input, select, textarea {
   font: 12px/1.5tahoma, arial, \5b8b\4f53;
 }
-
+a {
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+ul, ol { list-style: none; }
 h1, h2, h3, h4, h5, h6 {
   font-size: 100%;
 }
-
+button {
+  outline: none;
+}
 address, cite, dfn, em, var {
   font-style: normal;
 }
@@ -477,4 +484,7 @@ table {
 .icon{
   width: auto!important;
   height: auto!important;
+}
+.is-flex {
+  display: flex;
 }

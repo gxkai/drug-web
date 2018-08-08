@@ -2,15 +2,12 @@
 <template>
   <!-- TODO 倒计时-->
   <div class="rxs-container">
-
-    <div class="rxs-header position-relative">
-      <div class="rx-header-title position-relative">
-        <router-link to="/">
-          <i class="iconfont ic-arrow-right position-absolute position-lt fz-40 text-white"></i>
-        </router-link>
-        <span>处方列表</span>
-      </div>
-
+    <div class="rxs-header position-relative" ref="header">
+      <new-header title="处方列表">
+        <div slot="left" @click="$router.go(-1)">
+          <i class="iconfont ic-arrow-right"></i>
+        </div>
+      </new-header>
       <div class="flex-row-center text-white pt-26">
         <div class="">
           <img class="is-110x110" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
@@ -30,11 +27,11 @@
       </div>
       <div class="header-search position-relative position-center">
         <img class="is-30x30 position-absolute position-search" src="../../assets/image/search.png" @click="getRxs">
-        <input type="text" class="no-border" placeholder="请输入搜索内容" v-model="keyword">
+        <input type="text" class="no-border" placeholder="请输入搜索内容" v-model="keyword"  @keyup.enter="getRxs()">
       </div>
     </div>
 
-    <ul v-infinite-scroll="loadMore" class="mt-26">
+    <ul v-infinite-scroll="loadMore" class="mt-26" ref="body">
       <li class="rxs-box mt-20" v-for="rx in list">
         <!-- FIXME -->
         <router-link :to="{path:'/rxs/view',query:{id:rx.id}}">
@@ -74,7 +71,7 @@
       <new-loading v-if="process"></new-loading>
       <new-all-data v-if="loading"></new-all-data>
     </ul>
-    <new-footer :urlRouter="$route.path"></new-footer>
+    <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
 </template>
 
@@ -96,7 +93,7 @@
     },
     methods: {
       getRxs() {
-        this.rxs = [];
+        this.list = [];
         this.pageNum = 0;
         this.loadData();
       },
@@ -123,7 +120,11 @@
           });
       }
     },
-    computed: {}
+    computed: {},
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.$el.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
+    }
   };
 </script>
 

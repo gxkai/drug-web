@@ -12,7 +12,6 @@ import axios from 'axios';
 import storage from 'good-storage';
 import 'jquery';
 import '../src/assets/js/flex';
-import '../src/assets/css/bulma.css';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
@@ -57,8 +56,8 @@ axios.interceptors.response.use(
     }
     return Promise.reject(error);
   });
-
 Vue.prototype.$http = axios;
+Vue.prototype.$outside = process.env.OUTSIDE_ROOT;
 Vue.prototype.$storage = storage;
 Vue.config.productionTip = false;
 Vue.use(MintUI, {
@@ -67,6 +66,7 @@ Vue.use(MintUI, {
     error: require('./assets/image/lazyLoad/default.png'),
     loading: require('./assets/image/lazyLoad/loading.gif'),
     attempt: 1,
+    throttleWait: 100,
     filter: {
       webp(listener, options) {},
       progressive(listener, options) {}
