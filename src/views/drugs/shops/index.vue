@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="width-percent-100 bg-white drug-shops" v-for="(shopList,index) in shopLists" :key="index">
-      <router-link :to="{path:'/shopDrugSpecs',query:{id:shopList.shopDrugSpecId}}">
+      <router-link :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:shopList.shopDrugSpecId}}">
       <div class="ordinary width-percent-96 m-auto">
         <div class="drug-ordinary">
           <span class="d-inline-block fl drug-shop">{{shopList.name}}</span>

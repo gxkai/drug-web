@@ -1,8 +1,10 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="container">
-    <new-header>
-      <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right" slot="left"></router-link>
+    <new-header :title="message">
+      <div slot="left" @click="$router.go(-1)">
+        <i class="iconfont ic-arrow-right"></i>
+      </div>
     </new-header>
 
     <div>
@@ -12,7 +14,7 @@
       </div>
 
       <div class="div-btn">
-        <router-link to="/accounts/bind" class="bind-success-btn btn-white box-center">随意逛逛</router-link>
+        <router-link to="/accounts/card/bind" class="bind-success-btn btn-white box-center">随意逛逛</router-link>
         <router-link to="/" class="bind-success-btn btn-1AB6FD box-center">返回首页</router-link>
       </div>
     </div>
@@ -23,13 +25,19 @@
   export default {
     data() {
       return {
-        message: '医保卡解绑成功'
+        message: ''
       };
     },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        if (from.path === '/accounts/card/bind') {
+          vm.message = '医保卡绑定成功';
+        } else {
+          vm.message = '医保卡解绑成功';
+        }
+      });
+    },
     created: function () {
-      if (this.$route.params.bind === 1) {
-        this.message = '医保卡绑定成功';
-      }
     }
   };
 </script>

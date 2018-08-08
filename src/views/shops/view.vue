@@ -1,69 +1,68 @@
 <template>
   <div class="container">
-    <new-header title="商家介绍">
-      <div @click="$router.go(-1)"  slot="left">
-      <i class="iconfont ic-arrow-right" ></i>
+    <new-header title="商家介绍" ref="header">
+      <div @click="$router.go(-1)" slot="left">
+        <i class="iconfont ic-arrow-right"></i>
       </div>
-      <input type="text" placeholder="搜索店内商品" class="bg-none"/>
     </new-header>
-
-    <div class="shop-header">
-      <img :src="getImgURL(shopInfo.fileId, 'SMALL_LOGO')"/>
-      <span class="shop-name">{{shopInfo.name}}</span>
-      <div class="shop-collect" :class="{'activeColor':activeColor}" @click="collect">
-        {{collectz}}
+    <div class="body" ref="body">
+      <div class="shop-header">
+        <img v-lazy="getImgURL(shopInfo.fileId, 'SMALL_LOGO')"/>
+        <span class="shop-name">{{shopInfo.name}}</span>
+        <div class="shop-collect" :class="{'activeColor':activeColor}" @click="collect">
+          {{collectz}}
+        </div>
       </div>
-    </div>
 
-    <ul class="shop-score">
-      <li>
-        <span>{{shopInfo.describeScore||0}}分</span>
-        <span>客户服务</span>
-      </li>
-      <li class="shop-score-boundary "></li>
-      <li>
-        <span>{{shopInfo.deliveryScore||0}}分</span>
-        <span>发货速度</span>
-      </li>
-      <li class="shop-score-boundary "></li>
-      <li>
-        <span>{{shopInfo.serviceScore||0}}分</span>
-        <span>物流速度</span>
-      </li>
-      <li class="shop-score-boundary "></li>
-      <li>
-        <span>{{shopInfo.packageScore||0}}分</span>
-        <span>商品包装</span>
-      </li>
-    </ul>
+      <ul class="shop-score">
+        <li>
+          <span>{{shopInfo.describeScore||0}}分</span>
+          <span>客户服务</span>
+        </li>
+        <li class="shop-score-boundary "></li>
+        <li>
+          <span>{{shopInfo.deliveryScore||0}}分</span>
+          <span>发货速度</span>
+        </li>
+        <li class="shop-score-boundary "></li>
+        <li>
+          <span>{{shopInfo.serviceScore||0}}分</span>
+          <span>物流速度</span>
+        </li>
+        <li class="shop-score-boundary "></li>
+        <li>
+          <span>{{shopInfo.packageScore||0}}分</span>
+          <span>商品包装</span>
+        </li>
+      </ul>
 
-    <div class="shop-nav" spellcheck="false" cellspacing="0">
-      <div class="is-flex flex-wrap">
-        <router-link class="type-list" tag="td" v-for="(item,index) in drugTypes" :key="index"
-                     :to="{path:'/shops/drugs',query:{typeId:item.id,id:shopId}}">{{item.type}}
+      <div class="shop-nav" spellcheck="false" cellspacing="0">
+        <div class="is-flex flex-wrap">
+          <router-link class="type-list" tag="td" v-for="(item,index) in drugTypes" :key="index"
+                       :to="{path:'/shops/drugs',query:{typeId:item.id,id:shopId}}">{{item.type}}
+          </router-link>
+        </div>
+
+      </div>
+
+      <div class="shop-recommend">—— 商家推荐 ——</div>
+
+      <div class="shop-goods text-center m-auto">
+        <router-link class="shop-goods-list"
+                     v-for="(recommendList,index) in recommendLists"
+                     :key="index"
+                     :to="{path :'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
+          <img v-lazy="getImgURL(recommendList.fileId, 'LARGE_LOGO')"/>
+          <span class="d-inline-block elps text-center">{{recommendList.name}}</span>
+          <span class="text-red d-inline-block elps text-center">&yen; {{recommendList.price}}</span>
         </router-link>
       </div>
-
     </div>
-
-    <div class="shop-recommend">—— 商家推荐 ——</div>
-
-    <div class="shop-goods text-center m-auto">
-      <router-link class="shop-goods-list"
-                   v-for="(recommendList,index) in recommendLists"
-                   :key="index"
-                   :to="{path :'/shopDrugSpecs',query:{id:recommendList.id}}">
-        <img :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')"/>
-        <span class="d-inline-block elps text-center">{{recommendList.name}}</span>
-        <span class="text-red d-inline-block elps text-center">&yen; {{recommendList.price}}</span>
-      </router-link>
-    </div>
-
-    <div class="shop-footer" spellcheck="false" cellspacing="0">
+    <div class="shop-footer" spellcheck="false" cellspacing="0" ref="footer">
       <router-link :to="{ path: '/shops/info', query: { id: shopId }}">商家介绍</router-link>
       <!-- FIXME typeId-->
       <router-link :to="{ path: '/shops/drugs', query: { id: shopId }}">全部商品</router-link>
-      <router-link :to="{ path: '/chats', query: { id: shopId }}">在线咨询</router-link>
+      <router-link :to="{ path: '/chats/view', query: { shopId: shopId }}">在线咨询</router-link>
     </div>
   </div>
 </template>
@@ -76,8 +75,7 @@
       return {
         recommendLists: [],
         shopInfo: [],
-        shopId: '',
-        accountId: '',
+        shopId: this.$route.query.shopId,
         activeColor: false,
         collectz: '',
         drugTypes: []
@@ -90,56 +88,62 @@
         data.append('shopId', this.shopId);
         data.append('isCollect', this.activeColor);
         this.$http.post('/collects/shop', data).then(res => {
-          if (res.status === 200) {
-            if (this.activeColor) {
-              Toast({
-                message: '收藏成功',
-                position: 'middle',
-                duration: 1000
-              });
-              this.collectz = '已收藏';
-            } else {
-              Toast({
-                message: '取消收藏成功',
-                position: 'middle',
-                duration: 1000
-              });
-              this.collectz = '未收藏';
-            }
+          if (this.activeColor) {
+            Toast({
+              message: '收藏成功',
+              position: 'middle',
+              duration: 1000
+            });
+            this.collectz = '已收藏';
+          } else {
+            Toast({
+              message: '取消收藏成功',
+              position: 'middle',
+              duration: 1000
+            });
+            this.collectz = '未收藏';
           }
+        }).catch(error => {
+          this.exception(error);
         });
       }
     },
     created: function () {
-      this.shopId = this.$route.query.id;
-      if (this.$store.getters.account) {
-        this.accountId = this.$store.getters.account.id;
-      }
-      this.$http.get('/shops/' + this.$route.query.id + '/drugs/recommend').then(res => {
+      this.$http.get('/shops/' + this.shopId + '/drugs/recommend').then(res => {
         this.recommendLists = res.data;
+      }).catch(error => {
+        this.exception(error);
       });
-      this.$http.get('/shops/' + this.$route.query.id).then(res => {
+      this.$http.get('/shops/' + this.shopId).then(res => {
         this.shopInfo = res.data;
         this.shopInfo.fileId = this.shopInfo.logo;
+      }).catch(error => {
+        this.exception(error);
       });
       // TODO 药店是否收藏 VUEX
       this.$http.get('/collects/shop/one?' + '&shopId=' + this.shopId)
         .then(res => {
-          if (res.status === 200) {
-            if (res.data) {
-              this.activeColor = true;
-              this.collectz = '已收藏';
-            } else {
-              this.activeColor = false;
-              this.collectz = '未收藏';
-            }
+          if (res.data) {
+            this.activeColor = true;
+            this.collectz = '已收藏';
+          } else {
+            this.activeColor = false;
+            this.collectz = '未收藏';
           }
+        }).catch(error => {
+          this.exception(error);
         });
       // 药品大类
       this.$http.get('/drugTypes')
         .then((res) => {
           this.drugTypes = res.data;
+        }).catch(error => {
+          this.exception(error);
         });
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>
@@ -159,13 +163,6 @@
     line-height: 80px;
     text-align: center;
     font-size: 24px;
-  }
-
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
   }
 
   .container {
@@ -268,7 +265,7 @@
     height: 20px;
     font-size: 20px;
     color: rgba(102, 102, 102, 1);
-    line-height:20px;
+    line-height: 20px;
     display: block;
     text-align: center;
     margin: auto;

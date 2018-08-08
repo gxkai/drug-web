@@ -10,13 +10,11 @@ export default new Router({
   routes: [
     {
       path: '/hello',
-      name: 'HelloWorld',
       component: HelloWorld
     },
     {
-      path: '/drugSearch',
-      name: 'drugSearch',
-      component: drugSearch
+      path: '/drugs/search',
+      component: () => import('@/views/drugs/search')
     },
     {
       path: '/coupon',

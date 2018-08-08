@@ -1,5 +1,5 @@
 <template>
-  <div class="drugDetail">
+  <div>
     <div ref="header">
       <new-header title="详情" class="bg-white text-333333">
         <div slot="left" >
@@ -31,7 +31,7 @@
         shows: 0,
         shopDrugSpec: JSON.parse(this.$route.query.shopDrugSpec),
         number: 1,
-        showComponent: drugInfo
+        showComponent: 'drugInfo'
       };
     },
     methods: {
@@ -47,14 +47,14 @@
       }
     },
     components: {
-      'drugAppraise': drugAppraise,
-      'drugInfo': drugInfo
+      drugAppraise,
+      drugInfo
     },
     created() {
       this.shop(this.$route.query.index);
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
       this.$refs.body.style.overflow = 'auto';
     }
   };

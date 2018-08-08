@@ -49,13 +49,13 @@ export default {
      */
     Vue.prototype.timeConvert = (timer) => {
       var date = new Date(timer);
-      var Y = date.getFullYear() + '-';
-      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      var Y = date.getFullYear();
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
       var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-      var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours() + ':';
-      var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes() + ':';
+      var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+      var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
       var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-      var allTime = Y + M + D + ' ' + h + m + s;
+      var allTime = Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s;
       return allTime;
     };
     /**
@@ -66,13 +66,13 @@ export default {
      */
     Vue.prototype.timeConvert2 = (timer) => {
       var date = new Date(timer);
-      var Y = date.getFullYear() + '/';
-      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      var Y = date.getFullYear();
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
       var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-      var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours() + ':';
-      var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes() + ':';
+      var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+      var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
       var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-      var allTime = Y + M + D + ' ' + h + m + s;
+      var allTime = Y + '/' + M + '/' + D + ' ' + h + ':' + m + ':' + s;
       return allTime;
     };
 
@@ -142,6 +142,14 @@ export default {
       }, SEARCH_MAX_LENGTH);
       storage.set(SEARCH_KEY, searches);
       return searches;
+    };
+
+    Vue.prototype.isBlank = (str) => {
+      if (str === null || str === '' || str === 'undefined') {
+        return true;
+      } else {
+        return false;
+      }
     };
   }
 };

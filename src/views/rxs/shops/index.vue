@@ -2,11 +2,12 @@
 <template>
   <div class="rxs-shop-contanier">
     <!-- TODO 搜索 -->
+    <div ref="header">
     <new-header>
-      <div slot="left">
+      <div slot="left" @click="$router.go(-1)">
         <i class="iconfont ic-arrow-right"></i>
       </div>
-      <input tag="a" slot="center" class="header-search" @click="$router.push('/drugSearch')">
+      <input tag="a" slot="center" class="header-search" @click="$router.push('/drugs/search')">
     </new-header>
 
     <ul class="is-flex flex-row flex-sa p-tb-20 all-border">
@@ -29,7 +30,8 @@
         </div>
       </li>
     </ul>
-    <ul>
+    </div>
+    <ul ref="body">
       <div @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:id}})">
         <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
                   :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
@@ -65,6 +67,10 @@
         hospitalId: '',
         hospital: {}
       };
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
     },
     created() {
       this.id = this.$route.query.id;

@@ -52,7 +52,7 @@
         this.$http.put('/accounts', this.account)
           .then((res) => {
             this.$store.commit('SET_ACCOUNT', this.account);
-            this.$router.push({path: '/accounts/bind/success'});
+            this.$router.push({path: '/accounts/card/bind/success'});
           })
           .catch((error) => {
             this.exception.message(error);

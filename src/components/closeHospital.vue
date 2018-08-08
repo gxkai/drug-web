@@ -1,8 +1,10 @@
 <template>
   <div>
     <new-header bgColor="white" height="low" leftSize="small" leftColor="black" line-height="1rem">
-
-      <span slot="left"> <i class="iconfont ic-yaodian"></i>{{hospitalInfo.hospital}}</span>
+      <div slot="left">
+        <i class="iconfont ic-yaodian"></i>
+      </div>
+      <span slot="left"> {{hospitalInfo.hospital}}</span>
     </new-header>
     <div class="slide-content" v-for="item in hospitalInfo.list">
       <div class="image">
@@ -50,10 +52,12 @@
 
   .slide-content .image {
     width: 200px;
-    height: 200px;
     background: rgba(255, 255, 255, 1);
     box-shadow: 1px 1px 1px rgba(102, 102, 102, 0.3);
     align-self: center;
+  }
+  .slide-content .image img {
+    max-width: 100%;
   }
 
   .slide-content .text {

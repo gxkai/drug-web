@@ -73,7 +73,7 @@
           <span class="mt-15">账户信息</span>
         </router-link>
         <router-link class="flex-box account-content-padding border-right-gray"
-                     :to="null==this.account.medicalNumber?'/accounts/bind':'/accounts/unbind'">
+                     :to="null==this.account.medicalNumber?'/accounts/card/bind':'/accounts/unbind'">
           <img src="../../assets/image/accounts/card.png"/>
           <span class="mt-15">医保卡信息</span>
         </router-link>

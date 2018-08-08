@@ -2,7 +2,8 @@
   <div>
     <div class="content1">
       <div class="title1">
-         <span><i class="iconfont ic-yaodian"></i>{{hospitalName}}</span>
+        <div><i class="iconfont ic-yaodian"></i></div>
+         <span>{{hospitalName}}</span>
       </div>
       <new-line></new-line>
       <div class="child1">
@@ -32,12 +33,11 @@
     name: 'newTakeList',
     props: {
       order: {
-        type: Object,
-        default: []
+        require: true
       },
       hospitalName: {
         type: String,
-        default: ''
+        require: true
       }
     },
     methods: {

@@ -1,16 +1,16 @@
 <template>
-  <header :style="{background:bgColor,color:color}" :class="height">
-    <div class="left" :style="{color:leftColor}" :class="leftSize">
-      <slot name="left"></slot>
-    </div>
-    <div>
-      <slot name="center"></slot>
-      {{title}}
-    </div>
-    <div class="right" :style="{color:rightColor}" :class="rightSize">
-      <slot name="right"></slot>
-    </div>
-  </header>
+    <header :style="{background:bgColor,color:color}" :class="height">
+      <div class="left" :style="{color:leftColor}" :class="leftSize">
+       <slot name="left"></slot>
+      </div>
+      <div>
+        <slot name="center"></slot>
+        {{title}}
+      </div>
+      <div class="right" :style="{color:rightColor}" :class="rightSize">
+        <slot name="right"></slot>
+      </div>
+    </header>
 </template>
 
 <script>
@@ -54,7 +54,7 @@
 </script>
 
 <style scoped>
-  header {
+ header {
     width: 720px;
     font-size: 36px;
     font-family: HiraginoSansGB-W3;
@@ -68,53 +68,42 @@
     padding-left: 10px;
     padding-right: 10px;
   }
-
   .left {
     display: flex;
     align-items: center;
   }
-
   .right {
     display: flex;
     align-items: center;
   }
-
   .smaller {
     font-size: 20px;
   }
-
   .small {
     font-size: 30px;
   }
-
   .medium {
     font-size: 50px;
   }
-
   .large {
     font-size: 70px;
   }
-
-  .left .iconfont:before {
+  .left .iconfont:before{
     font-size: 50px;
   }
 
-  .right .iconfont:before {
+  .right .iconfont:before{
     font-size: 50px;
   }
-
   .lower {
-    height: 50px !important;
+    height: 50px!important;
   }
-
   .low {
-    height: 80px !important;
+    height: 80px!important;
   }
-
   .high {
-    height: 150px !important;
+    height: 150px!important;
   }
-
   .middle {
     height: 130px;
   }

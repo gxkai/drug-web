@@ -35,7 +35,7 @@
 
       <router-link v-for="(shopList,index) in shopLists"
                    :key="index"
-                   :to="{ path: '/shops/view', query: { id: shopList.id }}">
+                   :to="{ path: '/shops/view', query: { shopId: shopList.id }}">
         <div class="specific">
           <div class="width-percent-96 m-auto">
 

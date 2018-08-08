@@ -1,22 +1,22 @@
 <template>
   <div class="main">
-    <new-header title="咨询">
-      <div slot="left">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-      </div>
-    </new-header>
-    <div class="body">
-      <div class="body1">
+    <div ref="header">
+      <new-header title="咨询">
+        <div slot="left">
+          <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+        </div>
+      </new-header>
+      <div class="header-state">
         <div><span>{{shopInfo.shopName}}</span></div>
         <div>
           <span v-if="shopInfo.isOnline">在线</span>
           <span v-else>离线</span>
         </div>
       </div>
+      <new-edit-line :name="getCurrentTime()"></new-edit-line>
     </div>
-    <div class="body2">
+    <div class="body">
       <div>
-        <new-edit-line :name="shopInfo.name"></new-edit-line>
         <ul>
           <li v-for="(item,index) in list" :key="index">
             <div class="content1" v-if="item.type === 'SHOP'">
@@ -25,15 +25,15 @@
             </div>
             <div class="content2" v-else>
               <div class="bubble2">{{item.message}}</div>
-              <img v-lazy="account.headImg">
+              <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')">
             </div>
           </li>
         </ul>
       </div>
     </div>
-    <footer>
+    <footer ref="footer">
       <div class="center">
-        <input v-model="value">
+        <input v-model="value" @keyup.enter="send()">
         <button @click="send()">发送</button>
       </div>
     </footer>
@@ -43,6 +43,7 @@
 
 <script>
   import {MessageBox} from 'mint-ui';
+
   export default {
     data() {
       return {
@@ -58,38 +59,44 @@
       };
     },
     created: function () {
-      this.account.headImg = this.getImgURL(this.account.fileId, 'SMALL_LOGO');
       /**
        * 获取chatId
        */
-      this.chatId = this.$route.query.chatId;
       if (!this.chatId) {
-        this.$http.get('/chats/id', {shopId: this.shopId}).then(res => {
+        this.$http.get('/chats/id?shopId=' + this.shopId).then(res => {
           this.chatId = res.data;
+          this.getChatInfo();
         }).catch(error => {
           this.exception(error);
         });
+      } else {
+        this.getChatInfo();
       }
-      /**
-       * 获取聊天列表信息
-       * @type {string}
-       */
-      let url = '/chats/' + this.chatId + '?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize;
-      this.$http.get(url).then(res => {
-        this.shopInfo = {
-          'shopName': res.data.shopName,
-          'headImg': this.getImgURL(res.data.shopFileId),
-          'isOnline': res.data.isOnline,
-          'time': this.getCurrentTime()
-        };
-        this.list = res.data.records.list;
-      });
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
     },
     methods: {
+      getChatInfo() {
+        /**
+         * 获取聊天列表信息
+         * @type {string}
+         */
+        let url = '/chats/' + this.chatId + '?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize;
+        this.$http.get(url).then(res => {
+          this.shopInfo = {
+            'shopName': res.data.shopName,
+            'headImg': this.getImgURL(res.data.shopFileId),
+            'isOnline': res.data.isOnline
+          };
+          this.list = res.data.records.list;
+        }).catch(error => {
+          this.exception(error);
+        });
+      },
       send() {
-        console.log(this.value);
-        console.log(this.value === '');
-        if (this.value === '') {
+        if (this.isBlank(this.value)) {
           MessageBox('提示', '消息不能为空');
         } else {
           this.$http.post('/chats', {
@@ -117,13 +124,13 @@
     height: 100vh;
   }
 
-  .body1 {
+  .header-state {
     padding: 20px;
     background-color: white;
     height: 117px;
   }
 
-  .body1 div:nth-child(1) {
+  .header-state div:nth-child(1) {
     font-size: 34px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
@@ -131,7 +138,7 @@
     text-align: center;
   }
 
-  .body1 div:nth-child(2) {
+  .header-state div:nth-child(2) {
     font-size: 24px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
@@ -139,11 +146,10 @@
     text-align: center;
   }
 
-  .body2 {
+  .body {
     height: calc(100vh - 130px - 140px - 117px);
     overflow: scroll;
   }
-
 
   ul li .content1 {
     display: inline-flex;
@@ -165,10 +171,10 @@
     display: block;
     word-break: break-all;
     word-wrap: break-word;
-    font-size:20px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(102,102,102,1);
-    line-height:22px;
+    font-size: 20px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
+    line-height: 22px;
     padding: 20px;
   }
 
@@ -206,10 +212,10 @@
     display: block;
     word-break: break-all;
     word-wrap: break-word;
-    font-size:20px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(102,102,102,1);
-    line-height:22px;
+    font-size: 20px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
+    line-height: 22px;
     padding: 20px;
   }
 
@@ -252,141 +258,4 @@
     background: rgba(19, 193, 254, 1);
     border-radius: 3px;
   }
-
-  /*.mint-header {*/
-  /*background: #12b1f9;*/
-  /*color: white;*/
-  /*}*/
-
-  /*.mint-button--primary {*/
-  /*background: #1AB6FD;*/
-  /*color: #e2e2e2;*/
-  /*}*/
-
-  /*.f_advisory_title {*/
-  /*margin-top: 1rem;*/
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
-  /*}*/
-  /*.f_advisory_title :first-child{*/
-  /*font-size: 1.25rem;*/
-  /*}*/
-
-  /*.f_advisory_main {*/
-  /*margin-top: 1rem;*/
-  /*}*/
-
-  /*.f_advisory_time {*/
-  /*width: 100%;*/
-  /*color: #a8a7a8;*/
-  /*font-size: 0.65rem;*/
-  /*display: flex;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
-  /*}*/
-
-  /*.f_advisory_title :first-child {*/
-
-  /*}*/
-
-  /*.f_advisory_title :nth-child(2) {*/
-  /*font-size: 1rem;*/
-  /*color: #6b6b6b;*/
-  /*}*/
-
-  /*.f_advisory_head_img img {*/
-  /*width: 3rem;*/
-  /*height: 3rem;*/
-  /*border-radius: 50%;*/
-  /*margin: 0.5rem;*/
-  /*box-sizing: border-box;*/
-  /*}*/
-
-  /*.f_advisory_smile,*/
-  /*.f_advisory_add {*/
-  /*background: #1AB6FD;*/
-  /*}*/
-
-  /*.f_advisory_shop,*/
-  /*.f_advisory_me {*/
-  /*color: #808080;*/
-  /*font-size: 1rem;*/
-  /*display: flex;*/
-  /*flex-direction: row;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
-  /*}*/
-
-  /*.f_advisory_shop span,*/
-  /*.f_advisory_me span {*/
-  /*border-bottom: 1px #d6d4d5 solid;*/
-  /*box-sizing: border-box;*/
-  /*padding: 1rem 0;*/
-  /*width: 23.5rem;*/
-  /*}*/
-
-  /*.f_advisory_me {*/
-  /*float: right;*/
-  /*}*/
-
-  /*.f_advisory_shop {*/
-  /*float: left;*/
-  /*clear: both;*/
-  /*}*/
-
-  /*.f_advisory_input {*/
-  /*position: fixed;*/
-  /*left: 0;*/
-  /*bottom: 0;*/
-  /*width: 100%;*/
-  /*background: white;*/
-  /*display: flex;*/
-  /*flex-direction: row;*/
-  /*justify-content: center;*/
-  /*padding: 2rem;*/
-  /*}*/
-
-  /*.f_advisory_send {*/
-  /*display: flex;*/
-  /*flex-direction: row;*/
-  /*justify-content: center;*/
-  /*}*/
-
-  /*.f_advisory_send_icon {*/
-  /*background: #1AB6FD;*/
-  /*display: flex;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
-  /*box-sizing: border-box;*/
-  /*padding: 0 0.2rem;*/
-  /*border-radius: 2px;*/
-  /*}*/
-
-  /*.f_advisory_smile,*/
-  /*.f_advisory_add {*/
-  /*display: flex;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
-  /*padding: 0.2rem;*/
-  /*box-sizing: border-box;*/
-  /*border-radius: 50%;*/
-  /*}*/
-
-  /*.f_advisory_smile {*/
-  /*margin-right: 1rem;*/
-  /*}*/
-
-  /*.f_advisory_add {*/
-  /*margin-left: 1rem;*/
-  /*}*/
-
-  /*.f_advisory_send input {*/
-  /*background: #cccccc;*/
-  /*border: none;*/
-  /*outline: none;*/
-  /*border-radius: 2px;*/
-  /*padding-left: 0.5rem;*/
-  /*}*/
 </style>

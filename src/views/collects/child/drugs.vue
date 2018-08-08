@@ -2,7 +2,7 @@
 <template>
   <div class="drug-container">
     <router-link v-for="(item,index) in pageList"
-                 :to="{path:'/shopDrugSpecs?id=1',query:{id:item.shopDrugSpecId}}"
+                 :to="{path:'/shopDrugSpecs?id=1',query:{shopDrugSpecId:item.shopDrugSpecId}}"
                  :key="index">
       <div class="collect-drug">
         <div class="collect-drug-left">

@@ -1,28 +1,32 @@
 <template>
   <div class="container">
-    <new-header title="全部商品" :style="{background:bgColor,color:color}">
-      <div  @click="$router.go(-1)" slot="left" :style="{color:leftColor}">
-      <i class="iconfont ic-arrow-right"></i>
+    <new-header title="全部商品" ref="header">
+      <div @click="$router.go(-1)" slot="left">
+        <i class="iconfont ic-arrow-right"></i>
       </div>
     </new-header>
-    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-      <div class="width-percent-100">
-        <router-link class="border-bottom-grey" v-for="(drug,index) in drugs"
-                     :key="index"
-                     :to="{path: '/shopDrugSpecs', query: {id: drug.id}}">
-          <div class="drugs-box m-auto drugs-full bg-white">
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3990342075,2367006974&fm=200&gp=0.jpg"
-                 class="fl drug-img d-inline-block"/>
-            <div class="elpsTwo drug-title d-inline-block fl">
-              {{drug.name}}
+    <div ref="body">
+      <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+        <div class="width-percent-100">
+          <router-link class="border-bottom-grey" v-for="(drug,index) in list"
+                       :key="index"
+                       :to="{path: '/shoplistpecs', query: {id: drug.id}}">
+            <div class="list-box m-auto list-full bg-white">
+              <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')"
+                   class="fl drug-img d-inline-block"/>
+              <div class="elpsTwo drug-title d-inline-block fl">
+                {{drug.name}}
+              </div>
+              <div class="elps drug-country">国药准字{{drug.sfda}}</div>
+              <div class="text-red drug-price">¥{{drug.price}}</div>
             </div>
-            <div class="elps drug-country">国药准字{{drug.sfda}}</div>
-            <div class="text-red drug-price">¥{{drug.price}}</div>
-          </div>
-        </router-link>
-      </div>
-    </ul>
-    <new-no-data v-if="drugs.length===0"></new-no-data>
+          </router-link>
+        </div>
+      </ul>
+      <new-no-data v-if="list.length===0"></new-no-data>
+      <new-loading v-if="process"></new-loading>
+      <new-all-data v-if="loading"></new-all-data>
+    </div>
   </div>
 </template>
 <script>
@@ -30,60 +34,43 @@
     name: 'shopInfo',
     data() {
       return {
-        bgColor: 'white',
-        color: '#333333',
-        leftColor: '#333333',
-        drugs: [],
+        list: [],
         page: 0,
-        nodata: true,
         pageNum: 0,
         pageSize: 15,
-        shopId: '',
-        typeId: '',
+        shopId: this.$route.query.id,
+        typeId: this.$route.query.typeId,
         pages: null
       };
     },
     created: function () {
-      this.shopId = this.$route.query.id;
-      if (typeof (this.$route.query.typeId) !== 'undefined') {
-        this.typeId = this.$route.query.typeId;
-      }
-    },
-    props: {
-      title: {
-        default: '春天大药房'
-      },
-      tel: {
-        default: '13020141411'
-      },
-      address: {
-        default: '地址：昆山市长江路10号'
-      }
     },
     methods: {
       loadMore() {
         this.loading = false;
         if (this.pages === null || this.pageNum < this.pages) {
-          if (this.typeId) {
-            this.loadData();
-          } else {
-            this.loadData();
-          }
+          this.loadData();
         } else {
           this.loading = true;
         }
       },
       loadData() {
         this.pageNum++;
+        this.process = true;
         this.$http.get('/shops/' + this.shopId + '/drugs?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize + '&typeId=' + this.typeId).then(res => {
-          this.pages = res.data.pages;
-          if (this.pages === 0) {
-            this.loading = true;
-            return false;
+          this.list = this.list.concat(res.data.list);
+          if (!this.pages) {
+            this.pages = res.data.pages;
           }
-          this.drugs = this.drugs.concat(res.data.list);
+          this.process = false;
+        }).catch(error => {
+          this.exception(error);
         });
       }
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>
@@ -93,7 +80,7 @@
     width: 720px;
   }
 
-  .drugs-full {
+  .list-full {
     height: 182px;
     border-top: 1px solid #f5f5f5;
     border-bottom: 1px solid #f5f5f5;
@@ -136,7 +123,7 @@
     margin-top: 13px;
   }
 
-  .drugs-box {
+  .list-box {
     padding: 0 10px;
     box-sizing: border-box;
   }
