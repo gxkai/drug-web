@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
-import drugSearch from '@/components/drugSearch';
 import coupon from '@/components/coupon';
 
 Vue.use(Router);
@@ -11,10 +10,6 @@ export default new Router({
     {
       path: '/hello',
       component: HelloWorld
-    },
-    {
-      path: '/drugs/search',
-      component: () => import('@/views/drugs/search')
     },
     {
       path: '/coupon',

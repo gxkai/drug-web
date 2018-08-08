@@ -1,11 +1,13 @@
 <template>
   <div class="points-container">
 
-    <new-header title="每日签到">
+    <new-header title="每日签到" class="new-hewder">
       <div slot="left">
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
     </new-header>
+
+    <new-header></new-header>
 
 
     <div class="position-relative">
@@ -42,6 +44,20 @@
          </ul>
       </div>
 
+
+      <vue-event-calendar :events="demoEvents">
+        <template scope="props">
+          <div v-for="(event, index) in props.showEvents" class="event-item">
+            <!-- 这里拿到的是传入的单个event所有数据 -->
+            {{event}}
+          </div>
+        </template>
+      </vue-event-calendar>
+
+
+
+
+
       <div id="whole" v-show="show"></div>
       <div class="signin-points" v-show="show">
           <div class="width-percent-100 text-right">
@@ -65,10 +81,25 @@
     data() {
       return {
         headTitle: '多力葵花籽油',
-        show: false
+        show: false,
+        demoEvents: [{
+          date: '2018/08/15',
+          title: 'eat',
+          desc: 'longlonglong description'
+        }, {
+          date: '2018/08/12',
+          title: 'this is a title'
+        }]
       };
     },
-    methods: {}
+    methods: {
+      monthChange(month) {
+        console.log(month);
+      },
+      dayChange(day) {
+        console.log(day);
+      }
+    }
   };
 </script>
 
@@ -181,5 +212,31 @@
     margin-top: 18px;
     margin-right: 14px;
     color: #999999;
+  }
+  .__vev_calendar-wrapper{
+    font-size: 14px;
+  }
+  .__vev_calendar-wrapper .cal-wrapper{
+    font-size: 14px;
+  }
+  .__vev_calendar-wrapper .cal-wrapper .cal-body .dates .item .date-num{
+    font-size: 14px!important;
+  }
+  .new-hewder{
+    position: fixed;
+  }
+  .__vev_calendar-wrapper .cal-wrapper .cal-body .dates .item.event{
+    background:red;
+  }
+
+  .__vev_calendar-wrapper .events-wrapper{
+    display: none!important;
+  }
+
+  h2.date{
+    background: white!important;
+  }
+  .events-wrapper{
+    display: none;
   }
 </style>
