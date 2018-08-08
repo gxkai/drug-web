@@ -47,7 +47,7 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         id: '',
         rxShops: [],
@@ -66,55 +66,55 @@
         hospital: {}
       };
     },
-    created () {
+    created() {
       this.id = this.$route.query.id;
       this.hospitalId = this.$route.query.hospitalId;
       this.getRxShops();
       this.getHospital();
     },
     methods: {
-      onShop (rxShop) {
+      onShop(rxShop) {
         this.$router.push({path: '/rxs/shops/drugs', query: {id: this.id, shopId: rxShop.id, shopName: rxShop.name}});
       },
-      getRxShops () {
+      getRxShops() {
         this.$http.get('/rxs/' + this.id + '/shops?lng=' + this.lng + '&lat=' + this.lat)
           .then(res => {
             this.rxShops = res.data;
           }).catch(error => {
-          this.exception(error);
-        });
+            this.exception(error);
+          });
       },
-      getHospital () {
+      getHospital() {
         this.$http.get('/rxs/' + this.id + '/hospitals')
           .then(res => {
             this.hospital = res.data;
           }).catch(error => {
-          this.exception(error);
-        })
+            this.exception(error);
+          })
         ;
       },
-      orderById () {
+      orderById() {
         this.rxShops = this.orderListsById(this.rxShops);
         this.comprehensive1 = 1;
         this.comprehensive2 = 7;
         this.comprehensive3 = 7;
         this.comprehensive4 = 7;
       },
-      orderByDistance () {
+      orderByDistance() {
         this.rxShops = this.orderListsByDistance(this.rxShops);
         this.comprehensive2 = 2;
         this.comprehensive1 = 7;
         this.comprehensive3 = 7;
         this.comprehensive4 = 7;
       },
-      orderByScore () {
+      orderByScore() {
         this.rxShops = this.orderListsByScore(this.rxShops);
         this.comprehensive3 = 3;
         this.comprehensive1 = 7;
         this.comprehensive2 = 7;
         this.comprehensive4 = 7;
       },
-      orderByPrice () {
+      orderByPrice() {
         this.comprehensive4 = 4;
         this.comprehensive1 = 7;
         this.comprehensive2 = 7;
@@ -126,7 +126,7 @@
           this.rxShops = this.orderListsByPriceDESC(this.rxShops);
         }
       },
-      orderListsByPriceASC (list) {
+      orderListsByPriceASC(list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {
@@ -139,7 +139,7 @@
         }
         return list;
       },
-      orderListsByPriceDESC (list) {
+      orderListsByPriceDESC(list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {
@@ -152,7 +152,7 @@
         }
         return list;
       },
-      orderListsById (list) {
+      orderListsById(list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {
@@ -165,7 +165,7 @@
         }
         return list;
       },
-      orderListsByDistance (list) {
+      orderListsByDistance(list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {
@@ -178,7 +178,7 @@
         }
         return list;
       },
-      orderListsByScore (list) {
+      orderListsByScore(list) {
         const len = list.length;
         for (let i = 0; i < len - 1; i++) {
           for (let j = 0; j < len - 1 - i; j++) {

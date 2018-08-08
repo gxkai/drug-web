@@ -65,7 +65,6 @@
 </template>
 <script>
 import {MessageBox} from 'mint-ui';
-
 export default {
   data() {
     return {

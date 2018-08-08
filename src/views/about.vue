@@ -58,7 +58,7 @@
 
   .about-footer {
     position: fixed;
-    top: 1200px;
+   bottom: 0px;
     left: 0;
   }
 

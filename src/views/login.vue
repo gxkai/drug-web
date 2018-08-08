@@ -1,10 +1,16 @@
 <template>
   <div class="top position-relative">
     <div class="mid1">
-      <div class="font1">
-        药品网上服务平台
-      </div>
+
+     <div>
+        <img src="../assets/image/blue-login.png" class="width-percent-100"/>
+       <div class="font1 position-absolute" style="z-index: 999">
+         药品网上服务平台
+       </div>
+     </div>
+
     </div>
+
 
     <swiper :options="swiperOption">
       <swiper-slide class="login">
@@ -41,60 +47,6 @@
       </swiper-slide>
     </swiper>
 
-
-    <swiper class="mid2" :options="swiperOption" style="display: none">
-      <swiper-slide class="slide1">
-        <!--<div class="input1">
-          <div class="left">
-            <i class="iconfont ic-shouji shouji"></i>
-          </div>
-          <input type="number" class="right" placeholder="请输入手机号码" v-model="username">
-        </div>
-        <div class="input2">
-          <div class="left">
-            <i class="iconfont ic-icon2 icon2"></i>
-          </div>
-          <div class="right">
-            <input class="input21" type="password" placeholder="请输入密码" v-model="password">
-          </div>
-        </div>
-        <button class="button1" @click="login()">
-          登录
-        </button>-->
-      </swiper-slide>
-      <swiper-slide class="slide2">4444
-        <!--<div class="input1">
-          <div class="left">
-            <i class="iconfont ic-shouji shouji"></i>
-          </div>
-          <div class="right">
-            <input type="number" class="input11" placeholder="请输入手机号码" v-model="registerUsername">
-            <button class="button1" @click="getCaptcha()" v-show="showCode">获取验证码</button>
-            <button class="button1" v-show="!showCode">{{count}}</button>
-          </div>
-        </div>
-        <div class="input2">
-          <div class="left">
-            <i class="iconfont ic-anquanrenzheng anquanrenzheng"></i>
-          </div>
-          <div class="right">
-            <input class="input21"  placeholder="请输入验证码" v-model="captcha">
-          </div>
-        </div>
-        <div class="input3">
-          <div class="left">
-            <i class="iconfont ic-xinmima xinmima"></i>
-          </div>
-          <div class="right">
-            <input class="input31" placeholder="请输入密码" type="password" v-model="registerPassword">
-          </div>
-        </div>
-        <button class="button2" @click="register()">
-          注册
-        </button>-->
-      </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
-    </swiper>
     <router-link tag="div" class="foot1" to="/forget">忘记密码？</router-link>
   </div>
 </template>
@@ -227,15 +179,15 @@
   .mid1 {
     width: 100%;
     height: 435px;
-    background: rgba(26, 182, 253, 1);
+    background: url("/src/assets/image/blue-login.png") no-repeat;
+    background-size: 100% 100%;
   }
 
   .mid1 .font1 {
     font-size: 48px;
-    font-family: MicrosoftYaHei;
     color: rgba(255, 255, 255, 1);
-    padding-top: 212px;
-    padding-left: 163px;
+    top:189px;
+    left: 165px;
   }
 
 
@@ -281,8 +233,8 @@
     margin-left: 27px;
     border:none;
     background:rgba(238,238,238,1);
-    height: 69px;
-    line-height: 69px;
+    height: 65px;
+    line-height: 65px;
   }
 
   .psd{
@@ -290,8 +242,8 @@
     margin-left: 27px;
     border:none;
     background:rgba(238,238,238,1);
-    height: 69px;
-    line-height: 69px;
+    height: 65px;
+    line-height: 65px;
   }
   .login-btn{
     width:198px;

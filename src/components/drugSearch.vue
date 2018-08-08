@@ -1,5 +1,7 @@
 <template>
   <div class="main">
+
+
     <div class="bar" ref="header">
       <div class="out">
         <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
@@ -10,6 +12,8 @@
         <span @click="onSearch()">搜索</span>
       </div>
     </div>
+
+
     <div ref="body">
       <div class="history" v-if="!this.keyword">
         <div class="history-titele">
@@ -176,3 +180,4 @@
   }
 
 </style>
+

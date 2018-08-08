@@ -122,7 +122,7 @@
 
   export default {
     name: 'createFromCart',
-    data () {
+    data() {
       return {
         name: '订单结算',
         account: this.$store.getters.account,
@@ -132,14 +132,14 @@
       };
     },
     components: {},
-    created () {
+    created() {
       this.getData();
     },
     computed: {
       ...mapGetters(['receiveAddress'])
     },
     methods: {
-      getData () {
+      getData() {
         if (JSON.stringify(this.receiveAddress) === '{}') {
           this.$http.get('addresses/default').then(res => {
             if (res.data) {
@@ -154,7 +154,7 @@
        * 获取购物车ID数组
        * @returns {Array}
        */
-      getCartIds () {
+      getCartIds() {
         let cartIds = [];
         this.cart.cartShops.forEach(e => {
           e.rxs.forEach(e => {
@@ -165,7 +165,7 @@
         });
         return cartIds;
       },
-      onOrder () {
+      onOrder() {
         if (this.deliveryType === 'DELIVERY' && JSON.stringify(this.receiveAddress) === '{}') {
           MessageBox('提示', '请维护收货地址').then(action => {
           });
@@ -190,10 +190,10 @@
           });
         }
       },
-      onDeliveryType (item) {
+      onDeliveryType(item) {
         this.deliveryType = item;
       },
-      onPayType (item) {
+      onPayType(item) {
         this.payType = item;
       },
       ...mapMutations({

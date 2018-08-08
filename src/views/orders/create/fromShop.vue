@@ -20,7 +20,9 @@
             <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
             <p>地址：{{receiveAddress.address}}</p>
           </div>
-          <div class="iconfont ic-youjiantou" slot="right"></div>
+          <div slot="right">
+          <i class="iconfont ic-youjiantou" ></i>
+          </div>
         </new-header>
         <img src="../../../assets/image/colorbackground.png">
       </router-link>

@@ -44,7 +44,7 @@
             this.$router.push({path: '/accounts/view'});
           })
           .catch((error) => {
-            this.exception.message(error);
+            this.exception(error);
           });
       }
     }
