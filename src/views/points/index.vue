@@ -1,0 +1,103 @@
+<template>
+  <div>
+    <div class="points-continer bg-f5f5f5">
+
+      <new-header title="我的积分">
+        <div slot="left">
+          <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
+        </div>
+      </new-header>
+
+
+      <div class="points-me bg-white">
+        <div class="left d-inline-block fl">
+          <i class="iconfont ic-jifen text-13C1FE"></i>
+          <span class="text-333333 d-inline-block">剩余积分：</span>
+          <span class="text-EC6941 d-inline-block">1200</span>
+        </div>
+        <div class="middle d-inline-block fl"></div>
+        <div class="right">
+          <i class="iconfont ic-jifen01 text-EC6941"></i>
+          <span class="text-333333 d-inline-block">兑换记录></span>
+        </div>
+      </div>
+
+      <div class="points-exchange bg-f5f5f5">
+           <span class="line-one"></span>
+           <span class="title">兑换商品</span>
+           <span class="line-two"></span>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'newPayList',
+    methods: {}
+  };
+</script>
+
+<style scoped>
+
+  .points-continer {
+    width: 720px;
+  }
+
+  .points-me {
+    width: 720px;
+    height: 120px;
+    line-height: 120px;
+  }
+
+  .points-me .left span {
+    font-size: 24px !important;
+  }
+
+  .points-me .right span {
+    font-size: 24px !important;
+  }
+
+  .ic-jifen, .ic-jifen01 {
+    font-size: 60px;
+    width: 63px;
+    height: 63px;
+    margin: 28px 13px 29px 31px;
+  }
+
+  .points-me .middle {
+    width: 2px;
+    height: 80px;
+    background: rgba(191, 191, 191, 1);
+    margin-top: 20px;
+    margin-left: 71px;
+  }
+  .points-exchange{
+    width: 720px;
+    height: 100px;
+    line-height: 100px;
+   }
+  .points-exchange span{
+    line-height: 100px;
+  }
+  .points-exchange .line-one{
+    width:117px;
+    height:3px;
+    background:rgba(191,191,191,1);
+    /*margin-left: 166px;*/
+
+  }
+  .points-exchange .title{
+    font-size:30px;
+    font-weight: bold;
+
+  }
+  .points-exchange .line-two{
+    width:117px;
+    height:3px;
+    background:rgba(191,191,191,1);
+   /* margin-left: 18px;*/
+
+  }
+</style>

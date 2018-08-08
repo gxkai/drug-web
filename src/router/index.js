@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
 import drugSearch from '@/components/drugSearch';
+import coupon from '@/components/coupon';
 
 Vue.use(Router);
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/drugSearch',
       name: 'drugSearch',
       component: drugSearch
+    },
+    {
+      path: '/coupon',
+      name: 'coupon',
+      component: coupon
     },
     {
       path: '/',
@@ -323,6 +329,22 @@ export default new Router({
     {
       path: '/shops/drugs',
       component: () => import('@/views/shops/drugs/index.vue')
+    },
+    {
+      path: '/points',
+      component: () => import('@/views/points/index.vue')
+    },
+    {
+      path: '/points/view',
+      component: () => import('@/views/points/view.vue')
+    },
+    {
+      path: '/points/exchangeRecord',
+      component: () => import('@/views/points/exchangeRecord.vue')
+    },
+    {
+      path: '/points/signIn',
+      component: () => import('@/views/points/signIn.vue')
     }
   ]
 });
