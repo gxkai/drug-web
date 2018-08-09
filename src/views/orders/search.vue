@@ -2,9 +2,13 @@
   <div class="main">
     <div class="bar" ref="header">
       <div class="out">
-        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+        <div>
+          <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+        </div>
         <div class="inner">
-          <i class="iconfont ic-sousuo"></i>
+          <div>
+            <i class="iconfont ic-sousuo"></i>
+          </div>
           <input type="text" v-model="keyword">
         </div>
         <span @click="onSearch()">搜索</span>
@@ -119,16 +123,19 @@
     width: 720px;
     height: 100vh;
   }
+
   .history-titele {
     margin: 20px;
   }
+
   .history-buttons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
   }
+
   .history-buttons button:nth-child(1) {
-    background-color: rgba(19,193,254,1);
+    background-color: rgba(19, 193, 254, 1);
   }
 
   .history-buttons button {
