@@ -52,10 +52,13 @@
 
   .slide-content .image {
     width: 200px;
-    height: 200px;
     background: rgba(255, 255, 255, 1);
     box-shadow: 1px 1px 1px rgba(102, 102, 102, 0.3);
     align-self: center;
+  }
+
+  .slide-content .image img {
+    width: 100%;
   }
 
   .slide-content .text {

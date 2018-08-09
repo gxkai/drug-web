@@ -105,7 +105,7 @@
           'drugs': this.drugs
         };
         this.$http.post('/drugAppraises', data).then(res => {
-          this.$router.push('/drugAppraises/success');
+          this.$router.replace('/drugAppraises/success');
         }).catch(error => {
           this.exception(error);
         });

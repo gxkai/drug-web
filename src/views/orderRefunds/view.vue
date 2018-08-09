@@ -50,7 +50,7 @@
       </div>
 
     <div class="refunds-footer">
-      <span>退回原因：{{list.reason}}</span>
+      <span>退回原因：{{list.reason||'无'}}</span>
       <span>退回金额：￥{{list.price}}</span>
       <span>申请时间：{{formatDate(list.createdDate)}}</span>
       <span>退款订单号：{{list.number}}</span>
@@ -188,9 +188,11 @@
 
   .refunds-info-detail-drugImg {
     width: 132px;
-    height: 130px;
     display: block;
     margin-left: 19px;
+  }
+  .refunds-info-detail-drugImg img{
+    width: 100%;
   }
 
   .refunds-info-detail-message {
