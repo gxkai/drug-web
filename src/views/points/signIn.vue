@@ -84,8 +84,7 @@
         show: false,
         demoEvents: [{
           date: '2018/08/15',
-          title: 'eat',
-          desc: 'longlonglong description'
+          title: 'eat'
         }, {
           date: '2018/08/12',
           title: 'this is a title'

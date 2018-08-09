@@ -42,7 +42,17 @@
 <script>
   export default {
     name: 'newPayList',
-    methods: {}
+    methods: {
+      showList() {
+        this.$http.get('/book')
+          .then((res) => {
+            debugger;
+          });
+      }
+    },
+    created() {
+      this.showList();
+    }
   };
 </script>
 

@@ -28,7 +28,7 @@ import newTakeList from '../../components/takeList';
 import newRefund from '../../components/refund';
 import newTimeDown from '../../components/timeDown';
 import newCountDown from '../../components/countDown';
-import newHeaderSec from '../../components/headerSec';
+import newcoupon from '../../components/coupon';
 
 export default {
   install(Vue, options) {
@@ -62,6 +62,6 @@ export default {
     Vue.component('new-refund', newRefund);
     Vue.component('new-time-down', newTimeDown);
     Vue.component('new-count-down', newCountDown);
-    Vue.component('new-header-sec', newHeaderSec);
+    Vue.component('new-coupon', newcoupon);
   }
 };

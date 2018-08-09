@@ -1,16 +1,18 @@
 <template>
-
-   <div class="coupon-bg text-white">
-     <div><img src="../assets/image/coupon/coupon-bg.png" class="coupon-bg1"/></div>
-     <div class="text-333333 coupon-voucher">
-        <span>50元优惠券</span>
-        <span><span class="text-red">120</span>金币</span>
+   <div>
+     <div class="coupon-bg text-white exchange-gift text-center">
+       <div class="coupon-img"><img src="../assets/image/coupon/coupon-bg.png" class="coupon-bg1"/></div>
+       <div class="text-333333 coupon-voucher">
+         <span>50元优惠券</span>
+         <span><span class="text-red">120</span>金币</span>
+       </div>
+       <div class="text-center width-percent-100">
+           <div class="coupon-immediatetly">
+             立即兑换
+           </div>
+       </div>
      </div>
-     <div class="coupon-immediatetly fr">
-        立即兑换
-     </div>
- </div>
-
+  </div>
 </template>
 
 <script>
@@ -31,6 +33,9 @@
 </script>
 
 <style>
+  .coupon-img{
+    margin-top: 30px;
+  }
   .coupon-immediatetly{
     width:100px;
     height:30px;
@@ -39,14 +44,17 @@
     color: #333333;
     text-align: center;
     line-height: 30px;
+    left: 50%;
+    margin-left: -50px;
+    position: relative;
   }
   .coupon-bg{
     width: 183px;
     height: 101px;
   }
   .coupon-bg1{
-    width: 183px;
-    height: 101px;
+    width: 233px;
+    height: 161px;
   }
   .coupon-price{
     width: 140px;
@@ -79,6 +87,18 @@
     height: 50px;
     line-height: 50px;
     font-size: 20px;
+  }
+
+  .exchange-gift{
+    width: 360px;
+    height: 299px;
+    float: left;
+    display: inline-block;
+    border-right: 1px solid #f5f5f5;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .exchange-gift:nth-child(2n){
+    border-right: none;
   }
 
 </style>

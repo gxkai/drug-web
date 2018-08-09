@@ -3,7 +3,7 @@
     <div class="left" :style="{color:leftColor}" :class="leftSize">
       <slot name="left"></slot>
     </div>
-    <div>
+    <div class="fz36">
       <slot name="center"></slot>
       {{title}}
     </div>
@@ -67,7 +67,7 @@
     justify-content: space-between;
     padding-left: 10px;
     padding-right: 10px;
-  }
+   }
 
   .left {
     display: flex;
@@ -117,5 +117,8 @@
 
   .middle {
     height: 130px;
+  }
+  .fz36{
+    font-size: 36px;
   }
 </style>

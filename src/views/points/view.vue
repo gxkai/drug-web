@@ -7,8 +7,7 @@
     </new-header>
 
     <div class="exchange-shop">
-
-    </div>
+     </div>
 
     <div class="exchange-info">
       <div class="exchange-info-title">
@@ -64,6 +63,10 @@
             <li>
               <i>手机号码</i>
               <input type="text" placeholder="请输入收货人号码"/>
+            </li>
+            <li>
+              <i>所在地区</i>
+              <input type="text" value="江苏省昆山市"/>
             </li>
             <li>
               <i>详细地址</i>
@@ -138,6 +141,7 @@
 
   .exchange-date {
     font-size: 24px;
+    margin-top: 20px;
   }
 
   .ic-riqi1 {
@@ -197,8 +201,8 @@
     position: fixed;
     bottom: 0px;
     z-index: 999;
-    width:720px;
-    height:643px;
+    width: 720px;
+    height: 643px;
   }
 
   .consignee {
@@ -214,11 +218,12 @@
   i {
     font-style: normal;
   }
-  .sure-btn{
-    width:720px;
-    height:96px;
-    background:rgba(19,193,254,1);
-    font-size:36px;
+
+  .sure-btn {
+    width: 720px;
+    height: 96px;
+    background: rgba(19, 193, 254, 1);
+    font-size: 36px;
     line-height: 96px;
     text-align: center;
     color: white;
@@ -226,27 +231,32 @@
     position: absolute;
     bottom: 0px;
   }
-  .consignee li i{
+
+  .consignee li i {
     width: 180px;
     display: inline-block;
   }
 
-  iuput:focus{
+  iuput:focus {
     outline: none;
   }
-  .receiver{
+
+  .receiver {
     margin: 23px 0 60px 0px;
   }
-  .consignee li input{
+
+  .consignee li input {
     border: none;
   }
+
   /*定义进入过渡的结束状态*/
   .slide-fade-enter-active {
-    transition:all 0.5s ease;
+    transition: all 0.5s ease;
 
   }
- /*进入过渡的开始状*/
-  .slide-fade-enter{
-    bottom:-643px!important;
+
+  /*进入过渡的开始状*/
+  .slide-fade-enter {
+    bottom: -643px !important;
   }
 </style>
