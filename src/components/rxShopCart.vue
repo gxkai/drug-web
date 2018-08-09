@@ -20,7 +20,7 @@
       <div class="joincar" @click="$emit('createCart')">
         <p>加入购物车</p>
       </div>
-      <div @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:rxId}})"  :class="{active:urlRouter === '/accounts'}" class="immediately-buy">
+      <div  class="immediately-buy" @click="onBuy()">
         <p>立即购买</p>
       </div>
     </footer>
@@ -28,8 +28,9 @@
 </template>
 
 <script>
+  import {MessageBox} from 'mint-ui';
   export default {
-    name: 'rxCart',
+    name: 'rxShopCart',
     data() {
       return {
       };
@@ -37,15 +38,11 @@
     created() {
     },
     props: {
-      rxId: {
-        type: String,
-        required: true
-      },
-      urlRouter: {
-        type: String
-      }
     },
     methods: {
+      onBuy() {
+        MessageBox('提示', '请加入购物车再结算');
+      }
     }
   };
 </script>
@@ -87,7 +84,7 @@
   .immediately-buy{
     width:154px;
     height:97px;
-    background:rgba(240,145,43,1);
+    background:gray;
     color: white;
     line-height: 97px;
   }

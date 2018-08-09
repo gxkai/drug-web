@@ -93,7 +93,7 @@
                             <div>
                               <span>x{{cartDrug.quantity}}</span>
                             </div>
-                            <div class="multi-input bordr1">
+                            <div class="multi-input bordr1" v-if="!cartRx.rxId">
                               <input value="-" type="button" class="onCut" @click.stop="onCut(cartDrug)"><input
                               v-model="cartDrug.quantity" type="button" class="numBer">
                               <input value="+" type="button" @click.stop="onAdd(cartDrug)" class="onAdd">

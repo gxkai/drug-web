@@ -78,7 +78,7 @@
       <i class="iconfont ic-qian text-13C1FE"></i>共计{{drugs.length}}件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥ {{amount}}</span>
     </div>
 
-    <new-rxCart @createCart="createCart" :rxId="id"></new-rxCart>
+    <new-rx-shop-cart :carts="carts" @createCart="createCart"></new-rx-shop-cart>
   </div>
 </template>
 
