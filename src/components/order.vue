@@ -47,25 +47,18 @@
           </div>
           <div>
             <div class="item-bottom-buttons" v-if="order.state == 'TO_PAY'">
-              <button @click="onCancel()">取消订单</button>
-              <button class="item-bottom-button-active" @click="onPay()">付款</button>
               <button @click="onDetail()">订单详情</button>
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'TO_APPRAISE'">
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onAppraise()">评价</button>
               <button @click="onDetail()">订单详情</button>
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'TO_RECEIVED'">
               <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
               <button class="item-bottom-button-active" @click="onConfirm()">确认收货</button>
-              <button @click="onDelivery()">查看物流</button>
               <button @click="onDetail()">订单详情</button>
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'TO_DELIVERY'">
               <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
-              <button @click="onDelivery()">查看物流</button>
-              <button @click="onRemind()">提醒发货</button>
               <button @click="onDetail()">订单详情</button>
             </div>
             <div class="item-bottom-buttons" v-if="order.state == 'COMPLETED'">
@@ -102,8 +95,8 @@
 
         <div class="slide-content" v-for="item in order.list" @click="onDrug(item)">
           <div class="image">
-            <div class="chu" v-if="item.otc">处</div>
-            <div class="feichu" v-else>非</div>
+            <div class="chu" v-if="item.otc">非</div>
+            <div class="feichu" v-else>处</div>
             <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
           </div>
           <div class="text">

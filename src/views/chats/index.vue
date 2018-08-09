@@ -10,7 +10,7 @@
     </new-header>
     <ul class="item">
       <li class="line" v-for="(item,index) in list" :key="index">
-        <img v-lazy="item.shopImage">
+        <img v-lazy="getImgURL(item.shopImage, 'LARGE_LOGO')">
         <div>
           <ul>
             <li>
@@ -20,7 +20,7 @@
             </li>
             <li>
             <span>
-              {{item.lastModifiedDate}}
+              {{timeConvert(item.lastModifiedDate)}}
             </span>
             </li>
             <li>
@@ -54,10 +54,8 @@
         var url = '/chats?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize;
         this.$http.get(url).then(res => {
           this.list = res.data.list;
-          this.list.forEach(e => {
-            e.shopImage = this.getImgURL(e.shopImage, 'LARGE_LOGO');
-            e.lastModifiedDate = this.timeConvert(e.lastModifiedDate);
-          });
+        }).catch(error => {
+          this.exception(error);
         });
       }
     }

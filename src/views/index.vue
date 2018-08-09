@@ -166,10 +166,7 @@
         seconds: '',
         news: [],
         discountList: [],
-        showList: [
-          {'id': '1', 'fileId': '1'},
-          {'id': '1', 'fileId': '1'},
-          {'id': '1', 'fileId': '1'}],
+        showList: [],
         recommendList: [],
         advertLists: [],
         longitude: '',
