@@ -5,53 +5,61 @@
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
     </new-header>
-
-    <div class="exchange-record bg-white width-percent-100">
-      <div class="left d-inline-block">
-        <img
-          src="https://img-blog.csdn.net/20180808141829654?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMyOTYzODQx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"/>
-      </div>
-      <div class="right d-inline-block">
-        <p class="elps fz30 receive-title">多力葵花籽油</p>
-        <p class="text-red fz20 gold">620金币</p>
-        <p class="fz22 date">2018-8-23</p>
-      </div>
-    </div>
-
-
-
-
-
-    <div class="exchange-record bg-white width-percent-100">
-      <div class="left d-inline-block">
-        <img
-          src="https://img-blog.csdn.net/20180808141829654?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMyOTYzODQx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"/>
-      </div>
-      <div class="right d-inline-block">
-        <p class="elps fz30 receive-title">多力葵花籽油</p>
-        <p class="text-red fz20 gold">620金币</p>
-        <p class="fz22 date">2018-8-23</p>
+    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0">
+      <div class="exchange-record bg-white width-percent-100" v-for="(item,index) in goodsList">
+        <div class="left d-inline-block">
+          <img v-lazy="getImgURL(item.fileId, 'MIDDLE_LOGO')"/>
+        </div>
+        <div class="right d-inline-block">
+          <p class="elps fz30 receive-title">{{item.name}}}</p>
+          <p class="text-red fz20 gold">{{item.point}}金币</p>
+          <p class="fz22 date">{{formatDate(item.expiryDate)}}</p>
+        </div>
       </div>
     </div>
-
-
-
-  </div>
+ </div>
 </template>
 
 <script>
   export default {
     name: 'newPayList',
+    data() {
+      return {
+        loading: false,
+        process: false,
+        formatDate: this.timeConvert,
+        goodsList: [],
+        pageNum: 0,
+        pageSize: 5,
+        pages: null
+      }
+    },
     methods: {
-      showList() {
-        this.$http.get('/book')
-          .then((res) => {
-            debugger;
-          });
+      loadMore() {
+        this.pageNum++;
+        if (!this.pages || this.pageNum < this.pages) {
+          this.loadData();
+        } else {
+          this.loading = true;
+        }
+      },
+      loadData() {
+        this.process = true;
+        this.$http.get('/couponRecords/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+          .then(res => {
+            this.goodsList = this.goodsList.concat(res.data.list);
+            if (!this.pages) {
+              this.pages = res.data.pages;
+            }
+            this.process = false;
+          }).catch(error => {
+          this.exception(error);
+          this.process = false;
+        });
       }
     },
     created() {
-      this.showList();
+      this.loadMore();
     }
   };
 </script>
@@ -61,16 +69,19 @@
     width: 720px;
     background: #f5f5f5;
   }
-.exchange-record .left {
+
+  .exchange-record .left {
     width: 165px;
     height: 165px;
     border: 1px solid #f5f5f5;
     margin-left: 56px;
     margin-top: 15px;
   }
-  .exchange-record .right{
+
+  .exchange-record .right {
     margin-left: 37px;
   }
+
   .exchange-record .left img {
     width: 163px;
     height: 163px;
@@ -87,16 +98,20 @@
   .fz30 {
     font-size: 30px;
   }
-  .receive-title{
+
+  .receive-title {
     margin-top: 31px;
   }
-  .gold{
+
+  .gold {
     margin-top: 18px;
   }
-  .date{
+
+  .date {
     margin-top: 20px;
   }
-  .exchange-record{
+
+  .exchange-record {
     margin-bottom: 13px;
   }
 

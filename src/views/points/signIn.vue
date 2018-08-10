@@ -32,16 +32,10 @@
 
       <div class="signin-gift">
          <ul>
-            <li :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}">
-              580积分兑换
+            <li :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}" v-for="(item,index) in coupunList" v-if="index<3">
+              {{item.point}}}积分兑换
             </li>
-           <li :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}">
-             580积分兑换
-           </li>
-           <li :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}">
-             580积分兑换
-           </li>
-         </ul>
+           </ul>
       </div>
 
 
@@ -54,11 +48,7 @@
         </template>
       </vue-event-calendar>
 
-
-
-
-
-      <div id="whole" v-show="show"></div>
+    <div id="whole" v-show="show"></div>
       <div class="signin-points" v-show="show">
           <div class="width-percent-100 text-right">
             <i class="iconfont ic-guanbi"></i>
@@ -82,6 +72,7 @@
       return {
         headTitle: '多力葵花籽油',
         show: false,
+        coupunList: [],
         demoEvents: [{
           date: '2018/08/15',
           title: 'eat'
@@ -98,6 +89,15 @@
       dayChange(day) {
         console.log(day);
       }
+    },
+    created() {
+      this.$http.get('/couponRecords')
+        .then(res => {
+          this.coupunList = res.data;
+        })
+        .catch(error => {
+
+        });
     }
   };
 </script>

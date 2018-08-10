@@ -9,17 +9,27 @@
     <div class="exchange-shop">
      </div>
 
+    <!--
+      "address": "string",
+  "consignee": "string",
+  "createdDate": "2018-08-10T07:32:24.292Z",
+  "fileId": "string",
+  "id": "string",
+  "name": "string",
+  "phone": "string",
+  "point": 0
+  -->
     <div class="exchange-info">
       <div class="exchange-info-title">
         <p class="height-24"></p>
-        <p class="fz30 exchange-p1">多力葵花籽油</p>
-        <p class="text-red exchange-p2 fz20">620金币</p>
+        <p class="fz30 exchange-p1">{{exchangeGoods.name}}}</p>
+        <p class="text-red exchange-p2 fz20">{{exchangeGoods.point}}金币</p>
       </div>
       <div class="width-percent-96 m-auto exchange-line">
       </div>
       <div class="exchange-date">
         <span class="d-inline-block fl effective-date"><i class="iconfont ic-riqi1"></i>有效期</span>
-        <span class="d-inline-block fr">2018-8-2至2018-9-13</span>
+        <span class="d-inline-block fr">{{exchangeGoods.createdDate}}}</span>
       </div>
     </div>
 
@@ -27,7 +37,7 @@
       <div class="width-percent-96 m-auto couponshop-detail">
         <p class="exchange-content-p">商品详情</p>
         <div class="fz20">
-          葵花子，又叫葵瓜子，是向日葵的果实。它的子仁中含脂肪30%-45%，最多的可达60%。葵花子油颜色金黄，澄清透明，气味清香，是一种重要的食用油。它含有大量的亚油酸等人体必需的不饱和脂肪酸，可以促进人体细胞的再生和成长，保护皮肤健康，并能减少胆固醇在血液中的淤积，是一种高级营养油。它颜色金黄、澄清透明，具有芳香气味。葵花籽油在世界范围内的消费量在所有植物油中排在棕榈油、豆油和菜籽油之后，居第四位。全球葵花籽油产量稳定在1000万～1200万吨之间，葵花籽油是欧洲国家重要的食用油品种之一。国际上许多国家和地区，如台湾、香港、日本、韩国的葵花籽油消费比例高达70%。
+          {{exchangeGoods.consignee}}}
         </div>
         <div class="fz20">
           兑换流程
@@ -35,6 +45,31 @@
         <div class="fz20">
           1、兑换后在我的积分兑换流程里获得【兑换码】并复制；
           2、点击立即购买-填写收件信息-下一步“使用优惠“输入兑换码完成付款。
+        </div>
+        <div class="fz20">
+          注意事项
+        </div>
+        <div class="fz20">
+            <ul>
+               <li>
+                 1、每位用户福利专享，可多次兑换；
+               </li>
+              <li>
+                2、每个订单每张券只能使用一次；
+               </li>
+              <li>
+                3、运费描述：全国包邮（港澳台）除外；
+               </li>
+              <li>
+                4、新疆、西藏、内蒙古偏远地区无法到达；
+              </li>
+              <li>
+                5、商家客服电话：400-601-5563；
+               </li>
+              <li>
+                6、券码使用有效日期：收到优惠码之日起至2018.7.7
+              </li>
+            </ul>
         </div>
       </div>
     </div>
@@ -58,22 +93,22 @@
           <ul class="consignee width-percent-98 m-auto">
             <li>
               <i>收货人</i>
-              <input type="text" placeholder="请输入收货人姓名"/>
+              <input type="text" placeholder="请输入收货人姓名" v-model="consignee"/>
             </li>
             <li>
               <i>手机号码</i>
-              <input type="text" placeholder="请输入收货人号码"/>
+              <input type="text" placeholder="请输入收货人号码" v-model="phone"/>
             </li>
             <li>
               <i>所在地区</i>
-              <input type="text" value="江苏省昆山市"/>
+              <input type="text" value="江苏省昆山市" v-model="area"/>
             </li>
             <li>
               <i>详细地址</i>
-              <input type="text" placeholder="请输入街道门牌信息等"/>
+              <input type="text" placeholder="请输入街道门牌信息等" v-model="address"/>
             </li>
           </ul>
-          <div class="sure-btn">确认</div>
+          <div class="sure-btn" @click="sureBtn()">确认</div>
         </div>
       </div>
     </transition>
@@ -81,21 +116,58 @@
   </div>
 </template>
 <script>
+  import {Toast} from 'mint-ui';
   export default {
     name: 'newPayList',
     data() {
       return {
+        consignee:'',
+        phone:'',
+        area:'',
+        address:'',
         headTitle: '多力葵花籽油',
-        show: false
+        show: false,
+        address: '',
+        consignee: '',
+        fileId: '',
+        id: '',
+        name: '',
+        phone: '',
+        point: '',
+        exchangeGoods: []
       };
     },
     methods: {
       change() {
         this.show = !this.show;
       },
+      sureBtn() {
+        let data = new FormData();
+        data.append('id', '3');
+        data.append('name', '王晓红');
+        data.append('phone', '18052521514');
+        data.append('point', '10');
+        this.$http.post('/api/couponRecords/3/article',data)
+          .then(res => {
+            if(res.data.status === 200){
+              Toast("兑换成功");
+            }
+          }).catch(error =>{
+          Toast("兑换失败");
+        })
+      },
       close() {
         this.show = !this.show;
       }
+    },
+    created() {
+      let ID = this.$route.query.id || 3;// 商品的
+      this.$http.get('/couponRecords/' + ID+'/article')
+        .then(res => {
+          this.exchangeGoods = res.data;
+        }).catch(error => {
+          Toast('测试');
+        });
     }
   };
 </script>
