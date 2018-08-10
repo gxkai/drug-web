@@ -9,7 +9,7 @@
           <div>
             <i class="iconfont ic-sousuo"></i>
           </div>
-          <input type="text" v-model="keyword">
+          <input type="text" v-model="keyword" style="font-size: .3rem">
         </div>
         <span @click="onSearch()">搜索</span>
       </div>
@@ -17,10 +17,10 @@
     <div ref="body">
       <div class="history" v-if="!this.keyword">
         <div class="history-titele">
-          <span>历史搜索</span>
+          <span style="font-size: .3rem">历史搜索</span>
         </div>
         <div class="history-buttons" v-if="$storage.get('orderHis')">
-          <button v-for="item in $storage.get('orderHis')" @click="onButton()">{{item}}</button>
+          <button v-for="item in $storage.get('orderHis')" @click="onButton()" style="font-size: .3rem;">{{item}}</button>
         </div>
       </div>
       <div v-infinite-scroll="loadMore"
@@ -112,7 +112,7 @@
     },
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'scroll';
+      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>

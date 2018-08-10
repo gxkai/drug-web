@@ -1,19 +1,19 @@
 <template>
 <div class="refund-box is-flex flex-row flex-item p-lr-20 position-relative">
-  <span class="toc-tip position-absolute all-center" v-if="isOtc === true">非处</span>
+  <span class="toc-tip position-absolute all-center" v-if="drug.otc">非处</span>
   <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
-  <img class="is-200x200" :src="getImgURL(fileId, 'LOGO')">
+  <img class="is-200x200" v-lazy="getImgURL(drug.fileId, 'LARGE_LOGO')">
   <div class="box-right pl-40 is-flex flex-column flex-sa">
-    <span>{{ company }}</span>
-    <span>规格： {{ spec }}</span>
-    <div class="is-flex flex-sb">
-      <span class="text-red">&yen; {{ price }}</span>
-      <span>x {{quantity}}</span>
+    <span>{{ pages.shopName }}</span>
+    <span>规格： {{ drug.spec }}</span>
+    <div class="is-flex flex-sb box-right-price">
+      <span>&yen; {{ drug.price }}</span>
+      <span>x {{drug.quantity}}</span>
     </div>
-    <div class="is-flex mt-40 flex-end">
+    <div class="is-flex mt-40 flex-end box-right-link">
       <span class="btn-refund">退</span>
-      <span class="text-13C1FE ml-10">{{transform(state)}}</span>
-      <router-link :to="{path:'/orderRefunds/view',query:{id: 1}}" >查看详情</router-link>
+      <span class="ml-10">{{pages.state|transformOrderState}}</span>
+      <span @click="$router.push({path:'/orderRefunds/view',query:{shopDrugSpecId:drug.id}})">查看详情</span>
     </div>
   </div>
 </div>
@@ -21,35 +21,7 @@
 <script>
   export default {
     name: 'drugs',
-    props: {
-      company: {
-        default: '甲個按胶囊 夸信制药有限股份公司'
-      },
-      spec: {
-        default: '20g/2板/盒'
-      },
-      price: {
-        default: '56.2'
-      },
-      quantity: {
-        default: '1'
-      },
-      isOtc: {
-        default: true
-      },
-      fileId: {
-        default: 1
-      },
-      state: {
-        default: 'REFUND_COMPLETE'
-      },
-      drugName: {
-        default: '药品名'
-      },
-      pageId: {
-        default: 1
-      }
-    }
+    props: ['pages', 'drug']
   };
 </script>
 
@@ -122,7 +94,29 @@
     height:215px;
     background:rgba(246,246,246,1);
   }
-  .btn-refund {
+
+  .box-right>span:nth-child(1) {
+    font-size:24px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(51,51,51,1);
+  }
+  .box-right>span:nth-child(2) {
+    font-size:18px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(153,153,153,1);
+  }
+  .box-right-price>span:nth-child(1) {
+    font-size:24px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(255,0,0,1);
+  }
+  .box-right-price>span:nth-child(2) {
+    font-size:24px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(153,153,153,1);
+  }
+
+  .box-right-link>span:nth-child(1) {
     width:37px;
     height:37px;
     border-radius: 50%;
@@ -130,5 +124,13 @@
     text-align: center;
     color: #13C1FE;
     display: inline-block;
+  }
+  .box-right-link>span:nth-child(2) {
+    font-size:18px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(19,193,254,1);
+  }
+  .box-right-link>span:nth-child(3) {
+    margin-left: 20px;
   }
 </style>

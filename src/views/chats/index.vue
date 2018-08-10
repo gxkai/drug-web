@@ -71,7 +71,7 @@
 
   .item {
     height: calc(100vh - 130px);
-    overflow: scroll;
+    overflow: auto;
   }
 
   .item .line{

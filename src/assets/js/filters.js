@@ -58,6 +58,14 @@ export default {
         return '订单关闭';
     }
   },
+  transformGenderState(str) {
+    switch (str) {
+      case 'MALE':
+        return '男';
+      default:
+        return '女';
+    }
+  },
   /**
    * yyyy-MM-dd hh:MM:ss
    * @param timer

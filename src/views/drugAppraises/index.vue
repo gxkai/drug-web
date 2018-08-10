@@ -75,7 +75,7 @@
     },
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'scroll';
+      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>

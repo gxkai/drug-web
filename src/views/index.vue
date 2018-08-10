@@ -1,161 +1,172 @@
 <template>
   <div class="bg-f8">
-    <div class="bg-blue index-header">
-      <div class="flex-stream-sb padding-lr-10 mtop-30">
-        <span @click="nearby" class="text-white fz22 elps d-inline-block"><i
-          class="iconfont ic-ditu text-white is-16x22"></i>{{chooseAddress}}</span>
-        <i class="iconfont ic-arrLeft-fill text-white fz12 line-height-20 height2"></i>
-        <div class="search-box all-center no-border ml4">
-          <img src="../assets/image/search.png" class=" is-24x24"/>
-          <input type="text" v-model="shopName" placeholder="通用名、商品名、症状"
-                 @blur="$router.push('/drugs/search')"
-                 @keyup.enter="$router.push('/drugs/search')"
-                 @click="$router.push('/drugs/search')"
-                 class="no-border fz20"/>
+    <div class="bg-blue index-header" ref="header">
+      <div>
+        <i class="iconfont ic-weizhi"></i>
+      </div>
+      <div @click="$router.push('/addresses/repositioning')">
+        <span>{{chooseAddress}}</span>
+      </div>
+      <div @click="$router.push('/addresses/repositioning')">
+        <i class="iconfont ic-arrowdown"></i>
+      </div>
+      <div>
+        <div @click="onFocus()">
+          <i class="iconfont ic-sousuo"></i>
         </div>
-        <span class="d-inline-block">
-          <i class="iconfont ic-lingdang text-white"></i>
-        </span>
-
+        <div>
+          <input placeholder="通用名、商品名、症状" type="text" v-model="keyword"
+                 @keyup.enter="onFocus()">
+        </div>
+      </div>
+      <div>
+        <i class="iconfont ic-lingdang"></i>
       </div>
     </div>
-    <div class="index-hidden-width"></div>
+    <div ref="body">
+      <!-- 轮播 -->
+      <swiper :options="swiperOption">
+        <swiper-slide v-for="(advertList,index) in advertLists" :key="index" class="mt-0">
+          <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" @click="see(advertList)"/>
+        </swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
+      </swiper>
 
-    <!-- 轮播 -->
-    <swiper :options="swiperOption" class="mt-0">
-      <swiper-slide v-for="(advertList,index) in advertLists" :key="index" class="mt-0">
-        <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" class="dluboimgh mt-0" @click="see(advertList)"/>
-      </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
-    </swiper>
-
-    <div class="bg-white">
-      <!-- 导航 -->
-      <div class="nav-bar flex-stream-sa">
-        <router-link class="is-120x120 flex-column-center" to="/rxs">
-          <img class="is-90x90" src="../assets/image/home/homefirst.png"/>
-          <div class="fz20 text-333333">我的处方</div>
-        </router-link>
-        <router-link class="is-120x120 flex-column-center" to="/repositoryTypes">
-          <img class="is-90x90" src="../assets/image/home/hometwo.png"/>
-          <div class="fz20 text-333333">知识库</div>
-        </router-link>
-        <router-link class="is-120x120 flex-column-center" to="/shops">
-          <img class="is-90x90" src="../assets/image/home/homethree.png"/>
-          <div class="fz20 text-333333">药房</div>
-        </router-link>
-        <router-link class="is-120x120 flex-column-center" to="/">
-          <img class="is-90x90" src="../assets/image/home/homefor.png"/>
-          <div class="fz20 text-333333">移动医疗</div>
-        </router-link>
-      </div>
-      <!-- 滚动 -->
-      <div class="scroll-bar border-top-gray all-center">
-        <div class="d-inline-block fl health-img">
-          <img src="../assets/image/health.png" class="health-img"/>
+      <div class="bg-white">
+        <!-- 导航 -->
+        <div class="nav-bar flex-stream-sa">
+          <router-link class="is-120x120 flex-column-center" to="/rxs">
+            <img class="is-90x90" src="../assets/image/home/homefirst.png"/>
+            <div class="fz20 text-333333">我的处方</div>
+          </router-link>
+          <router-link class="is-120x120 flex-column-center" to="/repositoryTypes">
+            <img class="is-90x90" src="../assets/image/home/hometwo.png"/>
+            <div class="fz20 text-333333">知识库</div>
+          </router-link>
+          <router-link class="is-120x120 flex-column-center" to="/shops">
+            <img class="is-90x90" src="../assets/image/home/homethree.png"/>
+            <div class="fz20 text-333333">药房</div>
+          </router-link>
+          <router-link class="is-120x120 flex-column-center" to="/">
+            <img class="is-90x90" src="../assets/image/home/homefor.png"/>
+            <div class="fz20 text-333333">移动医疗</div>
+          </router-link>
         </div>
-        <div class="d-inline-block fl">
-          <div class="scroll-wrap d-block"><span class="hot">热门</span>
-            <ul class="scroll-content" :style="{ top }">
-              <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeList" :key="index"
-                           :to="{path:'/repositories',query:{repositoryTypeId:repositoryType.id,title:repositoryType.name}}">
-                <li v-for="item in repositoryTypeList">{{repositoryType.name }}</li>
-              </router-link>
-            </ul>
+        <!-- 滚动 -->
+        <div class="scroll-bar border-top-gray all-center">
+          <div class="d-inline-block fl health-img">
+            <img src="../assets/image/health.png" class="health-img"/>
           </div>
-          <div class="scroll-wrap d-block"><span class="hot">必读</span>
-            <ul class="scroll-content" :style="{ top }">
-              <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeList1" :key="index"
-                           :to="{path:'/repositories/view',query:{repositoryTypeId:repositoryType.id,title:repositoryType.title}}">
-                <li v-for="item in repositoryTypeList">{{repositoryType.title }}</li>
-              </router-link>
-            </ul>
+          <div class="d-inline-block fl">
+            <div class="scroll-wrap d-block"><span class="hot">热门</span>
+              <ul class="scroll-content" :style="{ top }">
+                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeList" :key="index"
+                             :to="{path:'/repositories',query:{repositoryTypeId:repositoryType.id,title:repositoryType.name}}">
+                  <li v-for="item in repositoryTypeList">{{repositoryType.name }}</li>
+                </router-link>
+              </ul>
+            </div>
+            <div class="scroll-wrap d-block"><span class="hot">必读</span>
+              <ul class="scroll-content" :style="{ top }">
+                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeList1" :key="index"
+                             :to="{path:'/repositories/view',query:{repositoryTypeId:repositoryType.id,title:repositoryType.title}}">
+                  <li v-for="item in repositoryTypeList">{{repositoryType.title }}</li>
+                </router-link>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!--让利惠民-->
-    <div class="discount">
-      <div class="separate-content all-center">
-        <span class="new-line"></span>
-        <span class="text-13C1FE fz28">让利惠民</span>
-        <span class="new-liner"></span>
-      </div>
-      <div class="width-percent-100 bg-white">
-        <div class="bg-white width-percent-96 m-auto time-down now-oclock">
-        <!--  <i class="icon iconfont ic-shijian1 text-FF9800"></i>-->
-          <img src="../assets/image/oclock.png" class="oclock"/>
-          <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
+      <!--让利惠民-->
+      <div class="discount">
+        <div class="separate-content all-center">
+          <span class="new-line"></span>
+          <span class="text-13C1FE fz28">让利惠民</span>
+          <span class="new-liner"></span>
         </div>
-      </div>
-      <ul class="flex-wrap position-relative bg-white">
-        <router-link v-for="(discountList,index) in discountList"
-                     :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:discountList.id}}"
-                     :key="index">
-          <div class="drug-box flex-row-center border-right-gray border-bottom-gray">
+        <div class="width-percent-100 bg-white">
+          <div class="bg-white width-percent-96 m-auto time-down now-oclock">
+            <!--  <i class="icon iconfont ic-shijian1 text-FF9800"></i>-->
+            <img src="../assets/image/oclock.png" class="oclock"/>
+            <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
+          </div>
+        </div>
+        <ul class="flex-wrap position-relative bg-white">
+          <router-link v-for="(discountList,index) in discountList"
+                       :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:discountList.id}}"
+                       :key="index">
+            <div class="drug-box flex-row-center border-right-gray border-bottom-gray">
               <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')">
               <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block fz16">{{discountList.name}}</span>
-                <span class="text-red text-center fz18">¥ {{discountList.price}} /盒</span>
+                <span class="elps width-144 d-inline-block text-l-25">{{discountList.name}}</span>
+                <span class="text-red text-center text-l-25">¥ {{discountList.price}} /盒</span>
               </div>
-          </div>
-        </router-link>
-      </ul>
-    </div>
-
-    <!-- 医保定点药房 -->
-    <div class="shop-show">
-      <div class="separate-content all-center">
-        <span class="new-line"></span><span class="text-13C1FE fz28">医保定点药房</span> <span class="new-liner"></span>
-      </div>
-      <div class="shop-content">
-        <carousel-3d :count="discountList.length" width="250" height="160" display="3">
-          <slide v-for="(slide, i) in showList" :index="i" :key="i">
-            <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
-              <img :data-index="index"
-                   :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
-                    v-lazy="getImgURL(slide.fileId, 'MIDDLE_LOGO')">
-            </template>
-          </slide>
-        </carousel-3d>
-      </div>
-    </div>
-
-    <!-- 好货推荐 -->
-    <div class="recommend">
-      <div class="separate-content all-center">
-        <span class="new-line fz28"></span><span class="text-13C1FE"><i class="iconfont ic-aixin text-red"></i>好货推荐</span>
-        <span class="new-liner"></span>
-      </div>
-      <div class="bg-white of-hidden">
-        <ul class="flex-wrap">
-          <router-link
-            class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
-            v-for="(recommendList,index) in recommendList" :key="index"
-            :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
-            <span class="toc-tip position-absolute all-center" v-if="recommendList.isOtc === true">非处</span>
-            <span class="toc-tip position-absolute all-center" v-else>处</span>
-            <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'MIDDLE_LOGO')">
-            <span class="elps width-180 fz22">{{recommendList.name}}{{recommendList.spec}}</span>
-            <span class="text-red fz24">¥ {{recommendList.price}} /盒</span>
+            </div>
           </router-link>
         </ul>
       </div>
+
+      <!-- 医保定点药房 -->
+      <div class="shop-show">
+        <div class="separate-content all-center">
+          <span class="new-line"></span><span class="text-13C1FE fz28">医保定点药房</span> <span class="new-liner"></span>
+        </div>
+        <div class="shop-content">
+          <carousel-3d :count="discountList.length" width="250" height="160" display="3">
+            <slide v-for="(slide, i) in showList" :index="i" :key="i">
+              <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
+                <img :data-index="index"
+                     :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
+                     v-lazy="getImgURL(slide.fileId, 'MIDDLE_LOGO')">
+              </template>
+            </slide>
+          </carousel-3d>
+        </div>
+      </div>
+
+      <!-- 好货推荐 -->
+      <div class="recommend">
+        <div class="separate-content all-center">
+          <span class="new-line"></span>
+          <span class="text-13C1FE text-l-28">
+          <i class="iconfont ic-aixin text-red"></i>
+          好货推荐
+        </span>
+          <span class="new-liner"></span>
+        </div>
+        <div class="bg-white of-hidden">
+          <ul class="flex-wrap">
+            <router-link
+              class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
+              v-for="(recommendList,index) in recommendList" :key="index"
+              :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
+              <span class="toc-tip position-absolute all-center" v-if="recommendList.isOtc === true">非处</span>
+              <span class="toc-tip position-absolute all-center" v-else>处</span>
+              <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'MIDDLE_LOGO')">
+              <span class="elps width-180 fz22">{{recommendList.name}}{{recommendList.spec}}</span>
+              <span class="text-red fz24">¥ {{recommendList.price}} /盒</span>
+            </router-link>
+          </ul>
+        </div>
+      </div>
     </div>
-    <new-footer :urlRouter="$route.path"></new-footer>
+    <div ref="footer">
+      <new-footer :urlRouter="$route.path"></new-footer>
+    </div>
   </div>
 </template>
 <script>
   import {BmMarker, BmLabel} from 'vue-baidu-map';
   import DownTime from '../components/timeDown';
-  import {Toast} from 'mint-ui';
+  import {Toast, MessageBox} from 'mint-ui';
   import {Carousel3d, Slide} from 'vue-carousel-3d';
 
   export default {
     name: 'home',
     data() {
       return {
+        keyword: '',
         activeIndex: 0,
         leftIndex: '',
         rightIndex: '',
@@ -174,34 +185,24 @@
         lat: '120.95',
         lng: '31.39',
         zoom: 3,
-        shopName: '',
         chooseAddress: '请选择地址',
         popupVisible: false,
         isCurrent: 1,
         repositoryTypeList: [],
         repositoryTypeList1: [],
         swiperOption: {
-          autoplay: 3500,
+          autoplay: true,
           setWrapperSize: true,
           pagination: '.swiper-pagination',
           paginationClickable: true,
           mousewheelControl: true,
           observeParents: true
         },
-        swiperSlides: [1, 2, 3, 4, 5],
-        swiperOptions: {// swiper3
-          autoplay: 3000,
-          speed: 1000,
-          effect: 'coverflow',
-          slidesPerView: 'auto',
-          loop: true
-        },
-        coverflowEffect: {
-          rotate: 500,
-          stretch: 0,
-          depth: 1000,
-          modifier: 1,
-          slideShadows: false
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: true,
+          reverseDirection: true,
+          waitForTransition: true
         }
       };
     },
@@ -218,6 +219,8 @@
       }
     },
     mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
       setInterval(_ => {
         if (this.activeIndex < 3) {
           this.activeIndex++;
@@ -227,6 +230,16 @@
       }, 1000);
     },
     methods: {
+      onFocus() {
+        if (!this.keyword) {
+          MessageBox('提示', '请输入关键字');
+          return;
+        }
+        this.$router.push({
+          path: '/drugs',
+          query: {showDrugTitle: this.keyword, pageFrom: 'keyword', keyword: this.keyword}
+        });
+      },
       fns(e) {
         alert(1);
       },
@@ -409,27 +422,56 @@
   .index-header {
     width: 720px;
     height: 114px;
-    background: #1ab6fd;
-    line-height: 75px;
-    position: fixed;
-    top: 0px;
-    z-index: 99999;
+    background: rgba(26, 182, 253, 1);
+    display: flex;
+    align-items: center;
   }
 
-  .index-hidden-width {
-    width: 720px;
-    height: 114px;
+  .index-header > div:nth-child(1) .iconfont {
+    font-size: 40px;
+    color: #FFFFFF;
   }
 
-  .search-box {
-    width: 470px;
-    height: 36px;
-    background: white;
+  .index-header > div:nth-child(2) > span:nth-child(1) {
+    font-size: 22px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(255, 255, 255, 1);
+    font-size: 30px;
+    width: 50px;
+    text-overflow: ellipsis;
   }
 
-  .no-border {
-    border: 0;
-    outline: 0;
+  .index-header > div:nth-child(3) .iconfont {
+    font-size: 40px;
+    color: #FFFFFF;
+  }
+
+  .index-header > div:nth-child(4) {
+    display: flex;
+    width: 450px;
+    height: 50px;
+    background-color: white;
+    align-items: center;
+  }
+
+  .index-header > div:nth-child(4) > div:nth-child(1) .iconfont {
+    font-size: 40px;
+    color: rgba(204, 204, 204, 1);
+  }
+
+  .index-header > div:nth-child(4) > div:nth-child(2) input {
+    width: 400px;
+    height: 50px;
+    border-width: 0;
+    outline: none;
+    font-size: 20px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(204, 204, 204, 1);
+  }
+
+  .index-header > div:nth-child(5) .iconfont {
+    font-size: 40px;
+    color: #FFFFFF;
   }
 
   /*小图标*/
@@ -502,12 +544,6 @@
     width: 720px;
     height: 330px;
     background: rgba(238, 238, 238, 1);
-  }
-
-  /* 撑屏容器 */
-  .is-720x100 {
-    width: 720px;
-    height: 100px;
   }
 
   .mr-20 {
@@ -589,8 +625,6 @@
   .shop-content {
     z-index: -9999;
   }
-
-
 
   .icon {
     width: 0rem;
@@ -725,18 +759,30 @@
     margin-top: 5px;
     font-size: 30px;
   }
-  .oclock{
+
+  .oclock {
     width: 26px;
     height: 26px;
   }
-  .now-oclock{
-    padding-top: 13px!important;
+
+  .now-oclock {
+    padding-top: 13px !important;
   }
-  .fz28{font-size: 28px;}
-  .recommend{
+
+  .fz28 {
+    font-size: 28px;
+  }
+
+  .recommend {
     margin-top: 15px;
   }
-  .ml4{
+
+  .ml4 {
     margin-left: 4px;
+  }
+
+  .recommend .ic-aixin {
+    font-size: 30px;
+    vertical-align: center;
   }
 </style>

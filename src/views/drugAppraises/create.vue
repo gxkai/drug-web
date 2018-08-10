@@ -10,7 +10,7 @@
       <ul>
         <li v-for="(item,index) in list" :key="index">
           <div class="line1">
-            <img src="item.logo">
+            <img v-lazy="getImgURL(item.fileId, 'lARGE_LOGO')">
             <new-star class="star" size="middle" :score.sync="item.score"></new-star>
           </div>
           <div class="line"></div>
@@ -71,7 +71,6 @@
         .then(res => {
           this.list = res.data;
           this.list.forEach(e => {
-            e.logo = this.getImgURL(e.fileId, 'lARGE_LOGO');
             e.score = 5;
             e.content = '';
           });
