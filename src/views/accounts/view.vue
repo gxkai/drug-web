@@ -2,8 +2,8 @@
 <template>
   <div class="account-container">
     <new-header title="账户信息">
-      <div slot="left">
-        <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link>
+      <div slot="left" @click="$router.go(-1)">
+        <i class="iconfont ic-arrow-right"></i>
       </div>
     </new-header>
 
@@ -12,7 +12,7 @@
       <div class="a-content-list flex-stream-sb width-percent-96 m-auto" @click="changeVisible">
         <span>头像</span>
         <div class="flex-stream-sb">
-          <img class="is-55x55" v-lazy="aa"/>
+          <img class="is-55x55" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
           <i class="iconfont ic-youjiantou"></i>
         </div>
       </div>
@@ -26,14 +26,11 @@
       </router-link>
     </div>
 
-
     <div class="width-percent-100 bg-white">
-      <account-label :label="this.labels[3]" class="width-percent-96 m-auto"/>
-      <div class="width-percent-96 m-auto">
-        <router-link to="/accounts/password" class="text-333333">
-          <account-label :label="this.labels[5]"/>
-        </router-link>
-      </div>
+      <router-link class="a-content-list flex-stream-sb width-percent-96 m-auto" to='/accounts/password'>
+        <span>修改密码</span>
+        <i class=" iconfont ic-youjiantou"></i>
+      </router-link>
     </div>
 
 
@@ -57,20 +54,14 @@
 </template>
 
 <script>
-  import AccountLabel from './child/accountLabel';
-
-  let headPic;
   export default {
     data() {
       return {
+        account: this.$store.getters.account,
         photoBase: '',
-        aa: '',
-        fileId: '',
         copyuploadURLs: [],
         uploadURLs: [],
         duploadURLs: [],
-        account: {},
-        label: [],
         fileVisible: false,
         actions: [
           {
@@ -85,41 +76,6 @@
       };
     },
     created() {
-      let URL_PATH = process.env.URL_PATH;
-      this.aa = URL_PATH + '/files/' + this.$store.getters.account.fileId + '/image?fileType=LOGO';
-      this.aa = headPic;
-      this.labels = [
-        {
-          label: '头像',
-          name: 'fileId',
-          value: this.$store.getters.account.fileId
-        },
-        {
-          label: '真实姓名',
-          name: 'name',
-          value: this.$store.getters.account.name
-        },
-        {
-          label: '性别',
-          name: 'gender',
-          value: this.getGender(this.$store.getters.account.gender)
-        },
-        {
-          label: '手机',
-          name: 'username',
-          value: this.$store.getters.account.username
-        },
-        {
-          label: '身份证号',
-          name: 'identityNumber',
-          value: this.$store.getters.account.identityNumber
-        },
-        {
-          label: '密码',
-          name: 'password',
-          value: '修改密码'
-        }
-      ];
     },
     methods: {
       delImg(index) {
@@ -158,39 +114,23 @@
               let picUrl = e.target.result.toString();
               _this.uploadURLs.push(picUrl.split(',')[1]);
               _this.duploadURLs.push(picUrl);
-              let URL_PATH = process.env.URL_PATH;
               let param = new FormData();
               param.append('fileType', 'LOGO');
               param.append('file', picUrl);
               _this.$http({
-                url: URL_PATH + '/files/image',
+                url: '/files/image',
                 method: 'post',
                 data: param,
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded'
                 }
               }).then(res => {
-                _this.fileId = res.data;
-                let URL = process.env.URL_PATH + '/accounts';
-                _this.$http.put(URL, {
-                  'fileId': _this.fileId,
-                  'gender': _this.$store.getters.account.gender,
-                  'identityNumber': _this.$store.getters.account.identityNumber,
-                  'medicalNumber': _this.$store.getters.account.medicalNumber,
-                  'name': _this.$store.getters.account.name
-                }, {
-                  headers: {
-                    'Authorization': _this.$store.getters.token
-                  }
-                }).then(res => {
-                  _this.account.fileId = _this.fileId;
-                  _this.$store.commit('SET_ACCOUNT', _this.account);
-                  alert(_this.fileId);
-                  let URL_PATH = process.env.URL_PATH;
-                  _this.$store.getters.account.imgUrl = URL_PATH + '/files/' + _this.account.fileId + '/image?fileType=LOGO';
-                  _this.aa = URL_PATH + '/files/' + _this.account.fileId + '/image?fileType=LOGO';
-                  localStorage.setItem('nameImg', _this.aa);
-                  headPic = _this.aa;
+                this.account.fileId = res.data;
+                let URL = '/accounts';
+                _this.$http.put(URL, this.account).then(res => {
+                  this.$store.commit('SET_ACCOUNT', this.account);
+                }).catch(error => {
+                  this.exception(error);
                 });
               });
             };
@@ -238,29 +178,14 @@
           filter: 'image'
         });
       },
-      getGender(gender) {
-        switch (gender) {
-          case 'MALE':
-            return '男';
-          case 'FEMALE':
-            return '女';
-          default:
-            return '';
-        }
-      },
       changeVisible() {
         this.fileVisible = true;
       }
-    },
-    components: {AccountLabel}
+    }
   };
 </script>
 
 <style scoped>
-  .mint-header {
-    background: #1AB6FD;
-    color: white;
-  }
 
   .account-container {
     width: 720px;
@@ -296,7 +221,11 @@
     height: 55px;
   }
 
-  span {
+  .account-container span {
     color: #333333 !important;
+    font-size: 20px;
+  }
+  .account-container .ic-youjiantou {
+    font-size: 20px;
   }
 </style>

@@ -158,7 +158,7 @@
   .header-input{
     width: 548px;
     height: 53px;
-    background: rgba(210, 210, 210, 1);
+    background: white;
     opacity: 0.18;
     border-radius: 27px;
     border: 0;

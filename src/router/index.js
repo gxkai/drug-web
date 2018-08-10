@@ -25,10 +25,8 @@ export default new Router({
     }, {
       path: '/accounts/card/bind',
       component: () => import('@/views/accounts/card/bind')
-    }, {
-      path: '/accounts/card/unbind',
-      component: () => import('@/views/accounts/card/unbind')
-    }, {
+    },
+    {
       path: '/accounts/card/bind/success',
       component: () => import('@/views/accounts/card/success')
     },

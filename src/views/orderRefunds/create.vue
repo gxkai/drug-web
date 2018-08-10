@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="refund-container">
     <new-header title="申请退款">
@@ -145,7 +144,7 @@
           'price': this.orderInfo.totalAmount,
           'reason': this.reason
         }).then(res => {
-          this.$router.push({path: '/orderRefunds/view', query: {id: res.data}});
+          this.$router.replace({path: '/orderRefunds/view', query: {id: res.data}});
         }).catch(error => {
           this.exception(error);
         });

@@ -63,7 +63,7 @@
     padding-top: 20px;
   }
   .content1 .child1 div {
-    margin-bottom: 4px;
+    margin-bottom: 13px;
   }
   .child1 .line1 span:nth-child(1),.child1 .line2 span:nth-child(1),.child1 .line3 span:nth-child(1) {
     font-size:20px;

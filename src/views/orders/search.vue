@@ -2,10 +2,14 @@
   <div class="main">
     <div class="bar" ref="header">
       <div class="out">
-        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+        <div>
+          <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+        </div>
         <div class="inner">
-          <i class="iconfont ic-sousuo"></i>
-          <input type="text" v-model="keyword">
+          <div>
+            <i class="iconfont ic-sousuo"></i>
+          </div>
+          <input type="text" v-model="keyword" style="font-size: .3rem">
         </div>
         <span @click="onSearch()">搜索</span>
       </div>
@@ -13,10 +17,10 @@
     <div ref="body">
       <div class="history" v-if="!this.keyword">
         <div class="history-titele">
-          <span>历史搜索</span>
+          <span style="font-size: .3rem">历史搜索</span>
         </div>
         <div class="history-buttons" v-if="$storage.get('orderHis')">
-          <button v-for="item in $storage.get('orderHis')" @click="onButton()">{{item}}</button>
+          <button v-for="item in $storage.get('orderHis')" @click="onButton()" style="font-size: .3rem;">{{item}}</button>
         </div>
       </div>
       <div v-infinite-scroll="loadMore"
@@ -108,7 +112,7 @@
     },
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'scroll';
+      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>
@@ -119,16 +123,19 @@
     width: 720px;
     height: 100vh;
   }
+
   .history-titele {
     margin: 20px;
   }
+
   .history-buttons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
   }
+
   .history-buttons button:nth-child(1) {
-    background-color: rgba(19,193,254,1);
+    background-color: rgba(19, 193, 254, 1);
   }
 
   .history-buttons button {

@@ -1,15 +1,9 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="account-container">
-    <!--<mt-header title="账户信息">
-      <router-link to="/accounts/view" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>-->
-
     <new-header title="账户信息">
-      <div slot="left">
-        <router-link tag="i" to="/accounts/view" class="iconfont ic-arrow-right"></router-link>
+      <div slot="left" @click="$router.go(-1)">
+        <i class="iconfont ic-arrow-right"></i>
       </div>
     </new-header>
 
@@ -27,7 +21,7 @@
           <input id="FEMALE" type="radio" name="sex" value="FEMALE" v-model="account.gender"><label for="FEMALE">女</label>
         </div>
         <div v-else>
-          <input readonly type="text" :value="showsex(account.gender)">
+          <input readonly type="text" :value="account.gender|transformGenderState">
         </div>
       </div>
       <div class="content-list flex-stream-sb padding-10">
@@ -45,38 +39,25 @@
   export default {
     data() {
       return {
-        account: {},
+        account: this.$store.getters.account,
         name: null,
         clicked: false
       };
     },
     created() {
-      this.account = this.$store.getters.account;
-      this.name = this.$route.query.name;
     },
     methods: {
-      showsex(sex) {
-        if (sex === 'MALE') {
-          return '男';
-        } else {
-          return '女';
-        }
-      },
       change() {
         this.clicked = true;
       },
       save() {
-        this.$http.put('/accounts', this.account, {
-          headers: {
-            'Authorization': this.$store.getters.token
-          }
-        })
+        this.$http.put('/accounts', this.account)
           .then((res) => {
             this.$store.commit('SET_ACCOUNT', this.account);
-            this.$router.push({path: '/accounts/view'});
+            this.$router.go(-1);
           })
           .catch((error) => {
-            this.exception.message(error);
+            this.exception(error);
           });
       }
     }

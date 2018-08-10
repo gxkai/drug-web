@@ -41,7 +41,7 @@
         }
         this.$http.put('/accounts/password', {password: this.password})
           .then((res) => {
-            this.$router.push({path: '/accounts/view'});
+            this.$router.go(-1);
           })
           .catch((error) => {
             this.exception(error);

@@ -1,14 +1,17 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="container">
-    <new-header title="退款详情" bgColor="white" leftColor="#333333" color="#333333">
+    <new-header title="退款详情" bgColor="white" leftColor="#333333" color="#333333" rightColor="#333333">
       <div slot="left">
         <i  @click="$router.go(-1)" class="iconfont ic-arrow-right"></i>
       </div>
+      <div slot="right" @click="$router.push('/')">
+        <span>首页</span>
+      </div>
     </new-header>
     <div class="refunds-header">
-      <span class="refunds-header-state">{{list.state}}</span>
-      <span class="refunds-header-time">{{formatDate(list.lastModifiedDate)}}</span>
+      <span class="refunds-header-state">{{list.state|transformOrderState}}</span>
+      <span class="refunds-header-time">{{timeConvert2(list.lastModifiedDate)}}</span>
     </div>
 
     <div class="refunds-price">
@@ -25,7 +28,9 @@
     <div class="refunds-info">
       <div class="refunds-info-title">
         <span>退款信息</span>
-        <img src="../../assets/image/order/down.png"/>
+        <div>
+          <i class="iconfont ic-arrowdown"></i>
+        </div>
       </div>
       <router-link tag="div" class="refunds-info-detail" v-for="drug in list.drugs" :key="drug.id" :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:drug.id}}">
         <div class="refunds-info-detail-img">
@@ -42,8 +47,8 @@
         <div class="refunds-info-detail-message">
           <span class="refunds-info-detail-message-name">{{drug.name}}</span>
           <span class="refunds-info-detail-message-size">
-            <p style="font-size: 0.1rem;color:#999999;">规格:{{drug.spec}}</p>
-            <p style="font-size:0.1rem; color:#666666;">x{{drug.quantity}}</p>
+            <p style="font-size: 0.2rem;color:#999999;">规格:{{drug.spec}}</p>
+            <p style="font-size:0.3rem; color:#666666;">x{{drug.quantity}}</p>
           </span>
         </div>
       </router-link>
@@ -52,7 +57,7 @@
     <div class="refunds-footer">
       <span>退回原因：{{list.reason||'无'}}</span>
       <span>退回金额：￥{{list.price}}</span>
-      <span>申请时间：{{formatDate(list.createdDate)}}</span>
+      <span>申请时间：{{timeConvert2(list.createdDate)}}</span>
       <span>退款订单号：{{list.number}}</span>
     </div>
   </div>
@@ -63,33 +68,20 @@
     name: 'orderRefundDetails',
     data() {
       return {
-        id: '',
+        shopDrugSpecId: this.$route.query.shopDrugSpecId,
         list: [],
-        count: '',
-        formatDate: this.timeConvert2
+        count: ''
       };
     },
     created() {
-      this.id = this.$route.query.id;
-      this.$http.get('/orderRefunds/' + this.id)
+      this.$http.get('/orderRefunds/' + this.shopDrugSpecId)
         .then(res => {
-          if (res.data !== '') {
-            this.list = res.data;
-            this.list.state = this.transform(this.list.state);
-          }
+          this.list = res.data;
+        }).catch(error => {
+          this.exception(error);
         });
     },
     methods: {
-      transform(state) {
-        switch (state) {
-          case 'REFUNDING':
-            return '退款中';
-          case 'REFUND_COMPLETE':
-            return '退款完成';
-          case 'CLOSES':
-            return '订单关闭';
-        }
-      }
     }
   };
 </script>

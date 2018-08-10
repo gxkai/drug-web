@@ -1,105 +1,49 @@
 <template>
   <div class="main">
-
-
     <div class="bar" ref="header">
       <div class="out">
         <div>
           <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
         </div>
         <div class="inner">
-          <i class="iconfont ic-sousuo"></i>
+          <div>
+            <i class="iconfont ic-sousuo"></i>
+          </div>
           <input type="text" v-model="keyword">
         </div>
         <span @click="onSearch()">搜索</span>
-      </div>
-    </div>
-
-
-    <div ref="body">
-      <div class="history" v-if="!this.keyword">
-        <div class="history-titele">
-          <span>历史搜索</span>
-        </div>
-        <div class="history-buttons" v-if="$storage.get('orderHis')">
-          <button v-for="item in $storage.get('orderHis')" @click="onButton()">{{item}}</button>
-        </div>
-      </div>
-      <div v-infinite-scroll="loadMore"
-           infinite-scroll-disabled="loading"
-           infinite-scroll-distance="0" v-else>
-        <div v-for="order in orderList">
-          <new-order :order.sync="order"></new-order>
-        </div>
-        <new-loading v-if="process"></new-loading>
-        <new-all-data v-if="loading"></new-all-data>
-        <new-no-data v-if="orderList.length === 0 && hasSearch"></new-no-data>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {MessageBox} from 'mint-ui';
   export default {
     name: 'search',
     data() {
       return {
-        keyword: '',
-        loading: false,
-        process: false,
-        hasSearch: false,
-        pageNum: 0,
-        pageSize: 5,
-        pages: null,
-        orderList: []
+        keyword: ''
       };
     },
     created() {
     },
     watch: {
-      keyword(value) {
-        if (!value) {
-          this.reset();
-          this.hasSearch = false;
-        }
-      }
     },
     methods: {
-      onButton() {
-        this.keyword = event.target.textContent;
-        this.onSearch();
-      },
       onSearch() {
         if (this.keyword) {
-          this.setHistory();
-          this.reset();
-          this.loadMore();
-          this.hasSearch = true;
-        }
-      },
-      setHistory() {
-        this.saveSearch(this.keyword);
-      },
-      reset() {
-        this.pages = null;
-        this.pageNum = 0;
-        this.orderList = [];
-        this.loading = false;
-        this.process = false;
-      },
-      loadMore() {
-        if (this.keyword && this.hasSearch) {
           this.loadData();
+        } else {
+          MessageBox('提示', '请输入药品名');
         }
       },
       loadData() {
-        this.process = true;
-        this.$router.push({path: '/drugs', query: {showDrugTitle: this.keyword, pageFrom: 'keyword', keyword: this.keyword}});
+        this.$router.push({
+          path: '/drugs',
+          query: {showDrugTitle: this.keyword, pageFrom: 'keyword', keyword: this.keyword}
+        });
       }
-    },
-    mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'scroll';
     }
   };
 </script>
@@ -110,16 +54,19 @@
     width: 720px;
     height: 100vh;
   }
+
   .history-titele {
     margin: 20px;
   }
+
   .history-buttons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
   }
+
   .history-buttons button:nth-child(1) {
-    background-color: rgba(19,193,254,1);
+    background-color: rgba(19, 193, 254, 1);
   }
 
   .history-buttons button {

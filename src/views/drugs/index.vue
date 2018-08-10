@@ -11,7 +11,7 @@
             <img src="static/img/search2.png"/></router-link>
         </new-header>
         <ul class="is-flex flex-row flex-sa p-tb-20 all-border border-bottom-grey">
-          <li @click="reOrderBy('SYNTHESIZE_LESS')" class="is-flex flex-row" :class="{'blueactive1': index1==default1}">
+          <li @click="reOrderBy('SYNTHESIZE_DESC')" class="is-flex flex-row" :class="{'blueactive1': index1==default1}">
             默认
             <div class="is-flex position-relative">
               <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"></i>
@@ -47,7 +47,7 @@
 
       <div>
         <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-          <router-link v-for="(item,index) in pageList" :key="index"
+          <router-link v-for="(item,index) in list" :key="index"
                        :to="{path:'/drugs/shops',query:{id:item.id,drugId:item.drugId}}">
             <new-drug-shops class="border-bottom-grey" :item="item"></new-drug-shops>
           </router-link>
@@ -63,17 +63,19 @@
     name: 'goodsList',
     data() {
       return {
+        list: [],
         pageNum: 0,
-        pageSize: 15,
-        totalPage: 0,
-        pageList: [],
+        pageSize: 5,
+        pages: null,
+        loading: false,
+        process: false,
         bottomPullText: '上拉加载更多',
-        showDrugTitle: '',
-        pageFrom: '',
-        drugTypeId: '',
-        keyword: '',
-        filterData: '',
-        drugSort: 'SYNTHESIZE_LESS',
+        showDrugTitle: this.$route.query.showDrugTitle,
+        pageFrom: this.$route.query.pageFrom,
+        drugTypeId: this.$route.query.typeId,
+        keyword: this.$route.query.keyword,
+        filterData: this.$route.query.filterData,
+        drugSort: 'SYNTHESIZE_DESC',
         val: -1,
         salesVolume: -1,
         screen: -1,
@@ -86,38 +88,32 @@
         default1: -1,
         default2: -2,
         default3: -3,
-        default4: -4,
-        pages: null
+        default4: -4
       };
     },
     components: {},
-    created: function () {
-      this.showDrugTitle = this.$route.query.showDrugTitle;
-      this.pageFrom = this.$route.query.pageFrom;
-      this.drugTypeId = this.$route.query.typeId;
-      this.keyword = this.$route.query.keyword;
-      this.filterData = this.$route.query.filterData;
+    created() {
     },
     methods: {
       loadMore() {
-        this.loading = false;
-        if (this.pages === null || this.pageNum < this.pages) {
-          this.pageNum++;
-          this.initData();
+        this.pageNum++;
+        if (!this.pages || this.pageNum < this.pages) {
+          this.loadData();
         } else {
           this.loading = true;
         }
       },
-      initData() {
+      loadData() {
+        this.process = true;
         this.$http.get(this.getRequestUrl())
           .then(res => {
-            if (this.pages === 0) {
-              this.loading = true;
+            this.list = this.list.concat(res.data.list);
+            if (!this.pages) {
+              this.pages = res.data.pages;
             }
-            this.pageList = this.pageList.concat(res.data.list);
-            this.totalPage = res.data.lastPage;
-            this.pages = res.data.pages;
+            this.process = false;
           }).catch(error => {
+            this.process = false;
             this.exception(error);
           });
       },
@@ -129,15 +125,15 @@
         this.pageNum = 1;
         this.drugSort = orderBy;
         this.pageNum = 0;
-        this.pageList = [];
-        this.initData();
+        this.list = [];
+        this.loadData();
       },
       reOrderByPrice() {
         this.val = -(this.val);
         if (this.val === -1) {
-          this.reOrderBy('PRICE_LESS');
+          this.reOrderBy('PRICE_DESC');
         } else {
-          this.reOrderBy('PRICE_MORE');
+          this.reOrderBy('PRICE_ASC');
         }
         this.default2 = 2;
         this.default1 = 7;
@@ -147,9 +143,9 @@
       reOrderBySales() {
         this.salesVolume = -this.salesVolume;
         if (this.salesVolume === -1) {
-          this.reOrderBy('SALE_LESS');
+          this.reOrderBy('SALE_DESC');
         } else {
-          this.reOrderBy('SALE_MORE');
+          this.reOrderBy('SALE_ASC');
         }
         ;
         this.default3 = 3;
@@ -161,9 +157,9 @@
         this.four = 4;
         this.shopCount = -this.shopCount;
         if (this.shopCount === -1) {
-          this.reOrderBy('QUOTATION_LESS');
+          this.reOrderBy('SHOP_COUNT_DESC');
         } else {
-          this.reOrderBy('QUOTATION_MORE');
+          this.reOrderBy('SHOP_COUNT_ASC');
         }
       },
       conditionFilter() {

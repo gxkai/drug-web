@@ -15,7 +15,7 @@
       </div>
       <new-edit-line :name="getCurrentTime()"></new-edit-line>
     </div>
-    <div class="body">
+    <div ref="body">
       <div>
         <ul>
           <li v-for="(item,index) in list" :key="index">
@@ -144,11 +144,6 @@
     color: rgba(102, 102, 102, 1);
     line-height: 40px;
     text-align: center;
-  }
-
-  .body {
-    height: calc(100vh - 130px - 140px - 117px);
-    overflow: scroll;
   }
 
   ul li .content1 {
