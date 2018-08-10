@@ -1,16 +1,12 @@
 <template>
   <div class="points-container">
-
     <new-header title="每日签到" class="new-hewder">
       <div slot="left">
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
     </new-header>
-
-    <new-header></new-header>
-
-
-    <div class="position-relative">
+     <new-header></new-header>
+     <div class="position-relative">
       <img src="../../assets/image/coupon/signin-bg.png" class="sign-bg"/>
       <div class="points-info">
         <p class="all-points">275积分</p>
@@ -19,8 +15,6 @@
         <p class="text-center has-signed2 text-white width-percent-100">今日已签到，获得15积分</p>
       </div>
     </div>
-
-
     <div class="bg-white">
       <div class="width-percent-96 m-auto">
         <div class="change-point">
@@ -29,16 +23,15 @@
           <span class="fz20 fr">查看更多 <i class="iconfont ic-youjiantou"></i></span>
         </div>
       </div>
-
-      <div class="signin-gift">
-         <ul>
-            <li :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}" v-for="(item,index) in coupunList" v-if="index<3">
-              {{item.point}}}积分兑换
-            </li>
-           </ul>
+       <div class="signin-gift">
+        <ul>
+          <li
+            :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}"
+            v-for="(item,index) in coupunList" v-if="index<3">
+            {{item.point}}}积分兑换
+          </li>
+        </ul>
       </div>
-
-
       <vue-event-calendar :events="demoEvents">
         <template scope="props">
           <div v-for="(event, index) in props.showEvents" class="event-item">
@@ -47,22 +40,19 @@
           </div>
         </template>
       </vue-event-calendar>
-
     <div id="whole" v-show="show"></div>
       <div class="signin-points" v-show="show">
-          <div class="width-percent-100 text-right">
-            <i class="iconfont ic-guanbi"></i>
-          </div>
-          <div>
-              <img :src="require('../../assets/image/coupon/golen.png')" class="golden"/>
-          </div>
-          <div class="text-center scccsess">签到成功</div>
-          <div class="text-center controduction">恭喜你获得</div>
-          <div class="text-center five-points">5积分</div>
+        <div class="width-percent-100 text-right">
+          <i class="iconfont ic-guanbi"></i>
+        </div>
+        <div>
+          <img :src="require('../../assets/image/coupon/golen.png')" class="golden"/>
+        </div>
+        <div class="text-center scccsess">签到成功</div>
+        <div class="text-center controduction">恭喜你获得</div>
+        <div class="text-center five-points">5积分</div>
       </div>
     </div>
-
-
   </div>
 </template>
 <script>
@@ -150,10 +140,12 @@
     font-size: 29px;
     margin-top: 20px;
   }
-  .fz28{
+
+  .fz28 {
     font-size: 28px;
   }
-  .fz20{
+
+  .fz20 {
     font-size: 20px;
   }
 
@@ -161,81 +153,94 @@
     height: 76px;
     line-height: 76px;
   }
-  .ic-liwu-copy{
-     font-size: 24px;
+
+  .ic-liwu-copy {
+    font-size: 24px;
   }
-  .signin-gift ul li{
-    width:228px;
-    height:146px;
+
+  .signin-gift ul li {
+    width: 228px;
+    height: 146px;
     color: white;
-    font-size:25px;
+    font-size: 25px;
     text-align: center;
     line-height: 146px;
     margin-left: 10px;
     float: left;
   }
-  .signin-points{
+
+  .signin-points {
     position: absolute;
-    width:400px;
-    height:452px;
-    background:rgba(255,255,255,1);
+    width: 400px;
+    height: 452px;
+    background: rgba(255, 255, 255, 1);
     top: 50%;
     left: 50%;
     margin-left: -200px;
     margin-top: -226px;
     z-index: 999;
   }
-  .golden{
-    width:154px;
-    height:105px;
+
+  .golden {
+    width: 154px;
+    height: 105px;
     margin-top: 67px;
     margin-left: 123px;
   }
 
-  .scccsess{
-    font-size:31px;
+  .scccsess {
+    font-size: 31px;
     color: #333333;
     margin-top: 37px;
   }
-  .controduction{
-    font-size:18px;
+
+  .controduction {
+    font-size: 18px;
     color: #333333;
     margin-top: 22px;
   }
-  .five-points{
-    font-size:31px;
+
+  .five-points {
+    font-size: 31px;
     color: #FF0000;
     margin-top: 19px;
   }
-  .ic-guanbi{
+
+  .ic-guanbi {
     margin-top: 18px;
     margin-right: 14px;
     color: #999999;
   }
-  .__vev_calendar-wrapper{
+
+  .__vev_calendar-wrapper {
     font-size: 14px;
   }
-  .__vev_calendar-wrapper .cal-wrapper{
+
+  .__vev_calendar-wrapper .cal-wrapper {
     font-size: 14px;
   }
-  .__vev_calendar-wrapper .cal-wrapper .cal-body .dates .item .date-num{
-    font-size: 14px!important;
+
+  .__vev_calendar-wrapper .cal-wrapper .cal-body .dates .item .date-num {
+    font-size: 14px !important;
   }
-  .new-hewder{
+
+  .new-hewder {
     position: fixed;
   }
-  .__vev_calendar-wrapper .cal-wrapper .cal-body .dates .item.event{
-    background:red;
+
+  .__vev_calendar-wrapper .cal-wrapper .cal-body .dates .item.event {
+    background: red;
   }
 
-  .__vev_calendar-wrapper .events-wrapper{
-    display: none!important;
+  .__vev_calendar-wrapper .events-wrapper {
+    display: none !important;
   }
 
-  h2.date{
-    background: white!important;
+  h2.date {
+    background: white !important;
   }
-  .events-wrapper{
+
+  .events-wrapper {
     display: none;
   }
 </style>

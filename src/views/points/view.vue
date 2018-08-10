@@ -7,19 +7,8 @@
     </new-header>
 
     <div class="exchange-shop">
-     </div>
-
-    <!--
-      "address": "string",
-  "consignee": "string",
-  "createdDate": "2018-08-10T07:32:24.292Z",
-  "fileId": "string",
-  "id": "string",
-  "name": "string",
-  "phone": "string",
-  "point": 0
-  -->
-    <div class="exchange-info">
+    </div>
+   <div class="exchange-info">
       <div class="exchange-info-title">
         <p class="height-24"></p>
         <p class="fz30 exchange-p1">{{exchangeGoods.name}}}</p>
@@ -28,12 +17,11 @@
       <div class="width-percent-96 m-auto exchange-line">
       </div>
       <div class="exchange-date">
-        <span class="d-inline-block fl effective-date"><i class="iconfont ic-riqi1"></i>有效期</span>
+        <span class="d-inline-block fl effective-date"><i class="iconfont ic-riqi1"></i>兑换日期</span>
         <span class="d-inline-block fr">{{exchangeGoods.createdDate}}}</span>
       </div>
     </div>
-
-    <div class="exchange-content bg-white width-percent-100 bg-white">
+   <div class="exchange-content bg-white width-percent-100 bg-white">
       <div class="width-percent-96 m-auto couponshop-detail">
         <p class="exchange-content-p">商品详情</p>
         <div class="fz20">
@@ -50,26 +38,26 @@
           注意事项
         </div>
         <div class="fz20">
-            <ul>
-               <li>
-                 1、每位用户福利专享，可多次兑换；
-               </li>
-              <li>
-                2、每个订单每张券只能使用一次；
-               </li>
-              <li>
-                3、运费描述：全国包邮（港澳台）除外；
-               </li>
-              <li>
-                4、新疆、西藏、内蒙古偏远地区无法到达；
-              </li>
-              <li>
-                5、商家客服电话：400-601-5563；
-               </li>
-              <li>
-                6、券码使用有效日期：收到优惠码之日起至2018.7.7
-              </li>
-            </ul>
+          <ul>
+            <li>
+              1、每位用户福利专享，可多次兑换；
+            </li>
+            <li>
+              2、每个订单每张券只能使用一次；
+            </li>
+            <li>
+              3、运费描述：全国包邮（港澳台）除外；
+            </li>
+            <li>
+              4、新疆、西藏、内蒙古偏远地区无法到达；
+            </li>
+            <li>
+              5、商家客服电话：400-601-5563；
+            </li>
+            <li>
+              6、券码使用有效日期：收到优惠码之日起至2018.7.7
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -117,14 +105,15 @@
 </template>
 <script>
   import {Toast} from 'mint-ui';
+
   export default {
     name: 'newPayList',
     data() {
       return {
-        consignee:'',
-        phone:'',
-        area:'',
-        address:'',
+        consignee: '',
+        phone: '',
+        area: '',
+        address: '',
         headTitle: '多力葵花籽油',
         show: false,
         address: '',
@@ -147,12 +136,12 @@
         data.append('name', '王晓红');
         data.append('phone', '18052521514');
         data.append('point', '10');
-        this.$http.post('/api/couponRecords/3/article',data)
+        this.$http.post('/api/couponRecords/3/article', data)
           .then(res => {
-            if(res.data.status === 200){
+            if (res.data.status === 200) {
               Toast("兑换成功");
             }
-          }).catch(error =>{
+          }).catch(error => {
           Toast("兑换失败");
         })
       },
@@ -162,12 +151,12 @@
     },
     created() {
       let ID = this.$route.query.id || 3;// 商品的
-      this.$http.get('/couponRecords/' + ID+'/article')
+      this.$http.get('/couponRecords/' + ID + '/article')
         .then(res => {
           this.exchangeGoods = res.data;
         }).catch(error => {
-          Toast('测试');
-        });
+        Toast('测试');
+      });
     }
   };
 </script>

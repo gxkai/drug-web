@@ -6,7 +6,7 @@
           <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
         </div>
       </new-header>
-       <div class="points-me bg-white">
+      <div class="points-me bg-white">
         <div class="left d-inline-block fl">
           <i class="iconfont ic-jifen text-13C1FE"></i>
           <span class="text-333333 d-inline-block">剩余积分：</span>
@@ -25,17 +25,13 @@
         <span class="title">兑换商品</span>
         <span class="line-two d-inline-block"></span>
       </div>
-   </div>
-
-
+    </div>
     <new-coupon v-bind:couponList="couponList"></new-coupon>
-
-
-
-  </div>
+ </div>
 </template>
 <script>
   import {Toast} from 'mint-ui';
+
   export default {
     name: 'newPayList',
     data() {
@@ -45,14 +41,13 @@
         couponList: []
       }
     },
-    methods: {
-    },
+    methods: {},
     created() {
       this.$http.get('/couponRecords')
         .then(res => {
         }).catch(error => {
-          Toast('获取列表失败');
-        });
+        Toast('获取列表失败');
+      });
     }
   };
 </script>
