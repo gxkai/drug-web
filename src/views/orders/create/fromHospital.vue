@@ -57,11 +57,7 @@
         </div>
       </div>
       <div class="amount">
-        <div>
-          <span>实付金额：</span>
-          <span>￥{{hospitalInfo.payAmount}}</span>
-        </div>
-        <div>
+       <div>
           <span>商品金额：</span>
           <span>￥{{hospitalInfo.amount}}</span>
           <span>(包含运费：0.00)</span>
@@ -69,6 +65,10 @@
         <div>
           <span>医保扣除：</span>
           <span>￥{{hospitalInfo.medicaidAmount}}</span>
+        </div>
+        <div>
+          <span>优惠扣除：</span>
+          <span>￥{{hospitalInfo.payAmount}}</span>
         </div>
       </div>
 
@@ -88,6 +88,8 @@
             <span>医保卡余额：￥0</span>
           </div>
         </div>
+
+
         <div v-else>
           <new-header height="low" bgColor="white" leftColor="black">
             <div slot="left">
@@ -100,6 +102,32 @@
             <button>去绑定</button>
           </div>
         </div>
+
+        <div class="bg-white coupons">
+          <span class="d-inline-block fl">优惠券</span>
+          <span class="d-inline-block fr" @click="coupon()"><i class="iconfont ic-youjiantou"></i></span>
+        </div>
+
+
+        <div id="whole" v-show="show"></div>
+
+        <transition v-show="show" name="slide-fades">
+          <div class="new-coupons bg-white" v-show="show">
+              <div class="use-coupon">
+                使用优惠券
+              </div>
+             <div>
+               <mt-radio align="right" v-model="value" :options="options">
+               </mt-radio>
+             </div>
+               <div class="coupon-close" @click="close()" v-show="show">
+                 关闭
+              </div>
+          </div>
+        </transition>
+
+
+
       </div>
 
     </div>
@@ -129,7 +157,20 @@
         rxId: this.$route.query.rxId,
         deliveryType: 'SELF',
         payType: 'ALIPAY',
-        hospitalInfo: []
+        hospitalInfo: [],
+        show: false,
+        options: [{
+          label: '满100元减5元',
+          value: '值F'
+        },
+        {
+          label: '满200元减10元',
+          value: '值A'
+        },
+        {
+          label: '满400元减28元',
+          value: '值B'
+        }]
       };
     },
     components: {},
@@ -140,6 +181,12 @@
       ...mapGetters(['receiveAddress'])
     },
     methods: {
+      close() {
+        this.show = !this.show;
+      },
+      coupon() {
+        this.show = !this.show;
+      },
       getData() {
         if (JSON.stringify(this.receiveAddress) === '{}') {
           this.$http.get('addresses/default').then(res => {
@@ -194,7 +241,6 @@
 
   .address .center {
     font-size: 20px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
@@ -392,6 +438,80 @@
     border-radius: 50px;
     outline: none;
     border: 0;
+  }
+  .coupons{
+    width: 720px;
+    height: 60px;
+    line-height: 60px;
+    margin-top: 80px;
+    font-size: 24px;
+  }
+  .coupons span:first-child{
+    margin-left: 20px;
+    font-size: 24px;
+  }
+  .coupons span:nth-child(2){
+    margin-right: 20px;
+    font-size: 24px;
+  }
+
+  /*定义进入过渡的结束状态*/
+  .slide-fades-enter-active {
+    transition: all 0.5s ease;
+
+  }
+
+  /* 定义离开过渡的结束状态*/
+  .slide-fades-leave-active {
+    transition: all 0.5s ease;
+  }
+
+  /*离开过渡的结束状态*/
+  .slide-fades-leave-active {
+    bottom: 0rem !important;
+  }
+
+  .slide-fades-leave-to {
+    bottom: -28rem !important;
+  }
+
+  /*进入过渡的开始状*/
+  .slide-fades-enter {
+    bottom: -22rem !important;
+  }
+
+  .new-coupons{
+    position: absolute;
+    bottom: 0px;
+    z-index: 99999;
+    width:720px;
+    height:441px;
+    background:rgba(255,255,255,1);
+  }
+  .coupon-close{
+    width:720px;
+    height:64px;
+    background:rgba(19,193,254,1);
+    color: white;
+    text-align:center;
+    line-height: 64px;
+    font-size:30px;
+    z-index: 99999;
+    bottom: 0px;
+    position: absolute;
+ }
+  .use-coupon{
+    width: 720px;
+    height: 82px;
+    line-height: 82px;
+    text-align:center;
+    font-size:30px;
+  }
+  .mint-radio-label{
+    font-size:24px!important;
+  }
+  input[type='radio']{
+    font-size:24px!important;
   }
 </style>
 

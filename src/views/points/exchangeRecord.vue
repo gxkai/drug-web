@@ -47,6 +47,7 @@
         this.process = true;
         this.$http.get('/couponRecords/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
+            debugger;
             this.goodsList = this.goodsList.concat(res.data.list);
             if (!this.pages) {
               this.pages = res.data.pages;

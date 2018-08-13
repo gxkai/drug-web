@@ -5,15 +5,12 @@
         <div slot="left">
           <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
         </div>
-        <div slot="right">
-          <i class="iconfont ic-fenxiang" @click="shareAction(shares[0])"></i>
-        </div>
       </new-header>
       <div class="points-me bg-white">
         <div class="left d-inline-block fl">
           <i class="iconfont ic-jifen text-13C1FE"></i>
           <span class="text-333333 d-inline-block">剩余积分：</span>
-          <span class="text-EC6941 d-inline-block">1200</span>
+          <span class="text-EC6941 d-inline-block">{{$store.getters.account.point}}</span>
         </div>
         <div class="middle d-inline-block fl"></div>
         <div class="right">
@@ -30,10 +27,9 @@
       </div>
     </div>
     <new-coupon v-bind:couponList="couponList"></new-coupon>
- </div>
+  </div>
 </template>
 <script>
-  import {Toast} from 'mint-ui';
   export default {
     name: 'newPayList',
     data() {
@@ -43,21 +39,13 @@
         couponList: []
       };
     },
-    methods: {
-      shareAction() { // eslint-disable-next-line
-        plus.share.getServices(function (s) {
-          shares = s;
-        }, function (e) {
-          alert('获取分享服务列表失败：' + e.message);
-        });
-      }
-    },
+    methods: {},
     created: function () {
-      this.$http.get('/couponRecords')
+      this.$http.get('/coupons')
         .then(res => {
-          if (res) {
-            Toast('获取列表成功');
-          }
+          console.log('111111');
+          console.log(res);
+          this.couponList = res.data.list;
         });
     }
   };

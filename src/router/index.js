@@ -16,7 +16,11 @@ export default new Router({
     },
     {
       path: '/',
-      component: () => import('@/views/index')
+      component: () => import('@/views/points/index')
+    },
+    {
+      path: '/points/exchangeRecord',
+      component: () => import('@/views/points/exchangeRecord')
     },
     // accounts
     {

@@ -1,26 +1,14 @@
 <template>
    <div>
-
-     <!--
-      "list": [
-    {
-      "expiryDate": "2018-08-10T07:32:24.267Z",
-      "fileId": "string",
-      "id": "string",
-      "name": "string",
-      "point": 0,
-      "state": "UNUSED",
-      "type": "TICKET"
-    }
-    -->
-     <div class="coupon-bg text-white exchange-gift text-center" v-for="(coupon,index) in couponList">
-       <div class="coupon-img"><img src="../assets/image/coupon/coupon-bg.png" v-lazy="getImgURL(coupon.fileId,'SMALL_LOGO')" class="coupon-bg1"/></div>
+      <div class="coupon-bg text-white exchange-gift text-center" v-for="(coupon,index) in couponList">
+       <div class="coupon-img">
+          <img v-lazy="getImgURL(coupon.fileId,'SMALL_LOGO')" class="coupon-bg1"/></div>
        <div class="text-333333 coupon-voucher">
          <span>{{coupon.point}}元优惠券</span>
          <span><span class="text-red">{{coupon.point}}</span>金币</span>
        </div>
        <div class="text-center width-percent-100">
-           <div class="coupon-immediatetly" @click="redeem(index)">
+           <div class="coupon-immediatetly" @click="redeem(coupon,index)">
              立即兑换
            </div>
        </div>
@@ -45,10 +33,11 @@
     watch: {
     },
     methods: {
-      redeem() {
-        this.$http.post('/couponRecords/id=1')
+      redeem(item,index) {
+        alert(item.id);
+        this.$http.post('/couponRecords/' + item.id)
           .then(res => {
-
+            debugger;
           });
       }
     },
