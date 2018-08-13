@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
-import coupon from '@/components/coupon';
 
 Vue.use(Router);
 
@@ -12,9 +11,8 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/coupon',
-      name: 'coupon',
-      component: coupon
+      path: '/drugs/search',
+      component: () => import('@/views/drugs/search')
     },
     {
       path: '/',
@@ -25,13 +23,11 @@ export default new Router({
       path: '/accounts',
       component: () => import('@/views/accounts/index')
     }, {
-      path: '/accounts/bind',
+      path: '/accounts/card/bind',
       component: () => import('@/views/accounts/card/bind')
-    }, {
-      path: '/accounts/unbind',
-      component: () => import('@/views/accounts/card/unbind')
-    }, {
-      path: '/accounts/bind/success',
+    },
+    {
+      path: '/accounts/card/bind/success',
       component: () => import('@/views/accounts/card/success')
     },
     {
@@ -322,22 +318,6 @@ export default new Router({
     {
       path: '/shops/drugs',
       component: () => import('@/views/shops/drugs/index.vue')
-    },
-    {
-      path: '/points',
-      component: () => import('@/views/points/index.vue')
-    },
-    {
-      path: '/points/view',
-      component: () => import('@/views/points/view.vue')
-    },
-    {
-      path: '/points/exchangeRecord',
-      component: () => import('@/views/points/exchangeRecord.vue')
-    },
-    {
-      path: '/points/signIn',
-      component: () => import('@/views/points/signIn.vue')
     }
   ]
 });

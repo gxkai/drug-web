@@ -1,19 +1,20 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="creeningConditions">
-    <mt-header :title="headTitle">
-      <router-link to="#" slot="left">
-        <mt-button icon="back" @click="$router.go(-1)"></mt-button>
-      </router-link>
-      <mt-button slot="right" @click="submit()">确定</mt-button>
-    </mt-header>
+    <new-header>
+      <div slot="left" @click="$router.go(-1)">
+        <i class="iconfont ic-arrow-right"></i>
+      </div>
+      <div @click="submit()" slot="right">
+        <span>确定</span>
+      </div>
+    </new-header>
     <mt-checklist align="right" title="" v-model="value" :options="options" style="flex:1!important;-webkit-box-flex: 1!important;"></mt-checklist>
   </div>
 </template>
 
 
 <script>
-  let URL_PATH = process.env.URL_PATH;
   export default {
     name: 'orderDetails',
     data() {
@@ -47,16 +48,16 @@
         let requestUrl;
         switch (Number(this.filterType)) {
           case 1:
-            requestUrl = URL_PATH + '/drugs/name?drugTypeId=' + this.drugTypeId;
+            requestUrl = '/drugs/name?drugTypeId=' + this.drugTypeId;
             break;
           case 2:
-            requestUrl = URL_PATH + '/origins?drugTypeId=' + this.drugTypeId;
+            requestUrl = '/origins?drugTypeId=' + this.drugTypeId;
             break;
           case 3:
-            requestUrl = URL_PATH + '/specs?drugTypeId=' + this.drugTypeId;
+            requestUrl = '/specs?drugTypeId=' + this.drugTypeId;
             break;
           case 4:
-            requestUrl = URL_PATH + '/forms?drugTypeId=' + this.drugTypeId;
+            requestUrl = '/forms?drugTypeId=' + this.drugTypeId;
             break;
         }
         return requestUrl;
@@ -65,16 +66,16 @@
         let requestUrl;
         switch (Number(this.filterType)) {
           case 1:
-            requestUrl = URL_PATH + '/drugs/name/keyword?keyword=' + this.keyword;
+            requestUrl = '/drugs/name/keyword?keyword=' + this.keyword;
             break;
           case 2:
-            requestUrl = URL_PATH + '/origins/keyword?keyword=' + this.keyword;
+            requestUrl = '/origins/keyword?keyword=' + this.keyword;
             break;
           case 3:
-            requestUrl = URL_PATH + '/specs/keyword?keyword=' + this.keyword;
+            requestUrl = '/specs/keyword?keyword=' + this.keyword;
             break;
           case 4:
-            requestUrl = URL_PATH + '/forms/keyword?keyword=' + this.keyword;
+            requestUrl = '/forms/keyword?keyword=' + this.keyword;
             break;
         }
         return requestUrl;
@@ -91,6 +92,8 @@
               this.options.push(val);
             });
             this.initChecked();
+          }).catch(error => {
+            this.exception(error);
           });
       },
 

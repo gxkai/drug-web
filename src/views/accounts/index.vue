@@ -25,7 +25,7 @@
         <new-header height="low" bgColor="white" leftColor="#333333" leftSize="smaller" rightColor="#999999"
                     rightSize="smaller">
           <span slot="left">全部订单</span>
-          <router-link tag="span" to="/orders" slot="right">我的订单></router-link>
+          <router-link tag="span" to="/orders" slot="right">我的订单<i class="iconfont ic-youjiantou"></i> </router-link>
         </new-header>
         <new-line></new-line>
         <div class="nav-bar-order">
@@ -122,7 +122,7 @@
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.$el.clientHeight
       ) + 'px';
-      this.$refs.body.style.overflow = 'scroll';
+      this.$refs.body.style.overflow = 'auto';
     }
   }
   ;
@@ -199,7 +199,7 @@
 
   .nav-bar {
     background: rgba(255, 255, 255, 1);
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   .nav-bar-order {

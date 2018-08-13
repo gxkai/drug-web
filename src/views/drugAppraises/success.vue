@@ -70,7 +70,7 @@
   .body2 {
     margin-top: 30px;
     height: calc(100vh - 367px);
-    overflow: scroll;
+    overflow: auto;
   }
   .body2 li {
     height: 159px;
@@ -107,6 +107,6 @@
   .body2 .center {
     word-break: break-all;
     word-wrap: break-word;
-    overflow: scroll;
+    overflow: auto;
   }
 </style>

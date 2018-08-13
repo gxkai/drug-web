@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="bind-container">
     <new-header title="医保卡绑定">
@@ -10,12 +9,12 @@
     <div class="content-lists">
       <div class="content-list">
         <i class="iconfont ic-xingming"></i>
-        <input type="text" v-model="account.name" placeholder="请先维护账户信息" disabled/>
+        <input type="text" v-model="account.name" placeholder="请先维护账户信息" />
       </div>
 
       <div class="content-list">
         <i class="iconfont ic-Id"></i>
-        <input type="number" v-model="account.identityNumber" placeholder="请先维护账户信息" disabled/>
+        <input type="number" v-model="account.identityNumber" placeholder="请先维护账户信息" />
       </div>
 
       <div class="content-list">
@@ -107,6 +106,7 @@
     outline: none;
     border: 0;
     color: rgba(204, 204, 204, 1);
+    width: 300px;
   }
 
   .bind-btn {

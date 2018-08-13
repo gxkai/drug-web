@@ -1,7 +1,6 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="container">
-    <new-header :title="message">
+    <new-header title="医保卡绑定成功">
       <div slot="left" @click="$router.go(-1)">
         <i class="iconfont ic-arrow-right"></i>
       </div>
@@ -24,21 +23,9 @@
 <script>
   export default {
     data() {
-      return {
-        message: ''
-      };
+      return {};
     },
-    beforeRouteEnter(to, from, next) {
-      next(vm => {
-        if (from.path === '/accounts/card/bind') {
-          vm.message = '医保卡绑定成功';
-        } else {
-          vm.message = '医保卡解绑成功';
-        }
-      });
-    },
-    created: function () {
-    }
+    created: function () {}
   };
 </script>
 
@@ -69,10 +56,8 @@
   }
 
   .div-btn {
-    width: 620px;
-    display: block;
-    margin: auto;
-
+    display: flex;
+    justify-content: center;
   }
 
   .div-btn a {

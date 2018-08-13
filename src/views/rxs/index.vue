@@ -177,7 +177,7 @@
     width: 720px;
     background: #f5f5f5;
     height: 100vh;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .is-30x30 {

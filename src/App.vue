@@ -31,11 +31,6 @@ export default {
   }
 };
 </script>
-
-<style>
-/*@import "assets/css/all.css";*/
-/*@import "assets/css/common.css";*/
-</style>
 <style lang="scss">
 @import "assets/scss/index.scss";
 
