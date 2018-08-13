@@ -49,9 +49,6 @@
         this.$http.post('/couponRecords/id=1')
           .then(res => {
 
-          })
-          .catch(error => {
-
           });
       }
     },
