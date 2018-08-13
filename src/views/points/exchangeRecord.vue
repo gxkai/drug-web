@@ -32,7 +32,7 @@
         pageNum: 0,
         pageSize: 5,
         pages: null
-      }
+      };
     },
     methods: {
       loadMore() {
@@ -53,9 +53,9 @@
             }
             this.process = false;
           }).catch(error => {
-          this.exception(error);
-          this.process = false;
-        });
+            this.exception(error);
+            this.process = false;
+          });
       }
     },
     created() {

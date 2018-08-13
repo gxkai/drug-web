@@ -105,7 +105,6 @@
 </template>
 <script>
   import {Toast} from 'mint-ui';
-
   export default {
     name: 'newPayList',
     data() {
@@ -116,12 +115,9 @@
         address: '',
         headTitle: '多力葵花籽油',
         show: false,
-        address: '',
-        consignee: '',
         fileId: '',
         id: '',
         name: '',
-        phone: '',
         point: '',
         exchangeGoods: []
       };
@@ -139,11 +135,9 @@
         this.$http.post('/api/couponRecords/3/article', data)
           .then(res => {
             if (res.data.status === 200) {
-              Toast("兑换成功");
+              Toast('兑换成功');
             }
-          }).catch(error => {
-          Toast("兑换失败");
-        })
+          });
       },
       close() {
         this.show = !this.show;
@@ -154,9 +148,7 @@
       this.$http.get('/couponRecords/' + ID + '/article')
         .then(res => {
           this.exchangeGoods = res.data;
-        }).catch(error => {
-        Toast('测试');
-      });
+        });
     }
   };
 </script>

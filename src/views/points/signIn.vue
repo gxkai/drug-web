@@ -27,7 +27,7 @@
         <ul>
           <li
             :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}"
-            v-for="(item,index) in coupunList" v-if="index<3">
+            v-for="(item,index) in couPunList" v-if="index<3">
             {{item.point}}}积分兑换
           </li>
         </ul>
@@ -62,7 +62,7 @@
       return {
         headTitle: '多力葵花籽油',
         show: false,
-        coupunList: [],
+        couPunList: [],
         demoEvents: [{
           date: '2018/08/15',
           title: 'eat'
@@ -83,10 +83,7 @@
     created() {
       this.$http.get('/couponRecords')
         .then(res => {
-          this.coupunList = res.data;
-        })
-        .catch(error => {
-
+          this.couPunList = res.data;
         });
     }
   };

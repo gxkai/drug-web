@@ -5,6 +5,9 @@
         <div slot="left">
           <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
         </div>
+        <div slot="right">
+          <i class="iconfont ic-fenxiang" @click="shareAction(shares[0])"></i>
+        </div>
       </new-header>
       <div class="points-me bg-white">
         <div class="left d-inline-block fl">
@@ -31,7 +34,6 @@
 </template>
 <script>
   import {Toast} from 'mint-ui';
-
   export default {
     name: 'newPayList',
     data() {
@@ -39,15 +41,24 @@
         pageNum: 1,
         pageSize: 15,
         couponList: []
+      };
+    },
+    methods: {
+      shareAction() { // eslint-disable-next-line
+        plus.share.getServices(function (s) {
+          shares = s;
+        }, function (e) {
+          alert('获取分享服务列表失败：' + e.message);
+        });
       }
     },
-    methods: {},
-    created() {
+    created: function () {
       this.$http.get('/couponRecords')
         .then(res => {
-        }).catch(error => {
-        Toast('获取列表失败');
-      });
+          if (res) {
+            Toast('获取列表成功');
+          }
+        });
     }
   };
 </script>
