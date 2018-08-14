@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-content position-relative">
     <new-header title="药店列表">
@@ -16,22 +15,22 @@
       <div class="shadow-content position-relative">
         <i class="iconfont ic-guanbi2 position-absolute position-tr" @click="takeUp"></i>
         <div class="is-flex flex-sb p-10">
-          <span><i class="iconfont ic-changshangbaojia text-13C1FE"></i> 选择厂商</span>
+          <span class="text-l-25"><i class="iconfont ic-changshangbaojia text-13C1FE"></i> 选择厂商</span>
         </div>
         <div>
           <div class="is-flex flex-sb p-10-20">
             <div class="text-13C1FE">
               <i class="iconfont ic-changfang"></i>
-              <span>厂商名称</span>
+              <span class="text-l-20">厂商名称</span>
             </div>
             <div class="text-13C1FE">
               <i class="iconfont ic-jiage"></i>
-              <span>价格</span>
+              <span class="text-l-20">价格</span>
             </div>
           </div>
           <div v-for="(origin,index) in origins" @click="choose(index)" class="is-flex flex-sb p-10-20">
-            <span>{{origin.originName}}</span>
-            <span class="text-red">¥ {{origin.price}}</span>
+            <span class="text-l-25">{{origin.originName}}</span>
+            <span class="text-red text-l-25">¥ {{origin.price}}</span>
           </div>
         </div>
       </div>
@@ -110,6 +109,8 @@
           .then(res => {
             this.drugs = res.data;
             this.initCart();
+          }).catch(error => {
+            this.exception(error);
           });
       },
       lookMore(index) {
@@ -127,7 +128,7 @@
           this.carts.push({
             accountId: this.account.id,
             shopId: this.shopId,
-            rxId: this.id,
+            rxId: this.rxId,
             drugSpecId: drug.drugs[0].drugSpecId,
             shopDrugSpecId: drug.drugs[0].shopDrugSpecId,
             name: drug.name,
@@ -149,7 +150,7 @@
         cart.shopDrugSpecId = this.origins[index].shopDrugSpecId;
         cart.price = this.origins[index].price;
         cart.fileId = this.origins[index].fileId;
-
+        cart.originName = this.origins[index].originName;
         this.amount = 0;
         this.carts.forEach(e => {
           this.amount += e.price;
@@ -184,9 +185,8 @@
     bottom:0;
     left:0;
     right:0;
-    background:#000;
-    opacity:0.8;
-    z-index: 19950502;
+    background:rgba(0, 0, 0, 0.5);
+    z-index: 1;
   }
   .shadow-content{
     background: white;
@@ -341,6 +341,19 @@
   }
 
   .drug-item .iconfont,.rx-total .iconfont {
+    font-size: 30px;
+  }
+
+  .shadow-content .ic-changshangbaojia {
+    font-size: 30px;
+  }
+  .shadow-content .ic-changfang {
+    font-size: 30px;
+  }
+  .shadow-content .ic-jiage {
+    font-size: 30px;
+  }
+  .shadow-content .ic-guanbi2 {
     font-size: 30px;
   }
 </style>
