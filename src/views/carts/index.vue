@@ -100,7 +100,7 @@
                             <div>
                               <span>x{{cartDrug.quantity}}</span>
                             </div>
-                            <div class="multi-input bordr1" v-if="cartRx.rxId !== '0'">
+                            <div class="multi-input bordr1" v-if="cartRx.rxId === '0'">
                               <input value="-" type="button" class="onCut" @click.stop="onCut(cartDrug)"><input
                               v-model="cartDrug.quantity" type="button" class="numBer">
                               <input value="+" type="button" @click.stop="onAdd(cartDrug)" class="onAdd">
@@ -600,6 +600,7 @@
     font-size: 24px;
     color: rgba(51, 51, 51, 1);
     line-height: 0.1rem;
+    outline: none;
   }
 
   .color-333 {
