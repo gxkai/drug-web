@@ -1,27 +1,25 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-shop-contanier">
-    <!-- TODO 搜索 -->
     <div ref="header">
     <new-header>
       <div slot="left" @click="$router.go(-1)">
         <i class="iconfont ic-arrow-right"></i>
       </div>
-      <input tag="a" slot="center" class="header-search" @click="$router.push('/drugs/search')">
+      <input slot="center" class="header-search" @click="$router.push('/drugs/search')" placeholder="通用名、商品名、症状" type="text">
     </new-header>
 
     <ul class="is-flex flex-row flex-sa p-tb-20 all-border">
       <li @click="orderById()" :class="{'blueactive1':index1===comprehensive1}">
-        <span>综合</span>
+        <span class="text-l-25">综合</span>
       </li>
       <li @click="orderByDistance()" :class="{'blueactive1':index2===comprehensive2}">
-        <span>距离最近</span>
+        <span class="text-l-25">距离最近</span>
       </li>
       <li @click="orderByScore()" :class="{'blueactive1':index3===comprehensive3}">
-        <span>好评优先</span>
+        <span class="text-l-25">好评优先</span>
       </li>
       <li @click="orderByPrice()" class="is-flex flex-row " :class="{'blueactive1':index4===comprehensive4}">
-        <span>价格</span>
+        <span class="text-l-25">价格</span>
         <div class="is-flex  position-relative">
           <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"
              :class="val===1?'unActive':'blueActive'"></i>
@@ -32,12 +30,23 @@
     </ul>
     </div>
     <ul ref="body">
-      <div @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:id}})">
-        <new-shop :showStar="false" :fileId="hospital.fileId" :shopName="hospital.name" :phone="hospital.phone"
-                  :address="hospital.address" :price="hospital.amount" :newCart="true" :showIcon="true"></new-shop>
-      </div>
+      <li @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:rxId}})">
+        <new-shop :showStar="false"
+                  :fileId="hospital.fileId"
+                  :shopName="hospital.name"
+                  :phone="hospital.phone"
+                  :address="hospital.address"
+                  :price="hospital.amount"
+                  :newCart="true"
+                  :showIcon="true"
+                  >
+        </new-shop>
+      </li>
 
-      <li v-for="(rxShop,index) in rxShops" @click="onShop(rxShop)" :key="index">
+      <li v-for="(rxShop,index) in rxShops"
+          :key="index"
+          @click.stop="$router.push({path: '/rxs/shops/drugs', query: {rxId: rxId, shopId: rxShop.id, shopName: rxShop.name}});"
+          >
         <new-shop :showStar="true" :fileId="rxShop.fileId" :newScore="rxShop.score" :shopName="rxShop.name"
                   :phone="rxShop.tel"
                   :address="rxShop.area + rxShop.address" :price="rxShop.amount" :newCart="true"></new-shop>
@@ -51,7 +60,7 @@
   export default {
     data() {
       return {
-        id: '',
+        rxId: this.$route.query.rxId,
         rxShops: [],
         lng: 120.9809,
         lat: 31.3872,
@@ -64,7 +73,7 @@
         comprehensive2: -2,
         comprehensive3: -3,
         comprehensive4: -4,
-        hospitalId: '',
+        hospitalId: this.$route.query.hospitalId,
         hospital: {}
       };
     },
@@ -73,17 +82,12 @@
       this.$refs.body.style.overflow = 'auto';
     },
     created() {
-      this.id = this.$route.query.id;
-      this.hospitalId = this.$route.query.hospitalId;
       this.getRxShops();
       this.getHospital();
     },
     methods: {
-      onShop(rxShop) {
-        this.$router.push({path: '/rxs/shops/drugs', query: {id: this.id, shopId: rxShop.id, shopName: rxShop.name}});
-      },
       getRxShops() {
-        this.$http.get('/rxs/' + this.id + '/shops?lng=' + this.lng + '&lat=' + this.lat)
+        this.$http.get('/rxs/' + this.rxId + '/shops?lng=' + this.lng + '&lat=' + this.lat)
           .then(res => {
             this.rxShops = res.data;
           }).catch(error => {
@@ -91,7 +95,7 @@
           });
       },
       getHospital() {
-        this.$http.get('/rxs/' + this.id + '/hospitals')
+        this.$http.get('/rxs/' + this.rxId + '/hospitals')
           .then(res => {
             this.hospital = res.data;
           }).catch(error => {

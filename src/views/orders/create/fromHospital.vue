@@ -34,7 +34,6 @@
           <span> 配送方式</span>
         </div>
         <div class="bottom">
-          <!--<button :class="{active:deliveryType=='DELIVERY'}">送货</button>-->
           <button :class="{active:deliveryType=='SELF'}" @click.stop="onDeliveryType('SELF')">上门自提</button>
         </div>
       </div>

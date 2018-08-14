@@ -19,7 +19,7 @@
                  @keyup.enter="onFocus()">
         </div>
       </div>
-      <div>
+      <div @click="$router.push('/messageTypes')">
         <i class="iconfont ic-lingdang"></i>
       </div>
     </div>
@@ -89,7 +89,7 @@
           <div class="bg-white width-percent-96 m-auto time-down now-oclock">
             <!--  <i class="icon iconfont ic-shijian1 text-FF9800"></i>-->
             <img src="../assets/image/oclock.png" class="oclock"/>
-            <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block down-time"></DownTime>
+            <DownTime @time-end="message = '倒计时结束'" :endTime='endTime' class="d-inline-block"></DownTime>
           </div>
         </div>
         <ul class="flex-wrap position-relative bg-white">

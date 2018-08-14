@@ -12,7 +12,7 @@
     </div>
 
 
-    <swiper :options="swiperOption">
+    <swiper :options="swiperOption" ref="mySwiper">
       <swiper-slide class="login">
         <div class="tel">
           <i class="iconfont ic-shouji shouji"></i>

@@ -4,12 +4,13 @@
       <div class="header-top"></div>
       <slot name="left"><i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i></slot>
       <slot name="center">
-        <!--TODO 搜索 -->
         <div class="d-inline-block fl position-absolute">
 
           <i class="iconfont ic-search d-inline-block fl position-absolute"></i>
           <input type="text" placeholder="           达康药业"
-                 class="border-0 width-percent-100 border-radius25 head-center text-white position-absolute"/>
+                 class="border-0 width-percent-100 border-radius25 head-center text-white position-absolute"
+                  @focus="$router.push('/drugs/search')"
+          />
         </div>
       </slot>
       <slot name="right">
