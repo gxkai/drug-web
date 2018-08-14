@@ -13,7 +13,7 @@
     <div class="is-flex mt-40 flex-end box-right-link">
       <span class="btn-refund">退</span>
       <span class="ml-10">{{pages.state|transformOrderState}}</span>
-      <span @click="$router.push({path:'/orderRefunds/view',query:{shopDrugSpecId:drug.id}})">查看详情</span>
+      <span @click="$router.push({path:'/orderRefunds/view',query:{orderRefundId:pages.id}})">查看详情</span>
     </div>
   </div>
 </div>

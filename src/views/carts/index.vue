@@ -76,7 +76,7 @@
                         <i class="iconfont ic-radiochecked" v-show="cartDrug.radio"></i>
                       </div>
                       <div class="image">
-                        <div class="chu" v-if="cartDrug.otc">非处</div>
+                        <div class="chu" v-if="cartDrug.otc">非</div>
                         <div class="feichu" v-else>处</div>
                         <img v-lazy="getImgURL(cartDrug.fileId, 'LARGE_LOGO')">
                       </div>
