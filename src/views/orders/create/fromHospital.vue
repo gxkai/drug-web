@@ -58,16 +58,15 @@
       <div class="amount">
         <div>
           <span>实付金额：</span>
-          <span>￥{{hospitalInfo.payAmount}}</span>
+          <span>￥{{hospitalInfo.payAmount.toFixed(2)}}</span>
         </div>
         <div>
           <span>商品金额：</span>
-          <span>￥{{hospitalInfo.amount}}</span>
-          <span>(包含运费：0.00)</span>
+          <span>￥{{hospitalInfo.amount.toFixed(2)}}</span>
         </div>
         <div>
           <span>医保扣除：</span>
-          <span>￥{{hospitalInfo.medicaidAmount}}</span>
+          <span>￥{{hospitalInfo.medicaidAmount.toFixed(2)}}</span>
         </div>
       </div>
 
@@ -106,7 +105,7 @@
       <div class="right">
         <div class="left">
           <span>实付金额:</span>
-          <span>￥{{hospitalInfo.payAmount}}</span>
+          <span>￥{{hospitalInfo.payAmount.toFixed(2)}}</span>
         </div>
         <button @click.stop="onOrder()">提交订单</button>
       </div>
@@ -335,6 +334,7 @@
 
   footer .right .left {
     align-self: center;
+    margin-right: 20px;
   }
 
   footer .right .left span:nth-child(1) {

@@ -15,7 +15,7 @@
           <i class="iconfont ic-sousuo"></i>
         </div>
         <div>
-          <input placeholder="通用名、商品名、症状" type="text" v-model="keyword"
+          <input placeholder="通用名、主要商品名、症状" type="text" v-model="keyword"
                  @keyup.enter="onFocus()">
         </div>
       </div>

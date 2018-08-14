@@ -103,26 +103,13 @@
       </div>
     </div>
     <div class="order-buttons">
-      <div class="item-bottom-buttons" v-if="order.state == 'TO_PAY'">
-        <button @click="onCancel()">取消订单</button>
-        <button class="item-bottom-button-active" @click="onPay()">付款</button>
-      </div>
-      <div class="item-bottom-buttons" v-if="order.state == 'TO_APPRAISE'">
-        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY'">查看物流</button>
-        <button @click="onAppraise()">追加评价</button>
-      </div>
-      <div class="item-bottom-buttons" v-if="order.state == 'TO_RECEIVED'">
-        <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
-        <button class="item-bottom-button-active" @click="onConfirm()">确认收货</button>
-        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY'">查看物流</button>
-      </div>
-      <div class="item-bottom-buttons" v-if="order.state == 'TO_DELIVERY'">
-        <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
-        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY'">查看物流</button>
-        <button @click="onRemind()">提醒发货</button>
-      </div>
-      <div class="item-bottom-buttons" v-if="order.state == 'COMPLETED'">
-        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY'">查看物流</button>
+      <div class="item-bottom-buttons">
+        <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
+        <button class="item-bottom-button-active" @click="onRefund()" v-if="order.state == 'TO_CHECK' || 'TO_DELIVERY' || 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED'">申请退款</button>
+        <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货</button>
+        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED' || 'REFUNDING')">查看物流</button>
+        <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">评价</button>
+        <button @click="onDetail()">订单详情</button>
       </div>
     </div>
   </div>
