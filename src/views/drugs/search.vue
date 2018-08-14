@@ -9,7 +9,7 @@
           <div>
             <i class="iconfont ic-sousuo"></i>
           </div>
-          <input type="text" v-model="keyword" placeholder="通用名、商品名、症状">
+          <input type="text" v-model="keyword" placeholder="通用名、主要商品名、症状">
         </div>
         <span @click="onSearch()">搜索</span>
       </div>

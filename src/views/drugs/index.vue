@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小-->
 <template>
   <div class="f_body">
     <div class="f_body" style="overflow: scroll">
@@ -69,7 +68,6 @@
         pages: null,
         loading: false,
         process: false,
-        bottomPullText: '上拉加载更多',
         showDrugTitle: this.$route.query.showDrugTitle,
         pageFrom: this.$route.query.pageFrom,
         drugTypeId: this.$route.query.typeId,
@@ -181,7 +179,6 @@
 
       getRequestUrl() {
         let urlArr = [];
-        // 页面来源 FIXME
         if (this.pageFrom === 'drugType') {
           urlArr.push('/drugs?drugTypeId=' + this.drugTypeId);
         } else {
