@@ -107,7 +107,7 @@
         <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
         <button class="item-bottom-button-active" @click="onRefund()" v-if="order.state == 'TO_CHECK' || 'TO_DELIVERY' || 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED'">申请退款</button>
         <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货</button>
-        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED' || 'REFUNDING')">查看物流</button>
+        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED' || 'REFUNDING')">查看配送</button>
         <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">评价</button>
         <button @click="onDetail()">订单详情</button>
       </div>
