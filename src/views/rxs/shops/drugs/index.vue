@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="rxs-content position-relative">
     <new-header title="药店列表">
@@ -110,6 +109,8 @@
           .then(res => {
             this.drugs = res.data;
             this.initCart();
+          }).catch(error => {
+            this.exception(error);
           });
       },
       lookMore(index) {
@@ -127,7 +128,7 @@
           this.carts.push({
             accountId: this.account.id,
             shopId: this.shopId,
-            rxId: this.id,
+            rxId: this.rxId,
             drugSpecId: drug.drugs[0].drugSpecId,
             shopDrugSpecId: drug.drugs[0].shopDrugSpecId,
             name: drug.name,

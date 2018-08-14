@@ -179,7 +179,6 @@
         //   });
         // }
         this.$http.get('/carts').then(res => {
-          debugger;
           res.data.cartShops.forEach(e => {
             e.radio = false;
             e.rxs.forEach(e => {
