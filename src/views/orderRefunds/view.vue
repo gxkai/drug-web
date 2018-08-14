@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="container">
     <new-header title="退款详情" bgColor="white" leftColor="#333333" color="#333333" rightColor="#333333">
@@ -68,13 +67,13 @@
     name: 'orderRefundDetails',
     data() {
       return {
-        shopDrugSpecId: this.$route.query.shopDrugSpecId,
+        orderRefundId: this.$route.query.orderRefundId,
         list: [],
         count: ''
       };
     },
     created() {
-      this.$http.get('/orderRefunds/' + this.shopDrugSpecId)
+      this.$http.get('/orderRefunds/' + this.orderRefundId)
         .then(res => {
           this.list = res.data;
         }).catch(error => {
@@ -87,12 +86,6 @@
 </script>
 
 <style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-  }
-
   .container {
     width: 720px;
     height: 100vh;

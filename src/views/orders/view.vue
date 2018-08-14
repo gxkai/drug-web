@@ -123,7 +123,6 @@
       </div>
       <div class="item-bottom-buttons" v-if="order.state == 'COMPLETED'">
         <button @click="onDelivery()">查看物流</button>
-        <button @click="onAppraise()">追加评价</button>
       </div>
     </div>
   </div>
@@ -326,6 +325,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 30px;
+    padding-right: 20px;
   }
   .item-bottom-buttons button {
     appearance:none!important;
