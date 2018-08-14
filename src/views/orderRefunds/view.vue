@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="container">
     <new-header title="退款详情" bgColor="white" leftColor="#333333" color="#333333" rightColor="#333333">
@@ -87,12 +86,6 @@
 </script>
 
 <style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-  }
-
   .container {
     width: 720px;
     height: 100vh;
