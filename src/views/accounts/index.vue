@@ -93,23 +93,7 @@
           <img src="../../assets/image/accounts/d-opinion.png"/>
           <span class="text">意见反馈</span>
         </router-link>
-
-
-        <!--
-             <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/drugAppraises">
-                  <img src="../../assets/image/accounts/evaluation.png"/>
-                  <span class="mt-15">我的评价</span>
-                </router-link>
-                 <router-link class="flex-box account-content-padding border-right-gray" to="/accounts/view">
-                  <img src="../../assets/image/accounts/bind.png"/>
-                  <span class="mt-15">账户信息</span>
-                </router-link>
-        -->
-
-
       </div>
-
-
     </div>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
@@ -117,6 +101,7 @@
 
 <script>
   import {Toast} from 'mint-ui';
+
   export default {
     data() {
       return {
