@@ -5,8 +5,8 @@
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
     </new-header>
-     <new-header></new-header>
-     <div class="position-relative">
+    <new-header></new-header>
+    <div class="position-relative">
       <img src="../../assets/image/coupon/signin-bg.png" class="sign-bg"/>
       <div class="points-info">
         <p class="all-points">{{$store.getters.account.point}}积分</p>
@@ -23,7 +23,7 @@
           <span class="fz20 fr">查看更多 <i class="iconfont ic-youjiantou"></i></span>
         </div>
       </div>
-       <div class="signin-gift">
+      <div class="signin-gift">
         <ul>
           <li
             :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}"
@@ -40,7 +40,7 @@
           </div>
         </template>
       </vue-event-calendar>
-    <div id="whole" v-show="show"></div>
+      <div id="whole" v-show="show"></div>
       <div class="signin-points" v-show="show">
         <div class="width-percent-100 text-right">
           <i class="iconfont ic-guanbi" @click="closed()"></i>
@@ -56,92 +56,92 @@
   </div>
 </template>
 <script>
-   export default {
-     name: 'newPayList',
-     data() {
-       return {
-         headTitle: '多力葵花籽油',
-         show: false,
-         points: '',
-         couPunList: [],
-         demoEvents: [],
-         arr: []
-       };
-     },
-     methods: {
-       monthChange(month) {
-         console.log(month);
-       },
-       dayChange(day) {
-         console.log(day);
-       },
-       closed() {
-         this.show = !this.show;
-       },
-       time(date) {
-         return new Date(date);
-       },
-       continuousDate() {
-         let _this = this;
-         var date = new Date();
-         var y = date.getFullYear();
-         var m = date.getMonth() + 1;
-         var d = date.getDate();
-         var today = y + '/' + m + '/' + d;
-         var num = 0;// 声明计数变量;
-         this.$http.get('/pointRecords/signIn?month=' + m + '&year=' + y)
-           .then(res => {
-             let arr = res.data;
-             let newArr = arr.map(val => {
-               let json = {};
-               json.date = val.split('-').join('/');
-               return json;
-             });
-             var le = newArr.length;
-             let arrrrr = newArr[1];
-             var vvv = new Date(today);
-             var ccc = new Date('2018/08/13');
-             var bbb = vvv - ccc;
-             if (new Date(today) - new Date(newArr[le - 1]) === 86400000) {
-               alert(333);
-               num = 2;
-               debugger;
-               for (var i = le; i > 0; i--) {
-                 if (_this.time(newArr[i - 1]) - _this.time(newArr[i - 2]) === 86400000) {
-                   num++;
-                 } else {
-                   console.log('看看连续了几天' + num);
-                   break;
-                 }
-               }
-             } else {
-               console.log('第一天');
-             }
-           });
-       }
-     },
-     created() {
-       let point = this.$route.query.points;
-       this.points = point;
-       this.show = !this.show;
-       var date = new Date();
-       var year = date.getFullYear();
-       var month = date.getMonth() + 1;
-       this.$http.get('/pointRecords/signIn?month=' + month + '&year=' + year)
-         .then(res => {
-           let arr = res.data;
-           this.arr = res.data;
-           let newArr = arr.map(val => {
-             let json = {};
-             json.date = val.split('-').join('/');
-             json.title = '';
-             return json;
-           });
-           this.demoEvents = newArr;
-           this.continuousDate();
-         });
-     }
-};
+  export default {
+    name: 'newPayList',
+    data() {
+      return {
+        headTitle: '多力葵花籽油',
+        show: false,
+        points: '',
+        couPunList: [],
+        demoEvents: [],
+        arr: []
+      };
+    },
+    methods: {
+      monthChange(month) {
+        console.log(month);
+      },
+      dayChange(day) {
+        console.log(day);
+      },
+      closed() {
+        this.show = !this.show;
+      },
+      time(date) {
+        return new Date(date);
+      },
+      continuousDate() {
+        let _this = this;
+        var date = new Date();
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        var d = date.getDate();
+        var today = y + '/' + m + '/' + d;
+        var num = 0;// 声明计数变量;
+        this.$http.get('/pointRecords/signIn?month=' + m + '&year=' + y)
+          .then(res => {
+            let arr = res.data;
+            let newArr = arr.map(val => {
+              let json = {};
+              json.date = val.split('-').join('/');
+              return json;
+            });
+            var le = newArr.length;
+            let arrrrr = newArr[1];
+            var vvv = new Date(today);
+            var ccc = new Date('2018/08/13');
+            var bbb = vvv - ccc;
+            if (new Date(today) - new Date(newArr[le - 1]) === 86400000) {
+              alert(333);
+              num = 2;
+              debugger;
+              for (var i = le; i > 0; i--) {
+                if (_this.time(newArr[i - 1]) - _this.time(newArr[i - 2]) === 86400000) {
+                  num++;
+                } else {
+                  console.log('看看连续了几天' + num);
+                  break;
+                }
+              }
+            } else {
+              console.log('第一天');
+            }
+          });
+      }
+    },
+    created() {
+      let point = this.$route.query.points;
+      this.points = point;
+      this.show = !this.show;
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      this.$http.get('/pointRecords/signIn?month=' + month + '&year=' + year)
+        .then(res => {
+          let arr = res.data;
+          this.arr = res.data;
+          let newArr = arr.map(val => {
+            let json = {};
+            json.date = val.split('-').join('/');
+            json.title = '';
+            return json;
+          });
+          this.demoEvents = newArr;
+          this.continuousDate();
+        });
+    }
+  };
 </script>
 
 <style scoped>
@@ -295,7 +295,8 @@
   .events-wrapper {
     display: none;
   }
-  .__vev_calendar-wrapper .cal-wrapper .cal-body .weeks{
-    font-size: 14px!important;
+
+  .__vev_calendar-wrapper .cal-wrapper .cal-body .weeks {
+    font-size: 14px !important;
   }
 </style>
