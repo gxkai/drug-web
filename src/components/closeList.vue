@@ -11,7 +11,7 @@
         <li v-for="cartRx in cartShop.rxs">
           <ul class="cartDrugs">
             <new-header bgColor="white" height="low" leftSize="small" leftColor="black"
-                        v-if="cartRx.rxId && cartRx.rxState == 'ENABLED'">
+                        v-if="cartRx.rxId !== '0' && cartRx.rxState == 'ENABLED'">
               <div slot="left">
               <i class="iconfont ic-chufangdanluru" ></i>
               </div>
