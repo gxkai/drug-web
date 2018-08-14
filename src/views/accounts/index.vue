@@ -11,11 +11,12 @@
     <div ref="body">
       <div class="header all-center" v-if="JSON.stringify(account) !== '{}'">
         <img class="header-img" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
-        <span class="header-text">{{account.name}}</span>
-        <span class="everyday" style="background:'url('assets/image/accounts/dayily.png')">
-          <span @click="everyDay()" style="background:'url('assets/image/accounts/dayily.png')">每日签到</span>
+        <span class="everyday"
+              :style="{backgroundImage:'url('+require('../../assets/image/accounts/dayily.png')+')',backgroundSize:'100%'}"
+              @click="everyDay()">
+        每日签到
         </span>
-      </div>
+       </div>
       <div class="header all-center" v-else>
         <router-link to="/login">
           <img class="header-img" src="../../assets/image/accounts/default_head.jpg"/>
@@ -118,8 +119,13 @@
         }
       },
       everyDay() {
-        this.$http.get('/pointRecords/signIn').then(res => {
-          debugger;
+        this.$http.post('/pointRecords/signIn').then(res => {
+          if (res.status === 200) {
+            this.$http.get('/pointRecords/signInPoint').then(res => {
+              Toast('签到成功');
+              this.$router.push('/points/signIn');
+            });
+          }
         }).catch(error => {
           if (error) {
             Toast('一天只能签到一次哦');
@@ -143,11 +149,17 @@
   }
   ;
 </script>
-
 <style scoped>
   .everyday {
     width: 117px;
-
+    display: inline-block;
+    height: 47px;
+    position: absolute;
+    top: 173px;
+    line-height: 47px;
+    text-align: center;
+    right: 0px;
+    font-size:22px;
   }
 
   .is-flex {
@@ -302,5 +314,6 @@
     color: rgba(102, 102, 102, 1);
     line-height: 40px;
   }
+
 
 </style>

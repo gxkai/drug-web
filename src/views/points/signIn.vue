@@ -67,7 +67,7 @@
           date: '2018/08/15',
           title: 'eat'
         }, {
-          date: '2018/08/12',
+          date: '2018/08/01',
           title: 'this is a title'
         }]
       };
@@ -239,5 +239,8 @@
 
   .events-wrapper {
     display: none;
+  }
+  .__vev_calendar-wrapper .cal-wrapper .cal-body .weeks{
+    font-size: 14px!important;
   }
 </style>
