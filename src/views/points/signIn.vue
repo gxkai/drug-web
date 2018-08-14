@@ -9,10 +9,10 @@
      <div class="position-relative">
       <img src="../../assets/image/coupon/signin-bg.png" class="sign-bg"/>
       <div class="points-info">
-        <p class="all-points">275积分</p>
-        <p class="has-signed width-percent-100">&nbsp;&nbsp;已签到</p>
+        <p class="all-points">{{$store.getters.account.point}}积分</p>
+        <p class="has-signed width-percent-100">&nbsp;已签到</p>
         <p class="text-center text-13C1FE continuity width-percent-100">&nbsp;&nbsp;连续5天</p>
-        <p class="text-center has-signed2 text-white width-percent-100">今日已签到，获得15积分</p>
+        <p class="text-center has-signed2 text-white width-percent-100">今日已签到，获得{{points}}积分</p>
       </div>
     </div>
     <div class="bg-white">
@@ -43,50 +43,105 @@
     <div id="whole" v-show="show"></div>
       <div class="signin-points" v-show="show">
         <div class="width-percent-100 text-right">
-          <i class="iconfont ic-guanbi"></i>
+          <i class="iconfont ic-guanbi" @click="closed()"></i>
         </div>
         <div>
           <img :src="require('../../assets/image/coupon/golen.png')" class="golden"/>
         </div>
         <div class="text-center scccsess">签到成功</div>
         <div class="text-center controduction">恭喜你获得</div>
-        <div class="text-center five-points">5积分</div>
+        <div class="text-center five-points">{{points}}积分</div>
       </div>
     </div>
   </div>
 </template>
 <script>
-  export default {
-    name: 'newPayList',
-    data() {
-      return {
-        headTitle: '多力葵花籽油',
-        show: false,
-        couPunList: [],
-        demoEvents: [{
-          date: '2018/08/15',
-          title: 'eat'
-        }, {
-          date: '2018/08/01',
-          title: 'this is a title'
-        }]
-      };
-    },
-    methods: {
-      monthChange(month) {
-        console.log(month);
-      },
-      dayChange(day) {
-        console.log(day);
-      }
-    },
-    created() {
-      this.$http.get('/couponRecords')
-        .then(res => {
-          this.couPunList = res.data;
-        });
-    }
-  };
+   export default {
+     name: 'newPayList',
+     data() {
+       return {
+         headTitle: '多力葵花籽油',
+         show: false,
+         points: '',
+         couPunList: [],
+         demoEvents: [],
+         arr: []
+       };
+     },
+     methods: {
+       monthChange(month) {
+         console.log(month);
+       },
+       dayChange(day) {
+         console.log(day);
+       },
+       closed() {
+         this.show = !this.show;
+       },
+       time(date) {
+         return new Date(date);
+       },
+       continuousDate() {
+         let _this = this;
+         var date = new Date();
+         var y = date.getFullYear();
+         var m = date.getMonth() + 1;
+         var d = date.getDate();
+         var today = y + '/' + m + '/' + d;
+         var num = 0;// 声明计数变量;
+         this.$http.get('/pointRecords/signIn?month=' + m + '&year=' + y)
+           .then(res => {
+             let arr = res.data;
+             let newArr = arr.map(val => {
+               let json = {};
+               json.date = val.split('-').join('/');
+               return json;
+             });
+             var le = newArr.length;
+             let arrrrr = newArr[1];
+             var vvv = new Date(today);
+             var ccc = new Date('2018/08/13');
+             var bbb = vvv - ccc;
+             if (new Date(today) - new Date(newArr[le - 1]) === 86400000) {
+               alert(333);
+               num = 2;
+               debugger;
+               for (var i = le; i > 0; i--) {
+                 if (_this.time(newArr[i - 1]) - _this.time(newArr[i - 2]) === 86400000) {
+                   num++;
+                 } else {
+                   console.log('看看连续了几天' + num);
+                   break;
+                 }
+               }
+             } else {
+               console.log('第一天');
+             }
+           });
+       }
+     },
+     created() {
+       let point = this.$route.query.points;
+       this.points = point;
+       this.show = !this.show;
+       var date = new Date();
+       var year = date.getFullYear();
+       var month = date.getMonth() + 1;
+       this.$http.get('/pointRecords/signIn?month=' + month + '&year=' + year)
+         .then(res => {
+           let arr = res.data;
+           this.arr = res.data;
+           let newArr = arr.map(val => {
+             let json = {};
+             json.date = val.split('-').join('/');
+             json.title = '';
+             return json;
+           });
+           this.demoEvents = newArr;
+           this.continuousDate();
+         });
+     }
+};
 </script>
 
 <style scoped>

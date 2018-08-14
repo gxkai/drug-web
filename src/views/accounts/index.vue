@@ -122,8 +122,7 @@
         this.$http.post('/pointRecords/signIn').then(res => {
           if (res.status === 200) {
             this.$http.get('/pointRecords/signInPoint').then(res => {
-              Toast('签到成功');
-              this.$router.push('/points/signIn');
+              this.$router.push('/points/signIn?points='+res.data);
             });
           }
         }).catch(error => {

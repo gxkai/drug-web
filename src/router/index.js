@@ -16,11 +16,26 @@ export default new Router({
     },
     {
       path: '/',
-      component: () => import('@/views/points/index')
+      component: () => import('@/views/index')
     },
     {
       path: '/points/exchangeRecord',
       component: () => import('@/views/points/exchangeRecord')
+    },
+    {
+      path: '/points',
+      alias: '/points/index',
+      component: () => import('@/views/points/index')
+    },
+    {
+      path: '/signIn',
+      alias: '/points/signIn',
+      component: () => import('@/views/points/signIn')
+    },
+    {
+      path: '/signIn',
+      alias: '/points/signIn',
+      component: () => import('@/views/points/signIn')
     },
     // accounts
     {
