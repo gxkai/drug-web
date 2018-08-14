@@ -144,7 +144,7 @@
           'price': this.orderInfo.totalAmount,
           'reason': this.reason
         }).then(res => {
-          this.$router.replace({path: '/orderRefunds/view', query: {id: res.data}});
+          this.$router.replace({path: '/orderRefunds/view', query: {orderRefundId: res.data}});
         }).catch(error => {
           this.exception(error);
         });

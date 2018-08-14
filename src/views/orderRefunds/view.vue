@@ -67,13 +67,13 @@
     name: 'orderRefundDetails',
     data() {
       return {
-        shopDrugSpecId: this.$route.query.shopDrugSpecId,
+        orderRefundId: this.$route.query.orderRefundId,
         list: [],
         count: ''
       };
     },
     created() {
-      this.$http.get('/orderRefunds/' + this.shopDrugSpecId)
+      this.$http.get('/orderRefunds/' + this.orderRefundId)
         .then(res => {
           this.list = res.data;
         }).catch(error => {
