@@ -33,7 +33,7 @@
     watch: {
     },
     methods: {
-      redeem(item,index) {
+      redeem(item, index) {
         alert(item.id);
         this.$http.post('/couponRecords/' + item.id)
           .then(res => {
