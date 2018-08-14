@@ -108,21 +108,21 @@
         <button class="item-bottom-button-active" @click="onPay()">付款</button>
       </div>
       <div class="item-bottom-buttons" v-if="order.state == 'TO_APPRAISE'">
-        <button @click="onDelivery()">查看物流</button>
+        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY'">查看物流</button>
         <button @click="onAppraise()">追加评价</button>
       </div>
       <div class="item-bottom-buttons" v-if="order.state == 'TO_RECEIVED'">
         <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
         <button class="item-bottom-button-active" @click="onConfirm()">确认收货</button>
-        <button @click="onDelivery()">查看物流</button>
+        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY'">查看物流</button>
       </div>
       <div class="item-bottom-buttons" v-if="order.state == 'TO_DELIVERY'">
         <button class="item-bottom-button-active" @click="onRefund()">申请退款</button>
-        <button @click="onDelivery()">查看物流</button>
+        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY'">查看物流</button>
         <button @click="onRemind()">提醒发货</button>
       </div>
       <div class="item-bottom-buttons" v-if="order.state == 'COMPLETED'">
-        <button @click="onDelivery()">查看物流</button>
+        <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY'">查看物流</button>
       </div>
     </div>
   </div>
