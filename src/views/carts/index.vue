@@ -16,7 +16,7 @@
       </div>
       <div class="right">
         <span>合计:</span>
-        <span>￥{{allPrice}}</span>
+        <span>￥{{allPrice.toFixed(2)}}</span>
         <button>
           <span @click.stop="onOrder()">结算({{allQuantity}})</span>
         </button>
@@ -87,7 +87,7 @@
                         </div>
                         <div class="bottom">
                           <div class="price">
-                            <span>¥{{cartDrug.price}}</span>
+                            <span>¥{{cartDrug.price.toFixed(2)}}</span>
                           </div>
                           <div class="quantity">
                             <div>
@@ -179,6 +179,7 @@
         //   });
         // }
         this.$http.get('/carts').then(res => {
+          debugger;
           res.data.cartShops.forEach(e => {
             e.radio = false;
             e.rxs.forEach(e => {

@@ -208,7 +208,11 @@
       },
       onConfirm() {
         this.$http.put('/orders/' + this.order.id + '/complete').then(res => {
-          this.order.state = 'TO_APPRAISE';
+          if (this.order.type === 'HOSPITAL') {
+            this.order.state = 'COMPLETED';
+          } else {
+            this.order.state = 'TO_APPRAISE';
+          }
           this.emitOrder();
         }).catch(error => {
           this.exception(error);

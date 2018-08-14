@@ -38,11 +38,11 @@
     </div>
 
     <ul>
-      <li v-for="(drug,index) in drugs" :key="index" class="m-10">
+      <li v-for="(drug,index) in drugs" :key="index" class="m-10 text-l-20 drug-item">
         <div class="rx-shop-drugs-box is-flex flex-row flex-item pl-20 position-relative">
           <span class="toc-tip position-absolute all-center" v-if="carts[index].otc === true">非处</span>
           <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
-          <img class="is-200x200" :src="getImgURL(carts[index].fileId, 'LOGO')">
+          <img class="is-200x200" v-lazy="getImgURL(carts[index].fileId, 'LARGE_LOGO')">
           <div class="box-right is-flex flex-column flex-sa ml-40">
             <div class="position-relative">
               <i class="iconfont ic-changfang text-13C1FE"></i>
@@ -74,7 +74,7 @@
       </li>
     </ul>
 
-    <div class="rx-total ml-20">
+    <div class="rx-total ml-20 text-l-25">
       <i class="iconfont ic-qian text-13C1FE"></i>共计{{drugs.length}}件商品&nbsp;&nbsp;合计<span class="text-red rx-total-money">¥ {{amount}}</span>
     </div>
 
@@ -88,7 +88,7 @@
   export default {
     data() {
       return {
-        id: this.$route.query.id,
+        rxId: this.$route.query.rxId,
         shopId: this.$route.query.shopId,
         shopName: this.$route.query.shopName,
         drugs: [],
@@ -106,7 +106,7 @@
     },
     methods: {
       getDrugs() {
-        this.$http.get('/rxs/' + this.id + '/shops/' + this.shopId + '/drugs')
+        this.$http.get('/rxs/' + this.rxId + '/shops/' + this.shopId + '/drugs')
           .then(res => {
             this.drugs = res.data;
             this.initCart();
@@ -340,4 +340,7 @@
     display: inline-block;
   }
 
+  .drug-item .iconfont,.rx-total .iconfont {
+    font-size: 30px;
+  }
 </style>

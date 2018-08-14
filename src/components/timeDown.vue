@@ -67,6 +67,6 @@
     color: white;
   }
   #times{
-    display: contents;border:none;position:absolute;display:inline-block;
+    display: contents;border:none;display:inline-block;
   }
 </style>

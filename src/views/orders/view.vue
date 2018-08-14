@@ -13,7 +13,7 @@
         </div>
         <div>
           <span>
-            <new-count-down :endTime="endTime"></new-count-down>
+            <new-count-down :endTime="timeConvert(order.createdDate)"></new-count-down>
           </span>
         </div>
       </div>
@@ -137,7 +137,6 @@
         title: '订单详情',
         orderId: this.$route.query.orderId,
         order: {},
-        endTIme: '',
         showRx: true,
         showNor: true
       };
@@ -149,7 +148,6 @@
         this.$http.get('/orders/' + this.orderId)
           .then(res => {
             this.order = res.data;
-            this.endTime = this.timeConvert(this.order.createdDate);
           });
       },
       onCancel() {

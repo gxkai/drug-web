@@ -7,7 +7,7 @@
     </new-header>
     <div class="body" ref="body">
       <div class="shop-header">
-        <img v-lazy="getImgURL(shopInfo.fileId, 'SMALL_LOGO')"/>
+        <img v-lazy="getImgURL(shopInfo.logo, 'SMALL_LOGO')"/>
         <span class="shop-name">{{shopInfo.name}}</span>
         <div class="shop-collect" :class="{'activeColor':activeColor}" @click="collect">
           {{collectz}}
@@ -60,7 +60,6 @@
     </div>
     <div class="shop-footer" spellcheck="false" cellspacing="0" ref="footer">
       <router-link :to="{ path: '/shops/info', query: { id: shopId }}">商家介绍</router-link>
-      <!-- FIXME typeId-->
       <router-link :to="{ path: '/shops/drugs', query: { id: shopId }}">全部商品</router-link>
       <router-link :to="{ path: '/chats/view', query: { shopId: shopId }}">在线咨询</router-link>
     </div>
@@ -116,11 +115,9 @@
       });
       this.$http.get('/shops/' + this.shopId).then(res => {
         this.shopInfo = res.data;
-        this.shopInfo.fileId = this.shopInfo.logo;
       }).catch(error => {
         this.exception(error);
       });
-      // TODO 药店是否收藏 VUEX
       this.$http.get('/collects/shop/one?' + '&shopId=' + this.shopId)
         .then(res => {
           if (res.data) {

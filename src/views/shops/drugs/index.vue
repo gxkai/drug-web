@@ -10,7 +10,7 @@
         <div class="width-percent-100">
           <router-link class="border-bottom-grey" v-for="(drug,index) in list"
                        :key="index"
-                       :to="{path: '/shoplistpecs', query: {id: drug.id}}">
+                       :to="{path: '/shopDrugSpecs', query: {shopDrugSpecId: drug.id}}">
             <div class="list-box m-auto list-full bg-white">
               <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')"
                    class="fl drug-img d-inline-block"/>
