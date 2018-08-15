@@ -11,7 +11,7 @@
       <div class="points-info">
         <p class="all-points">{{$store.getters.account.point}}积分</p>
         <p class="has-signed width-percent-100">&nbsp;已签到</p>
-        <p class="text-center text-13C1FE continuity width-percent-100">&nbsp;&nbsp;连续5天</p>
+        <p class="text-center text-13C1FE continuity width-percent-100">&nbsp;&nbsp;连续{{continuityDays}}天</p>
         <p class="text-center has-signed2 text-white width-percent-100">今日已签到，获得{{points}}积分</p>
       </div>
     </div>
@@ -65,7 +65,8 @@
         points: '',
         couPunList: [],
         demoEvents: [],
-        arr: []
+        arr: [],
+        continuityDays: ''
       };
     },
     methods: {
@@ -82,7 +83,6 @@
         return new Date(date);
       },
       continuousDate() {
-        let _this = this;
         var date = new Date();
         var y = date.getFullYear();
         var m = date.getMonth() + 1;
@@ -92,25 +92,21 @@
         this.$http.get('/pointRecords/signIn?month=' + m + '&year=' + y)
           .then(res => {
             let arr = res.data;
+            arr.pop();
             let newArr = arr.map(val => {
               let json = {};
               json.date = val.split('-').join('/');
               return json;
             });
             var le = newArr.length;
-            let arrrrr = newArr[1];
-            var vvv = new Date(today);
-            var ccc = new Date('2018/08/13');
-            var bbb = vvv - ccc;
-            if (new Date(today) - new Date(newArr[le - 1]) === 86400000) {
-              alert(333);
+            if (new Date(today) - new Date(newArr[le - 1].date) === 86400000) {
               num = 2;
-              debugger;
               for (var i = le; i > 0; i--) {
-                if (_this.time(newArr[i - 1]) - _this.time(newArr[i - 2]) === 86400000) {
+                if (new Date(newArr[i - 1]).date - new Date(newArr[i - 2]).date === 86400000) {
                   num++;
                 } else {
                   console.log('看看连续了几天' + num);
+                  this.continuityDays = num + 1;
                   break;
                 }
               }
