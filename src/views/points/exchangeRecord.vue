@@ -5,19 +5,7 @@
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
     </new-header>
-
-
- <!--  expiryDate:1565750412000
-            fileId:"1"
-            id:"_Ox-PAo5RFSOYgZNQFloBA"
-            name:"ll"
-            point:0
-            state:"UNUSED"
-            type:"ARTICLE"
--->
-
-
-    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0">
+   <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0">
       <div class="exchange-record bg-white width-percent-100" v-for="(item,index) in goodsList" @click="couponDetail(item)">
         <div class="left d-inline-block">
           <img v-lazy="getImgURL(item.fileId, 'MIDDLE_LOGO')"/>
@@ -57,9 +45,9 @@
         }
       },
       couponDetail(item) {
-        this.$http.get('/couponRecords/' + item.id)
+        this.$http.get('/couponRecords/' + item.couponId)
           .then(res => {
-            this.$router.push('/points/view/' + item.id);
+            this.$router.push('/points/view?id=' + item.couponId + '&type=record');
           });
       },
       loadData() {

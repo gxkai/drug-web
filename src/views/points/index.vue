@@ -40,14 +40,15 @@
     },
     methods: {
       changes() {
-        this.$router.push('/points/exchangeRecord?id='+this.accountId);
+        this.$router.push('/points/exchangeRecord?id=' + this.accountId + '&type=realrecord');
       }
     },
     created: function () {
       this.$http.get('/coupons')
         .then(res => {
-          debugger;
           this.couponList = res.data.list;
+          console.log("wudan");
+          console.log(res);
           this.id = res.data.list.id;
         });
     }

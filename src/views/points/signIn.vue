@@ -28,7 +28,7 @@
           <li
             :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}"
             v-for="(item,index) in couPunList" v-if="index<3">
-            {{item.point}}}积分兑换
+            {{item.point}}积分兑换
           </li>
         </ul>
       </div>
@@ -111,6 +111,7 @@
                 }
               }
             } else {
+              this.continuityDays = '1';
               console.log('第一天');
             }
           });
@@ -139,7 +140,8 @@
       this.$http.get('/coupons?pageNum=1&pageSize=3')
         .then(res => {
           debugger;
-          this.couPunList = res.data;
+          console.log(res);
+          this.couPunList = res.data.list;
         });
     }
   };

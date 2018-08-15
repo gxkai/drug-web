@@ -6,25 +6,27 @@
       </div>
     </new-header>
     <div class="exchange-shop">
+      <img v-lazy="getImgURL(exchangeGoods.fileId,'SMALL_LOGO')" class="coupon-bg1"/>
     </div>
    <div class="exchange-info">
       <div class="exchange-info-title">
         <p class="height-24"></p>
-        <p class="fz30 exchange-p1">{{exchangeGoods.name}}}</p>
+        <p class="fz30 exchange-p1">{{exchangeGoods.name}}</p>
         <p class="text-red exchange-p2 fz20">{{exchangeGoods.point}}金币</p>
+        <input type="text" v-model="point" class="d-none"/>
       </div>
       <div class="width-percent-96 m-auto exchange-line">
       </div>
       <div class="exchange-date">
         <span class="d-inline-block fl effective-date"><i class="iconfont ic-riqi1"></i>兑换日期</span>
-        <span class="d-inline-block fr">{{exchangeGoods.createdDate}}}</span>
+        <span class="d-inline-block fr">{{formatDate(exchangeGoods.createdDate)}}</span>
       </div>
     </div>
-   <div class="exchange-content bg-white width-percent-100 bg-white">
+ <div class="exchange-content bg-white width-percent-100 bg-white">
       <div class="width-percent-96 m-auto couponshop-detail">
         <p class="exchange-content-p">商品详情</p>
         <div class="fz20">
-          {{exchangeGoods.consignee}}}
+          {{exchangeGoods.content}}
         </div>
         <div class="fz20">
           兑换流程
@@ -60,43 +62,53 @@
         </div>
       </div>
     </div>
-    <div class="bg-FA5E38 exchange-btn" @click="change()">
-      马上兑换
+
+
+    <div  v-if="ticket">
+      <div class="bg-FA5E38 exchange-btn" @click="change1()">
+        马上兑换
+      </div>
     </div>
-    <div id="whole" v-show="show"></div>
-   <transition v-show="show" name="slide-fade">
-      <div class="collect-info bg-white" v-show="show">
-        <div class="receiver">
+
+    <div v-if="goods">
+      <div class="bg-FA5E38 exchange-btn" @click="change()" v-if="record">
+        马上兑换
+      </div>
+      <div id="whole" v-show="show"></div>
+      <transition v-show="show" name="slide-fade">
+        <div class="collect-info bg-white" v-show="show">
+          <div class="receiver">
              <span class="d-inline-block recept">
               收货信息
             </span>
-          <span class="d-inline-block">
+            <span class="d-inline-block">
                  <i class="iconfont ic-guanbi2 text-13C1FE" @click="close()"></i>
             </span>
+          </div>
+          <div class="width-percent-100">
+            <ul class="consignee width-percent-98 m-auto">
+              <li>
+                <i>收货人</i>
+                <input type="text" placeholder="请输入收货人姓名" v-model="consignee"/>
+              </li>
+              <li>
+                <i>手机号码</i>
+                <input type="text" placeholder="请输入收货人号码" v-model="phone"/>
+              </li>
+              <li>
+                <i>所在地区</i>
+                <input type="text" value="江苏省昆山市" v-model="area" readonly placeholder="江苏省昆山市"/>
+              </li>
+              <li>
+                <i>详细地址</i>
+                <input type="text" placeholder="请输入街道门牌信息等" v-model="address"/>
+              </li>
+            </ul>
+            <div class="sure-btn" @click="sureBtn()">确认</div>
+          </div>
         </div>
-        <div class="width-percent-100">
-          <ul class="consignee width-percent-98 m-auto">
-            <li>
-              <i>收货人</i>
-              <input type="text" placeholder="请输入收货人姓名" v-model="consignee"/>
-            </li>
-            <li>
-              <i>手机号码</i>
-              <input type="text" placeholder="请输入收货人号码" v-model="phone"/>
-            </li>
-            <li>
-              <i>所在地区</i>
-              <input type="text" value="江苏省昆山市" v-model="area"/>
-            </li>
-            <li>
-              <i>详细地址</i>
-              <input type="text" placeholder="请输入街道门牌信息等" v-model="address"/>
-            </li>
-          </ul>
-          <div class="sure-btn" @click="sureBtn()">确认</div>
-        </div>
-      </div>
-    </transition>
+      </transition>
+    </div>
 
   </div>
 </template>
@@ -106,47 +118,75 @@
     name: 'newPayList',
     data() {
       return {
+        formatDate: this.timeConvert,
+        point: '',
         consignee: '',
         phone: '',
         area: '',
         address: '',
-        headTitle: '多力葵花籽油',
+        headTitle: '',
         show: false,
         fileId: '',
         id: '',
         name: '',
-        point: '',
-        exchangeGoods: []
+        allPoint: '',
+        exchangeGoods: [],
+        record: true,
+        goods: false,
+        ticket: false
       };
     },
     methods: {
       change() {
         this.show = !this.show;
-        this.sureBtn();
       },
       sureBtn() {
-        let data = new FormData();
+        this.show = !this.show;
         let ID = this.$route.query.id;
-        data.append('id', ID);
-        data.append('name', this.consignee);
-        data.append('phone', this.phone);
-        data.append('point', $store.getters.account.point);
-        this.$http.post('/api/couponRecords/'+ID+'/article', data)
+        this.$http.post('/couponRecords/article', {
+          'couponId': ID,
+          'consignee': this.consignee,
+          'phone': this.phone,
+          'address': this.address
+        })
           .then(res => {
-            if (res.data.status === 200) {
+            if (res.status === 200) {
               Toast('兑换成功');
+              this.$router.push('/points');
             }
+          })
+          .catch(err => {
+            this.exception(err);
           });
       },
       close() {
         this.show = !this.show;
+      },
+      change1() {
+        this.sureBtn();
       }
     },
     created() {
-      let ID = this.$route.query.id;// 商品的
-      this.$http.get('/couponRecords/' + ID + '/article')
+      // 这边是从兑换记录里面带过来，没有提交按钮的，OK
+      let record = this.$route.query.type;
+      this.headTitle = this.$route.query.title;
+      /* if (record === 'record') {
+        this.record = false;
+      };
+*/
+      // 这边是判断优惠券还是物品 若优惠券 则没有地址，若物品，则有地址
+      if (record === 'goods') {
+        this.goods = true;
+      };
+      if (record === 'ticket') {
+        this.ticket = true;
+      };
+
+      let id = this.$route.query.id;
+      this.$http.get('/couponRecords/' + id + '/article')
         .then(res => {
           this.exchangeGoods = res.data;
+          this.allPoint = res.data.point;
         });
     }
   };
@@ -310,5 +350,10 @@
   /*进入过渡的开始状*/
   .slide-fade-enter {
     bottom: -643px !important;
+  }
+  .coupon-bg1{
+    width: 270px;
+    height: 270px;
+    margin-left: 225px;
   }
 </style>
