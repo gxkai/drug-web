@@ -68,7 +68,7 @@
             </div>
             <div class="scroll-wrap d-block"><span class="hot">必读</span>
               <ul class="scroll-content" :style="{ top }">
-                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeList1" :key="index"
+                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeListForHome" :key="index"
                              :to="{path:'/repositories/view',query:{repositoryTypeId:repositoryType.id,title:repositoryType.title}}">
                   <li v-for="item in repositoryTypeList">{{repositoryType.title }}</li>
                 </router-link>
@@ -141,7 +141,7 @@
               class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
               v-for="(recommendList,index) in recommendList" :key="index"
               :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
-              <span class="toc-tip position-absolute all-center" v-if="recommendList.isOtc === true">非处</span>
+              <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true">非</span>
               <span class="toc-tip position-absolute all-center" v-else>处</span>
               <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'MIDDLE_LOGO')">
               <span class="elps width-180 fz22">{{recommendList.name}}{{recommendList.spec}}</span>
@@ -189,7 +189,7 @@
         popupVisible: false,
         isCurrent: 1,
         repositoryTypeList: [],
-        repositoryTypeList1: [],
+        repositoryTypeListForHome: [],
         swiperOption: {
           autoplay: true,
           setWrapperSize: true,
@@ -240,22 +240,23 @@
           query: {showDrugTitle: this.keyword, pageFrom: 'keyword', keyword: this.keyword}
         });
       },
-      fns(e) {
-        alert(1);
-      },
       see(e) {
         window.location.href = e.url;
       },
-      getList() {
+      getRepositoryTypeList() {
         this.$http.get('/repositoryTypes')
           .then((res) => {
             this.repositoryTypeList = res.data;
+          }).catch(error => {
+            this.exception(error);
           });
       },
-      getList1() {
+      getRepositoryTypeListForHome() {
         this.$http.get('/repositories/home')
           .then((res) => {
-            this.repositoryTypeList1 = res.data;
+            this.repositoryTypeListForHome = res.data;
+          }).catch(error => {
+            this.exception(error);
           });
       },
       map() {
@@ -276,6 +277,8 @@
         this.getLocation();
         this.$http.get(this.$outside + '/baidu/maps.json?lat=' + this.lat + '&lng=' + this.lng).then(res => {
           this.chooseAddress = res.data.formatted_address;
+        }).catch(error => {
+          this.exception(error);
         });
       },
       nearby() {
@@ -283,8 +286,8 @@
       }
     },
     created: function () {
-      this.getList();
-      this.getList1();
+      this.getRepositoryTypeList();
+      this.getRepositoryTypeListForHome();
       this.$store.dispatch('VERIFY');
       this.getLocation();
       let lat = this.$route.query.lat;

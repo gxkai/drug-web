@@ -6,20 +6,26 @@
           <i class="iconfont ic-arrow-right"></i>
         </div>
       </new-header>
-      <div class="flex-row-center text-white pt-26">
-        <div class="">
-          <img class="is-110x110" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
+      <div class="account-container">
+        <div class="account-container-image">
+          <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
         </div>
-        <div class="ml-60 mr-160">
-          <div class="account-info">
-            <i class="iconfont ic-wo"></i>
-            <span>{{account.name || '未知'}}</span>
-            <span class="ml-20">{{getGender()}}</span>
-            <span class="ml-20">{{account.age|| '未知'}}岁</span>
+        <div class="account-container-text">
+          <div>
+              <span>
+                <i class="iconfont ic-wo"></i>
+              </span>
+              <span>{{account.name || '未知姓名'}}</span>
+              <span>{{getGender()|| '未知性别'}}</span>
+              <span>{{account.age + '岁'|| '未知年龄'}}</span>
           </div>
-          <div class="account-info d-flex">
-            <i class="iconfont ic-Id"></i>
-            <span class="ml-20">{{account.identityNumber|| '无'}}</span>
+          <div>
+              <span>
+                <i class="iconfont ic-Id"></i>
+              </span>
+              <span>
+                {{account.identityNumber|| '未知身份证'}}
+              </span>
           </div>
         </div>
       </div>
@@ -132,25 +138,7 @@
   .rxs-header {
     width: 720px;
     height: 312px;
-    background: #2ac4fb;
-  }
-
-  .rx-header-title {
-    width: 720px;
-    height: 130px;
-    line-height: 130px;
-    font-size: 35px;
-    text-align: center;
-    color: white;
-  }
-
-  .position-lt {
-    left: 0;
-    top: 0;
-  }
-
-  .fz-40 {
-    font-size: 40px;
+    background: rgb(19, 193, 254);
   }
 
   .header-search {
@@ -269,9 +257,9 @@
     justify-content: center;
   }
 
-  .account-info {
-    width: 254px;
-  }
+  /*.account-info {*/
+    /*width: 284px;*/
+  /*}*/
 
   .position-search {
     top: 17px;
@@ -292,8 +280,43 @@
     height:16px;
     line-height:36px;
   }
-  .ic-wo,.ic-Id{
-    font-size: 30px;
+
+  .account-container {
+    display: flex;
+    align-items: center;
+  }
+  .account-container .account-container-image img {
+    width:111px;
+    height:111px;
+    border-radius: 50%;
+    margin-left: 95px;
+  }
+  .account-container .account-container-text {
+    margin-left: 20px;
+  }
+  .account-container .account-container-text>div {
+    display: flex;
+    align-items: center;
+    font-size:28px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(254,254,254,1);
+  }
+  .ic-wo, .ic-Id {
+    font-size: 40px;
+  }
+
+  .account-container .account-container-text>div:nth-child(1)>span:nth-child(2) {
+    margin-left: 10px;
+  }
+  .account-container .account-container-text>div:nth-child(1)>span:nth-child(3) {
+    margin-left: 30px;
+  }
+  .account-container .account-container-text>div:nth-child(1)>span:nth-child(4) {
+    margin-left: 30px;
+  }
+
+  .account-container .account-container-text>div:nth-child(2)>span:nth-child(2) {
+    margin-left: 10px;
   }
 </style>
 

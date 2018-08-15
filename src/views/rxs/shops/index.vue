@@ -247,6 +247,7 @@
     border: 0;
     outline: none;
     padding: 0 20px;
+    font-size: 20px;
   }
 
   .msg-icon {

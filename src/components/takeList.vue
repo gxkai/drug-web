@@ -60,7 +60,6 @@
   }
   .content1 .child1 {
     padding-left: 68px;
-    padding-top: 20px;
   }
   .content1 .child1 div {
     margin-bottom: 13px;
