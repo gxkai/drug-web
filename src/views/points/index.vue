@@ -13,11 +13,9 @@
           <span class="text-EC6941 d-inline-block">{{$store.getters.account.point}}</span>
         </div>
         <div class="middle d-inline-block fl"></div>
-        <div class="right">
-          <router-link to="/points/exchangeRecord">
-            <i class="iconfont ic-jifen01 text-EC6941"></i>
-            <span class="text-333333 d-inline-block">兑换记录></span>
-          </router-link>
+        <div class="right" @click="changes()">
+          <i class="iconfont ic-jifen01 text-EC6941"></i>
+          <span class="text-333333 d-inline-block">兑换记录></span>
         </div>
       </div>
       <div class="points-exchange bg-f5f5f5 text-center">
@@ -36,16 +34,21 @@
       return {
         pageNum: 1,
         pageSize: 15,
-        couponList: []
+        couponList: [],
+        accountId: this.$store.getters.account.id
       };
     },
-    methods: {},
+    methods: {
+      changes() {
+        this.$router.push('/points/exchangeRecord?id='+this.accountId);
+      }
+    },
     created: function () {
       this.$http.get('/coupons')
         .then(res => {
-          console.log('111111');
-          console.log(res);
+          debugger;
           this.couponList = res.data.list;
+          this.id = res.data.list.id;
         });
     }
   };

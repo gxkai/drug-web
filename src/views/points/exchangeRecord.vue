@@ -5,13 +5,25 @@
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
     </new-header>
+
+
+ <!--  expiryDate:1565750412000
+            fileId:"1"
+            id:"_Ox-PAo5RFSOYgZNQFloBA"
+            name:"ll"
+            point:0
+            state:"UNUSED"
+            type:"ARTICLE"
+-->
+
+
     <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0">
-      <div class="exchange-record bg-white width-percent-100" v-for="(item,index) in goodsList">
+      <div class="exchange-record bg-white width-percent-100" v-for="(item,index) in goodsList" @click="couponDetail(item)">
         <div class="left d-inline-block">
           <img v-lazy="getImgURL(item.fileId, 'MIDDLE_LOGO')"/>
         </div>
         <div class="right d-inline-block">
-          <p class="elps fz30 receive-title">{{item.name}}}</p>
+          <p class="elps fz30 receive-title">{{item.name}}</p>
           <p class="text-red fz20 gold">{{item.point}}金币</p>
           <p class="fz22 date">{{formatDate(item.expiryDate)}}</p>
         </div>
@@ -31,7 +43,8 @@
         goodsList: [],
         pageNum: 0,
         pageSize: 5,
-        pages: null
+        pages: null,
+        id: ''
       };
     },
     methods: {
@@ -43,11 +56,16 @@
           this.loading = true;
         }
       },
+      couponDetail(item) {
+        this.$http.get('/couponRecords/' + item.id)
+          .then(res => {
+            this.$router.push('/points/view/' + item.id);
+          });
+      },
       loadData() {
         this.process = true;
-        this.$http.get('/couponRecords/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+        this.$http.get('/couponRecords')
           .then(res => {
-            debugger;
             this.goodsList = this.goodsList.concat(res.data.list);
             if (!this.pages) {
               this.pages = res.data.pages;
@@ -60,6 +78,8 @@
       }
     },
     created() {
+      let id = this.$route.query.id;
+      this.id = id;
       this.loadMore();
     }
   };

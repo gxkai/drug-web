@@ -136,6 +136,11 @@
           this.demoEvents = newArr;
           this.continuousDate();
         });
+      this.$http.get('/coupons?pageNum=1&pageSize=3')
+        .then(res => {
+          debugger;
+          this.couPunList = res.data;
+        });
     }
   };
 </script>

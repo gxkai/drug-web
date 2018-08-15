@@ -5,7 +5,6 @@
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
     </new-header>
-
     <div class="exchange-shop">
     </div>
    <div class="exchange-info">
@@ -61,13 +60,11 @@
         </div>
       </div>
     </div>
-
     <div class="bg-FA5E38 exchange-btn" @click="change()">
       马上兑换
     </div>
     <div id="whole" v-show="show"></div>
-
-    <transition v-show="show" name="slide-fade">
+   <transition v-show="show" name="slide-fade">
       <div class="collect-info bg-white" v-show="show">
         <div class="receiver">
              <span class="d-inline-block recept">
@@ -125,14 +122,16 @@
     methods: {
       change() {
         this.show = !this.show;
+        this.sureBtn();
       },
       sureBtn() {
         let data = new FormData();
-        data.append('id', '3');
-        data.append('name', '王晓红');
-        data.append('phone', '18052521514');
-        data.append('point', '10');
-        this.$http.post('/api/couponRecords/3/article', data)
+        let ID = this.$route.query.id;
+        data.append('id', ID);
+        data.append('name', this.consignee);
+        data.append('phone', this.phone);
+        data.append('point', $store.getters.account.point);
+        this.$http.post('/api/couponRecords/'+ID+'/article', data)
           .then(res => {
             if (res.data.status === 200) {
               Toast('兑换成功');
@@ -144,7 +143,7 @@
       }
     },
     created() {
-      let ID = this.$route.query.id || 3;// 商品的
+      let ID = this.$route.query.id;// 商品的
       this.$http.get('/couponRecords/' + ID + '/article')
         .then(res => {
           this.exchangeGoods = res.data;
