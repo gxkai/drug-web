@@ -1,6 +1,9 @@
 <template>
   <span v-if="msec >0">
-     {{`${day}天${hr}小时${min}分${sec}秒自动关闭` }}
+     {{`${day}天${hr}小时${min}分${sec}秒结束` }}
+  </span>
+  <span v-else>
+    结束
   </span>
 </template>
 
@@ -19,6 +22,9 @@
     },
     mounted: function () {
       this.countdown();
+    },
+    created() {
+      this.endTime = this.timeConvert(this.endTime);
     },
     methods: {
       countdown: function () {

@@ -1,6 +1,4 @@
-<!-- FIXME 字体大小 -->
 <template>
-  <!-- TODO 倒计时-->
   <div class="rxs-container">
     <div class="rxs-header position-relative" ref="header">
       <new-header title="处方列表">
@@ -15,13 +13,13 @@
         <div class="ml-60 mr-160">
           <div class="account-info">
             <i class="iconfont ic-wo"></i>
-            <span>{{account.name}}</span>
+            <span>{{account.name || '未知'}}</span>
             <span class="ml-20">{{getGender()}}</span>
-            <span class="ml-20">{{account.age}}岁</span>
+            <span class="ml-20">{{account.age|| '未知'}}岁</span>
           </div>
           <div class="account-info d-flex">
             <i class="iconfont ic-Id"></i>
-            <span class="ml-20">{{account.identityNumber}}</span>
+            <span class="ml-20">{{account.identityNumber|| '无'}}</span>
           </div>
         </div>
       </div>
@@ -33,8 +31,7 @@
 
     <ul v-infinite-scroll="loadMore" class="mt-26" ref="body">
       <li class="rxs-box mt-20" v-for="rx in list">
-        <!-- FIXME -->
-        <router-link :to="{path:'/rxs/view',query:{id:rx.id}}">
+        <router-link :to="{path:'/rxs/view',query:{rxId:rx.id}}">
           <table class="position-relative">
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_1.png"></td>
@@ -57,12 +54,15 @@
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_4.png"></td>
               <td><span class="td-width-55 ellipsis text-small">倒计时</span></td>
-              <!-- TODO 倒计时 -->
-              <td><span class="td-width-250 ellipsis text-333333">2018-12-19 12:06:00</span></td>
+              <td>
+                <span class="td-width-250 ellipsis text-333333">
+                  <new-count-down :endTime="rx.rxDate"></new-count-down>
+                </span>
+              </td>
             </tr>
             <div class="position-absolute position-rb">
-              <img class="is-155x155" src="../../assets/image/rxs/rx-true.png" v-if="rx.state==='TO_USE'">
-              <img class="is-155x155" src="../../assets/image/rxs/rx-false.png" v-if="rx.state!=='TO_USE'">
+              <img class="is-155x155" src="../../assets/image/rxs/rx-true.png" v-if="rx.state==='ENABLED'">
+              <img class="is-155x155" src="../../assets/image/rxs/rx-false.png" v-else>
             </div>
           </table>
         </router-link>

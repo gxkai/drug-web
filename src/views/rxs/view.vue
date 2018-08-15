@@ -42,7 +42,7 @@
     </div>
     <div class="">
       <router-link class="btn-fixed bg-blue" v-if="rxList.state === 'ENABLED'"
-                   :to="{path:'/rxs/shops',query:{id:id,hospitalId:rxList.hospitalId}}">购药</router-link>
+                   :to="{path:'/rxs/shops',query:{rxId:rxId,hospitalId:rxList.hospitalId}}">购药</router-link>
       <button class="btn-fixed bg-grey" v-else>购药</button>
     </div>
 
@@ -53,24 +53,23 @@
   export default {
     data() {
       return {
-        id: '',
+        rxId: this.$route.query.rxId,
         state: '',
         rxList: [],
-        account: []
+        account: this.$store.getters.account
       };
     },
     created() {
-      this.id = this.$route.query.id;
-      this.account = this.$store.getters.account;
       this.getData();
     },
     methods: {
       getData() {
-        // FIXME 测试链接
-        this.$http.get('/rxs/1').then(
+        this.$http.get('/rxs/' + this.rxId).then(
           res => {
             this.rxList = res.data;
-          });
+          }).catch(error => {
+          this.exception(error);
+        });
       }
     }
   };

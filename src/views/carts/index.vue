@@ -1,11 +1,11 @@
 <template>
   <div>
-      <new-header title="购物车" ref="header">
-        <div slot="left" @click="$router.go(-1)">
-           <i class="iconfont ic-arrow-right"  ></i>
-        </div>
-        <span slot="right" @click="onRemoveBatch()">删除</span>
-      </new-header>
+    <new-header title="购物车" ref="header">
+      <div slot="left" @click="$router.go(-1)">
+        <i class="iconfont ic-arrow-right"></i>
+      </div>
+      <span slot="right" @click="onRemoveBatch()">删除</span>
+    </new-header>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
     <div class="close" ref="close">
       <div class="left icon1" @click.stop="onRadio(All)">
@@ -16,7 +16,7 @@
       </div>
       <div class="right">
         <span>合计:</span>
-        <span>￥{{allPrice}}</span>
+        <span>￥{{allPrice.toFixed(2)}}</span>
         <button>
           <span @click.stop="onOrder()">结算({{allQuantity}})</span>
         </button>
@@ -32,34 +32,41 @@
               <i class="iconfont ic-radiochecked" v-show="cartShop.radio"></i>
             </div>
             <div slot="left">
-            <i class="iconfont ic-yaodian" slot="left"></i>
+              <i class="iconfont ic-yaodian" slot="left"></i>
             </div>
             <div slot="left" @click.stop="$router.push({path:'/shops/view',query:{shopId:cartShop.id}})">
-            <span>{{cartShop.shopName}}</span>
+              <span>{{cartShop.shopName}}</span>
             </div>
           </new-header>
           <ul class="cartRxs">
             <li v-for="cartRx in cartShop.rxs">
               <ul class="cartDrugs">
-                <new-header bgColor="white" height="low" leftSize="small" leftColor="black"
-                            v-if="cartRx.rxId && cartRx.rxState == 'ENABLED'">
-                  <div slot="left" class="icon1 bg-f6f6f6" @click.stop="onRadio(RX,cartShop,cartRx)">
+                <new-header bgColor="white"
+                            height="low"
+                            leftSize="small"
+                            leftColor="black"
+                            v-if="cartRx.rxId !== '0'&& cartRx.rxState == 'ENABLED'">
+                  <div slot="left"
+                       class="icon1 bg-f6f6f6"
+                       @click.stop="onRadio(RX,cartShop,cartRx)">
                     <i class="iconfont ic-radiobox" v-show="!cartRx.radio"></i>
                     <i class="iconfont ic-radiochecked" v-show="cartRx.radio"></i>
                   </div>
                   <div slot="left">
-                  <i class="iconfont ic-chufangdanluru" ></i>
+                    <i class="iconfont ic-chufangdanluru"></i>
                   </div>
                   <span slot="left" class="chufangdan">处方单</span>
-                  <router-link tag="span" slot="right" class="chakanchufan"
-                               :to="{path:'/rxs/view',query:{rxId:cartRx.rxId}}">查看处方>
-                  </router-link>
+                  <span slot="right"
+                        class="chakanchufan"
+                        @click.stop="$router.push({path:'/rxs/view',query:{rxId:cartRx.rxId}})">
+                    查看处方>
+                  </span>
                 </new-header>
                 <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
                   <div slot="left">
-                  <i class="iconfont ic-jisongchufangdan color-333" ></i>
+                    <i class="iconfont ic-jisongchufangdan color-333"></i>
                   </div>
-                  <span slot="left" class="chufangdan" >非处方单</span>
+                  <span slot="left" class="chufangdan">非处方单</span>
                 </new-header>
                 <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs" :key="cartDrugIndex">
                   <mt-cell-swipe
@@ -76,7 +83,7 @@
                         <i class="iconfont ic-radiochecked" v-show="cartDrug.radio"></i>
                       </div>
                       <div class="image">
-                        <div class="chu" v-if="cartDrug.otc">非处</div>
+                        <div class="chu" v-if="cartDrug.otc">非</div>
                         <div class="feichu" v-else>处</div>
                         <img v-lazy="getImgURL(cartDrug.fileId, 'LARGE_LOGO')">
                       </div>
@@ -87,13 +94,13 @@
                         </div>
                         <div class="bottom">
                           <div class="price">
-                            <span>¥{{cartDrug.price}}</span>
+                            <span>¥{{cartDrug.price.toFixed(2)}}</span>
                           </div>
                           <div class="quantity">
                             <div>
                               <span>x{{cartDrug.quantity}}</span>
                             </div>
-                            <div class="multi-input bordr1" v-if="!cartRx.rxId">
+                            <div class="multi-input bordr1" v-if="cartRx.rxId === '0'">
                               <input value="-" type="button" class="onCut" @click.stop="onCut(cartDrug)"><input
                               v-model="cartDrug.quantity" type="button" class="numBer">
                               <input value="+" type="button" @click.stop="onAdd(cartDrug)" class="onAdd">
@@ -211,7 +218,7 @@
        * 单个删除
        */
       onRemove(cartShop, cartShopIndex, cartRx, cartRxIndex, cartDrug, cartDrugIndex) {
-        if (cartRx.rxId) {
+        if (cartRx.rxId !== '0') {
           MessageBox('提示', '改处方单中药品会一起删除').then(action => {
             let cartIds = [];
             cartRx.drugs.forEach(e => {
@@ -360,7 +367,7 @@
             break;
           case 'DRUG':
             cartDrug.radio = !cartDrug.radio;
-            if (cartRx.rxId) {
+            if (cartRx.rxId !== '0') {
               cartRx.drugs.forEach(e => {
                 e.radio = cartDrug.radio;
               });
@@ -409,12 +416,12 @@
 <style scoped>
   .chu {
     position: absolute;
-    width:42px;
-    height:22px;
-    background:rgba(43,178,146,1);
-    font-size:18px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
+    width: 42px;
+    height: 22px;
+    background: rgba(43, 178, 146, 1);
+    font-size: 18px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(255, 255, 255, 1);
     text-align: center;
     line-height: 20px;
     border-radius: 21px/11px;
@@ -422,17 +429,18 @@
 
   .feichu {
     position: absolute;
-    width:60px;
-    height:30px;
-    background:rgba(191,191,191,1);
-    font-size:16px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(102,102,102,1);
+    width: 60px;
+    height: 30px;
+    background: rgba(191, 191, 191, 1);
+    font-size: 16px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
     text-align: center;
     line-height: 30px;
-    border-radius:30px/15px;
+    border-radius: 30px/15px;
 
   }
+
   /*结算栏*/
   .close {
     display: inline-flex;
@@ -475,10 +483,11 @@
     width: 120px;
     justify-content: space-around;
   }
+
   .close .left span {
-    font-size:28px;
+    font-size: 28px;
     line-height: 25px;
-    color:rgba(51,51,51,1);
+    color: rgba(51, 51, 51, 1);
     display: inline-block;
   }
 
@@ -525,7 +534,8 @@
     box-shadow: 1px 1px 1px rgba(102, 102, 102, 0.3);
     align-self: center;
   }
-  .slide-content .image img{
+
+  .slide-content .image img {
     width: 100%;
   }
 
@@ -590,46 +600,56 @@
     font-size: 24px;
     color: rgba(51, 51, 51, 1);
     line-height: 0.1rem;
+    outline: none;
   }
+
   .color-333 {
     color: #333;
   }
-  input[type='button']{
+
+  input[type='button'] {
     -webkit-appearance: none;
     border: none;
     height: 29px;
     line-height: 29px;
   }
-  .quantity span{
+
+  .quantity span {
     margin-right: 16px;
   }
-  .multi-input{
+
+  .multi-input {
     margin-right: 16px;
   }
-  .mint-cell-swipe-button{
+
+  .mint-cell-swipe-button {
     font-size: 24px;
   }
-  .bg-f6f6f6{
+
+  .bg-f6f6f6 {
     background: #f6f6f6;
   }
-  .onAdd{
-    width:37px!important;
-    height:29px!important;
-    background:rgb(241, 239, 240)!important;
-    margin-left:-8px;
-    border-left: 1px solid #D2D2D2!important;
+
+  .onAdd {
+    width: 37px !important;
+    height: 29px !important;
+    background: rgb(241, 239, 240) !important;
+    margin-left: -8px;
+    border-left: 1px solid #D2D2D2 !important;
   }
-  .onCut{
-    width:37px!important;
-    height:29px!important;
-    background:rgb(241, 239, 240)!important;
-    border-right: 1px solid #D2D2D2!important;
+
+  .onCut {
+    width: 37px !important;
+    height: 29px !important;
+    background: rgb(241, 239, 240) !important;
+    border-right: 1px solid #D2D2D2 !important;
 
   }
-  .numBer{
-    width:36px!important;
-    height:29px!important;
-    background:rgb(241, 239, 240)!important;
+
+  .numBer {
+    width: 36px !important;
+    height: 29px !important;
+    background: rgb(241, 239, 240) !important;
     outline: none;
     font-size: 0.333333rem;
     font-family: HiraginoSansGB-W3;
@@ -637,8 +657,9 @@
     line-height: 0.1rem;
 
   }
-  .bordr1{
-    border: 1px solid #D2D2D2!important;
+
+  .bordr1 {
+    border: 1px solid #D2D2D2 !important;
     width: 119px;
     height: 39px;
   }

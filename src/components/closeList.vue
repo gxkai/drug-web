@@ -11,12 +11,12 @@
         <li v-for="cartRx in cartShop.rxs">
           <ul class="cartDrugs">
             <new-header bgColor="white" height="low" leftSize="small" leftColor="black"
-                        v-if="cartRx.rxId && cartRx.rxState == 'ENABLED'">
+                        v-if="cartRx.rxId !== '0' && cartRx.rxState == 'ENABLED'">
               <div slot="left">
               <i class="iconfont ic-chufangdanluru" ></i>
               </div>
               <span slot="left" class="chufangdan">处方单</span>
-              <span slot="right" class="chakanchufan">查看处方></span>
+              <span slot="right" class="chakanchufan" @click.stop="$router.push({path:'/rxs/view',query:{rxId:cartRx.rxId}})">查看处方></span>
             </new-header>
             <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
               <div slot="left">
