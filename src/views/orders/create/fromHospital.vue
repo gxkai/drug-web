@@ -67,14 +67,14 @@
           <span>￥{{hospitalInfo.medicaidAmount}}</span>
         </div>
         <div>
-          <span>优惠扣除：</span>
+          <span>优惠扣除tert：</span>
           <span>￥{{hospitalInfo.payAmount}}</span>
         </div>
       </div>
 
       <div class="medical">
         <div>
-          <span>医保信息</span>
+          <span>医保信息ttretrrewre</span>
         </div>
         <new-line></new-line>
         <div class="medical-info" v-if="account.medicaidNumber">
@@ -117,7 +117,7 @@
                 使用优惠券
               </div>
              <div>
-               <mt-radio align="right" v-model="value" :options="options">
+               <mt-radio align="right" v-model="value" :options="coupons">
                </mt-radio>
              </div>
                <div class="coupon-close" @click="close()" v-show="show">
@@ -158,8 +158,8 @@
         deliveryType: 'SELF',
         payType: 'ALIPAY',
         hospitalInfo: [],
-        show: false,
-        options: [{
+        show: true,
+        coupons: [{
           label: '满100元减5元',
           value: '值F'
         },
@@ -176,6 +176,10 @@
     components: {},
     created() {
       this.getData();
+      this.$http.get('couponRecords/order')
+        .then(res => {
+          debugger;
+        });
     },
     computed: {
       ...mapGetters(['receiveAddress'])
