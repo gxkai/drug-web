@@ -33,9 +33,8 @@ export default new Router({
       component: () => import('@/views/points/signIn')
     },
     {
-      path: '/signIn',
-      alias: '/points/signIn',
-      component: () => import('@/views/points/signIn')
+      path: '/points/view',
+      component: () => import('@/views/points/view')
     },
     // accounts
     {
