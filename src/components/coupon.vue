@@ -1,16 +1,34 @@
 <template>
    <div>
-      <div class="coupon-bg text-white exchange-gift text-center" v-for="(coupon,index) in couponList">
+      <div class="coupon-bg text-white exchange-gift text-center" v-for="(coupon,index) in couponList" v-if="coupon.type == 'TICKET'">
+      <!--  <p style="color: red;">{{coupon}}</p>-->
        <div class="coupon-img">
-          <img v-lazy="getImgURL(coupon.fileId,'SMALL_LOGO')" class="coupon-bg1"/></div>
+          <img v-lazy="getImgURL(coupon.fileId,'SMALL_LOGO')" class="coupon-bg1"/>
+       </div>
        <div class="text-333333 coupon-voucher">
-         <span>{{coupon.point}}元优惠券</span>
+         <span>满{{coupon.amount}}元减{{coupon.minus}}优惠券</span>
          <span><span class="text-red">{{coupon.point}}</span>金币</span>
        </div>
        <div class="text-center width-percent-100">
            <div class="coupon-immediatetly" @click="redeem(coupon,index)">
              立即兑换
            </div>
+       </div>
+     </div>
+
+     <div class="coupon-bg text-white exchange-gift text-center" v-for="(coupon,index) in couponList"  v-if="coupon.type== 'ARTICLE'">
+       <!--<p style="color: red;">{{coupon}}</p>-->
+       <div class="coupon-img">
+         <img v-lazy="getImgURL(coupon.fileId,'SMALL_LOGO')" class="coupon-bg1"/>
+       </div>
+       <div class="text-333333 coupon-voucher">
+         <span>{{coupon.name}}物品啦啦</span>
+         <span><span class="text-red">{{coupon.point}}</span>金币</span>
+       </div>
+       <div class="text-center width-percent-100">
+         <div class="coupon-immediatetly" @click="redeem1(coupon,index)">
+           立即兑换
+         </div>
        </div>
      </div>
   </div>
@@ -34,11 +52,10 @@
     },
     methods: {
       redeem(item, index) {
-        alert(item.id);
-        this.$http.post('/couponRecords/' + item.id)
-          .then(res => {
-            debugger;
-          });
+        this.$router.push('/points/view?id=' + item.id + '&type=ticket' + '&title=' + item.name);
+      },
+      redeem1(item, index) {
+        this.$router.push('/points/view?id=' + item.id + '&type=goods' + '&title=' + item.name);
       }
     },
     created() {
