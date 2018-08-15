@@ -18,7 +18,7 @@ export default {
     /**
      * 首次打开session丢失 刷新token
      */
-    if (!this.$storage.session.has('firstLogin')) {
+    if (!this.$storage.session.has('login')) {
       this.$store.dispatch('VERIFY');
     };
     /**

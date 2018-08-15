@@ -28,19 +28,15 @@
         </div>
       </div>
       <!--库存开始-->
-      <div class="stock is-flex flex-sa">
+      <div class="stock">
         <div>
-          <span class="text-1AB6FD">国药准字：</span>
+          <span class="text-1AB6FD">国药准字:</span>
           <span>{{shopDrugSpec.sfda}}</span>
-        </div>
-        <span>|</span>
-        <div>
-          <span class="text-1AB6FD">库存：</span>
+          <span>|</span>
+          <span class="text-1AB6FD">库存:</span>
           <span>{{shopDrugSpec.stock}}</span>
-        </div>
-        <span>|</span>
-        <div>
-          <span class="text-1AB6FD">包装规格：</span>
+          <span>|</span>
+          <span class="text-1AB6FD">包装规格:</span>
           <span>{{shopDrugSpec.spec}}</span>
         </div>
       </div>
@@ -190,7 +186,6 @@
     justify-content: space-around;
   }
 
-  /*FIXME*/
   .bind-container {
     width: 720px;
     background: #f5f5f5;
@@ -267,11 +262,17 @@
   }
 
   .stock {
-    margin-top: 24px;
+    margin: 24px 0px auto;
     width: 720px;
     height: 80px;
     background: rgba(255, 255, 255, 1);
+    display: inline-block;
+    font-size: 20px;
     line-height: 80px;
+    font-family: HiraginoSansGB-W3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .distribution {
@@ -408,10 +409,6 @@
   .good-comment {
     margin-top: 17px !important;
     color: rgba(102, 102, 102, 1);
-    font-size: 20px;
-  }
-
-  .stock span {
     font-size: 20px;
   }
 

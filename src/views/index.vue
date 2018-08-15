@@ -4,18 +4,15 @@
       <div>
         <i class="iconfont ic-weizhi"></i>
       </div>
-      <div @click="$router.push('/addresses/repositioning')">
+      <div @click="onAddress()">
         <span>{{chooseAddress}}</span>
       </div>
-      <div @click="$router.push('/addresses/repositioning')">
+      <div @click="onAddress()">
         <i class="iconfont ic-arrowdown"></i>
       </div>
       <div>
-        <div @click="onFocus()">
-          <i class="iconfont ic-sousuo"></i>
-        </div>
         <div>
-          <input placeholder="通用名、主要商品名、症状" type="text" v-model="keyword"
+          <input class="iconfont" :placeholder="searchIcon" type="text" v-model="keyword"
                  @keyup.enter="onFocus()">
         </div>
       </div>
@@ -151,21 +148,20 @@
         </div>
       </div>
     </div>
-    <div ref="footer">
-      <new-footer :urlRouter="$route.path"></new-footer>
-    </div>
+    <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
 </template>
 <script>
   import {BmMarker, BmLabel} from 'vue-baidu-map';
   import DownTime from '../components/timeDown';
-  import {Toast, MessageBox} from 'mint-ui';
+  import {MessageBox} from 'mint-ui';
   import {Carousel3d, Slide} from 'vue-carousel-3d';
 
   export default {
     name: 'home',
     data() {
       return {
+        searchIcon: '\ue64c 通用名、主要商品名、症状',
         keyword: '',
         activeIndex: 0,
         leftIndex: '',
@@ -182,8 +178,8 @@
         advertLists: [],
         longitude: '',
         latitude: '',
-        lat: '120.95',
-        lng: '31.39',
+        lat: '31.39',
+        lng: '120.95',
         zoom: 3,
         chooseAddress: '请选择地址',
         popupVisible: false,
@@ -219,7 +215,7 @@
       }
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.clientHeight) + 'px';
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.$el.clientHeight) + 'px';
       this.$refs.body.style.overflow = 'auto';
       setInterval(_ => {
         if (this.activeIndex < 3) {
@@ -230,6 +226,10 @@
       }, 1000);
     },
     methods: {
+      onAddress() {
+        this.$router.push({path: '/addresses/repositioning',
+          query: {lat: this.lat, lng: this.lng}});
+      },
       onFocus() {
         if (!this.keyword) {
           MessageBox('提示', '请输入关键字');
@@ -259,9 +259,6 @@
             this.exception(error);
           });
       },
-      map() {
-        this.getLocation();
-      },
       getLocation() {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(this.showPosition);
@@ -272,10 +269,16 @@
       showPosition(position) {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
+        let obj = {
+          'lat': this.lat,
+          'lng': this.lng
+        };
+        this.$storage.session.set('login', 'Y');
+        this.$store.commit('SET_POSITION', obj);
       },
       startAddress() {
-        this.getLocation();
         this.$http.get(this.$outside + '/baidu/maps.json?lat=' + this.lat + '&lng=' + this.lng).then(res => {
+          console.log(res.data);
           this.chooseAddress = res.data.formatted_address;
         }).catch(error => {
           this.exception(error);
@@ -289,23 +292,13 @@
       this.getRepositoryTypeList();
       this.getRepositoryTypeListForHome();
       this.$store.dispatch('VERIFY');
-      this.getLocation();
-      let lat = this.$route.query.lat;
-      let lng = this.$route.query.lng;
-      let address = this.$route.query.address;
-      let district = this.$route.query.district;
-      if (district) {
-        if (district.indexOf('昆山市') < 0) {
-          Toast('不在有效区域');
-        }
-      }
-      if (address) {
-        this.lat = lat;
-        this.lng = lng;
-        this.chooseAddress = address;
+      if (!this.$storage.session.has('login')) {
+        this.getLocation();
       } else {
-        this.startAddress();
+        this.lat = this.$store.getters.position.lat;
+        this.lng = this.$store.getters.position.lng;
       }
+      this.startAddress();
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
         this.discountList = res.data;
@@ -434,15 +427,17 @@
     font-size: 40px;
     color: #FFFFFF;
   }
-
-  .index-header > div:nth-child(2) > span:nth-child(1) {
+  .index-header > div:nth-child(2) {
+    width: 130px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     font-size: 22px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 255, 255, 1);
     font-size: 30px;
-    width: 50px;
-    text-overflow: ellipsis;
   }
+
 
   .index-header > div:nth-child(3) .iconfont {
     font-size: 40px;
@@ -457,19 +452,13 @@
     align-items: center;
   }
 
-  .index-header > div:nth-child(4) > div:nth-child(1) .iconfont {
-    font-size: 40px;
-    color: rgba(204, 204, 204, 1);
-  }
-
-  .index-header > div:nth-child(4) > div:nth-child(2) input {
+  .index-header > div:nth-child(4) > div:nth-child(1) input {
     width: 400px;
     height: 50px;
     border-width: 0;
     outline: none;
     font-size: 20px;
     font-family: HiraginoSansGB-W3;
-    color: rgba(204, 204, 204, 1);
   }
 
   .index-header > div:nth-child(5) .iconfont {

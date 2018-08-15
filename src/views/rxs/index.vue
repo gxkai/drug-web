@@ -5,6 +5,9 @@
         <div slot="left" @click="$router.go(-1)">
           <i class="iconfont ic-arrow-right"></i>
         </div>
+        <div slot="right" @click="$router.push('/')">
+          <span>首页</span>
+        </div>
       </new-header>
       <div class="account-container">
         <div class="account-container-image">
@@ -15,23 +18,24 @@
               <span>
                 <i class="iconfont ic-wo"></i>
               </span>
-              <span>{{account.name || '未知姓名'}}</span>
-              <span>{{getGender()|| '未知性别'}}</span>
-              <span>{{account.age + '岁'|| '未知年龄'}}</span>
+            <span>{{account.name || '未知姓名'}}</span>
+            <span>{{getGender()|| '未知性别'}}</span>
+            <span>{{account.age + '岁'|| '未知年龄'}}</span>
           </div>
           <div>
               <span>
                 <i class="iconfont ic-Id"></i>
               </span>
-              <span>
+            <span>
                 {{account.identityNumber|| '未知身份证'}}
               </span>
           </div>
         </div>
       </div>
       <div class="header-search position-relative position-center">
-        <img class="is-30x30 position-absolute position-search" src="../../assets/image/search.png" @click="getRxs">
-        <input type="text" class="no-border" placeholder="请输入搜索内容" v-model="keyword"  @keyup.enter="getRxs()">
+        <div>
+          <input type="text" class="no-border iconfont" :placeholder="icon" v-model="keyword" @keyup.enter="getRxs()">
+        </div>
       </div>
     </div>
 
@@ -92,7 +96,8 @@
         pages: null,
         loading: false,
         process: false,
-        account: this.$store.getters.account
+        account: this.$store.getters.account,
+        icon: '\ue64c 请输入搜索内容'
       };
     },
     created() {
@@ -147,13 +152,18 @@
     background: rgba(255, 255, 255, 1);
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.27);
+    display: flex;
+    align-items: center;
   }
 
   .header-search input {
     width: 690px;
     height: 60px;
     box-sizing: border-box;
-    padding-left: 50px;
+  }
+  .header-search input::placeholder{
+    font-size:28px;
+    color:rgba(204,204,204,1);
   }
 
   .no-border {
@@ -257,65 +267,68 @@
     justify-content: center;
   }
 
-  /*.account-info {*/
-    /*width: 284px;*/
-  /*}*/
-
   .position-search {
     top: 17px;
     left: 10px;
   }
 
-  .text-black{
+  .text-black {
     color: black;
-    width:222px;
-    height:24px;
-    font-size:25px;
-    line-height:36px;
+    width: 222px;
+    height: 24px;
+    font-size: 25px;
+    line-height: 36px;
   }
-  .text-small{
+
+  .text-small {
     color: #888888;
-    font-size:16px;
-    width:48px;
-    height:16px;
-    line-height:36px;
+    font-size: 16px;
+    width: 48px;
+    height: 16px;
+    line-height: 36px;
   }
 
   .account-container {
     display: flex;
     align-items: center;
   }
+
   .account-container .account-container-image img {
-    width:111px;
-    height:111px;
+    width: 111px;
+    height: 111px;
     border-radius: 50%;
     margin-left: 95px;
   }
+
   .account-container .account-container-text {
     margin-left: 20px;
   }
-  .account-container .account-container-text>div {
+
+  .account-container .account-container-text > div {
     display: flex;
     align-items: center;
-    font-size:28px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(254,254,254,1);
+    font-size: 28px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(254, 254, 254, 1);
   }
+
   .ic-wo, .ic-Id {
     font-size: 40px;
   }
 
-  .account-container .account-container-text>div:nth-child(1)>span:nth-child(2) {
+  .account-container .account-container-text > div:nth-child(1) > span:nth-child(2) {
     margin-left: 10px;
   }
-  .account-container .account-container-text>div:nth-child(1)>span:nth-child(3) {
-    margin-left: 30px;
-  }
-  .account-container .account-container-text>div:nth-child(1)>span:nth-child(4) {
+
+  .account-container .account-container-text > div:nth-child(1) > span:nth-child(3) {
     margin-left: 30px;
   }
 
-  .account-container .account-container-text>div:nth-child(2)>span:nth-child(2) {
+  .account-container .account-container-text > div:nth-child(1) > span:nth-child(4) {
+    margin-left: 30px;
+  }
+
+  .account-container .account-container-text > div:nth-child(2) > span:nth-child(2) {
     margin-left: 10px;
   }
 </style>
