@@ -73,7 +73,7 @@
                     :right="[
                       {
                         content: '删除',
-                        style: { background: 'rgba(19,193,254,1)', color: '#fff', fontSize: '0.3rem'},
+                        style: { background: 'rgba(19,193,254,1)', color: '#fff', fontSize: '0.3rem', height: '3rem'},
                         handler: () => onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)
                       }
                     ]">

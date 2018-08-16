@@ -17,18 +17,18 @@
         hr: 0,
         min: 0,
         sec: 0,
-        msec: 0
+        msec: 0,
+        endTimeLocal: this.timeConvert(this.endTime)
       };
     },
     mounted: function () {
       this.countdown();
     },
     created() {
-      this.endTime = this.timeConvert(this.endTime);
     },
     methods: {
       countdown: function () {
-        const end = Date.parse(new Date(this.endTime));
+        const end = Date.parse(new Date(this.endTimeLocal));
         const now = Date.parse(new Date());
         const msec = end - now;
         this.msec = msec;

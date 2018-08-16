@@ -43,7 +43,7 @@
       <div class="item-bottom">
         <div>
           <div class="item-bottom-price">
-            <span>总计{{order.amount.toFixed(2)}}</span>
+            <span>共计{{order.list.length}}件商品 合计{{order.amount.toFixed(2)}}</span>
           </div>
           <div>
             <div class="item-bottom-buttons">
@@ -108,14 +108,14 @@
       <div class="item-bottom">
         <div>
           <div class="item-bottom-price">
-            <span>总计{{order.amount}}</span>
+            <span>共计{{order.list.length}}件商品 合计{{order.amount.toFixed(2)}}</span>
           </div>
           <div>
             <div class="item-bottom-buttons">
               <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
               <button class="item-bottom-button-active" @click="onRefund()" v-if="order.state == 'TO_CHECK' || 'TO_DELIVERY' || 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED'">申请退款</button>
               <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货</button>
-              <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED' || 'REFUNDING')">查看物流</button>
+              <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED' || 'REFUNDING')">查看配送</button>
               <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">评价</button>
               <button @click="onDetail()">订单详情</button>
             </div>
@@ -306,16 +306,24 @@
     width: 720px;
     height: 113px;
     background: rgba(255, 255, 255, 1);
-
     justify-content: space-around;
-    padding-right: 20px;
   }
 
   .item-bottom-price {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10px;
-    margin-right: 10px;
+  }
+  .item-bottom-price>span:nth-child(1) {
+    font-size:20px;
+    font-family:HiraginoSansGB-W3;
+    color:rgba(51,51,51,1);
+    margin-right: 20px;
+  }
+  .item-bottom-buttons {
+    width: 720px;
+    display: flex;
+    justify-content: flex-end;
   }
 
   .item-bottom-buttons button {
@@ -327,10 +335,13 @@
     font-size: 20px;
     color: rgba(102, 102, 102, 1);
     outline: none;
-    display: inline-block;
     -webkit-appearance: none!important;
     border: none;
     border:1px solid #757575;
+    margin-left: 10px;
+  }
+  .item-bottom-buttons button:nth-last-child(1) {
+    margin-right: 20px;
   }
 
   .item-bottom-button-active {
@@ -342,13 +353,6 @@
   }
   .ic-yaodian{
     font-size: 36px;
-  }
-  .chage-header{
-    height: 80px;
-    line-height: 80px;
-  }
-  .chage-sta{
-    margin-right: 6px;
   }
   .item1{
     border-bottom: 6px solid #F6F6F6;
