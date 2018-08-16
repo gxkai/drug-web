@@ -273,7 +273,6 @@
           'lat': this.lat,
           'lng': this.lng
         };
-        this.$storage.session.set('login', 'Y');
         this.$store.commit('SET_POSITION', obj);
       },
       startAddress() {
@@ -291,7 +290,6 @@
     created: function () {
       this.getRepositoryTypeList();
       this.getRepositoryTypeListForHome();
-      this.$store.dispatch('VERIFY');
       if (!this.$storage.session.has('login')) {
         this.getLocation();
       } else {
@@ -299,6 +297,7 @@
         this.lng = this.$store.getters.position.lng;
       }
       this.startAddress();
+      this.$store.dispatch('VERIFY');
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
         this.discountList = res.data;

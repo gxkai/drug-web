@@ -44,7 +44,7 @@ export function LOGIN({commit, state}, userInfo) {
  */
 export function VERIFY({commit}) {
   return new Promise((resolve, reject) => {
-    if (storage.session.has('login')) {
+    if (!storage.session.has('login')) {
       if (storage.has('token')) {
         axios({
           method: 'get',
@@ -53,6 +53,7 @@ export function VERIFY({commit}) {
           .then(res => {
             commit(types.SET_TOKEN, res.data);
             storage.set('token', res.data);
+            storage.session.set('login', 'Y');
             resolve(res);
           }).catch(error => {
             reject(error);
