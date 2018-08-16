@@ -47,7 +47,7 @@
       couponDetail(item) {
         this.$http.get('/couponRecords/' + item.couponId)
           .then(res => {
-            this.$router.push('/points/view?id=' + item.couponId + '&type=record' +'&title=' + item.name);
+            this.$router.push('/points/view?id=' + item.couponId + '&type=record' + '&title=' + item.name);
           });
       },
       loadData() {

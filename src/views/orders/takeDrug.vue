@@ -33,10 +33,10 @@
       getList() {
         this.$http.post('/orders/hospital?rxId=' + this.rxId)
           .then(res => {
-          this.order = res.data;
-        }).catch(error => {
-          this.exception(error);
-        });
+            this.order = res.data;
+          }).catch(error => {
+            this.exception(error);
+          });
       }
     },
     components: {}

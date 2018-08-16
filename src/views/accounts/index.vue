@@ -107,10 +107,17 @@
     data() {
       return {
         countList: [],
-        account: this.$store.getters.account
+        account: this.$store.getters.account,
+        show: true
       };
     },
     methods: {
+      close() {
+        this.show = !this.show;
+      },
+      coupon() {
+        this.show = !this.show;
+      },
       maxnumber(number) {
         if (number > 99) {
           return 99;
@@ -122,7 +129,7 @@
         this.$http.post('/pointRecords/signIn').then(res => {
           if (res.status === 200) {
             this.$http.get('/pointRecords/signInPoint').then(res => {
-              this.$router.push('/points/signIn?points='+res.data);
+              this.$router.push('/points/signIn?points=' + res.data);
             });
           }
         }).catch(error => {
@@ -133,6 +140,10 @@
       }
     },
     created() {
+      this.$http.get('couponRecords/order')
+        .then(res => {
+          this.coupons = res.data;
+        });
       if (JSON.stringify(this.account) !== '{}') {
         this.$http.get('/orders/count?')
           .then(res => {

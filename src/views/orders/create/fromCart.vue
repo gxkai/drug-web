@@ -127,7 +127,8 @@
         account: this.$store.getters.account,
         cart: JSON.parse(this.$route.query.cart),
         deliveryType: this.$storage.get('deliveryType') || 'SELF',
-        payType: 'ALIPAY'
+        payType: 'ALIPAY',
+        couponRecordId: ''
       };
     },
     components: {},

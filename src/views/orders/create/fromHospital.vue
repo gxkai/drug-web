@@ -103,7 +103,7 @@
           </div>
         </div>
 
-        <div class="bg-white coupons">
+      <!--  <div class="bg-white coupons">
           <span class="d-inline-block fl">优惠券</span>
           <span class="d-inline-block fr" @click="coupon()"><i class="iconfont ic-youjiantou"></i></span>
         </div>
@@ -117,15 +117,19 @@
                 使用优惠券
               </div>
              <div>
-               <mt-radio align="right" v-model="value" :options="coupons">
-               </mt-radio>
-             </div>
+                <ul class="coupon-ul">
+                   <li v-for="(item,index) in coupons">
+                     满{{item.amount}}减{{item.minus}}
+                     <input type="radio" :value="item.id" v-model="checkedValue" name="radio"/>
+                   </li>
+                </ul>
+            </div>
                <div class="coupon-close" @click="close()" v-show="show">
-                 关闭
+                 关闭  <input type="text" v-model="checkedValue"/>
               </div>
           </div>
         </transition>
-
+-->
 
 
       </div>
@@ -140,6 +144,8 @@
         <button @click.stop="onOrder()">提交订单</button>
       </div>
     </footer>
+
+
   </div>
 
 
@@ -159,37 +165,21 @@
         payType: 'ALIPAY',
         hospitalInfo: [],
         show: true,
-        coupons: [{
-          label: '满100元减5元',
-          value: '值F'
-        },
-        {
-          label: '满200元减10元',
-          value: '值A'
-        },
-        {
-          label: '满400元减28元',
-          value: '值B'
-        }]
+        coupons: [],
+        checkedValue: ''
       };
     },
     components: {},
     created() {
       this.getData();
-      this.$http.get('couponRecords/order')
-        .then(res => {
-          debugger;
-        });
     },
     computed: {
       ...mapGetters(['receiveAddress'])
     },
     methods: {
-      close() {
-        this.show = !this.show;
-      },
-      coupon() {
-        this.show = !this.show;
+      changeResult(itemId) {
+        this.checkedValue = itemId;
+        this.$store.commit('checkedValue', this.checkedValue);
       },
       getData() {
         if (JSON.stringify(this.receiveAddress) === '{}') {
@@ -516,6 +506,15 @@
   }
   input[type='radio']{
     font-size:24px!important;
+  }
+  .coupon-ul{
+    height: 220px;
+    overflow-y: scroll;
+  }
+  .coupon-ul li{
+    font-size:24px;
+    text-indent: 21px;
+    color: #999999;
   }
 </style>
 

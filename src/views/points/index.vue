@@ -47,7 +47,7 @@
       this.$http.get('/coupons')
         .then(res => {
           this.couponList = res.data.list;
-          console.log("wudan");
+          console.log('wudan');
           console.log(res);
           this.id = res.data.list.id;
         });
