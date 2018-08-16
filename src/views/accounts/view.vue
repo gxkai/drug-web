@@ -1,8 +1,7 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="account-container">
     <new-header title="账户信息">
-      <div slot="left" @click="$router.go(-1)">
+      <div slot="left" @click="$router.push(-1)">
         <i class="iconfont ic-arrow-right"></i>
       </div>
     </new-header>

@@ -66,7 +66,6 @@
   </div>
 </template>
 <script>
-  import {MessageBox} from 'mint-ui';
   export default {
     data() {
       return {
@@ -80,8 +79,8 @@
         total: 0,
         sort: 'SYNTHESIZE',
         val: -1,
-        lat: '31.39',
-        lng: '120.95',
+        lat: this.$store.getters.position.lat,
+        lng: this.$store.getters.position.lng,
         swiperOption: {
           autoplay: 3500,
           pagination: '.swiper-pagination',
@@ -112,35 +111,7 @@
       },
       orderByDistance() {
         this.sort = 'DISTANCE';
-        this.getLocation();
-      },
-      getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(this.showPosition, this.showError);
-        } else {
-          MessageBox('提示', '浏览器不支持获取地理位置');
-        }
-      },
-      showPosition(position) {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
         this.getShopLists();
-      },
-      showError(error) {
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            MessageBox('提示', 'User denied the request for Geolocation.');
-            break;
-          case error.POSITION_UNAVAILABLE:
-            MessageBox('提示', 'Location information is unavailable.');
-            break;
-          case error.TIMEOUT:
-            MessageBox('提示', 'The request to get user location timed out.');
-            break;
-          case error.UNKNOWN_ERROR:
-            MessageBox('提示', 'An unknown error occurred.');
-            break;
-        }
       },
       orderByPrice() {
         this.val = -(this.val);
@@ -165,7 +136,7 @@
             this.drugSpec = e;
           }
         });
-        this.getLocation();
+        this.getShopLists();
       }).catch(error => {
         this.exception(error);
       });

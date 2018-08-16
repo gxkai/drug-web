@@ -2,17 +2,17 @@
   <div class="item1">
     <div class="item1-content" v-if="order.type === 'HOSPITAL'">
       <div class="content1">
-        <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red>
-          <div slot="left" style="display: flex;align-items: center" @click="onShop()">
+        <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red  @click="onShop()">
+          <div slot="left">
             <i class="iconfont ic-yaodian"></i>
-            <span style="color: black">{{order.hospitalName}}</span>
           </div>
+          <span slot="left">{{order.hospitalName}}</span>
           <span slot="right">{{order.state|transformOrderState}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE">
           <div slot="left">
-          <i class="iconfont ic-chufangdanluru" ></i>
+            <i class="iconfont ic-chufangdanluru"></i>
           </div>
           <span slot="left" style="color: #13C1FE">处方单</span>
           <span slot="right" @click="onRx()">查看处方></span>
@@ -43,17 +43,17 @@
     </div>
     <div class="item1-content" v-else>
       <div class="content1">
-        <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red>
-          <div slot="left" style="display: flex;align-items: center"  @click="onShop()">
-            <i class="iconfont ic-yaodian" slot="left"></i>
-            <span slot="left" style="color: black">{{order.shopName}}</span>
+        <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red @click="onShop()">
+          <div slot="left">
+              <i class="iconfont ic-yaodian" slot="left"></i>
           </div>
+          <span slot="left"  @click="onShop()">{{order.shopName}}</span>
           <span slot="right">{{order.state|transformOrderState}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-if="order.rxId">
           <div slot="left">
-          <i class="iconfont ic-chufangdanluru" ></i>
+            <i class="iconfont ic-chufangdanluru"></i>
           </div>
           <span slot="left" style="color: #13C1FE">处方单</span>
           <span slot="right" @click="onRx()">查看处方></span>
@@ -61,7 +61,7 @@
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-else>
           <div slot="left">
-          <i class="iconfont ic-chufangdanluru" ></i>
+            <i class="iconfont ic-chufangdanluru"></i>
           </div>
           <span slot="left" style="color: #13C1FE">非处方单</span>
         </new-header>
@@ -103,8 +103,7 @@
     },
     created() {
     },
-    computed: {
-    },
+    computed: {},
     methods: {
       onRx() {
         this.$router.push({path: '/rxs/view', query: {rxId: this.order.rxId}});
@@ -145,12 +144,12 @@
 
   .chu {
     position: absolute;
-    width:42px;
-    height:25px;
-    background:rgba(43,178,146,1);
-    font-size:18px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
+    width: 42px;
+    height: 25px;
+    background: rgba(43, 178, 146, 1);
+    font-size: 18px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(255, 255, 255, 1);
     text-align: center;
     line-height: 20px;
     border-radius: 20px;
@@ -158,12 +157,12 @@
 
   .feichu {
     position: absolute;
-    width:60px;
-    height:30px;
-    background:rgba(191,191,191,1);
-    font-size:16px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(102,102,102,1);
+    width: 60px;
+    height: 30px;
+    background: rgba(191, 191, 191, 1);
+    font-size: 16px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
     text-align: center;
     line-height: 30px;
     border-radius: 30px/15px;
@@ -241,7 +240,7 @@
   }
 
   .item-bottom-buttons button {
-    appearance:none!important;
+    appearance: none !important;
     width: 118px;
     height: 40px;
     background: white;
@@ -250,16 +249,17 @@
     color: rgba(102, 102, 102, 1);
     outline: none;
     display: inline-block;
-    -webkit-appearance: none!important;
+    -webkit-appearance: none !important;
     border: none;
-    border:1px solid #757575;
+    border: 1px solid #757575;
   }
 
   .item-bottom-button-active {
     color: rgb(19, 193, 254) !important;
-    border:1px solid rgb(19, 193, 254)!important;
+    border: 1px solid rgb(19, 193, 254) !important;
   }
-  .item1{
+
+  .item1 {
     width: 720px;
   }
 

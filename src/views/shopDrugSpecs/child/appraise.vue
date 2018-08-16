@@ -15,7 +15,7 @@
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <div class="content-appraise width-percent-100 bg-white" v-for="item in list">
         <div class="width-percent-96 m-auto border-bottom-f1f1f1 time">
-          <span class="d-inline-block fl">{{item.username}}</span>
+          <span class="d-inline-block fl">{{item.username|asterisk}}</span>
           <span class="d-inline-block fr">{{timeConvert(item.createdDate)}}</span>
         </div>
         <div class="width-percent-96 m-auto">

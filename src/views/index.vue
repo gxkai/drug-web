@@ -1,33 +1,36 @@
 <template>
   <div class="bg-f8">
-    <div class="bg-blue index-header" ref="header">
-      <div>
-        <i class="iconfont ic-weizhi"></i>
-      </div>
-      <div @click="onAddress()">
-        <span>{{chooseAddress}}</span>
-      </div>
-      <div @click="onAddress()">
-        <i class="iconfont ic-arrowdown"></i>
-      </div>
-      <div>
-        <div>
-          <input class="iconfont" :placeholder="searchIcon" type="text" v-model="keyword"
-                 @keyup.enter="onFocus()">
+    <div class="bg-blue " ref="header">
+      <div class="header-position">
+        <div class="header-position-container">
+          <div class="header-position-container-left">
+            <div>
+              <i class="iconfont ic-weizhi"></i>
+            </div>
+            <div @click="onAddress()">
+              {{chooseAddress}}
+            </div>
+            <div>
+              <i class="iconfont ic-arrowdown"></i>
+            </div>
+          </div>
+          <div class="header-position-container-right" @click="$router.push('/messageTypes')">
+            <i class="iconfont ic-lingdang"></i>
+          </div>
         </div>
       </div>
-      <div @click="$router.push('/messageTypes')">
-        <i class="iconfont ic-lingdang"></i>
+      <div class="header-search">
+          <input class="iconfont" :placeholder="searchIcon" type="text" v-model="keyword"
+                 @keyup.enter="onFocus()">
       </div>
     </div>
     <div ref="body">
       <!-- 轮播 -->
-      <swiper :options="swiperOption">
-        <swiper-slide v-for="(advertList,index) in advertLists" :key="index" class="mt-0">
-          <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" @click="see(advertList)"/>
-        </swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-      </swiper>
+      <mt-swipe :auto="4000" class="swiper-container">
+        <mt-swipe-item v-for="(advertList,index) in advertLists" :key="index">
+          <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" @click="see(advertList)" class="swiper-img"/>
+        </mt-swipe-item>
+      </mt-swipe>
 
       <div class="bg-white">
         <!-- 导航 -->
@@ -65,7 +68,8 @@
             </div>
             <div class="scroll-wrap d-block"><span class="hot">必读</span>
               <ul class="scroll-content" :style="{ top }">
-                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeListForHome" :key="index"
+                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeListForHome"
+                             :key="index"
                              :to="{path:'/repositories/view',query:{repositoryTypeId:repositoryType.id,title:repositoryType.title}}">
                   <li v-for="item in repositoryTypeList">{{repositoryType.title }}</li>
                 </router-link>
@@ -185,21 +189,7 @@
         popupVisible: false,
         isCurrent: 1,
         repositoryTypeList: [],
-        repositoryTypeListForHome: [],
-        swiperOption: {
-          autoplay: true,
-          setWrapperSize: true,
-          pagination: '.swiper-pagination',
-          paginationClickable: true,
-          mousewheelControl: true,
-          observeParents: true
-        },
-        autoplay: {
-          delay: 3000,
-          disableOnInteraction: true,
-          reverseDirection: true,
-          waitForTransition: true
-        }
+        repositoryTypeListForHome: []
       };
     },
     components: {
@@ -227,8 +217,10 @@
     },
     methods: {
       onAddress() {
-        this.$router.push({path: '/addresses/repositioning',
-          query: {lat: this.lat, lng: this.lng}});
+        this.$router.push({
+          path: '/addresses/repositioning',
+          query: {lat: this.lat, lng: this.lng}
+        });
       },
       onFocus() {
         if (!this.keyword) {
@@ -278,7 +270,7 @@
       startAddress() {
         this.$http.get(this.$outside + '/baidu/maps.json?lat=' + this.lat + '&lng=' + this.lng).then(res => {
           console.log(res.data);
-          this.chooseAddress = res.data.address_component.street.concat(res.data.address_component.street_number);
+          this.chooseAddress = res.data.recommended_location_description;
         }).catch(error => {
           this.exception(error);
         });
@@ -292,11 +284,10 @@
       this.getRepositoryTypeListForHome();
       if (!this.$storage.session.has('login')) {
         this.getLocation();
+        this.startAddress();
       } else {
-        this.lat = this.$store.getters.position.lat;
-        this.lng = this.$store.getters.position.lng;
+        this.chooseAddress = this.$store.getters.position.name;
       }
-      this.startAddress();
       this.$store.dispatch('VERIFY');
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
@@ -413,55 +404,62 @@
     right: 0;
   }
 
-  /*搜索框*/
-  .index-header {
+  /*位置*/
+  .header-position {
     width: 720px;
-    height: 114px;
+    height: 50px;
     background: rgba(26, 182, 253, 1);
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
-  .index-header > div:nth-child(1) .iconfont {
-    font-size: 40px;
-    color: #FFFFFF;
-  }
-  .index-header > div:nth-child(2) {
-    width: 160px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    font-size: 30px;
-    font-family: HiraginoSansGB-W3;
+  .header-position-container {
+    width: 650px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
     color: rgba(255, 255, 255, 1);
   }
-
-
-  .index-header > div:nth-child(3) .iconfont {
-    font-size: 40px;
-    color: #FFFFFF;
-  }
-
-  .index-header > div:nth-child(4) {
+  .header-position-container .header-position-container-left {
     display: flex;
-    width: 450px;
-    height: 50px;
-    background-color: white;
     align-items: center;
   }
+  .header-position-container .header-position-container-left>div:nth-child(2) {
+    max-width: 530px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 30px;
+    margin-left: 10px;
+  }
+  .header-position-container .ic-weizhi {
+    font-size: 30px;
+  }
+  .header-position-container .ic-arrowdown {
+    font-size: 35px;
+  }
+  .header-position-container .ic-lingdang {
+    font-size: 40px;
+  }
 
-  .index-header > div:nth-child(4) > div:nth-child(1) input {
-    width: 400px;
+    /*搜索框*/
+  .header-search {
+    width: 720px;
+    height: 70px;
+    background: rgba(26, 182, 253, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-search input {
+    width: 650px;
     height: 50px;
     border-width: 0;
     outline: none;
     font-size: 20px;
     font-family: HiraginoSansGB-W3;
-  }
-
-  .index-header > div:nth-child(5) .iconfont {
-    font-size: 40px;
-    color: #FFFFFF;
   }
 
   /*小图标*/
@@ -583,7 +581,8 @@
   }
 
   .swiper-container {
-    width: 100%;
+    width: 720px;
+    height: 300px;
   }
 
   .swiper-slides {
@@ -600,8 +599,8 @@
   }
 
   .swiper-img {
-    width: 275px !important;
-    height: 238px !important;
+    width:720px;
+    height:300px;
   }
 
   .fz22 {

@@ -10,7 +10,7 @@
         <new-header bgColor="rgba(255,255,255,1)" title="请维护地址" color='666666' rightColor="#666666"
                     v-if="JSON.stringify(this.receiveAddress) === '{}'">
           <div slot="right">
-          <i class="iconfont ic-youjiantou" ></i>
+            <i class="iconfont ic-youjiantou"></i>
           </div>
         </new-header>
         <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else>
@@ -30,7 +30,9 @@
       <new-close-list :cartShops="cart.cartShops" class="new-close-list"></new-close-list>
       <div class="delivery">
         <div class="top">
-          <i class="iconfont ic-peisongfangshi"></i>
+          <div>
+            <i class="iconfont ic-peisongfangshi"></i>
+          </div>
           <span>配送方式</span>
         </div>
         <div class="bottom">
@@ -40,7 +42,9 @@
       </div>
       <div class="pay">
         <div class="top">
-          <i class="iconfont ic-fjzhifufangshi"></i>
+          <div>
+            <i class="iconfont ic-fjzhifufangshi"></i>
+          </div>
           <span>支付方式</span>
         </div>
         <div class="bottom">

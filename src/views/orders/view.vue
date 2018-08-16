@@ -69,7 +69,9 @@
       </div>
       <div class="order-address" v-if="order.address">
         <div>
-          <i class="iconfont ic-weizhi"></i>
+          <div>
+            <i class="iconfont ic-weizhi"></i>
+          </div>
         </div>
         <div>
           <div>
@@ -112,13 +114,13 @@
         <div class="item-bottom-buttons">
           <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
           <button class="item-bottom-button-active" @click="onRefund()"
-                  v-if="order.state == 'TO_CHECK' || 'TO_DELIVERY' || 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED'">
+                  v-if="order.state == 'TO_CHECK' ||order.state ==  'TO_DELIVERY' ||order.state ==  'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED'">
             申请退款
           </button>
           <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货
           </button>
           <button @click="onDelivery()"
-                  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' || 'TO_APPRAISE' || 'COMPLETED' || 'REFUNDING')">
+                  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state == 'TO_APPRAISE' || order.state == 'COMPLETED' ||order.state ==  'REFUNDING')">
             查看配送
           </button>
           <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">评价</button>
