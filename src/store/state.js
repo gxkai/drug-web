@@ -3,5 +3,9 @@ export default {
   account: {},
   cartShops: [],
   addresses: [],
-  receiveAddress: {}
+  receiveAddress: {},
+  position: {
+    lat: '31.39',
+    lng: '120.95'
+  }
 };

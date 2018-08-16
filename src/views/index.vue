@@ -273,13 +273,12 @@
           'lat': this.lat,
           'lng': this.lng
         };
-        this.$storage.session.set('login', 'Y');
         this.$store.commit('SET_POSITION', obj);
       },
       startAddress() {
         this.$http.get(this.$outside + '/baidu/maps.json?lat=' + this.lat + '&lng=' + this.lng).then(res => {
           console.log(res.data);
-          this.chooseAddress = res.data.formatted_address;
+          this.chooseAddress = res.data.address_component.street.concat(res.data.address_component.street_number);
         }).catch(error => {
           this.exception(error);
         });
@@ -291,7 +290,6 @@
     created: function () {
       this.getRepositoryTypeList();
       this.getRepositoryTypeListForHome();
-      this.$store.dispatch('VERIFY');
       if (!this.$storage.session.has('login')) {
         this.getLocation();
       } else {
@@ -299,6 +297,7 @@
         this.lng = this.$store.getters.position.lng;
       }
       this.startAddress();
+      this.$store.dispatch('VERIFY');
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
         this.discountList = res.data;
@@ -428,14 +427,13 @@
     color: #FFFFFF;
   }
   .index-header > div:nth-child(2) {
-    width: 130px;
+    width: 160px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    font-size: 22px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 255, 255, 1);
-    font-size: 30px;
   }
 
 
