@@ -278,7 +278,7 @@
       startAddress() {
         this.$http.get(this.$outside + '/baidu/maps.json?lat=' + this.lat + '&lng=' + this.lng).then(res => {
           console.log(res.data);
-          this.chooseAddress = res.data.formatted_address;
+          this.chooseAddress = res.data.address_component.street.concat(res.data.address_component.street_number);
         }).catch(error => {
           this.exception(error);
         });
@@ -427,14 +427,13 @@
     color: #FFFFFF;
   }
   .index-header > div:nth-child(2) {
-    width: 130px;
+    width: 160px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    font-size: 22px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 255, 255, 1);
-    font-size: 30px;
   }
 
 
