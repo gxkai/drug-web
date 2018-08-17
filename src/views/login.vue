@@ -130,6 +130,8 @@
         this.timer = null;
       },
       login() {
+        // var info = JSON.parse(plus.push.getClientInfo());// eslint-disable-line no-undef
+        // var clientId = info.clientid;
         const userInfo = {
           'username': this.username,
           'password': this.password,

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="star">
     <i class="iconfont ic-xingxing default-color"  :class="[{active:item},size]"  v-for="(item,index) in arr" :key="index"
        @click="change(item,index)"></i>
   </div>

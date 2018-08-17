@@ -51,6 +51,9 @@
             <new-drug-shops class="border-bottom-grey" :item="item"></new-drug-shops>
           </router-link>
         </ul>
+        <new-no-data v-if="list.length===0"></new-no-data>
+        <new-loading v-if="process"></new-loading>
+        <new-all-data v-if="loading"></new-all-data>
       </div>
     </div>
 

@@ -83,23 +83,25 @@
         });
       },
       onLibrary(index) {
-        let name = this.libraryList[index].name;
         let lat = this.libraryList[index].location.lat;
         let lng = this.libraryList[index].location.lng;
-        let district = this.libraryList[index].district;
+        let name = this.positionList[index].name;
         let position = {
           'lat': lat,
-          'lng': lng
+          'lng': lng,
+          'name': name
         };
         this.$store.commit('SET_POSITION', position);
-        this.$router.push({path: '/', query: {address: name, lat: lat, lng: lng, district: district}});
+        this.$router.go(-1);
       },
       near(index) {
         let lat = this.positionList[index].location.lat;
         let lng = this.positionList[index].location.lng;
+        let name = this.positionList[index].name;
         let position = {
           'lat': lat,
-          'lng': lng
+          'lng': lng,
+          'name': name
         };
         this.$store.commit('SET_POSITION', position);
         this.$router.go(-1);

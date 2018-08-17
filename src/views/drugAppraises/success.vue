@@ -4,7 +4,7 @@
       <div slot="left">
       <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
       </div>
-      <span slot="right" tag="span" @click="$router.push('/drugAppraises')">完成</span>
+      <span slot="right"  @click="$router.push('/drugAppraises')">完成</span>
     </new-header>
     <div class="body1">
         <span>每天都有用户通过看评价来做购物决策~</span>

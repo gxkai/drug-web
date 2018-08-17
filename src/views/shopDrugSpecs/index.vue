@@ -29,7 +29,7 @@
       </div>
       <!--库存开始-->
       <div class="stock">
-        <div>
+        <div class="stock-container">
           <span class="text-1AB6FD">国药准字:</span>
           <span>{{shopDrugSpec.sfda}}</span>
           <span>|</span>
@@ -43,39 +43,42 @@
       <!--库存结束-->
 
       <!--配送商家开始-->
-      <div class="distribution mode fz20">
-        <div class="width-percent-32 d-inline-block">
-          <i class="icon iconfont ic-peisong text-1AB6FD business"></i>
-          <span>商家配送</span>
+      <div class="distribution">
+        <div>
+          <div>
+            <i class="iconfont ic-peisong"></i>
+          </div>
+          <div>商家配送</div>
         </div>
-        <div class="width-percent-32 d-inline-block">
-          <i class="icon iconfont ic-zitidai text-1AB6FD business"></i>
-          <span>门店自提</span>
+        <div>
+          <div>
+            <i class="iconfont ic-zitidai"></i>
+          </div>
+          <div>门店自提</div>
         </div>
-        <div class="width-percent-32 d-inline-block">
-          <i class="icon iconfont ic-mianfei text-1AB6FD business"></i>
-          <span>免费配送</span>
+        <div>
+          <div>
+            <i class="iconfont ic-mianfei"></i>
+          </div>
+          <div>免费配送</div>
         </div>
       </div>
       <!--配送商家结束-->
 
       <!--商品详情开始-->
       <div class="shop-detail">
-        <div class="height-l-20"></div>
-        <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}}">
-          <div class="shop-details">
-            <i class="icon iconfont ic-liwu-copy text-1AB6FD predetnt"></i>
-            <span class="text-666666">商品详情</span>
-            <i class="icon iconfont ic-youjiantou1 text-333333"></i>
-          </div>
-        </router-link>
-        <router-link :to="{path: '/shopDrugSpecs/view', query: {index: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}}">
-          <div class="shop-details">
-            <i class="icon iconfont ic-pingjia text-1AB6FD predetnt"></i>
-            <span class="text-666666">商品评价</span>
-            <i class="icon iconfont ic-youjiantou1 text-333333"></i>
-          </div>
-        </router-link>
+        <div
+          @click="$router.push({path: '/shopDrugSpecs/view', query: {index: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
+          <span class="iconfont ic-liwu-copy"></span>
+          <span>商品详情</span>
+          <span class="iconfont ic-youjiantou1"></span>
+        </div>
+        <div
+          @click="$router.push({path: '/shopDrugSpecs/view', query: {index: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
+          <span class="iconfont ic-pingjia"></span>
+          <span>商品评价</span>
+          <span class="iconfont ic-youjiantou1"></span>
+        </div>
       </div>
       <!--商品详情结束-->
 
@@ -156,6 +159,9 @@
   import view from './view';
 
   export default {
+    component: {
+      'view': view
+    },
     data() {
       return {
         shopDrugSpec: []
@@ -170,10 +176,7 @@
           this.exception(error);
         });
     },
-    methods: {},
-    component: {
-      'view': view
-    }
+    methods: {}
   };
 </script>
 
@@ -215,6 +218,8 @@
     background: white;
   }
 
+  /*药品介绍*/
+
   .broadcast-title {
     width: 670px;
     height: 160px;
@@ -233,7 +238,7 @@
 
   .drug-name {
     width: 328px;
-    height: 29px;
+    height: auto;
     font-size: 30px;
     color: rgba(255, 255, 255, 1);
     line-height: 29px;
@@ -243,7 +248,7 @@
 
   .drug-function {
     width: 349px;
-    height: 20px;
+    height: auto;
     font-size: 18px;
     color: rgba(255, 255, 255, 1);
     line-height: 20px;
@@ -253,7 +258,7 @@
 
   .drug-price {
     width: 110px;
-    height: 25px;
+    height: auto;
     font-size: 30px;
     color: rgba(255, 255, 255, 1);
     line-height: 25px;
@@ -262,88 +267,94 @@
   }
 
   .stock {
-    margin: 24px 0px auto;
     width: 720px;
     height: 80px;
     background: rgba(255, 255, 255, 1);
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 20px;
-    line-height: 80px;
     font-family: HiraginoSansGB-W3;
+  }
+
+  .stock-container {
+    max-width: 720px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  /*配送方式*/
+
   .distribution {
     width: 720px;
     height: 80px;
-    background: rgba(255, 255, 255, 1);
-    font-size: 20px;
-  }
-
-  .business {
-    margin-left: 58px;
-    width: 34px;
-    height: 27px;
-  }
-
-  .distribution {
     margin-top: 16px;
-    line-height: 80px;
-  }
-
-  .mode ul li {
-    width: 175px;
-    float: left;
-  }
-
-  .mode ul li i {
-    width: 27px;
-  }
-
-  .distribution ul {
-    width: 720px;
-    height: 80px;
     background: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
   }
+
+  .distribution > div {
+    display: flex;
+    align-items: center;
+  }
+
+  .distribution > div > div:nth-child(1) .iconfont{
+    font-size: 30px;
+    color: #13C1FE;
+  }
+
+  .distribution > div > div:nth-child(2) {
+    font-size: 20px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
+  }
+
+  /*详情 评价跳转*/
 
   .shop-detail {
     width: 720px;
     height: 194px;
     background: rgba(255, 255, 255, 1);
+    margin-top: 21px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
   }
 
-  .shop-details {
+  .shop-detail > div {
     width: 594px;
     height: 69px;
     background: rgba(242, 242, 242, 1);
-    margin-left: 63px;
-    margin-bottom: 17px;
+  }
+
+  .shop-detail > div {
     line-height: 69px;
+  }
+
+  .shop-detail > div > span:nth-child(1) {
+    margin-left: 185px;
     font-size: 30px;
+    color: #13C1FE;
   }
 
-  .ic-youjiantou1 {
-    margin-left: 206px;
+  .shop-detail > div > span:nth-child(2) {
+    font-size: 30px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
   }
 
-  .shop-detail {
-    margin-top: 21px;
+  .shop-detail > div > span:nth-child(3) {
+    margin-left: 205px;
+    font-size: 30px;
   }
 
   .icon {
     width: auto !important;
     height: auto !important;
-  }
-
-  .predetnt {
-    margin-left: 180px;
-  }
-
-  .ic-youjiantou1 {
-    float: right;
-    margin-right: 25px;
   }
 
   .company {
