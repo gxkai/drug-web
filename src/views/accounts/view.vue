@@ -1,7 +1,7 @@
 <template>
   <div class="account-container">
     <new-header title="账户信息">
-      <div slot="left" @click="$router.push(-1)">
+      <div slot="left" @click="$router.push('/accounts')">
         <i class="iconfont ic-arrow-right"></i>
       </div>
     </new-header>
