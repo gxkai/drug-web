@@ -15,6 +15,10 @@ export default new Router({
       component: () => import('@/views/drugs/search')
     },
     {
+      path: '/error',
+      component: () => import('@/components/error')
+    },
+    {
       path: '/',
       component: () => import('@/views/index')
     },
