@@ -140,10 +140,6 @@
       }
     },
     created() {
-      this.$http.get('couponRecords/order')
-        .then(res => {
-          this.coupons = res.data;
-        });
       if (JSON.stringify(this.account) !== '{}') {
         this.$http.get('/orders/count?')
           .then(res => {
