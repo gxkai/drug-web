@@ -25,6 +25,7 @@
     "vue-awesome-swiper": "^2.5.4",
     "vue-baidu-map": "^0.21.10",
     "vue-carousel-3d": "^0.1.23",
+    "vue-event-calendar": "^1.5.2",
     "vue-router": "^3.0.1",
     "vue-slick": "^1.1.13",
     "vue-touch": "^2.0.0-beta.4",
