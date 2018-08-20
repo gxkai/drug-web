@@ -32,6 +32,7 @@ import newCountDown from '../../components/countDown';
 import newHeaderSec from '../../components/headerSec';
 import newShopItem from '../../components/shopItem';
 import newAppraiseItem from '../../components/appraiseItem';
+import newcoupon from '../../components/coupon';
 
 export default {
   install(Vue, options) {
@@ -69,5 +70,6 @@ export default {
     Vue.component('new-header-sec', newHeaderSec);
     Vue.component('new-shop-item', newShopItem);
     Vue.component('new-appraise-item', newAppraiseItem);
+    Vue.component('new-coupon', newcoupon);
   }
 };

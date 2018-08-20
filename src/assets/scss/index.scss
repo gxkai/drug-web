@@ -3,6 +3,21 @@
 @import "./icon";
 @import "./mint-ui";
 
+
+.elps {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.elpsTwo {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -44,11 +59,6 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
-
-/* Ellipsis */
-.elps{white-space:nowrap;overflow: hidden;text-overflow: ellipsis;}
-.elpsTwo{overflow:hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;}
 
 /* Align */
 .align-baseline {
@@ -372,6 +382,10 @@ table {
   color: #666666;
 }
 
+.text-EC6941 {
+  color: #EC6941;
+}
+
 .text-red {
   color: red !important;
 }
@@ -379,9 +393,24 @@ table {
 .text-1AB6FD {
   color: #1AB6FD;
 }
-.text-FF0000{color:#FF0000;}
+
+.text-FF0000 {
+  color: #FF0000;
+}
+
+.text-EC6941 {
+  color: #EC6941;
+}
 
 /*背景bg*/
+.bg-FA5E38 {
+  background: #FA5E38;
+}
+
+.bg-EC6941 {
+  background: #EC6941;
+}
+
 .bg-13C1FE {
   background: #13C1FE;
 }
@@ -426,7 +455,8 @@ table {
 .border-13C1FE {
   border: 1px solid #13C1FE;
 }
-.border-bottom-f1f1f1{
+
+.border-bottom-f1f1f1 {
   border-bottom: 1px solid #f1f1f1;
 }
 
@@ -481,9 +511,18 @@ table {
 .align-items-center {
   align-items: center;
 }
-.icon{
-  width: auto!important;
-  height: auto!important;
+
+.icon {
+  width: auto !important;
+  height: auto !important;
+}
+#whole{
+  width: 100%;
+  height: 100%;
+  background: #0a0a0a75;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
 }
 .is-flex {
   display: flex;
