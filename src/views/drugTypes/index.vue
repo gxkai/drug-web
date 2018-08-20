@@ -5,7 +5,7 @@
          <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
       </div>
       <div slot="right">
-      <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi" slot="right"></router-link>
+        <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi" slot="right"></router-link>
       </div>
     </new-header>
 

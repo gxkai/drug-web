@@ -4,7 +4,7 @@
       <div  slot="left">
       <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
       </div>
-      <input v-model="inputVal" slot="center" class="header-input">
+      <input v-model="inputVal" slot="center" class="header-input iconfont" :placeholder="searchIcon" @keyup.enter="search()">
       <span slot="right" @click="search()">搜索</span>
     </new-header>
     <div v-show="Maps">
@@ -53,15 +53,16 @@
     data() {
       return {
         center: {
-          lng: this.$route.query.lat,
-          lat: this.$route.query.lng
+          lng: this.$route.query.lng,
+          lat: this.$route.query.lat
         },
         zoom: 3,
         Maps: false,
         Librarys: false,
         inputVal: '',
         positionList: [],
-        libraryList: []
+        libraryList: [],
+        searchIcon: '\ue64c 地理位置'
       };
     },
     watch: {
@@ -82,28 +83,28 @@
         });
       },
       onLibrary(index) {
-        let name = this.libraryList[index].name;
         let lat = this.libraryList[index].location.lat;
         let lng = this.libraryList[index].location.lng;
-        let district = this.libraryList[index].district;
+        let name = this.positionList[index].name;
         let position = {
           'lat': lat,
-          'lng': lng
+          'lng': lng,
+          'name': name
         };
         this.$store.commit('SET_POSITION', position);
-        this.$router.push({path: '/', query: {address: name, lat: lat, lng: lng, district: district}});
+        this.$router.go(-1);
       },
       near(index) {
-        let lat = this.pois[index].location.lat;
-        let lng = this.pois[index].location.lng;
-        let district = this.pois[index].address + '昆山市';
-        let name = this.pois[index].name;
+        let lat = this.positionList[index].location.lat;
+        let lng = this.positionList[index].location.lng;
+        let name = this.positionList[index].name;
         let position = {
           'lat': lat,
-          'lng': lng
+          'lng': lng,
+          'name': name
         };
         this.$store.commit('SET_POSITION', position);
-        this.$router.push({path: '/', query: {address: name, lat: lat, lng: lng, district: district}});
+        this.$router.go(-1);
       },
       // getLocation() {
       //   if (navigator.geolocation) {
@@ -135,9 +136,9 @@
       //   }
       // },
       getPositionList() {
-        var url = this.$outside + '/outside/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true';
+        var url = this.$outside + '/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true';
         this.$http.get(url).then(res => {
-          this.positionList = res.data.body.pois;
+          this.positionList = res.data.pois;
           this.showMap(true);
         }).catch(error => {
           this.exception(error);

@@ -7,7 +7,7 @@
       <span slot="right" @click="onRemoveBatch()">删除</span>
     </new-header>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
-    <div class="close" ref="close">
+    <div class="close" ref="close" v-if="cartShops.length>0">
       <div class="left icon1" @click.stop="onRadio(All)">
        <span>
           <i class="iconfont ic-radiobox" v-show="!chooseAll"></i>
@@ -73,7 +73,7 @@
                     :right="[
                       {
                         content: '删除',
-                        style: { background: 'rgba(19,193,254,1)', color: '#fff', fontSize: '0.3rem'},
+                        style: { background: 'rgba(19,193,254,1)', color: '#fff', fontSize: '0.3rem', height: '3rem'},
                         handler: () => onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)
                       }
                     ]">
@@ -261,6 +261,13 @@
           });
         });
       },
+      onRemoveBatchWithOutTip() {
+        this.$http.delete('carts?cartIds=' + this.getCartIds()).then(res => {
+          this.remove();
+        }).catch(error => {
+          this.exception(error);
+        });
+      },
       /**
        * 通用删除方法
        */
@@ -308,7 +315,6 @@
           return;
         }
         this.$http.get('/orders/cart?cartIds=' + cartIds).then(res => {
-          this.remove();
           this.$router.push({path: '/orders/create/fromCart', query: {cart: JSON.stringify(res.data)}});
         }).catch(error => {
           this.exception(error);

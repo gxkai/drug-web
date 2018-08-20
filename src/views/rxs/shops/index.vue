@@ -5,7 +5,7 @@
       <div slot="left" @click="$router.go(-1)">
         <i class="iconfont ic-arrow-right"></i>
       </div>
-      <input slot="center" class="header-search" @click="$router.push('/drugs/search')" placeholder="通用名、商品名、症状" type="text">
+      <input slot="center" class="header-search" @click="$router.push('/drugs/search')" placeholder="通用名、主要商品名、症状" type="text">
     </new-header>
 
     <ul class="is-flex flex-row flex-sa p-tb-20 all-border">
@@ -247,11 +247,11 @@
     border: 0;
     outline: none;
     padding: 0 20px;
+    font-size: 20px;
   }
 
   .msg-icon {
     width: 31px;
     height: 36px;
   }
-
 </style>

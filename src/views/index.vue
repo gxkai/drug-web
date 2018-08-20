@@ -1,36 +1,36 @@
 <template>
   <div class="bg-f8">
-    <div class="bg-blue index-header" ref="header">
-      <div>
-        <i class="iconfont ic-weizhi"></i>
-      </div>
-      <div @click="$router.push('/addresses/repositioning')">
-        <span>{{chooseAddress}}</span>
-      </div>
-      <div @click="$router.push('/addresses/repositioning')">
-        <i class="iconfont ic-arrowdown"></i>
-      </div>
-      <div>
-        <div @click="onFocus()">
-          <i class="iconfont ic-sousuo"></i>
+    <div class="bg-blue " ref="header">
+      <div class="header-position">
+        <div class="header-position-container">
+          <div class="header-position-container-left">
+            <div>
+              <i class="iconfont ic-weizhi"></i>
+            </div>
+            <div @click="onAddress()">
+              {{chooseAddress}}
+            </div>
+            <div>
+              <i class="iconfont ic-arrowdown"></i>
+            </div>
+          </div>
+          <div class="header-position-container-right" @click="$router.push('/messageTypes')">
+            <i class="iconfont ic-lingdang"></i>
+          </div>
         </div>
-        <div>
-          <input placeholder="通用名、主要商品名、症状" type="text" v-model="keyword"
+      </div>
+      <div class="header-search">
+          <input class="iconfont" :placeholder="searchIcon" type="text" v-model="keyword"
                  @keyup.enter="onFocus()">
-        </div>
-      </div>
-      <div @click="$router.push('/messageTypes')">
-        <i class="iconfont ic-lingdang"></i>
       </div>
     </div>
     <div ref="body">
       <!-- 轮播 -->
-      <swiper :options="swiperOption">
-        <swiper-slide v-for="(advertList,index) in advertLists" :key="index" class="mt-0">
-          <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" @click="see(advertList)"/>
-        </swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-      </swiper>
+      <mt-swipe :auto="4000" class="swiper-container">
+        <mt-swipe-item v-for="(advertList,index) in advertLists" :key="index">
+          <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" @click="see(advertList)" class="swiper-img"/>
+        </mt-swipe-item>
+      </mt-swipe>
 
       <div class="bg-white">
         <!-- 导航 -->
@@ -68,7 +68,8 @@
             </div>
             <div class="scroll-wrap d-block"><span class="hot">必读</span>
               <ul class="scroll-content" :style="{ top }">
-                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeList1" :key="index"
+                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeListForHome"
+                             :key="index"
                              :to="{path:'/repositories/view',query:{repositoryTypeId:repositoryType.id,title:repositoryType.title}}">
                   <li v-for="item in repositoryTypeList">{{repositoryType.title }}</li>
                 </router-link>
@@ -141,7 +142,7 @@
               class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
               v-for="(recommendList,index) in recommendList" :key="index"
               :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
-              <span class="toc-tip position-absolute all-center" v-if="recommendList.isOtc === true">非处</span>
+              <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true">非</span>
               <span class="toc-tip position-absolute all-center" v-else>处</span>
               <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'MIDDLE_LOGO')">
               <span class="elps width-180 fz22">{{recommendList.name}}{{recommendList.spec}}</span>
@@ -151,21 +152,20 @@
         </div>
       </div>
     </div>
-    <div ref="footer">
-      <new-footer :urlRouter="$route.path"></new-footer>
-    </div>
+    <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
 </template>
 <script>
   import {BmMarker, BmLabel} from 'vue-baidu-map';
   import DownTime from '../components/timeDown';
-  import {Toast, MessageBox} from 'mint-ui';
+  import {MessageBox} from 'mint-ui';
   import {Carousel3d, Slide} from 'vue-carousel-3d';
 
   export default {
     name: 'home',
     data() {
       return {
+        searchIcon: '\ue64c 通用名、主要商品名、症状',
         keyword: '',
         activeIndex: 0,
         leftIndex: '',
@@ -182,28 +182,14 @@
         advertLists: [],
         longitude: '',
         latitude: '',
-        lat: '120.95',
-        lng: '31.39',
+        lat: '31.39',
+        lng: '120.95',
         zoom: 3,
         chooseAddress: '请选择地址',
         popupVisible: false,
         isCurrent: 1,
         repositoryTypeList: [],
-        repositoryTypeList1: [],
-        swiperOption: {
-          autoplay: true,
-          setWrapperSize: true,
-          pagination: '.swiper-pagination',
-          paginationClickable: true,
-          mousewheelControl: true,
-          observeParents: true
-        },
-        autoplay: {
-          delay: 3000,
-          disableOnInteraction: true,
-          reverseDirection: true,
-          waitForTransition: true
-        }
+        repositoryTypeListForHome: []
       };
     },
     components: {
@@ -219,7 +205,7 @@
       }
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.clientHeight) + 'px';
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.$el.clientHeight) + 'px';
       this.$refs.body.style.overflow = 'auto';
       setInterval(_ => {
         if (this.activeIndex < 3) {
@@ -230,6 +216,12 @@
       }, 1000);
     },
     methods: {
+      onAddress() {
+        this.$router.push({
+          path: '/addresses/repositioning',
+          query: {lat: this.lat, lng: this.lng}
+        });
+      },
       onFocus() {
         if (!this.keyword) {
           MessageBox('提示', '请输入关键字');
@@ -240,26 +232,24 @@
           query: {showDrugTitle: this.keyword, pageFrom: 'keyword', keyword: this.keyword}
         });
       },
-      fns(e) {
-        alert(1);
-      },
       see(e) {
         window.location.href = e.url;
       },
-      getList() {
+      getRepositoryTypeList() {
         this.$http.get('/repositoryTypes')
           .then((res) => {
             this.repositoryTypeList = res.data;
+          }).catch(error => {
+            this.exception(error);
           });
       },
-      getList1() {
+      getRepositoryTypeListForHome() {
         this.$http.get('/repositories/home')
           .then((res) => {
-            this.repositoryTypeList1 = res.data;
+            this.repositoryTypeListForHome = res.data;
+          }).catch(error => {
+            this.exception(error);
           });
-      },
-      map() {
-        this.getLocation();
       },
       getLocation() {
         if (navigator.geolocation) {
@@ -271,11 +261,18 @@
       showPosition(position) {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
+        let obj = {
+          'lat': this.lat,
+          'lng': this.lng
+        };
+        this.$store.commit('SET_POSITION', obj);
       },
       startAddress() {
-        this.getLocation();
         this.$http.get(this.$outside + '/baidu/maps.json?lat=' + this.lat + '&lng=' + this.lng).then(res => {
-          this.chooseAddress = res.data.formatted_address;
+          console.log(res.data);
+          this.chooseAddress = res.data.recommended_location_description;
+        }).catch(error => {
+          this.exception(error);
         });
       },
       nearby() {
@@ -283,26 +280,15 @@
       }
     },
     created: function () {
-      this.getList();
-      this.getList1();
-      this.$store.dispatch('VERIFY');
-      this.getLocation();
-      let lat = this.$route.query.lat;
-      let lng = this.$route.query.lng;
-      let address = this.$route.query.address;
-      let district = this.$route.query.district;
-      if (district) {
-        if (district.indexOf('昆山市') < 0) {
-          Toast('不在有效区域');
-        }
-      }
-      if (address) {
-        this.lat = lat;
-        this.lng = lng;
-        this.chooseAddress = address;
-      } else {
+      this.getRepositoryTypeList();
+      this.getRepositoryTypeListForHome();
+      if (!this.$storage.session.has('login')) {
+        this.getLocation();
         this.startAddress();
+      } else {
+        this.chooseAddress = this.$store.getters.position.name;
       }
+      this.$store.dispatch('VERIFY');
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
         this.discountList = res.data;
@@ -418,60 +404,62 @@
     right: 0;
   }
 
-  /*搜索框*/
-  .index-header {
+  /*位置*/
+  .header-position {
     width: 720px;
-    height: 114px;
+    height: 50px;
     background: rgba(26, 182, 253, 1);
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
-  .index-header > div:nth-child(1) .iconfont {
-    font-size: 40px;
-    color: #FFFFFF;
-  }
-
-  .index-header > div:nth-child(2) > span:nth-child(1) {
-    font-size: 22px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 255, 255, 1);
-    font-size: 30px;
-    width: 50px;
-    text-overflow: ellipsis;
-  }
-
-  .index-header > div:nth-child(3) .iconfont {
-    font-size: 40px;
-    color: #FFFFFF;
-  }
-
-  .index-header > div:nth-child(4) {
+  .header-position-container {
+    width: 650px;
     display: flex;
-    width: 450px;
-    height: 50px;
-    background-color: white;
+    align-items: flex-end;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 1);
+  }
+  .header-position-container .header-position-container-left {
+    display: flex;
     align-items: center;
   }
-
-  .index-header > div:nth-child(4) > div:nth-child(1) .iconfont {
+  .header-position-container .header-position-container-left>div:nth-child(2) {
+    max-width: 530px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 30px;
+    margin-left: 10px;
+  }
+  .header-position-container .ic-weizhi {
+    font-size: 30px;
+  }
+  .header-position-container .ic-arrowdown {
+    font-size: 35px;
+  }
+  .header-position-container .ic-lingdang {
     font-size: 40px;
-    color: rgba(204, 204, 204, 1);
   }
 
-  .index-header > div:nth-child(4) > div:nth-child(2) input {
-    width: 400px;
+    /*搜索框*/
+  .header-search {
+    width: 720px;
+    height: 70px;
+    background: rgba(26, 182, 253, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-search input {
+    width: 650px;
     height: 50px;
     border-width: 0;
     outline: none;
     font-size: 20px;
     font-family: HiraginoSansGB-W3;
-    color: rgba(204, 204, 204, 1);
-  }
-
-  .index-header > div:nth-child(5) .iconfont {
-    font-size: 40px;
-    color: #FFFFFF;
   }
 
   /*小图标*/
@@ -593,7 +581,8 @@
   }
 
   .swiper-container {
-    width: 100%;
+    width: 720px;
+    height: 300px;
   }
 
   .swiper-slides {
@@ -610,8 +599,8 @@
   }
 
   .swiper-img {
-    width: 275px !important;
-    height: 238px !important;
+    width:720px;
+    height:300px;
   }
 
   .fz22 {
