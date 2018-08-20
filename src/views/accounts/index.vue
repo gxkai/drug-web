@@ -2,30 +2,32 @@
   <div class="account-container">
     <new-header height="low" ref="header">
       <div slot="left">
-          <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi"></router-link>
+        <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi"></router-link>
       </div>
       <div slot="right">
-         <router-link tag="i" to="/setting" class=" iconfont ic-shezhi1"></router-link>
+        <router-link tag="i" to="/setting" class=" iconfont ic-shezhi1"></router-link>
       </div>
     </new-header>
     <div ref="body">
       <div class="header all-center" v-if="JSON.stringify(account) !== '{}'">
         <img class="header-img" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
-        <span class="header-text">{{account.name}}</span>
-      </div>
-
+        <span class="everyday"
+              :style="{backgroundImage:'url('+require('../../assets/image/accounts/dayily.png')+')',backgroundSize:'100%'}"
+              @click="everyDay()">
+        每日签到
+        </span>
+       </div>
       <div class="header all-center" v-else>
         <router-link to="/login">
           <img class="header-img" src="../../assets/image/accounts/default_head.jpg"/>
         </router-link>
         <span class="header-text">登录/注册</span>
       </div>
-
       <div class="nav-bar">
         <new-header height="low" bgColor="white" leftColor="#333333" leftSize="smaller" rightColor="#999999"
                     rightSize="smaller">
           <span slot="left">全部订单</span>
-          <router-link tag="span" to="/orders" slot="right">我的订单<i class="iconfont ic-youjiantou"></i> </router-link>
+          <router-link tag="span" to="/orders" slot="right">我的订单></router-link>
         </new-header>
         <new-line></new-line>
         <div class="nav-bar-order">
@@ -41,7 +43,7 @@
             <i class="iconfont ic-gerenzhongxindingdandaishouhuo"></i>
             <p>待收货</p>
           </router-link>
-            <router-link tag="div" to="/orders/toAppraise">
+          <router-link tag="div" to="/orders/toAppraise">
             <i class="iconfont ic-daipingjia01"></i>
             <p>待评价</p>
           </router-link>
@@ -49,12 +51,12 @@
       </div>
       <div class="account-content is-flex">
         <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/drugAppraises">
-          <img src="../../assets/image/accounts/evaluation.png"/>
-          <span class="mt-15">我的评价</span>
+          <img src="../../assets/image/accounts/d-order.png"/>
+          <span class="mt-15">我的订单</span>
         </router-link>
         <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/chats">
           <img src="../../assets/image/accounts/consultation.png"/>
-          <span class="mt-15">咨询</span>
+          <span class="mt-15">我的咨询</span>
         </router-link>
         <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/addresses">
           <img src="../../assets/image/accounts/address.png"/>
@@ -62,56 +64,86 @@
         </router-link>
         <router-link class="flex-box account-content-padding border-bottom-gray" to="/collects">
           <img src="../../assets/image/accounts/coll.png"/>
-          <span class="mt-15">收藏</span>
+          <span class="mt-15">我的收藏</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray" to="/orderRefunds">
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/orderRefunds">
           <img src="../../assets/image/accounts/refund.png"/>
           <span class="mt-15">退款</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray" to="/accounts/view">
-          <img src="../../assets/image/accounts/bind.png"/>
-          <span class="mt-15">账户信息</span>
+        <!--FIXME-->
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/orderRefunds">
+          <img src="../../assets/image/accounts/d-seeting.png"/>
+          <span class="mt-15">账户设置</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray"
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/points">
+          <img src="../../assets/image/accounts/d-points.png"/>
+          <span class="mt-15">我的积分</span>
+        </router-link>
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray"
                      :to="null==this.account.medicalNumber?'/accounts/card/bind':'/accounts/unbind'">
           <img src="../../assets/image/accounts/card.png"/>
           <span class="mt-15">医保卡信息</span>
         </router-link>
+
+        <router-link class="flex-box account-content-padding border-right-gray" to="/faqs">
+          <img src="../../assets/image/accounts/d-issue.png"/>
+          <span class="text">常见问题</span>
+        </router-link>
+
+        <router-link class="flex-box account-content-padding border-right-gray" to="/feedbacks/create">
+          <img src="../../assets/image/accounts/d-opinion.png"/>
+          <span class="text">意见反馈</span>
+        </router-link>
       </div>
-
-      <router-link class=" foot-tag flex-stream-sb" to="/faqs">
-        <span class="text">常见问题</span>
-        <i class="iconfont ic-youjiantou"></i>
-      </router-link>
-
-      <router-link class=" foot-tag flex-stream-sb" to="/feedbacks/create">
-        <span class="text">意见反馈</span>
-        <i class="iconfont ic-youjiantou"></i>
-      </router-link>
-
     </div>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
 </template>
 
 <script>
+  import {Toast} from 'mint-ui';
+
   export default {
     data() {
       return {
         countList: [],
-        account: this.$store.getters.account
+        account: this.$store.getters.account,
+        show: true
       };
     },
     methods: {
+      close() {
+        this.show = !this.show;
+      },
+      coupon() {
+        this.show = !this.show;
+      },
       maxnumber(number) {
         if (number > 99) {
           return 99;
         } else {
           return number;
         }
+      },
+      everyDay() {
+        this.$http.post('/pointRecords/signIn').then(res => {
+          if (res.status === 200) {
+            this.$http.get('/pointRecords/signInPoint').then(res => {
+              this.$router.push('/points/signIn?points=' + res.data);
+            });
+          }
+        }).catch(error => {
+          if (error) {
+            Toast('一天只能签到一次哦');
+          }
+        });
       }
     },
     created() {
+      this.$http.get('couponRecords/order')
+        .then(res => {
+          this.coupons = res.data;
+        });
       if (JSON.stringify(this.account) !== '{}') {
         this.$http.get('/orders/count?')
           .then(res => {
@@ -122,13 +154,23 @@
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.$el.clientHeight
       ) + 'px';
-      this.$refs.body.style.overflow = 'auto';
+      this.$refs.body.style.overflow = 'scroll';
     }
   }
   ;
 </script>
-
 <style scoped>
+  .everyday {
+    width: 117px;
+    display: inline-block;
+    height: 47px;
+    position: absolute;
+    top: 173px;
+    line-height: 47px;
+    text-align: center;
+    right: 0px;
+    font-size:22px;
+  }
 
   .is-flex {
     display: flex !important;
@@ -199,7 +241,7 @@
 
   .nav-bar {
     background: rgba(255, 255, 255, 1);
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
 
   .nav-bar-order {
@@ -208,7 +250,7 @@
 
   .account-content {
     width: 720px;
-    height: 300px;
+    height: 451px;
     background: rgba(255, 255, 255, 1);
     flex-wrap: wrap;
     margin-bottom: 20px;
@@ -282,5 +324,6 @@
     color: rgba(102, 102, 102, 1);
     line-height: 40px;
   }
+
 
 </style>

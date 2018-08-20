@@ -15,8 +15,30 @@ export default new Router({
       component: () => import('@/views/drugs/search')
     },
     {
+      path: '/error',
+      component: () => import('@/components/error')
+    },
+    {
       path: '/',
       component: () => import('@/views/index')
+    },
+    {
+      path: '/points/exchangeRecord',
+      component: () => import('@/views/points/exchangeRecord')
+    },
+    {
+      path: '/points',
+      alias: '/points/index',
+      component: () => import('@/views/points/index')
+    },
+    {
+      path: '/signIn',
+      alias: '/points/signIn',
+      component: () => import('@/views/points/signIn')
+    },
+    {
+      path: '/points/view',
+      component: () => import('@/views/points/view')
     },
     // accounts
     {

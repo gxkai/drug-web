@@ -19,6 +19,10 @@ import VueTouch from 'vue-touch';
 import filters from './assets/js/filters';
 // import './assets/js/vconsole';
 
+import 'vue-event-calendar/dist/style.css';
+import vueEventCalendar from 'vue-event-calendar';
+Vue.use(vueEventCalendar, {locale: 'zh'});
+
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.defaults.timeout = 5000;
 axios.interceptors.request.use(
