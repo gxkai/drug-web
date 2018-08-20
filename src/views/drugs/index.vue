@@ -1,62 +1,72 @@
 <template>
-  <div class="f_body">
-    <div class="f_body" style="overflow: scroll">
-      <div>
-        <new-header :title="showDrugTitle">
-          <div slot="left" @click="$router.go(-1)">
+  <div class="drugs">
+      <div class="drugs-header" ref="header">
+        <new-header>
+          <div slot="left" @click="$router.go('-1')">
             <i class="iconfont ic-arrow-right"></i>
           </div>
-          <router-link :to="{path:'/components/search'}">
-            <img src="static/img/search2.png"/></router-link>
+          <div slot="center">
+            <input v-model="keyword" placeholder="通用名、主要商品名、症状" @keyup.enter="onSearch()">
+          </div>
+          <div slot="right" @click="onSearch()">
+            <i class="iconfont ic-sousuo"></i>
+          </div>
         </new-header>
-        <ul class="is-flex flex-row flex-sa p-tb-20 all-border border-bottom-grey">
-          <li @click="reOrderBy('SYNTHESIZE_DESC')" class="is-flex flex-row" :class="{'blueactive1': index1==default1}">
+      </div>
+      <div class="drugs-filter" ref="filter">
+        <div class="drugs-filter-item" @click="reOrderBy('SYNTHESIZE_DESC')">
+          <div class="drugs-filter-item-text">
             默认
-            <div class="is-flex position-relative">
-              <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"></i>
-              <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"></i>
+          </div>
+          <div class="drugs-filter-item-arrow">
+            <div class="drugs-filter-item-arrow-up">
             </div>
-          </li>
-
-          <li @click="reOrderByPrice()" class="is-flex flex-row" :class="{'blueactive1':index2==default2}">价格
-            <div class="is-flex position-relative">
-              <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"
-                 :class="val==1?'unActive':'blueActive'"></i>
-              <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"
-                 :class="val==1?'blueActive':'unActive'"></i>
+            <div class="drugs-filter-item-arrow-down">
             </div>
-          </li>
-          <li @click="reOrderBySales()" class="is-flex flex-row" :class="{'blueactive1':index3==default3}">
-            <span>销量</span>
-            <div class="is-flex position-relative">
-              <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"
-                 :class="salesVolume==1?'unActive':'blueActive'"></i>
-              <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"
-                 :class="salesVolume==1?'blueActive':'unActive'"></i>
+          </div>
+        </div>
+        <div class="drugs-filter-item" @click="reOrderByPrice()">
+          <div class="drugs-filter-item-text">
+            价格
+          </div>
+          <div class="drugs-filter-item-arrow">
+            <div class="drugs-filter-item-arrow-up">
             </div>
-          </li>
-          <li @click="conditionFilter()" class="is-flex flex-row" :class="{'blueactive1':index4==default4}">筛选条件
-            <div class="is-flex position-relative">
-              <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"
-                 :class="screen==1?'blueActive':'unActive'"></i>
+            <div class="drugs-filter-item-arrow-down">
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
+        <div class="drugs-filter-item" @click="reOrderBySales()">
+          <div class="drugs-filter-item-text">
+            销量
+          </div>
+          <div class="drugs-filter-item-arrow">
+            <div class="drugs-filter-item-arrow-up">
+            </div>
+            <div class="drugs-filter-item-arrow-down">
+            </div>
+          </div>
+        </div>
+        <div class="drugs-filter-item" @click="conditionFilter()">
+          <div class="drugs-filter-item-text">
+            筛选
+          </div>
+          <div class="drugs-filter-item-arrow">
+            <!--<div class="drugs-filter-item-arrow-up">-->
+            <!--</div>-->
+            <div class="drugs-filter-item-arrow-down" style="margin-top: .1rem">
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div>
-        <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-          <router-link v-for="(item,index) in list" :key="index"
-                       :to="{path:'/drugs/shops',query:{id:item.id,drugId:item.drugId}}">
-            <new-drug-shops class="border-bottom-grey" :item="item"></new-drug-shops>
-          </router-link>
-        </ul>
-        <new-no-data v-if="list.length===0"></new-no-data>
-        <new-loading v-if="process"></new-loading>
-        <new-all-data v-if="loading"></new-all-data>
+      <div class="drugs-container" ref="body"  v-infinite-scroll="loadMore"
+           infinite-scroll-disabled="loading"
+           infinite-scroll-distance="0">
+            <new-drug-shops class="border-bottom-grey" :item="item"
+                            v-for="(item,index) in list" :key="index"
+                            @click="$router.push({path:'/drugs/shops',query:{id:item.id,drugId:item.drugId}})"></new-drug-shops>
+        <new-no-data :length="list.length" v-show="loading"></new-no-data>
       </div>
-    </div>
-
   </div>
 </template>
 
@@ -67,79 +77,63 @@
       return {
         list: [],
         pageNum: 0,
-        pageSize: 5,
-        pages: null,
+        pageSize: 15,
         loading: false,
-        process: false,
-        showDrugTitle: this.$route.query.showDrugTitle,
         pageFrom: this.$route.query.pageFrom,
         drugTypeId: this.$route.query.typeId,
         keyword: this.$route.query.keyword,
         filterData: this.$route.query.filterData,
         drugSort: 'SYNTHESIZE_DESC',
-        val: -1,
-        salesVolume: -1,
-        screen: -1,
-        four: -4,
-        shopCount: -1,
-        index1: 1,
-        index2: 2,
-        index3: 3,
-        index4: 3,
-        default1: -1,
-        default2: -2,
-        default3: -3,
-        default4: -4
+        valueVolume: -1,
+        salesVolume: -1
       };
     },
     components: {},
     created() {
     },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.filter.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
+    },
     methods: {
-      loadMore() {
-        this.pageNum++;
-        if (!this.pages || this.pageNum < this.pages) {
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
+      onSearch() {
+        this.onRefresh();
       },
-      loadData() {
-        this.process = true;
+      onReset() {
+        this.list = [];
+        this.pageNum = 0;
+        this.loading = false;
+      },
+      onRefresh() {
+        this.onReset();
+        this.loadMore();
+      },
+      loadMore() {
+        this.loading = true;
+        this.pageNum++;
         this.$http.get(this.getRequestUrl())
           .then(res => {
-            this.list = this.list.concat(res.data.list);
-            if (!this.pages) {
-              this.pages = res.data.pages;
+            if (res.data.list.length !== 0) {
+              this.list = this.list.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loading = true;
             }
-            this.process = false;
           }).catch(error => {
-            this.process = false;
             this.exception(error);
           });
       },
       reOrderBy(orderBy) {
-        this.default1 = 1;
-        this.default2 = 7;
-        this.default3 = 7;
-        this.default4 = 7;
-        this.pageNum = 1;
         this.drugSort = orderBy;
-        this.pageNum = 0;
-        this.list = [];
-        this.loadData();
+        this.onRefresh();
       },
       reOrderByPrice() {
-        this.val = -(this.val);
-        if (this.val === -1) {
+        this.valueVolume = -(this.valueVolume);
+        if (this.valueVolume === -1) {
           this.reOrderBy('PRICE_DESC');
         } else {
           this.reOrderBy('PRICE_ASC');
         }
-        this.default2 = 2;
-        this.default1 = 7;
-        this.default3 = 7;
-        this.default4 = 7;
       },
       reOrderBySales() {
         this.salesVolume = -this.salesVolume;
@@ -149,35 +143,17 @@
           this.reOrderBy('SALE_ASC');
         }
         ;
-        this.default3 = 3;
-        this.default1 = 7;
-        this.default2 = 7;
-        this.default4 = 7;
-      },
-      reOrderByShopCount() {
-        this.four = 4;
-        this.shopCount = -this.shopCount;
-        if (this.shopCount === -1) {
-          this.reOrderBy('SHOP_COUNT_DESC');
-        } else {
-          this.reOrderBy('SHOP_COUNT_ASC');
-        }
       },
       conditionFilter() {
         this.$router.push({
           path: '/drugs/screen',
           query: {
-            showDrugTitle: this.showDrugTitle,
             pageFrom: this.pageFrom,
             typeId: this.drugTypeId,
             keyword: this.keyword,
             filterData: JSON.stringify(this.filterData)
           }
         });
-        this.default4 = 4;
-        this.default1 = 7;
-        this.default2 = 7;
-        this.default3 = 7;
       },
 
       getRequestUrl() {
@@ -192,60 +168,79 @@
             this.filterData = JSON.parse(this.filterData);
           }
           if (this.filterData.name !== undefined) {
-            urlArr.push('&name=' + this.filterData.name);
+            urlArr.push('&commonNames=' + this.filterData.name);
           }
           if (this.filterData.origin !== undefined) {
-            urlArr.push('&origin=' + this.filterData.origin);
+            urlArr.push('&originIds=' + this.filterData.origin);
           }
           if (this.filterData.spec !== undefined) {
-            urlArr.push('&spec=' + this.filterData.spec);
+            urlArr.push('&specIds=' + this.filterData.spec);
           }
           if (this.filterData.form !== undefined) {
-            urlArr.push('&form=' + this.filterData.form);
+            urlArr.push('&formIds=' + this.filterData.form);
           }
         }
-        urlArr.push('&drugSort=' + this.drugSort + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize);
+        urlArr.push('&sort=' + this.drugSort + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize);
         return urlArr.join('');
       }
     }
   };
 </script>
-<style>
-  .is-flex {
-    display: flex !important;
+<style scope type="text/less" lang="less">
+  .drugs {
+    height: 100vh;
+    width: 720px;
+    &-container {
+      position: relative;
+    }
+    &-header {
+      header {
+        &>div:nth-child(2) {
+          input {
+            width: 500px;
+            height: 50px;
+            outline: none;
+            border-width: 0;
+            font-size: 20px;
+          }
+        }
+      }
+    }
+    &-filter {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-size:24px;
+      font-family:HiraginoSansGB-W3;
+      color:rgba(69,69,69,1);
+      &-item {
+        display: flex;
+        align-items: center;
+        &-arrow {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          &-up {
+            border: 7px solid white;
+            border-bottom-color: #13C1FE;
+            width: 0;
+            height: 0;
+          }
+          &-down {
+            border: 7px solid white;
+            border-top-color: #13C1FE;
+            width: 0;
+            height: 0;
+            margin-top: 2px;
+          }
+        }
+      }
+    }
   }
-
-  .flex-row {
-    flex-direction: row;
-  }
-
-  .flex-sa {
-    justify-content: space-around;
-  }
-
-  .p-tb-20 {
-    padding: 20px 0;
-    box-sizing: border-box;
-  }
-
-  .position-top {
-    top: -6px;
-  }
-
-  .position-bottom {
-    bottom: -8px;
-  }
-
   .border-bottom-grey {
     border-bottom: 1px #f3f3f3 solid;
-  }
-
-  .unActive {
-    color: #d6cfcf !important;
-  }
-
-  .blueActive {
-    color: #1AB6FD;
   }
 
 </style>

@@ -1,336 +1,194 @@
 <template>
-  <div class="full-container">
-    <header :style="{background:bgColor,color:color}" class="height130">
-      <div class="header-top"></div>
-      <slot name="left"><i class="iconfont ic-arrow-right" slot="left" @click="$router.go(-1)"></i></slot>
-      <slot name="center">
-        <div class="d-inline-block fl position-absolute">
-
-          <i class="iconfont ic-search d-inline-block fl position-absolute"></i>
-          <input type="text" placeholder="           达康药业"
-                 class="border-0 width-percent-100 border-radius25 head-center text-white position-absolute"
-                  @focus="$router.push('/drugs/search')"
-          />
+  <div class="shops">
+    <div class="shops-header" ref="header">
+      <new-header>
+        <div slot="left" @click="$router.go(-1)">
+          <i class="iconfont ic-arrow-right"></i>
         </div>
-      </slot>
-      <slot name="right">
-        <div class="d-inline-block fr position-relative">
-          <i class="iconfont ic-lingdang"></i>
-          <span class="dot position-absolute"></span>
+        <div slot="center">
+          <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/shops')"/>
         </div>
-      </slot>
-    </header>
-    <div class="width-percent-100 bg-white">
-      <div class="shops-nav width-percent-96 m-auto">
-        <div class="d-inline-block fl  samediv comprehensive active" @click="reOrderBy('SYNTHESIZE_LESS')">
-          默认
-          <i class="icon iconfont ic-sanx-up"></i>
+        <div slot="right" @click="$router.push('/')">
+          首页
         </div>
-        <div class="d-inline-block fl nearby samediv" @click="reOrderByAppraise()">评价</div>
-        <div class="d-inline-block fl evaluate samediv" @click="reOrderBySales()">销量</div>
-        <div class="d-inline-block fl screen samediv" @click="reOrderByDistance()">距离最近<i
-          class="icon iconfont ic-sanx-up"></i></div>
-      </div>
+      </new-header>
     </div>
-    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-
-      <router-link v-for="(shopList,index) in shopLists"
-                   :key="index"
-                   :to="{ path: '/shops/view', query: { shopId: shopList.id }}">
-        <div class="specific">
-          <div class="width-percent-96 m-auto">
-
-            <div class="shop-store d-inline-block fl">
-              <img v-lazy="getImgURL(shopList.fileId,'LARGE_LOGO')" class="shop-store-img"/>
-            </div>
-            <div>
-              <div class="height-43"></div>
-              <div class="shop-title">
-                <p class="shop-title">{{shopList.name}}</p>
-              </div>
-              <div class="shop-star">
-                <new-star :size="shopList.score"></new-star>
-              </div>
-              <div class="shop-tel text-333333">
-                电话：{{shopList.phone}}
-              </div>
-              <div class="shop-tel text-333333 elps">
-                地址：{{shopList.area}}{{shopList.address}}
-              </div>
-            </div>
+    <div class="shops-filter" ref="filter">
+      <div class="shops-filter-item" @click="orderBy('SYNTHESIZE')">
+        <div class="shops-filter-item-text">
+          综合
+        </div>
+        <div class="shops-filter-item-arrow">
+          <div class="shops-filter-item-arrow-up">
+          </div>
+          <div class="shops-filter-item-arrow-down">
           </div>
         </div>
-      </router-link>
-    </ul>
-    <new-all-data v-if="loading"></new-all-data>
+      </div>
+      <div class="shops-filter-item" @click="orderBy('DISTANCE')">
+        <div class="shops-filter-item-text">
+          距离最近
+        </div>
+        <div class="shops-filter-item-arrow">
+          <div class="shops-filter-item-arrow-up">
+          </div>
+          <div class="shops-filter-item-arrow-down">
+          </div>
+        </div>
+      </div>
+      <div class="shops-filter-item" @click="orderBy('APPRAISE')">
+        <div class="shops-filter-item-text">
+          好评优先
+        </div>
+        <div class="shops-filter-item-arrow">
+          <div class="shops-filter-item-arrow-up">
+          </div>
+          <div class="shops-filter-item-arrow-down">
+          </div>
+        </div>
+      </div>
+      <div class="shops-filter-item" @click="orderBy('SALE')">
+        <div class="shops-filter-item-text">
+          价格
+        </div>
+        <div class="shops-filter-item-arrow">
+          <div class="shops-filter-item-arrow-up">
+          </div>
+          <div class="shops-filter-item-arrow-down">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="shops-container" ref="container">
+        <div  v-infinite-scroll="loadMore"
+              infinite-scroll-disabled="loading"
+              infinite-scroll-distance="0">
+          <new-shop-item :item="item"
+                         v-for="(item,index) in list"
+                         :key="index"
+                         @click="$router.push({path:'/shops/view',query:{shopId:item.id}})"/>
+        </div>
+      <new-no-data :length="list.length" v-show="loading"></new-no-data>
+    </div>
   </div>
 </template>
 <script>
-  // FIXME 代码优化
   export default {
     name: 'shopInfo',
+    props: {},
     data() {
       return {
-        bgColor: '#13C1FE',
-        color: 'white',
-        isA: false,
-        isB: false,
-        isC: false,
-        isD: false,
-        lng: 120.9809,
-        lat: 31.3872,
-        shopLists: [],
-        shopSort: 'SYNTHESIZE',
-        val: -1,
-        salesVolume: -1,
-        distanceVolume: -1,
+        position: this.$store.getters.position,
+        list: [],
         pageNum: 1,
         pageSize: 15,
-        allLoaded: false,
-        pages: ''
+        loading: false,
+        shopSort: 'SYNTHESIZE',
+        searchIcon: '\ue64c 通用名、主要商品名、症状'
       };
     },
-    props: {
-      title: {
-        default: '春天大药房'
-      },
-      tel: {
-        default: '13020141411'
-      },
-      address: {
-        default: '地址：昆山市长江路10号'
-      }
+    created() {
+    },
+    mounted() {
+      this.$refs.container.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.filter.clientHeight) + 'px';
+      this.$refs.container.style.overflow = 'scroll';
     },
     methods: {
-      loadMore() {
+      onReset() {
+        this.list = [];
+        this.pageNum = 0;
         this.loading = false;
-        if (this.pageNum <= this.pages) {
-          this.pageNum++;
-          this.reOrderBy();
-        } else {
-          this.loading = true;
-          this.allLoaded = true;
-        }
       },
-      reOrderByDistance() { // eslint-disable-next-line
-        $('.samediv').removeClass('active'); // eslint-disable-next-line
-        $('.samediv').eq(3).addClass('active'); // eslint-disable-next-line
-        this.isD = !this.isD;
-        this.distanceVolume = (-1) * this.distanceVolume;
-        this.shopSort = 'DISTANCE';
-        const url = '/shops';
-        let data = {
-          lat: this.lat,
-          lng: this.lng,
-          shopSort: this.shopSort,
-          pageNum: this.pageNum,
-          pageSize: this.pageSize
-        };
-        this.$http.get(url, {params: data}).then(res => {
-          this.shopLists = res.data.list;
-        }).catch(error => {
-          this.exception(error);
-        });
+      loadMore() {
+        this.$http.get('/shops', this.getParams())
+          .then(res => {
+            if (res.data.list.length !== 0) {
+              this.list = this.list.concat(res.data.list);
+              this.pageNum++;
+            } else {
+              this.loading = true;
+            }
+          }).catch(error => {
+            this.exception(error);
+          });
       },
-      reOrderBySales() { // eslint-disable-next-line
-        $('.samediv').removeClass('active'); // eslint-disable-next-line
-        $('.samediv').eq(2).addClass('active'); // eslint-disable-next-line
-        this.salesVolume = (-1) * this.salesVolume;
-        this.shopSort = 'SALE';
-        const url = '/shops';
-        let data = {
-          lat: this.lat,
-          lng: this.lng,
-          shopSort: this.shopSort,
-          pageNum: this.pageNum,
-          pageSize: this.pageSize
+      getParams() {
+        return {
+          params: {
+            lat: this.position.lat,
+            lng: this.position.lng,
+            shopSort: this.shopSort,
+            pageNum: this.pageNum,
+            pageSize: this.pageSize
+          }
         };
-        this.$http.get(url, {params: data}).then(res => {
-          this.shopLists = res.data.list;
-        });
       },
-      reOrderByAppraise() { // eslint-disable-next-line
-        $('.samediv').removeClass('active'); // eslint-disable-next-line
-        $('.samediv').eq(1).addClass('active'); // eslint-disable-next-line
-        this.val = (-1) * this.val;
-        this.shopSort = 'APPRAISE';
-        const url = '/shops';
-        let data = {
-          lat: this.lat,
-          lng: this.lng,
-          shopSort: this.shopSort,
-          pageNum: this.pageNum,
-          pageSize: this.pageSize
-        };
-        this.$http.get(url, {params: data}).then(res => {
-          this.shopLists = res.data.list;
-        }).catch(error => {
-          this.exception(error);
-        });
-      },
-      reOrderBy() { // eslint-disable-next-line
-        $('.samediv').removeClass('active'); // eslint-disable-next-line
-        $('.samediv').eq(0).addClass('active'); // eslint-disable-next-line
-        const url = '/shops';
-        let data = {
-          lat: this.lat,
-          lng: this.lng,
-          shopSort: this.shopSort,
-          pageNum: this.pageNum,
-          pageSize: this.pageSize
-        };
-        this.$http.get(url, {params: data}).then(res => {
-          this.shopLists = res.data.list;
-          this.pages = res.data.pages;
-        }).catch(error => {
-          this.exception(error);
-        });
+      orderBy(shopSort) {
+        this.shopSort = shopSort;
+        this.onReset();
+        this.loadMore();
       }
-    },
-    created: function () {
-      this.loadMore();
-      this.reOrderBy();
     }
   }
   ;
 </script>
-<style scoped>
-  .shop-tel {
-    margin-top: 15px;
-    font-size: 22px;
-  }
-
-  .height-43 {
-    height: 43px;
-  }
-
-  .full-container {
-    background: #f5f5f5;
+<style scoped type="text/less" lang="less">
+  .shops {
+    height: 100vh;
     width: 720px;
+    &-header {
+      header {
+        & > div:nth-child(2) {
+          input {
+            width: 500px;
+            height: 50px;
+            outline: none;
+            border-width: 0;
+            font-size: 20px;
+          }
+        }
+      }
+    }
+    &-filter {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 24px;
+      font-family: HiraginoSansGB-W3;
+      color: rgba(69, 69, 69, 1);
+      &-item {
+        display: flex;
+        align-items: center;
+        &-arrow {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          &-up {
+            border: 7px solid white;
+            border-bottom-color: #13C1FE;
+            width: 0;
+            height: 0;
+          }
+          &-down {
+            border: 7px solid white;
+            border-top-color: #13C1FE;
+            width: 0;
+            height: 0;
+            margin-top: 2px;
+          }
+        }
+      }
+    }
+    &-container {
+      position: relative;
+      width: 100%;
+    }
   }
 
-  .shop-store {
-    width: 300px;
-    height: 250px;
-    margin: 15px 29px 16px 20px;
-  }
-
-  .shop-store-img {
-    width:300px;
-    height:249px;
-  }
-
-  .shops-nav {
-    height: 79px;
-    line-height: 79px;
-    font-size: 26px;
-    color: rgba(153, 153, 153, 1);
-    border-bottom: 1px solid #E5E5E5;
-  }
-
-  .comprehensive {
-    width: 68px;
-  }
-
-  .active {
-    color: #454545;
-  }
-
-  .samediv {
-    width: 23%;
-    text-align: center;
-  }
-
-  .icon {
-    width: 0;
-    height: 0;
-    margin-left: 4px;
-    display: inline-block;
-  }
-
-  .specific {
-    width: 720px;
-    height: 281px;
-    background: rgba(255, 255, 255, 1);
-    margin-bottom: 15px;
-  }
-
-  .shop-title {
-    font-size: 30px;
-    color: #454545;
-  }
-
-  .shop-star {
-    margin-top: 11px;
-  }
-
-  .height {
-    height: 130px;
-  }
-
-  .head-center {
-    width: 530px;
-    height: 50px;
-    background: rgba(255, 255, 255, 1);
-    opacity: 0.21;
-    border-radius: 25px;
-    margin-left: 53px;
-  }
-
-  .border-radius25 {
-    border-radius: 25px;
-  }
-
-  .ic-arrow-right {
-    margin-left: 21px;
-  }
-
-  .dot {
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 0, 0, 1);
-    display: inline-block;
-    border-radius: 5px;
-    top: 5px;
-    left: 25px;
-  }
-
-  .ic-lingdang {
-    font-size: 40px;
-  }
-
-  .ic-arrow-right {
-    font-size: 40px;
-  }
-
-  header {
-    width: 720px;
-  }
-
-  .height130 {
-    height: 130px;
-  }
-
-  .header-top {
-    height: 45px;
-  }
-
-  input::-webkit-input-placeholder {
-    color: red; /*rgb(49, 96, 113)*/
-    font-size: 30px;
-    line-height: 50px;
-  }
-
-  .ic-search {
-    left: 80px;
-    font-size: 30px;
-  }
-  .iconfont{
-    width: 0!important;
-    height: 0!important;
-  }
-  .icon{
-    width: 0!important;
-    height: 0!important;
+  .border-bottom-grey {
+    border-bottom: 1px #f3f3f3 solid;
   }
 </style>
+

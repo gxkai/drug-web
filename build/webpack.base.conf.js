@@ -40,9 +40,6 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      "window.jQuery": "jquery"
     })
   ],
   module: {
@@ -85,6 +82,10 @@ module.exports = {
       {
         test:/\.scss$/,
         loader:"vue-style-loader!css-loader!sass-loader"
+      },
+      {
+        test:/\.less/,
+        loader:"style-loader!css-loader!less-loader"
       },
       {
         test: /.exec.js$/,

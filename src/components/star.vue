@@ -83,6 +83,9 @@ export default {
   .active {
     color: red;
   }
+  .smaller {
+    font-size: 20px;;
+  }
   .small {
     font-size: 30px;
   }

@@ -30,6 +30,8 @@ import newRefund from '../../components/refund';
 import newTimeDown from '../../components/timeDown';
 import newCountDown from '../../components/countDown';
 import newHeaderSec from '../../components/headerSec';
+import newShopItem from '../../components/shopItem';
+import newAppraiseItem from '../../components/appraiseItem';
 
 export default {
   install(Vue, options) {
@@ -65,5 +67,7 @@ export default {
     Vue.component('new-time-down', newTimeDown);
     Vue.component('new-count-down', newCountDown);
     Vue.component('new-header-sec', newHeaderSec);
+    Vue.component('new-shop-item', newShopItem);
+    Vue.component('new-appraise-item', newAppraiseItem);
   }
 };

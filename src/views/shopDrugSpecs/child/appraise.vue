@@ -1,34 +1,27 @@
 <template>
-  <div class="bind-container" id="data-list-content">
-    <div class="bg-white">
-      <div class="all-appraise width-percent-96 m-auto line-height-l-20">
-        <div class="width-percent-100">
-          <span class="d-inline-block total-appraise fl">
-           <p>总评分：{{shopDrugSpec.shopTotalAppraise.score}}分</p>
-           <new-star :score="shopDrugSpec.shopTotalAppraise.score"  disabled class="new-star"></new-star>
-         </span>
-          <span class="d-inline-block fr net-friend elips">共有{{shopDrugSpec.drugAppraises.total}}位网友评论</span>
+  <div class="appraise">
+    <div class="appraise-title">
+      <div class="appraise-title-left">
+        <div>总评分：{{shopDrugSpec.shopTotalAppraise.score}}分</div>
+        <div>
+          <new-star></new-star>
+        </div>
+      </div>
+      <div class="appraise-title-right">
+        <div>
+          共有{{list.length}}位网友评论
         </div>
       </div>
     </div>
 
-    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-      <div class="content-appraise width-percent-100 bg-white" v-for="item in list">
-        <div class="width-percent-96 m-auto border-bottom-f1f1f1 time">
-          <span class="d-inline-block fl">{{item.username|asterisk}}</span>
-          <span class="d-inline-block fr">{{timeConvert(item.createdDate)}}</span>
-        </div>
-        <div class="width-percent-96 m-auto">
-          <new-star :size="item.score" disabled></new-star>
-        </div>
-        <div class="width-percent-96 m-auto">
-          {{item.content}}
-        </div>
+    <div class="appraise-container" ref="container">
+      <div   v-infinite-scroll="loadMore"
+             infinite-scroll-disabled="loading"
+             infinite-scroll-distance="0">
+        <new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>
+        <new-no-data :length="list.length" v-show="loading"></new-no-data>
       </div>
-    </ul>
-    <new-no-data v-if="list.length===0"></new-no-data>
-    <new-loading v-if="process"></new-loading>
-    <new-all-data v-if="loading"></new-all-data>
+    </div>
   </div>
 </template>
 
@@ -38,35 +31,33 @@
     data() {
       return {
         list: [],
-        pageNum: 0,
-        pageSize: 5,
-        pages: null,
-        loading: false,
-        process: false
+        pageNum: 1,
+        pageSize: 6,
+        total: null,
+        loading: false
       };
     },
+    computed: {},
     created() {
+    },
+    mounted() {
     },
     methods: {
       loadMore() {
-        this.pageNum++;
-        if (!this.pages || this.pageNum < this.pages) {
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
-        this.process = true;
+        this.loading = true;
         this.$http.get('/drugAppraises?shopDrugSpecId=' + this.shopDrugSpec.id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            this.list = this.list.concat(res.data.list);
-            if (!this.pages) {
-              this.pages = res.data.pages;
+            if (!this.total) {
+              this.total = res.data.total;
             }
-            this.process = false;
+            if (res.data.list.length !== 0) {
+              this.list = this.list.concat(res.data.list);
+              this.loading = false;
+              this.pageNum++;
+            } else {
+              this.loading = true;
+            }
           }).catch(error => {
-            this.process = false;
             this.exception(error);
           });
       }
@@ -74,54 +65,35 @@
   };
 </script>
 
-<style scoped>
-  .bind-container {
+<style scoped type="text/less" lang="less">
+  .appraise {
     width: 720px;
-    background: #f5f5f5;
-    min-height: 100vh;
-  }
-
-  .all-appraise {
-    height: 119px;
-    border-top: 1px solid #f5f5f5;
-  }
-
-  .total-appraise {
-    width: 182px;
-    font-size: 28px;
-    color: rgba(51, 51, 51, 1);
-    margin-top: 12px;
-    line-height: 0.7rem;
-  }
-
-  .ic-xingxing {
-    margin-top: 13px;
-  }
-
-  .net-friend {
-    width: 200px;
-    font-size: 20px;
-    color: rgba(153, 153, 153, 1);
-    margin-right: 26px;
-    line-height: 1rem;
-  }
-
-  .content-appraise {
-    margin-top: 16px;
-    height: 118px;
-  }
-
-  .time {
-    height: 40px;
-    line-height: 40px;
-  }
-
-  .new-star {
-    height: 0.8rem;
-    line-height: 0.8rem;
-  }
-
-  .drug-flull {
-    width: 69%;
+    height: 100vh;
+    &-title {
+      width: 100%;
+      height: 100px;
+      background-color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      &-left {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        font-size: 28px;
+        font-family: HiraginoSansGB-W3;
+        color: rgba(51, 51, 51, 1);
+      }
+      &-right {
+        font-size: 20px;
+        font-family: HiraginoSansGB-W3;
+        color: rgba(153, 153, 153, 1);
+      }
+    }
+    &-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
   }
 </style>

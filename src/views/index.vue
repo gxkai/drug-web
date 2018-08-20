@@ -21,7 +21,7 @@
       </div>
       <div class="header-search">
           <input class="iconfont" :placeholder="searchIcon" type="text" v-model="keyword"
-                 @keyup.enter="onFocus()">
+                 @focus="$router.push('/drugs')">
       </div>
     </div>
     <div ref="body">
@@ -158,7 +158,6 @@
 <script>
   import {BmMarker, BmLabel} from 'vue-baidu-map';
   import DownTime from '../components/timeDown';
-  import {MessageBox} from 'mint-ui';
   import {Carousel3d, Slide} from 'vue-carousel-3d';
 
   export default {
@@ -220,16 +219,6 @@
         this.$router.push({
           path: '/addresses/repositioning',
           query: {lat: this.lat, lng: this.lng}
-        });
-      },
-      onFocus() {
-        if (!this.keyword) {
-          MessageBox('提示', '请输入关键字');
-          return;
-        }
-        this.$router.push({
-          path: '/drugs',
-          query: {showDrugTitle: this.keyword, pageFrom: 'keyword', keyword: this.keyword}
         });
       },
       see(e) {

@@ -7,7 +7,7 @@
       <span class="text-666666">{{ item.name }}</span>
       <span class="text-666666">{{ item.sfda }}</span>
       <div class="is-flex flex-sb mt-20">
-        <div class="text-666666"><span class="text-red">&yen; {{item.price}}</span> 起</div>
+        <div class="text-666666"><span class="text-red">&yen; {{item.price}}</span> 起(总销量{{item.sales}})</div>
         <div class="text-666666"><span class="text-13C1FE">{{item.shopCount}}</span>个商家在售</div>
       </div>
     </div>
