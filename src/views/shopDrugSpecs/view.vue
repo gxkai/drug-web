@@ -1,19 +1,24 @@
 <template>
-  <div>
+  <div class="view">
     <div ref="header">
       <new-header title="详情" class="bg-white text-333333">
         <div slot="left" >
           <i class="iconfont ic-arrow-right text-333333" @click.stop="$router.go(-1)"></i>
         </div>
+        <div slot="right" >
+          <i class="iconfont ic-fenxiang text-333333" @click.stop="$router.go(-1)"></i>
+        </div>
       </new-header>
-      <div class="view-nav width-percent-96 m-auto">
-        <ul>
-          <li class="text-center width-percent-49 fl" @click="shop(1)" :class="{active:number==1}">基本信息</li>
-          <li class="text-center width-percent-50 fl" @click="shop(0)" :class="{active:number==0}">服务保障</li>
-        </ul>
+      <div class="view-nav">
+        <div @click="shop(1)" :class="{active:number==1}">
+          基本信息
+        </div>
+        <div @click="shop(0)" :class="{active:number==0}">
+          服务保障
+        </div>
       </div>
     </div>
-    <div ref="body">
+    <div class="view-container" ref="body">
       <keep-alive>
         <component :is="showComponent" :shopDrugSpec="shopDrugSpec"></component>
       </keep-alive>
@@ -60,7 +65,7 @@
   };
 </script>
 
-<style scoped>
+<style scoped type="text/less" lang="less">
   .bg-white {
     background: white !important;
   }
@@ -68,18 +73,28 @@
   .text-333333 {
     color: #333333 !important;
   }
-
-  .view-nav ul li:first-child {
-    border-right: 1px solid #999999;
+  .view {
+    &-nav {
+      width: 720px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size:24px;
+      font-family:HiraginoSansGB-W3;
+      >div {
+        width: 360px;
+        text-align: center;
+      }
+      >div:nth-child(1){
+        border-right: 1px solid rgba(153,153,153,1);
+      }
+      .active {
+        color:rgba(19,193,254,1);
+      }
+    }
+    &-container {
+      background: #f5f5f5;
+    }
   }
 
-  .active {
-    color: #13C1FE;
-  }
-
-  .view-nav ul {
-    height: 40px;
-    line-height: 40px;
-    font-size: 30px;
-  }
 </style>

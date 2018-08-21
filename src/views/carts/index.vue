@@ -7,7 +7,7 @@
       <span slot="right" @click="onRemoveBatch()">删除</span>
     </new-header>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
-    <div class="close" ref="close" v-if="cartShops.length>0">
+    <div class="close" ref="close">
       <div class="left icon1" @click.stop="onRadio(All)">
        <span>
           <i class="iconfont ic-radiobox" v-show="!chooseAll"></i>
@@ -23,7 +23,6 @@
       </div>
     </div>
     <div class="body" ref="body">
-      <new-no-data v-if="cartShops.length === 0"></new-no-data>
       <ul class="cartShops">
         <li v-for="cartShop in cartShops">
           <new-header bgColor="white" height="low" leftSize="small" leftColor="black">
@@ -457,6 +456,7 @@
     background-color: rgba(255, 255, 255, 1);
     position: fixed;
     bottom: 100px;
+    z-index: 1;
   }
 
   .close .right button {

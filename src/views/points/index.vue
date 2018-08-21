@@ -1,30 +1,40 @@
 <template>
-  <div>
-    <div class="points-continer bg-f5f5f5">
-      <new-header title="我的积分">
-        <div slot="left">
-          <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
+  <div class="point">
+    <new-header title="我的积分">
+      <div slot="left">
+        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
+      </div>
+    </new-header>
+    <div class="point-title">
+      <div class="point-title-point">
+        <div>
+          <i class="iconfont ic-jifen"></i>
         </div>
-      </new-header>
-      <div class="points-me bg-white">
-        <div class="left d-inline-block fl">
-          <i class="iconfont ic-jifen text-13C1FE"></i>
-          <span class="text-333333 d-inline-block">剩余积分：</span>
-          <span class="text-EC6941 d-inline-block">{{$store.getters.account.point}}</span>
-        </div>
-        <div class="middle d-inline-block fl"></div>
-        <div class="right" @click="changes()">
-          <i class="iconfont ic-jifen01 text-EC6941"></i>
-          <span class="text-333333 d-inline-block">兑换记录></span>
+        <div>
+          <span>剩余积分</span>
+          <span>{{$store.getters.account.point}}</span>
         </div>
       </div>
-      <div class="points-exchange bg-f5f5f5 text-center">
-        <span class="line-one d-inline-block"></span>
-        <span class="title">兑换商品</span>
-        <span class="line-two d-inline-block"></span>
+      <div class="point-title-record">
+        <div>
+          <i class="iconfont ic-jifen01 text-EC6941"></i>
+        </div>
+        <div @click.stop="$router.push('/points/exchangeRecord')">
+          <span>兑换记录></span>
+        </div>
       </div>
     </div>
-    <new-coupon v-bind:couponList="couponList"></new-coupon>
+    <div class="point-goods">
+      <div class="point-goods-title">
+        <div></div>
+        <div>兑换商品</div>
+        <div></div>
+      </div>
+      <div class="point-goods-list">
+        <new-coupon-item v-for="(item, index) in couponList" :key="index" :item="item"></new-coupon-item>
+      </div>
+    </div>
+
   </div>
 </template>
 <script>
@@ -47,78 +57,92 @@
       this.$http.get('/coupons')
         .then(res => {
           this.couponList = res.data.list;
-          console.log('wudan');
-          console.log(res);
           this.id = res.data.list.id;
+        }).catch(error => {
+          this.exception(error);
         });
     }
   };
 </script>
-<style scoped>
-  .points-continer {
+<style scoped type="text/less" lang="less">
+  .point {
     width: 720px;
+    &-title {
+      width: 100%;
+      height:120px;
+      background:rgba(255,255,255,1);
+      display: flex;
+      align-items: center;
+      >div {
+        width: 360px ;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      &-point {
+        border-right: 1px solid black;
+        >div:nth-child(1) {
+          .ic-jifen {
+            color: rgba(19,193,254,1);
+            font-size: 50px;
+          }
+        }
+        >div:nth-child(2) {
+          margin-left: 30px;
+          font-size:24px;
+          font-family:HiraginoSansGB-W3;
+          >span:nth-child(1) {
+            color:rgba(51,51,51,1);
+          }
+          >span:nth-child(2) {
+            color: #EC6941;
+          }
+        }
+      }
+      &-record {
+        >div:nth-child(1) {
+          .ic-jifen01 {
+            color: #EC6941;
+            font-size: 50px;
+          }
+        }
+        >div:nth-child(2) {
+          margin-left: 30px;
+          font-size:24px;
+          font-family:HiraginoSansGB-W3;
+          color:rgba(51,51,51,1);
+        }
+      }
+    }
+    &-goods {
+      &-title {
+        width: 100%;
+        height: 120px;
+        background-color: #f8f8f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        >div{
+          &:nth-child(1), &:nth-child(3) {
+            width:117px;
+            height:2px;
+            background:rgba(191,191,191,1);
+          }
+          &:nth-child(2) {
+            font-size:30px;
+            font-family:MicrosoftYaHei;
+            color:rgba(0,0,0,1);
+            margin-left: 10px;
+            margin-right: 10px;
+          }
+        }
+      }
+      &-list {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
   }
-
-  .points-me {
-    width: 720px;
-    height: 130px;
-    line-height: 120px;
-  }
-
-  .points-me .left span {
-    font-size: 24px !important;
-  }
-
-  .points-me .right span {
-    font-size: 24px !important;
-  }
-
-  .points-me .middle {
-    width: 2px;
-    height: 80px;
-    background: rgba(191, 191, 191, 1);
-    margin-top: 20px;
-    margin-left: 71px;
-  }
-
-  .points-exchange {
-    width: 720px;
-    height: 100px;
-    line-height: 100px;
-    display: table;
-  }
-
-  .points-exchange span {
-    line-height: 100px;
-  }
-
-  .points-exchange .line-one {
-    width: 117px;
-    height: 3px;
-    background: rgba(191, 191, 191, 1);
-    vertical-align: middle;
-    margin-right: 16px;
-  }
-
-  .points-exchange .title {
-    font-size: 30px;
-    font-weight: bold;
-  }
-
-  .points-exchange .line-two {
-    width: 117px;
-    height: 3px;
-    background: rgba(191, 191, 191, 1);
-    vertical-align: middle;
-    margin-left: 16px;
-  }
-
-  .ic-jifen, .ic-jifen01 {
-    font-size: 60px !important;
-    width: 63px;
-    height: 63px;
-    margin: 28px 13px 29px 31px;
-    vertical-align: middle;
-  }
-
 </style>

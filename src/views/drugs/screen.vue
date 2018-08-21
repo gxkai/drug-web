@@ -1,13 +1,12 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="screen">
-    <new-header :title="head">
+    <new-header title="筛选">
       <div  slot="left">
       <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
       </div>
-      <router-link to="#" slot="right" >
-        <router-link class="text-white" to="/">重置</router-link>
-      </router-link>
+      <div slot="right" @click="reset()">
+        重置
+      </div>
     </new-header>
 
     <div class="width96 m-auto">
@@ -34,8 +33,6 @@
     name: 'screen',
     data() {
       return {
-        head: '筛选',
-        showDrugTitle: '',
         pageFrom: '',
         drugTypeId: '',
         keyword: '',
@@ -45,7 +42,6 @@
     components: {
     },
     created: function () {
-      this.showDrugTitle = this.$route.query.showDrugTitle;
       this.pageFrom = this.$route.query.pageFrom;
       this.drugTypeId = this.$route.query.typeId;
       this.keyword = this.$route.query.keyword;
@@ -58,10 +54,9 @@
     },
     methods: {
       drugSearch() {
-        this.$router.push({
+        this.$router.replace({
           path: '/drugs',
           query: {
-            showDrugTitle: this.showDrugTitle,
             pageFrom: this.pageFrom,
             typeId: this.drugTypeId,
             keyword: this.keyword,
@@ -73,10 +68,9 @@
         this.filterData = {};
       },
       filterSearch(type) {
-        this.$router.push({
+        this.$router.replace({
           path: '/drugs/screenConfirm',
           query: {
-            showDrugTitle: this.showDrugTitle,
             pageFrom: this.pageFrom,
             typeId: this.drugTypeId,
             keyword: this.keyword,

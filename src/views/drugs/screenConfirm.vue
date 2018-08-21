@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="creeningConditions">
     <new-header>
@@ -23,7 +22,6 @@
         showValue: [],
         options: [],
         headTitle: '',
-        showDrugTitle: this.$route.query.showDrugTitle,
         pageFrom: this.$route.query.pageFrom,
         drugTypeId: this.$route.query.typeId,
         keyword: this.$route.query.keyword,
@@ -145,10 +143,9 @@
             this.filterData.showForm = this.showValue.join(',');
             break;
         }
-        this.$router.push({
+        this.$router.replace({
           path: '/drugs/screen',
           query: {
-            showDrugTitle: this.showDrugTitle,
             pageFrom: this.pageFrom,
             typeId: this.drugTypeId,
             keyword: this.keyword,

@@ -12,7 +12,7 @@
     <div class="container-main">
       <div class="drug-types">
         <div class="drug-type" v-for="(item,index) in drugkind" @click="leftLi(index)"
-             v-bind:class="{'active':index==qwere}">
+             :class="{'active':index==qwere}">
           {{item.type}}
         </div>
       </div>

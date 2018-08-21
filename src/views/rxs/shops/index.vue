@@ -1,58 +1,97 @@
 <template>
-  <div class="rxs-shop-contanier">
-    <div ref="header">
-    <new-header>
-      <div slot="left" @click="$router.go(-1)">
-        <i class="iconfont ic-arrow-right"></i>
-      </div>
-      <input slot="center" class="header-search" @click="$router.push('/drugs/search')" placeholder="通用名、主要商品名、症状" type="text">
-    </new-header>
-
-    <ul class="is-flex flex-row flex-sa p-tb-20 all-border">
-      <li @click="orderById()" :class="{'blueactive1':index1===comprehensive1}">
-        <span class="text-l-25">综合</span>
-      </li>
-      <li @click="orderByDistance()" :class="{'blueactive1':index2===comprehensive2}">
-        <span class="text-l-25">距离最近</span>
-      </li>
-      <li @click="orderByScore()" :class="{'blueactive1':index3===comprehensive3}">
-        <span class="text-l-25">好评优先</span>
-      </li>
-      <li @click="orderByPrice()" class="is-flex flex-row " :class="{'blueactive1':index4===comprehensive4}">
-        <span class="text-l-25">价格</span>
-        <div class="is-flex  position-relative">
-          <i class="iconfont ic-arrLeft-fill1 position-absolute position-top"
-             :class="val===1?'unActive':'blueActive'"></i>
-          <i class="iconfont ic-arrLeft-fill position-absolute position-bottom"
-             :class="val===1?'blueActive':'unActive'"></i>
+  <div class="shops">
+    <div class="shops-header" ref="header">
+      <new-header>
+        <div slot="left" @click="$router.go(-1)">
+          <i class="iconfont ic-arrow-right"></i>
         </div>
-      </li>
-    </ul>
+        <div slot="center">
+          <input v-model="keyword" class="iconfont" :placeholder="searchIcon" @focus="$router.push('/shops')">
+        </div>
+        <div slot="right" @click="$router.push('/')">
+          首页
+        </div>
+      </new-header>
     </div>
-    <ul ref="body">
-      <li @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:rxId}})">
-        <new-shop :showStar="false"
-                  :fileId="hospital.fileId"
-                  :shopName="hospital.name"
-                  :phone="hospital.phone"
-                  :address="hospital.address"
-                  :price="hospital.amount"
-                  :newCart="true"
-                  :showIcon="true"
-                  >
-        </new-shop>
-      </li>
+    <div class="shops-filter" ref="filter">
+      <div class="shops-filter-item" @click="orderById()">
+        <div class="shops-filter-item-text">
+          综合
+        </div>
+        <div class="shops-filter-item-arrow">
+          <div class="shops-filter-item-arrow-up">
+          </div>
+          <div class="shops-filter-item-arrow-down">
+          </div>
+        </div>
+      </div>
+      <div class="shops-filter-item" @click="orderByDistance()">
+        <div class="shops-filter-item-text">
+          距离最近
+        </div>
+        <div class="shops-filter-item-arrow">
+          <div class="shops-filter-item-arrow-up">
+          </div>
+          <div class="shops-filter-item-arrow-down">
+          </div>
+        </div>
+      </div>
+      <div class="shops-filter-item" @click="orderByScore()">
+        <div class="shops-filter-item-text">
+          好评优先
+        </div>
+        <div class="shops-filter-item-arrow">
+          <div class="shops-filter-item-arrow-up">
+          </div>
+          <div class="shops-filter-item-arrow-down">
+          </div>
+        </div>
+      </div>
+      <div class="shops-filter-item" @click="orderByPrice()">
+        <div class="shops-filter-item-text">
+          价格
+        </div>
+        <div class="shops-filter-item-arrow">
+          <div class="shops-filter-item-arrow-up">
+          </div>
+          <div class="shops-filter-item-arrow-down">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="shops-container" ref="body">
+      <ul>
+        <li @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:rxId}})">
+          <new-shop :showStar="false"
+                    :fileId="hospital.fileId"
+                    :shopName="hospital.name"
+                    :phone="hospital.phone"
+                    :address="hospital.address"
+                    :price="hospital.amount"
+                    :newCart="true"
+                    :showIcon="true"
+                    class="border-bottom-grey">
+          </new-shop>
+        </li>
 
-      <li v-for="(rxShop,index) in rxShops"
-          :key="index"
-          @click.stop="$router.push({path: '/rxs/shops/drugs', query: {rxId: rxId, shopId: rxShop.id, shopName: rxShop.name}});"
-          >
-        <new-shop :showStar="true" :fileId="rxShop.fileId" :newScore="rxShop.score" :shopName="rxShop.name"
-                  :phone="rxShop.tel"
-                  :address="rxShop.area + rxShop.address" :price="rxShop.amount" :newCart="true"></new-shop>
-      </li>
+        <li v-for="(rxShop,index) in rxShops"
+            :key="index"
+            @click.stop="$router.push({path: '/rxs/shops/drugs', query: {rxId: rxId, shopId: rxShop.id, shopName: rxShop.name}});"
+        >
+          <new-shop :showStar="true"
+                    :fileId="rxShop.fileId"
+                    :newScore="rxShop.score"
+                    :shopName="rxShop.name"
+                    :phone="rxShop.tel"
+                    :address="rxShop.area + rxShop.address"
+                    :price="rxShop.amount"
+                    :newCart="true"
+                    class="border-bottom-grey">
+          </new-shop>
+        </li>
 
-    </ul>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -62,8 +101,7 @@
       return {
         rxId: this.$route.query.rxId,
         rxShops: [],
-        lng: 120.9809,
-        lat: 31.3872,
+        position: this.$store.getters.position,
         val: -1,
         comprehensive1: -1,
         index1: 1,
@@ -74,11 +112,12 @@
         comprehensive3: -3,
         comprehensive4: -4,
         hospitalId: this.$route.query.hospitalId,
-        hospital: {}
+        hospital: {},
+        searchIcon: '\ue64c 通用名、主要商品名、症状'
       };
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.filter.clientHeight) + 'px';
       this.$refs.body.style.overflow = 'auto';
     },
     created() {
@@ -87,7 +126,7 @@
     },
     methods: {
       getRxShops() {
-        this.$http.get('/rxs/' + this.rxId + '/shops?lng=' + this.lng + '&lat=' + this.lat)
+        this.$http.get('/rxs/' + this.rxId + '/shops?lng=' + this.position.lng + '&lat=' + this.position.lat)
           .then(res => {
             this.rxShops = res.data;
           }).catch(error => {
@@ -205,53 +244,57 @@
   };
 </script>
 
-<style scoped>
-  .flex-row {
-    flex-direction: row;
+<style scoped type="text/less" lang="less">
+  .shops {
+    height: 100vh;
+    width: 720px;
+    &-header {
+      header {
+        &>div:nth-child(2) {
+          input {
+            width: 500px;
+            height: 50px;
+            outline: none;
+            border-width: 0;
+            font-size: 20px;
+          }
+        }
+      }
+    }
+    &-filter {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-size:24px;
+      font-family:HiraginoSansGB-W3;
+      color:rgba(69,69,69,1);
+      &-item {
+        display: flex;
+        align-items: center;
+        &-arrow {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          &-up {
+            border: 7px solid white;
+            border-bottom-color: #13C1FE;
+            width: 0;
+            height: 0;
+          }
+          &-down {
+            border: 7px solid white;
+            border-top-color: #13C1FE;
+            width: 0;
+            height: 0;
+            margin-top: 2px;
+          }
+        }
+      }
+    }
   }
-
-  .flex-sa {
-    justify-content: space-around;
-  }
-
-  .p-tb-20 {
-    padding: 20px 0;
-    box-sizing: border-box;
-  }
-
-  .all-border {
-    border: 1px #f5f5f5 solid;
-  }
-
-  .position-top {
-    top: -6px;
-  }
-
-  .position-bottom {
-    bottom: -8px;
-  }
-
-  .unActive {
-    color: #d6cfcf !important;
-  }
-
-  .blueActive {
-    color: #1AB6FD;
-  }
-
-  .header-search {
-    width: 560px;
-    height: 40px;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 10px;
-    border: 0;
-    outline: none;
-    padding: 0 20px;
-    font-size: 20px;
-  }
-
-  .msg-icon {
-    width: 31px;
-    height: 36px;
+  .border-bottom-grey {
+    border-bottom: 1px #f3f3f3 solid;
   }
 </style>

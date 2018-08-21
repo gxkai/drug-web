@@ -1,42 +1,53 @@
 <template>
-  <div class="account-container">
+  <div class="account">
     <new-header title="账户信息">
       <div slot="left" @click="$router.push('/accounts')">
         <i class="iconfont ic-arrow-right"></i>
       </div>
+      <div slot="right" @click="$router.push('/')">
+        首页
+      </div>
     </new-header>
 
-
-    <div class="bg-white width-percent-100">
-      <div class="a-content-list flex-stream-sb width-percent-96 m-auto" @click="changeVisible">
-        <span>头像</span>
-        <div class="flex-stream-sb">
-          <img class="is-55x55" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
-          <i class="iconfont ic-youjiantou"></i>
+    <div class="account-container">
+      <div class="account-container-item" @click="changeVisible()">
+        <div class="account-container-item-left">
+          <div>头像</div>
+        </div>
+        <div class="account-container-item-right">
+          <div>
+            <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
+          </div>
+          <div>
+            <i class="iconfont ic-youjiantou"></i>
+          </div>
+        </div>
+      </div>
+      <div class="account-container-item" @click="$router.push('/accounts/password')">
+        <div class="account-container-item-left">
+          <div>隐私</div>
+        </div>
+        <div class="account-container-item-right">
+          <div>
+            <i class="iconfont ic-youjiantou"></i>
+          </div>
+        </div>
+      </div>
+      <div class="account-container-item" @click="$router.push('/accounts/edit')">
+        <div class="account-container-item-left">
+          <div>修改密码</div>
+        </div>
+        <div class="account-container-item-right">
+          <div>
+            <i class="iconfont ic-youjiantou"></i>
+          </div>
         </div>
       </div>
     </div>
 
-
-    <div class="width-percent-100 bg-white">
-      <router-link class="a-content-list flex-stream-sb width-percent-96 m-auto" to='/accounts/edit'>
-        <span>隐私</span>
-        <i class=" iconfont ic-youjiantou"></i>
-      </router-link>
-    </div>
-
-    <div class="width-percent-100 bg-white">
-      <router-link class="a-content-list flex-stream-sb width-percent-96 m-auto" to='/accounts/password'>
-        <span>修改密码</span>
-        <i class=" iconfont ic-youjiantou"></i>
-      </router-link>
-    </div>
-
-
-    <div id="shangchuanpic" class="div1">
-      <ul style="padding-bottom:40px;">
-        <li class="imgLi div2" v-for="(item, index) in duploadURLs"
-            style="float:left;width:50px;height:50px;display:none;">
+    <div id="shangchuanpic" class="account-image_upload">
+      <ul>
+        <li class="imgLi div2" v-for="(item, index) in duploadURLs">
           <img v-lazy='item' class="upload_img div3" style="display:none;"/>
           <span @click="delImg(index)" style="display:none;"><span class="file-remove">+</span></span>
         </li>
@@ -184,47 +195,49 @@
   };
 </script>
 
-<style scoped>
+<style scoped type="text/less" lang="less">
 
-  .account-container {
+  .account {
     width: 720px;
     height: 100vh;
     background: #f5f5f5;
+    font-size: 24px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
+    .account-container {
+      width: 100%;
+      background: rgba(255, 255, 255, 1);
+      .account-container-item {
+        width: 100%;
+        height: calc(219px / 3);
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .account-container-item-right {
+          display: flex;
+          align-items: center;
+          img {
+            width: 55px;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+          }
+          .ic-youjiantou {
+            font-size: 30px;
+          }
+        }
+      }
+    }
+    .account-image_upload {
+      ul {
+        padding-bottom:40px;
+        li {
+          float:left;width:50px;height:50px;display:none;
+        }
+      }
+    }
   }
 
-  .a-content-list {
-    display: block;
 
-    height: 80px;
-    background: rgba(255, 255, 255, 1);
-    margin-bottom: 15px;
-  }
-
-  .a-content-list span {
-    color: #535353;
-  }
-
-  .flex-stream-sb {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .padding-10 {
-
-    box-sizing: border-box;
-  }
-
-  .is-55x55 {
-    width: 55px;
-    height: 55px;
-  }
-
-  .account-container span {
-    color: #333333 !important;
-    font-size: 20px;
-  }
-  .account-container .ic-youjiantou {
-    font-size: 20px;
-  }
 </style>

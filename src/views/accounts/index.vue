@@ -52,7 +52,7 @@
       <div class="account-content is-flex">
         <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/drugAppraises">
           <img src="../../assets/image/accounts/d-order.png"/>
-          <span class="mt-15">我的订单</span>
+          <span class="mt-15">我的评价</span>
         </router-link>
         <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/chats">
           <img src="../../assets/image/accounts/consultation.png"/>
@@ -101,8 +101,6 @@
 </template>
 
 <script>
-  import {Toast} from 'mint-ui';
-
   export default {
     data() {
       return {
@@ -127,15 +125,14 @@
       },
       everyDay() {
         this.$http.post('/pointRecords/signIn').then(res => {
-          if (res.status === 200) {
-            this.$http.get('/pointRecords/signInPoint').then(res => {
-              this.$router.push('/points/signIn?points=' + res.data);
-            });
-          }
+          this.$store.state.account.point++;
+          this.$http.get('/pointRecords/signInPoint').then(res => {
+            this.$router.push('/points/signIn?points=' + res.data);
+          }).then(error => {
+            this.exception(error);
+          });
         }).catch(error => {
-          if (error) {
-            Toast('一天只能签到一次哦');
-          }
+          this.exception(error);
         });
       }
     },
@@ -144,6 +141,8 @@
         this.$http.get('/orders/count?')
           .then(res => {
             this.countList = res.data;
+          }).catch(error => {
+            this.exception(error);
           });
       }
     },
