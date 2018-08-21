@@ -63,8 +63,7 @@
            infinite-scroll-disabled="loading"
            infinite-scroll-distance="0">
             <new-drug-shops class="border-bottom-grey" :item="item"
-                            v-for="(item,index) in list" :key="index"
-                            @click="$router.push({path:'/drugs/shops',query:{id:item.id,drugId:item.drugId}})"></new-drug-shops>
+                            v-for="(item,index) in list" :key="index"></new-drug-shops>
         <new-no-data :length="list.length" v-show="loading"></new-no-data>
       </div>
   </div>
@@ -202,6 +201,7 @@
             outline: none;
             border-width: 0;
             font-size: 20px;
+            color: black;
           }
         }
       }
