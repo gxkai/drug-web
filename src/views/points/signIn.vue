@@ -33,7 +33,7 @@
         </ul>
       </div>
       <vue-event-calendar :events="demoEvents">
-        <template scope="props">
+        <template slot-scope="props">
           <div v-for="(event, index) in props.showEvents" class="event-item">
             <!-- 这里拿到的是传入的单个event所有数据 -->
             {{event}}
@@ -71,10 +71,8 @@
     },
     methods: {
       monthChange(month) {
-        console.log(month);
       },
       dayChange(day) {
-        console.log(day);
       },
       closed() {
         this.show = !this.show;
@@ -99,20 +97,20 @@
               return json;
             });
             var le = newArr.length;
-            if (new Date(today) - new Date(newArr[le - 1].date) === 86400000) {
-              num = 2;
-              for (var i = le; i > 0; i--) {
-                if (new Date(newArr[i - 1]).date - new Date(newArr[i - 2]).date === 86400000) {
-                  num++;
-                } else {
-                  console.log('看看连续了几天' + num);
-                  this.continuityDays = num + 1;
-                  break;
+            if (le !== 0) {
+              if (new Date(today) - new Date(newArr[le - 1].date) === 86400000) {
+                num = 2;
+                for (var i = le; i > 0; i--) {
+                  if (new Date(newArr[i - 1]).date - new Date(newArr[i - 2]).date === 86400000) {
+                    num++;
+                  } else {
+                    this.continuityDays = num + 1;
+                    break;
+                  }
                 }
               }
             } else {
               this.continuityDays = '1';
-              console.log('第一天');
             }
           });
       }
@@ -139,8 +137,6 @@
         });
       this.$http.get('/coupons?pageNum=1&pageSize=3')
         .then(res => {
-          debugger;
-          console.log(res);
           this.couPunList = res.data.list;
         });
     }

@@ -44,6 +44,19 @@ export default {
       }
     };
     /**
+     * yyyy-MM-dd
+     * @param timer
+     * @returns {string}
+     */
+    Vue.prototype.dateConvert = (timer) => {
+      var date = new Date(timer);
+      var Y = date.getFullYear();
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+      var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+      var allTime = Y + '-' + M + '-' + D;
+      return allTime;
+    };
+    /**
      * yyyy-MM-dd hh:MM:ss
      * @param timer
      * @returns {string}

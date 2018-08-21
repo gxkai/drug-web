@@ -32,7 +32,8 @@ import newCountDown from '../../components/countDown';
 import newHeaderSec from '../../components/headerSec';
 import newShopItem from '../../components/shopItem';
 import newAppraiseItem from '../../components/appraiseItem';
-import newcoupon from '../../components/coupon';
+import newCouponItem from '../../components/couponItem';
+import newCouponRecordItem from '../../components/couponRecordItem';
 
 export default {
   install(Vue, options) {
@@ -70,6 +71,7 @@ export default {
     Vue.component('new-header-sec', newHeaderSec);
     Vue.component('new-shop-item', newShopItem);
     Vue.component('new-appraise-item', newAppraiseItem);
-    Vue.component('new-coupon', newcoupon);
+    Vue.component('new-coupon-item', newCouponItem);
+    Vue.component('new-coupon-record-item', newCouponRecordItem);
   }
 };
