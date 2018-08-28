@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item" @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
     <div class="item-image">
       <img v-lazy=""/>
     </div>

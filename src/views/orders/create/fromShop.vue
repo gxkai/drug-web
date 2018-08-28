@@ -27,7 +27,7 @@
         </new-header>
         <img src="../../../assets/image/colorbackground.png">
       </router-link>
-      <new-close-normal :shopInfo="shopInfo" class="new-close-normal"></new-close-normal>
+      <new-close-normal :shopInfo="item" class="new-close-normal" v-for="(item,key) in shopInfoList" :key="key"></new-close-normal>
       <div class="delivery">
         <div class="top">
           <div>
@@ -63,15 +63,15 @@
       <div class="amount">
         <div>
           <span>实付金额：</span>
-          <span>￥{{shopInfo.payAmount.toFixed(2)}}</span>
+          <span>￥{{shopInfo.payAmount}}</span>
         </div>
         <div>
           <span>商品金额：</span>
-          <span>￥{{shopInfo.amount.toFixed(2)}}</span>
+          <span>￥{{shopInfo.amount}}</span>
         </div>
         <div>
-          <span>医保扣除rwew：</span>
-          <span>￥{{shopInfo.medicaidAmount.toFixed(2)}}</span>
+          <span>医保扣除：</span>
+          <span>￥{{shopInfo.medicaidAmount}}</span>
         </div>
       </div>
 
@@ -104,7 +104,7 @@
           </div>
         </div>
       </div>
-     <!--点击优惠券开始-->
+      <!--点击优惠券开始-->
       <div class="bg-white width-percent-100 height-l-90 line-height-l-90">
         <div class="bg-white coupons width-percent-94 m-auto">
           <span class="d-inline-block fl">优惠券</span>
@@ -134,12 +134,12 @@
         </div>
       </transition>
       <!--点击优惠券结束-->
-   </div>
-   <footer>
+    </div>
+    <footer>
       <div class="right">
         <div class="left">
           <span>实付金额:</span>
-          <span>￥{{shopInfo.payAmount.toFixed(2)}}</span>
+          <span>￥{{shopInfo.payAmount}}</span>
         </div>
         <button @click.stop="onOrder()">提交订单</button>
       </div>
@@ -149,18 +149,18 @@
 <script>
   import {mapGetters, mapMutations} from 'vuex';
   import {MessageBox} from 'mint-ui';
-
+  // TODO 处方药店下单多个药品优惠券抵扣问题
   export default {
     name: 'createFromCart',
     data() {
       return {
         name: '订单结算',
         account: this.$store.getters.account,
-        shopDrugSpecId: this.$route.query.shopDrugSpecId,
-        quantity: this.$route.query.quantity,
+        drugInfoList: JSON.parse(this.$route.query.drugInfoList),
         deliveryType: this.$storage.get('deliveryType') || 'SELF',
         payType: 'ALIPAY',
-        shopInfo: [],
+        shopInfoList: [],
+        shopInfo: {},
         coupons: [],
         checkedValue: '',
         show: false
@@ -194,11 +194,10 @@
             this.exception(error);
           });
         }
-
-        this.$http.get('/orders/shopDrugSpec?shopDrugSpecId=' +
-          this.shopDrugSpecId + '&quantity=' + this.quantity)
+        this.$http.post('orders/shopDrugSpec/get', this.drugInfoList)
           .then(res => {
-            this.shopInfo = res.data;
+            this.shopInfoList = res.data;
+            this.shopInfo = res.data[0];
           }).catch((error) => {
             this.exception(error);
           });
@@ -208,14 +207,17 @@
           MessageBox('提示', '请维护收货地址').then(action => {
           });
         } else {
-          let data = {
-            'addressId': this.receiveAddress.id,
-            'shopDrugSpecId': this.shopDrugSpecId,
-            'quantity': this.quantity,
-            'deliveryType': this.deliveryType,
-            'payType': this.payType,
-            'couponRecordId': this.couponRecordId
-          };
+          let data = [];
+          this.shopInfoList.forEach(e => {
+            data.push({
+              'addressId': this.receiveAddress.id,
+              'shopDrugSpecId': e.shopDrugSpecOrderInfo.shopDrugSpecId,
+              'quantity': e.shopDrugSpecOrderInfo.quantity,
+              'deliveryType': this.deliveryType,
+              'payType': this.payType,
+              'couponRecordId': this.couponRecordId
+            });
+          });
           this.$http.post('/orders/shopDrugSpec', data).then(res => {
             this.$router.push({
               path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType
@@ -533,8 +535,6 @@
 
   }
 
-
-
   input[type="radio"] {
     width: 25px;
     height: 25px;
@@ -543,7 +543,7 @@
 
   label {
     position: absolute;
-    top:18px;
+    top: 18px;
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -552,18 +552,18 @@
 
   /*设置选中的input的样式*/
   /* + 是兄弟选择器,获取选中后的label元素*/
-  input:checked+label {
+  input:checked + label {
     background-color: #13C1FE;
     border: 1px solid #13C1FE;
   }
 
-  input:checked+label::after {
+  input:checked + label::after {
     position: absolute;
     content: "";
     width: 5px;
     height: 10px;
     top: 3px;
-    left: 9px!important;
+    left: 9px !important;
     border: 2px solid #fff;
     border-top: none;
     border-left: none;

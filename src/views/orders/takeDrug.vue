@@ -4,7 +4,7 @@
       <div slot="left" >
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
-      <div slot="right" @click.stop="$router.push('/')">
+      <div slot="right" @click.stop="$router.push('/orders')">
         <span>完成</span>
       </div>
     </new-header>

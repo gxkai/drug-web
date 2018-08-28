@@ -124,7 +124,6 @@
             查看配送
           </button>
           <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">评价</button>
-          <button @click="onDetail()">订单详情</button>
         </div>
       </div>
     </div>

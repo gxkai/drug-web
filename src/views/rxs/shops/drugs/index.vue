@@ -159,14 +159,17 @@
         this.isActive = !this.isActive;
       },
       createCart() {
-        this.carts.forEach(cart =>
-          this.$http.post('/carts', cart)
-        );
-        Toast({
-          message: '加入购物车成功',
-          position: 'middle',
-          duration: 2000
-        });
+        this.$http.post('/carts', this.carts)
+          .then(res => {
+            Toast({
+              message: '加入购物车成功',
+              position: 'middle',
+              duration: 2000
+            });
+          })
+          .catch(err => {
+            this.exception(err);
+          });
       }
     }
   };

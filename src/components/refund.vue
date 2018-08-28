@@ -15,7 +15,7 @@
             <i class="iconfont ic-chufangdanluru"></i>
           </div>
           <span slot="left" style="color: #13C1FE">处方单</span>
-          <span slot="right" @click="onRx()">查看处方></span>
+          <!--<span slot="right" @click="onRx()">查看处方></span>-->
         </new-header>
 
         <div class="slide-content" v-for="item in order.list">
@@ -56,7 +56,7 @@
             <i class="iconfont ic-chufangdanluru"></i>
           </div>
           <span slot="left" style="color: #13C1FE">处方单</span>
-          <span slot="right" @click="onRx()">查看处方></span>
+          <!--<span slot="right" @click="onRx()">查看处方></span>-->
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-else>

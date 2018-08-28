@@ -67,14 +67,14 @@
           <span>￥{{hospitalInfo.medicaidAmount}}</span>
         </div>
         <div>
-          <span>优惠扣除tert：</span>
-          <span>￥{{hospitalInfo.payAmount}}</span>
+          <span>优惠扣除：</span>
+          <span>￥0</span>
         </div>
       </div>
 
       <div class="medical">
         <div>
-          <span>医保信息ttretrrewre</span>
+          <span>医保信息</span>
         </div>
         <new-line></new-line>
         <div class="medical-info" v-if="account.medicaidNumber">

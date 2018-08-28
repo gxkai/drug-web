@@ -142,12 +142,12 @@
       },
       onConfirm() {
         if (this.type === 0) {
-          this.$http.post('/carts', {
+          this.$http.post('/carts', [{
             shopId: this.drugInfo.shopId,
             drugSpecId: this.drugInfo.drugSpecId,
             shopDrugSpecId: this.drugInfo.id,
             quantity: this.number
-          }).then(res => {
+          }]).then(res => {
             Toast({
               message: '加入成功',
               duration: 500
@@ -155,7 +155,12 @@
             this.close();
           });
         } else {
-          this.$router.push('/orders/create/fromShop?shopDrugSpecId=' + this.drugInfo.id + '&quantity=' + this.number);
+          let drugInfoList = [];
+          drugInfoList.push({
+            shopDrugSpecId: this.drugInfo.id,
+            quantity: this.number
+          });
+          this.$router.push('/orders/create/fromShop?drugInfoList=' + JSON.stringify(drugInfoList));
         }
       }
     }

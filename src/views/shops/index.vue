@@ -65,8 +65,7 @@
               infinite-scroll-distance="0">
           <new-shop-item :item="item"
                          v-for="(item,index) in list"
-                         :key="index"
-                         @click="$router.push({path:'/shops/view',query:{shopId:item.id}})"/>
+                         :key="index"/>
         </div>
       <new-no-data :length="list.length" v-show="loading"></new-no-data>
     </div>
