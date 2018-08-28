@@ -5,7 +5,7 @@
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
       <div slot="right" @click.stop="$router.push('/orders')">
-        <span>完成</span>
+        <span class="text-l-30">完成</span>
       </div>
     </new-header>
     <new-take-list :order="order" :hospitalName="hospitalName"></new-take-list>

@@ -140,7 +140,8 @@
         orderId: this.$route.query.orderId,
         order: {},
         showRx: true,
-        showNor: true
+        showNor: true,
+        qrCode: ''
       };
     },
     components: {},

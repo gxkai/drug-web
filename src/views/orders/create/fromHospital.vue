@@ -31,7 +31,7 @@
       <div class="delivery">
         <div class="top">
           <div><i class="iconfont ic-peisongfangshi"></i></div>
-          <span> 配送方式</span>
+          <span class="text-l-30"> 配送方式</span>
         </div>
         <div class="bottom">
           <!--<button :class="{active:deliveryType=='DELIVERY'}">送货</button>-->
@@ -41,7 +41,7 @@
       <div class="pay">
         <div class="top">
           <div><i class="iconfont ic-fjzhifufangshi"></i></div>
-          <span>支付方式</span>
+          <span class="text-l-30">支付方式</span>
         </div>
         <div class="bottom">
           <div>
@@ -60,7 +60,6 @@
        <div>
           <span>商品金额：</span>
           <span>￥{{hospitalInfo.amount}}</span>
-          <span>(包含运费：0.00)</span>
         </div>
         <div>
           <span>医保扣除：</span>
@@ -77,7 +76,7 @@
           <span>医保信息</span>
         </div>
         <new-line></new-line>
-        <div class="medical-info" v-if="account.medicaidNumber">
+        <div class="medical-info text-l-30" v-if="account.medicaidNumber">
           <div>
             <span>姓名：{{account.name}}</span>
           </div>
@@ -99,7 +98,6 @@
           </new-header>
           <div class="medical-qubangding" @click="$router.push('/accounts/card/bind')">
             <a>去绑定医保卡</a>
-            <button>去绑定</button>
           </div>
         </div>
 
@@ -309,7 +307,7 @@
   }
 
   .amount div > span:nth-child(1) {
-    font-size: 20px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
@@ -321,7 +319,7 @@
   }
 
   .amount div > span:nth-child(3) {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
@@ -339,7 +337,7 @@
   }
 
   .medical > div:nth-child(1) > span {
-    font-size: 24px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
@@ -376,6 +374,7 @@
 
   footer .right .left {
     align-self: center;
+    margin-right: 20px;
   }
 
   footer .right .left span:nth-child(1) {

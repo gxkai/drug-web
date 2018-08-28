@@ -6,16 +6,16 @@
           <div slot="left">
             <i class="iconfont ic-yaodian" ></i>
           </div>
-          <span slot="left" @click.stop="onShop()">{{order.hospitalName}}</span>
-          <span slot="right">{{order.state|transformOrderState}}</span>
+          <span slot="left" @click.stop="onShop()" class="text-l-30">{{order.hospitalName}}</span>
+          <span slot="right" class="text-l-30">{{order.state|transformOrderState}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE">
           <div slot="left">
             <i class="iconfont ic-chufangdanluru" ></i>
           </div>
-          <span slot="left" style="color: #13C1FE"> 处方单</span>
-          <span slot="right" @click="onRx()">查看处方></span>
+          <span slot="left" style="color: #13C1FE" class="text-l-30"> 处方单</span>
+          <span slot="right" @click="onRx()" class="text-l-30">查看处方></span>
         </new-header>
 
         <div class="slide-content" v-for="item in order.list">
@@ -33,7 +33,7 @@
               </div>
               <div class="quantity">
                 <div>
-                  <span>x{{item.quantity}}</span>
+                  <span class="text-l-30">x{{item.quantity}}</span>
                 </div>
               </div>
             </div>
@@ -62,23 +62,23 @@
           <div slot="left">
             <i class="iconfont ic-yaodian" ></i>
           </div>
-          <span slot="left" @click.stop="onShop()">{{order.shopName}}</span>
-          <span slot="right">{{order.state|transformOrderState}}</span>
+          <span slot="left" @click.stop="onShop()" class="text-l-30">{{order.shopName}}</span>
+          <span slot="right" class="text-l-30">{{order.state|transformOrderState}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-if="order.rxId">
           <div slot="left">
             <i class="iconfont ic-chufangdanluru"></i>
           </div>
-          <span slot="left" style="color: #13C1FE"> 处方单</span>
-          <span slot="right" @click="onRx()">查看处方></span>
+          <span slot="left" style="color: #13C1FE" class="text-l-30"> 处方单</span>
+          <span slot="right" @click="onRx()" class="text-l-30">查看处方></span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-else>
           <div slot="left">
             <i class="iconfont ic-chufangdanluru" ></i>
           </div>
-          <span slot="left" style="color: #13C1FE">非处方单</span>
+          <span slot="left" style="color: #13C1FE" class="text-l-30">非处方单</span>
         </new-header>
 
         <div class="slide-content" v-for="item in order.list" @click="onDrug(item)">
@@ -89,16 +89,16 @@
           </div>
           <div class="text">
             <div class="top">
-              <div class="name">{{item.name}}</div>
-              <div class="spec">规格：{{item.spec}}</div>
+              <div class="name text-l-30">{{item.name}}</div>
+              <div class="spec text-l-30">规格：{{item.spec}}</div>
             </div>
             <div class="bottom">
-              <div class="price">
+              <div class="price text-l-30">
                 <span>¥{{item.price.toFixed(2)}}</span>
               </div>
               <div class="quantity">
                 <div>
-                  <span>x{{item.quantity}}</span>
+                  <span class="text-l-30">x{{item.quantity}}</span>
                 </div>
               </div>
             </div>
@@ -108,7 +108,7 @@
       <div class="item-bottom">
         <div>
           <div class="item-bottom-price">
-            <span>共计{{order.list.length}}件商品 合计{{order.amount.toFixed(2)}}</span>
+            <span class="text-l-30">共计{{order.list.length}}件商品 合计{{order.amount.toFixed(2)}}</span>
           </div>
           <div>
             <div class="item-bottom-buttons">
@@ -260,13 +260,13 @@
   }
 
   .slide-content .text .top .name {
-    font-size: 24px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .slide-content .text .top .spec {
-    font-size: 18px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
@@ -280,7 +280,7 @@
   }
 
   .slide-content .text .bottom .price {
-    font-size: 24px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 0, 0, 1);
     align-self: center;
@@ -295,7 +295,7 @@
 
   .slide-content .text .bottom .quantity div:nth-child(1) {
     align-self: flex-end;
-    font-size: 24px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
@@ -316,7 +316,7 @@
     margin-bottom: 10px;
   }
   .item-bottom-price>span:nth-child(1) {
-    font-size:20px;
+    font-size:30px;
     font-family:HiraginoSansGB-W3;
     color:rgba(51,51,51,1);
     margin-right: 20px;
@@ -329,11 +329,10 @@
 
   .item-bottom-buttons button {
     appearance:none!important;
-    width: 118px;
-    height: 40px;
     background: white;
+    padding: 5px ;
     border-radius: 20px;
-    font-size: 20px;
+    font-size: 25px;
     color: rgba(102, 102, 102, 1);
     outline: none;
     -webkit-appearance: none!important;

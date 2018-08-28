@@ -435,7 +435,7 @@
     /*搜索框*/
   .header-search {
     width: 720px;
-    height: 70px;
+    height: 100px;
     background: rgba(26, 182, 253, 1);
     display: flex;
     align-items: center;
@@ -444,7 +444,7 @@
 
   .header-search input {
     width: 650px;
-    height: 50px;
+    height: 70px;
     border-width: 0;
     outline: none;
     font-size: 20px;

@@ -89,6 +89,10 @@ export default {
   .small {
     font-size: 30px;
   }
+
+  .middler {
+    font-size: 40px;
+  }
   .middle {
     font-size: 50px;
   }

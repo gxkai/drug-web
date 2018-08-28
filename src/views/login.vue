@@ -69,7 +69,7 @@
         showCode: true,
         count: '',
         time: null,
-        username: '18662451812',
+        username: '18896781024',
         password: '123456',
         clientId: '1',
         registerUsername: '18896781024',

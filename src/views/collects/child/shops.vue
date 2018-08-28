@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="shop-container ">
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
@@ -66,13 +65,6 @@
 </script>
 
 <style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
-  }
-
   .shop-container {
     width: 720px;
     height: 100vh;
@@ -107,12 +99,10 @@
   }
 
   .shop-right > :first-child {
-    font-size: 28px;
     color: rgba(51, 51, 51, 1);
   }
 
   .shop-right > :last-child {
-    font-size: 18px;
     color: rgba(153, 153, 153, 1);
   }
 

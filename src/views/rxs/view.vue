@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div id="rxs-container">
     <new-header title="电子处方">
@@ -10,26 +9,26 @@
     <div class="">
       <span class="rxs-title border-bottom-black">处方笺</span>
       <div class="p-lr-20">
-        <div class="is-flex mt-20 flex-sb ">
-          <div class="border-bottom-grey">NO：{{rxList.number}}</div>
-          <div class="border-bottom-grey">处方日期：{{timeConvert(rxList.rxDate)}}</div>
+        <div class="is-flex mt-20 flex-sb">
+          <div class="border-bottom-grey text-l-30">NO：{{rxList.number}}</div>
+          <div class="border-bottom-grey text-l-30">处方日期：{{timeConvert(rxList.rxDate)}}</div>
         </div>
         <div class="is-flex mt-20 flex-sb">
-          <div class="border-bottom-grey">姓名：{{account.username}}</div>
-          <div class="border-bottom-grey">性别：{{getGender(account.gender)}}</div>
-          <div class="border-bottom-grey">年龄：{{account.age}}</div>
+          <div class="border-bottom-grey text-l-30">姓名：{{account.name}}</div>
+          <div class="border-bottom-grey text-l-30">性别：{{getGender(account.gender)}}</div>
+          <div class="border-bottom-grey text-l-30">年龄：{{account.age}}</div>
         </div>
         <div class="is-flex mt-20 flex-sb">
-          <div class="border-bottom-grey">医院：{{rxList.hospital}}</div>
-          <div class="border-bottom-grey">科室：{{rxList.office}}</div>
+          <div class="border-bottom-grey text-l-30">医院：{{rxList.hospital}}</div>
+          <div class="border-bottom-grey text-l-30">科室：{{rxList.office}}</div>
         </div>
         <div class="mt-20">
-          <div class="border-bottom-grey">临床（初步）诊断：{{rxList.illness}}</div>
+          <div class="border-bottom-grey text-l-30">临床（初步）诊断：{{rxList.illness}}</div>
         </div>
       </div>
 
       <div class="info-box ">
-        <p class="text-red text-l-30"><b>RP：</b></p>
+        <p class="text-red"><b class=" text-l-40">RP：</b></p>
         <div class="all-border padding-10">
           <ul>
             <li v-for="(item,index) in rxList.list" :key="index">

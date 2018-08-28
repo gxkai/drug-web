@@ -4,7 +4,7 @@
       <div slot="left">
         <i class="iconfont ic-yaodian"></i>
       </div>
-      <span slot="left"> {{hospitalInfo.hospital}}</span>
+      <span slot="left" class="text-l-30"> {{hospitalInfo.hospital}}</span>
     </new-header>
     <div class="slide-content" v-for="item in hospitalInfo.list">
       <div class="image">
@@ -12,8 +12,8 @@
       </div>
       <div class="text">
         <div class="top">
-          <div class="name">{{item.name}}</div>
-          <div class="spec">{{item.spec}}</div>
+          <div class="name elps">{{item.name}}</div>
+          <div class="spec elps">{{item.spec}}</div>
         </div>
         <div class="bottom">
           <div class="price">
@@ -73,13 +73,13 @@
   }
 
   .slide-content .text .top .name {
-    font-size: 24px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .slide-content .text .top .spec {
-    font-size: 18px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
@@ -93,7 +93,7 @@
   }
 
   .slide-content .text .bottom .price {
-    font-size: 24px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 0, 0, 1);
     align-self: center;
@@ -108,7 +108,7 @@
 
   .slide-content .text .bottom .quantity div:nth-child(1) {
     align-self: flex-end;
-    font-size: 24px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }

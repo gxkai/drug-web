@@ -1,8 +1,8 @@
 <template>
-  <span v-if="msec >0">
+  <span v-if="msec >0" class="text-l-25">
      {{`${day}天${hr}小时${min}分${sec}秒结束` }}
   </span>
-  <span v-else>
+  <span v-else class="text-l-25">
     结束
   </span>
 </template>

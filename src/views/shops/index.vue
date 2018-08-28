@@ -8,9 +8,6 @@
         <div slot="center">
           <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/shops')"/>
         </div>
-        <div slot="right" @click="$router.push('/')">
-          首页
-        </div>
       </new-header>
     </div>
     <div class="shops-filter" ref="filter">
@@ -140,7 +137,7 @@
         & > div:nth-child(2) {
           input {
             width: 500px;
-            height: 50px;
+            height: 70px;
             outline: none;
             border-width: 0;
             font-size: 20px;
@@ -160,6 +157,9 @@
       &-item {
         display: flex;
         align-items: center;
+        &-text {
+          font-size: 30px;
+        }
         &-arrow {
           display: flex;
           flex-direction: column;

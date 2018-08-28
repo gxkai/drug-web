@@ -100,7 +100,6 @@
           </new-header>
           <div class="medical-qubangding" @click="$router.push('/accounts/card/bind')">
             <a>去绑定医保卡</a>
-            <button>去绑定</button>
           </div>
         </div>
       </div>

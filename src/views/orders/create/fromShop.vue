@@ -100,7 +100,6 @@
           </new-header>
           <div class="medical-qubangding" @click="$router.push('/accounts/card/bind')">
             <a>去绑定医保卡</a>
-            <button>去绑定</button>
           </div>
         </div>
       </div>
@@ -201,6 +200,13 @@
           }).catch((error) => {
             this.exception(error);
           });
+        // this.$http({url: 'orders/shopDrugSpec', data: this.drugInfoList})
+        //   .then(res => {
+        //     this.shopInfoList = res.data;
+        //     this.shopInfo = res.data[0];
+        //   }).catch((error) => {
+        //     this.exception(error);
+        //   });
       },
       onOrder() {
         if (this.deliveryType === 'DELIVERY' && JSON.stringify(this.receiveAddress) === '{}') {
