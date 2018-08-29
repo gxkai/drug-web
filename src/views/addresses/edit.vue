@@ -4,7 +4,7 @@
       <div  slot="left">
       <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
       </div>
-      <span slot="right" @click="save()">保存</span>
+      <span slot="right" @click="save()" class="text-l-25">保存</span>
     </new-header>
     <div class="body1">
       <div class="input1">
@@ -47,7 +47,7 @@
       <label>
         <input type="checkbox" v-model="address.defaulted">
         <i></i>
-        <span>设为默认地址 </span>
+        <span class="text-l-25">设为默认地址 </span>
       </label>
     </div>
   </div>
@@ -232,8 +232,8 @@
 
   label i {
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     text-align: center;
     line-height: 25px;
     color: #fff;

@@ -110,6 +110,7 @@
         comprehensive4: -4,
         hospitalId: this.$route.query.hospitalId,
         hospital: {},
+        keyword: '',
         searchIcon: '\ue64c 通用名、主要商品名、症状'
       };
     },

@@ -1,16 +1,10 @@
 <template>
   <div class="rxs-content position-relative">
-    <new-header title="药店列表">
+    <new-header title="处方药品列表">
       <div slot="left">
         <i @click="$router.go(-1)" class="iconfont ic-arrow-right" ></i>
       </div>
     </new-header>
-
-    <div class="hr-box">
-      <span class="line mr-30"></span>
-      <span class="txt">药店列表</span>
-      <span class="line ml-30"></span>
-    </div>
     <div v-show="show" class="shadow-box">
       <div class="shadow-content position-relative">
         <i class="iconfont ic-guanbi2 position-absolute position-tr" @click="takeUp"></i>
@@ -196,6 +190,7 @@
     width: 680px;
     margin: 185px auto;
     color: black;
+    padding: 30px 20px;
   }
   .is-flex{
     display: flex !important;
@@ -337,10 +332,12 @@
   .text-box{
     width: 90px !important;
     display: inline-block;
+    font-size: 25px;
   }
   .text-info{
     width: 180px !important;
     display: inline-block;
+    font-size: 25px;
   }
 
   .drug-item .iconfont,.rx-total .iconfont {

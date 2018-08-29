@@ -8,7 +8,6 @@
 export default {
   props: {
     score: {
-      type: Number,
       default: 5
     },
     size: {

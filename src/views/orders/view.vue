@@ -6,9 +6,6 @@
           <i class="iconfont ic-arrow-right">
           </i>
         </div>
-        <div slot="right" @click="$router.push('/')">
-          <span>首页</span>
-        </div>
       </new-header>
     </div>
     <div ref="container">
@@ -69,16 +66,14 @@
       </div>
       <div class="order-address" v-if="order.address">
         <div>
-          <div>
             <i class="iconfont ic-weizhi"></i>
-          </div>
         </div>
         <div>
-          <div>
-            <span>收货人：{{order.consignee}} {{order.phone}}</span>
+          <div class="text-l-22">
+            收货人：{{order.consignee}} {{order.phone}}
           </div>
-          <div>
-            <span>收货地址：{{order.address}}</span>
+          <div class="text-l-22 mt-l-10">
+            收货地址：{{order.address}}
           </div>
         </div>
       </div>
@@ -101,13 +96,13 @@
       </div>
       <div class="order-number">
         <div>
-          <span>订单编号：{{order.number}}</span>
+          订单编号：{{order.number}}
         </div>
         <div>
-          <span>支付宝交易号：{{order.payNumber||'无'}}</span>
+          支付宝交易号：{{order.payNumber||'无'}}
         </div>
         <div>
-          <span>创建时间：{{timeConvert(order.createdDate)}}</span>
+          创建时间：{{timeConvert(order.createdDate)}}
         </div>
       </div>
       <div class="order-buttons">
@@ -240,40 +235,38 @@
     height: 120px;
     background: white;
     display: flex;
-  }
-
-  .order-address > div:nth-child(1) {
-    width: 60px;
-    height: 120px;
-    display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 10px;
+    border-bottom: 1PX solid #a6a6a6;
+  }
+  .order-address>div:nth-child(2) {
+    margin-left: 20px;
   }
 
   .ic-weizhi {
     font-size: 40px;
   }
 
-  .order-address > div:nth-child(2) {
-    width: calc(720px - 60px);
-    height: 120px;
-  }
+  /*.order-address > div:nth-child(2) {*/
+    /*width: calc(720px - 60px);*/
+    /*height: 120px;*/
+  /*}*/
 
-  .order-address > div:nth-child(2) > div:nth-child(1) {
-    margin-top: 20px;
-  }
+  /*.order-address > div:nth-child(2) > div:nth-child(1) {*/
+    /*margin-top: 20px;*/
+  /*}*/
 
-  .order-address > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) {
-    font-size: 20px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(69, 69, 69, 1);
-  }
+  /*.order-address > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) {*/
+    /*font-size: 20px;*/
+    /*font-family: HiraginoSansGB-W3;*/
+    /*color: rgba(69, 69, 69, 1);*/
+  /*}*/
 
-  .order-address > div:nth-child(2) > div:nth-child(2) > span:nth-child(1) {
-    font-size: 20px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-  }
+  /*.order-address > div:nth-child(2) > div:nth-child(2) > span:nth-child(1) {*/
+    /*font-size: 20px;*/
+    /*font-family: HiraginoSansGB-W3;*/
+    /*color: rgba(51, 51, 51, 1);*/
+  /*}*/
 
   .order-price div {
     display: flex;
@@ -282,59 +275,58 @@
   }
 
   .order-price > div:nth-child(1) > span {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
 
   .order-price > div:nth-child(2) > span {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
 
   .order-price > div:nth-child(3) > span {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .order-price > div:nth-child(4) > span:nth-child(1) {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .order-price > div:nth-child(4) > span:nth-child(2) {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 0, 0, 1);
   }
 
   .order-price > div:nth-child(5) > span:nth-child(1) {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .order-price > div:nth-child(5) > span:nth-child(2) {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 0, 0, 1);
   }
 
   .order-number {
     width: 720px;
-    height: 180px;
     background: rgba(245, 245, 245, 1);
     font-size: 20px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
-    padding: 29px 0px 32px 14px;
   }
 
   .order-number div {
-    padding: 5px 0px;
+    padding: 10px;
+    font-size: 20px;
   }
 
   .order-buttons {
@@ -343,7 +335,6 @@
     margin-top: 30px;
     padding-right: 20px;
   }
-
   .item-bottom-buttons button {
     appearance: none !important;
     width: 118px;
@@ -362,6 +353,10 @@
   .item-bottom-button-active {
     color: rgb(19, 193, 254) !important;
     border: 1px solid rgb(19, 193, 254) !important;
+  }
+
+  .ic-weizhi {
+    font-size: 50px;
   }
 </style>
 

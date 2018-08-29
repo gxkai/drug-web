@@ -10,11 +10,11 @@
         </div>
       </new-header>
       <div class="view-nav">
-        <div @click="shop(1)" :class="{active:number==1}">
+        <div @click="shop(1)" :class="{active:number==1}" class="text-l-30">
           基本信息
         </div>
-        <div @click="shop(0)" :class="{active:number==0}">
-          服务保障
+        <div @click="shop(0)" :class="{active:number==0}" class="text-l-30">
+          全部评价
         </div>
       </div>
     </div>

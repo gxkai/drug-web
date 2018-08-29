@@ -30,30 +30,32 @@
 <style scoped type="text/less" lang="less">
   .item {
     width: 720px;
-    height: 278px;
     display: flex;
-    padding-left: 20px;
-    align-items: center;
+    margin-bottom: 10px;
     &-image {
+      width: 258px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       img {
-        width: 300px;
-        height: 249px;
+        width: 200px;
       }
     }
     &-text {
-      margin-left: 20px;
+      align-self: center;
+      padding: 20px;
       div:nth-child(1) {
         font-size: 30px;
         font-family: HiraginoSansGB-W3;
         color: rgba(69, 69, 69, 1);
       }
       div:nth-child(3) {
-        font-size: 22px;
+        font-size: 25px;
         font-family: HiraginoSansGB-W3;
         color: rgba(51, 51, 51, 1);
       }
       div:nth-child(4) {
-        font-size: 22px;
+        font-size: 25px;
         font-family: HiraginoSansGB-W3;
         color: rgba(51, 51, 51, 1);
       }

@@ -5,7 +5,7 @@
         <div slot="left">
         <i class="iconfont ic-yaodian" ></i>
         </div>
-        <span slot="left">{{cartShop.shopName}}</span>
+        <span slot="left" class="text-l-30">{{cartShop.shopName}}</span>
       </new-header>
       <ul class="cartRxs">
         <li v-for="cartRx in cartShop.rxs">

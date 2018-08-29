@@ -11,14 +11,15 @@
           <router-link class="border-bottom-grey" v-for="(drug,index) in list"
                        :key="index"
                        :to="{path: '/shopDrugSpecs', query: {shopDrugSpecId: drug.id}}">
-            <div class="list-box m-auto list-full bg-white">
-              <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')"
-                   class="fl drug-img d-inline-block"/>
-              <div class="elpsTwo drug-title d-inline-block fl">
-                {{drug.name}}
+            <div class="wrap">
+              <div class="wrap-left">
+                <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')">
               </div>
-              <div class="elps drug-country">国药准字{{drug.sfda}}</div>
-              <div class="text-red drug-price">¥{{drug.price}}</div>
+              <div class="wrap-right">
+                <div class="elps">{{drug.name}}</div>
+                <div class="elps">国药准字{{drug.sfda}}</div>
+                <div class="elps">¥{{drug.price}}</div>
+              </div>
             </div>
           </router-link>
         </div>
@@ -39,8 +40,10 @@
         pageNum: 0,
         pageSize: 15,
         shopId: this.$route.query.id,
-        typeId: this.$route.query.typeId,
-        pages: null
+        typeId: this.$route.query.typeId || '',
+        pages: null,
+        process: false,
+        loading: false
       };
     },
     created: function () {
@@ -74,57 +77,45 @@
     }
   };
 </script>
-<style scoped>
+<style scoped type="text/less" lang="less">
   .container {
     background: #f5f5f5;
     width: 720px;
   }
 
-  .list-full {
-    height: 182px;
-    border-top: 1px solid #f5f5f5;
-    border-bottom: 1px solid #f5f5f5;
-  }
-
-  .drug-img {
-    width: 216px;
-    height: 154px;
-    margin-right: 10px;
-    margin-top: 8px;
-  }
-
-  .drug-title {
-    width: 396px;
-    height: 70px;
-    font-size: 22px;
-    color: rgba(0, 0, 0, 1);
-    margin-top: 26px;
-  }
-
-  .bg-white {
-    background: white;
-  }
 
   .border-bottom-grey {
     border-bottom: 1px #f5f5f5 solid;
   }
 
-  .drug-country {
-    width: 231px;
-    height: 28px;
-    font-size: 22px;
-    color: rgba(153, 153, 153, 1);
-    margin-top: 13px;
-  }
-
-  .drug-price {
-    font-size: 22px;
-    color: rgba(255, 0, 0, 1);
-    margin-top: 13px;
-  }
-
-  .list-box {
-    padding: 0 10px;
-    box-sizing: border-box;
+  .wrap {
+    display: flex;
+    width: 100%;
+    background-color: white;
+    margin-bottom: 10px;
+    &-left {
+      width: 200px;
+      padding: 20px;
+      img {
+        width: 100%;
+      }
+    }
+    &-right {
+      width: 400px;
+      padding: 20px;
+      align-self: center;
+      &>div{
+        padding: 5px;
+        &:nth-child(1) {
+          color: black;
+        }
+        &:nth-child(2) {
+          color: #cccccc;
+        }
+        &:nth-child(3) {
+          color: red;
+        }
+      }
+    }
   }
 </style>

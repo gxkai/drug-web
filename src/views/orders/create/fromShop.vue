@@ -13,19 +13,23 @@
             <i class="iconfont ic-youjiantou"></i>
           </div>
         </new-header>
-        <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else>
-          <div slot="left">
+        <div class="address" v-else>
+          <div>
             <i class="iconfont ic-dizhi"></i>
           </div>
-          <div slot="center" class="center">
-            <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
-            <p>地址：{{receiveAddress.address}}</p>
+          <div>
+            <div class="text-l-25 elps">
+              收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}
+            </div>
+            <div class="text-l-25 elps">
+              地址：{{receiveAddress.address}}
+            </div>
           </div>
-          <div slot="right">
+          <div>
             <i class="iconfont ic-youjiantou"></i>
           </div>
-        </new-header>
-        <img src="../../../assets/image/colorbackground.png">
+        </div>
+        <img src="../../../assets/image/colorbackground.png" class="image-bar">
       </router-link>
       <new-close-normal :shopInfo="item" class="new-close-normal" v-for="(item,key) in shopInfoList" :key="key"></new-close-normal>
       <div class="delivery">
@@ -33,7 +37,7 @@
           <div>
             <i class="iconfont ic-peisongfangshi"></i>
           </div>
-          <span>配送方式</span>
+          <span class="text-l-26">配送方式</span>
         </div>
         <div class="bottom">
           <button :class="{active:deliveryType=='DELIVERY'}" @click.stop="onDeliveryType('DELIVERY')">送货</button>
@@ -45,7 +49,7 @@
           <div>
             <i class="iconfont ic-fjzhifufangshi"></i>
           </div>
-          <span>支付方式</span>
+          <span class="text-l-26">支付方式</span>
         </div>
         <div class="bottom">
           <div>
@@ -106,7 +110,7 @@
       <!--点击优惠券开始-->
       <div class="bg-white width-percent-100 height-l-90 line-height-l-90">
         <div class="bg-white coupons width-percent-94 m-auto">
-          <span class="d-inline-block fl">优惠券</span>
+          <span class="d-inline-block fl text-l-30">优惠券</span>
           <span class="d-inline-block fr" @click="coupon()"><i class="iconfont ic-youjiantou"></i></span>
         </div>
       </div>
@@ -125,6 +129,7 @@
                      <label :for="item.id"></label>
                 </span>
               </li>
+              <div v-if="coupons.length===0" class="text-center text-l-25">无优惠券</div>
             </ul>
           </div>
           <div class="coupon-close" @click="close()" v-show="show">
@@ -575,5 +580,39 @@
     border-left: none;
     transform: rotate(45deg)
   }
+
+
+
+  .address {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+  }
+  .address>div:nth-child(1) {
+    width: 10%;
+    margin-left: 10px;
+  }
+  .address>div:nth-child(2) {
+    width: 80%;
+  }
+  .address>div:nth-child(2)>div:nth-child(1) {
+    margin-top: 10px;
+  }
+  .address>div:nth-child(2)>div:nth-child(2) {
+    margin-top: 10px;
+  }
+  .address>div:nth-child(3) {
+    width: 10%;
+  }
+  .address .iconfont {
+    font-size: 50px;
+  }
+
+  .image-bar {
+    width: 100%;
+  }
+
 </style>
 

@@ -5,7 +5,7 @@
         <div>
           <i class="iconfont ic-yaodian"></i>
         </div>
-        <span>{{item.shopName}}</span>
+        <span class="text-l-30">{{item.shopName}}</span>
       </div>
       <new-line></new-line>
       <div class="child1">
@@ -61,8 +61,8 @@
 
 <style scoped>
   .content1 {
-    height:291px;
     background:rgba(255,255,255,1);
+    padding: 10px 0 0 10px;
     margin-bottom: 10px;
   }
   .content1 .title1 {
@@ -73,31 +73,30 @@
     align-items: center;
   }
   .content1 .child1 {
-    padding-left: 68px;
-    padding-top: 20px;
+    padding: 20px
   }
   .content1 .child1 div {
     margin-bottom: 15px;
   }
   .child1 .line1 span:nth-child(1),.child1 .line2 span:nth-child(1),.child1 .line3 span:nth-child(1) {
-    font-size:20px;
+    font-size:30px;
     font-family:HiraginoSansGB-W3;
     color:rgba(0,0,0,1);
   }
   .child1 .line1 span:nth-child(2) {
-    font-size:24px;
+    font-size:30px;
     font-family:HiraginoSansGB-W3;
     color:rgba(19,193,254,1);
     margin-left: 10px;
   }
   .child1 .line2 span:nth-child(2) {
-    font-size:24px;
+    font-size:30px;
     font-family:HiraginoSansGB-W3;
     color:rgba(19,193,254,1);
     margin-left: 60px;
   }
   .child1 .line3 span:nth-child(2) {
-    font-size:24px;
+    font-size:30px;
     font-family:HiraginoSansGB-W3;
     color:rgba(255,0,0,1);
     margin-left: 60px;

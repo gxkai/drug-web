@@ -6,7 +6,7 @@
           <i class="iconfont ic-arrow-right"></i>
         </div>
         <div slot="center">
-          <input v-model="keyword" placeholder="药品名" @keyup.enter="onSearch()">
+          <input v-model="keyword" class="iconfont" :placeholder="searchIcon" @keyup.enter="onSearch()">
         </div>
         <div slot="right" @click="onSearch()">
           <i class="iconfont ic-sousuo"></i>
@@ -84,7 +84,8 @@
         filterData: this.$route.query.filterData,
         drugSort: 'SYNTHESIZE_DESC',
         valueVolume: -1,
-        salesVolume: -1
+        salesVolume: -1,
+        searchIcon: '\ue64c 药品名'
       };
     },
     components: {},
@@ -201,7 +202,7 @@
               height: 70px;
               outline: none;
               border-width: 0;
-              font-size: 20px;
+              font-size: 30px;
               color: black;
             }
           }

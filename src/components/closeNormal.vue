@@ -4,24 +4,24 @@
       <div  slot="left">
          <i class="iconfont ic-yaodian"></i>
       </div>
-      <span slot="left">{{shopInfo.shopName}}</span>
+      <span slot="left" class="text-l-26">{{shopInfo.shopName}}</span>
     </new-header>
     <div class="slide-content">
       <div class="image">
-        <img v-lazy="getImgURL(shopInfo.shopDrugSpecOrderInfo.fileId,'LARGE_LOGO')">
+        <img :src="getImgURL(shopInfo.shopDrugSpecOrderInfo.fileId,'LARGE_LOGO')">
       </div>
       <div class="text">
         <div class="top">
-          <div class="name">{{shopInfo.shopDrugSpecOrderInfo.drugName}}</div>
-          <div class="spec">{{shopInfo.shopDrugSpecOrderInfo.specName}}</div>
+          <div class="name text-l-25">{{shopInfo.shopDrugSpecOrderInfo.drugName}}</div>
+          <div class="spec text-l-25">{{shopInfo.shopDrugSpecOrderInfo.specName}}</div>
         </div>
         <div class="bottom">
           <div class="price">
-            <span>¥{{shopInfo.shopDrugSpecOrderInfo.price}}</span>
+            <span class="text-l-25">¥{{shopInfo.shopDrugSpecOrderInfo.price}}</span>
           </div>
           <div class="quantity">
             <div>
-              <span>x{{shopInfo.shopDrugSpecOrderInfo.quantity}}</span>
+              <span class="text-l-25">x{{shopInfo.shopDrugSpecOrderInfo.quantity}}</span>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@
   }
 
   .slide-content .text .top .spec {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
@@ -94,7 +94,6 @@
   }
 
   .slide-content .text .bottom .price {
-    font-size: 24px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 0, 0, 1);
     align-self: center;
@@ -104,7 +103,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding-right: 10px;
+    padding-right: 20px;
   }
 
   .slide-content .text .bottom .quantity div:nth-child(1) {

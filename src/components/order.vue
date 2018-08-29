@@ -33,7 +33,7 @@
               </div>
               <div class="quantity">
                 <div>
-                  <span class="text-l-30">x{{item.quantity}}</span>
+                  <span class="text-l-30 mr-l-10">x{{item.quantity}}</span>
                 </div>
               </div>
             </div>
@@ -93,12 +93,12 @@
               <div class="spec text-l-30">规格：{{item.spec}}</div>
             </div>
             <div class="bottom">
-              <div class="price text-l-30">
-                <span>¥{{item.price.toFixed(2)}}</span>
+              <div class="price">
+                <span class="text-l-30">¥{{item.price.toFixed(2)}}</span>
               </div>
               <div class="quantity">
                 <div>
-                  <span class="text-l-30">x{{item.quantity}}</span>
+                  <span class="text-l-30 mr-l-10">x{{item.quantity}}</span>
                 </div>
               </div>
             </div>

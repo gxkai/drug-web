@@ -61,6 +61,9 @@
   footer div {
     text-align: center;
   }
+  footer div:nth-child(1),footer div:nth-child(2),footer div:nth-child(3),footer div:nth-child(4) {
+    margin-top: 10px;
+  }
 
   footer div p {
     font-size: 22px;

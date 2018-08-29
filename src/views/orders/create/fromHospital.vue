@@ -13,19 +13,23 @@
             <i class="iconfont ic-youjiantou"></i>
           </div>
         </new-header>
-        <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else>
-          <div slot="left">
+        <div class="address" v-else>
+          <div>
             <i class="iconfont ic-dizhi"></i>
           </div>
-          <div slot="center" class="center">
-            <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
-            <p>地址：{{receiveAddress.address}}</p>
+          <div>
+            <div class="text-l-25 elps">
+              收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}
+            </div>
+            <div class="text-l-25 elps">
+              地址：{{receiveAddress.address}}
+            </div>
           </div>
-          <div slot="right">
+          <div>
             <i class="iconfont ic-youjiantou"></i>
           </div>
-        </new-header>
-        <img src="../../../assets/image/colorbackground.png">
+        </div>
+        <img src="../../../assets/image/colorbackground.png" c>
       </router-link>
       <new-close-hospital :hospitalInfo="hospitalInfo" class="new-close-normal"></new-close-hospital>
       <div class="delivery">
@@ -514,6 +518,37 @@
     font-size:24px;
     text-indent: 21px;
     color: #999999;
+  }
+
+  .address {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+  }
+  .address>div:nth-child(1) {
+    width: 10%;
+    margin-left: 10px;
+  }
+  .address>div:nth-child(2) {
+    width: 80%;
+  }
+  .address>div:nth-child(2)>div:nth-child(1) {
+    margin-top: 10px;
+  }
+  .address>div:nth-child(2)>div:nth-child(2) {
+    margin-top: 10px;
+  }
+  .address>div:nth-child(3) {
+    width: 10%;
+  }
+  .address .iconfont {
+    font-size: 50px;
+  }
+
+  .image-bar {
+    width: 100%;
   }
 </style>
 

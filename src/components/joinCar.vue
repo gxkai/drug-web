@@ -36,9 +36,9 @@
     <mt-popup v-model="popupVisible" @click="close()"></mt-popup>
     <transition name="slide-fade" v-show="show">
       <div class="hide-drug-detail" v-show="show">
-        <div class="width-percent-100 drug-top">
-          <div class="d-inline-block fl">
-            <img v-lazy="getImgURL(drugInfo.shopLogo,'LARGE_LOGO')" class="drug-img"/>
+        <div class=" drug-top">
+          <div class="d-inline-block fl drug-img">
+            <img :src="getImgURL(drugInfo.drugLogo,'LARGE_LOGO')"/>
           </div>
           <div class="drug-close">
             <i class="icon iconfont ic-guanbi2" @click="close()"></i>
@@ -46,7 +46,7 @@
           <div>
             <!-- {{drugInfo}}-->
           </div>
-          <div class="drug-info d-inline-block fl elps">
+          <div class="drug-info  elps">
             <p class="drug-title elps"> {{drugInfo.name}}</p>
             <p class="drug-price">¥{{drugInfo.price}}</p>
           </div>
@@ -71,6 +71,15 @@
   import {Toast, MessageBox} from 'mint-ui';
   export default {
     name: 'newFooter',
+    props: {
+      drugInfo: {
+        type: Object,
+        required: true
+      },
+      urlRouter: {
+        type: String
+      }
+    },
     data() {
       return {
         number: 1,
@@ -87,15 +96,6 @@
         }).catch(error => {
           this.exception(error);
         });
-    },
-    props: {
-      drugInfo: {
-        type: Object,
-        required: true
-      },
-      urlRouter: {
-        type: String
-      }
     },
     methods: {
       onCollect() {
@@ -174,6 +174,9 @@
     bottom: 0px;
     z-index: 999;
   }
+  footer div:nth-child(1),footer div:nth-child(2),footer div:nth-child(3),footer div:nth-child(4) {
+    margin-top: 15px;
+  }
   .drug-buy-number{
     height: 86px;
   }
@@ -237,35 +240,33 @@
     margin-left: 14px;
   }
   .drug-info{
-    margin-top: 125px;
-    margin-left: 22px;
+    margin-top: 100px;
   }
   .drug-price{
     width:85px;
-    height:24px;
     font-size:30px;
     color:rgba(255,1,1,1);
-    line-height:24px;
+    margin-left: 30px;
   }
   .drug-img{
-    width:200px;
-    height:200px;
+    width:220px;
+    height: auto;
     background:rgba(255,255,255,1);
     border-radius:3px;
-    margin-top: 12px;
-    margin-left: 10px;
+    margin-left: 30px;
+    margin-top: 10px;
     border: 1px solid #d0d0d0;
   }
+  .drug-img img {
+    width: 100%;
+  }
   .drug-title{
-    margin-bottom: 18px;
     width:276px;
-    height:24px;
     font-size:26px;
-    line-height:24px;
   }
   .drug-line{
     width:690px;
-    height:1px;
+    height:1PX;
     background:rgba(229,229,229,1);
     margin-left: 10px;
   }

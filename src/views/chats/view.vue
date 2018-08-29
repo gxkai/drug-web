@@ -7,10 +7,12 @@
         </div>
       </new-header>
       <div class="header-state">
-        <div><span>{{shopInfo.shopName}}</span></div>
-        <div>
-          <span v-if="shopInfo.isOnline">在线</span>
-          <span v-else>离线</span>
+        <div>{{shopInfo.shopName}}</div>
+        <div v-if="shopInfo.isOnline">
+          在线
+        </div>
+        <div v-else>
+          离线
         </div>
       </div>
       <new-edit-line :name="getCurrentTime()"></new-edit-line>
@@ -139,6 +141,7 @@
   }
 
   .header-state div:nth-child(2) {
+    margin-top: 10px;
     font-size: 24px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);

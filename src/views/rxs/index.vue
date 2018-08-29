@@ -42,25 +42,25 @@
           <table class="position-relative">
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_1.png"></td>
-              <td><span class="td-width-55 ellipsis text-small text-l-30">地址</span></td>
-              <td><span class="td-width-250 ellipsis text-black text-l-30">{{rx.hospital}}</span></td>
+              <td><span class="td-width-55 ellipsis text-888888 text-l-25">地址</span></td>
+              <td><span class="td-width-250 ellipsis  text-l-25">{{rx.hospital}}</span></td>
               <td class="text-center "><span class="text-13C1FE text-l-30">{{rx.number}}</span></td>
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_2.png"></td>
-              <td><span class="td-width-55 ellipsis text-small text-l-30">日期</span></td>
-              <td><span class="td-width-250 ellipsis text-black text-l-30">{{rx.rxDate|timeConvert}}</span></td>
+              <td><span class="td-width-55 ellipsis text-888888 text-l-25">日期</span></td>
+              <td><span class="td-width-250 ellipsis  text-l-25">{{rx.rxDate|timeConvert}}</span></td>
               <td></td>
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_3.png"></td>
-              <td><span class="td-width-55 ellipsis text-small text-l-30">症状</span></td>
-              <td><span class="td-width-250 ellipsis text-black text-l-30">{{rx.illness}}</span></td>
+              <td><span class="td-width-55 ellipsis text-888888 text-l-25">症状</span></td>
+              <td><span class="td-width-250 ellipsis  text-l-25">{{rx.illness}}</span></td>
               <td></td>
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_4.png"></td>
-              <td><span class="td-width-55 ellipsis text-small text-l-30">倒计时</span></td>
+              <td><span class="td-width-55 ellipsis text-888888 text-l-25">倒计时</span></td>
               <td>
                   <new-count-down :endTime="rx.rxDate"></new-count-down>
               </td>
@@ -188,17 +188,6 @@
     height: 155px;
   }
 
-  .ml-20 {
-    margin-left: 20px !important;
-  }
-
-  .ml-60 {
-    margin-left: 60px !important;
-  }
-
-  .mr-160 {
-    margin-right: 160px !important;
-  }
 
   .mt-20 {
     margin-top: 20px !important;
@@ -208,9 +197,6 @@
     margin-top: 26px !important;
   }
 
-  .pt-26 {
-    padding-top: 26px !important;
-  }
 
   .text-center {
     text-align: center;
@@ -255,33 +241,10 @@
     text-overflow: ellipsis;
   }
 
-  .flex-row-center {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .position-search {
-    top: 17px;
-    left: 10px;
-  }
-
-  .text-black {
-    color: black;
-    width: 222px;
-    height: 24px;
-    font-size: 25px;
-    line-height: 36px;
-  }
-
-  .text-small {
+  .text-888888 {
     color: #888888;
-    font-size: 16px;
-    width: 48px;
-    height: 16px;
-    line-height: 36px;
   }
+
 
   .account-container {
     display: flex;

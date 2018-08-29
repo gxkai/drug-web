@@ -1,15 +1,15 @@
 <template>
   <div class="refund-box is-flex flex-row flex-item p-lr-20 position-relative"
        @click="$router.push({path:'/drugs/shops',query:{id:item.id,drugId:item.drugId}})">
-    <span class="toc-tip position-absolute all-center" v-if="item.otc === true">非</span>
+    <span class="toc-tip position-absolute all-center text-l-25" v-if="item.otc === true">非</span>
     <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
-    <img class="is-200x200" v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
+    <img class="is-200x200" :src="getImgURL(item.fileId, 'LARGE_LOGO')">
     <div class="box-right pl-40 is-flex flex-column flex-sa">
-      <span class="text-666666">{{ item.name }}</span>
-      <span class="text-666666">{{ item.sfda }}</span>
+      <span class="text-666666 text-l-26">{{ item.name }}</span>
+      <span class="text-666666 text-l-24 mt-l-10">{{ item.sfda }}</span>
       <div class="is-flex flex-sb mt-20">
-        <div class="text-666666"><span class="text-red">&yen; {{item.price}}</span> 起(总销量{{item.sales}})</div>
-        <div class="text-666666"><span class="text-13C1FE">{{item.shopCount}}</span>个商家在售</div>
+        <div class="text-666666 text-l-20"><span class="text-red text-l-28">&yen; {{item.price}}</span> 起</div>
+        <div class="text-666666 text-l-20"><span class="text-13C1FE text-l-25">{{item.shopCount}}</span>个商家在售</div>
       </div>
     </div>
   </div>

@@ -159,7 +159,7 @@
     height: 80px;
     line-height: 80px;
     text-align: center;
-    font-size: 24px;
+    font-size: 26px;
   }
 
   .container {
@@ -178,8 +178,7 @@
   }
 
   .shop-header img {
-    height: 71px;
-    width: 77px;
+    width: 100px;
     border-radius: 50%;
     border: 1px solid #FFFEFE;
     background: rgb(255, 254, 254);
@@ -252,21 +251,17 @@
 
   .shop-goods img {
     width: 224px;
-    height: 224px;
+    /*height: 224px;*/
     display: block;
     margin: 72px 50px 26px 50px;
   }
 
   .shop-goods span {
     width: 218px;
-    height: 20px;
-    font-size: 20px;
-    color: rgba(102, 102, 102, 1);
-    line-height: 20px;
     display: block;
     text-align: center;
-    margin: auto;
-    margin-bottom: 18px;
+    font-size: 25px;
+    color: black;
   }
 
   .shop-footer {
@@ -285,10 +280,7 @@
     line-height: 90px;
     text-align: center;
     color: rgba(102, 102, 102, 1);
-  }
-
-  .bg-none {
-    background: none;
+    font-size: 30px;
   }
 
 </style>

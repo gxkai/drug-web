@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="drugs-details-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
-           infinite-scroll-distance="10">
+           infinite-scroll-distance="0">
         <div v-for="item in drugkindtwo" class="drugs-details">
           <router-link :to="{path:'/drugs',query:{showDrugTitle:item.type, typeId:item.id, pageFrom:'drugType'}}">
             <img v-lazy="getImgURL(item.fileId,'MIDDLE_LOGO')" class="img-circle"/>
@@ -46,12 +46,6 @@
       'searchHeader': this.searchHeader
     },
     created: function () {
-      let accounts = JSON.parse(localStorage.getItem('account'));
-      if (accounts === null) {
-        return false;
-      } else {
-        this.loadMore();
-      }
     },
     methods: {
       leftLi(index) {
@@ -62,7 +56,7 @@
         this.$http.get('/drugTypes')
           .then((res) => {
             this.drugkind = res.data;
-            this.drugkindtwo = this.drugkind[0].drugType;
+            this.drugkindtwo = this.drugkind[this.qwere].drugType;
           });
       }
     }
@@ -93,7 +87,7 @@
 
   .container-main {
     width: 682px;
-    margin: auto;
+    margin: 0 auto 100px;
     background: rgba(255, 255, 255, 1);
   }
 
@@ -118,7 +112,7 @@
   }
 
   .img-circle {
-    height: 125px;
+    width: 125px;
     border-radius: 50%;
     border: 1px solid #13C1FE;
     display: block;
@@ -135,6 +129,7 @@
   .drugs-details-list {
     display: block;
     margin-top: 37px;
+    overflow: auto;
   }
 
   .drugs-details {

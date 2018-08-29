@@ -2,13 +2,13 @@
   <div class="appraise">
     <div class="appraise-title">
       <div class="appraise-title-left">
-        <div>总评分：{{shopDrugSpec.shopTotalAppraise.score}}分</div>
+        <div class="text-l-25">总评分：{{shopDrugSpec.shopTotalAppraise.score}}分</div>
         <div>
           <new-star></new-star>
         </div>
       </div>
       <div class="appraise-title-right">
-        <div>
+        <div class="text-l-25">
           共有{{list.length}}位网友评论
         </div>
       </div>
@@ -80,14 +80,15 @@
         display: flex;
         flex-direction: column;
         align-self: center;
-        font-size: 28px;
         font-family: HiraginoSansGB-W3;
         color: rgba(51, 51, 51, 1);
       }
       &-right {
-        font-size: 20px;
         font-family: HiraginoSansGB-W3;
         color: rgba(153, 153, 153, 1);
+        div {
+          margin-top: 15px;
+        }
       }
     }
     &-container {

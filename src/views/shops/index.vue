@@ -80,7 +80,7 @@
         pageSize: 15,
         loading: false,
         shopSort: 'SYNTHESIZE',
-        searchIcon: '\ue64c 通用名、主要商品名、症状'
+        searchIcon: '\ue64c 药品名'
       };
     },
     created() {

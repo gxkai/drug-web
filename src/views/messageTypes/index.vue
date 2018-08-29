@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <new-header title="我的消息">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      <div slot="left" @click="$router.go(-1)">
+        <i class="iconfont ic-arrow-right"></i>
       </div>
     </new-header>
 
@@ -37,11 +37,10 @@
         formatDate: this.timeConvert,
         messageContentList: [],
         defaultMsgList: [
-          {img: '/image/message/ACCOUNT_SYSTEM.png'},
-          {img: '/image/message/ACCOUNT_ORDER.png'},
-          {img: '/image/message/ACCOUNT_RX.png'}
-        ],
-        accountId: this.$store.getters.account.id
+          {img: require('../../assets/image/message/ACCOUNT_SYSTEM.png')},
+          {img: require('../../assets/image/message/ACCOUNT_ORDER.png')},
+          {img: require('../../assets/image/message/ACCOUNT_RX.png')}
+        ]
       };
     },
     created: function () {
@@ -98,10 +97,13 @@
     margin-left: 21px;
   }
 
+  .news-list-left img {
+    width: 100%;
+  }
+
   .news-list-right {
     width: 550px;
     height: 91px;
-    margin-left: 125px;
     margin: auto;
   }
 
@@ -117,8 +119,7 @@
   }
 
   .news-list-time {
-    font-size: 18px;
-
+    font-size: 20px;
     color: rgba(102, 102, 102, 1);
     margin-right: 21px;
   }
