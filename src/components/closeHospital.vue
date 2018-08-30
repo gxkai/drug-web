@@ -17,11 +17,11 @@
         </div>
         <div class="bottom">
           <div class="price">
-            <span>¥{{item.price}}</span>
+            <span class="text-l-25">¥{{item.price}}</span>
           </div>
           <div class="quantity">
             <div>
-              <span>x{{item.quantity}}</span>
+              <span class="text-l-25">x{{item.quantity}}</span>
             </div>
           </div>
         </div>
@@ -73,13 +73,13 @@
   }
 
   .slide-content .text .top .name {
-    font-size: 30px;
+    font-size: 28px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .slide-content .text .top .spec {
-    font-size: 30px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }

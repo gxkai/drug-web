@@ -5,7 +5,7 @@
       <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
       </div>
       <input v-model="inputVal" slot="center" class="header-input iconfont" :placeholder="searchIcon" @keyup.enter="search()">
-      <span slot="right" @click="search()">搜索</span>
+      <span slot="right" @click="search()" class="text-l-25">搜索</span>
     </new-header>
     <div v-show="Maps">
       <baidu-map class="map" :center="center" :zoom="15">
@@ -53,8 +53,8 @@
     data() {
       return {
         center: {
-          lng: this.$route.query.lng,
-          lat: this.$route.query.lat
+          lng: this.$store.getters.position.lng,
+          lat: this.$store.getters.position.lat
         },
         zoom: 3,
         Maps: false,
@@ -85,7 +85,7 @@
       onLibrary(index) {
         let lat = this.libraryList[index].location.lat;
         let lng = this.libraryList[index].location.lng;
-        let name = this.positionList[index].name;
+        let name = this.libraryList[index].name;
         let position = {
           'lat': lat,
           'lng': lng,
@@ -160,10 +160,12 @@
     width: 548px;
     height: 53px;
     background: white;
-    opacity: 0.18;
     border-radius: 27px;
     border: 0;
     outline: none;
+    color: black;
+    padding: 0 30px;
+    font-size: 25px;
   }
 
   .map {
@@ -192,6 +194,10 @@
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
     line-height: 70px;
+  }
+
+  .line1 {
+    padding: 10px 0;
   }
 
   .line1 i {

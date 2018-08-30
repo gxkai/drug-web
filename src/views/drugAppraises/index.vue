@@ -9,7 +9,7 @@
       <div class="drugAppraises-main" v-for="item in list">
         <div class="line1">
           <div>
-            <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')">
+            <img :src="getImgURL(account.fileId,'LARGE_LOGO')">
             <span>{{account.username|asterisk}}</span>
           </div>
           <span>{{item.createdDate|timeConvert}}</span>
@@ -18,7 +18,7 @@
           {{item.content}}
         </div>
         <div class="line3">
-          <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
+          <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
           <div class="right">
             <p>药品名称：{{item.name}}</p>
             <p>规格:{{item.spec}}</p>

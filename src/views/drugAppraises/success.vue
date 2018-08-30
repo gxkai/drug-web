@@ -13,7 +13,7 @@
     <new-edit-line name="接着评下去吧" v-if="list.length>0"></new-edit-line>
     <ul class="body2">
       <li v-for="(item,index) in list" :key="index">
-        <img v-lazy="item.logo">
+        <img :src="item.logo">
         <div contenteditable="true" class="center">{{item.name}}</div>
         <router-link  tag="button" :to="{path:'/drugAppraises/create',query:{id:item.orderId}}">去评价</router-link>>
       </li>

@@ -35,7 +35,7 @@
         <div class="rx-shop-drugs-box is-flex flex-row flex-item pl-20 position-relative">
           <span class="toc-tip position-absolute all-center" v-if="carts[index].otc === true">非</span>
           <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
-          <img class="is-200x200" v-lazy="getImgURL(carts[index].fileId, 'LARGE_LOGO')">
+          <img class="is-200x200" :src="getImgURL(carts[index].fileId, 'LARGE_LOGO')">
           <div class="box-right is-flex flex-column flex-sa ml-40">
             <div class="position-relative">
               <i class="iconfont ic-changfang text-13C1FE"></i>
@@ -47,19 +47,19 @@
             <div>
               <i class="iconfont ic-yao text-13C1FE"></i>
               <span class="text-box">名称:</span>
-              <span class="">{{carts[index].name}}</span>
+              <span class="text-l-25">{{carts[index].name}}</span>
             </div>
             <div>
         <span>
            <i class="iconfont ic-yaopinshuju text-13C1FE"></i>
            <span class="text-box">规格:</span>
-           <span class="">{{carts[index].spec}}</span>
+           <span class="text-l-25">{{carts[index].spec}}</span>
         </span>
             </div>
             <div>
               <i class="iconfont ic-qian text-13C1FE"></i>
               <span class="text-box">最低价:</span>
-              <span class="text-red">&yen; {{carts[index].price}}</span>
+              <span class="text-red text-l-25">&yen; {{carts[index].price}}</span>
             </div>
           </div>
         </div>

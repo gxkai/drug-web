@@ -20,7 +20,7 @@
            infinite-scroll-distance="0">
         <div v-for="item in drugkindtwo" class="drugs-details">
           <router-link :to="{path:'/drugs',query:{showDrugTitle:item.type, typeId:item.id, pageFrom:'drugType'}}">
-            <img v-lazy="getImgURL(item.fileId,'MIDDLE_LOGO')" class="img-circle"/>
+            <img :src="getImgURL(item.fileId,'MIDDLE_LOGO')" class="img-circle"/>
             <div class="drugs-name">{{item.type}}</div>
           </router-link>
         </div>
@@ -113,10 +113,9 @@
 
   .img-circle {
     width: 125px;
+    height: 125px;
     border-radius: 50%;
-    border: 1px solid #13C1FE;
-    display: block;
-    margin: auto;
+    border: 1PX solid #13C1FE;
   }
 
   .drugs-name {

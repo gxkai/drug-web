@@ -291,8 +291,8 @@
   }
 
   .pay .bottom img {
-    width: 67px;
-    height: 67px;
+    width: 80px;
+    height: 80px;
     background: rgba(255, 255, 255, 1);
     border-radius: 10px;
   }

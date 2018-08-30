@@ -349,12 +349,12 @@
     display: inline-block;
     -webkit-appearance: none !important;
     border: none;
-    border: 1px solid #757575;
+    border: 1PX solid #757575;
   }
 
   .item-bottom-button-active {
     color: rgb(19, 193, 254) !important;
-    border: 1px solid rgb(19, 193, 254) !important;
+    border: 1PX solid rgb(19, 193, 254) !important;
   }
 
   .ic-weizhi {

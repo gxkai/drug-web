@@ -4,19 +4,16 @@
       <div slot="left" @click="$router.push('/accounts')">
         <i class="iconfont ic-arrow-right"></i>
       </div>
-      <div slot="right" @click="$router.push('/')">
-        首页
-      </div>
     </new-header>
 
     <div class="account-container">
       <div class="account-container-item" @click="changeVisible()">
         <div class="account-container-item-left">
-          <div>头像</div>
+          <div class="text-l-25">头像</div>
         </div>
         <div class="account-container-item-right">
           <div>
-            <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
+            <img :src="getImgURL(account.fileId,'SMALL_LOGO')"/>
           </div>
           <div>
             <i class="iconfont ic-youjiantou"></i>
@@ -25,7 +22,7 @@
       </div>
       <div class="account-container-item" @click="$router.push('/accounts/password')">
         <div class="account-container-item-left">
-          <div>隐私</div>
+          <div class="text-l-25">隐私</div>
         </div>
         <div class="account-container-item-right">
           <div>
@@ -35,7 +32,7 @@
       </div>
       <div class="account-container-item" @click="$router.push('/accounts/edit')">
         <div class="account-container-item-left">
-          <div>修改密码</div>
+          <div class="text-l-25">修改密码</div>
         </div>
         <div class="account-container-item-right">
           <div>
@@ -48,7 +45,7 @@
     <div id="shangchuanpic" class="account-image_upload">
       <ul>
         <li class="imgLi div2" v-for="(item, index) in duploadURLs">
-          <img v-lazy='item' class="upload_img div3" style="display:none;"/>
+          <img :src='item' class="upload_img div3" style="display:none;"/>
           <span @click="delImg(index)" style="display:none;"><span class="file-remove">+</span></span>
         </li>
       </ul>
@@ -224,7 +221,7 @@
             vertical-align: middle;
           }
           .ic-youjiantou {
-            font-size: 30px;
+            font-size: 40px;
           }
         }
       }

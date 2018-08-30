@@ -2,7 +2,7 @@
 <div class="refund-box is-flex flex-row flex-item p-lr-20 position-relative" @click="$router.push({path:'/orderRefunds/view',query:{orderRefundId:pages.id}})">
   <span class="toc-tip position-absolute all-center" v-if="drug.otc">非</span>
   <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
-  <img class="is-200x200" v-lazy="getImgURL(drug.fileId, 'LARGE_LOGO')">
+  <img class="is-200x200" :src="getImgURL(drug.fileId, 'LARGE_LOGO')">
   <div class="box-right pl-40 is-flex flex-column flex-sa">
     <span>{{ pages.shopName }}</span>
     <span>规格： {{ drug.spec }}</span>
@@ -122,7 +122,7 @@
     width:37px;
     height:37px;
     border-radius: 50%;
-    border: 1px solid #13C1FE;
+    border: 1PX solid #13C1FE;
     text-align: center;
     color: #13C1FE;
     display: inline-block;

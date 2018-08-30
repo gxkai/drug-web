@@ -1,7 +1,7 @@
 <template>
    <div class="item">
      <div class="item-image">
-       <img v-lazy="getImgURL(item.fileId,'SMALL_LOGO')">
+       <img :src="getImgURL(item.fileId,'SMALL_LOGO')">
      </div>
      <div class="item-text">
        满{{item.amount}}元减{{item.minus}}优惠券

@@ -30,7 +30,7 @@
           <div class="text-1AB6FD text-l-20">
             国药准字:
           </div>
-          <div class="elpsTwo text-l-20">
+          <div class="elps text-l-20">
             {{shopDrugSpec.sfda}}
           </div>
         </div>
@@ -39,7 +39,7 @@
           <div class="text-1AB6FD text-l-20">
             库存:
           </div>
-          <div class="elpsTwo text-l-20">
+          <div class="elps text-l-20">
             {{shopDrugSpec.stock}}
           </div>
         </div>
@@ -97,7 +97,7 @@
       <div class="company">
         <div class="companys">
           <div class="d-inline-block company-logo">
-            <img v-lazy="getImgURL(shopDrugSpec.id,'SMALL_LOGO')" class="logo"/>
+            <img :src="getImgURL(shopDrugSpec.id,'SMALL_LOGO')" class="logo"/>
           </div>
           <div class="company-name d-inline-block">
             <p class="elps text-l-25">{{shopDrugSpec.shopName}}</p>
@@ -105,7 +105,7 @@
               <new-star :score="shopDrugSpec.shopTotalAppraise.score" size="small" disabled></new-star>
             </p>
           </div>
-          <div class="d-inline-block fr">
+          <div class="d-inline-block fr mr-l-20 mt-l-15">
             <i class="icon iconfont ic-anquan text-1AB6FD"></i>
           </div>
         </div>
@@ -384,8 +384,7 @@
   }
 
   .ic-anquan {
-    width: 58px;
-    font-size: 1rem;
+    font-size: 50px;
   }
 
   .customer {

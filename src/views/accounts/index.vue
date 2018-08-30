@@ -74,7 +74,7 @@
           <img src="../../assets/image/accounts/refund.png"/>
           <span class="mt-15">退款</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/setting">
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/accounts/view">
           <img src="../../assets/image/accounts/d-seeting.png"/>
           <span class="mt-15">账户设置</span>
         </router-link>
@@ -171,19 +171,19 @@
   }
 
   .border-left-gray {
-    border-left: 1px rgba(235, 235, 235, 1) solid;
+    border-left: 1PX rgba(235, 235, 235, 1) solid;
   }
 
   .border-right-gray {
-    border-right: 1px rgba(235, 235, 235, 1) solid;
+    border-right: 1PX rgba(235, 235, 235, 1) solid;
   }
 
   .border-top-gray {
-    border-top: 1px rgba(235, 235, 235, 1) solid;
+    border-top: 1PX rgba(235, 235, 235, 1) solid;
   }
 
   .border-bottom-gray {
-    border-bottom: 1px rgba(235, 235, 235, 1) solid;
+    border-bottom: 1PX rgba(235, 235, 235, 1) solid;
   }
 
   .account-container {

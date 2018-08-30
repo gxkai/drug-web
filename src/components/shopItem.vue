@@ -1,7 +1,7 @@
 <template>
   <div class="item" @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
     <div class="item-left">
-      <img v-lazy="item.fileId"/>
+      <img :src="item.fileId"/>
     </div>
     <div class="item-right">
       <div>

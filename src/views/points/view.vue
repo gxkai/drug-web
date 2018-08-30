@@ -6,7 +6,7 @@
       </div>
     </new-header>
     <div class="detail-first">
-      <img v-lazy="getImgURL(coupon.fileId,'LARGE_LOGO')"/>
+      <img :src="getImgURL(coupon.fileId,'LARGE_LOGO')"/>
     </div>
     <div class="detail-second">
       <div class="detail-second-price">

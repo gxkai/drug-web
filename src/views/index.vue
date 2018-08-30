@@ -91,7 +91,7 @@
                        :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:discountList.id}}"
                        :key="index">
             <div class="drug-box flex-row-center border-right-gray border-bottom-gray">
-              <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'LARGE_LOGO')">
+              <img class="is-120x120 mr-20" :src="getImgURL(discountList.fileId, 'LARGE_LOGO')">
               <div class="is-flex flex-column">
                 <span class="elps width-144 d-inline-block text-l-25 text-center">{{discountList.name}}</span>
                 <span class="text-red text-center text-l-25 mt-l-10">¥ {{discountList.price}} /盒</span>
@@ -112,7 +112,7 @@
               <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
                 <img :data-index="index"
                      :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
-                     v-lazy="getImgURL(slide.fileId, 'LARGE_LOGO')">
+                     :src="getImgURL(slide.fileId, 'LARGE_LOGO')" @click="$router.push({path:'/shops/view',query:{shopId:slide.id}})">
               </template>
             </slide>
           </carousel-3d>
@@ -137,7 +137,7 @@
               :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
               <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true">非</span>
               <span class="toc-tip position-absolute all-center" v-else style="background-color: #4caf50">处</span>
-              <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'LARGE_LOGO')">
+              <img class="is-260x193" :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')">
               <span class="elps width-180 fz22 text-center mt-l-10">{{recommendList.name}}{{recommendList.spec}}</span>
               <span class="text-red fz24 text-center">¥ {{recommendList.price}} /盒</span>
             </router-link>
@@ -281,6 +281,7 @@
       // 医保定点
       this.$http.get('/shops/show').then(res => {
         this.showList = res.data;
+        console.log(this.showList);
       }).catch(error => {
         this.exception(error);
       });
@@ -512,8 +513,14 @@
 
   .shop-content {
     width: 720px;
-    height: 330px;
+    padding: 10px 0;
     background: rgba(238, 238, 238, 1);
+  }
+  .shop-content img {
+    height:300px;
+  }
+  .carousel-3d-slide {
+    background-color: white;
   }
 
   .mr-20 {

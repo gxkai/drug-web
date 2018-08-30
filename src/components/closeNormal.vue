@@ -4,7 +4,7 @@
       <div  slot="left">
          <i class="iconfont ic-yaodian"></i>
       </div>
-      <span slot="left" class="text-l-26">{{shopInfo.shopName}}</span>
+      <span slot="left" class="text-l-30">{{shopInfo.shopName}}</span>
     </new-header>
     <div class="slide-content">
       <div class="image">

@@ -10,7 +10,7 @@
     </new-header>
     <ul class="item">
       <li class="line" v-for="(item,index) in list" :key="index">
-        <img v-lazy="getImgURL(item.shopImage, 'LARGE_LOGO')">
+        <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
         <div>
           <ul>
             <li>

@@ -20,7 +20,7 @@
 
         <div class="slide-content" v-for="item in order.list">
           <div class="image">
-            <img v-lazy="getImgURL(item.fileId, 'MIDDLE_LOGO')">
+            <img :src="getImgURL(item.fileId, 'MIDDLE_LOGO')">
           </div>
           <div class="text">
             <div class="top">
@@ -67,7 +67,7 @@
           <div class="image">
             <div class="feichu" v-if="item.otc">非</div>
             <div class="chu" v-else>处</div>
-            <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
+            <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
           </div>
           <div class="text">
             <div class="top">

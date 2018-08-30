@@ -10,7 +10,7 @@
       <ul>
         <li v-for="(item,index) in list" :key="index">
           <div class="line1">
-            <img v-lazy="getImgURL(item.fileId, 'lARGE_LOGO')">
+            <img :src="getImgURL(item.fileId, 'lARGE_LOGO')">
             <new-star class="star" size="middle" :score.sync="item.score"></new-star>
           </div>
           <div class="line"></div>

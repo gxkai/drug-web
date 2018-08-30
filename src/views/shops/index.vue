@@ -66,7 +66,7 @@
                  :key="index"
                  @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
               <div class="shops-container-item-left">
-                <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')"/>
+                <img :src="getImgURL(item.fileId,'LARGE_LOGO')"/>
               </div>
               <div class="shops-container-item-right">
                 <div>

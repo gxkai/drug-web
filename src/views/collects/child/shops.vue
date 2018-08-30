@@ -4,7 +4,7 @@
       <router-link v-for="(items,index) in pageList" :to="{path:'/shops/view',query:{shopId:items.id}}" :key="index">
         <div class="media">
           <div class="shop-left">
-            <img v-lazy="items.imgUrl" alt="Image">
+            <img :src="items.imgUrl" alt="Image">
           </div>
           <div class="shop-right">
             <span>{{items.name}}</span>
