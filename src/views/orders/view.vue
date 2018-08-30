@@ -108,6 +108,7 @@
       <div class="order-buttons">
         <div class="item-bottom-buttons">
           <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
+          <button @click="onPay()" v-if="order.state == 'TO_PAY'">取消订单</button>
           <button class="item-bottom-button-active" @click="onRefund()"
                   v-if="order.state == 'TO_CHECK' ||order.state ==  'TO_DELIVERY' ||order.state ==  'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED'">
             申请退款

@@ -104,6 +104,9 @@
     font-family:HiraginoSansGB-W3;
     color:rgba(51,51,51,1);
   }
+  .password-list input::placeholder{
+    text-align: left;
+  }
 
   .password-content {
     margin: 0 10px;

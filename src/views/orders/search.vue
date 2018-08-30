@@ -20,7 +20,7 @@
           <span style="font-size: .3rem">历史搜索</span>
         </div>
         <div class="history-buttons" v-if="$storage.get('orderHis')">
-          <button v-for="item in $storage.get('orderHis')" @click="onButton()" style="font-size: .3rem;">{{item}}</button>
+          <div v-for="item in $storage.get('orderHis')" @click="onButton()" style="font-size: .3rem;">{{item}}</div>
         </div>
       </div>
       <div v-infinite-scroll="loadMore"
@@ -134,17 +134,18 @@
     flex-wrap: wrap;
   }
 
-  .history-buttons button:nth-child(1) {
+  .history-buttons div:nth-child(1) {
     background-color: rgba(19, 193, 254, 1);
+    color: white;
   }
 
-  .history-buttons button {
+  .history-buttons div {
     background-color: rgba(246, 246, 246, 1);
-    min-width: 100px;
-    height: 50px;
     border-radius: 50px;
-    outline: none;
+    border: 1PX solid white;
     margin: 20px;
+    font-size: 25px;
+    padding: 5px 20px;
   }
 
   /**
@@ -153,7 +154,7 @@
 
   .bar {
     width: 720px;
-    height: 66px;
+    height: 100px;
     background: rgba(210, 210, 210, 1);
     display: flex;
     justify-content: center;
@@ -173,7 +174,7 @@
 
   .inner {
     width: 597px;
-    height: 42px;
+    height: 60px;
     background: rgba(229, 229, 229, 1);
     border-radius: 5px;
     display: flex;
@@ -182,7 +183,7 @@
 
   .inner input {
     width: 560px;
-    height: 42px;
+    height: 60px;
     background: rgba(229, 229, 229, 1);
     border: 0;
     outline: none;

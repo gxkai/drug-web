@@ -122,6 +122,7 @@
     border: 0;
     color: rgba(255, 255, 255, 1);
     border-radius: 50px;
+    font-size: 30;
   }
 
   .check-btn {

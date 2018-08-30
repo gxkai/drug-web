@@ -6,10 +6,7 @@
           <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
         </div>
         <div class="inner">
-          <div>
-            <i class="iconfont ic-sousuo"></i>
-          </div>
-          <input type="text" v-model="keyword" placeholder="通用名、主要商品名、症状">
+          <input type="text" v-model="keyword" class="iconfont" :placeholder="searchIcon">
         </div>
         <span @click="onSearch()">搜索</span>
       </div>
@@ -23,7 +20,8 @@
     name: 'search',
     data() {
       return {
-        keyword: ''
+        keyword: '',
+        searchIcon: '\ue64c 药品名'
       };
     },
     created() {
@@ -84,7 +82,7 @@
 
   .bar {
     width: 720px;
-    height: 66px;
+    height: 100px;
     background: rgba(210, 210, 210, 1);
     display: flex;
     justify-content: center;
@@ -102,21 +100,23 @@
     margin-left: 8px;
   }
 
-  .inner {
-    width: 597px;
-    height: 42px;
-    background: rgba(229, 229, 229, 1);
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-  }
+  /*.inner {*/
+    /*width: 597px;*/
+    /*height: 60px;*/
+    /*background: rgba(229, 229, 229, 1);*/
+    /*border-radius: 5px;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+  /*}*/
 
   .inner input {
-    width: 560px;
-    height: 42px;
+    width: 597px;
+    height: 60px;
     background: rgba(229, 229, 229, 1);
-    border: 0;
+    padding: 0 30px;
+    border-width: 0;
     outline: none;
+    border-radius: 10PX;
   }
 
   .ic-sousuo {

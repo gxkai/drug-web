@@ -8,7 +8,7 @@
       </new-header>
       <div class="account-container">
         <div class="account-container-image">
-          <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
+          <img :src="getImgURL(account.fileId,'SMALL_LOGO')"/>
         </div>
         <div class="account-container-text ">
           <div>
@@ -31,7 +31,7 @@
       </div>
       <div class="header-search position-relative position-center">
         <div>
-          <input type="text" class="no-border iconfont" :placeholder="icon" v-model="keyword" @keyup.enter="getRxs()">
+          <input type="text" class="no-border iconfont header-search-input" :placeholder="icon" v-model="keyword" @keyup.enter="getRxs()">
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@
         loading: false,
         process: false,
         account: this.$store.getters.account,
-        icon: '\ue64c 请输入搜索内容'
+        icon: '\ue64c 请输入症状搜索'
       };
     },
     created() {
@@ -150,11 +150,25 @@
     display: flex;
     align-items: center;
   }
-
   .header-search input {
     width: 690px;
     height: 60px;
-    box-sizing: border-box;
+    padding: 0 30px;
+    font-size: 28px;
+    position:relative;
+    box-shadow: 0 20px 30px rgba(0,0,0,0.3),0 0 40px rgba(0,0,0,0.1) inset;
+  }
+  .header-search input:after{
+    content:"";
+    position:absolute;
+    background:transparent;
+    top:50%;
+    bottom: 1px;
+    left: 10px;
+    right: 10px;
+    z-index: -1;
+    box-shadow: 0 0 30px rgba(0,0,0,0.7);
+    border-radius: 100px/10px;
   }
   .header-search input::placeholder{
     font-size:28px;
@@ -219,7 +233,7 @@
 
   .position-center {
     left: 15px;
-    bottom: -10px;
+    bottom: -20px;
   }
 
   .position-rb {

@@ -10,7 +10,7 @@
     </new-header>
     <div ref="body">
       <div class="header all-center" v-if="JSON.stringify(account) !== '{}'">
-        <img class="header-img" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
+        <img class="header-img" :src="getImgURL(account.fileId,'LARGE_LOGO')"/>
         <!--<span class="everyday"-->
               <!--:style="{backgroundImage:'url('+require('../../assets/image/accounts/dayily.png')+')',backgroundSize:'100%'}"-->
               <!--@click="everyDay()">-->

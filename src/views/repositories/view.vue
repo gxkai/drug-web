@@ -11,7 +11,7 @@
 
     <div class="body-main">
       <div class="article-body">
-        <span class="article-title">{{repositoryInfo.title}}</span>
+        <!--<span class="article-title">{{repositoryInfo.title}}</span>-->
         <div class="article-tips">
           <span class="text-l-24">来源：{{repositoryInfo.source}}</span>
           <span class="article-date text-l-22">发布时间：{{repositoryInfo.createdDate}}</span>
@@ -141,7 +141,11 @@
     font-family: MicrosoftYaHei;
     color: rgba(51, 51, 51, 1);
     line-height: 28px;
-    margin-top: 60px;
+    margin-top: 80px;
+  }
+
+  .article-content>p {
+    font-size: 25px;
   }
 
   .recommend-body {

@@ -571,7 +571,8 @@
 
   .swiper-container {
     width: 720px;
-    height: 300px;
+    height: 320px;
+    padding: 10px 0;
   }
 
   .swiper-slides {

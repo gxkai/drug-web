@@ -47,17 +47,17 @@
           </div>
         </div>
       </div>
-      <div class="drugs-filter-item" @click="conditionFilter()">
-        <div class="drugs-filter-item-text">
-          筛选
-        </div>
-        <div class="drugs-filter-item-arrow">
-          <!--<div class="drugs-filter-item-arrow-up">-->
+      <!--<div class="drugs-filter-item" @click="conditionFilter()">-->
+        <!--<div class="drugs-filter-item-text">-->
+          <!--筛选-->
+        <!--</div>-->
+        <!--<div class="drugs-filter-item-arrow">-->
+          <!--&lt;!&ndash;<div class="drugs-filter-item-arrow-up">&ndash;&gt;-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--<div class="drugs-filter-item-arrow-down" style="margin-top: .1rem">-->
           <!--</div>-->
-          <div class="drugs-filter-item-arrow-down" style="margin-top: .1rem">
-          </div>
-        </div>
-      </div>
+        <!--</div>-->
+      <!--</div>-->
     </div>
     <div class="drugs-container" ref="body" v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
