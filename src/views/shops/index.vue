@@ -60,9 +60,29 @@
         <div  v-infinite-scroll="loadMore"
               infinite-scroll-disabled="loading"
               infinite-scroll-distance="0">
-          <new-shop-item :item="item"
-                         v-for="(item,index) in list"
-                         :key="index"/>
+            <div class="shops-container-item"
+                 :item="item"
+                 v-for="(item,index) in list"
+                 :key="index"
+                 @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
+              <div class="shops-container-item-left">
+                <img v-lazy="item.fileId"/>
+              </div>
+              <div class="shops-container-item-right">
+                <div>
+                  {{item.name}}
+                </div>
+                <div>
+                  <new-star :score="item.score" disabled></new-star>
+                </div>
+                <div>
+                  电话：{{item.phone}}
+                </div>
+                <div>
+                  地址：{{item.address}}
+                </div>
+              </div>
+            </div>
         </div>
       <new-no-data :length="list.length" v-show="loading"></new-no-data>
     </div>
@@ -183,6 +203,26 @@
     &-container {
       /*position: relative;*/
       width: 100%;
+      &-item {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 10px;
+        &-left{
+          width: 200px;
+          padding: 10px;
+          img{
+            width: 100%;
+          }
+        }
+        &-right {
+          padding: 20px;
+          div {
+            font-size: 25px;
+          }
+        }
+      }
     }
   }
 
