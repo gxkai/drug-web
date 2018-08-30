@@ -1,7 +1,7 @@
 <template>
   <div class="item" @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
     <div class="item-image">
-      <img v-lazy=""/>
+      <img v-lazy="item.fileId"/>
     </div>
     <div class="item-text">
       <div>
