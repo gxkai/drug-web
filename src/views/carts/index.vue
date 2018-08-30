@@ -18,7 +18,7 @@
         <span>合计:</span>
         <span>￥{{allPrice.toFixed(2)}}</span>
         <button>
-          <span @click.stop="onOrder()">结算({{allQuantity}})</span>
+          <span @click.stop="onOrder()" class="text-l-30">结算({{allQuantity}})</span>
         </button>
       </div>
     </div>
@@ -473,7 +473,7 @@
   }
 
   .close .right > span:nth-child(1) {
-    font-size: 20px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }

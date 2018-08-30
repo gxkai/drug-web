@@ -1,5 +1,5 @@
 <template>
-<div class="refund-box is-flex flex-row flex-item p-lr-20 position-relative">
+<div class="refund-box is-flex flex-row flex-item p-lr-20 position-relative" @click="$router.push({path:'/orderRefunds/view',query:{orderRefundId:pages.id}})">
   <span class="toc-tip position-absolute all-center" v-if="drug.otc">非</span>
   <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
   <img class="is-200x200" v-lazy="getImgURL(drug.fileId, 'LARGE_LOGO')">
@@ -10,11 +10,14 @@
       <span>&yen; {{ drug.price }}</span>
       <span>x {{drug.quantity}}</span>
     </div>
-    <div class="is-flex mt-40 flex-end box-right-link">
-      <span class="btn-refund">退</span>
-      <span class="ml-10">{{pages.state|transformOrderState}}</span>
-      <span @click="$router.push({path:'/orderRefunds/view',query:{orderRefundId:pages.id}})">查看详情</span>
-    </div>
+    <!--<div class="is-flex mt-40 flex-end box-right-link">-->
+      <!--<span class="btn-refund">退</span>-->
+      <!--<span class="ml-10">{{pages.state|transformOrderState}}</span>-->
+    <!--</div>-->
+  </div>
+  <div class="box-bottom">
+    <div>退</div>
+    <div>退款中</div>
   </div>
 </div>
 </template>
@@ -58,7 +61,6 @@
   }
   .box-right{
     width: 450px;
-    height: 100px;
   }
   .ml-10{
     margin-left: 10px !important;
@@ -96,12 +98,12 @@
   }
 
   .box-right>span:nth-child(1) {
-    font-size:24px;
+    font-size:28px;
     font-family:HiraginoSansGB-W3;
     color:rgba(51,51,51,1);
   }
   .box-right>span:nth-child(2) {
-    font-size:18px;
+    font-size:24px;
     font-family:HiraginoSansGB-W3;
     color:rgba(153,153,153,1);
   }
@@ -126,11 +128,32 @@
     display: inline-block;
   }
   .box-right-link>span:nth-child(2) {
-    font-size:18px;
+    font-size:30px;
     font-family:HiraginoSansGB-W3;
     color:rgba(19,193,254,1);
   }
   .box-right-link>span:nth-child(3) {
     margin-left: 20px;
+  }
+
+  .box-bottom {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    align-items: center;
+    z-index: 999;
+  }
+  .box-bottom div:nth-child(1){
+    border: 1PX solid #1AB6FD;
+    border-radius: 50%;
+    padding: 0 10px;
+    font-size: 25px;
+    color: #1AB6FD;
+  }
+  .box-bottom div:nth-child(2) {
+    margin-left: 10px;
+    font-size: 25px;
+    color: #1AB6FD;
   }
 </style>

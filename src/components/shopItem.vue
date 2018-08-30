@@ -31,18 +31,16 @@
   .item {
     width: 720px;
     display: flex;
+    align-items: center;
     margin-bottom: 10px;
     &-image {
-      width: 258px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 250px;
+      padding: 20px;
       img {
-        width: 200px;
+        width: 100%;
       }
     }
     &-text {
-      align-self: center;
       padding: 20px;
       div:nth-child(1) {
         font-size: 30px;

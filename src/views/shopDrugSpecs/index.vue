@@ -11,7 +11,7 @@
         <div class="broadcast-content">
           <mt-swipe :auto="4000">
             <mt-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
-              <img v-lazy="getImgURL(fileId,'LARGE_PIC')" class="width-percent-100"/>
+              <img :src="getImgURL(fileId,'LARGE_PIC')"/>
             </mt-swipe-item>
           </mt-swipe>
         </div>
@@ -30,7 +30,7 @@
           <div class="text-1AB6FD">
             国药准字:
           </div>
-          <div class="elps text-l-20">
+          <div class="elpsTwo text-l-20">
             {{shopDrugSpec.sfda}}
           </div>
         </div>
@@ -39,14 +39,14 @@
           <div class="text-1AB6FD">
             库存:
           </div>
-          <div class="elps text-l-20">
+          <div class="elpsTwo text-l-20">
             {{shopDrugSpec.stock}}
           </div>
         </div>
         <div class="vertical-line"></div>
         <div class="elps text-l-20">
           <div class="text-1AB6FD">包装规格:</div>
-          <div class="elps">
+          <div class="elps text-l-20">
             {{shopDrugSpec.spec}}
           </div>
         </div>
@@ -259,6 +259,7 @@
     font-size: 18px;
     color: rgba(255, 255, 255, 1);
     margin: 10px auto;
+    text-align: center;
   }
 
   .drug-price {
@@ -455,5 +456,10 @@
     height: 30px;
     width: 1PX;
     background-color: black;
+  }
+
+  .broadcast-content img{
+    height: 100%;
+    width: 100%;
   }
 </style>

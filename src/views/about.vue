@@ -52,7 +52,7 @@
     margin-top: 2px;
     padding: 50px;
     width: 620px;
-    font-size: 24px;
+    font-size: 28px;
     color: rgba(255, 255, 255, 1);
   }
 
@@ -66,7 +66,7 @@
     display: block;
     width: 720px;
     text-align: center;
-
+    font-size: 24px;
   }
 
   .about-img img {

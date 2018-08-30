@@ -181,7 +181,7 @@
       }
     }
     &-container {
-      position: relative;
+      /*position: relative;*/
       width: 100%;
     }
   }

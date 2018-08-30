@@ -9,11 +9,11 @@
     <new-refund :order="orderInfo"></new-refund>
     <div class="refund-reason">
       <div>
-        <span>退款原因</span>
+        <span class="text-l-25">退款原因</span>
         <span>{{reason}}</span>
       </div>
       <div @click="handleClick()">
-        <span>请选择<i class="iconfont ic-youjiantou"></i></span>
+        <span class="text-l-25">请选择<i class="iconfont ic-youjiantou"></i></span>
       </div>
     </div>
     <div class="refund-price">
@@ -24,10 +24,10 @@
     </div>
     <div class="refund-description">
       <div>
-        <span>退款说明</span>
+        <span class="text-l-25">退款说明</span>
       </div>
       <div>
-        <textarea placeholder="选填 最多50字" maxlength="50" rows="3" v-model="explain">
+        <textarea placeholder="选填 最多50字" maxlength="50" rows="3" v-model="explain" class="text-l-22">
         </textarea>
       </div>
     </div>
@@ -63,11 +63,11 @@
         </div>
       </div>
       <div class="refund-reason-close" @click="onClose()">
-        <span>关闭</span>
+        <span class="text-l-40">关闭</span>
       </div>
     </mt-popup>
     <div class="refund-commit" @click="onCommit()">
-      <span>提交</span>
+      <span class="text-l-40">提交</span>
     </div>
   </div>
 </template>

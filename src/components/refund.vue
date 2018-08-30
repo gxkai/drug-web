@@ -44,8 +44,8 @@
           <div slot="left">
               <i class="iconfont ic-yaodian" slot="left"></i>
           </div>
-          <span slot="left"  @click="onShop()" class="text-l-25">{{order.shopName}}</span>
-          <span slot="right" class="text-l-25">{{order.state|transformOrderState}}</span>
+          <span slot="left"  @click="onShop()" class="text-l-30">{{order.shopName}}</span>
+          <span slot="right" class="text-l-30">{{order.state|transformOrderState}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-if="order.rxId">

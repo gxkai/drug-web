@@ -99,8 +99,13 @@
     },
     methods: {
       onCollect() {
-        this.$http.post('/collects/drug?shopId=' + this.drugInfo.shopId + '&drugSpecId=' + this.drugInfo.drugSpecId +
-      '&shopDrugSpecId=' + this.drugInfo.id + '&isCollect=' + !this.isCollect)
+        let data = {
+          'shopId': this.drugInfo.shopId,
+          'drugSpecId': this.drugInfo.drugSpecId,
+          'shopDrugSpecId': this.drugInfo.id,
+          'isCollect': !this.isCollect
+        };
+        this.$http.post('/collects/drug', data)
           .then(res => {
             this.isCollect = !this.isCollect;
           }).catch(error => {

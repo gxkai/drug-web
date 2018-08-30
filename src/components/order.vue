@@ -20,7 +20,7 @@
 
         <div class="slide-content" v-for="item in order.list">
           <div class="image">
-            <img v-lazy="getImgURL(item.fileId, 'MIDDLE_LOGO')">
+            <img :src="getImgURL(item.fileId, 'MIDDLE_LOGO')">
           </div>
           <div class="text">
             <div class="top">
@@ -85,7 +85,7 @@
           <div class="image">
             <div class="chu" v-if="item.otc">非</div>
             <div class="feichu" v-else>处</div>
-            <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
+            <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
           </div>
           <div class="text">
             <div class="top">
@@ -116,7 +116,7 @@
               <button class="item-bottom-button-active" @click="onRefund()" v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED'">申请退款</button>
               <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货</button>
               <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">查看配送</button>
-              <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">评价</button>
+              <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">我要评价</button>
               <button @click="onDetail()">订单详情</button>
             </div>
           </div>
@@ -339,6 +339,7 @@
     border: none;
     border:1px solid #757575;
     margin-left: 10px;
+    padding: 5px 15px;
   }
   .item-bottom-buttons button:nth-last-child(1) {
     margin-right: 20px;

@@ -7,11 +7,11 @@
     </new-header>
     <div class="body">
       <router-link tag="div" class="a-content-list flex-stream-sb padding-10" to="/version">
-        <span>当前版本</span>
+        <span class="text-l-25">当前版本</span>
         <i class="iconfont ic-youjiantou"></i>
       </router-link>
       <router-link tag="div" class="a-content-list flex-stream-sb padding-10" to="/about">
-        <span>关于我们</span>
+        <span class="text-l-25">关于我们</span>
         <i class="iconfont ic-youjiantou"></i>
       </router-link>
     </div>
@@ -83,5 +83,9 @@
   .padding-10 {
     padding: 0 20px;
     box-sizing: border-box;
+  }
+
+  .ic-youjiantou {
+    font-size: 30px;
   }
 </style>

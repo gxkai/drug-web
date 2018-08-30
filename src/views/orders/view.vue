@@ -118,7 +118,7 @@
                   v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state == 'TO_APPRAISE' || order.state == 'COMPLETED' ||order.state ==  'REFUNDING')">
             查看配送
           </button>
-          <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">评价</button>
+          <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">我要评价</button>
         </div>
       </div>
     </div>
@@ -271,7 +271,7 @@
   .order-price div {
     display: flex;
     justify-content: space-between;
-    padding: 0px 14px;
+    padding: 10px 14px;
   }
 
   .order-price > div:nth-child(1) > span {
@@ -322,11 +322,13 @@
     font-size: 20px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
+    margin-top: 10px;
+    padding: 10px;
   }
 
   .order-number div {
     padding: 10px;
-    font-size: 20px;
+    font-size: 25px;
   }
 
   .order-buttons {

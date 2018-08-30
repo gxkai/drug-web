@@ -74,8 +74,7 @@
           <img src="../../assets/image/accounts/refund.png"/>
           <span class="mt-15">退款</span>
         </router-link>
-        <!--FIXME-->
-        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/orderRefunds">
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/setting">
           <img src="../../assets/image/accounts/d-seeting.png"/>
           <span class="mt-15">账户设置</span>
         </router-link>
