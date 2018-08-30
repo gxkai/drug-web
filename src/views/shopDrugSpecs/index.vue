@@ -27,7 +27,7 @@
       <!--库存开始-->
       <div class="stock">
         <div class="elps">
-          <div class="text-1AB6FD">
+          <div class="text-1AB6FD text-l-20">
             国药准字:
           </div>
           <div class="elpsTwo text-l-20">
@@ -36,16 +36,16 @@
         </div>
         <div class="vertical-line"></div>
         <div class="elps text-l-20">
-          <div class="text-1AB6FD">
+          <div class="text-1AB6FD text-l-20">
             库存:
           </div>
           <div class="elpsTwo text-l-20">
             {{shopDrugSpec.stock}}
           </div>
         </div>
-        <div class="vertical-line"></div>
+        <div class="vertical-line "></div>
         <div class="elps text-l-20">
-          <div class="text-1AB6FD">包装规格:</div>
+          <div class="text-1AB6FD text-l-20">包装规格:</div>
           <div class="elps text-l-20">
             {{shopDrugSpec.spec}}
           </div>

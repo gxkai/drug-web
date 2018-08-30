@@ -1,9 +1,9 @@
 <template>
   <div class="item" @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
-    <div class="item-image">
-      <img v-lazy=""/>
+    <div class="item-left">
+      <img v-lazy="item.fileId"/>
     </div>
-    <div class="item-text">
+    <div class="item-right">
       <div>
         {{item.name}}
       </div>
@@ -33,29 +33,17 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    &-image {
-      width: 250px;
-      padding: 20px;
-      img {
+    &-left{
+      width: 200px;
+      padding: 10px;
+      img{
         width: 100%;
       }
     }
-    &-text {
+    &-right {
       padding: 20px;
-      div:nth-child(1) {
-        font-size: 30px;
-        font-family: HiraginoSansGB-W3;
-        color: rgba(69, 69, 69, 1);
-      }
-      div:nth-child(3) {
+      div {
         font-size: 25px;
-        font-family: HiraginoSansGB-W3;
-        color: rgba(51, 51, 51, 1);
-      }
-      div:nth-child(4) {
-        font-size: 25px;
-        font-family: HiraginoSansGB-W3;
-        color: rgba(51, 51, 51, 1);
       }
     }
   }

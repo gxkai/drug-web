@@ -28,7 +28,7 @@
       <!-- 轮播 -->
       <mt-swipe :auto="4000" class="swiper-container">
         <mt-swipe-item v-for="(advertList,index) in advertLists" :key="index">
-          <img v-lazy="getImgURL(advertList.fileId, 'MIDDLE_PIC')" @click="see(advertList)" class="swiper-img"/>
+          <img :src="getImgURL(advertList.fileId, 'ADVERT')" @click="see(advertList)" class="swiper-img"/>
         </mt-swipe-item>
       </mt-swipe>
 
