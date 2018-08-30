@@ -15,7 +15,7 @@
     <div class="body" v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
          infinite-scroll-distance="0" ref="body">
-      <div v-for="order in orderList" >
+      <div v-for="order in orderList">
         <new-order :order.sync="order"></new-order>
       </div>
       <new-loading v-if="process"></new-loading>

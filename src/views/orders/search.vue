@@ -71,8 +71,8 @@
         if (this.keyword) {
           this.setHistory();
           this.reset();
-          this.loadMore();
           this.hasSearch = true;
+          this.loadMore();
         }
       },
       setHistory() {

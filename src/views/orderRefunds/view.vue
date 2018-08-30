@@ -5,31 +5,31 @@
         <i  @click="$router.go(-1)" class="iconfont ic-arrow-right"></i>
       </div>
       <div slot="right" @click="$router.push('/')">
-        <span>首页</span>
+        <span class="text-l-25">首页</span>
       </div>
     </new-header>
     <div class="refunds-header">
-      <span class="refunds-header-state">{{list.state|transformOrderState}}</span>
+      <span class="refunds-header-state ">{{list.state|transformOrderState}}</span>
       <span class="refunds-header-time">{{timeConvert2(list.lastModifiedDate)}}</span>
     </div>
 
     <div class="refunds-price">
       <div class="refunds-price-sum">
-        <span>退款总金额</span>
-        <span style="color:#FF0000;">￥{{list.price}}</span>
+        <span class="text-l-25">退款总金额</span>
+        <span style="color:#FF0000;" class="text-l-25">￥{{list.price}}</span>
       </div>
       <div class="refunds-price-residue">
-        <span>退回余额</span>
-        <span style="color:#FF0000;">￥{{list.price}}</span>
+        <span class="text-l-25">退回余额</span>
+        <span style="color:#FF0000;" class="text-l-25">￥{{list.price}}</span>
       </div>
     </div>
 
     <div class="refunds-info">
       <div class="refunds-info-title">
-        <span>退款信息</span>
-        <div>
-          <i class="iconfont ic-arrowdown"></i>
-        </div>
+        <span class="text-l-25">退款信息</span>
+        <!--<div>-->
+          <!--<i class="iconfont ic-arrowdown"></i>-->
+        <!--</div>-->
       </div>
       <router-link tag="div" class="refunds-info-detail" v-for="drug in list.drugs" :key="drug.id" :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:drug.id}}">
         <div class="refunds-info-detail-img">
@@ -46,8 +46,8 @@
         <div class="refunds-info-detail-message">
           <span class="refunds-info-detail-message-name">{{drug.name}}</span>
           <span class="refunds-info-detail-message-size">
-            <p style="font-size: 0.2rem;color:#999999;">规格:{{drug.spec}}</p>
-            <p style="font-size:0.3rem; color:#666666;">x{{drug.quantity}}</p>
+            <p style="color:#999999;" class="text-l-25">规格:{{drug.spec}}</p>
+            <p style="color:#666666;" class="text-l-25">x{{drug.quantity}}</p>
           </span>
         </div>
       </router-link>
@@ -93,8 +93,8 @@
 
   .refunds-header {
     width: 720px;
-    height: 100px;
     background: rgba(19, 193, 254, 1);
+    padding: 20px 0;
   }
 
   .refunds-header-state {
@@ -107,7 +107,7 @@
   }
 
   .refunds-header-time {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 255, 255, 1);
     display: block;
@@ -116,18 +116,17 @@
 
   .refunds-price {
     width: 720px;
-    height: 140px;
     background: rgba(238, 238, 238, 1);
     font-size: 20px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
-    padding: 19px 26px 19px 24px;
+    padding: 20px;
   }
 
   .refunds-price-sum {
     justify-content: space-between;
     display: flex;
-    margin-bottom: 43px;
+    margin-bottom: 10px;
   }
 
   .refunds-price-residue {
@@ -190,7 +189,7 @@
 
   .refunds-info-detail-message-name {
     width: 413px;
-    font-size: 24px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
@@ -203,14 +202,19 @@
   }
 
   .refunds-footer {
-    margin-top: 17px;
-    padding-left: 25px;
+    padding: 20px;
   }
 
   .refunds-footer span {
     display: flex;
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
+    margin-bottom: 10px;
+  }
+
+
+  .ic-arrowdown {
+    font-size: 40px;
   }
 </style>

@@ -1,4 +1,4 @@
-import {MessageBox} from 'mint-ui';
+import {Toast} from 'mint-ui';
 import storage from 'good-storage';
 const SEARCH_KEY = 'orderHis';
 const SEARCH_MAX_LENGTH = 15;
@@ -26,20 +26,20 @@ export default {
         switch (error.response.status) {
           case 400:
             if (error.response.data.fieldErrors) {
-              MessageBox('提示', error.response.data.fieldErrors[0].message);
+              Toast(error.response.data.fieldErrors[0].message);
               return;
             }
             if (error.response.data.message) {
-              MessageBox('提示', error.response.data.message);
+              Toast(error.response.data.message);
             }
             break;
           case 401:
             break;
           default:
-            MessageBox('提示', '网络异常');
+            Toast('网络异常');
         }
       } else {
-        MessageBox('提示', '网络异常');
+        Toast('网络异常');
         this.$router.push('/error');
       }
     };

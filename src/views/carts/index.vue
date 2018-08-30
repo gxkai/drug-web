@@ -4,7 +4,7 @@
       <div slot="left" @click="$router.go(-1)">
         <i class="iconfont ic-arrow-right"></i>
       </div>
-      <span slot="right" @click="onRemoveBatch()">删除</span>
+      <span slot="right" @click="onRemoveBatch()" class="text-l-30">删除</span>
     </new-header>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
     <div class="close" ref="close">
@@ -18,7 +18,7 @@
         <span>合计:</span>
         <span>￥{{allPrice.toFixed(2)}}</span>
         <button>
-          <span @click.stop="onOrder()">结算({{allQuantity}})</span>
+          <span @click.stop="onOrder()" class="text-l-30">结算({{allQuantity}})</span>
         </button>
       </div>
     </div>
@@ -84,7 +84,7 @@
                       <div class="image">
                         <div class="chu" v-if="cartDrug.otc">非</div>
                         <div class="feichu" v-else>处</div>
-                        <img v-lazy="getImgURL(cartDrug.fileId, 'LARGE_LOGO')">
+                        <img :src="getImgURL(cartDrug.fileId, 'LARGE_LOGO')">
                       </div>
                       <div class="text">
                         <div class="top">
@@ -99,10 +99,12 @@
                             <div>
                               <span>x{{cartDrug.quantity}}</span>
                             </div>
-                            <div class="multi-input bordr1" v-if="cartRx.rxId === '0'">
-                              <input value="-" type="button" class="onCut" @click.stop="onCut(cartDrug)"><input
-                              v-model="cartDrug.quantity" type="button" class="numBer">
-                              <input value="+" type="button" @click.stop="onAdd(cartDrug)" class="onAdd">
+                            <div class="multi">
+                              <div @click.stop="onCut(cartDrug)">-</div>
+                              <div>
+                                <input v-model="cartDrug.quantity" type="number">
+                              </div>
+                              <div @click.stop="onAdd(cartDrug)">+</div>
                             </div>
                           </div>
                         </div>
@@ -471,7 +473,7 @@
   }
 
   .close .right > span:nth-child(1) {
-    font-size: 20px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
@@ -599,7 +601,7 @@
     color: rgba(153, 153, 153, 1);
   }
 
-  .multi-input input:nth-child(1), .multi-input input:nth-child(3) {
+  .multi-input input {
     width: 37px;
     height: 29px;
     background: rgba(210, 210, 210, 1);
@@ -609,22 +611,12 @@
     outline: none;
   }
 
+
   .color-333 {
     color: #333;
   }
 
-  input[type='button'] {
-    -webkit-appearance: none;
-    border: none;
-    height: 29px;
-    line-height: 29px;
-  }
-
   .quantity span {
-    margin-right: 16px;
-  }
-
-  .multi-input {
     margin-right: 16px;
   }
 
@@ -636,40 +628,26 @@
     background: #f6f6f6;
   }
 
-  .onAdd {
-    width: 37px !important;
-    height: 29px !important;
-    background: rgb(241, 239, 240) !important;
-    margin-left: -8px;
-    border-left: 1px solid #D2D2D2 !important;
+  .multi {
+    display: flex;
   }
-
-  .onCut {
-    width: 37px !important;
-    height: 29px !important;
-    background: rgb(241, 239, 240) !important;
-    border-right: 1px solid #D2D2D2 !important;
-
+  .multi>div {
+    min-width: 37px;
+    height: 37px;
+    background-color: white;
+    border: 1PX solid #D2D2D2;
+    text-align: center;
+    line-height: 37px;
+    font-size: 20px;
   }
-
-  .numBer {
-    width: 36px !important;
-    height: 29px !important;
-    background: rgb(241, 239, 240) !important;
+  .multi>div:nth-child(2) input {
+    height: 30px;
+    width: 37px;
+    text-align: center;
+    font-size: 20px;
+    border: none;
     outline: none;
-    font-size: 0.333333rem;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-    line-height: 0.1rem;
-
   }
-
-  .bordr1 {
-    border: 1px solid #D2D2D2 !important;
-    width: 119px;
-    height: 39px;
-  }
-
 </style>
 
 

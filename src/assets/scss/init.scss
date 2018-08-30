@@ -112,6 +112,18 @@
   .mt-s-#{$size}{
     margin-top:  ($spacer*$size);
   }
+  .t-l-#{$size}{
+    top:  ($spacer-large*$size);
+  }
+  .b-l-#{$size}{
+    top:  ($spacer-large*$size);
+  }
+  .l-l-#{$size}{
+    top:  ($spacer-large*$size);
+  }
+  .r-l-#{$size}{
+    top:  ($spacer-large*$size);
+  }
 }
 
 @for $size from 0 through 20 {

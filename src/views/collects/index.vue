@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="collect-body">
     <new-header title="我的收藏">
@@ -9,10 +8,10 @@
 
     <ul class="flex-stream-sb">
       <li @click="shop(1)" class="padding-tb-10">
-        <span :class="{'collects_active':qwere===1}">商品</span>
+        <span :class="{'collects_active':qwere===1}" class="text-l-30">商品</span>
       </li>
       <li @click="shop(2)" class="padding-tb-10">
-        <span :class="{'collects_active':qwere===2}">商家</span>
+        <span :class="{'collects_active':qwere===2}" class="text-l-30">商家</span>
       </li>
     </ul>
 
@@ -80,7 +79,6 @@
     display: block;
     width: 360px;
     text-align: center;
-    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }

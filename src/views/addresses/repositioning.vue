@@ -155,7 +155,7 @@
   };
 </script>
 
-<style scoped>
+<style scoped >
   .header-input{
     width: 548px;
     height: 53px;
@@ -197,6 +197,11 @@
   .line1 i {
     color: #13C1FE;
     margin-left: 21px;
+    font-size: 30px;
+  }
+
+  .line1 span {
+    font-size: 26px;
   }
 
   .line2 span {

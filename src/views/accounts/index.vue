@@ -24,11 +24,15 @@
         <span class="header-text">登录/注册</span>
       </div>
       <div class="nav-bar">
-        <new-header height="low" bgColor="white" leftColor="#333333" leftSize="smaller" rightColor="#999999"
-                    rightSize="smaller">
-          <span slot="left">全部订单</span>
-          <router-link tag="span" to="/orders" slot="right">我的订单></router-link>
-        </new-header>
+        <div class="nav-bar-title">
+          <div class="nav-bar-title-left">全部订单</div>
+          <div class="nav-bar-title-right" @click="$router.push('/orders')">
+            <div>我的订单</div>
+            <div>
+              <i class="iconfont ic-youjiantou"></i>
+            </div>
+          </div>
+        </div>
         <new-line></new-line>
         <div class="nav-bar-order">
           <router-link tag="div" to="/orders/toPay">
@@ -70,8 +74,7 @@
           <img src="../../assets/image/accounts/refund.png"/>
           <span class="mt-15">退款</span>
         </router-link>
-        <!--FIXME-->
-        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/orderRefunds">
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/setting">
           <img src="../../assets/image/accounts/d-seeting.png"/>
           <span class="mt-15">账户设置</span>
         </router-link>
@@ -156,14 +159,10 @@
 </script>
 <style scoped>
   .everyday {
-    width: 117px;
-    display: inline-block;
-    height: 47px;
+    padding: 5px 10px;
     position: absolute;
     top: 173px;
-    line-height: 47px;
-    text-align: center;
-    right: 0px;
+    right: 0;
     font-size:22px;
   }
 
@@ -241,6 +240,7 @@
 
   .nav-bar-order {
     padding-bottom: 10px;
+    margin-top: 20px;
   }
 
   .account-content {
@@ -249,6 +249,7 @@
     background: rgba(255, 255, 255, 1);
     flex-wrap: wrap;
     margin-bottom: 20px;
+    margin-top: 40px;
   }
 
   .flex-box {
@@ -319,6 +320,28 @@
     color: rgba(102, 102, 102, 1);
     line-height: 40px;
   }
+  .nav-bar-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  .nav-bar-title-left {
+    font-size: 26px;
+  }
+  .nav-bar-title-right {
+    color: #889092;
+    display: flex;
+    align-items: center;
+  }
+  .nav-bar-title-right>div {
+    font-size: 24px;
+  }
+  .nav-bar-title-right .ic-youjiantou {
+    font-size: 30px;
+  }
+
+
 
 
 </style>

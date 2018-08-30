@@ -5,29 +5,26 @@
         <div slot="left" @click="$router.go(-1)">
           <i class="iconfont ic-arrow-right"></i>
         </div>
-        <div slot="right" @click="$router.push('/')">
-          <span>首页</span>
-        </div>
       </new-header>
       <div class="account-container">
         <div class="account-container-image">
           <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
         </div>
-        <div class="account-container-text">
+        <div class="account-container-text ">
           <div>
               <span>
                 <i class="iconfont ic-wo"></i>
               </span>
-            <span>{{account.name || '未知姓名'}}</span>
-            <span>{{getGender()|| '未知性别'}}</span>
-            <span>{{account.age + '岁'|| '未知年龄'}}</span>
+            <span class="text-l-30">{{account.name || '无'}}</span>
+            <span class="text-l-30">{{getGender()|| '未填写'}}</span>
+            <span class="text-l-30">{{account.age + '岁'|| '未填写'}}</span>
           </div>
           <div>
               <span>
                 <i class="iconfont ic-Id"></i>
               </span>
-            <span>
-                {{account.identityNumber|| '未知身份证'}}
+            <span class="text-l-30">
+                {{account.identityNumber|| '未填写'}}
               </span>
           </div>
         </div>
@@ -45,32 +42,30 @@
           <table class="position-relative">
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_1.png"></td>
-              <td><span class="td-width-55 ellipsis text-small">地址</span></td>
-              <td><span class="td-width-250 ellipsis text-black">{{rx.hospital}}</span></td>
-              <td class="text-center"><span class="text-13C1FE">{{rx.number}}</span></td>
+              <td><span class="td-width-55 ellipsis text-888888 text-l-25">地址</span></td>
+              <td><span class="td-width-250 ellipsis  text-l-25">{{rx.hospital}}</span></td>
+              <td class="text-center "><span class="text-13C1FE text-l-30">{{rx.number}}</span></td>
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_2.png"></td>
-              <td><span class="td-width-55 ellipsis text-small">日期</span></td>
-              <td><span class="td-width-250 ellipsis text-black">{{rx.rxDate|timeConvert}}</span></td>
+              <td><span class="td-width-55 ellipsis text-888888 text-l-25">日期</span></td>
+              <td><span class="td-width-250 ellipsis  text-l-25">{{rx.rxDate|timeConvert}}</span></td>
               <td></td>
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_3.png"></td>
-              <td><span class="td-width-55 ellipsis text-small">症状</span></td>
-              <td><span class="td-width-250 ellipsis text-black">{{rx.illness}}</span></td>
+              <td><span class="td-width-55 ellipsis text-888888 text-l-25">症状</span></td>
+              <td><span class="td-width-250 ellipsis  text-l-25">{{rx.illness}}</span></td>
               <td></td>
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_4.png"></td>
-              <td><span class="td-width-55 ellipsis text-small">倒计时</span></td>
+              <td><span class="td-width-55 ellipsis text-888888 text-l-25">倒计时</span></td>
               <td>
-                <span class="td-width-250 ellipsis text-333333">
                   <new-count-down :endTime="rx.rxDate"></new-count-down>
-                </span>
               </td>
             </tr>
-            <div class="position-absolute position-rb">
+            <div class="position-absolute position-rb t-l-60">
               <img class="is-155x155" src="../../assets/image/rxs/rx-true.png" v-if="rx.state==='ENABLED'">
               <img class="is-155x155" src="../../assets/image/rxs/rx-false.png" v-else>
             </div>
@@ -193,17 +188,6 @@
     height: 155px;
   }
 
-  .ml-20 {
-    margin-left: 20px !important;
-  }
-
-  .ml-60 {
-    margin-left: 60px !important;
-  }
-
-  .mr-160 {
-    margin-right: 160px !important;
-  }
 
   .mt-20 {
     margin-top: 20px !important;
@@ -213,9 +197,6 @@
     margin-top: 26px !important;
   }
 
-  .pt-26 {
-    padding-top: 26px !important;
-  }
 
   .text-center {
     text-align: center;
@@ -260,33 +241,10 @@
     text-overflow: ellipsis;
   }
 
-  .flex-row-center {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .position-search {
-    top: 17px;
-    left: 10px;
-  }
-
-  .text-black {
-    color: black;
-    width: 222px;
-    height: 24px;
-    font-size: 25px;
-    line-height: 36px;
-  }
-
-  .text-small {
+  .text-888888 {
     color: #888888;
-    font-size: 16px;
-    width: 48px;
-    height: 16px;
-    line-height: 36px;
   }
+
 
   .account-container {
     display: flex;

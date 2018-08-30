@@ -1,27 +1,31 @@
 <template>
   <div class="main">
-    <new-header title="订单提交成功" bgColor="rgba(246, 246, 246, 1)" color="rgba(51,51,51,1)" leftColor="rgba(51,51,51,1)" rightColor="rgba(19,193,254,1)" >
+    <new-header title="订单提交成功"  >
       <div slot="left">
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
      <div slot="right">
-       <router-link tag="span" to="/orders">我的订单</router-link>
+       <router-link tag="span" to="/orders" class="text-l-25">我的订单</router-link>
      </div>
     </new-header>
     <div v-if="deliveryType === 'DELIVERY'">
-      <div class="order-address">
+      <div class="address">
         <div>
-          <i class="iconfont ic-weizhi"></i>
+          <i class="iconfont ic-dizhi"></i>
         </div>
         <div>
-            <span>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</span>
-            <span>地址：{{receiveAddress.address}}</span>
+          <div class="text-l-25 elps">
+            收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}
+          </div>
+          <div class="text-l-25 elps">
+            地址：{{receiveAddress.address}}
+          </div>
         </div>
         <div>
           <i class="iconfont ic-youjiantou"></i>
         </div>
       </div>
-      <img src="../../../assets/image/colorbackground.png">
+      <img src="../../../assets/image/colorbackground.png" class="image-bar">
     </div>
     <new-pay-list :list="list"></new-pay-list>
   </div>
@@ -65,39 +69,29 @@
     width: 720px;
   }
 
-  .order-address{
+  .address {
+    width: 100%;
     display: flex;
-    background-color: white;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px 0;
+    background-color: white;
   }
-  .order-address>div:nth-child(1) {
+  .address>div:nth-child(1) {
     width: 10%;
-    text-align: center;
   }
-  .order-address>div:nth-child(1) i{
-    font-size: 50px;
-  }
-  .order-address>div:nth-child(2) {
+  .address>div:nth-child(2) {
     width: 80%;
   }
-  .order-address>div:nth-child(2) span {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 100%;
-    display: block;
-    font-size:20px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
-  }
-  .order-address>div:nth-child(3) {
+  .address>div:nth-child(3) {
     width: 10%;
-    text-align: center;
   }
-
-  .order-address>div:nth-child(3) i{
+  .address .iconfont {
     font-size: 50px;
   }
 
+  .image-bar {
+    width: 100%;
+  }
 </style>
 

@@ -12,7 +12,7 @@
         <div class="delivery-schedule-message text-#13C1FE">订单已确认</div>
       </div>
 
-      <div>
+      <div style="z-index: 999">
         <div v-if="order.state== 'TO_RECEIVED' || order.state== 'TO_DELIVERY'||order.state== 'TO_APPRAISE' || order.state== 'COMPLETED'">
           <img src="../../assets/image/delivery/distribution.png"/>
           <div class="delivery-schedule-message text-#999999">配送中</div>
@@ -37,13 +37,21 @@
       <p></p>
     </div>
 
-    <div class="delivery-drugstore of-hidden">
-      <div class="delivery-drugstore-name">
-       <span class="d-inline-block fl">
-          <i class="iconfont ic-yaodian text-333333"></i>
-          {{order.shopName}}
-       </span>
-       <span class="d-inline-block fr"><i class="iconfont ic-dianhua text-13C1FE fz-50"></i></span>
+    <!--<div class="delivery-drugstore of-hidden">-->
+      <!--<div class="delivery-drugstore-name">-->
+       <!--<span class="d-inline-block fl text-l-30">-->
+          <!--<i class="iconfont ic-yaodian text-333333"></i>-->
+          <!--{{order.shopName}}-->
+       <!--</span>-->
+       <!--<span class="d-inline-block fr"><i class="iconfont ic-dianhua text-13C1FE fz-50"></i></span>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="shopInfo">
+      <div>
+        <i class="iconfont ic-yaodian text-333333"></i>
+      </div>
+      <div class="text-l-30">
+        {{order.shopName}}
       </div>
     </div>
 
@@ -51,8 +59,8 @@
       <ul>
         <li>
           <img src="../../assets/image/delivery/pay.png"/>
-          <span>已支付</span>
-          <span class="fz24">¥{{order.totalAmount||0.00}}</span>
+          <span >已支付</span>
+          <span>¥{{order.totalAmount||0.00}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/address.png"/>
@@ -202,7 +210,7 @@
 
   .delivery-footer {
     width: 680px;
-    margin: auto;
+    margin: 10px auto 0;
   }
 
   .delivery-footer img {
@@ -217,11 +225,11 @@
     margin-bottom: 45px;
   }
 
-  .delivery-footer li :nth-child(2) {
-    font-size: 24px;
-    color: rgba(51, 51, 51, 1);
+  /*.delivery-footer li :nth-child(2) {*/
+    /*font-size: 24px;*/
+    /*color: rgba(51, 51, 51, 1);*/
 
-  }
+  /*}*/
 
   .delivery-footer li :nth-child(3) {
     font-size: 20px;
@@ -229,6 +237,13 @@
     position: absolute;
     right: 20px;
   }
-  .fz24{font-size: 24px;}
-  .ic-yaodian{font-size: 40px;}
+  .shopInfo {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  .ic-yaodian {
+    font-size: 50px;
+  }
+
 </style>

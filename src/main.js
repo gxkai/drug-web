@@ -18,8 +18,13 @@ import filters from './assets/js/filters';
 // import './assets/js/vconsole';
 import '../src/assets/plugin/vue-event-calendar/dist/style.css';
 import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
-import {Actionsheet} from 'vant';
-Vue.use(Actionsheet);
+import {Actionsheet,
+  GoodsAction,
+  GoodsActionBigBtn,
+  GoodsActionMiniBtn} from 'vant';
+Vue.use(Actionsheet).use(GoodsAction)
+  .use(GoodsActionBigBtn)
+  .use(GoodsActionMiniBtn);
 Vue.use(vueEventCalendar, {locale: 'zh'});
 Vue.prototype.$http = axios;
 Vue.prototype.$outside = process.env.OUTSIDE_ROOT;
@@ -30,8 +35,8 @@ Vue.use(MintUI, {
     preLoad: 1,
     error: require('./assets/image/lazyLoad/default.png'),
     loading: require('./assets/image/lazyLoad/loading.gif'),
-    attempt: 1,
-    throttleWait: 100,
+    attempt: 3,
+    throttleWait: 10,
     filter: {
       webp(listener, options) {},
       progressive(listener, options) {}

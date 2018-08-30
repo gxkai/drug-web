@@ -3,7 +3,7 @@
     <new-header title="我的意见">
       <div slot="left"><router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link></div>
       <div slot="right">
-        <span @click="commit()">提交</span>
+        <span @click="commit()" class="text-l-25">提交</span>
       </div>
      </new-header>
     <div>

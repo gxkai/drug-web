@@ -37,19 +37,19 @@
         <div class="nav-bar flex-stream-sa">
           <router-link class="is-120x120 flex-column-center" to="/rxs">
             <img class="is-90x90" src="../assets/image/home/homefirst.png"/>
-            <div class="fz20 text-333333">我的处方</div>
+            <div class="text-l-25 text-333333 mt-l-10">我的处方</div>
           </router-link>
           <router-link class="is-120x120 flex-column-center" to="/repositoryTypes">
             <img class="is-90x90" src="../assets/image/home/hometwo.png"/>
-            <div class="fz20 text-333333">知识库</div>
+            <div class="text-l-25 text-333333 mt-l-10">知识库</div>
           </router-link>
           <router-link class="is-120x120 flex-column-center" to="/shops">
             <img class="is-90x90" src="../assets/image/home/homethree.png"/>
-            <div class="fz20 text-333333">药房</div>
+            <div class="text-l-25 text-333333 mt-l-10">药房</div>
           </router-link>
           <router-link class="is-120x120 flex-column-center" to="/">
             <img class="is-90x90" src="../assets/image/home/homefor.png"/>
-            <div class="fz20 text-333333">移动医疗</div>
+            <div class="text-l-25 text-333333 mt-l-10">移动医疗</div>
           </router-link>
         </div>
         <!-- 滚动 -->
@@ -98,7 +98,7 @@
                        :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:discountList.id}}"
                        :key="index">
             <div class="drug-box flex-row-center border-right-gray border-bottom-gray">
-              <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'MIDDLE_LOGO')">
+              <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'LARGE_LOGO')">
               <div class="is-flex flex-column">
                 <span class="elps width-144 d-inline-block text-l-25">{{discountList.name}}</span>
                 <span class="text-red text-center text-l-25">¥ {{discountList.price}} /盒</span>
@@ -119,7 +119,7 @@
               <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
                 <img :data-index="index"
                      :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
-                     v-lazy="getImgURL(slide.fileId, 'MIDDLE_LOGO')">
+                     v-lazy="getImgURL(slide.fileId, 'LARGE_LOGO')">
               </template>
             </slide>
           </carousel-3d>
@@ -144,7 +144,7 @@
               :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
               <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true">非</span>
               <span class="toc-tip position-absolute all-center" v-else>处</span>
-              <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'MIDDLE_LOGO')">
+              <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'LARGE_LOGO')">
               <span class="elps width-180 fz22">{{recommendList.name}}{{recommendList.spec}}</span>
               <span class="text-red fz24">¥ {{recommendList.price}} /盒</span>
             </router-link>
@@ -164,7 +164,7 @@
     name: 'home',
     data() {
       return {
-        searchIcon: '\ue64c 通用名、主要商品名、症状',
+        searchIcon: '\ue64c 药品名',
         keyword: '',
         activeIndex: 0,
         leftIndex: '',
@@ -435,7 +435,7 @@
     /*搜索框*/
   .header-search {
     width: 720px;
-    height: 70px;
+    height: 100px;
     background: rgba(26, 182, 253, 1);
     display: flex;
     align-items: center;
@@ -444,10 +444,10 @@
 
   .header-search input {
     width: 650px;
-    height: 50px;
+    height: 70px;
     border-width: 0;
     outline: none;
-    font-size: 20px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
   }
 

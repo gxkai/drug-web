@@ -8,9 +8,6 @@
         <div slot="center">
           <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/shops')"/>
         </div>
-        <div slot="right" @click="$router.push('/')">
-          首页
-        </div>
       </new-header>
     </div>
     <div class="shops-filter" ref="filter">
@@ -65,8 +62,7 @@
               infinite-scroll-distance="0">
           <new-shop-item :item="item"
                          v-for="(item,index) in list"
-                         :key="index"
-                         @click="$router.push({path:'/shops/view',query:{shopId:item.id}})"/>
+                         :key="index"/>
         </div>
       <new-no-data :length="list.length" v-show="loading"></new-no-data>
     </div>
@@ -84,7 +80,7 @@
         pageSize: 15,
         loading: false,
         shopSort: 'SYNTHESIZE',
-        searchIcon: '\ue64c 通用名、主要商品名、症状'
+        searchIcon: '\ue64c 药品名'
       };
     },
     created() {
@@ -141,7 +137,7 @@
         & > div:nth-child(2) {
           input {
             width: 500px;
-            height: 50px;
+            height: 70px;
             outline: none;
             border-width: 0;
             font-size: 20px;
@@ -161,6 +157,9 @@
       &-item {
         display: flex;
         align-items: center;
+        &-text {
+          font-size: 30px;
+        }
         &-arrow {
           display: flex;
           flex-direction: column;
@@ -182,7 +181,7 @@
       }
     }
     &-container {
-      position: relative;
+      /*position: relative;*/
       width: 100%;
     }
   }

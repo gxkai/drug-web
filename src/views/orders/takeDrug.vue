@@ -4,8 +4,8 @@
       <div slot="left" >
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
-      <div slot="right" @click.stop="$router.push('/')">
-        <span>完成</span>
+      <div slot="right" @click.stop="$router.push('/orders')">
+        <span class="text-l-30">完成</span>
       </div>
     </new-header>
     <new-take-list :order="order" :hospitalName="hospitalName"></new-take-list>

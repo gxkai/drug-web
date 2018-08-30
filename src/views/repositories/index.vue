@@ -18,10 +18,10 @@
             :to="{path:'/repositories/view',query:{id:repositoryContent.id,repositoryTypeId:repositoryTypeId,title:title,pageNum:index+1}}">
             <div class="repList-left">
               <div class="rep-title">
-                <span>{{ repositoryContent.title }} </span>
+                <span class="text-l-30">{{ repositoryContent.title }} </span>
                 <i class="iconfont ic-youjiantou "></i>
               </div>
-              <span class="rep-content">{{ repositoryContent.content | delHtmlTag(repositoryContent.content)}}</span>
+              <span class="rep-content elps">{{ repositoryContent.content | delHtmlTag(repositoryContent.content)}}</span>
             </div>
           </router-link>
         </div>
@@ -79,13 +79,6 @@
   };
 </script>
 <style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
-  }
-
   .container {
     width: 720px;
     height: 100vh;
@@ -93,7 +86,6 @@
 
   .body-main {
     width: 720px;
-    height: 1203px;
     background: rgba(255, 255, 255, 1);
   }
 
@@ -118,14 +110,14 @@
   .rep-content {
     display: block;
     width: 646px;
-    font-size: 18px;
+    font-size: 25px;
     color: rgba(102, 102, 102, 1);
     margin-top: 11px;
     margin-bottom: 16px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
     align-items: center;
+  }
+  .ic-youjiantou {
+    font-size: 40px;
   }
 
 </style>

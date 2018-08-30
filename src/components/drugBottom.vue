@@ -183,7 +183,8 @@
   }
 
   .drug-spec {
-    height: 397px;
+    min-height: 397px;
+    padding: 20px;
   }
 
   .mint-radio.is-right {

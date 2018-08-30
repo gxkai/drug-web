@@ -4,14 +4,17 @@
       <div slot="left">
       <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
       </div>
+      <div  slot="right">
+        <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi"></router-link>
+      </div>
     </new-header>
 
     <div class="body-main">
       <div class="article-body">
         <span class="article-title">{{repositoryInfo.title}}</span>
         <div class="article-tips">
-          <span>来源：{{repositoryInfo.source}}</span>
-          <span class="article-date">发布时间：{{repositoryInfo.createdDate}}</span>
+          <span class="text-l-24">来源：{{repositoryInfo.source}}</span>
+          <span class="article-date text-l-22">发布时间：{{repositoryInfo.createdDate}}</span>
         </div>
         <div class="article-content" v-html="repositoryInfo.content"></div>
       </div>
@@ -123,7 +126,6 @@
 
   .article-tips {
     height: 15px;
-    font-size: 16px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
     line-height: 88px;
@@ -135,11 +137,11 @@
 
   .article-content {
     width: 681px;
-    font-size: 18px;
+    font-size: 26px;
     font-family: MicrosoftYaHei;
     color: rgba(51, 51, 51, 1);
     line-height: 28px;
-    margin-top: 50px;
+    margin-top: 60px;
   }
 
   .recommend-body {
@@ -151,14 +153,15 @@
 
   .recommend-icon {
     width: 8px;
-    height: 26px;
+    height: 40px;
     background: rgba(19, 193, 254, 1);
   }
 
   .recommend-title {
-    font-size: 16px;
+    font-size: 30px;
     font-family: MicrosoftYaHei;
     color: rgba(51, 51, 51, 1);
+    margin-left: 10px;
   }
 
   .recommend-list {
@@ -168,7 +171,7 @@
 
   .recomList-title {
     display: block;
-    font-size: 24px;
+    font-size: 30px;
     font-family: HiraginoSansGB-W3;
     color: rgba(0, 0, 0, 1);
     margin-bottom: 8px;
@@ -177,7 +180,7 @@
   .recomList-con {
     display: block;
     width: 624px;
-    font-size: 18px;
+    font-size: 26px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
     margin-bottom: 29px;

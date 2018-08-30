@@ -1,71 +1,71 @@
 <template>
   <div class="drugs">
-      <div class="drugs-header" ref="header">
-        <new-header>
-          <div slot="left" @click="$router.go('-1')">
-            <i class="iconfont ic-arrow-right"></i>
-          </div>
-          <div slot="center">
-            <input v-model="keyword" placeholder="通用名、主要商品名、症状" @keyup.enter="onSearch()">
-          </div>
-          <div slot="right" @click="onSearch()">
-            <i class="iconfont ic-sousuo"></i>
-          </div>
-        </new-header>
-      </div>
-      <div class="drugs-filter" ref="filter">
-        <div class="drugs-filter-item" @click="reOrderBy('SYNTHESIZE_DESC')">
-          <div class="drugs-filter-item-text">
-            默认
-          </div>
-          <div class="drugs-filter-item-arrow">
-            <div class="drugs-filter-item-arrow-up">
-            </div>
-            <div class="drugs-filter-item-arrow-down">
-            </div>
-          </div>
+    <div class="drugs-header" ref="header">
+      <new-header>
+        <div slot="left" @click="$router.go('-1')">
+          <i class="iconfont ic-arrow-right"></i>
         </div>
-        <div class="drugs-filter-item" @click="reOrderByPrice()">
-          <div class="drugs-filter-item-text">
-            价格
-          </div>
-          <div class="drugs-filter-item-arrow">
-            <div class="drugs-filter-item-arrow-up">
-            </div>
-            <div class="drugs-filter-item-arrow-down">
-            </div>
-          </div>
+        <div slot="center">
+          <input v-model="keyword" class="iconfont" :placeholder="searchIcon" @keyup.enter="onSearch()">
         </div>
-        <div class="drugs-filter-item" @click="reOrderBySales()">
-          <div class="drugs-filter-item-text">
-            销量
-          </div>
-          <div class="drugs-filter-item-arrow">
-            <div class="drugs-filter-item-arrow-up">
-            </div>
-            <div class="drugs-filter-item-arrow-down">
-            </div>
-          </div>
+        <div slot="right" @click="onSearch()">
+          <i class="iconfont ic-sousuo"></i>
         </div>
-        <div class="drugs-filter-item" @click="conditionFilter()">
-          <div class="drugs-filter-item-text">
-            筛选
+      </new-header>
+    </div>
+    <div class="drugs-filter" ref="filter">
+      <div class="drugs-filter-item" @click="reOrderBy('SYNTHESIZE_DESC')">
+        <div class="drugs-filter-item-text">
+          默认
+        </div>
+        <div class="drugs-filter-item-arrow">
+          <div class="drugs-filter-item-arrow-up">
           </div>
-          <div class="drugs-filter-item-arrow">
-            <!--<div class="drugs-filter-item-arrow-up">-->
-            <!--</div>-->
-            <div class="drugs-filter-item-arrow-down" style="margin-top: .1rem">
-            </div>
+          <div class="drugs-filter-item-arrow-down">
           </div>
         </div>
       </div>
-      <div class="drugs-container" ref="body"  v-infinite-scroll="loadMore"
-           infinite-scroll-disabled="loading"
-           infinite-scroll-distance="0">
-            <new-drug-shops class="border-bottom-grey" :item="item"
-                            v-for="(item,index) in list" :key="index"></new-drug-shops>
-        <new-no-data :length="list.length" v-show="loading"></new-no-data>
+      <div class="drugs-filter-item" @click="reOrderByPrice()">
+        <div class="drugs-filter-item-text">
+          价格
+        </div>
+        <div class="drugs-filter-item-arrow">
+          <div class="drugs-filter-item-arrow-up">
+          </div>
+          <div class="drugs-filter-item-arrow-down">
+          </div>
+        </div>
       </div>
+      <div class="drugs-filter-item" @click="reOrderBySales()">
+        <div class="drugs-filter-item-text">
+          销量
+        </div>
+        <div class="drugs-filter-item-arrow">
+          <div class="drugs-filter-item-arrow-up">
+          </div>
+          <div class="drugs-filter-item-arrow-down">
+          </div>
+        </div>
+      </div>
+      <div class="drugs-filter-item" @click="conditionFilter()">
+        <div class="drugs-filter-item-text">
+          筛选
+        </div>
+        <div class="drugs-filter-item-arrow">
+          <!--<div class="drugs-filter-item-arrow-up">-->
+          <!--</div>-->
+          <div class="drugs-filter-item-arrow-down" style="margin-top: .1rem">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="drugs-container" ref="body" v-infinite-scroll="loadMore"
+         infinite-scroll-disabled="loading"
+         infinite-scroll-distance="0">
+      <new-drug-shops class="border-bottom-grey" :item="item"
+                      v-for="(item,index) in list" :key="index"></new-drug-shops>
+      <new-no-data :length="list.length" v-show="loading"></new-no-data>
+    </div>
   </div>
 </template>
 
@@ -84,7 +84,8 @@
         filterData: this.$route.query.filterData,
         drugSort: 'SYNTHESIZE_DESC',
         valueVolume: -1,
-        salesVolume: -1
+        salesVolume: -1,
+        searchIcon: '\ue64c 药品名'
       };
     },
     components: {},
@@ -194,14 +195,19 @@
     }
     &-header {
       header {
-        &>div:nth-child(2) {
-          input {
-            width: 500px;
-            height: 50px;
-            outline: none;
-            border-width: 0;
-            font-size: 20px;
-            color: black;
+        & > div {
+          &:nth-child(2) {
+            input {
+              width: 500px;
+              height: 70px;
+              outline: none;
+              border-width: 0;
+              font-size: 30px;
+              color: black;
+            }
+          }
+          &:nth-child(3) {
+            padding-right: 10px;
           }
         }
       }
@@ -212,12 +218,14 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      font-size:24px;
-      font-family:HiraginoSansGB-W3;
-      color:rgba(69,69,69,1);
+      font-family: HiraginoSansGB-W3;
+      color: rgba(69, 69, 69, 1);
       &-item {
         display: flex;
         align-items: center;
+        &-text {
+          font-size: 30px;
+        }
         &-arrow {
           display: flex;
           flex-direction: column;
@@ -239,6 +247,7 @@
       }
     }
   }
+
   .border-bottom-grey {
     border-bottom: 1px #f3f3f3 solid;
   }

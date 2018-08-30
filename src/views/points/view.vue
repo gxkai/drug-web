@@ -151,6 +151,7 @@
     position: fixed;
     background-color: #f5f5f5;
     height: 100%;
+    overflow: scroll;
     &-first {
       width: 720px;
       height: 300px;

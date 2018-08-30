@@ -1,9 +1,8 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="fruit-body">
     <new-header :title="drugInfo.name">
       <div slot="left">
-        <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
+        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
       </div>
     </new-header>
     <swiper :options="swiperOption" class="swiper-body">
@@ -21,47 +20,65 @@
       </div>
     </div>
     <div class="drug-offer">
-      <div class="width-percent-96 m-auto merchant">
-        <div class="d-inline-block fl"><span class="text-1AB6FD">{{total}}</span><span>商家报价</span></div>
-        <div class="d-inline-block fr" @click="changeIcon()">
-          <i class="icon iconfont ic-youjiantou"  v-if="hide"></i>
-          <i class="icon iconfont ic-arrowdown"  v-if="!hide"></i>
+      <div class=" merchant">
+        <div>
+          <span class="text-l-25 text-red">{{total}}</span>
+          <span class="text-l-22">商家报价</span>
+        </div>
+        <div @click="changeIcon()">
+          <i class="icon iconfont ic-youjiantou" v-if="hide"></i>
+          <i class="icon iconfont ic-arrowdown" v-if="!hide"></i>
         </div>
       </div>
       <div class="comprehensive">
-        <div class="d-inline-block" @click="orderById()">综合<i class="ic-sanx-up icon iconfont text-1AB6FD"></i></div>
-        <div class="d-inline-block" @click="orderByDistance()">距离</div>
-        <div class="d-inline-block" @click="orderByPrice()">价格</div>
+        <div @click="orderById()">综合<i class="ic-sanx-up icon iconfont text-1AB6FD"></i></div>
+        <div @click="orderByDistance()">距离</div>
+        <div @click="orderByPrice()">价格</div>
       </div>
     </div>
     <div class="width-percent-100 bg-white drug-shops" v-for="(shopList,index) in shopLists" :key="index">
       <router-link :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:shopList.shopDrugSpecId}}">
-      <div class="ordinary width-percent-96 m-auto">
-        <div class="drug-ordinary">
-          <span class="d-inline-block fl drug-shop">{{shopList.name}}</span>
-          <span class="text-red d-inline-block fr drug-price">¥{{shopList.price}}</span>
+        <div class="ordinary width-percent-96 m-auto">
+          <div class="drug-ordinary">
+            <span class="d-inline-block fl drug-shop">{{shopList.name}}</span>
+            <span class="text-red d-inline-block fr drug-price">¥{{shopList.price}}</span>
+          </div>
+          <div class="rote">
+            <div>
+              <div>
+                <i class="icon iconfont ic-ditu text-1AB6FD"></i>
+              </div>
+              <div>
+                {{shopList.address}}
+              </div>
+            </div>
+            <div>
+              <div>
+                <i class="icon iconfont ic-aixin text-1AB6FD"></i>
+              </div>
+              <div>
+                评分：{{shopList.score}}分
+              </div>
+            </div>
+            <div>
+              <div>
+                <i class="icon iconfont ic-kucun text-1AB6FD"></i>
+              </div>
+              <div>
+                库存：{{shopList.stock}}
+              </div>
+            </div>
+          </div>
+          <div class="shopping-car">
+            <i class="iconfont ic-gouwuche3 text-1AB6FD"></i>
+          </div>
         </div>
-        <div class="rote">
-          <span>
-            <i class="icon iconfont ic-ditu text-1AB6FD"></i>{{shopList.address}}
-          </span>
-          <span>
-            <i class="icon iconfont ic-aixin text-1AB6FD"></i>评分：{{shopList.score}}分
-          </span>
-          <span>
-            <i class="icon iconfont ic-kucun text-1AB6FD"></i>库存：{{shopList.stock}}
-          </span>
-        </div>
-        <div class="fr rote shopping-car">
-          <i class="icon iconfont ic-gouwuche3 text-1AB6FD"></i>
-        </div>
-      </div>
       </router-link>
     </div>
 
     <div v-show="!hide">
-         <new-drug-buttom   :drugSpecs='drugSpecs' :drugInfo='drugInfo' :drugSpec.sync="drugSpec"
-                 @close="changeIcon()"></new-drug-buttom>
+      <new-drug-buttom :drugSpecs='drugSpecs' :drugInfo='drugInfo' :drugSpec.sync="drugSpec"
+                       @close="changeIcon()"></new-drug-buttom>
     </div>
   </div>
 </template>
@@ -147,12 +164,7 @@
 <style scoped>
   .fruit-body {
     background: #fbf7f7;
-    width:720px;
-  }
-
-  .icon {
-    width: auto;
-    height: auto;
+    width: 720px;
   }
 
   .drug-bg-img {
@@ -201,66 +213,52 @@
 
   .drug-head-line {
     width: 600px;
-    height: 26px;
-    font-size: 24px;
+    font-size: 30px;
     color: rgba(51, 51, 51, 1);
-    line-height: 26px;
-    margin: 26px 0 0 30px;
+    margin: 10px 0 0 30px;
   }
 
   .drug-head-benefit {
     width: 583px;
-    height: 50px;
-    font-size: 18px;
+    font-size: 20px;
     color: rgba(51, 51, 51, 1);
-    line-height: 25px;
-    margin: 27px 0 0 30px;
+    margin: 10px 0 0 30px;
   }
 
   .drug-firm {
     width: 500px;
-    height: 25px;
     font-size: 20px;
     color: rgba(153, 153, 153, 1);
-    line-height: 20px;
     margin: 22px 0px 16px 30px;
   }
 
   .drug-offer {
     margin-top: 10px;
     width: 720px;
-    height: 117px;
     background: white;
   }
 
   .merchant {
-    height: 50px;
-    line-height: 50px;
-    font-size: 24px;
     border-bottom: 1px solid #f5f5f5;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
   }
 
   .comprehensive {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+  }
+
+  .comprehensive > div {
     font-size: 24px;
-    height: 67px;
-    line-height: 67px;
-  }
-
-  .comprehensive div:first-child {
-    margin-left: 98px;
-  }
-
-  .comprehensive div:nth-child(2) {
-    margin-left: 165px;
-  }
-
-  .comprehensive div:nth-child(3) {
-    margin-left: 179px;
   }
 
   .ordinary {
     margin-top: 15px;
-    height: 130px;
+    position: relative;
+    padding-bottom: 20px;
   }
 
   .drug-ordinary {
@@ -280,49 +278,30 @@
   }
 
   .rote {
-    font-size: 20px;
+    display: flex;
+    align-items: center;
   }
-
-  .rote i {
-    font-size: 20px;
+  .rote>div {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+  .rote>div>div{
+    font-size: 25px;
+  }
+  .rote>div>div .iconfont {
+    font-size: 30px;
   }
 
   .shopping-car {
-    height: 34px;
-    line-height: 34px;
-  }
-
-  .mint-radio.is-right {
-    padding-right: 10px;
-  }
-  /*定义进入过渡的结束状态*/
-  .slide-fades-enter-active {
-    transition: all 0.5s ease;
-
-  }
-
-  /* 定义离开过渡的结束状态*/
-  .slide-fades-leave-active {
-    transition: all 0.5s ease;
-  }
-
-  /*离开过渡的结束状态*/
-  .slide-fades-leave-active {
-    bottom: 0rem !important;
-  }
-
-  .slide-fades-leave-to {
-    bottom: -28rem !important;
-  }
-
-  /*进入过渡的开始状*/
-  .slide-fades-enter {
-    bottom: -22rem !important;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
   }
 
   .swiper-body {
-    width:720px;
-    height:413px;
+    width: 720px;
+    height: 413px;
     text-align: center;
     background-color: white;
   }
@@ -331,8 +310,20 @@
     height: 400px;
   }
 
-  a span{
+  a span {
     color: #333333;
+  }
+
+  .ic-youjiantou, .ic-arrowdown {
+    font-size: 25px;
+  }
+
+  .text-red {
+    color: red;
+  }
+
+  .ic-gouwuche3 {
+    font-size: 30px;
   }
 </style>
 

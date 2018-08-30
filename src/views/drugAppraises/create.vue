@@ -4,7 +4,7 @@
       <div slot="left">
         <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
       </div>
-      <span slot="right" @click="commit()">发布</span>
+      <span slot="right" @click="commit()" class="text-l-25">发布</span>
     </new-header>
     <div class="body" ref="body">
       <ul>

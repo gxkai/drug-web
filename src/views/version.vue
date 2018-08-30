@@ -7,7 +7,7 @@
     </new-header>
 
     <div class="version-title">E慧药</div>
-    <div class="version-v">版本:<span>{{version}}</span></div>
+    <div class="version-v">版本:<span class="text-l-25">{{version}}</span></div>
     <div class="version-fixed">
       <span>2017-2018 E慧药版权所有</span>
       <span>昆山网进科技股份有限公司</span>
@@ -79,6 +79,7 @@
     display: block;
     width: 720px;
     text-align: center;
+    font-size: 25px;
   }
 
 

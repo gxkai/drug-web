@@ -13,27 +13,31 @@
             <i class="iconfont ic-youjiantou"></i>
           </div>
         </new-header>
-        <new-header bgColor="rgba(255,255,255,1)" leftColor="#666666" rightColor="#666666" class="address" v-else>
-          <div slot="left">
+        <div class="address" v-else>
+          <div>
             <i class="iconfont ic-dizhi"></i>
           </div>
-          <div slot="center" class="center">
-            <p>收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}</p>
-            <p>地址：{{receiveAddress.address}}</p>
+          <div>
+            <div class="text-l-25 elps">
+              收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}
+            </div>
+            <div class="text-l-25 elps">
+              地址：{{receiveAddress.address}}
+            </div>
           </div>
-          <div slot="right">
+          <div>
             <i class="iconfont ic-youjiantou"></i>
           </div>
-        </new-header>
-        <img src="../../../assets/image/colorbackground.png">
+        </div>
+        <img src="../../../assets/image/colorbackground.png" class="image-bar">
       </router-link>
-      <new-close-normal :shopInfo="shopInfo" class="new-close-normal"></new-close-normal>
+      <new-close-normal :shopInfo="item" class="new-close-normal" v-for="(item,key) in shopInfoList" :key="key"></new-close-normal>
       <div class="delivery">
         <div class="top">
           <div>
             <i class="iconfont ic-peisongfangshi"></i>
           </div>
-          <span>配送方式</span>
+          <span class="text-l-26">配送方式</span>
         </div>
         <div class="bottom">
           <button :class="{active:deliveryType=='DELIVERY'}" @click.stop="onDeliveryType('DELIVERY')">送货</button>
@@ -45,7 +49,7 @@
           <div>
             <i class="iconfont ic-fjzhifufangshi"></i>
           </div>
-          <span>支付方式</span>
+          <span class="text-l-26">支付方式</span>
         </div>
         <div class="bottom">
           <div>
@@ -63,15 +67,15 @@
       <div class="amount">
         <div>
           <span>实付金额：</span>
-          <span>￥{{shopInfo.payAmount.toFixed(2)}}</span>
+          <span>￥{{shopInfo.payAmount}}</span>
         </div>
         <div>
           <span>商品金额：</span>
-          <span>￥{{shopInfo.amount.toFixed(2)}}</span>
+          <span>￥{{shopInfo.amount}}</span>
         </div>
         <div>
-          <span>医保扣除rwew：</span>
-          <span>￥{{shopInfo.medicaidAmount.toFixed(2)}}</span>
+          <span>医保扣除：</span>
+          <span>￥{{shopInfo.medicaidAmount}}</span>
         </div>
       </div>
 
@@ -100,14 +104,13 @@
           </new-header>
           <div class="medical-qubangding" @click="$router.push('/accounts/card/bind')">
             <a>去绑定医保卡</a>
-            <button>去绑定</button>
           </div>
         </div>
       </div>
-     <!--点击优惠券开始-->
+      <!--点击优惠券开始-->
       <div class="bg-white width-percent-100 height-l-90 line-height-l-90">
         <div class="bg-white coupons width-percent-94 m-auto">
-          <span class="d-inline-block fl">优惠券</span>
+          <span class="d-inline-block fl text-l-30">优惠券</span>
           <span class="d-inline-block fr" @click="coupon()"><i class="iconfont ic-youjiantou"></i></span>
         </div>
       </div>
@@ -126,6 +129,7 @@
                      <label :for="item.id"></label>
                 </span>
               </li>
+              <div v-if="coupons.length===0" class="text-center text-l-25">无优惠券</div>
             </ul>
           </div>
           <div class="coupon-close" @click="close()" v-show="show">
@@ -134,12 +138,12 @@
         </div>
       </transition>
       <!--点击优惠券结束-->
-   </div>
-   <footer>
+    </div>
+    <footer>
       <div class="right">
         <div class="left">
           <span>实付金额:</span>
-          <span>￥{{shopInfo.payAmount.toFixed(2)}}</span>
+          <span>￥{{shopInfo.payAmount}}</span>
         </div>
         <button @click.stop="onOrder()">提交订单</button>
       </div>
@@ -149,18 +153,18 @@
 <script>
   import {mapGetters, mapMutations} from 'vuex';
   import {MessageBox} from 'mint-ui';
-
+  // TODO 处方药店下单多个药品优惠券抵扣问题
   export default {
     name: 'createFromCart',
     data() {
       return {
         name: '订单结算',
         account: this.$store.getters.account,
-        shopDrugSpecId: this.$route.query.shopDrugSpecId,
-        quantity: this.$route.query.quantity,
+        drugInfoList: JSON.parse(this.$route.query.drugInfoList),
         deliveryType: this.$storage.get('deliveryType') || 'SELF',
         payType: 'ALIPAY',
-        shopInfo: [],
+        shopInfoList: [],
+        shopInfo: {},
         coupons: [],
         checkedValue: '',
         show: false
@@ -194,28 +198,37 @@
             this.exception(error);
           });
         }
-
-        this.$http.get('/orders/shopDrugSpec?shopDrugSpecId=' +
-          this.shopDrugSpecId + '&quantity=' + this.quantity)
+        this.$http.post('orders/shopDrugSpec/get', this.drugInfoList)
           .then(res => {
-            this.shopInfo = res.data;
+            this.shopInfoList = res.data;
+            this.shopInfo = res.data[0];
           }).catch((error) => {
             this.exception(error);
           });
+        // this.$http({url: 'orders/shopDrugSpec', data: this.drugInfoList})
+        //   .then(res => {
+        //     this.shopInfoList = res.data;
+        //     this.shopInfo = res.data[0];
+        //   }).catch((error) => {
+        //     this.exception(error);
+        //   });
       },
       onOrder() {
         if (this.deliveryType === 'DELIVERY' && JSON.stringify(this.receiveAddress) === '{}') {
           MessageBox('提示', '请维护收货地址').then(action => {
           });
         } else {
-          let data = {
-            'addressId': this.receiveAddress.id,
-            'shopDrugSpecId': this.shopDrugSpecId,
-            'quantity': this.quantity,
-            'deliveryType': this.deliveryType,
-            'payType': this.payType,
-            'couponRecordId': this.couponRecordId
-          };
+          let data = [];
+          this.shopInfoList.forEach(e => {
+            data.push({
+              'addressId': this.receiveAddress.id,
+              'shopDrugSpecId': e.shopDrugSpecOrderInfo.shopDrugSpecId,
+              'quantity': e.shopDrugSpecOrderInfo.quantity,
+              'deliveryType': this.deliveryType,
+              'payType': this.payType,
+              'couponRecordId': this.couponRecordId
+            });
+          });
           this.$http.post('/orders/shopDrugSpec', data).then(res => {
             this.$router.push({
               path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType
@@ -533,8 +546,6 @@
 
   }
 
-
-
   input[type="radio"] {
     width: 25px;
     height: 25px;
@@ -543,7 +554,7 @@
 
   label {
     position: absolute;
-    top:18px;
+    top: 18px;
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -552,22 +563,56 @@
 
   /*设置选中的input的样式*/
   /* + 是兄弟选择器,获取选中后的label元素*/
-  input:checked+label {
+  input:checked + label {
     background-color: #13C1FE;
     border: 1px solid #13C1FE;
   }
 
-  input:checked+label::after {
+  input:checked + label::after {
     position: absolute;
     content: "";
     width: 5px;
     height: 10px;
     top: 3px;
-    left: 9px!important;
+    left: 9px !important;
     border: 2px solid #fff;
     border-top: none;
     border-left: none;
     transform: rotate(45deg)
   }
+
+
+
+  .address {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+  }
+  .address>div:nth-child(1) {
+    width: 10%;
+    margin-left: 10px;
+  }
+  .address>div:nth-child(2) {
+    width: 80%;
+  }
+  .address>div:nth-child(2)>div:nth-child(1) {
+    margin-top: 10px;
+  }
+  .address>div:nth-child(2)>div:nth-child(2) {
+    margin-top: 10px;
+  }
+  .address>div:nth-child(3) {
+    width: 10%;
+  }
+  .address .iconfont {
+    font-size: 50px;
+  }
+
+  .image-bar {
+    width: 100%;
+  }
+
 </style>
 

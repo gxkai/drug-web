@@ -1,30 +1,33 @@
 <template>
 <div class="shop-box is-flex flex-center">
   <img class="is-280x250" v-lazy="getImgURL(fileId, 'SMALL_LOGO')">
-  <div class="shop-content flex-sb flex-column position-relative ml-div">
-    <div class="adiv name-div">
-      <i v-show="showIcon" class="iconfont ic-yinanbingli text-1AB6FD"></i>
-      <span class="text-title"><b>{{shopName}}</b></span>
+  <div class="shop-content flex-sb flex-column position-relative ml-div ml-l-20">
+    <div class="adiv name-div mt-l-10">
+      <span class="text-l-30">
+          {{shopName}}
+      </span>
     </div>
-    <div v-show="showStar" class="adiv">
-      <new-star disabled size="small" :score.sync="score"></new-star>
+    <div v-show="showStar" class="adiv mt-l-5">
+      <new-star disabled size="middler"  :score.sync="score"></new-star>
     </div>
-    <div class="adiv">
-      <i v-show="showIcon" class="iconfont ic-dianhua text-1AB6FD"></i>
-      <span class="text-black">{{phone}}</span>
+    <div class="adiv mt-l-5">
+      <span class="text-black text-l-20">
+        电话：{{phone||'未设置'}}
+      </span>
     </div>
-    <div class="adiv">
-      <i v-show="showIcon" class="iconfont ic-address text-1AB6FD"></i>
-      <span class="text-black elps width-address">{{address}}</span>
+    <div class="adiv mt-l-5">
+      <span class="text-black  width-address text-l-20">
+        地址：{{address||'未设置'}}
+      </span>
     </div>
     <div>
       <span class="span1">
-        <i v-show="showIcon" class="iconfont ic-qianbao text-1AB6FD"></i>
-        <span class="text-price"> &yen; {{price}}</span>
+        <span class="text-price text-l-20">
+          &yen; {{price}}
+        </span>
       </span>
-      <span class="span2"><i class="iconfont ic-gouwuche1  icon-size text-left" v-show="cart"></i></span>
     </div>
-
+    <div class="cart"><i class="iconfont ic-gouwuche1  icon-size" v-show="cart"></i></div>
   </div>
 </div>
 </template>
@@ -125,24 +128,8 @@
     font-size: 50px;
     color:rgba(240,43,43,1);
   }
-  .text-black{
-    color: #333333;
-    width:239px;
-   font-size:22px;
- }
-  .text-title{
-    width:163px;
-    height:26px;
-    font-size:28px;
-    color:rgba(69,69,69,1);
-    line-height:0px;
-  }
   .text-price{
-    width:77px;
-    height:18px;
-    font-size:22px;
     color:rgba(255,0,0,1);
-    line-height:88px;
   }
   .adiv{
 
@@ -160,17 +147,18 @@
     display: inline-block;
     float: left;
   }
-  .span2{
-    display: inline-block;
-    float: right;
-  }
   .ml-div{
     margin-left:3px;
   }
   .iconfont{
-    font-size: 32px!important;
+    font-size: 30px!important;
   }
   .ic-gouwuche1{
-    font-size: 40px!important;
+    font-size: 80px!important;
+  }
+  .cart {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
   }
 </style>

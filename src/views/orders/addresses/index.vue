@@ -1,12 +1,10 @@
 <template>
   <div class="main">
-    <new-header title="选择收货地址" bgColor="rgba(255,255,255,1)" color="rgba(51,51,51,1)" leftColor="rgba(51,51,51,1)"
-                rightColor="rgba(51,51,51,1)">
-      <router-link tag="span" to="/addresses" slot="right">管理</router-link>
+    <new-header title="选择收货地址">
+      <router-link tag="span" to="/addresses" slot="right" class="text-l-25">管理</router-link>
     </new-header>
     <div class="body1">
       <div class="content1" v-for="(address,index) in list" :key="index" @click.stop="onAddress(address)">
-        <new-line></new-line>
         <div class="line1">
           <div>
             <new-radio v-if="address.defaulted" disabled></new-radio>
@@ -72,6 +70,7 @@
   }
   .content1 {
     background-color: white;
+    margin-top: 10px;
   }
   .content1 .line1,.content1 .line2 {
     display: flex;

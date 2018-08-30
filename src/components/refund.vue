@@ -2,7 +2,7 @@
   <div class="item1">
     <div class="item1-content" v-if="order.type === 'HOSPITAL'">
       <div class="content1">
-        <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor=red  @click="onShop()">
+        <new-header bgColor="white" height="low" leftSize="medium" leftColor="black" rightColor=red  @click="onShop()">
           <div slot="left">
             <i class="iconfont ic-yaodian"></i>
           </div>
@@ -15,7 +15,7 @@
             <i class="iconfont ic-chufangdanluru"></i>
           </div>
           <span slot="left" style="color: #13C1FE">处方单</span>
-          <span slot="right" @click="onRx()">查看处方></span>
+          <!--<span slot="right" @click="onRx()">查看处方></span>-->
         </new-header>
 
         <div class="slide-content" v-for="item in order.list">
@@ -29,12 +29,9 @@
             </div>
             <div class="bottom">
               <div class="price">
-                <span></span>
               </div>
               <div class="quantity">
-                <div>
-                  <span>x{{item.quantity}}</span>
-                </div>
+                x{{item.quantity}}
               </div>
             </div>
           </div>
@@ -47,29 +44,29 @@
           <div slot="left">
               <i class="iconfont ic-yaodian" slot="left"></i>
           </div>
-          <span slot="left"  @click="onShop()">{{order.shopName}}</span>
-          <span slot="right">{{order.state|transformOrderState}}</span>
+          <span slot="left"  @click="onShop()" class="text-l-30">{{order.shopName}}</span>
+          <span slot="right" class="text-l-30">{{order.state|transformOrderState}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-if="order.rxId">
           <div slot="left">
             <i class="iconfont ic-chufangdanluru"></i>
           </div>
-          <span slot="left" style="color: #13C1FE">处方单</span>
-          <span slot="right" @click="onRx()">查看处方></span>
+          <span slot="left" style="color: #13C1FE" class="text-l-25">处方单</span>
+          <!--<span slot="right" @click="onRx()">查看处方></span>-->
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-else>
           <div slot="left">
             <i class="iconfont ic-chufangdanluru"></i>
           </div>
-          <span slot="left" style="color: #13C1FE">非处方单</span>
+          <span slot="left" style="color: #13C1FE" class="text-l-25">非处方单</span>
         </new-header>
 
         <div class="slide-content" v-for="item in order.list">
           <div class="image">
-            <div class="chu" v-if="item.otc">处</div>
-            <div class="feichu" v-else>非</div>
+            <div class="feichu" v-if="item.otc">非</div>
+            <div class="chu" v-else>处</div>
             <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
           </div>
           <div class="text">
@@ -79,12 +76,10 @@
             </div>
             <div class="bottom">
               <div class="price">
-                <span>¥{{item.price}}</span>
+                ¥{{item.price}}
               </div>
               <div class="quantity">
-                <div>
-                  <span>x{{item.quantity}}</span>
-                </div>
+                  x{{item.quantity}}
               </div>
             </div>
           </div>
@@ -181,13 +176,13 @@
   }
 
   .slide-content .text .top .name {
-    font-size: 24px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .slide-content .text .top .spec {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
@@ -201,25 +196,21 @@
   }
 
   .slide-content .text .bottom .price {
-    font-size: 24px;
+    font-size: 26px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 0, 0, 1);
     align-self: center;
   }
 
   .slide-content .text .bottom .quantity {
+    font-size: 30px;
+    margin-right: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding-right: 10px;
   }
 
-  .slide-content .text .bottom .quantity div:nth-child(1) {
-    align-self: flex-end;
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(153, 153, 153, 1);
-  }
 
   .item-bottom {
     display: flex;

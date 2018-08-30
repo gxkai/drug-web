@@ -39,7 +39,7 @@
       justify-content: space-between;
       border-bottom: 1PX solid rgba(199, 199, 199, 1);
       > div {
-        font-size: 20px;
+        font-size: 22px;
         font-family: HiraginoSansGB-W3;
         color: rgba(153, 153, 153, 1);
       }

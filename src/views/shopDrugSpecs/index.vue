@@ -4,9 +4,6 @@
       <div slot="left" @click.stop="$router.go(-1)">
         <i class="iconfont ic-arrow-right"></i>
       </div>
-      <div slot="right" @click="$router.push('/')">
-        <span>首页</span>
-      </div>
     </new-header>
     <div class="body">
       <!--上方轮播开始-->
@@ -14,30 +11,44 @@
         <div class="broadcast-content">
           <mt-swipe :auto="4000">
             <mt-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
-              <img v-lazy="getImgURL(fileId,'LARGE_PIC')" class="width-percent-100"/>
+              <img :src="getImgURL(fileId,'LARGE_PIC')"/>
             </mt-swipe-item>
           </mt-swipe>
         </div>
         <div class="position-relative">
           <div class="broadcast-title position-absolute">
             <p class="drug-name elps text-center">{{shopDrugSpec.name}}</p>
-            <p class="drug-function elps text-center">{{shopDrugSpec.introduce}}</p>
-            <p class="drug-price text-center">¥{{shopDrugSpec.price}}</p>
+            <p class="drug-function elps">{{shopDrugSpec.introduce}}</p>
+            <p class="drug-price">¥{{shopDrugSpec.price}}</p>
           </div>
           <div class="broadcast-title-two position-absolute"></div>
         </div>
       </div>
       <!--库存开始-->
       <div class="stock">
-        <div class="stock-container">
-          <span class="text-1AB6FD">国药准字:</span>
-          <span>{{shopDrugSpec.sfda}}</span>
-          <span>|</span>
-          <span class="text-1AB6FD">库存:</span>
-          <span>{{shopDrugSpec.stock}}</span>
-          <span>|</span>
-          <span class="text-1AB6FD">包装规格:</span>
-          <span>{{shopDrugSpec.spec}}</span>
+        <div class="elps">
+          <div class="text-1AB6FD">
+            国药准字:
+          </div>
+          <div class="elpsTwo text-l-20">
+            {{shopDrugSpec.sfda}}
+          </div>
+        </div>
+        <div class="vertical-line"></div>
+        <div class="elps text-l-20">
+          <div class="text-1AB6FD">
+            库存:
+          </div>
+          <div class="elpsTwo text-l-20">
+            {{shopDrugSpec.stock}}
+          </div>
+        </div>
+        <div class="vertical-line"></div>
+        <div class="elps text-l-20">
+          <div class="text-1AB6FD">包装规格:</div>
+          <div class="elps text-l-20">
+            {{shopDrugSpec.spec}}
+          </div>
         </div>
       </div>
       <!--库存结束-->
@@ -89,7 +100,7 @@
             <img v-lazy="getImgURL(shopDrugSpec.id,'SMALL_LOGO')" class="logo"/>
           </div>
           <div class="company-name d-inline-block">
-            <p class="elps">{{shopDrugSpec.shopName}}</p>
+            <p class="elps text-l-25">{{shopDrugSpec.shopName}}</p>
             <p class="elps">
               <new-star :score="shopDrugSpec.shopTotalAppraise.score" size="small" disabled></new-star>
             </p>
@@ -129,10 +140,10 @@
       <!--评论开始-->
       <div class="comment width-percent-100">
         <div class="content-comment width-percent-94 m-auto border-bottom-f1f1f1">
-          <span class="d-inline-block fl">顾客评论（{{shopDrugSpec.drugAppraises.total}}）</span>
+          <span class="d-inline-block fl text-l-23">顾客评论（{{shopDrugSpec.drugAppraises.total}}）</span>
           <router-link tag="span"
                        :to="{path: '/shopDrugSpecs/view', query: {index: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}}">
-            <span class="d-inline-block fr">查看全部评价</span>
+            <span class="d-inline-block fr text-l-23">查看全部评价</span>
           </router-link>
         </div>
 
@@ -164,7 +175,7 @@
     },
     data() {
       return {
-        shopDrugSpec: []
+        shopDrugSpec: {}
       };
     },
     created() {
@@ -238,50 +249,38 @@
 
   .drug-name {
     width: 328px;
-    height: auto;
     font-size: 30px;
     color: rgba(255, 255, 255, 1);
-    line-height: 29px;
-    margin-top: 33px;
-    margin-left: 170px;
+    margin: 10px auto;
   }
 
   .drug-function {
-    width: 349px;
-    height: auto;
+    max-width: 600px;
     font-size: 18px;
     color: rgba(255, 255, 255, 1);
-    line-height: 20px;
-    margin-top: 15px;
-    margin-left: 170px;
+    margin: 10px auto;
+    text-align: center;
   }
 
   .drug-price {
-    width: 110px;
-    height: auto;
     font-size: 30px;
     color: rgba(255, 255, 255, 1);
-    line-height: 25px;
-    margin-top: 13px;
-    margin-left: 283px;
+    text-align: center;
   }
 
-  .stock {
+  .stock{
     width: 720px;
-    height: 80px;
     background: rgba(255, 255, 255, 1);
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    font-size: 20px;
-    font-family: HiraginoSansGB-W3;
+    padding: 30px 20px;
   }
-
-  .stock-container {
-    max-width: 720px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .stock>div {
+    display: flex;
+  }
+  .stock>div:nth-child(1),.stock>div:nth-child(3),.stock>div:nth-child(5) {
+    max-width: 200px;
   }
 
   /*配送方式*/
@@ -301,7 +300,7 @@
     align-items: center;
   }
 
-  .distribution > div > div:nth-child(1) .iconfont{
+  .distribution > div > div:nth-child(1) .iconfont {
     font-size: 30px;
     color: #13C1FE;
   }
@@ -359,9 +358,9 @@
 
   .company {
     width: 720px;
-    height: 277px;
     margin-top: 15px;
     background: white;
+    padding-bottom: 20px;
   }
 
   .companys {
@@ -370,16 +369,17 @@
 
   .company-logo {
     width: 114px;
-    height: 78px;
+  }
+
+  .company-logo img {
+    width: 100%;
+    border-radius: 50%;
   }
 
   .company-name {
     width: 305px;
-    height: 21px;
-    font-size: 22px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
-    line-height: 30px;
     margin-left: 70px;
   }
 
@@ -389,7 +389,7 @@
   }
 
   .customer {
-    margin: 25px 0px 0px 5%;
+    margin: 25px 0px 1px 5%;
   }
 
   .comment {
@@ -424,10 +424,11 @@
   }
 
   .customer div p:first-child {
-    font-size: 19px;
+    font-size: 20px;
   }
 
   .customer div p:last-child {
+    margin-top: 10px;
     font-size: 18px;
   }
 
@@ -449,5 +450,16 @@
     height: 78px;
     margin-left: 54px;
     margin-top: 17px;
+  }
+
+  .vertical-line {
+    height: 30px;
+    width: 1PX;
+    background-color: black;
+  }
+
+  .broadcast-content img{
+    height: 100%;
+    width: 100%;
   }
 </style>

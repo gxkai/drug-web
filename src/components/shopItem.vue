@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item" @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
     <div class="item-image">
       <img v-lazy=""/>
     </div>
@@ -30,30 +30,30 @@
 <style scoped type="text/less" lang="less">
   .item {
     width: 720px;
-    height: 278px;
     display: flex;
-    padding-left: 20px;
     align-items: center;
+    margin-bottom: 10px;
     &-image {
+      width: 250px;
+      padding: 20px;
       img {
-        width: 300px;
-        height: 249px;
+        width: 100%;
       }
     }
     &-text {
-      margin-left: 20px;
+      padding: 20px;
       div:nth-child(1) {
         font-size: 30px;
         font-family: HiraginoSansGB-W3;
         color: rgba(69, 69, 69, 1);
       }
       div:nth-child(3) {
-        font-size: 22px;
+        font-size: 25px;
         font-family: HiraginoSansGB-W3;
         color: rgba(51, 51, 51, 1);
       }
       div:nth-child(4) {
-        font-size: 22px;
+        font-size: 25px;
         font-family: HiraginoSansGB-W3;
         color: rgba(51, 51, 51, 1);
       }

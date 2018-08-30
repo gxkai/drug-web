@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <new-header :title="titles">
-      <router-link tag="i" to="/messageTypes" class="iconfont ic-arrow-right" slot="left"></router-link>
+      <div slot="left" @click="$router.go(-1)">
+        <i class="iconfont ic-arrow-right"></i>
+      </div>
     </new-header>
     <div class="container-main">
       <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
@@ -74,6 +76,7 @@
     -webkit-box-sizing: border-box;
     font-family: HiraginoSansGB-W3;
   }
+
   .container {
     width: 720px;
     height: 100vh;
@@ -82,12 +85,12 @@
   .message-main {
     width: 720px;
     background: rgba(255, 255, 255, 1);
-    margin-top: 30px;
+    margin-top: 40px;
     flex-direction: column;
   }
 
   .message-date {
-    font-size: 20px;
+    font-size: 24px;
     color: rgba(102, 102, 102, 1);
     display: flex;
     justify-content: center;
@@ -98,6 +101,7 @@
     color: rgba(51, 51, 51, 1);
     display: flex;
     margin-left: 35px;
+    margin-top: 10px;
   }
 
   .message-content {
@@ -105,5 +109,6 @@
     color: rgba(102, 102, 102, 1);
     margin-left: 35px;
     margin-right: 35px;
+    margin-top: 10px;
   }
 </style>

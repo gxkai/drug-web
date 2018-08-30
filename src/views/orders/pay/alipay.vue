@@ -3,14 +3,14 @@
     <div class="content1" v-show="show">
       <img src="../../../assets/image/success.png">
       <div class="line1">
-        <span>订单支付成功</span>
+        <span class="text-l-30">订单支付成功</span>
       </div>
       <div class="line2">
-        <span>我们将尽快为您发货</span>
+        <span class="text-l-30">我们将尽快为您发货</span>
       </div>
       <div class="line3">
-        <router-link tag="button" to="/">随意逛逛</router-link>
-        <router-link tag="button" to="/orders">查看订单</router-link>
+        <router-link tag="button" to="/" class="text-l-25">随意逛逛</router-link>
+        <router-link tag="button" to="/orders" class="text-l-25">查看订单</router-link>
       </div>
     </div>
   </div>
@@ -124,7 +124,6 @@
     width:177px;
     height:58px;
     border-radius:20px;
-    font-size:24px;
     font-family:MicrosoftYaHei;
     background:rgba(210,210,210,1);
     color:rgba(102,102,102,1);
@@ -137,7 +136,6 @@
     height:58px;
     background:rgba(19,193,254,1);
     border-radius:20px;
-    font-size:24px;
     font-family:MicrosoftYaHei;
     color:rgba(255,255,255,1);
     border: 0;
