@@ -90,8 +90,8 @@
           <router-link v-for="(discountList,index) in discountList"
                        :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:discountList.id}}"
                        :key="index">
-            <div class="drug-box flex-row-center border-right-gray border-bottom-gray">
-              <img class="is-120x120 mr-20" :src="getImgURL(discountList.fileId, 'LARGE_LOGO')">
+            <div class="drug-box flex-row-center border-right-gray border-bottom-gray rlhm">
+              <img class="mr-20 is-120x120" :src="getImgURL(discountList.fileId, 'LARGE_LOGO')">
               <div class="is-flex flex-column">
                 <span class="elps width-144 d-inline-block text-l-25 text-center">{{discountList.name}}</span>
                 <span class="text-red text-center text-l-25 mt-l-10">¥ {{discountList.price}} /盒</span>
@@ -135,8 +135,8 @@
               class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
               v-for="(recommendList,index) in recommendList" :key="index"
               :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
-              <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true">非</span>
-              <span class="toc-tip position-absolute all-center" v-else style="background-color: #4caf50">处</span>
+              <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true" style="background-color: #4caf50">非</span>
+              <span class="toc-tip position-absolute all-center" v-else >处</span>
               <img class="is-260x193" :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')">
               <span class="elps width-180 fz22 text-center mt-l-10">{{recommendList.name}}{{recommendList.spec}}</span>
               <span class="text-red fz24 text-center">¥ {{recommendList.price}} /盒</span>
@@ -443,6 +443,7 @@
     outline: none;
     font-size: 30px;
     font-family: HiraginoSansGB-W3;
+    border-radius: 10PX;
   }
 
   /*小图标*/
@@ -480,7 +481,7 @@
   /*滚动*/
   .scroll-bar {
     width: 720px;
-    height: 100px;
+    height: 120px;
     background: white;
   }
 
@@ -534,7 +535,7 @@
 
   .scroll-wrap {
     width: 641px;
-    height: 80px;
+    height: 100px;
     overflow: hidden;
   }
 
@@ -547,7 +548,6 @@
   }
 
   .scroll-content li {
-    line-height: 50px;
     text-align: center;
     height: 50px;
   }
@@ -586,10 +586,11 @@
     font-size: 22px;
     color: rgba(119, 119, 119, 1);
   }
-
   .swiper-img {
-    width:720px;
+    width:700px;
     height:300px;
+    border-radius: 10PX;
+    margin-left: 10px;
   }
 
   .fz22 {

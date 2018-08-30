@@ -21,9 +21,6 @@
             地址：{{receiveAddress.address}}
           </div>
         </div>
-        <div>
-          <i class="iconfont ic-youjiantou"></i>
-        </div>
       </div>
       <img src="../../../assets/image/colorbackground.png" class="image-bar">
     </div>
@@ -72,19 +69,13 @@
   .address {
     width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
+    padding: 20px 10px;
     background-color: white;
-  }
-  .address>div:nth-child(1) {
-    width: 10%;
   }
   .address>div:nth-child(2) {
     width: 80%;
-  }
-  .address>div:nth-child(3) {
-    width: 10%;
+    margin-left: 10px;
   }
   .address .iconfont {
     font-size: 50px;

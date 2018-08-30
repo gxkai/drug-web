@@ -88,23 +88,30 @@
                       </div>
                       <div class="text">
                         <div class="top">
-                          <div class="name elps mt-l-10">{{cartDrug.name}}</div>
-                          <div class="spec">{{cartDrug.spec}}</div>
+                          <div class="name elps mt-l-10 ml-l-10">{{cartDrug.name}}</div>
+                          <div class="spec ml-l-10">{{cartDrug.spec}}</div>
                         </div>
                         <div class="bottom">
                           <div class="price">
-                            <span class="text-l-25">¥{{cartDrug.price.toFixed(2)}}</span>
+                            <span class="text-l-25 ml-l-10">¥{{cartDrug.price.toFixed(2)}}</span>
                           </div>
                           <div class="quantity">
                             <div>
                               <span class="text-l-25">x{{cartDrug.quantity}}</span>
                             </div>
-                            <div class="multi">
+                            <div class="multi" v-if="cartRx.rxId === '0'">
                               <div @click.stop="onCut(cartDrug)">-</div>
                               <div>
                                 <input v-model="cartDrug.quantity" type="number">
                               </div>
                               <div @click.stop="onAdd(cartDrug)">+</div>
+                            </div>
+                            <div class="multi" v-else>
+                              <div>-</div>
+                              <div>
+                                <input v-model="cartDrug.quantity" type="number" readonly>
+                              </div>
+                              <div>+</div>
                             </div>
                           </div>
                         </div>
@@ -549,11 +556,10 @@
   }
 
   .slide-content .text {
-    padding-left: 20px;
+    padding: 20px 10px;
   }
 
   .slide-content .text .top {
-    height: 105px;
     width: 460px;
     display: flex;
     flex-direction: column;

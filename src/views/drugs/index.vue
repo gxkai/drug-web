@@ -204,6 +204,8 @@
               border-width: 0;
               font-size: 30px;
               color: black;
+              border-radius: 10PX;
+              padding: 0 20px;
             }
           }
           &:nth-child(3) {

@@ -18,6 +18,7 @@ import filters from './assets/js/filters';
 // import './assets/js/vconsole';
 import '../src/assets/plugin/vue-event-calendar/dist/style.css';
 import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
+import Mui from 'vue-awesome-mui';
 import {Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
@@ -25,6 +26,7 @@ import {Actionsheet,
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn);
+Vue.use(Mui);
 Vue.use(vueEventCalendar, {locale: 'zh'});
 Vue.prototype.$http = axios;
 Vue.prototype.$outside = process.env.OUTSIDE_ROOT;

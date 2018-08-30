@@ -106,7 +106,12 @@
     outline: none;
     border: 0;
     color: rgba(204, 204, 204, 1);
-    width: 300px;
+    width: 400px;
+    font-size: 25px;
+  }
+
+  .content-lists input::placeholder {
+    text-align: left;
   }
 
   .bind-btn {

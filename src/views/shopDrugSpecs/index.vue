@@ -97,7 +97,7 @@
       <div class="company">
         <div class="companys">
           <div class="d-inline-block company-logo">
-            <img :src="getImgURL(shopDrugSpec.id,'SMALL_LOGO')" class="logo"/>
+            <img :src="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')" class="logo"/>
           </div>
           <div class="company-name d-inline-block">
             <p class="elps text-l-25">{{shopDrugSpec.shopName}}</p>

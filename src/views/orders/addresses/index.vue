@@ -7,7 +7,7 @@
       <div class="content1" v-for="(address,index) in list" :key="index" @click.stop="onAddress(address)">
         <div class="line1">
           <div>
-            <new-radio v-if="address.defaulted" disabled></new-radio>
+            <new-radio v-if="address.defaulted" disabled class="mr-l-10"></new-radio>
           </div>
           <div>
             <span class="text-l-25">{{address.consignee}}</span>

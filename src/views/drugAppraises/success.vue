@@ -4,11 +4,11 @@
       <div slot="left">
       <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
       </div>
-      <span slot="right"  @click="$router.push('/drugAppraises')">完成</span>
+      <span slot="right"  @click="$router.push('/drugAppraises')" class="text-l-25">完成</span>
     </new-header>
     <div class="body1">
         <span>每天都有用户通过看评价来做购物决策~</span>
-        <div> <button @click="$router.push('/drugAppraises')">查看我的评价</button></div>
+        <div><span @click="$router.push('/drugAppraises')">查看我的评价</span></div>
     </div>
     <new-edit-line name="接着评下去吧" v-if="list.length>0"></new-edit-line>
     <ul class="body2">
@@ -54,17 +54,16 @@
     color:rgba(254,255,255,1);
     text-align: center;
   }
-  .body1 span {
+  .body1>span {
     line-height: 100px;
+    font-size: 25px;
   }
-  .body1 button {
-    border-color: rgba(255,255,255,1);
-    width:199px;
-    height:47px;
+  .body1 div span{
+    padding: 10px 20px;
+    border: 1PX solid rgba(255,255,255,1);
     border-radius:20px;
     color: rgba(255,255,255,1);
     background-color: rgba(19,193,254,1);
-    outline: none;
   }
 
   .body2 {
