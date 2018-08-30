@@ -11,11 +11,11 @@
     <div ref="body">
       <div class="header all-center" v-if="JSON.stringify(account) !== '{}'">
         <img class="header-img" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
-        <span class="everyday"
-              :style="{backgroundImage:'url('+require('../../assets/image/accounts/dayily.png')+')',backgroundSize:'100%'}"
-              @click="everyDay()">
-        每日签到
-        </span>
+        <!--<span class="everyday"-->
+              <!--:style="{backgroundImage:'url('+require('../../assets/image/accounts/dayily.png')+')',backgroundSize:'100%'}"-->
+              <!--@click="everyDay()">-->
+        <!--每日签到-->
+        <!--</span>-->
        </div>
       <div class="header all-center" v-else>
         <router-link to="/login">
@@ -78,17 +78,17 @@
           <img src="../../assets/image/accounts/d-seeting.png"/>
           <span class="mt-15">账户设置</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/points">
-          <img src="../../assets/image/accounts/d-points.png"/>
-          <span class="mt-15">我的积分</span>
-        </router-link>
+        <!--<router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/points">-->
+          <!--<img src="../../assets/image/accounts/d-points.png"/>-->
+          <!--<span class="mt-15">我的积分</span>-->
+        <!--</router-link>-->
         <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray"
                      :to="null==this.account.medicalNumber?'/accounts/card/bind':'/accounts/unbind'">
           <img src="../../assets/image/accounts/card.png"/>
           <span class="mt-15">医保卡信息</span>
         </router-link>
 
-        <router-link class="flex-box account-content-padding border-right-gray" to="/faqs">
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/faqs">
           <img src="../../assets/image/accounts/d-issue.png"/>
           <span class="text">常见问题</span>
         </router-link>

@@ -28,7 +28,7 @@
       <!-- 轮播 -->
       <mt-swipe :auto="4000" class="swiper-container">
         <mt-swipe-item v-for="(advertList,index) in advertLists" :key="index">
-          <img :src="getImgURL(advertList.fileId, 'ADVERT')" @click="see(advertList)" class="swiper-img"/>
+          <img :src="getImgURL(advertList.fileId, 'ADVERT')" class="swiper-img"/>
         </mt-swipe-item>
       </mt-swipe>
 
@@ -54,24 +54,17 @@
         </div>
         <!-- 滚动 -->
         <div class="scroll-bar border-top-gray all-center">
-          <div class="d-inline-block fl health-img">
+          <div class="d-inline-block health-img ml-l-20">
             <img src="../assets/image/health.png" class="health-img"/>
           </div>
-          <div class="d-inline-block fl">
-            <div class="scroll-wrap d-block"><span class="hot">热门</span>
-              <ul class="scroll-content" :style="{ top }">
-                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeList" :key="index"
-                             :to="{path:'/repositories',query:{repositoryTypeId:repositoryType.id,title:repositoryType.name}}">
-                  <li v-for="item in repositoryTypeList">{{repositoryType.name }}</li>
-                </router-link>
-              </ul>
-            </div>
-            <div class="scroll-wrap d-block"><span class="hot">必读</span>
+          <div class="d-inline-block">
+            <div class="scroll-wrap d-block">
+              <!--<span class="hot">必读</span>-->
               <ul class="scroll-content" :style="{ top }">
                 <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeListForHome"
                              :key="index"
-                             :to="{path:'/repositories/view',query:{repositoryTypeId:repositoryType.id,title:repositoryType.title}}">
-                  <li v-for="item in repositoryTypeList">{{repositoryType.title }}</li>
+                             :to="{path:'/repositories/view',query:{id:repositoryType.id,title:repositoryType.title}}">
+                  <li>{{repositoryType.title }}</li>
                 </router-link>
               </ul>
             </div>
@@ -100,8 +93,8 @@
             <div class="drug-box flex-row-center border-right-gray border-bottom-gray">
               <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'LARGE_LOGO')">
               <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block text-l-25">{{discountList.name}}</span>
-                <span class="text-red text-center text-l-25">¥ {{discountList.price}} /盒</span>
+                <span class="elps width-144 d-inline-block text-l-25 text-center">{{discountList.name}}</span>
+                <span class="text-red text-center text-l-25 mt-l-10">¥ {{discountList.price}} /盒</span>
               </div>
             </div>
           </router-link>
@@ -143,10 +136,10 @@
               v-for="(recommendList,index) in recommendList" :key="index"
               :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
               <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true">非</span>
-              <span class="toc-tip position-absolute all-center" v-else>处</span>
+              <span class="toc-tip position-absolute all-center" v-else style="background-color: #4caf50">处</span>
               <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'LARGE_LOGO')">
-              <span class="elps width-180 fz22">{{recommendList.name}}{{recommendList.spec}}</span>
-              <span class="text-red fz24">¥ {{recommendList.price}} /盒</span>
+              <span class="elps width-180 fz22 text-center mt-l-10">{{recommendList.name}}{{recommendList.spec}}</span>
+              <span class="text-red fz24 text-center">¥ {{recommendList.price}} /盒</span>
             </router-link>
           </ul>
         </div>
@@ -534,7 +527,7 @@
 
   .scroll-wrap {
     width: 641px;
-    height: 40px;
+    height: 80px;
     overflow: hidden;
   }
 

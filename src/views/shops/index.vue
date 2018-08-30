@@ -66,7 +66,7 @@
                  :key="index"
                  @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
               <div class="shops-container-item-left">
-                <img v-lazy="item.fileId"/>
+                <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')"/>
               </div>
               <div class="shops-container-item-right">
                 <div>
@@ -209,9 +209,10 @@
         flex-direction: row;
         align-items: center;
         margin-bottom: 10px;
+        padding: 20px;
         &-left{
-          width: 200px;
-          padding: 10px;
+          width: 250px;
+          padding: 20px;
           img{
             width: 100%;
           }
@@ -220,6 +221,12 @@
           padding: 20px;
           div {
             font-size: 25px;
+            &:nth-child(1) {
+              font-size: 30px;
+            }
+            &:nth-child(2) {
+              margin-top: 10px;
+            }
           }
         }
       }
