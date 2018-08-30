@@ -114,7 +114,7 @@
           <span class="new-line"></span><span class="text-13C1FE fz28">医保定点药房</span> <span class="new-liner"></span>
         </div>
         <div class="shop-content">
-          <carousel-3d :count="discountList.length" width="250" height="160" display="3">
+          <carousel-3d :count="showList.length" width="250" height="160" display="3">
             <slide v-for="(slide, i) in showList" :index="i" :key="i">
               <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
                 <img :data-index="index"
@@ -176,7 +176,7 @@
         seconds: '',
         news: [],
         discountList: [],
-        showList: [],
+        showList: [{id: 'x'}, {id: 'y'}, {id: 'y'}],
         recommendList: [],
         advertLists: [],
         longitude: '',
