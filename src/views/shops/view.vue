@@ -36,7 +36,7 @@
         </li>
       </ul>
 
-      <div class="shop-nav" spellcheck="false" cellspacing="0">
+      <div class="shop-nav mt-l-10" spellcheck="false" cellspacing="0">
         <div class="is-flex flex-wrap">
           <router-link class="type-list" tag="td" v-for="(item,index) in drugTypes" :key="index"
                        :to="{path:'/shops/drugs',query:{typeId:item.id,id:shopId}}">{{item.type}}
@@ -228,19 +228,19 @@
   }
 
   .shop-score-boundary {
-    width: 1px;
+    width: 1PX;
     height: 45px;
-    border-left: 1px solid #999999;
+    background-color: #999999;
   }
 
   .shop-recommend {
     width: 720px;
-    height: 67px;
     background: rgba(255, 255, 255, 1);
     font-size: 26px;
     color: rgba(51, 51, 51, 1);
     display: flex;
     justify-content: center;
+    padding: 30px 0;
   }
 
   .shop-goods-list {

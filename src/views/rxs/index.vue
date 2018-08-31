@@ -158,18 +158,18 @@
     position:relative;
     box-shadow: 0 20px 30px rgba(0,0,0,0.3),0 0 40px rgba(0,0,0,0.1) inset;
   }
-  .header-search input:after{
-    content:"";
-    position:absolute;
-    background:transparent;
-    top:50%;
-    bottom: 1px;
-    left: 10px;
-    right: 10px;
-    z-index: -1;
-    box-shadow: 0 0 30px rgba(0,0,0,0.7);
-    border-radius: 100px/10px;
-  }
+  /*.header-search input:after{*/
+    /*content:"";*/
+    /*position:absolute;*/
+    /*background:transparent;*/
+    /*top:50%;*/
+    /*bottom: 1px;*/
+    /*left: 10px;*/
+    /*right: 10px;*/
+    /*z-index: -1;*/
+    /*box-shadow: 0 0 30px rgba(0,0,0,0.7);*/
+    /*border-radius: 100px/10px;*/
+  /*}*/
   .header-search input::placeholder{
     font-size:28px;
     color:rgba(204,204,204,1);

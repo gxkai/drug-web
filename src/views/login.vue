@@ -279,6 +279,9 @@
     font-size:24px;
     outline: none;
   }
+  input::placeholder{
+    text-align: left;
+  }
   .swiper-wrapper{
     height: 500px!important;
   }
