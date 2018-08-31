@@ -108,12 +108,15 @@
         padding: 5px;
         &:nth-child(1) {
           color: black;
+          font-size: 28px;
         }
         &:nth-child(2) {
           color: #cccccc;
+          font-size: 25px;
         }
         &:nth-child(3) {
           color: red;
+          font-size: 24px;
         }
       }
     }

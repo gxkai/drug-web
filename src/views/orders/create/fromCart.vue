@@ -189,7 +189,7 @@
               str += 'orderIds=' + e + '&';
             });
             str = str.substring(0, str.length - 1);
-            this.$router.push({
+            this.$router.replace({
               path: '/orders/pay?' + str + '&deliveryType=' + this.deliveryType
             });
           }).catch(error => {

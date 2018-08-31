@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="images">
-        <img :src="getImgURL(fileId,'LARGE_LOGO')" v-for="fileId in shopDrugSpec.fileIds"/>
+        <img :src="getImgURL(fileId,'LARGE_PIC')" v-for="fileId in shopDrugSpec.fileIds"/>
       </div>
     </div>
   </div>
@@ -51,6 +51,7 @@
     props: ['shopDrugSpec'],
     data: {},
     created() {
+      console.log(this.shopDrugSpec);
     }
   };
 </script>
@@ -59,6 +60,7 @@
   .container {
     width: 720px;
     height: 100vh;
+    padding: 20px;
   }
 
   .shopDrugSpec-main {
@@ -87,7 +89,10 @@
   }
 
   .images > img {
-    width: 100%;
-    margin: 10px
+    width: 600px;
+    height: 600px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1PX solid #a6a6a6;
   }
 </style>

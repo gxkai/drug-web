@@ -6,7 +6,7 @@
           <i class="iconfont ic-arrow-right text-333333" @click.stop="$router.go(-1)"></i>
         </div>
         <div slot="right" >
-          <i class="iconfont ic-fenxiang text-333333" @click.stop="$router.go(-1)"></i>
+          <i class="iconfont ic-fenxiang text-333333" @click.stop="onShare()"></i>
         </div>
       </new-header>
       <div class="view-nav">
@@ -28,7 +28,7 @@
 <script>
   import drugAppraise from '../shopDrugSpecs/child/appraise';
   import drugInfo from '../shopDrugSpecs/child/info';
-
+  import {Toast} from 'mint-ui';
   export default {
     name: 'drugDetail',
     data() {
@@ -49,6 +49,9 @@
           this.showComponent = drugInfo;
           this.number = index;
         }
+      },
+      onShare() {
+        Toast('该功能暂未上线');
       }
     },
     components: {
@@ -86,14 +89,14 @@
         text-align: center;
       }
       >div:nth-child(1){
-        border-right: 1px solid rgba(153,153,153,1);
+        border-right: 1PX solid rgba(153,153,153,1);
       }
       .active {
         color:rgba(19,193,254,1);
       }
     }
     &-container {
-      background: #f5f5f5;
+      /*background: #f5f5f5;*/
     }
   }
 
