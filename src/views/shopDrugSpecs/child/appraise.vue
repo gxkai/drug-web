@@ -69,6 +69,7 @@
   .appraise {
     width: 720px;
     height: 100vh;
+    padding: 20px;
     &-title {
       width: 100%;
       height: 100px;

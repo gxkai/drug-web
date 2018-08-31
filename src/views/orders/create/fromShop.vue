@@ -230,7 +230,7 @@
             });
           });
           this.$http.post('/orders/shopDrugSpec', data).then(res => {
-            this.$router.push({
+            this.$router.replace({
               path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType
             });
           }).catch(error => {
