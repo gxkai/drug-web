@@ -10,9 +10,9 @@
     </div>
     <div class="item-container">
       <div>
-        <new-star size="smaller" :score="item.score" disabled></new-star>
+        <new-star size="small" :score="item.score" disabled></new-star>
       </div>
-      <div>
+      <div class="text-l-25">
         {{item.content||'无文字评价'}}
       </div>
     </div>
@@ -32,14 +32,14 @@
     width: 100%;
     background-color: white;
     margin-top: 15px;
+    padding: 20px;
     &-title {
       width: 100%;
-      padding: 0 20px;
       display: flex;
       justify-content: space-between;
       border-bottom: 1PX solid rgba(199, 199, 199, 1);
       > div {
-        font-size: 22px;
+        font-size: 25px;
         font-family: HiraginoSansGB-W3;
         color: rgba(153, 153, 153, 1);
       }
@@ -47,7 +47,6 @@
     &-container {
       width: 100%;
       height: 100px;
-      padding: 0 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-around;

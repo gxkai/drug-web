@@ -248,6 +248,7 @@
     height: 409px;
     background: rgba(255, 255, 255, 1);
     float: left;
+    border: 1PX solid #f5f5f5;
   }
 
   .shop-goods img {

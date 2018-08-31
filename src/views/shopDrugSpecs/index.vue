@@ -140,22 +140,22 @@
       <!--评论开始-->
       <div class="comment width-percent-100">
         <div class="content-comment width-percent-94 m-auto border-bottom-f1f1f1">
-          <span class="d-inline-block fl text-l-23">顾客评论（{{shopDrugSpec.drugAppraises.total}}）</span>
+          <span class="d-inline-block fl text-l-25">顾客评论({{shopDrugSpec.drugAppraises.total}})</span>
           <router-link tag="span"
                        :to="{path: '/shopDrugSpecs/view', query: {index: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}}">
-            <span class="d-inline-block fr text-l-23">查看全部评价</span>
+            <span class="d-inline-block fr text-l-25">查看全部评价</span>
           </router-link>
         </div>
 
-        <div v-for="drugAppraise in shopDrugSpec.drugAppraises.list">
+        <div v-for="drugAppraise in shopDrugSpec.drugAppraises.list" class="mt-l-20">
           <div class="stars width-percent-94 m-auto">
             <span class="fl d-inline-block"> <new-star :score="drugAppraise.score" disabled></new-star></span>
-            <span class="fr d-inline-block">{{drugAppraise.username|asterisk}}</span>
+            <span class="fr d-inline-block text-l-25">{{drugAppraise.username|asterisk}}</span>
           </div>
           <div class="width-percent-94 m-auto good-comment">
-            <span class="elps">{{drugAppraise.content}}</span>
+            <span class="elps text-l-25">{{drugAppraise.content||'暂无'}}</span>
           </div>
-          <div class="times width-percent-94 m-auto">
+          <div class="times width-percent-94 m-auto text-l-25">
             {{timeConvert(drugAppraise.createdDate)}}
           </div>
         </div>
@@ -413,7 +413,6 @@
   .times {
     margin-top: 8px;
     padding-bottom: 18px;
-    font-size: 16px;
   }
 
   .good-comment {
