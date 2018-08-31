@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="account-container-item" @click="$router.push('/accounts/password')">
+      <div class="account-container-item" @click="$router.push('/accounts/edit')">
         <div class="account-container-item-left">
           <div class="text-l-25">隐私</div>
         </div>
@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="account-container-item" @click="$router.push('/accounts/edit')">
+      <div class="account-container-item" @click="$router.push('/accounts/password')">
         <div class="account-container-item-left">
           <div class="text-l-25">修改密码</div>
         </div>

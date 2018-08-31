@@ -91,6 +91,9 @@
     outline: 0;
     font-size: 25px;
   }
+  .content-list input::placeholder{
+    text-align: right;
+  }
   .a-content-list span{
     color: #535353;
   }

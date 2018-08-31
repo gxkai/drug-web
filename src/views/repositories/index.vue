@@ -85,7 +85,6 @@
   }
 
   .body-main {
-    width: 720px;
     background: rgba(255, 255, 255, 1);
   }
 

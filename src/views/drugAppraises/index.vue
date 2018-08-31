@@ -9,10 +9,10 @@
       <div class="drugAppraises-main" v-for="item in list">
         <div class="line1">
           <div>
-            <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')">
+            <img :src="getImgURL(account.fileId,'LARGE_LOGO')">
             <span>{{account.username|asterisk}}</span>
           </div>
-          <span class="text-l-25">{{item.createdDate|timeConvert}}</span>
+          <span class="text-l-25">{{timeConvert(item.createdDate)}}</span>
         </div>
         <div class="line2">
           {{item.content}}

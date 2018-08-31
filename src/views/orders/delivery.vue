@@ -36,50 +36,68 @@
       </div>
       <p></p>
     </div>
-
-    <!--<div class="delivery-drugstore of-hidden">-->
-      <!--<div class="delivery-drugstore-name">-->
-       <!--<span class="d-inline-block fl text-l-30">-->
-          <!--<i class="iconfont ic-yaodian text-333333"></i>-->
-          <!--{{order.shopName}}-->
-       <!--</span>-->
-       <!--<span class="d-inline-block fr"><i class="iconfont ic-dianhua text-13C1FE fz-50"></i></span>-->
-      <!--</div>-->
-    <!--</div>-->
-    <div class="shopInfo">
+    <div class="header">
       <div>
         <i class="iconfont ic-yaodian text-333333"></i>
       </div>
-      <div class="text-l-30">
+      <div>
         {{order.shopName}}
       </div>
     </div>
-
-    <div class="delivery-footer">
-      <ul>
-        <li>
-          <img src="../../assets/image/delivery/pay.png"/>
-          <span class="ml-l-10">已支付</span>
-          <span>¥{{order.totalAmount||0.00}}</span>
-        </li>
-        <li>
-          <img src="../../assets/image/delivery/address.png"/>
-          <span class="ml-l-10">送货地址</span>
-          <span>{{order.address||'无'}}</span>
-        </li>
-        <li>
-          <img src="../../assets/image/delivery/number.png"/>
-          <span class="ml-l-10">订单编号</span>
-          <span>{{order.number||'无'}}</span>
-        </li>
-        <li>
-          <img src="../../assets/image/delivery/telNumber.png"/>
-          <span class="ml-l-10">送货人号码</span>
-          <span class="text-13C1FE">{{order.courierPhone||'无'}}</span>
-        </li>
-      </ul>
+    <div class="content">
+      <div class="item">
+        <div>
+          <div>
+            <i class="iconfont ic-purse"></i>
+          </div>
+          <div>
+            已支付
+          </div>
+        </div>
+        <div>
+          ¥{{order.totalAmount||0.00}}
+        </div>
+      </div>
+      <div class="item">
+        <div>
+          <div>
+            <i class="iconfont ic-weizhi"></i>
+          </div>
+          <div>
+            送货地址
+          </div>
+        </div>
+        <div>
+          {{order.address||'无'}}
+        </div>
+      </div>
+      <div class="item">
+        <div>
+          <div>
+            <i class="iconfont ic-icon-test2"></i>
+          </div>
+          <div>
+            订单编号
+          </div>
+        </div>
+        <div>
+          {{order.number||'无'}}
+        </div>
+      </div>
+      <div class="item">
+        <div>
+          <div>
+            <i class="iconfont ic-shouji"></i>
+          </div>
+          <div>
+            送货人号码
+          </div>
+        </div>
+        <div>
+          {{order.courierPhone||'无'}}
+        </div>
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -114,21 +132,68 @@
   };
 </script>
 
-<style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
+<style scoped type="text/less" lang="less">
+  .container {
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      &>div {
+        &:nth-child(1) {
+          .iconfont {
+            font-size: 50px;
+          }
+        }
+        &:nth-child(2) {
+          font-size: 30px;
+        }
+      }
+    }
+    .content {
+      width: 100%;
+      .item {
+        width: 100%;
+        display: flex;
+        padding: 20px;
+        justify-content: space-between;
+        align-items: center;
+        &>div{
+          &:nth-child(1) {
+            display: flex;
+            align-items: center;
+            &>div {
+              &:nth-child(1) {
+                i {
+                  font-size: 40px;
+                }
+              }
+              &:nth-child(2) {
+                font-size: 25px;
+                margin-left: 10px;
+              }
+            }
+          }
+          &:nth-child(2) {
+            width: 400px;
+            text-align: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 25px;
+          }
+        }
+      }
+    }
   }
+</style>
 
+<style scoped>
   .fz-50{
     font-size: 50px;
   }
 
   .container {
     width: 720px;
-    height: 100vh;
   }
 
   .delivery-schedule {
@@ -208,42 +273,6 @@
     text-align: center;
   }
 
-  .delivery-footer {
-    width: 680px;
-    margin: 10px auto 0;
-  }
 
-  .delivery-footer img {
-    width: 31px;
-    height: 29px;
-    display: block;
-    margin-right: 5px;
-  }
-
-  .delivery-footer li {
-    display: flex;
-    margin-bottom: 45px;
-  }
-
-  /*.delivery-footer li :nth-child(2) {*/
-    /*font-size: 24px;*/
-    /*color: rgba(51, 51, 51, 1);*/
-
-  /*}*/
-
-  .delivery-footer li :nth-child(3) {
-    font-size: 20px;
-    color: rgba(51, 51, 51, 1);
-    position: absolute;
-    right: 20px;
-  }
-  .shopInfo {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-  }
-  .ic-yaodian {
-    font-size: 50px;
-  }
 
 </style>

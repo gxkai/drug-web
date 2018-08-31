@@ -16,7 +16,7 @@
 
     <div class="shop-main">
       <div class="shop-list-address bg-white shop-store">
-        <span class="text-l-25 d-inline-block elps"><span class="text-l-25">门店地址：</span>{{resultData.area}}{{resultData.address}}</span>
+        <span class="text-l-25 d-inline-block elps"><span class="text-l-25">门店地址&nbsp;</span>{{resultData.area}}{{resultData.address}}</span>
       </div>
 
       <div class="shop-list-scores bg-white">

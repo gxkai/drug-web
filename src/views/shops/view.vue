@@ -9,8 +9,15 @@
       <div class="shop-header">
         <img :src="getImgURL(shopInfo.logo, 'SMALL_LOGO')"/>
         <span class="shop-name">{{shopInfo.name}}</span>
-        <div class="shop-collect" :class="{'activeColor':activeColor}" @click="collect">
-          {{collectz}}
+        <div class="shop-collect"
+             @click="collect"
+              v-if="activeColor">
+          已收藏
+        </div>
+        <div class="shop-not-collect"
+             @click="collect"
+             v-else>
+          未收藏
         </div>
       </div>
 
@@ -123,10 +130,8 @@
         .then(res => {
           if (res.data) {
             this.activeColor = true;
-            this.collectz = '已收藏';
           } else {
             this.activeColor = false;
-            this.collectz = '未收藏';
           }
         }).catch(error => {
           this.exception(error);
@@ -193,17 +198,22 @@
   }
 
   .shop-collect {
-    width: 91px;
-    height: 37px;
-    background: rgba(191, 191, 191, 1);
-    border-radius: 3px;
+    background: #ef4f4f;
     margin-right: 35px;
-    font-size: 21px;
+    font-size: 22px;
     color: rgba(255, 254, 254, 1);
-    display: flex;
-    justify-content: center;
+    border: 1PX solid #cccccc;
+    padding: 5px 10px;
   }
 
+  .shop-not-collect {
+    background: rgba(191, 191, 191, 1);
+    margin-right: 35px;
+    font-size: 22px;
+    color: rgba(255, 254, 254, 1);
+    border: 1PX solid #cccccc;
+    padding: 5px 10px;
+  }
   .shop-score {
     width: 650px;
     height: 100px;

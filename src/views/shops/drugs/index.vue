@@ -93,11 +93,13 @@
     width: 100%;
     background-color: white;
     margin-bottom: 10px;
+    padding: 20px 30px;
     &-left {
       width: 200px;
-      padding: 20px;
       img {
-        width: 100%;
+        width: 200px;
+        height: 200px;
+        border: 1PX solid #cccccc;
       }
     }
     &-right {

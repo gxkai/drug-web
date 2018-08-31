@@ -5,12 +5,13 @@
         <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
       </div>
     </new-header>
-    <swiper :options="swiperOption" class="swiper-body">
-      <swiper-slide v-for="(pic,index) in drugSpec.pics" :key="index">
-        <img :src="getImgURL(pic, 'MIDDLE_PIC')"/>
-      </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
-    </swiper>
+    <div class="swiper">
+      <mt-swipe :atuo="3000">
+        <mt-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
+          <img :src="getImgURL(pic, 'MIDDLE_PIC')"/>
+        </mt-swipe-item>
+      </mt-swipe>
+    </div>
     <div class="drug-div1 position-relative">
       <div class="drug-div2 position-absolute">
         <p class="elps drug-head-line">{{drugInfo.name}}</p>
@@ -97,13 +98,7 @@
         sort: 'SYNTHESIZE',
         val: -1,
         lat: this.$store.getters.position.lat,
-        lng: this.$store.getters.position.lng,
-        swiperOption: {
-          autoplay: 3500,
-          pagination: '.swiper-pagination',
-          paginationClickable: true,
-          speed: 1000
-        }
+        lng: this.$store.getters.position.lng
       };
     },
     watch: {
@@ -161,34 +156,21 @@
   };
 </script>
 
+<style type="text/less" lang="less">
+  .swiper {
+    width: 100%;
+    height: 500px;
+    img {
+      width: 100%;
+      height: 450px;
+    }
+  }
+</style>
+
 <style scoped>
   .fruit-body {
     background: #fbf7f7;
     width: 720px;
-  }
-
-  .drug-bg-img {
-    width: 720px;
-    height: 413px;
-    background: rgba(255, 255, 255, 1);
-  }
-
-  .drug-type {
-    width: 42px;
-    height: 25px;
-    background: rgba(43, 178, 146, 1);
-    color: white;
-    text-align: center;
-    line-height: 25px;
-    margin-top: 11px;
-    margin-left: 22px;
-    border-radius: 42px/21px;
-  }
-
-  .drug-img {
-
-    height: 295px;
-    background: #ffffff;
   }
 
   .drug-div1 {
@@ -281,15 +263,18 @@
     display: flex;
     align-items: center;
   }
-  .rote>div {
+
+  .rote > div {
     display: flex;
     align-items: center;
     margin-left: 20px;
   }
-  .rote>div>div{
+
+  .rote > div > div {
     font-size: 25px;
   }
-  .rote>div>div .iconfont {
+
+  .rote > div > div .iconfont {
     font-size: 30px;
   }
 
@@ -297,17 +282,6 @@
     position: absolute;
     right: 20px;
     bottom: 20px;
-  }
-
-  .swiper-body {
-    width: 720px;
-    height: 413px;
-    text-align: center;
-    background-color: white;
-  }
-
-  .swiper-body img {
-    height: 400px;
   }
 
   a span {

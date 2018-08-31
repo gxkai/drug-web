@@ -22,10 +22,13 @@ import Mui from 'vue-awesome-mui';
 import {Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
-  GoodsActionMiniBtn} from 'vant';
+  GoodsActionMiniBtn,
+  Swipe, SwipeItem} from 'vant';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
-  .use(GoodsActionMiniBtn);
+  .use(GoodsActionMiniBtn)
+  .use(Swipe)
+  .use(SwipeItem);
 Vue.use(Mui);
 Vue.use(vueEventCalendar, {locale: 'zh'});
 Vue.prototype.$http = axios;

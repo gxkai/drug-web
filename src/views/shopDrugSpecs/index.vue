@@ -1,6 +1,6 @@
 <template>
   <div class="bind-container">
-    <new-header title="商品详情" class="header">
+    <new-header title="商品详情">
       <div slot="left" @click.stop="$router.go(-1)">
         <i class="iconfont ic-arrow-right"></i>
       </div>
@@ -28,7 +28,7 @@
       <div class="stock">
         <div class="elps">
           <div class="text-1AB6FD text-l-20">
-            国药准字:
+            国药准字&nbsp;
           </div>
           <div class="elps text-l-20">
             {{shopDrugSpec.sfda}}
@@ -37,7 +37,7 @@
         <div class="vertical-line"></div>
         <div class="elps text-l-20">
           <div class="text-1AB6FD text-l-20">
-            库存:
+            库存&nbsp;
           </div>
           <div class="elps text-l-20">
             {{shopDrugSpec.stock}}
@@ -45,7 +45,7 @@
         </div>
         <div class="vertical-line "></div>
         <div class="elps text-l-20">
-          <div class="text-1AB6FD text-l-20">包装规格:</div>
+          <div class="text-1AB6FD text-l-20">包装规格&nbsp;</div>
           <div class="elps text-l-20">
             {{shopDrugSpec.spec}}
           </div>
@@ -95,44 +95,60 @@
 
       <!--公司信息开始-->
       <div class="company">
-        <div class="companys">
-          <div class="d-inline-block company-logo">
-            <img :src="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')" class="logo"/>
+        <div class="header">
+          <div class="left">
+            <img :src="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')"/>
           </div>
-          <div class="company-name d-inline-block">
-            <p class="elps text-l-25">{{shopDrugSpec.shopName}}</p>
-            <p class="elps">
-              <new-star :score="shopDrugSpec.shopTotalAppraise.score" size="small" disabled></new-star>
-            </p>
+          <div class="center">
+            <div>
+              {{shopDrugSpec.shopName}}
+            </div>
+            <div>
+              <new-star :score="shopDrugSpec.shopTotalAppraise.score" size="middler" disabled></new-star>
+            </div>
           </div>
-          <div class="d-inline-block fr mr-l-20 mt-l-15">
-            <i class="icon iconfont ic-anquan text-1AB6FD"></i>
+          <div class="right">
+            <i class="iconfont ic-anquan"></i>
           </div>
         </div>
-        <!--客户服务开始-->
-        <div class="width-percent-90 customer">
-          <div class="d-inline-block width-percent-22 text-center">
-            <p>客户服务</p>
-            <p class="text-red">{{shopDrugSpec.shopTotalAppraise.serviceScore}}分</p>
-          </div>
-          <div class="d-inline-block width-percent-22 text-center">
-            <p>发货速度</p>
-            <p class="text-red">{{shopDrugSpec.shopTotalAppraise.deliveryScore}}分</p>
-          </div>
-          <div class="d-inline-block width-percent-22 text-center">
-            <p>物流速度</p>
-            <p class="text-red">{{shopDrugSpec.shopTotalAppraise.describeScore}}分</p>
-          </div>
-          <div class="d-inline-block width-percent-22 text-center">
-            <p>商品包装</p>
-            <p class="text-red">{{shopDrugSpec.shopTotalAppraise.packageScore}}分</p>
-          </div>
-          <router-link :to="{path:'/shops/view',query:{shopId:shopDrugSpec.shopId}}">
-            <div class="enter-shop text-white">
-              进入店铺
+        <div class="content">
+          <div class="item">
+            <div>
+              客户服务
             </div>
-          </router-link>
-
+            <div>
+              {{shopDrugSpec.shopTotalAppraise.deliveryScore}}分
+            </div>
+          </div>
+          <div class="item">
+            <div>
+              发货速度
+            </div>
+            <div>
+              {{shopDrugSpec.shopTotalAppraise.deliveryScore}}分
+            </div>
+          </div>
+          <div class="item">
+            <div>
+              物流速度
+            </div>
+            <div>
+              {{shopDrugSpec.shopTotalAppraise.describeScore}}分
+            </div>
+          </div>
+          <div class="item">
+            <div>
+              商品包装
+            </div>
+            <div>
+              {{shopDrugSpec.shopTotalAppraise.packageScore}}分
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="enter" @click="$router.push({path:'/shops/view',query:{shopId:shopDrugSpec.shopId}})">
+            进入店铺
+          </div>
         </div>
         <!--客户服务结束-->
       </div>
@@ -191,6 +207,74 @@
   };
 </script>
 
+<style scoped type="text/less" lang="less">
+  @import "../../assets/less/index";
+
+  .company {
+    background-color: white;
+    margin-top: 20px;
+    .header {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      .left {
+        img {
+          width: 100px;
+        }
+      }
+      .center {
+        margin-left: 20px;
+        max-width: 300px;
+        & > div {
+          &:nth-child(1) {
+            font-size: 28px;
+            .ellipsis-one();
+          }
+          &:nth-child(2) {
+            margin-top: 5px;
+          }
+        }
+      }
+      .right {
+        margin-left: 180px;
+        i {
+          font-size: 60px;
+          color: #1AB6FD;
+        }
+      }
+    }
+    .content {
+      display: flex;
+      justify-content: space-around;
+      .item {
+        >div {
+          text-align: center;
+          font-size: 24px;
+          &:nth-child(2) {
+            margin-top: 10px;
+            color: #ef4f4f;
+          }
+        }
+      }
+    }
+    .footer {
+      display: flex;
+      justify-content: center;
+      padding: 20px 0;
+      .enter {
+        border: 1PX solid white;
+        border-radius: 30px;
+        background-color: #1AB6FD;
+        padding: 5px 200px;
+        font-size: 30px;
+        color: white;
+        font-weight:normal;
+      }
+    }
+  }
+
+</style>
+
 <style scoped>
   .is-flex {
     display: flex !important;
@@ -206,15 +290,8 @@
 
   }
 
-  .header {
-    position: fixed;
-    top: 0;
-    z-index: 999;
-  }
-
   .body {
     margin-bottom: 141px;
-    margin-top: 130px;
   }
 
   .broadcast {
@@ -268,7 +345,7 @@
     text-align: center;
   }
 
-  .stock{
+  .stock {
     width: 720px;
     background: rgba(255, 255, 255, 1);
     display: flex;
@@ -276,10 +353,12 @@
     align-items: center;
     padding: 30px 20px;
   }
-  .stock>div {
+
+  .stock > div {
     display: flex;
   }
-  .stock>div:nth-child(1),.stock>div:nth-child(3),.stock>div:nth-child(5) {
+
+  .stock > div:nth-child(1), .stock > div:nth-child(3), .stock > div:nth-child(5) {
     max-width: 200px;
   }
 
@@ -356,37 +435,6 @@
     height: auto !important;
   }
 
-  .company {
-    width: 720px;
-    margin-top: 15px;
-    background: white;
-    padding-bottom: 20px;
-  }
-
-  .companys {
-    width: 720px;
-  }
-
-  .company-logo {
-    width: 114px;
-  }
-
-  .company-logo img {
-    width: 100%;
-    border-radius: 50%;
-  }
-
-  .company-name {
-    width: 305px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-    margin-left: 70px;
-  }
-
-  .ic-anquan {
-    font-size: 50px;
-  }
-
   .customer {
     margin: 25px 0px 1px 5%;
   }
@@ -456,7 +504,7 @@
     background-color: black;
   }
 
-  .broadcast-content img{
+  .broadcast-content img {
     height: 100%;
     width: 100%;
   }
