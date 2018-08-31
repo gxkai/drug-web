@@ -310,19 +310,19 @@
   }
 
   .border-left-gray {
-    border-left: 0.8px rgba(238, 238, 238, 1) solid !important;
+    border-left: 0.8PX rgb(238, 238, 238) solid !important;
   }
 
   .border-right-gray {
-    border-right: 0.8px rgba(238, 238, 238, 1) solid !important;
+    border-right: 0.8PX rgb(238, 238, 238) solid !important;
   }
 
   .border-top-gray {
-    border-top: 0.8px rgba(238, 238, 238, 1) solid !important;
+    border-top: 0.8PX rgb(238, 238, 238) solid !important;
   }
 
   .border-bottom-gray {
-    border-bottom: 0.8px rgba(238, 238, 238, 1) solid !important;
+    border-bottom: 0.8PX rgb(238, 238, 238) solid !important;
   }
 
   .separate-content {

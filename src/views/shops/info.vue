@@ -21,28 +21,28 @@
 
       <div class="shop-list-scores bg-white">
         <div class="shop-list-score-sum">
-          <span class="text-l-25">服务总评：</span>
+          <span class="text-l-25">服务总评&nbsp;</span>
           <span class="shop-score text-l-25">{{resultData.score}}</span>
           <span class="text-l-25">（共{{resultData.count}}人参加评分）</span>
         </div>
 
         <div class="shop-list-score">
-          <span>配送速度：</span>
+          <span>配送速度&nbsp;</span>
           <span class="shop-score">{{resultData.describeScore}}</span>
         </div>
 
         <div class="shop-list-score">
-          <span>服务态度：</span>
+          <span>服务态度&nbsp;</span>
           <span class="shop-score">{{resultData.deliveryScore}}</span>
         </div>
 
         <div class="shop-list-score">
-          <span>描述相符：</span>
+          <span>描述相符&nbsp;</span>
           <span class="shop-score">{{resultData.serviceScore}}</span>
         </div>
 
         <div class="shop-list-score">
-          <span>商品包装：</span>
+          <span>商品包装&nbsp;</span>
           <span class="shop-score">{{resultData.packageScore}}</span>
         </div>
       </div>
@@ -82,15 +82,17 @@
   }
   .shop-list-aptitude-imgs {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     width: 100%;
     padding: 20px;
-    justify-content: space-between;
+    align-items: center;
   }
   .shop-list-aptitude-imgs img {
-    height: 300px;
+    width: 600px;
+    height: 600px;
     padding: 20px;
+    margin-bottom: 10px;
+    border: 1PX solid #cccccc;
   }
 
   .container {
