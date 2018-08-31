@@ -1,7 +1,7 @@
 <template>
   <div class="item" @click="$router.push({path:'/points/view', query:{couponId:item.couponId}})">
     <div class="item-image">
-      <img v-lazy="getImgURL(item.fileId, 'MIDDLE_LOGO')">
+      <img :src="getImgURL(item.fileId, 'MIDDLE_LOGO')">
     </div>
     <div class="item-text">
       <div>

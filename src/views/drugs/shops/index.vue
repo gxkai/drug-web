@@ -7,7 +7,7 @@
     </new-header>
     <swiper :options="swiperOption" class="swiper-body">
       <swiper-slide v-for="(pic,index) in drugSpec.pics" :key="index">
-        <img v-lazy="getImgURL(pic, 'MIDDLE_PIC')"/>
+        <img :src="getImgURL(pic, 'MIDDLE_PIC')"/>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>

@@ -10,15 +10,18 @@
     <div class="refund-reason">
       <div>
         <span class="text-l-25">退款原因</span>
-        <span>{{reason}}</span>
+        <span class="text-l-25">{{reason}}</span>
       </div>
       <div @click="handleClick()">
-        <span class="text-l-25">请选择<i class="iconfont ic-youjiantou"></i></span>
+        <div class="text-l-25">请选择</div>
+        <div>
+          <i class="iconfont ic-youjiantou"></i>
+        </div>
       </div>
     </div>
     <div class="refund-price">
       <div>
-        <span>退款金额：</span>
+        <span>退款金额</span>
         <span>￥{{orderInfo.totalAmount}}</span>
       </div>
     </div>
@@ -59,7 +62,7 @@
       <div class="refund-reason-choose">
         <div class="refund-reason-choose-item" v-for="(item,index) in reasonList">
           <label for="index">{{item}}</label><input type="radio" v-model="reason" :value="item"
-                                                    id="index"/>
+                                                    id="index" @click="onClose()"/>
         </div>
       </div>
       <div class="refund-reason-close" @click="onClose()">
@@ -184,9 +187,13 @@
   }
 
   .refund-reason div:nth-child(2) {
-    font-size: 24px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
+    display: flex;
+    align-items: center;
+  }
+  .refund-reason div:nth-child(2)>div:nth-child(1) {
+    font-size: 28px;
   }
 
   .refund-price {
@@ -387,5 +394,7 @@
   .ic-zhaoxiangji:before {
     font-size: 80px;
   }
-
+  .ic-youjiantou {
+    font-size: 40px;
+  }
 </style>

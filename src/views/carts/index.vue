@@ -34,7 +34,7 @@
               <i class="iconfont ic-yaodian" slot="left"></i>
             </div>
             <div slot="left" @click.stop="$router.push({path:'/shops/view',query:{shopId:cartShop.id}})">
-              <span>{{cartShop.shopName}}</span>
+              <span class="text-l-30">{{cartShop.shopName}}</span>
             </div>
           </new-header>
           <ul class="cartRxs">
@@ -88,23 +88,30 @@
                       </div>
                       <div class="text">
                         <div class="top">
-                          <div class="name elips">{{cartDrug.name}}</div>
-                          <div class="spec">{{cartDrug.spec}}</div>
+                          <div class="name elps mt-l-10 ml-l-10">{{cartDrug.name}}</div>
+                          <div class="spec ml-l-10">{{cartDrug.spec}}</div>
                         </div>
                         <div class="bottom">
                           <div class="price">
-                            <span>¥{{cartDrug.price.toFixed(2)}}</span>
+                            <span class="text-l-25 ml-l-10">¥{{cartDrug.price.toFixed(2)}}</span>
                           </div>
                           <div class="quantity">
                             <div>
-                              <span>x{{cartDrug.quantity}}</span>
+                              <span class="text-l-25">x{{cartDrug.quantity}}</span>
                             </div>
-                            <div class="multi">
+                            <div class="multi" v-if="cartRx.rxId === '0'">
                               <div @click.stop="onCut(cartDrug)">-</div>
                               <div>
                                 <input v-model="cartDrug.quantity" type="number">
                               </div>
                               <div @click.stop="onAdd(cartDrug)">+</div>
+                            </div>
+                            <div class="multi" v-else>
+                              <div>-</div>
+                              <div>
+                                <input v-model="cartDrug.quantity" type="number" readonly>
+                              </div>
+                              <div>+</div>
                             </div>
                           </div>
                         </div>
@@ -316,6 +323,7 @@
           return;
         }
         this.$http.get('/orders/cart?cartIds=' + cartIds).then(res => {
+          console.log(res.data);
           this.$router.push({path: '/orders/create/fromCart', query: {cart: JSON.stringify(res.data)}});
         }).catch(error => {
           this.exception(error);
@@ -507,7 +515,7 @@
   }
 
   .chakanchufan {
-    font-size: 20px;
+    font-size: 28px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 0, 0, 1);
   }
@@ -548,11 +556,10 @@
   }
 
   .slide-content .text {
-    padding-left: 20px;
+    padding: 20px 10px;
   }
 
   .slide-content .text .top {
-    height: 105px;
     width: 460px;
     display: flex;
     flex-direction: column;
@@ -560,13 +567,13 @@
   }
 
   .slide-content .text .top .name {
-    font-size: 24px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .slide-content .text .top .spec {
-    font-size: 18px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
     margin-top: 12px;
@@ -596,7 +603,6 @@
 
   .slide-content .text .bottom .quantity div:nth-child(1) {
     align-self: flex-end;
-    font-size: 24px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }

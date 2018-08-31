@@ -22,12 +22,12 @@
         <ul>
           <li v-for="(item,index) in list" :key="index">
             <div class="content1" v-if="item.type === 'SHOP'">
-              <img v-lazy="shopInfo.headImg">
+              <img :src="shopInfo.headImg">
               <div class="bubble">{{item.message}}</div>
             </div>
             <div class="content2" v-else>
               <div class="bubble2">{{item.message}}</div>
-              <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')">
+              <img :src="getImgURL(account.fileId,'SMALL_LOGO')">
             </div>
           </li>
         </ul>
@@ -151,6 +151,7 @@
 
   ul li .content1 {
     display: inline-flex;
+    margin-top: 30px;
   }
 
   ul li .content1 img {
@@ -255,5 +256,6 @@
     height: 60px;
     background: rgba(19, 193, 254, 1);
     border-radius: 3px;
+    outline: none;
   }
 </style>

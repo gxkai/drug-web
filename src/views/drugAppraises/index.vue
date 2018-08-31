@@ -12,13 +12,13 @@
             <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')">
             <span>{{account.username|asterisk}}</span>
           </div>
-          <span>{{item.createdDate|timeConvert}}</span>
+          <span class="text-l-25">{{item.createdDate|timeConvert}}</span>
         </div>
         <div class="line2">
           {{item.content}}
         </div>
         <div class="line3">
-          <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
+          <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
           <div class="right">
             <p>药品名称：{{item.name}}</p>
             <p>规格:{{item.spec}}</p>
@@ -115,6 +115,7 @@
     width:62px;
     height:62px;
     margin-right: 21px;
+    border-radius: 50%;
   }
 
   .line1 div:nth-child(1) span {
@@ -130,16 +131,15 @@
   }
 
   .line2 {
-    font-size: 22px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
-    margin-top: 10px;
-    margin-bottom: 15px;
+    padding: 30px 10px;
   }
 
   .line3 {
     width: 679px;
-    height: 165px;
+    padding: 10px;
     background: rgba(238, 238, 238, 1);
     margin: auto;
     display: flex;
@@ -147,8 +147,8 @@
   }
 
   .line3 img {
-    width: 201px;
-    height: 144px;
+    width: 150px;
+    height: 150px;
     margin-left: 10px;
     margin-right: 31px;
   }
@@ -158,13 +158,13 @@
   }
 
   .line3 .right p:nth-child(1) {
-    font-size: 20px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(0, 0, 0, 1);
   }
 
   .line3 .right p:nth-child(2) {
-    font-size: 20px;
+    font-size: 24px;
     font-family: HiraginoSansGB-W3;
     color: rgba(102, 102, 102, 1);
   }

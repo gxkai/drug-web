@@ -28,7 +28,7 @@
       <!-- 轮播 -->
       <mt-swipe :auto="4000" class="swiper-container">
         <mt-swipe-item v-for="(advertList,index) in advertLists" :key="index">
-          <img :src="getImgURL(advertList.fileId, 'ADVERT')" @click="see(advertList)" class="swiper-img"/>
+          <img :src="getImgURL(advertList.fileId, 'ADVERT')" class="swiper-img"/>
         </mt-swipe-item>
       </mt-swipe>
 
@@ -54,24 +54,17 @@
         </div>
         <!-- 滚动 -->
         <div class="scroll-bar border-top-gray all-center">
-          <div class="d-inline-block fl health-img">
+          <div class="d-inline-block health-img ml-l-20">
             <img src="../assets/image/health.png" class="health-img"/>
           </div>
-          <div class="d-inline-block fl">
-            <div class="scroll-wrap d-block"><span class="hot">热门</span>
-              <ul class="scroll-content" :style="{ top }">
-                <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeList" :key="index"
-                             :to="{path:'/repositories',query:{repositoryTypeId:repositoryType.id,title:repositoryType.name}}">
-                  <li v-for="item in repositoryTypeList">{{repositoryType.name }}</li>
-                </router-link>
-              </ul>
-            </div>
-            <div class="scroll-wrap d-block"><span class="hot">必读</span>
+          <div class="d-inline-block">
+            <div class="scroll-wrap d-block">
+              <!--<span class="hot">必读</span>-->
               <ul class="scroll-content" :style="{ top }">
                 <router-link class="f_knowledgeList" v-for="(repositoryType,index) in repositoryTypeListForHome"
                              :key="index"
-                             :to="{path:'/repositories/view',query:{repositoryTypeId:repositoryType.id,title:repositoryType.title}}">
-                  <li v-for="item in repositoryTypeList">{{repositoryType.title }}</li>
+                             :to="{path:'/repositories/view',query:{id:repositoryType.id,title:repositoryType.title}}">
+                  <li>{{repositoryType.title }}</li>
                 </router-link>
               </ul>
             </div>
@@ -97,11 +90,11 @@
           <router-link v-for="(discountList,index) in discountList"
                        :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:discountList.id}}"
                        :key="index">
-            <div class="drug-box flex-row-center border-right-gray border-bottom-gray">
-              <img class="is-120x120 mr-20" v-lazy="getImgURL(discountList.fileId, 'LARGE_LOGO')">
+            <div class="drug-box flex-row-center border-right-gray border-bottom-gray rlhm">
+              <img class="mr-20 is-120x120" :src="getImgURL(discountList.fileId, 'LARGE_LOGO')">
               <div class="is-flex flex-column">
-                <span class="elps width-144 d-inline-block text-l-25">{{discountList.name}}</span>
-                <span class="text-red text-center text-l-25">¥ {{discountList.price}} /盒</span>
+                <span class="elps width-144 d-inline-block text-l-25 text-center">{{discountList.name}}</span>
+                <span class="text-red text-center text-l-25 mt-l-10">¥ {{discountList.price}} /盒</span>
               </div>
             </div>
           </router-link>
@@ -119,7 +112,7 @@
               <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
                 <img :data-index="index"
                      :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
-                     v-lazy="getImgURL(slide.fileId, 'LARGE_LOGO')">
+                     :src="getImgURL(slide.fileId, 'LARGE_LOGO')" @click="$router.push({path:'/shops/view',query:{shopId:slide.id}})">
               </template>
             </slide>
           </carousel-3d>
@@ -142,11 +135,11 @@
               class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
               v-for="(recommendList,index) in recommendList" :key="index"
               :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
-              <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true">非</span>
-              <span class="toc-tip position-absolute all-center" v-else>处</span>
-              <img class="is-260x193" v-lazy="getImgURL(recommendList.fileId, 'LARGE_LOGO')">
-              <span class="elps width-180 fz22">{{recommendList.name}}{{recommendList.spec}}</span>
-              <span class="text-red fz24">¥ {{recommendList.price}} /盒</span>
+              <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true" style="background-color: #4caf50">非</span>
+              <span class="toc-tip position-absolute all-center" v-else >处</span>
+              <img class="is-260x193" :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')">
+              <span class="elps width-180 fz22 text-center mt-l-10">{{recommendList.name}}{{recommendList.spec}}</span>
+              <span class="text-red fz24 text-center">¥ {{recommendList.price}} /盒</span>
             </router-link>
           </ul>
         </div>
@@ -288,6 +281,7 @@
       // 医保定点
       this.$http.get('/shops/show').then(res => {
         this.showList = res.data;
+        console.log(this.showList);
       }).catch(error => {
         this.exception(error);
       });
@@ -449,6 +443,7 @@
     outline: none;
     font-size: 30px;
     font-family: HiraginoSansGB-W3;
+    border-radius: 10PX;
   }
 
   /*小图标*/
@@ -486,7 +481,7 @@
   /*滚动*/
   .scroll-bar {
     width: 720px;
-    height: 100px;
+    height: 120px;
     background: white;
   }
 
@@ -519,8 +514,14 @@
 
   .shop-content {
     width: 720px;
-    height: 330px;
+    padding: 10px 0;
     background: rgba(238, 238, 238, 1);
+  }
+  .shop-content img {
+    height:300px;
+  }
+  .carousel-3d-slide {
+    background-color: white;
   }
 
   .mr-20 {
@@ -534,7 +535,7 @@
 
   .scroll-wrap {
     width: 641px;
-    height: 40px;
+    height: 100px;
     overflow: hidden;
   }
 
@@ -547,7 +548,6 @@
   }
 
   .scroll-content li {
-    line-height: 50px;
     text-align: center;
     height: 50px;
   }
@@ -571,7 +571,8 @@
 
   .swiper-container {
     width: 720px;
-    height: 300px;
+    height: 320px;
+    padding: 10px 0;
   }
 
   .swiper-slides {
@@ -586,10 +587,11 @@
     font-size: 22px;
     color: rgba(119, 119, 119, 1);
   }
-
   .swiper-img {
-    width:720px;
+    width:700px;
     height:300px;
+    border-radius: 10PX;
+    margin-left: 10px;
   }
 
   .fz22 {

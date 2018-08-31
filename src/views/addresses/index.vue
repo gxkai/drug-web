@@ -7,16 +7,16 @@
     </new-header>
     <div class="address-content" v-for="(address,index) in addressList" :key="index">
       <div class="address-content-lineOne">
-        <span>{{address.consignee}}</span>
-        <span>{{address.phone}}</span>
+        <span class="text-l-25">{{address.consignee}}</span>
+        <span class="text-l-25">{{address.phone}}</span>
       </div>
       <div class="address-content-lineTwo">
         <img v-if="address.defaulted" src="../../assets/image/defaulPic.png"/>
-        <span>{{address.address}}</span>
+        <span class="text-l-25">{{address.address}}</span>
         <router-link :to="{path:'/addresses/edit',query:{id:address.id}}" class="address-content-edit">
           <img src="../../assets/image/edit.png"/>
         </router-link>
-        <button @click="del(address.id,index)">删除</button>
+        <button @click="del(address.id,index)" class="text-l-25">删除</button>
       </div>
     </div>
     <router-link tag="button" to="/addresses/create" class="address-footer">+ 新增地址</router-link>
@@ -99,8 +99,8 @@
 
   .address-content-lineTwo img {
     width: 48px;
+    margin-top: 5px;
     height: 30px;
-    margin-top: 8px;
     margin-right: 30px;
   }
 

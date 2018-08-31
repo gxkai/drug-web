@@ -10,12 +10,12 @@
     </new-header>
     <div ref="body">
       <div class="header all-center" v-if="JSON.stringify(account) !== '{}'">
-        <img class="header-img" v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"/>
-        <span class="everyday"
-              :style="{backgroundImage:'url('+require('../../assets/image/accounts/dayily.png')+')',backgroundSize:'100%'}"
-              @click="everyDay()">
-        每日签到
-        </span>
+        <img class="header-img" :src="getImgURL(account.fileId,'LARGE_LOGO')"/>
+        <!--<span class="everyday"-->
+              <!--:style="{backgroundImage:'url('+require('../../assets/image/accounts/dayily.png')+')',backgroundSize:'100%'}"-->
+              <!--@click="everyDay()">-->
+        <!--每日签到-->
+        <!--</span>-->
        </div>
       <div class="header all-center" v-else>
         <router-link to="/login">
@@ -74,21 +74,21 @@
           <img src="../../assets/image/accounts/refund.png"/>
           <span class="mt-15">退款</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/setting">
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/accounts/view">
           <img src="../../assets/image/accounts/d-seeting.png"/>
           <span class="mt-15">账户设置</span>
         </router-link>
-        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/points">
-          <img src="../../assets/image/accounts/d-points.png"/>
-          <span class="mt-15">我的积分</span>
-        </router-link>
+        <!--<router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/points">-->
+          <!--<img src="../../assets/image/accounts/d-points.png"/>-->
+          <!--<span class="mt-15">我的积分</span>-->
+        <!--</router-link>-->
         <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray"
                      :to="null==this.account.medicalNumber?'/accounts/card/bind':'/accounts/unbind'">
           <img src="../../assets/image/accounts/card.png"/>
           <span class="mt-15">医保卡信息</span>
         </router-link>
 
-        <router-link class="flex-box account-content-padding border-right-gray" to="/faqs">
+        <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray" to="/faqs">
           <img src="../../assets/image/accounts/d-issue.png"/>
           <span class="text">常见问题</span>
         </router-link>
@@ -171,19 +171,19 @@
   }
 
   .border-left-gray {
-    border-left: 1px rgba(235, 235, 235, 1) solid;
+    border-left: 1PX rgba(235, 235, 235, 1) solid;
   }
 
   .border-right-gray {
-    border-right: 1px rgba(235, 235, 235, 1) solid;
+    border-right: 1PX rgba(235, 235, 235, 1) solid;
   }
 
   .border-top-gray {
-    border-top: 1px rgba(235, 235, 235, 1) solid;
+    border-top: 1PX rgba(235, 235, 235, 1) solid;
   }
 
   .border-bottom-gray {
-    border-bottom: 1px rgba(235, 235, 235, 1) solid;
+    border-bottom: 1PX rgba(235, 235, 235, 1) solid;
   }
 
   .account-container {

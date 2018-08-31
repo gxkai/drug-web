@@ -37,7 +37,7 @@
           <div>
             <i class="iconfont ic-peisongfangshi"></i>
           </div>
-          <span class="text-l-26">配送方式</span>
+          <span class="text-l-30">配送方式</span>
         </div>
         <div class="bottom">
           <button :class="{active:deliveryType=='DELIVERY'}" @click.stop="onDeliveryType('DELIVERY')">送货</button>
@@ -49,9 +49,9 @@
           <div>
             <i class="iconfont ic-fjzhifufangshi"></i>
           </div>
-          <span class="text-l-26">支付方式</span>
+          <span class="text-l-30">支付方式</span>
         </div>
-        <div class="bottom">
+        <div class="bottom mt-l-10">
           <div>
             <div v-if="payType === 'WECHAT_PAY'">
               <img src="../../../assets/image/alopay.png" @click.stop="onPayType('ALIPAY')">
@@ -321,8 +321,7 @@
   }
 
   .pay .bottom img {
-    width: 67px;
-    height: 67px;
+    width: 80px;
     background: rgba(255, 255, 255, 1);
     border-radius: 10px;
   }

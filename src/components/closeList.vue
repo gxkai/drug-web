@@ -11,7 +11,7 @@
         <li v-for="cartRx in cartShop.rxs">
           <ul class="cartDrugs">
             <new-header bgColor="white" height="low" leftSize="small" leftColor="black"
-                        v-if="cartRx.rxId !== '0' && cartRx.rxState == 'ENABLED'">
+                        v-if="cartRx.rxId !== '0'">
               <div slot="left">
               <i class="iconfont ic-chufangdanluru" ></i>
               </div>
@@ -27,7 +27,7 @@
             <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs" :key="cartDrugIndex">
               <div class="slide-content">
                 <div class="image">
-                  <img v-lazy="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
+                  <img :src="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
                 </div>
                 <div class="text">
                   <div class="top">
@@ -36,11 +36,11 @@
                   </div>
                   <div class="bottom">
                     <div class="price">
-                      <span>¥{{cartDrug.price}}</span>
+                      <span class="text-l-25">¥{{cartDrug.price}}</span>
                     </div>
                     <div class="quantity">
                       <div>
-                        <span>x{{cartDrug.quantity}}</span>
+                        <span class="text-l-25">x{{cartDrug.quantity}}</span>
                       </div>
                     </div>
                   </div>
@@ -113,13 +113,13 @@
   }
 
   .slide-content .text .top .name {
-    font-size: 24px;
+    font-size: 25px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
 
   .slide-content .text .top .spec {
-    font-size: 18px;
+    font-size: 24px;
     font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }

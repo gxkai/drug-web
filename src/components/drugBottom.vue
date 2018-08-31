@@ -6,7 +6,7 @@
         <div>
           <div class="drug-top position-relative">
             <div class="left d-inline-block fl position-relative width-percent-30">
-              <img v-lazy="getImgURL(drugSpec.logo,'SMALL_LOGO')" class="drug-img"/>
+              <img :src="getImgURL(drugSpec.logo,'SMALL_LOGO')" class="drug-img"/>
             </div>
             <div class="right d-inline-block fl width-percent-70">
               <div class="drug-close text-right width-percent-100">
@@ -122,7 +122,7 @@
   .drug-img {
     width: 164px;
     height: 154px;
-    border: 1px solid #f5f5f5;
+    border: 1PX solid #f5f5f5;
     margin-left: 29px;
     margin-top: -36px;
   }

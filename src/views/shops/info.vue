@@ -8,7 +8,7 @@
 
     <div class="shop-header">
       <div>
-        <img v-lazy="getImgURL(resultData.logo, 'SMALL_LOGO') "/>
+        <img :src="getImgURL(resultData.logo, 'SMALL_LOGO') "/>
         <span class="shop-name elps">{{resultData.name}}</span>
         <i class="icon iconfont ic-anquanrenzheng ic-size text-white"></i>
       </div>
@@ -50,8 +50,7 @@
       <div class="shop-list-aptitude bg-white">
         <div class="shop-list-aptitude-title">商家资质</div>
         <div class="shop-list-aptitude-imgs bg-white">
-            <img v-lazy="getImgURL(item, 'LARGE_PIC')" v-for="(item, index) in resultData.fileIds" :key="index"/>
-          <img v-lazy="">
+            <img :src="getImgURL(item, 'LARGE_PIC')" v-for="(item, index) in resultData.fileIds" :key="index"/>
         </div>
       </div>
     </div>

@@ -40,9 +40,7 @@
         </div>
       </div>
       <div class="images">
-        <!--<img v-lazy="getImgURL(fileId,'LARGE_LOGO')" v-for="fileId in shopDrugSpec.fileIds"/>-->
-        <img v-lazy>
-        <img v-lazy>
+        <img :src="getImgURL(fileId,'LARGE_LOGO')" v-for="fileId in shopDrugSpec.fileIds"/>
       </div>
     </div>
   </div>

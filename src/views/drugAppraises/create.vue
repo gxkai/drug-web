@@ -10,7 +10,7 @@
       <ul>
         <li v-for="(item,index) in list" :key="index">
           <div class="line1">
-            <img v-lazy="getImgURL(item.fileId, 'lARGE_LOGO')">
+            <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
             <new-star class="star" size="middle" :score.sync="item.score"></new-star>
           </div>
           <div class="line"></div>
@@ -26,23 +26,23 @@
       <footer>
         <div class="title1">
           <i class="iconfont ic-shangchuanmoban"></i>
-          <span>店铺评分</span>
+          <span class="text-l-30">店铺评分</span>
         </div>
         <div class="content1">
           <div class="line1">
-            <span>配送速度</span>
+            <span class="text-l-25">配送速度</span>
             <new-star size="small" :score.sync="deliveryScore"></new-star>
           </div>
           <div class="line2">
-            <span>服务态度</span>
+            <span class="text-l-25">服务态度</span>
             <new-star size="small" :score.sync="serviceScore"></new-star>
           </div>
           <div class="line3">
-            <span>描述相符</span>
+            <span class="text-l-25">描述相符</span>
             <new-star size="small" :score.sync="describeScore"></new-star>
           </div>
           <div class="line4">
-            <span>商品包装</span>
+            <span class="text-l-25">商品包装</span>
             <new-star size="small" :score.sync="packageScore"></new-star>
           </div>
         </div>
@@ -187,13 +187,14 @@
   }
 
   footer .title1 span {
-    font-size: 26px;
     font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
   }
-
-  footer .content1>div {
+  footer .content1 {
     padding: 10px;
+  }
+  footer .content1>div {
+    padding: 10px 0;
     display: flex;
   }
   footer .content1>div>div {

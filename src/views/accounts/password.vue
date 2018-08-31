@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="account-container">
     <new-header title="修改密码">
@@ -18,7 +17,7 @@
         <label>确认密码:</label><input placeholder="请再次输入密码" type="password" v-model="passwordConfirm"/>
       </div>
     </div>
-    <button class="btn-fixed" @click="save">确定</button>
+    <button class="btn-fixed text-l-30" @click="save">确定</button>
   </div>
 </template>
 
@@ -104,6 +103,9 @@
     font-size:24px;
     font-family:HiraginoSansGB-W3;
     color:rgba(51,51,51,1);
+  }
+  .password-list input::placeholder{
+    text-align: left;
   }
 
   .password-content {

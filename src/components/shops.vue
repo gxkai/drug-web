@@ -1,6 +1,6 @@
 <template>
 <div class="shop-box is-flex flex-center">
-  <img class="is-280x250" v-lazy="getImgURL(fileId, 'SMALL_LOGO')">
+  <img class="is-280x250" :src="getImgURL(fileId, 'LARGE_LOGO')">
   <div class="shop-content flex-sb flex-column position-relative ml-div ml-l-20">
     <div class="adiv name-div mt-l-10">
       <span class="text-l-30">

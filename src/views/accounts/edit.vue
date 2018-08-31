@@ -1,4 +1,3 @@
-<!-- FIXME 字体大小 -->
 <template>
   <div class="account-container">
     <new-header title="账户信息">
@@ -81,12 +80,16 @@
     background:rgba(255,255,255,1);
     margin-bottom: 15px;
   }
+  .content-list label{
+    font-size: 25px;
+  }
   .content-list input{
     border: 0;
     text-align: right;
     box-sizing: border-box;
     padding-right: 10px;
     outline: 0;
+    font-size: 25px;
   }
   .a-content-list span{
     color: #535353;
@@ -111,5 +114,6 @@
     border: 0;
     color: white;
     letter-spacing: 2px;
+    font-size: 30px;
   }
 </style>

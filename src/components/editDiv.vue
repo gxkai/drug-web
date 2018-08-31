@@ -56,4 +56,7 @@
     font-family:HiraginoSansGB-W3;
     color:rgba(204,204,204,1);
   }
+  div {
+    font-size: 25px;
+  }
 </style>

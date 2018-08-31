@@ -59,22 +59,22 @@
       <ul>
         <li>
           <img src="../../assets/image/delivery/pay.png"/>
-          <span >已支付</span>
+          <span class="ml-l-10">已支付</span>
           <span>¥{{order.totalAmount||0.00}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/address.png"/>
-          <span>送货地址</span>
+          <span class="ml-l-10">送货地址</span>
           <span>{{order.address||'无'}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/number.png"/>
-          <span>订单编号</span>
+          <span class="ml-l-10">订单编号</span>
           <span>{{order.number||'无'}}</span>
         </li>
         <li>
           <img src="../../assets/image/delivery/telNumber.png"/>
-          <span>送货人号码</span>
+          <span class="ml-l-10">送货人号码</span>
           <span class="text-13C1FE">{{order.courierPhone||'无'}}</span>
         </li>
       </ul>

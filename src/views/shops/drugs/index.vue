@@ -13,7 +13,7 @@
                        :to="{path: '/shopDrugSpecs', query: {shopDrugSpecId: drug.id}}">
             <div class="wrap">
               <div class="wrap-left">
-                <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')">
+                <img :src="getImgURL(drug.fileId,'LARGE_LOGO')">
               </div>
               <div class="wrap-right">
                 <div class="elps">{{drug.name}}</div>

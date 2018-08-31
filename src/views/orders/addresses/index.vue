@@ -7,18 +7,18 @@
       <div class="content1" v-for="(address,index) in list" :key="index" @click.stop="onAddress(address)">
         <div class="line1">
           <div>
-            <new-radio v-if="address.defaulted" disabled></new-radio>
+            <new-radio v-if="address.defaulted" disabled class="mr-l-10"></new-radio>
           </div>
           <div>
-            <span>{{address.consignee}}</span>
-            <span>{{address.phone}}</span>
+            <span class="text-l-25">{{address.consignee}}</span>
+            <span class="text-l-25">{{address.phone}}</span>
           </div>
         </div>
         <div class="line2">
           <div></div>
           <div>
             <span v-if="address.defaulted" class="default-address">[默认地址]</span>
-            <span>{{address.address}}</span>
+            <span class="text-l-22">{{address.address}}</span>
           </div>
         </div>
       </div>
@@ -70,6 +70,7 @@
   }
   .content1 {
     background-color: white;
+    padding: 10px;
     margin-top: 10px;
   }
   .content1 .line1,.content1 .line2 {

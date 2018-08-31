@@ -119,7 +119,7 @@
   }
 
   .news-list-time {
-    font-size: 20px;
+    font-size: 24px;
     color: rgba(102, 102, 102, 1);
     margin-right: 21px;
   }
@@ -127,7 +127,7 @@
   .news-list-content {
     display: block;
     width: 550px;
-    font-size: 20px;
+    font-size: 24px;
     color: rgba(102, 102, 102, 1);
     text-overflow: ellipsis;
     overflow: hidden;

@@ -239,7 +239,7 @@
     color: #fff;
     vertical-align: middle;
     margin: -2px 2px 1px 21px;
-    border: rgba(191, 191, 191, 1) 1px solid;
+    border: 1PX solid rgba(191, 191, 191, 1);
     border-radius: 50%;
   }
 

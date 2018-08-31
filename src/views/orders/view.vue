@@ -108,6 +108,7 @@
       <div class="order-buttons">
         <div class="item-bottom-buttons">
           <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
+          <button @click="onPay()" v-if="order.state == 'TO_PAY'">取消订单</button>
           <button class="item-bottom-button-active" @click="onRefund()"
                   v-if="order.state == 'TO_CHECK' ||order.state ==  'TO_DELIVERY' ||order.state ==  'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED'">
             申请退款
@@ -349,12 +350,12 @@
     display: inline-block;
     -webkit-appearance: none !important;
     border: none;
-    border: 1px solid #757575;
+    border: 1PX solid #757575;
   }
 
   .item-bottom-button-active {
     color: rgb(19, 193, 254) !important;
-    border: 1px solid rgb(19, 193, 254) !important;
+    border: 1PX solid rgb(19, 193, 254) !important;
   }
 
   .ic-weizhi {

@@ -105,7 +105,7 @@
   }
 
   .message-content {
-    font-size: 20px;
+    font-size: 25px;
     color: rgba(102, 102, 102, 1);
     margin-left: 35px;
     margin-right: 35px;

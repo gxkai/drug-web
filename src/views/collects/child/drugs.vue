@@ -6,7 +6,7 @@
                  :key="index">
       <div class="collect-drug">
         <div class="collect-drug-left">
-          <img v-lazy="item.imgUrl" class="is-208x149" alt="Image">
+          <img :src="item.imgUrl" class="is-208x149" alt="Image">
         </div>
         <div class="collect-drug-right">
           <div class="collect-drug-rightTop">

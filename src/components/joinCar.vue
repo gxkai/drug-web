@@ -257,10 +257,9 @@
     width:220px;
     height: auto;
     background:rgba(255,255,255,1);
-    border-radius:3px;
     margin-left: 30px;
     margin-top: 10px;
-    border: 1px solid #d0d0d0;
+    border: 1PX solid #d0d0d0;
   }
   .drug-img img {
     width: 100%;

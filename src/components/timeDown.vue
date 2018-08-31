@@ -60,13 +60,12 @@
 </script>
 <style>
   .d_Downtime{
-    width:26px;
-    height:23px;
     background:rgba(0,0,0,1);
-    border-radius:3px;
+    border-radius:10%;
     color: white;
+    font-size: 25px;
   }
-  #times{
-    display: contents;border:none;display:inline-block;
-  }
+  /*#times{*/
+    /*display: contents;border:none;display:inline-block;*/
+  /*}*/
 </style>

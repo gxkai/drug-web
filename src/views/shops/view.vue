@@ -7,7 +7,7 @@
     </new-header>
     <div class="body" ref="body">
       <div class="shop-header">
-        <img v-lazy="getImgURL(shopInfo.logo, 'SMALL_LOGO')"/>
+        <img :src="getImgURL(shopInfo.logo, 'SMALL_LOGO')"/>
         <span class="shop-name">{{shopInfo.name}}</span>
         <div class="shop-collect" :class="{'activeColor':activeColor}" @click="collect">
           {{collectz}}
@@ -52,7 +52,7 @@
                      v-for="(recommendList,index) in recommendLists"
                      :key="index"
                      :to="{path :'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
-          <img v-lazy="getImgURL(recommendList.fileId, 'LARGE_LOGO')"/>
+          <img :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')"/>
           <span class="d-inline-block elps text-center">{{recommendList.name}}</span>
           <span class="text-red d-inline-block elps text-center">&yen; {{recommendList.price}}</span>
         </router-link>
@@ -83,9 +83,10 @@
     methods: {
       collect() {
         this.activeColor = !this.activeColor;
-        let data = new FormData();
-        data.append('shopId', this.shopId);
-        data.append('isCollect', this.activeColor);
+        let data = {
+          'shopId': this.shopId,
+          'isCollect': this.activeColor
+        };
         this.$http.post('/collects/shop', data).then(res => {
           if (this.activeColor) {
             Toast({
@@ -251,8 +252,7 @@
 
   .shop-goods img {
     width: 224px;
-    /*height: 224px;*/
-    display: block;
+    height: 224px;
     margin: 72px 50px 26px 50px;
   }
 
