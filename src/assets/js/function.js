@@ -107,7 +107,9 @@ export default {
       resolution = resolution || 'LARGE_LOGO';
       return process.env.API_ROOT + '/files/' + fileId + '/image?resolution=' + resolution;
     };
-
+    Vue.prototype.getQrCodeURL = (orderId) => {
+      return process.env.API_ROOT + '/qrCode/orders/' + orderId;
+    };
     /**
      * 切割字符串
      */

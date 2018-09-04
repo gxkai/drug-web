@@ -5,6 +5,9 @@
         <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi"></router-link>
       </div>
       <div slot="right">
+        <router-link tag="i" to="/qrCode" class=" iconfont ic-saoma"></router-link>
+      </div>
+      <div slot="right">
         <router-link tag="i" to="/setting" class=" iconfont ic-shezhi1"></router-link>
       </div>
     </new-header>
@@ -140,14 +143,14 @@
       }
     },
     created() {
-      if (JSON.stringify(this.account) !== '{}') {
-        this.$http.get('/orders/count?')
-          .then(res => {
-            this.countList = res.data;
-          }).catch(error => {
-            this.exception(error);
-          });
-      }
+      // if (JSON.stringify(this.account) !== '{}') {
+      //   this.$http.get('/orders/count?')
+      //     .then(res => {
+      //       this.countList = res.data;
+      //     }).catch(error => {
+      //       this.exception(error);
+      //     });
+      // }
     },
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.$el.clientHeight

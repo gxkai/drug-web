@@ -67,7 +67,9 @@
                   </div>
                   <span slot="left" class="chufangdan">非处方单</span>
                 </new-header>
-                <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs" :key="cartDrugIndex">
+                <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs"
+                    :key="cartDrugIndex"
+                    @click="$router.push({path:'/shopDrugSpecs',query:{shopDrugSpecId:cartDrug.id}})">
                   <mt-cell-swipe
                     :right="[
                       {

@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import App from './App';
-import router from './router';
 import MintUI from 'mint-ui';
 import store from './store';
 import base from './assets/js/function';
@@ -24,6 +23,7 @@ import {Actionsheet,
   GoodsActionBigBtn,
   GoodsActionMiniBtn,
   Swipe, SwipeItem} from 'vant';
+import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)

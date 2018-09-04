@@ -340,6 +340,10 @@ export default new Router({
     {
       path: '/shops/drugs',
       component: () => import('@/views/shops/drugs/index.vue')
+    },
+    {
+      path: '/qrCode',
+      component: () => import('@/views/qrCode.vue')
     }
   ]
 });

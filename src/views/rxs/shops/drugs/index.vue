@@ -158,7 +158,8 @@
             quantity: drug.quantity,
             fileId: drug.drugs[0].fileId,
             otc: drug.otc,
-            originName: drug.drugs[0].originName
+            originName: drug.drugs[0].originName,
+            rxItemId: drug.rxItemId
           });
         });
         this.carts.forEach(e => {

@@ -57,37 +57,17 @@
       </div>
     </div>
     <div class="shops-container" ref="body">
-      <ul>
-        <li @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:rxId}})" style="border: 1px solid #1AB6FD;">
-          <new-shop :showStar="false"
-                    :fileId="hospital.fileId"
-                    :shopName="hospital.name"
-                    :phone="hospital.phone"
-                    :address="hospital.address"
-                    :price="hospital.amount"
-                    :newCart="true"
-                    :showIcon="true"
-                    class="border-bottom-grey">
-          </new-shop>
-        </li>
-
-        <li v-for="(rxShop,index) in rxShops"
-            :key="index"
-            @click.stop="$router.push({path: '/rxs/shops/drugs', query: {rxId: rxId, shopId: rxShop.id, shopName: rxShop.name}});"
-        >
-          <new-shop :showStar="true"
-                    :fileId="rxShop.fileId"
-                    :newScore="rxShop.score"
-                    :shopName="rxShop.name"
-                    :phone="rxShop.tel"
-                    :address="rxShop.area + rxShop.address"
-                    :price="rxShop.amount"
-                    :newCart="true"
-                    class="border-bottom-grey">
-          </new-shop>
-        </li>
-
-      </ul>
+      <div @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:rxId}})">
+        <new-rx-hospital-item :item="hospital"/>
+      </div>
+      <div
+        v-for="(rxShop,index) in rxShops"
+        :key="index"
+        @click.stop="$router.push({path: '/rxs/shops/drugs', query: {rxId: rxId, shopId: rxShop.id, shopName: rxShop.name}});">
+        <new-rx-shop-item
+          :item="rxShop">
+        </new-rx-shop-item>
+      </div>
     </div>
   </div>
 </template>
@@ -111,7 +91,7 @@
         hospitalId: this.$route.query.hospitalId,
         hospital: {},
         keyword: '',
-        searchIcon: '\ue64c 通用名、主要商品名、症状'
+        searchIcon: '\ue64c 药品名'
       };
     },
     mounted() {
@@ -248,7 +228,7 @@
     width: 720px;
     &-header {
       header {
-        &>div:nth-child(2) {
+        & > div:nth-child(2) {
           input {
             width: 500px;
             height: 70px;
@@ -265,9 +245,9 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      font-size:24px;
-      font-family:HiraginoSansGB-W3;
-      color:rgba(69,69,69,1);
+      font-size: 24px;
+      font-family: HiraginoSansGB-W3;
+      color: rgba(69, 69, 69, 1);
       &-item {
         display: flex;
         align-items: center;
@@ -295,6 +275,7 @@
       }
     }
   }
+
   .border-bottom-grey {
     border-bottom: 1px #f3f3f3 solid;
   }

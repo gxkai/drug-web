@@ -1,51 +1,86 @@
 <template>
-  <div id="rxs-container">
+  <div class="rxs_view">
     <new-header title="电子处方">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
+      <div slot="left" @click="$router.go(-1)">
+        <i class="iconfont ic-arrow-right"></i>
       </div>
     </new-header>
-
-    <div class="">
-      <span class="rxs-title border-bottom-black">处方笺</span>
-      <div class="p-lr-20">
-        <div class="is-flex mt-20 flex-sb">
-          <div class="border-bottom-grey text-l-30">NO：{{rxList.number}}</div>
-          <div class="border-bottom-grey text-l-30">处方日期：{{timeConvert(rxList.rxDate)}}</div>
+    <div class="rxs_view-content">
+      <div class="rxs_view-content-header">
+        处方筏
+      </div>
+      <div class="rxs_view-content-list">
+        <div class="rxs_view-content-list-item">
+          <div>
+            NO：{{rxList.number}}
+          </div>
+          <div>
+            处方日期：{{timeConvert(rxList.rxDate)}}
+          </div>
         </div>
-        <div class="is-flex mt-20 flex-sb">
-          <div class="border-bottom-grey text-l-30">姓名：{{account.name}}</div>
-          <div class="border-bottom-grey text-l-30">性别：{{getGender(account.gender)}}</div>
-          <div class="border-bottom-grey text-l-30">年龄：{{account.age}}</div>
+        <div class="rxs_view-content-list-item">
+          <div>
+            姓名：{{account.name}}
+          </div>
+          <div>
+            性别：{{getGender(account.gender)}}
+          </div>
+          <div>
+            年龄：{{account.age}}
+          </div>
         </div>
-        <div class="is-flex mt-20 flex-sb">
-          <div class="border-bottom-grey text-l-30">医院：{{rxList.hospital}}</div>
-          <div class="border-bottom-grey text-l-30">科室：{{rxList.office}}</div>
+        <div class="rxs_view-content-list-item">
+          <div>
+            医院：{{rxList.hospital}}
+          </div>
+          <div>
+            科室：{{rxList.office}}
+          </div>
         </div>
-        <div class="mt-20">
-          <div class="border-bottom-grey text-l-30">临床（初步）诊断：{{rxList.illness}}</div>
+        <div class="rxs_view-content-list-item">
+          <div>
+            临床（初步）诊断：{{rxList.illness}}
+          </div>
         </div>
       </div>
-
-      <div class="info-box ">
-        <p class="text-red"><b class=" text-l-40">RP：</b></p>
-        <div class="all-border padding-10">
-          <ul>
-            <li v-for="(item,index) in rxList.list" :key="index">
-              <p class="text-l-30">{{item.name}} {{item.spec}} {{item.quantity}}件 </p>
-              <p class="text-999999 text-l-30"> 用法：{{item.usage}} {{item.frequency}} {{item.dosage}}</p>
-            </li>
-          </ul>
+      <div class="rxs_view-content-rp">
+        <div class="rxs_view-content-rp-header">
+          RP:
+        </div>
+        <div class="rxs_view-content-rp-content">
+          <div v-for="(item,index) in rxList.list" :key="index"
+               class="rxs_view-content-rp-content-item">
+            <div>
+              {{index}}、{{item.name}} {{item.spec}} {{item.quantity}}件
+              <span
+                v-if="item.state==='ENABLED'"
+                class="to_use">
+                可使用
+              </span>
+              <span
+                v-else
+                class="used">
+                不可用
+              </span>
+            </div>
+            <div>
+              用法：{{item.usage}} {{item.frequency}} {{item.dosage}}
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="">
-      <router-link class="btn-fixed bg-blue" v-if="rxList.state === 'ENABLED'"
-                   :to="{path:'/rxs/shops',query:{rxId:rxId,hospitalId:rxList.hospitalId}}">购药
-      </router-link>
-      <button class="btn-fixed bg-grey" v-else>购药</button>
+    <div v-if="rxList.state === 'ENABLED'"
+         class="rxs_view-footer"
+         @click="$router.push({path:'/rxs/shops',query:{rxId:rxId,hospitalId:rxList.hospitalId}})"
+         style="background-color: #1AB6FD;">
+      购药
     </div>
-
+    <div v-else
+         class="rxs_view-footer"
+         style="background-color: gray">
+      购药
+    </div>
   </div>
 </template>
 
@@ -75,95 +110,92 @@
   };
 </script>
 
-<style lang="scss" scoped>
-  .p-lr-20 {
-    padding-left: 20px;
-    padding-right: 20px;
-    box-sizing: border-box;
+<style type="text/less" lang="less" scoped>
+  .border-bottom {
+    border-bottom: 1PX solid #555555;
   }
 
-  .border-bottom-grey {
-    border-bottom: 1px #f5f5f5 solid;
+  .border {
+    border: 2PX solid #cccccc;
   }
 
-  .flex-sa {
-    justify-content: space-around;
+  .to_use {
+    background-color: #ef4f4f;
+    border-radius: 20px;
+    padding: 1px 10px;
+    font-size: 25px;
   }
 
-  .flex-sb {
-    justify-content: space-between;
+  .used {
+    background-color: #a6a6a6;
+    border-radius: 20px;
+    padding: 1px 10px;
+    font-size: 25px;
   }
 
-  .mt-20 {
-    margin-top: 20px !important;
-  }
-
-  .rxs-container {
-    width: 720px;
-    height: 100vh;
-  }
-
-  .btn-fixed {
-    width: 720px;
-    height: 77px;
-    line-height: 77px;
-    text-align: center;
-    border-radius: 5px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    border: 0;
-    color: white;
-    font-size: 30px;
-    letter-spacing: 5px;
-  }
-
-  .bg-blue {
-    background: rgba(19, 193, 254, 1);
-  }
-
-  .bg-grey {
-    background: #dddddd;
-  }
-
-  .all-border {
-    border: 1px #f5f5f5 solid;
-  }
-
-  table {
-    width: 720px;
-    margin-bottom: 0 !important;
-  }
-
-  .rxs-title {
-    display: block;
-    text-align: center;
-    line-height: 75px;
-    height: 75px;
-    width: 720px;
-    font-size: 35px;
-  }
-
-  .rxs-end {
-    display: block;
-    text-align: right;
-    line-height: 75px;
-    height: 75px;
-    width: 600px;
-    margin: 0 auto;
-  }
-
-  .info-box {
-    width: 680px;
-    margin: 0 auto;
-  }
-
-  .padding-10 {
-    padding: 10px 10px 100px 10px;
-    box-sizing: border-box;
-  }
-
-  .border-bottom-black {
-    border-bottom: 1px black solid;
+  .rxs_view {
+    &-content {
+      width: 720px;
+      margin-bottom: 80px;
+      &-header {
+        width: 100%;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 40px;
+        font-weight: normal;
+        font-weight: 300;
+        .border-bottom();
+      }
+      &-list {
+        &-item {
+          padding: 30px 30px;
+          display: flex;
+          justify-content: space-between;
+          &>div {
+            font-size: 25px;
+            .border-bottom();
+          }
+        }
+      }
+      &-rp {
+        padding: 20px;
+        &-header {
+          font-size: 40px;
+          color: red;
+        }
+        &-content {
+          .border();
+          min-height: 600px;
+          padding: 30px;
+          &-item {
+            margin-top: 10px;
+            & > div {
+              &:nth-child(1) {
+                font-size: 30px;
+                & > span {
+                  margin-left: 10px;
+                }
+              }
+              &:nth-child(2) {
+                font-size: 25px;
+                color: #a6a6a6;
+                margin-left: 45px;
+                margin-top: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+    &-footer {
+      width: 100%;
+      height: 80px;
+      position: fixed;
+      bottom: 0;
+      font-size: 40px;
+      text-align: center;
+      line-height: 80px;
+      color: white;
+    }
   }
 </style>

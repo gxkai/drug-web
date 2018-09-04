@@ -34,6 +34,8 @@ import newShopItem from '../../components/shopItem';
 import newAppraiseItem from '../../components/appraiseItem';
 import newCouponItem from '../../components/couponItem';
 import newCouponRecordItem from '../../components/couponRecordItem';
+import newRxShopItem from '../../components/rxShopItem';
+import newRxHospitalItem from '../../components/rxHospitalItem';
 
 export default {
   install(Vue, options) {
@@ -73,5 +75,7 @@ export default {
     Vue.component('new-appraise-item', newAppraiseItem);
     Vue.component('new-coupon-item', newCouponItem);
     Vue.component('new-coupon-record-item', newCouponRecordItem);
+    Vue.component('new-rx-shop-item', newRxShopItem);
+    Vue.component('new-rx-hospital-item', newRxHospitalItem);
   }
 };

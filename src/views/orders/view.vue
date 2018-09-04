@@ -66,7 +66,7 @@
       </div>
       <div class="order-address" v-if="order.address">
         <div>
-            <i class="iconfont ic-weizhi"></i>
+          <i class="iconfont ic-weizhi"></i>
         </div>
         <div>
           <div class="text-l-22">
@@ -122,6 +122,9 @@
           <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">我要评价</button>
         </div>
       </div>
+      <div class="qr_code">
+        <img :src="getQrCodeURL(orderId)">
+      </div>
     </div>
   </div>
 </template>
@@ -136,8 +139,7 @@
         orderId: this.$route.query.orderId,
         order: {},
         showRx: true,
-        showNor: true,
-        qrCode: ''
+        showNor: true
       };
     },
     components: {},
@@ -153,6 +155,9 @@
         this.$http.get('/orders/' + this.orderId)
           .then(res => {
             this.order = res.data;
+          })
+          .catch(err => {
+            this.exception(err);
           });
       },
       onCancel() {
@@ -188,6 +193,16 @@
     }
   };
 </script>
+<style scoped type="text/less" lang="less">
+  .qr_code {
+    display: flex;
+    justify-content: center;
+    img {
+      width: 400px;
+      height: 400px;
+    }
+  }
+</style>
 
 <style scoped>
   .order-state {
@@ -240,7 +255,8 @@
     padding: 10px;
     border-bottom: 1PX solid #a6a6a6;
   }
-  .order-address>div:nth-child(2) {
+
+  .order-address > div:nth-child(2) {
     margin-left: 20px;
   }
 
@@ -249,24 +265,24 @@
   }
 
   /*.order-address > div:nth-child(2) {*/
-    /*width: calc(720px - 60px);*/
-    /*height: 120px;*/
+  /*width: calc(720px - 60px);*/
+  /*height: 120px;*/
   /*}*/
 
   /*.order-address > div:nth-child(2) > div:nth-child(1) {*/
-    /*margin-top: 20px;*/
+  /*margin-top: 20px;*/
   /*}*/
 
   /*.order-address > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) {*/
-    /*font-size: 20px;*/
-    /*font-family: HiraginoSansGB-W3;*/
-    /*color: rgba(69, 69, 69, 1);*/
+  /*font-size: 20px;*/
+  /*font-family: HiraginoSansGB-W3;*/
+  /*color: rgba(69, 69, 69, 1);*/
   /*}*/
 
   /*.order-address > div:nth-child(2) > div:nth-child(2) > span:nth-child(1) {*/
-    /*font-size: 20px;*/
-    /*font-family: HiraginoSansGB-W3;*/
-    /*color: rgba(51, 51, 51, 1);*/
+  /*font-size: 20px;*/
+  /*font-family: HiraginoSansGB-W3;*/
+  /*color: rgba(51, 51, 51, 1);*/
   /*}*/
 
   .order-price div {
@@ -338,6 +354,7 @@
     margin-top: 30px;
     padding-right: 20px;
   }
+
   .item-bottom-buttons button {
     appearance: none !important;
     width: 118px;
