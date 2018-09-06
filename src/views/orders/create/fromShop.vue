@@ -31,7 +31,7 @@
         </div>
         <img src="../../../assets/image/colorbackground.png" class="image-bar">
       </router-link>
-      <new-close-normal :shopInfo="item" class="new-close-normal" v-for="(item,key) in shopInfoList" :key="key"></new-close-normal>
+      <new-close-shop :shopInfo="shopDrugSpecOrderDTO" class="new-close-normal"></new-close-shop>
       <div class="delivery">
         <div class="top">
           <div>
@@ -40,8 +40,10 @@
           <span class="text-l-30">配送方式</span>
         </div>
         <div class="bottom">
-          <button :class="{active:deliveryType=='DELIVERY'}" @click.stop="onDeliveryType('DELIVERY')">送货</button>
-          <button :class="{active:deliveryType=='SELF'}" @click.stop="onDeliveryType('SELF')">上门自提</button>
+          <div :class="{active:deliveryType=='DELIVERY'}"
+               @click.stop="onDeliveryType('DELIVERY')"
+          v-if="isBlank(shopDrugSpecOrderDTO.rxId)">送货上门</div>
+          <div :class="{active:deliveryType=='SELF'}" @click.stop="onDeliveryType('SELF')">上门自提</div>
         </div>
       </div>
       <div class="pay">
@@ -67,15 +69,15 @@
       <div class="amount">
         <div>
           <span>实付金额：</span>
-          <span>￥{{shopInfo.payAmount}}</span>
+          <span>￥{{shopDrugSpecOrderDTO.payAmount}}</span>
         </div>
         <div>
           <span>商品金额：</span>
-          <span>￥{{shopInfo.amount}}</span>
+          <span>￥{{shopDrugSpecOrderDTO.amount}}</span>
         </div>
         <div>
           <span>医保扣除：</span>
-          <span>￥{{shopInfo.medicaidAmount}}</span>
+          <span>￥{{shopDrugSpecOrderDTO.medicaidAmount}}</span>
         </div>
       </div>
 
@@ -107,43 +109,44 @@
           </div>
         </div>
       </div>
-      <!--点击优惠券开始-->
-      <div class="bg-white width-percent-100 height-l-90 line-height-l-90">
-        <div class="bg-white coupons width-percent-94 m-auto">
-          <span class="d-inline-block fl text-l-30">优惠券</span>
-          <span class="d-inline-block fr" @click="coupon()"><i class="iconfont ic-youjiantou"></i></span>
+      <div class="coupon" v-if="isBlank(shopDrugSpecOrderDTO.rxId)">
+        <div class="coupon_link">
+          <div class="coupon_link_left">优惠券</div>
+          <div class="coupon_link_right">
+            <div v-if="isNotBlank(couponRecord)">
+               满{{couponRecord.amount}}减{{couponRecord.minus}}
+            </div>
+            <div @click="show = true">
+              <i class="iconfont ic-youjiantou"></i>
+            </div>
+          </div>
+        </div>
+        <div class="coupon_popup">
+          <van-popup v-model="show" position="bottom">
+            <div class="coupon_popup-container">
+              <div class="coupon_popup-container-title text-l-30">
+                使用优惠券
+              </div>
+              <div class="coupon_popup-container-list">
+                <div class="coupon_popup-container-list-item"
+                v-for="(item,key) in coupons"
+                :key="key"
+                @click="couponRecord = item;show = false">
+                  <div class="text-l-28">
+                    满{{item.amount}}减{{item.minus}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </van-popup>
         </div>
       </div>
-      <div id="whole" v-show="show"></div>
-      <transition v-show="show" name="slide-fades">
-        <div class="new-coupons bg-white" v-show="show">
-          <div class="use-coupon">
-            使用优惠券
-          </div>
-          <div>
-            <ul class="coupon-ul">
-              <li v-for="(item,index) in coupons">
-                满{{item.amount}}减{{item.minus}}
-                <span class="fr pr-50">
-                    <input type="radio" :value="item.id" v-model="checkedValue" name="radio" :id="item.id"/>
-                     <label :for="item.id"></label>
-                </span>
-              </li>
-              <div v-if="coupons.length===0" class="text-center text-l-25">无优惠券</div>
-            </ul>
-          </div>
-          <div class="coupon-close" @click="close()" v-show="show">
-            关闭 <input type="hidden" v-model="checkedValue"/>
-          </div>
-        </div>
-      </transition>
-      <!--点击优惠券结束-->
     </div>
     <footer>
       <div class="right">
         <div class="left">
           <span>实付金额:</span>
-          <span>￥{{shopInfo.payAmount}}</span>
+          <span>￥{{shopDrugSpecOrderDTO.payAmount}}</span>
         </div>
         <button @click.stop="onOrder()">提交订单</button>
       </div>
@@ -151,8 +154,8 @@
   </div>
 </template>
 <script>
-  import {mapGetters, mapMutations} from 'vuex';
-  import {MessageBox} from 'mint-ui';
+  import { mapGetters, mapMutations } from 'vuex';
+  import { MessageBox } from 'mint-ui';
   // TODO 处方药店下单多个药品优惠券抵扣问题
   export default {
     name: 'createFromCart',
@@ -160,34 +163,23 @@
       return {
         name: '订单结算',
         account: this.$store.getters.account,
-        drugInfoList: JSON.parse(this.$route.query.drugInfoList),
+        orderShopDrugSpecDTO: JSON.parse(this.$route.query.orderShopDrugSpecDTO),
+        shopDrugSpecOrderDTO: {},
         deliveryType: this.$storage.get('deliveryType') || 'SELF',
         payType: 'ALIPAY',
-        shopInfoList: [],
-        shopInfo: {},
+        couponRecord: '',
         coupons: [],
-        checkedValue: '',
         show: false
       };
     },
     components: {},
     created() {
       this.getData();
-      this.$http.get('couponRecords/order')
-        .then(res => {
-          this.coupons = res.data;
-        });
     },
     computed: {
       ...mapGetters(['receiveAddress'])
     },
     methods: {
-      close() {
-        this.show = !this.show;
-      },
-      coupon() {
-        this.show = !this.show;
-      },
       getData() {
         if (JSON.stringify(this.receiveAddress) === '{}') {
           this.$http.get('addresses/default').then(res => {
@@ -198,38 +190,34 @@
             this.exception(error);
           });
         }
-        this.$http.post('orders/shopDrugSpec/get', this.drugInfoList)
+        this.$http.post('orders/shop/get', this.orderShopDrugSpecDTO)
           .then(res => {
-            this.shopInfoList = res.data;
-            this.shopInfo = res.data[0];
-          }).catch((error) => {
-            this.exception(error);
+            this.shopDrugSpecOrderDTO = res.data;
+          })
+          .catch(err => {
+            this.exception(err);
           });
-        // this.$http({url: 'orders/shopDrugSpec', data: this.drugInfoList})
-        //   .then(res => {
-        //     this.shopInfoList = res.data;
-        //     this.shopInfo = res.data[0];
-        //   }).catch((error) => {
-        //     this.exception(error);
-        //   });
+        this.$http.get('couponRecords/order')
+          .then(res => {
+            this.coupons = res.data;
+          })
+          .catch(err => {
+            this.exception(err);
+          });
       },
       onOrder() {
         if (this.deliveryType === 'DELIVERY' && JSON.stringify(this.receiveAddress) === '{}') {
           MessageBox('提示', '请维护收货地址').then(action => {
           });
         } else {
-          let data = [];
-          this.shopInfoList.forEach(e => {
-            data.push({
-              'addressId': this.receiveAddress.id,
-              'shopDrugSpecId': e.shopDrugSpecOrderInfo.shopDrugSpecId,
-              'quantity': e.shopDrugSpecOrderInfo.quantity,
-              'deliveryType': this.deliveryType,
-              'payType': this.payType,
-              'couponRecordId': this.couponRecordId
-            });
-          });
-          this.$http.post('/orders/shopDrugSpec', data).then(res => {
+          let json = {};
+          json.addressId = this.receiveAddress.id;
+          json.orderShopDrugSpecDTO = this.orderShopDrugSpecDTO;
+          json.deliveryType = this.deliveryType;
+          json.payType = this.payType;
+          json.couponRecordId = this.couponRecord.id;
+          this.$http.post('/orders/shop', json).then(res => {
+            console.log(res.data);
             this.$router.replace({
               path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType
             });
@@ -251,6 +239,42 @@
     }
   };
 </script>
+<style scoped type="text/less" lang="less">
+  .coupon {
+    &_link {
+      display: flex;
+      background-color: white;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      div {
+        font-size: 30px;
+      }
+      &_right {
+        display: flex;
+        align-items: center;
+        color: #999999;
+      }
+    }
+    &_popup {
+      &-container {
+        height: 400px;
+        overflow: auto;
+        &-title {
+          padding: 30px 0;
+          text-align: center;
+        }
+        &-list {
+          padding: 20px;
+          &-item {
+            text-align: center;
+            border-bottom: 1PX solid #999999;
+          }
+        }
+      }
+    }
+  }
+</style>
 <style scoped>
   .main {
     background-color: rgba(246, 246, 246, 1);
@@ -287,18 +311,20 @@
   }
 
   .delivery .bottom {
-    margin-left: 72px;
+    display: flex;
+    padding: 10px 0 0 70px;
   }
 
-  .delivery .bottom button {
-    width: 146px;
-    height: 55px;
+  .delivery .bottom div {
     background: rgba(255, 255, 255, 1);
+    border: 1PX solid #cccccc;
     border-radius: 4px;
-    font-size: 24px;
+    font-size: 28px;
     font-family: HiraginoSansGB-W3;
-    outline: none;
-    border-width: 2px;
+    padding: 5px 10px;
+  }
+  .delivery .bottom div:nth-child(2) {
+    margin-left: 10px;
   }
 
   .delivery .bottom .active {
@@ -580,8 +606,6 @@
     transform: rotate(45deg)
   }
 
-
-
   .address {
     width: 100%;
     display: flex;
@@ -589,22 +613,28 @@
     align-items: center;
     padding: 20px 0;
   }
-  .address>div:nth-child(1) {
+
+  .address > div:nth-child(1) {
     width: 10%;
     margin-left: 10px;
   }
-  .address>div:nth-child(2) {
+
+  .address > div:nth-child(2) {
     width: 80%;
   }
-  .address>div:nth-child(2)>div:nth-child(1) {
+
+  .address > div:nth-child(2) > div:nth-child(1) {
     margin-top: 10px;
   }
-  .address>div:nth-child(2)>div:nth-child(2) {
+
+  .address > div:nth-child(2) > div:nth-child(2) {
     margin-top: 10px;
   }
-  .address>div:nth-child(3) {
+
+  .address > div:nth-child(3) {
     width: 10%;
   }
+
   .address .iconfont {
     font-size: 50px;
   }

@@ -20,7 +20,7 @@
       <div class="joincar" @click="$emit('createCart')">
         <p>加入购物车</p>
       </div>
-      <div  class="immediately-buy" @click="onBuy()">
+      <div  class="immediately-buy" @click="$emit('onBuy')">
         <p>立即购买</p>
       </div>
     </footer>
@@ -28,7 +28,6 @@
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
   export default {
     name: 'rxShopCart',
     data() {
@@ -40,9 +39,6 @@
     props: {
     },
     methods: {
-      onBuy() {
-        MessageBox('提示', '请加入购物车再结算');
-      }
     }
   };
 </script>
@@ -87,9 +83,9 @@
   .immediately-buy{
     width:154px;
     height:97px;
-    background:gray;
     color: white;
     line-height: 97px;
+    background-color: #1AB6FD;
   }
   footer div:first-child{
     width:12%;

@@ -98,12 +98,12 @@
     class="text-red rx-total-money">¥ {{amount}}</span>
   </div>
 
-  <new-rx-shop-cart :carts="carts" @createCart="createCart"></new-rx-shop-cart>
+  <new-rx-shop-cart :carts="carts" @createCart="createCart" @onBuy="onBuy"></new-rx-shop-cart>
   </div>
 </template>
 
 <script>
-  import {Toast} from 'mint-ui';
+  import { Toast } from 'mint-ui';
 
   export default {
     data() {
@@ -188,6 +188,21 @@
               position: 'middle',
               duration: 2000
             });
+          })
+          .catch(err => {
+            this.exception(err);
+          });
+      },
+      onBuy() {
+        let json = {
+          'rxId': this.rxId,
+          'shopId': this.shopId,
+          'shopName': this.shopName,
+          'orderShopDrugSpecInfoDTOList': this.carts
+        };
+        this.$http.post('orders/shop/get', json)
+          .then(res => {
+            this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(json));
           })
           .catch(err => {
             this.exception(err);

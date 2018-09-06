@@ -68,7 +68,7 @@
 </template>
 
 <script>
-  import {Toast, MessageBox} from 'mint-ui';
+  import { Toast, MessageBox } from 'mint-ui';
   export default {
     name: 'newFooter',
     props: {
@@ -165,7 +165,18 @@
             shopDrugSpecId: this.drugInfo.id,
             quantity: this.number
           });
-          this.$router.push('/orders/create/fromShop?drugInfoList=' + JSON.stringify(drugInfoList));
+          let data = {
+            'shopId': this.drugInfo.shopId,
+            'shopName': this.drugInfo.shopName,
+            'orderShopDrugSpecInfoDTOList': drugInfoList
+          };
+          this.$http.post('orders/shop/get', data)
+            .then(res => {
+              this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(data));
+            })
+            .catch(err => {
+              this.exception(err);
+            });
         }
       }
     }

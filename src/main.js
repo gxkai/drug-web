@@ -22,13 +22,13 @@ import {Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
   GoodsActionMiniBtn,
-  Swipe, SwipeItem} from 'vant';
+  Popup} from 'vant';
 import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)
-  .use(Swipe)
-  .use(SwipeItem);
+  .use(Popup)
+;
 Vue.use(Mui);
 Vue.use(vueEventCalendar, {locale: 'zh'});
 Vue.prototype.$http = axios;

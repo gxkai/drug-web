@@ -1,4 +1,5 @@
-import {Toast} from 'mint-ui';
+import { Toast } from 'mint-ui';
+import router from '../../router';
 import storage from 'good-storage';
 const SEARCH_KEY = 'orderHis';
 const SEARCH_MAX_LENGTH = 15;
@@ -159,13 +160,60 @@ export default {
       storage.set(SEARCH_KEY, searches);
       return searches;
     };
-
+    /**
+     * 是否空判断
+     * @param str
+     * @returns {boolean}
+     */
     Vue.prototype.isBlank = (str) => {
       if (str === null || str === '' || str === 'undefined') {
         return true;
       } else {
         return false;
       }
+    };
+
+    Vue.prototype.isNotBlank = (str) => {
+      if (str === null || str === '' || str === 'undefined') {
+        return false;
+      } else {
+        return true;
+      }
+    };
+    /**
+     * 是否处方单判断
+     * @param str
+     * @returns {boolean}
+     */
+    Vue.prototype.isRx = (str) => {
+      if (str === '0' || str === null || str === 'undefined') {
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    Vue.prototype.isNotRx = (str) => {
+      if (str === '0' || str === null || str === 'undefined') {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    /**
+     * 跳转到处方详情页
+     * @param str
+     */
+    Vue.prototype.linkToRxView = (str) => {
+      router.push({ path: '/rxs/view', query: { rxId: str } });
+    };
+    /**
+     * 跳转到药店药品规格页
+     * @param str
+     */
+    Vue.prototype.linkToShopDrugSpec = (str) => {
+      router.push({ path: '/shopDrugSpecs', query: { shopDrugSpecId: str } });
     };
   }
 };
