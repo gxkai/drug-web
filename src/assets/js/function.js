@@ -215,5 +215,14 @@ export default {
     Vue.prototype.linkToShopDrugSpec = (str) => {
       router.push({ path: '/shopDrugSpecs', query: { shopDrugSpecId: str } });
     };
+    /**
+     * 跳转到订单地址页
+     */
+    Vue.prototype.linkToOrderAddress = () => {
+      router.push('/orders/addresses');
+    };
+    Vue.prototype.linkToCardBind = () => {
+      router.push('/accounts/card/bind');
+    };
   }
 };

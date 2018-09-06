@@ -49,7 +49,7 @@
       <div class="pay">
         <div class="top">
           <div>
-            <i class="iconfont ic-fjzhifufangshi"></i>
+            <i class="iconfont ic-dingdanzhifufangshi"></i>
           </div>
           <span class="text-l-30">支付方式</span>
         </div>
@@ -109,7 +109,7 @@
           </div>
         </div>
       </div>
-      <div class="coupon" v-if="isBlank(shopDrugSpecOrderDTO.rxId)">
+      <div class="coupon">
         <div class="coupon_link">
           <div class="coupon_link_left">优惠券</div>
           <div class="coupon_link_right">
@@ -136,6 +136,9 @@
                     满{{item.amount}}减{{item.minus}}
                   </div>
                 </div>
+                <div v-if="coupons.length === 0" class="coupon_popup-container-list-none text-l-28">
+                   没有可用优惠券
+                </div>
               </div>
             </div>
           </van-popup>
@@ -156,7 +159,6 @@
 <script>
   import { mapGetters, mapMutations } from 'vuex';
   import { MessageBox } from 'mint-ui';
-  // TODO 处方药店下单多个药品优惠券抵扣问题
   export default {
     name: 'createFromCart',
     data() {
@@ -193,13 +195,13 @@
         this.$http.post('orders/shop/get', this.orderShopDrugSpecDTO)
           .then(res => {
             this.shopDrugSpecOrderDTO = res.data;
-          })
-          .catch(err => {
-            this.exception(err);
-          });
-        this.$http.get('couponRecords/order')
-          .then(res => {
-            this.coupons = res.data;
+            this.$http.get('couponRecords/order')
+              .then(res2 => {
+                this.coupons = res2.data.filter(e => res.data.payAmount >= e.amount);
+              })
+              .catch(err => {
+                this.exception(err);
+              });
           })
           .catch(err => {
             this.exception(err);
@@ -269,6 +271,9 @@
           &-item {
             text-align: center;
             border-bottom: 1PX solid #999999;
+          }
+          &-none {
+            text-align: center;
           }
         }
       }

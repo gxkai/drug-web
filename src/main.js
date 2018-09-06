@@ -14,22 +14,28 @@ import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
 import VueTouch from 'vue-touch';
 import filters from './assets/js/filters';
+import './assets/font/iconfont.css';
 // import './assets/js/vconsole';
 import '../src/assets/plugin/vue-event-calendar/dist/style.css';
 import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
 import Mui from 'vue-awesome-mui';
+import 'vue-layer-mobile/need/layer.css';
+import layer from 'vue-layer-mobile';
 import {Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
   GoodsActionMiniBtn,
-  Popup} from 'vant';
+  Popup,
+  Loading} from 'vant';
 import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)
   .use(Popup)
+  .use(Loading)
 ;
 Vue.use(Mui);
+Vue.use(layer);
 Vue.use(vueEventCalendar, {locale: 'zh'});
 Vue.prototype.$http = axios;
 Vue.prototype.$outside = process.env.OUTSIDE_ROOT;

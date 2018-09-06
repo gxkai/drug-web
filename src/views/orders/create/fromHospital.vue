@@ -44,7 +44,7 @@
       </div>
       <div class="pay">
         <div class="top">
-          <div><i class="iconfont ic-fjzhifufangshi"></i></div>
+          <div><i class="iconfont ic-dingdanzhifufangshi"></i></div>
           <span class="text-l-30">支付方式</span>
         </div>
         <div class="bottom">
