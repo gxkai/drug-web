@@ -160,7 +160,7 @@
 </template>
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  import { MessageBox } from 'mint-ui';
+  import { Toast } from 'mint-ui';
 
   export default {
     name: 'createFromCart',
@@ -220,29 +220,30 @@
         return cartIds;
       },
       onOrder() {
-        if (this.deliveryType === 'DELIVERY' && JSON.stringify(this.receiveAddress) === '{}') {
-          MessageBox('提示', '请维护收货地址').then(action => {
-          });
-        } else {
-          let data = {
-            'addressId': this.receiveAddress.id,
-            'cartIds': this.getCartIds(),
-            'deliveryType': this.deliveryType,
-            'payType': this.payType
-          };
-          this.$http.post('/orders', data).then(res => {
-            let str = '';
-            res.data.forEach(e => {
-              str += 'orderIds=' + e + '&';
-            });
-            str = str.substring(0, str.length - 1);
-            this.$router.replace({
-              path: '/orders/pay?' + str + '&deliveryType=' + this.deliveryType
-            });
-          }).catch(error => {
-            this.exception(error);
-          });
+        let json = {};
+        switch (this.deliveryType) {
+          case 'DELIVERY':
+            if (this.isBlank(this.receiveAddress)) {
+              Toast('请维护收货地址');
+            } else {
+              json.addressId = this.receiveAddress.id;
+            }
         }
+        json.cartIds = this.getCartIds();
+        json.deliveryType = this.deliveryType;
+        json.payType = this.payType;
+        this.$http.post('/orders', json).then(res => {
+          let str = '';
+          res.data.forEach(e => {
+            str += 'orderIds=' + e + '&';
+          });
+          str = str.substring(0, str.length - 1);
+          this.$router.replace({
+            path: '/orders/pay?' + str + '&deliveryType=' + this.deliveryType
+          });
+        }).catch(error => {
+          this.exception(error);
+        });
       },
       onDeliveryType(item) {
         this.$storage.set('deliveryType', item);

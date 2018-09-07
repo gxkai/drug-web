@@ -4,26 +4,24 @@
         <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
     </div>
     <div class="rx_shop_item-right">
-        <div>
-          {{item.name}}
+        <div class="elps">
+          <div>{{item.name}}</div>
+          <div class="text-red">&yen;{{item.amount}}</div>
         </div>
-        <div>
+        <div class="elps">
           <new-star :score="item.score"></new-star>
         </div>
-        <div>
+        <div class="elps">
           电话：{{item.phone}}
         </div>
-        <div>
+        <div class="elps">
           地址：{{item.address}}
         </div>
-        <div>
-          ￥{{item.amount}}
-        </div>
-        <div>
-          <span>可购买</span>
+        <div class="elpsTwo">
+          <span class="text-blue">可购买</span>
           <span v-for="(drug,key) in item.drugs" :key="key">
             {{drug}}
-            <i v-if="key<item.drugs.length-1">、</i>
+            <i v-if="key<item.drugs.length-1">&nbsp;</i>
           </span>
         </div>
     </div>
@@ -52,7 +50,12 @@
 </script>
 
 <style scoped type="text/less" lang="less">
-  @import "../assets/less/index";
+  .text-red {
+    color: red;
+  }
+  .text-blue {
+    color: #1AB6FD;
+  }
   .rx_shop_item {
     width: 720px;
     display: flex;
@@ -66,20 +69,18 @@
       }
     }
     &-right {
-      div{
-        width: 450px;
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      div,span{
         font-size:25px;
-        .ellipsis-one();
+      }
+      &>div{
         &:nth-child(1) {
-          font-size: 28px;
-        }
-        &:nth-child(5) {
-          color: red;
-        }
-        &:nth-child(6) {
-          &>span:nth-child(1) {
-            color: #1AB6FD;
-          }
+          width: 300px;
+          display: flex;
+          justify-content: space-between;
         }
       }
     }

@@ -53,7 +53,7 @@
             <div>
               {{index}}、{{item.name}} {{item.spec}} {{item.quantity}}件
               <span
-                v-if="item.state==='ENABLED'"
+                v-if="item.state ==='ENABLED'"
                 class="to_use">
                 可使用
               </span>

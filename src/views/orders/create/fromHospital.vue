@@ -135,14 +135,9 @@
           });
       },
       onOrder() {
-        if (this.deliveryType === 'DELIVERY' && this.isBlank(this.receiveAddress)) {
-          MessageBox('提示', '请维护收货地址').then(action => {
-          });
-        } else {
-          this.$router.replace({
-            path: '/orders/takeDrug?rxId=' + this.rxId + '&hospitalName=' + this.hospitalInfo.hospital
-          });
-        }
+        this.$router.replace({
+          path: '/orders/takeDrug?rxId=' + this.rxId + '&hospitalName=' + this.hospitalInfo.hospital
+        });
       },
       onDeliveryType(item) {
         this.deliveryType = item;

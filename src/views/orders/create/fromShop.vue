@@ -158,7 +158,7 @@
 </template>
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  import { MessageBox } from 'mint-ui';
+  import { Toast } from 'mint-ui';
   export default {
     name: 'createFromCart',
     data() {
@@ -210,25 +210,27 @@
           });
       },
       onOrder() {
-        if (this.deliveryType === 'DELIVERY' && this.isBlank(this.receiveAddress)) {
-          MessageBox('提示', '请维护收货地址').then(action => {
-          });
-        } else {
-          let json = {};
-          json.addressId = this.receiveAddress.id;
-          json.orderShopDrugSpecDTO = this.orderShopDrugSpecDTO;
-          json.deliveryType = this.deliveryType;
-          json.payType = this.payType;
-          json.couponRecordId = this.couponRecord.id;
-          this.$http.post('/orders/shop', json).then(res => {
-            console.log(res.data);
-            this.$router.replace({
-              path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType
-            });
-          }).catch(error => {
-            this.exception(error);
-          });
+        let json = {};
+        switch (this.deliveryType) {
+          case 'DELIVERY':
+            if (this.isBlank(this.receiveAddress)) {
+              Toast('请维护收货地址');
+            } else {
+              json.addressId = this.receiveAddress.id;
+            }
         }
+        json.orderShopDrugSpecDTO = this.orderShopDrugSpecDTO;
+        json.deliveryType = this.deliveryType;
+        json.payType = this.payType;
+        json.couponRecordId = this.couponRecord.id;
+        this.$http.post('/orders/shop', json).then(res => {
+          console.log(res.data);
+          this.$router.replace({
+            path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType
+          });
+        }).catch(error => {
+          this.exception(error);
+        });
       },
       onDeliveryType(item) {
         this.deliveryType = item;

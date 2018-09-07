@@ -1,7 +1,9 @@
 <template>
   <div class="take_drug">
     <div class="take_drug-header">
-      <div class="iconfont ic-yaodian"></div>
+      <div>
+        <i class="iconfont ic-yaodian"></i>
+      </div>
       <div>{{hospitalName}}</div>
     </div>
     <div class="take_drug-content">
