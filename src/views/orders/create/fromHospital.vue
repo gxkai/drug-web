@@ -93,8 +93,6 @@
 </template>
 <script>
   import {mapGetters, mapMutations} from 'vuex';
-  import {MessageBox} from 'mint-ui';
-
   export default {
     name: 'createFromCart',
     data() {
