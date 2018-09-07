@@ -2,15 +2,14 @@
   <div class="top position-relative">
     <div class="mid1">
 
-     <div>
+      <div>
         <img src="../assets/image/blue-login.png" class="width-percent-100"/>
-       <div class="font1 position-absolute" style="z-index: 999">
-         药品网上服务平台
-       </div>
-     </div>
+        <div class="font1 position-absolute" style="z-index: 999">
+          药品网上服务平台
+        </div>
+      </div>
 
     </div>
-
 
     <swiper :options="swiperOption" ref="mySwiper">
       <swiper-slide class="login">
@@ -22,7 +21,7 @@
           <i class="iconfont ic-icon2 icon2"></i>
           <input type="password" placeholder="请输入密码" v-model="password" class="psd">
         </div>
-        <div  @click="login()" class="login-btn">
+        <div @click="login()" class="login-btn">
           登录
         </div>
       </swiper-slide>
@@ -41,18 +40,18 @@
           <i class="iconfont ic-xinmima icon2"></i>
           <input type="password" placeholder="请输入密码" v-model="registerPassword" class="psd">
         </div>
-        <div  @click="register()" class="login-btn">
+        <div @click="register()" class="login-btn">
           注册
         </div>
       </swiper-slide>
     </swiper>
-
     <router-link tag="div" class="foot1" to="/forget">忘记密码？</router-link>
   </div>
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
+  import { MessageBox } from 'mint-ui';
+
   export default {
     name: 'login',
     data() {
@@ -140,7 +139,7 @@
         this.$store.dispatch('LOGIN', userInfo)
           .then((res) => {
             this.account = res;
-            this.$router.push({path: '/'});
+            this.$router.push({ path: '/' });
           })
           .catch((error) => {
             this.exception(error);
@@ -188,11 +187,9 @@
   .mid1 .font1 {
     font-size: 48px;
     color: rgba(255, 255, 255, 1);
-    top:189px;
+    top: 189px;
     left: 165px;
   }
-
-
 
   /*slide1*/
 
@@ -204,88 +201,101 @@
     position: absolute;
     top: 1137px;
   }
- .login{
-   width:660px;
-   height:500px!important;
-   background:rgba(255,255,255,1);
-   box-shadow:0px 0px 32px rgba(51,51,51,0.33);
- }
-  .tel,.password{
-    width:489px;
-    height:69px;
-    background:rgba(238,238,238,1);
-    border-radius:5px;
+
+  .login {
+    width: 660px;
+    height: 500px !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 32px rgba(51, 51, 51, 0.33);
+  }
+
+  .tel, .password {
+    width: 489px;
+    height: 69px;
+    background: rgba(238, 238, 238, 1);
+    border-radius: 5px;
     margin-left: 110px;
     line-height: 69px;
   }
-  .tel{
+
+  .tel {
     margin-top: 87px;
   }
-  .password{
+
+  .password {
     margin-top: 38px;
   }
-  .ic-shouji,.ic-icon2,.ic-anquanrenzheng,.ic-xinmima{
+
+  .ic-shouji, .ic-icon2, .ic-anquanrenzheng, .ic-xinmima {
     margin-left: 16px;
     margin-top: 18px;
     font-size: 30px;
   }
-  .telephone{
+
+  .telephone {
     display: inline-block;
     width: 304px;
     margin-left: 27px;
-    border:none;
-    background:rgba(238,238,238,1);
+    border: none;
+    background: rgba(238, 238, 238, 1);
     height: 65px;
     line-height: 65px;
   }
 
-  .psd{
+  .psd {
     width: 304px;
     margin-left: 27px;
-    border:none;
-    background:rgba(238,238,238,1);
+    border: none;
+    background: rgba(238, 238, 238, 1);
     height: 65px;
     line-height: 65px;
   }
-  .login-btn{
-    width:198px;
-    height:59px;
-    background:rgba(26,182,253,1);
-    border-radius:30px;
-    font-size:32px;
+
+  .login-btn {
+    width: 198px;
+    height: 59px;
+    background: rgba(26, 182, 253, 1);
+    border-radius: 30px;
+    font-size: 32px;
     text-align: center;
     line-height: 59px;
     margin-top: 66px;
     margin-left: 231px;
     color: white;
   }
-  .mt-13{
-    margin-top: 13px!important;
+
+  .mt-13 {
+    margin-top: 13px !important;
   }
-  .button1{
+
+  .button1 {
     position: absolute;
-    width:155px;
-    height:70px;
-    background:rgba(26,182,253,1);
-    border-radius:5px;
+    width: 155px;
+    height: 70px;
+    background: rgba(26, 182, 253, 1);
+    border-radius: 5px;
     color: white;
     text-align: center;
     line-height: 70px;
     border: none;
-    font-size:26px;
+    font-size: 26px;
     left: 445px;
   }
-  input{
-    font-size:24px;
+
+  input {
+    font-size: 24px;
     outline: none;
   }
-  input::placeholder{
+
+  input::placeholder {
     text-align: left;
   }
-  .swiper-wrapper{
-    height: 500px!important;
+
+  .swiper-wrapper {
+    height: 500px !important;
   }
-  .full{
+
+  .full {
     width: 720px;
   }
 </style>

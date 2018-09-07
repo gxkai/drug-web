@@ -66,7 +66,7 @@
               </td>
             </tr>
             <div class="position-absolute position-rb t-l-60">
-              <img class="is-155x155" src="../../assets/image/rxs/rx-true.png" v-if="rx.state!=='ENABLED'">
+              <img class="is-155x155" src="../../assets/image/rxs/rx-true.png" v-if="rx.state ==='ENABLED'">
               <img class="is-155x155" src="../../assets/image/rxs/rx-false.png" v-else>
             </div>
           </table>
