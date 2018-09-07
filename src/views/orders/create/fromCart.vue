@@ -240,7 +240,6 @@
               path: '/orders/pay?' + str + '&deliveryType=' + this.deliveryType
             });
           }).catch(error => {
-            this.$layer.close();
             this.exception(error);
           });
         }
