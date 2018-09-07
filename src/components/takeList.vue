@@ -1,28 +1,25 @@
 <template>
-  <div>
-    <div class="content1">
-      <div class="title1">
-        <div><i class="iconfont ic-yaodian"></i></div>
-         <span class="text-l-30">{{hospitalName}}</span>
+  <div class="take_drug">
+    <div class="take_drug-header">
+      <div class="iconfont ic-yaodian"></div>
+      <div>{{hospitalName}}</div>
+    </div>
+    <div class="take_drug-content">
+      <div class="take_drug-content-item">
+        <span>订单编号&#58;</span>
+        <span class="text-blue">{{order.number}}</span>
       </div>
-      <new-line></new-line>
-      <div class="child1">
-        <div class="line1 elps">
-          <span>订单编号</span>
-          <span>{{order.number}}</span>
-        </div>
-        <div class="line2 elps">
-          <span>件数</span>
-          <span>{{order.quantity}}</span>
-        </div>
-        <div class="line3 elps">
-          <span>取药号</span>
-          <span>{{order.takeNumber}}</span>
-        </div>
-        <div class="line4 elps">
-          <span>取药地址</span>
-          <span>{{order.address}}</span>
-        </div>
+      <div class="take_drug-content-item">
+        <span>购买件数&#58;</span>
+        <span>{{order.quantity}}</span>
+      </div>
+      <div class="take_drug-content-item">
+        <span>取药号码&#58;</span>
+        <span class="text-blue">{{order.takeNumber}}</span>
+      </div>
+      <div class="take_drug-content-item">
+        <span>取药地址&#58;</span>
+        <span>{{order.address}}</span>
       </div>
     </div>
   </div>
@@ -45,54 +42,35 @@
   };
 </script>
 
-<style scoped>
-  .content1 {
-    background:rgba(255,255,255,1);
-    margin-bottom: 10px;
+<style scoped type="text/less" lang="less">
+  .text-blue {
+    color: #1AB6FD;
   }
-  .content1 .title1 {
-    font-size:30px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(69,69,69,1);
-    display: flex;
-    align-items: center;
-  }
-  .content1 .child1 {
-    width: 100%;
-    padding: 25px 40px;
-  }
-  .content1 .child1 div {
-    margin-bottom: 13px;
-  }
-  .child1 .line1 span:nth-child(1),.child1 .line2 span:nth-child(1),.child1 .line3 span:nth-child(1) {
-    font-size:30px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(0,0,0,1);
-  }
-  .child1 .line1 span:nth-child(2) {
-    font-size:30px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(19,193,254,1);
-    margin-left: 10px;
-  }
-  .child1 .line2 span:nth-child(2) {
-    font-size:30px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(19,193,254,1);
-    margin-left: 60px;
-  }
-  .child1 .line3 span:nth-child(2) {
-    font-size:30px;
-    font-family:HiraginoSansGB-W3;
-    margin-left: 30px;
-  }
-  .child1 .line4 span {
-    font-size: 30px;
-  }
-  .child1 .line4 span:nth-child(2){
-    margin-left: 10px;
-  }
-  .iconfont {
-    font-size: 50px;
+  .take_drug {
+    background-color: white;
+    padding: 20px 0;
+    &-header {
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      div {
+        font-size: 30px;
+      }
+      .iconfont {
+        font-size: 50px;
+      }
+    }
+    &-content {
+      padding: 0 30px;
+      span {
+        font-size: 30px;
+      }
+      &-item {
+        padding: 10px 0;
+        span:nth-child(2) {
+          margin-left: 30px;
+        }
+      }
+    }
   }
 </style>

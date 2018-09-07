@@ -1,153 +1,92 @@
 <template>
-  <div class="main">
+  <div class="pay_hospital">
     <new-header title="订单结算">
       <div slot="left">
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
     </new-header>
-    <div class="body">
-      <router-link tag="div" to="/orders/addresses" v-if="deliveryType === 'DELIVERY'">
-        <new-header bgColor="rgba(255,255,255,1)" title="请维护地址" color='666666' rightColor="#666666"
-                    v-if="JSON.stringify(this.receiveAddress) === '{}'">
-          <div slot="right">
-            <i class="iconfont ic-youjiantou"></i>
-          </div>
-        </new-header>
-        <div class="address" v-else>
+    <div class="pay_hospital-content">
+      <new-close-hospital :hospitalInfo="hospitalInfo"></new-close-hospital>
+      <div class="pay_hospital-content-delivery_type">
+        <div class="pay_hospital-content-delivery_type-header">
           <div>
-            <i class="iconfont ic-dizhi"></i>
+            <i class="iconfont ic-peisongfangshi"></i>
           </div>
-          <div>
-            <div class="text-l-25 elps">
-              收货人：{{receiveAddress.consignee}} {{receiveAddress.phone}}
-            </div>
-            <div class="text-l-25 elps">
-              地址：{{receiveAddress.address}}
-            </div>
-          </div>
-          <div>
-            <i class="iconfont ic-youjiantou"></i>
-          </div>
+          <div>配送方式</div>
         </div>
-        <img src="../../../assets/image/colorbackground.png" c>
-      </router-link>
-      <new-close-hospital :hospitalInfo="hospitalInfo" class="new-close-normal"></new-close-hospital>
-      <div class="delivery">
-        <div class="top">
-          <div><i class="iconfont ic-peisongfangshi"></i></div>
-          <span class="text-l-30"> 配送方式</span>
-        </div>
-        <div class="bottom">
-          <!--<button :class="{active:deliveryType=='DELIVERY'}">送货</button>-->
-          <button :class="{active:deliveryType=='SELF'}" @click.stop="onDeliveryType('SELF')">上门自提</button>
+        <div class="pay_hospital-content-delivery_type-content">
+          <span :class="{active:deliveryType=='SELF'}"
+                @click.stop="onDeliveryType('SELF')">上门自提</span>
         </div>
       </div>
-      <div class="pay">
-        <div class="top">
-          <div><i class="iconfont ic-dingdanzhifufangshi"></i></div>
-          <span class="text-l-30">支付方式</span>
-        </div>
-        <div class="bottom">
+      <div class="dividing"></div>
+      <div class="pay_hospital-content-pay_type">
+        <div class="pay_hospital-content-pay_type-header">
           <div>
-            <div v-if="payType === 'WECHAT_PAY'">
-              <img src="../../../assets/image/alopay.png" @click.stop="onPayType('ALIPAY')">
-              <img src="../../../assets/image/checkwechat.png">
-            </div>
-            <div v-else>
-              <img src="../../../assets/image/checkalopay.png">
-              <img src="../../../assets/image/wechat.png" @click.stop="onPayType('WECHAT_PAY')">
-            </div>
+            <i class="iconfont ic-dingdanzhifufangshi"></i>
           </div>
+          <div>支付方式</div>
+        </div>
+        <div class="pay_hospital-content-pay_type-content">
+            <span class="iconfont ic-weixin"
+                  :class="{active:payType=='WECHAT_PAY'}"
+                  @click.stop="onPayType('WECHAT_PAY')"></span>
+          <span class="iconfont ic-alipay"
+                :class="{active:payType=='ALIPAY'}"
+                @click.stop="onPayType('ALIPAY')"></span>
         </div>
       </div>
-      <div class="amount">
-       <div>
-          <span>商品金额：</span>
-          <span>￥{{hospitalInfo.amount}}</span>
+      <div class="dividing"></div>
+      <div class="pay_hospital-content-pay_amount">
+        <div>
+          <span>商品总额&#58;</span>
+          <span>&yen;{{hospitalInfo.amount.toFixed(2)}}</span>
         </div>
         <div>
-          <span>医保扣除：</span>
-          <span>￥{{hospitalInfo.medicaidAmount}}</span>
+          <span>医保扣除&#58;</span>
+          <span>&yen;{{hospitalInfo.medicaidAmount.toFixed(2)}}</span>
         </div>
         <div>
-          <span>优惠扣除：</span>
-          <span>￥0</span>
+          <span>实际支付&#58;</span>
+          <span>&yen;{{hospitalInfo.payAmount.toFixed(2)}}</span>
         </div>
       </div>
-
-      <div class="medical">
-        <div>
-          <span>医保信息</span>
+      <div class="dividing"></div>
+      <div class="pay_hospital-content-medicaid">
+        <div class="pay_hospital-content-medicaid-header">
+          医保信息
         </div>
-        <new-line></new-line>
-        <div class="medical-info text-l-30" v-if="account.medicaidNumber">
-          <div>
-            <span>姓名：{{account.name}}</span>
-          </div>
-          <div>
-            <span>医保卡：{{account.medicaidNumber}}</span>
-          </div>
-          <div>
-            <span>医保卡余额：￥0</span>
-          </div>
-        </div>
-
-
-        <div v-else>
-          <new-header height="low" bgColor="white" leftColor="black">
-            <div slot="left">
-              <i class="iconfont ic-qianbao"></i>
+        <div class="pay_hospital-content-medicaid-content">
+          <div class="pay_hospital-content-medicaid-content-card"
+               v-if="isNotBlank(account.medicaidNumber)">
+            <div>
+              <span>会员姓名&#58;</span>
+              <span>{{account.name}}</span>
             </div>
-            <span slot="left" class="medical-bangding">医保卡绑定</span>
-          </new-header>
-          <div class="medical-qubangding" @click="$router.push('/accounts/card/bind')">
-            <a>去绑定医保卡</a>
-          </div>
-        </div>
-
-      <!--  <div class="bg-white coupons">
-          <span class="d-inline-block fl">优惠券</span>
-          <span class="d-inline-block fr" @click="coupon()"><i class="iconfont ic-youjiantou"></i></span>
-        </div>
-
-
-        <div id="whole" v-show="show"></div>
-
-        <transition v-show="show" name="slide-fades">
-          <div class="new-coupons bg-white" v-show="show">
-              <div class="use-coupon">
-                使用优惠券
-              </div>
-             <div>
-                <ul class="coupon-ul">
-                   <li v-for="(item,index) in coupons">
-                     满{{item.amount}}减{{item.minus}}
-                     <input type="radio" :value="item.id" v-model="checkedValue" name="radio"/>
-                   </li>
-                </ul>
+            <div>
+              <span>医保卡号&#58;</span>
+              <span>{{account.medicaidNumber}}</span>
             </div>
-               <div class="coupon-close" @click="close()" v-show="show">
-                 关闭  <input type="text" v-model="checkedValue"/>
-              </div>
+            <div>
+              <span>卡内余额&#58;</span>
+              <span>&yen;0</span>
+            </div>
           </div>
-        </transition>
--->
-
-
+          <div class="pay_hospital-content-medicaid-content-no_card"
+               v-else>
+            <span class="iconfont ic-qianbao"></span>
+            <a @click="linkToCardBind">去绑定医保卡</a>
+          </div>
+        </div>
       </div>
-
+      <div class="dividing"></div>
     </div>
-    <footer>
-      <div class="right">
-        <div class="left">
-          <span>实付金额:</span>
-          <span>￥{{hospitalInfo.payAmount}}</span>
-        </div>
-        <button @click.stop="onOrder()">提交订单</button>
+    <div class="pay_hospital-footer">
+      <div>
+        <span>实付金额&#58;<i>&yen;{{payAmount}}</i></span>
+        <span @click.stop="onOrder()">提交订单</span>
       </div>
-    </footer>
-
-
+    </div>
   </div>
 
 
@@ -166,9 +105,7 @@
         deliveryType: 'SELF',
         payType: 'ALIPAY',
         hospitalInfo: [],
-        show: true,
-        coupons: [],
-        checkedValue: ''
+        payAmount: 0
       };
     },
     components: {},
@@ -179,12 +116,8 @@
       ...mapGetters(['receiveAddress'])
     },
     methods: {
-      changeResult(itemId) {
-        this.checkedValue = itemId;
-        this.$store.commit('checkedValue', this.checkedValue);
-      },
       getData() {
-        if (JSON.stringify(this.receiveAddress) === '{}') {
+        if (this.isBlank(this.receiveAddress)) {
           this.$http.get('addresses/default').then(res => {
             if (res.data) {
               this.setReceiveAddress(res.data);
@@ -196,12 +129,13 @@
         this.$http.get('/orders/hospital?rxId=' + this.rxId)
           .then(res => {
             this.hospitalInfo = res.data;
+            this.payAmount = res.data.payAmount;
           }).catch((error) => {
             this.exception(error);
           });
       },
       onOrder() {
-        if (this.deliveryType === 'DELIVERY' && JSON.stringify(this.receiveAddress) === '{}') {
+        if (this.deliveryType === 'DELIVERY' && this.isBlank(this.receiveAddress)) {
           MessageBox('提示', '请维护收货地址').then(action => {
           });
         } else {
@@ -222,333 +156,220 @@
     }
   };
 </script>
-<style scoped>
-  .main {
-    background-color: rgba(246, 246, 246, 1);
-    height: 100vh;
-    width: 720px;
+<style scoped type="text/less" lang="less">
+  .active {
+    color: #ef4f4f;
   }
-
-  .body {
-    width: 720px;
-    height: calc(100vh - 100px - 130px);
-    overflow: auto;
+  .text-red {
+    color: #ef4f4f;
   }
-
-  .address .center {
-    font-size: 20px;
-    color: rgba(51, 51, 51, 1);
-  }
-
-  .delivery, .pay {
-    background-color: rgba(255, 255, 255, 1);
-    margin-bottom: 10px;
-    height: 160px;
-  }
-
-  .delivery .top {
-    display: flex;
-    align-items: center;
-  }
-
-  .delivery .top i {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-
-  .delivery .bottom {
-    margin-left: 72px;
-  }
-
-  .delivery .bottom button {
-    width: 146px;
-    height: 55px;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 4px;
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    outline: none;
-    border-width: 2px;
-  }
-
-  .delivery .bottom .active {
-    border-color: #F02B2B;
-    color: rgba(240, 43, 43, 1);
-  }
-
-  .pay .top {
-    display: flex;
-    align-items: center;
-  }
-
-  .pay .top i {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-
-  .pay .bottom {
-    margin-left: 72px;
-  }
-
-  .pay .bottom img {
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 10px;
-  }
-
-  .iconfont {
-    font-size: 50px;
-  }
-
-  .amount {
-    width: 720px;
-    height: 160px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 1px 0px 0px rgba(230, 230, 230, 0.52);
-    margin-bottom: 10px;
-    padding: 20px;
-  }
-
-  .amount div > span:nth-child(1) {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-  }
-
-  .amount div > span:nth-child(2) {
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 0, 0, 1);
-  }
-
-  .amount div > span:nth-child(3) {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(153, 153, 153, 1);
-  }
-
-  .medical {
-    width: 720px;
-    height: 260px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 1px 0px 0px rgba(230, 230, 230, 1);
-    margin-bottom: 10px;
-  }
-
-  .medical > div:nth-child(1) {
-    padding: 20px;
-  }
-
-  .medical > div:nth-child(1) > span {
-    font-size: 30px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-  }
-
-  .medical-info {
-    padding: 20px;
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-  }
-
-  .medical-info div {
-    margin-bottom: 5px;
-  }
-
-  /**
-  脚部
-   */
-
-  footer {
-    display: flex;
-    height: 100px;
-    width: 720px;
-    justify-content: flex-end;
-    position: fixed;
-    bottom: 0;
-    background: rgba(255, 255, 255, 1);
-  }
-
-  footer .right {
-    display: flex;
-    justify-content: center;
-  }
-
-  footer .right .left {
-    align-self: center;
-    margin-right: 20px;
-  }
-
-  footer .right .left span:nth-child(1) {
-    font-size: 28px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-  }
-
-  footer .right .left span:nth-child(2) {
-    font-size: 28px;
-    font-family: HiraginoSansGB-W3;
-    color: #F02B2B;
-  }
-
-  footer .right button {
-    width: 214px;
-    height: 100px;
-    background: rgba(240, 43, 43, 1);
-    font-size: 30px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 255, 255, 1);
-    border: 0;
-    outline: none;
-  }
-
-  .medical-bangding {
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(69, 69, 69, 1);
-    margin-left: 10px;
-  }
-
-  .ic-qianbao {
-    font-size: 24px;
-  }
-
-  .medical-qubangding a {
-    font-size: 18px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(19, 193, 254, 1);
-    text-decoration: underline;
-    margin-left: 68px;
-  }
-
-  .medical-qubangding button {
-    width: 132px;
-    height: 36px;
-    background: rgba(19, 193, 254, 1);
-    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.33);
-    font-size: 22px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 255, 255, 1);
-    line-height: 10px;
-    border-radius: 50px;
-    outline: none;
-    border: 0;
-  }
-  .coupons{
-    width: 720px;
-    height: 60px;
-    line-height: 60px;
-    margin-top: 80px;
-    font-size: 24px;
-  }
-  .coupons span:first-child{
-    margin-left: 20px;
-    font-size: 24px;
-  }
-  .coupons span:nth-child(2){
-    margin-right: 20px;
-    font-size: 24px;
-  }
-
-  /*定义进入过渡的结束状态*/
-  .slide-fades-enter-active {
-    transition: all 0.5s ease;
-
-  }
-
-  /* 定义离开过渡的结束状态*/
-  .slide-fades-leave-active {
-    transition: all 0.5s ease;
-  }
-
-  /*离开过渡的结束状态*/
-  .slide-fades-leave-active {
-    bottom: 0rem !important;
-  }
-
-  .slide-fades-leave-to {
-    bottom: -28rem !important;
-  }
-
-  /*进入过渡的开始状*/
-  .slide-fades-enter {
-    bottom: -22rem !important;
-  }
-
-  .new-coupons{
-    position: absolute;
-    bottom: 0px;
-    z-index: 99999;
-    width:720px;
-    height:441px;
-    background:rgba(255,255,255,1);
-  }
-  .coupon-close{
-    width:720px;
-    height:64px;
-    background:rgba(19,193,254,1);
-    color: white;
-    text-align:center;
-    line-height: 64px;
-    font-size:30px;
-    z-index: 99999;
-    bottom: 0px;
-    position: absolute;
- }
-  .use-coupon{
-    width: 720px;
-    height: 82px;
-    line-height: 82px;
-    text-align:center;
-    font-size:30px;
-  }
-  .mint-radio-label{
-    font-size:24px!important;
-  }
-  input[type='radio']{
-    font-size:24px!important;
-  }
-  .coupon-ul{
-    height: 220px;
-    overflow-y: scroll;
-  }
-  .coupon-ul li{
-    font-size:24px;
-    text-indent: 21px;
-    color: #999999;
-  }
-
-  .address {
+  .dividing {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-  }
-  .address>div:nth-child(1) {
-    width: 10%;
-    margin-left: 10px;
-  }
-  .address>div:nth-child(2) {
-    width: 80%;
-  }
-  .address>div:nth-child(2)>div:nth-child(1) {
-    margin-top: 10px;
-  }
-  .address>div:nth-child(2)>div:nth-child(2) {
-    margin-top: 10px;
-  }
-  .address>div:nth-child(3) {
-    width: 10%;
-  }
-  .address .iconfont {
-    font-size: 50px;
+    height: 10px;
+    background-color: #f5f5f5;
   }
 
-  .image-bar {
-    width: 100%;
+  .pay_hospital {
+    background-color: #f5f5f5;
+    width: 720px;
+    &-content {
+      margin-bottom: 90px;
+      &-delivery {
+        &-bar {
+          width: 100%;
+          img {
+            width: 100%;
+          }
+        }
+        &-address {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20px 20px;
+          background-color: white;
+          i {
+            font-size: 50px;
+            color: #a6a6a6;
+          }
+          div, span {
+            font-size: 28px;
+          }
+          &-center {
+            padding: 0 10px;
+            width: 600px;
+          }
+        }
+        &-no_address {
+          padding: 20px 20px;
+          background-color: white;
+          font-size: 35px;
+          text-align: center;
+        }
+      }
+      &-delivery_type {
+        &-header {
+          background-color: white;
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          i {
+            font-size: 50px;
+          }
+          div {
+            font-size: 30px;
+          }
+        }
+        &-content {
+          background-color: white;
+          padding: 10px 0 30px 70px;
+          span {
+            border: 1PX solid #f5f5f5;
+            font-size: 30px;
+            &:not(:first-child) {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+      &-pay_type {
+        &-header {
+          background-color: white;
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          i {
+            font-size: 50px;
+          }
+          div {
+            font-size: 30px;
+          }
+        }
+        &-content {
+          background-color: white;
+          padding: 10px 0 30px 50px;
+          span {
+            font-size: 70px;
+          }
+        }
+      }
+      &-pay_amount {
+        background-color: white;
+        padding: 20px 0 20px 70px;
+        span {
+          font-size: 28px;
+        }
+        div {
+          margin-bottom: 10px;
+          span:nth-child(2) {
+            color: #ef4f4f;
+          }
+        }
+      }
+      &-medicaid {
+        background-color: white;
+        &-header {
+          font-size: 30px;
+          padding: 10px 0 10px 20px;
+          border: 1PX solid #f5f5f5;
+        }
+        &-content {
+          &-card {
+            padding: 20px 0 20px 70px;
+            span {
+              font-size: 28px;
+            }
+            div {
+              margin-bottom: 10px;
+              span:nth-child(2) {
+                color: #ef4f4f;
+              }
+            }
+          }
+          &-no_card {
+            padding: 20px 0 20px 70px;
+            span {
+              font-size: 50px;
+            }
+            a {
+              font-size: 30px;
+              border-bottom: 1PX solid #1AB6FD;
+              color: #1AB6FD;
+            }
+          }
+        }
+      }
+      &-coupon {
+        background-color: white;
+        &_link {
+          display: flex;
+          background-color: white;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 20px;
+          div {
+            font-size: 30px;
+          }
+          &_right {
+            display: flex;
+            align-items: center;
+            color: #999999;
+          }
+          i {
+            font-size: 40px;
+          }
+        }
+        &_popup {
+          &-container {
+            height: 400px;
+            overflow: auto;
+            &-title {
+              padding: 30px 0;
+              text-align: center;
+            }
+            &-list {
+              padding: 20px;
+              &-item {
+                text-align: center;
+                border-bottom: 1PX solid #999999;
+              }
+              &-none {
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+    }
+    &-footer {
+      background-color: white;
+      padding: 20px 0;
+      position: fixed;
+      bottom: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      div {
+        span {
+          &:nth-child(1) {
+            font-size: 30px;
+            i {
+              font-style: normal;
+              color: #ef4f4f;
+              font-size: 30px;
+            }
+          }
+          &:nth-child(2) {
+            font-size: 30px;
+            border: 1PX solid #f5f5f5;
+            background-color: #ef4f4f;
+            color: white;
+            font-weight: 100;
+            padding: 20px 40px;
+          }
+        }
+      }
+    }
   }
+
 </style>
-
