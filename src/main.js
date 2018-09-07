@@ -19,8 +19,6 @@ import './assets/font/iconfont.css';
 import '../src/assets/plugin/vue-event-calendar/dist/style.css';
 import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
 import Mui from 'vue-awesome-mui';
-import 'vue-layer-mobile/need/layer.css';
-import layer from 'vue-layer-mobile';
 import {Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
@@ -35,7 +33,6 @@ Vue.use(Actionsheet).use(GoodsAction)
   .use(Loading)
 ;
 Vue.use(Mui);
-Vue.use(layer);
 Vue.use(vueEventCalendar, {locale: 'zh'});
 Vue.prototype.$http = axios;
 Vue.prototype.$outside = process.env.OUTSIDE_ROOT;
