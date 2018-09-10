@@ -49,7 +49,7 @@
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_2.png"></td>
               <td><span class="td-width-55 ellipsis text-888888 text-l-25">日期</span></td>
-              <td><span class="td-width-250 ellipsis  text-l-25">{{rx.rxDate|timeConvert}}</span></td>
+              <td><span class="td-width-250 ellipsis  text-l-25">{{timeConvert(rx.rxDate)}}</span></td>
               <td></td>
             </tr>
             <tr>

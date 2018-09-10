@@ -7,13 +7,13 @@
     </new-header>
 
     <div class="account-container">
-      <div class="account-container-item" @click="changeVisible()">
+      <div class="account-container-item" @click="showActionSheet()">
         <div class="account-container-item-left">
           <div class="text-l-25">头像</div>
         </div>
         <div class="account-container-item-right">
           <div>
-            <img :src="getImgURL(account.fileId,'SMALL_LOGO')"/>
+            <img :src="getImgURL(account.fileId,'SMALL_LOGO')" id="headImg"/>
           </div>
           <div>
             <i class="iconfont ic-youjiantou"></i>
@@ -41,152 +41,129 @@
         </div>
       </div>
     </div>
-
-    <div id="shangchuanpic" class="account-image_upload">
-      <ul>
-        <li class="imgLi div2" v-for="(item, index) in duploadURLs">
-          <img :src='item' class="upload_img div3" style="display:none;"/>
-          <span @click="delImg(index)" style="display:none;"><span class="file-remove">+</span></span>
-        </li>
-      </ul>
-    </div>
-    <div class="image-item space upscolor fl ml10" style="display:none;" @click="showActionSheet()">
-      加号
-      <div class="image-up"></div>
-    </div>
-
-
-    <mt-actionsheet :actions="actions" v-model="fileVisible"/>
   </div>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
   export default {
     data() {
-      return {
-        account: this.$store.getters.account,
-        photoBase: '',
-        copyuploadURLs: [],
-        uploadURLs: [],
-        duploadURLs: [],
-        fileVisible: false,
-        actions: [
-          {
-            name: '拍照',
-            method: this.getImagee
-          },
-          {
-            name: '从相册中选择',
-            method: this.galleryImgs
-          }
-        ]
-      };
+      return {};
+    },
+    computed: {
+      ...mapGetters(['account'])
     },
     created() {
     },
     methods: {
-      delImg(index) {
-        this.duploadURLs.splice(index, 1);
-        this.uploadURLs.splice(index, 1);
-      },
       showActionSheet() {
         let _this = this;
-        var bts = [{
+        var a = [{
           title: '拍照'
         }, {
-          title: '从相册选择'
+          title: '从手机相册选择'
         }];
-        let __PLUS = plus;// eslint-disable-line no-undef
-        __PLUS.nativeUI.actionSheet({
+        // eslint-disable-next-line
+        plus.nativeUI.actionSheet({
+          title: '修改用户头像',
           cancel: '取消',
-          buttons: bts
-        },
-        function (e) {
-          if (e.index === 1) {
-            _this.getImagee();
-          } else if (e.index === 2) {
-            _this.galleryImgs();
+          buttons: a
+        }, function (b) {
+          switch (b.index) {
+            case 0:
+              break;
+            case 1:
+              _this.getImage();
+              break;
+            case 2:
+              _this.galleryImg();
+              break;
+            default:
+              break;
+          }
+        });
+      },
+      getImage() {
+        var _this = this;
+        // eslint-disable-next-line
+        var _plus = plus;
+        var c = _plus.camera.getCamera();
+        c.captureImage(function (e) {
+          // eslint-disable-next-line
+          _plus.io.resolveLocalFileSystemURL(e, function (entry) {
+            _this.uploadHead(entry.toLocalURL());
+            /* 上传图片 */
+          }, function (e) {
+            console.log('读取拍照文件错误：' + e.message);
+          });
+        }, function (s) {
+          console.log('error' + s);
+        }, {
+          filename: '_doc/head.png'
+        });
+      },
+      galleryImg() {
+        var _this = this;
+        // eslint-disable-next-line
+        var _plus = plus;
+        _plus.gallery.pick(function (path) {
+          _this.uploadHead(path);
+        }, function (e) {
+          console.log('取消选择图片');
+        }, { filter: 'image', multiple: false });
+      },
+      uploadHead(imgPath) {
+        console.log(imgPath);
+        var _this = this;
+        var image = new Image();
+        image.onload = function () {
+          var dataUrl = _this.getBase64Image(image);
+          document.getElementById('headImg').src = dataUrl;
+          _this.$http.post('/files/image',
+            {
+              'fileType': 'LOGO',
+              'file': dataUrl
+            }).then(res => {
+            _this.account.fileId = res.data;
+            _this.$http.put('/accounts', _this.account)
+              .then(res => {
+                _this.$store.commit('SET_ACCOUNT', _this.account);
+              })
+              .catch(err => {
+                _this.catch(err);
+              });
+          })
+            .catch(err => {
+              _this.catch(err);
+            });
+        };
+        image.src = imgPath;
+        image.style.width = '100px';
+        image.style.height = '100px';
+      },
+      getBase64Image(img) {
+        var canvas = document.createElement('canvas');
+        var width = img.width;
+        var height = img.height;
+        // calculate the width and height, constraining the proportions
+        if (width > height) {
+          if (width > 100) {
+            height = Math.round(height *= 100 / width);
+            width = 100;
+          }
+        } else {
+          if (height > 100) {
+            width = Math.round(width *= 100 / height);
+            height = 100;
           }
         }
-        );
-      },
-      showPics(url, name) {
-        let _this = this;
-        let __PLUS = plus;// eslint-disable-line no-undef
-        __PLUS.io.resolveLocalFileSystemURL(url, function (entry) {
-          entry.file(function (file) {
-            let fileReader = new __PLUS.io.FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onloadend = function (e) {
-              let picUrl = e.target.result.toString();
-              _this.uploadURLs.push(picUrl.split(',')[1]);
-              _this.duploadURLs.push(picUrl);
-              let param = new FormData();
-              param.append('fileType', 'LOGO');
-              param.append('file', picUrl);
-              _this.$http({
-                url: '/files/image',
-                method: 'post',
-                data: param,
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded'
-                }
-              }).then(res => {
-                this.account.fileId = res.data;
-                let URL = '/accounts';
-                _this.$http.put(URL, this.account).then(res => {
-                  this.$store.commit('SET_ACCOUNT', this.account);
-                }).catch(error => {
-                  this.exception(error);
-                });
-              });
-            };
-          });
-        });
-      },
-      compressImage(url, filename) {
-        let _this = this;
-        var name = '_doc/upload/' + filename;
-        let __PLUS = plus;// eslint-disable-line no-undef
-        __PLUS.zip.compressImage({
-          src: url,
-          dst: name,
-          quality: 40, // quality: (Number 类型 )压缩图片的质量.取值范围为1-100
-          overwrite: true// overwrite: (Boolean 类型 )覆盖生成新文件
-        },
-        function (zip) {
-          // 页面显示图片
-          _this.showPics(zip.target, name);
-        });
-      },
-      getImagee() {
-        let __PLUS = plus;// eslint-disable-line no-undef
-        let _this = this;
-        var cmr = __PLUS.camera.getCamera();
-        cmr.captureImage(function (p) {
-          __PLUS.io.resolveLocalFileSystemURL(p, function (entry) {
-            _this.compressImage(entry.toLocalURL(), entry.name);
-          }, function (e) {
-            __PLUS.nativeUI.toast('读取拍照文件错误：' + e.message);
-          });
-        }, function (e) {
-        }, {
-          filter: 'image'
-        });
-      },
-      galleryImgs() {
-        let _this = this;
-        let __PLUS = plus;// eslint-disable-line no-undef
-        __PLUS.gallery.pick(function (e) {
-          var name = e.substr(e.lastIndexOf('/') + 1);
-          _this.compressImage(e, name);
-        }, function (e) {
-        }, {
-          filter: 'image'
-        });
-      },
-      changeVisible() {
-        this.fileVisible = true;
+        canvas.width = width; /* 设置新的图片的宽度 */
+        canvas.height = height; /* 设置新的图片的长度 */
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height); /* 绘图 */
+        var dataURL = canvas.toDataURL('image/png', 1);
+        console.log(dataURL);
+        return dataURL;
       }
     }
   };
@@ -235,6 +212,5 @@
       }
     }
   }
-
 
 </style>
