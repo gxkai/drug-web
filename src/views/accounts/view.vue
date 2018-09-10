@@ -119,11 +119,7 @@
         image.onload = function () {
           var dataUrl = _this.getBase64Image(image);
           document.getElementById('headImg').src = dataUrl;
-          _this.$http.post('/files/image',
-            {
-              'fileType': 'LOGO',
-              'file': dataUrl
-            }).then(res => {
+          _this.$http.post('/files/image?fileType=' + 'LOGO&file=' + dataUrl).then(res => {
             _this.account.fileId = res.data;
             _this.$http.put('/accounts', _this.account)
               .then(res => {
