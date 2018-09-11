@@ -1,8 +1,10 @@
 import { Toast } from 'mint-ui';
 import router from '../../router';
 import storage from 'good-storage';
+
 const SEARCH_KEY = 'orderHis';
 const SEARCH_MAX_LENGTH = 15;
+
 function insertArray(arr, val, compare, maxlen) {
   const index = arr.findIndex(compare);
   if (index === 0) {
@@ -16,6 +18,7 @@ function insertArray(arr, val, compare, maxlen) {
     arr.pop();
   }
 }
+
 export default {
   install(Vue, options) {
     /**
@@ -223,6 +226,20 @@ export default {
     };
     Vue.prototype.linkToCardBind = () => {
       router.push('/accounts/card/bind');
+    };
+
+    /**
+     * 地图coordType 转换
+     */
+    Vue.prototype.transformCoordType = (str) => {
+      switch (str) {
+        case 'wgs84':
+          return 'wgs84ll';
+        case 'gcj02':
+          return 'gcj02ll';
+        case 'bd09ll':
+          return 'bd09ll';
+      }
     };
   }
 };

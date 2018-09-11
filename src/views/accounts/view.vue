@@ -130,6 +130,7 @@
               'Content-Type': 'application/x-www-form-urlencoded'
             }
           }).then(res => {
+            alert('fileId:' + res.data);
             _this.account.fileId = res.data;
             _this.$http.put('/accounts', _this.account)
               .then(res => {

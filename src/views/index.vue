@@ -3,12 +3,13 @@
     <div class="bg-blue " ref="header">
       <div class="header-position">
         <div class="header-position-container">
-          <div class="header-position-container-left">
+          <div class="header-position-container-left"
+               @click="onAddress()">
             <div>
               <i class="iconfont ic-weizhi"></i>
             </div>
-            <div @click="onAddress()">
-              {{chooseAddress}}
+            <div>
+              {{currentPosition.name}}
             </div>
             <div>
               <i class="iconfont ic-arrowdown"></i>
@@ -20,8 +21,8 @@
         </div>
       </div>
       <div class="header-search">
-          <input class="iconfont" :placeholder="searchIcon" type="text" v-model="keyword"
-                 @focus="$router.push('/drugs')">
+        <input class="iconfont" :placeholder="searchIcon" type="text" v-model="keyword"
+               @focus="$router.push('/drugs')">
       </div>
     </div>
     <div ref="body">
@@ -112,7 +113,8 @@
               <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
                 <img :data-index="index"
                      :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
-                     :src="getImgURL(slide.fileId, 'LARGE_LOGO')" @click="$router.push({path:'/shops/view',query:{shopId:slide.id}})">
+                     :src="getImgURL(slide.fileId, 'LARGE_LOGO')"
+                     @click="$router.push({path:'/shops/view',query:{shopId:slide.id}})">
               </template>
             </slide>
           </carousel-3d>
@@ -135,8 +137,9 @@
               class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
               v-for="(recommendList,index) in recommendList" :key="index"
               :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
-              <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true" style="background-color: #4caf50">非</span>
-              <span class="toc-tip position-absolute all-center" v-else >处</span>
+              <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true"
+                    style="background-color: #4caf50">非</span>
+              <span class="toc-tip position-absolute all-center" v-else>处</span>
               <img class="is-260x193" :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')">
               <span class="elps width-180 fz22 text-center mt-l-10">{{recommendList.name}}{{recommendList.spec}}</span>
               <span class="text-red fz24 text-center">¥ {{recommendList.price}} /盒</span>
@@ -149,9 +152,9 @@
   </div>
 </template>
 <script>
-  import {BmMarker, BmLabel} from 'vue-baidu-map';
+  import { BmMarker, BmLabel } from 'vue-baidu-map';
   import DownTime from '../components/timeDown';
-  import {Carousel3d, Slide} from 'vue-carousel-3d';
+  import { Carousel3d, Slide } from 'vue-carousel-3d';
 
   export default {
     name: 'home',
@@ -169,19 +172,19 @@
         seconds: '',
         news: [],
         discountList: [],
-        showList: [{id: 'x'}, {id: 'y'}, {id: 'y'}],
+        showList: [{ id: 'x' }, { id: 'y' }, { id: 'y' }],
         recommendList: [],
         advertLists: [],
-        longitude: '',
-        latitude: '',
-        lat: '31.39',
-        lng: '120.95',
         zoom: 3,
-        chooseAddress: '请选择地址',
         popupVisible: false,
         isCurrent: 1,
         repositoryTypeList: [],
-        repositoryTypeListForHome: []
+        repositoryTypeListForHome: [],
+        currentPosition: {
+          lat: '',
+          lng: '',
+          name: '定位中...'
+        }
       };
     },
     components: {
@@ -210,8 +213,7 @@
     methods: {
       onAddress() {
         this.$router.push({
-          path: '/addresses/repositioning',
-          query: {lat: this.lat, lng: this.lng}
+          path: '/addresses/repositioning'
         });
       },
       see(e) {
@@ -232,45 +234,32 @@
           }).catch(error => {
             this.exception(error);
           });
-      },
-      getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(this.showPosition);
-        } else {
-          alert('浏览器不支持');
-        }
-      },
-      showPosition(position) {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        let obj = {
-          'lat': this.lat,
-          'lng': this.lng
-        };
-        this.$store.commit('SET_POSITION', obj);
-      },
-      startAddress() {
-        this.$http.get(this.$outside + '/baidu/maps.json?lat=' + this.lat + '&lng=' + this.lng).then(res => {
-          console.log(res.data);
-          this.chooseAddress = res.data.recommended_location_description;
-        }).catch(error => {
-          this.exception(error);
-        });
-      },
-      nearby() {
-        this.$router.push({path: '/addresses/repositioning', query: {lat: this.lat, lng: this.lng, poi: true}});
       }
     },
     created: function () {
+      let _this = this;
+      this.$store.dispatch('VERIFY');
       this.getRepositoryTypeList();
       this.getRepositoryTypeListForHome();
-      if (!this.$storage.session.has('login')) {
-        this.getLocation();
-        this.startAddress();
+      // 定位
+      if (this.$store.getters.position === null) {
+        // eslint-disable-next-line
+        plus.geolocation.getCurrentPosition(function (p) {
+          _this.$http.get(_this.$outside + '/baidu/maps.json?lat=' + p.coords.latitude + '&lng=' + p.coords.longitude + '&coordType=' + _this.transformCoordType(p.coordsType) + '&poi=true')
+            .then(res => {
+              _this.currentPosition.lat = res.data.pois[0].location.lat;
+              _this.currentPosition.lng = res.data.pois[0].location.lng;
+              _this.currentPosition.name = res.data.pois[0].name;
+              _this.$store.commit('SET_POSITION', _this.currentPosition);
+            }).catch(err => {
+              _this.exception(err);
+            });
+        }, function (e) {
+          alert('Geolocation error: ' + e.message);
+        });
       } else {
-        this.chooseAddress = this.$store.getters.position.name;
+        this.currentPosition = this.$store.getters.position;
       }
-      this.$store.dispatch('VERIFY');
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
         this.discountList = res.data;
@@ -404,11 +393,13 @@
     justify-content: space-between;
     color: rgba(255, 255, 255, 1);
   }
+
   .header-position-container .header-position-container-left {
     display: flex;
     align-items: center;
   }
-  .header-position-container .header-position-container-left>div:nth-child(2) {
+
+  .header-position-container .header-position-container-left > div:nth-child(2) {
     max-width: 530px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -416,17 +407,20 @@
     font-size: 30px;
     margin-left: 10px;
   }
+
   .header-position-container .ic-weizhi {
     font-size: 30px;
   }
+
   .header-position-container .ic-arrowdown {
     font-size: 35px;
   }
+
   .header-position-container .ic-lingdang {
     font-size: 40px;
   }
 
-    /*搜索框*/
+  /*搜索框*/
   .header-search {
     width: 720px;
     height: 100px;
@@ -505,7 +499,7 @@
   .toc-tip {
     left: 5px;
     top: 5px;
-    padding:0px 20px;
+    padding: 0px 20px;
     background: #bfbfbf;
     color: #ffffff;
     border-radius: 50px / 25px;
@@ -516,9 +510,11 @@
     padding: 10px 0;
     background: rgba(238, 238, 238, 1);
   }
+
   .shop-content img {
-    height:300px;
+    height: 300px;
   }
+
   .carousel-3d-slide {
     background-color: white;
   }
@@ -586,9 +582,10 @@
     font-size: 22px;
     color: rgba(119, 119, 119, 1);
   }
+
   .swiper-img {
-    width:700px;
-    height:300px;
+    width: 700px;
+    height: 300px;
     border-radius: 10PX;
     margin-left: 10px;
   }

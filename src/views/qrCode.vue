@@ -6,6 +6,8 @@
 </template>
 
 <script>
+  import { Toast } from 'mint-ui';
+
   let scan = null;
   mui.init({// eslint-disable-line no-undef
     keyEventBind: {
@@ -27,7 +29,6 @@
       }
     }
   };
-
   export default {
     data() {
       return {};
@@ -44,6 +45,7 @@
         scan.onmarked = onmarked;
         scan.start();
         let that = this;
+
         function onmarked(type, result, file) {
           switch (type) {
             case plus.barcode.QR:// eslint-disable-line no-undef
@@ -60,16 +62,13 @@
               break;
           }
           result = result.replace(/\n/g, '');
-          alert(result);
           that.$http.put(result)
             .then(res => {
-              alert('succeed');
+              Toast('收货成功');
               scan.close();
               that.$router.replace('/orders');
             })
             .catch(err => {
-              alert('fail');
-              alert(that.$router);
               that.exception(err);
               scan.close();
               that.$router.go(-1);

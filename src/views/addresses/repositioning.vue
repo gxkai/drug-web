@@ -52,10 +52,7 @@
     name: 'repositioning',
     data() {
       return {
-        center: {
-          lng: this.$store.getters.position.lng,
-          lat: this.$store.getters.position.lat
-        },
+        center: this.$store.getters.position,
         zoom: 3,
         Maps: false,
         Librarys: false,
@@ -136,7 +133,7 @@
       //   }
       // },
       getPositionList() {
-        var url = this.$outside + '/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true';
+        var url = this.$outside + '/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true' + '&coordType=bd09ll';
         this.$http.get(url).then(res => {
           this.positionList = res.data.pois;
           this.showMap(true);
