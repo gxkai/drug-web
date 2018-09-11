@@ -119,18 +119,28 @@
         image.onload = function () {
           var dataUrl = _this.getBase64Image(image);
           document.getElementById('headImg').src = dataUrl;
-          _this.$http.post('/files/image?fileType=' + 'LOGO&file=' + dataUrl).then(res => {
+          let param = new FormData();
+          param.append('fileType', 'LOGO');
+          param.append('file', dataUrl);
+          _this.$http({
+            url: '/files/image',
+            type: 'post',
+            data: param,
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          }).then(res => {
             _this.account.fileId = res.data;
             _this.$http.put('/accounts', _this.account)
               .then(res => {
                 _this.$store.commit('SET_ACCOUNT', _this.account);
               })
               .catch(err => {
-                _this.catch(err);
+                _this.exception(err);
               });
           })
             .catch(err => {
-              _this.catch(err);
+              _this.exception(err);
             });
         };
         image.src = imgPath;
