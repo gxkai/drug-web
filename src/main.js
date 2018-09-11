@@ -9,7 +9,7 @@ import component from './assets/js/component';
 import axios from 'axios';
 import storage from 'good-storage';
 import '../src/assets/js/flex';
-import VueAwesomeSwiper from 'vue-awesome-swiper';
+import VueAwesomeSwiper from '../src/assets/plugin/vue-awesome-swiper';
 import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
 import VueTouch from 'vue-touch';
