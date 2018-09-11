@@ -48,7 +48,7 @@
                 {{origin.originName}}
               </div>
               <div>
-                {{origin.price}}
+                <span class="text-red">¥{{origin.price}}</span>
               </div>
             </div>
           </div>
@@ -214,6 +214,9 @@
 
 <style scope type="text/less" lang="less">
   @import "../../../../assets/less/index";
+  .shadow{
+    background-color: rgba(16, 14, 14, 0.44)!important;
+  }
 
   .shadow {
     .box {
@@ -392,11 +395,10 @@
   .toc-tip {
     left: 5px;
     top: 5px;
-    width: 50px;
-    height: 30px;
+    padding:0px 20px;
     background: #bfbfbf;
-    color: #666666;
-    border-radius: 100px / 50px;
+    color: #ffffff;
+    border-radius: 50px / 25px;
   }
 
   .all-center {
@@ -426,5 +428,6 @@
   .drug-item .iconfont, .rx-total .iconfont {
     font-size: 30px;
   }
+  .text-red{color: red;font-size: 30px;}
 
 </style>

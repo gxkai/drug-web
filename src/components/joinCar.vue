@@ -385,4 +385,5 @@
     color: red;
   }
 
+  .ic-guanbi2{font-size: 30px;}
 </style>

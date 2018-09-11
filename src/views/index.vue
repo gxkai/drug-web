@@ -3,11 +3,11 @@
     <div class="bg-blue " ref="header">
       <div class="header-position">
         <div class="header-position-container">
-          <div class="header-position-container-left"  @click="onAddress()">
+          <div class="header-position-container-left">
             <div>
               <i class="iconfont ic-weizhi"></i>
             </div>
-            <div>
+            <div @click="onAddress()">
               {{chooseAddress}}
             </div>
             <div>
@@ -505,11 +505,10 @@
   .toc-tip {
     left: 5px;
     top: 5px;
-    width: 50px;
-    height: 30px;
+    padding:0px 20px;
     background: #bfbfbf;
-    color: #666666;
-    border-radius: 100px / 50px;
+    color: #ffffff;
+    border-radius: 50px / 25px;
   }
 
   .shop-content {
@@ -534,7 +533,7 @@
   }
 
   .scroll-wrap {
-    width: 641px;
+    width: 601px;
     height: 100px;
     overflow: hidden;
   }
