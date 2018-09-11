@@ -58,9 +58,11 @@
 <style scoped>
 
   .container {
-    width: 720px;
+
     height: 100vh;
     padding: 20px;
+    overflow-y: hidden;
+    overflow-x: hidden;
   }
 
   .shopDrugSpec-main {
@@ -93,6 +95,5 @@
     height: 600px;
     padding: 10px;
     margin-bottom: 10px;
-    border: 1PX solid #a6a6a6;
-  }
+   }
 </style>

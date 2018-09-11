@@ -80,8 +80,10 @@
 </script>
 <style scoped>
   .container {
-    width: 720px;
+    width: 100%;
     height: 100vh;
+    overflow-x:hidden;
+    overflow-y:hidden;
   }
 
   .body-main {
@@ -117,6 +119,7 @@
   }
   .ic-youjiantou {
     font-size: 40px;
+    right: 12px;
   }
 
 </style>

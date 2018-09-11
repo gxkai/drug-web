@@ -20,7 +20,7 @@
           </span>
           </div>
         </div>
-        <div>
+        <div class="div-icon">
           <i class="iconfont ic-icon-test"></i>
         </div>
       </div>
@@ -30,7 +30,7 @@
             <span>等待买家评价</span>
           </div>
         </div>
-        <div>
+        <div class="div-icon">
           <i class="iconfont ic-daipingjia01"></i>
         </div>
       </div>
@@ -40,7 +40,7 @@
             <span>等待买家收货</span>
           </div>
         </div>
-        <div>
+        <div class="div-icon">
           <i class="iconfont ic-qianbao"></i>
         </div>
       </div>
@@ -50,7 +50,7 @@
             <span>等待卖家配送</span>
           </div>
         </div>
-        <div>
+        <div class="div-icon">
           <i class="iconfont ic-gerenzhongxindingdandaishouhuo"></i>
         </div>
       </div>
@@ -60,13 +60,13 @@
             <span>订单完成</span>
           </div>
         </div>
-        <div>
+        <div class="div-icon">
           <i class="iconfont ic-kucun"></i>
         </div>
       </div>
       <div class="order-address" v-if="order.address">
         <div>
-          <i class="iconfont ic-weizhi"></i>
+          <i class="iconfont ic-address"></i>
         </div>
         <div>
           <div class="text-l-22">
@@ -91,7 +91,7 @@
         </div>
         <div>
           <span>需付款</span>
-          <span>¥{{order.payAmount||0}}</span>
+          <span class="text-red">¥{{order.payAmount||0}}</span>
         </div>
       </div>
       <div class="order-number">
@@ -99,7 +99,7 @@
           订单编号：{{order.number}}
         </div>
         <div>
-          支付宝交易号：{{order.payNumber||'无'}}
+          支付流水号：{{order.payNumber||'无'}}
         </div>
         <div>
           创建时间：{{timeConvert(order.createdDate)}}
@@ -223,14 +223,12 @@
 
   .order-state > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) {
     font-size: 28px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(245, 245, 245, 1);
     margin-left: 80px;
   }
 
   .order-state > div:nth-child(1) > div:nth-child(2) > span:nth-child(1) {
     font-size: 24px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(245, 245, 245, 1);
     margin-left: 80px;
   }
@@ -253,8 +251,7 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    border-bottom: 1PX solid #a6a6a6;
-  }
+   }
 
   .order-address > div:nth-child(2) {
     margin-left: 20px;
@@ -378,6 +375,10 @@
   .ic-weizhi {
     font-size: 50px;
   }
+
+  .div-icon i{line-height: 40px;line-height:162px;}
+  .text-red{color: red;}
+  .ic-address{font-size: 48px;}
 </style>
 
 

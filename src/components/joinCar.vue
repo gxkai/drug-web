@@ -305,10 +305,6 @@
     font-family: HiraginoSansGB-W3;
   }
 
-  footer div i {
-    font-size: 35px;
-  }
-
   .active {
     color: rgba(19, 193, 254, 1);
   }
@@ -386,4 +382,14 @@
   }
 
   .ic-guanbi2{font-size: 30px;}
+
+  footer div i {
+    font-size: 35px;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    display: inline-block;
+  }
+
+  .ic-drugstore{font-size: 27px}
 </style>

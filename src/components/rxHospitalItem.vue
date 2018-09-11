@@ -13,8 +13,8 @@
         <div>
           地址：{{item.address}}
         </div>
-        <div>
-          ￥{{item.amount}}
+        <div class="text-red">
+          ¥{{item.amount}}
         </div>
     </div>
     <div class="rx_hospital_item-cart_icon">
@@ -84,4 +84,10 @@
       }
     }
   }
+  .text-red{color: red;}
+  .ic-gouwuche1{
+    right: 10px!important;
+  }
+  .rx_hospital_item-cart_icon{right:10px;}
+  .rx_hospital_item-cart_icon i{right:10px;}
 </style>

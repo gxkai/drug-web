@@ -90,7 +90,8 @@
                       </div>
                       <div class="text">
                         <div class="top">
-                          <div class="name elps mt-l-10 ml-l-10">{{cartDrug.name}}</div>
+                          <p class="height1"></p>
+                          <div class="name elps">{{cartDrug.name}}</div>
                           <div class="spec ml-l-10">{{cartDrug.spec}}</div>
                         </div>
                         <div class="bottom">
@@ -101,6 +102,8 @@
                             <div>
                               <span class="text-l-25">x{{cartDrug.quantity}}</span>
                             </div>
+
+
                             <div class="multi" v-if="cartRx.rxId === '0'">
                               <div @click.stop="onCut(cartDrug)">-</div>
                               <div>
@@ -108,13 +111,13 @@
                               </div>
                               <div @click.stop="onAdd(cartDrug)">+</div>
                             </div>
-                            <div class="multi" v-else>
-                              <div>-</div>
-                              <div>
-                                <input v-model="cartDrug.quantity" type="number" readonly>
-                              </div>
-                              <div>+</div>
+
+
+                            <div class="multi" v-if="cartRx.rxId != '0'">
+
                             </div>
+
+
                           </div>
                         </div>
                       </div>
@@ -570,13 +573,13 @@
 
   .slide-content .text .top .name {
     font-size: 25px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(51, 51, 51, 1);
+    height: 24px;
+    line-height: 24px;
   }
 
   .slide-content .text .top .spec {
     font-size: 25px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
     margin-top: 12px;
   }
@@ -591,7 +594,6 @@
 
   .slide-content .text .bottom .price {
     font-size: 24px;
-    font-family: HiraginoSansGB-W3;
     color: rgba(255, 0, 0, 1);
     align-self: center;
   }
@@ -605,7 +607,6 @@
 
   .slide-content .text .bottom .quantity div:nth-child(1) {
     align-self: flex-end;
-    font-family: HiraginoSansGB-W3;
     color: rgba(153, 153, 153, 1);
   }
 
@@ -618,7 +619,6 @@
     line-height: 0.1rem;
     outline: none;
   }
-
 
   .color-333 {
     color: #333;
@@ -639,16 +639,18 @@
   .multi {
     display: flex;
   }
-  .multi>div {
+
+  .multi > div {
     min-width: 37px;
     height: 37px;
     background-color: white;
-    border: 1PX solid #D2D2D2;
+    /* border: 1PX solid #D2D2D2;*/
     text-align: center;
     line-height: 37px;
     font-size: 20px;
   }
-  .multi>div:nth-child(2) input {
+
+  .multi > div:nth-child(2) input {
     height: 30px;
     width: 37px;
     text-align: center;
@@ -656,6 +658,7 @@
     border: none;
     outline: none;
   }
+  .height1{height: 15px;width: 100%}
 </style>
 
 

@@ -6,7 +6,7 @@
     <div class="rx_shop_item-right">
         <div class="elps">
           <div>{{item.name}}</div>
-          <div class="text-red">&yen;{{item.amount}}</div>
+          <div class="text-red color-red">&yen;{{item.amount}}</div>
         </div>
         <div class="elps">
           <new-star :score="item.score"></new-star>
@@ -50,8 +50,24 @@
 </script>
 
 <style scoped type="text/less" lang="less">
+  .rx_shop_item-cart_icon{
+    right: 10px!important;
+  }
+  .rx_shop_item-cart_icon i{
+    right: 10px!important;
+  }
+  .ic-gouwuche1{
+    right: 10px!important;
+  }
   .text-red {
     color: red;
+  }
+  .color-red{
+    position: absolute;
+    right: 50px;
+    font-size: 34px!important;
+    line-height: 40px;
+    top: 35px;
   }
   .text-blue {
     color: #1AB6FD;
@@ -94,4 +110,5 @@
       }
     }
   }
+
 </style>
