@@ -3,11 +3,11 @@
     <div class="bg-blue " ref="header">
       <div class="header-position">
         <div class="header-position-container">
-          <div class="header-position-container-left">
+          <div class="header-position-container-left"  @click="onAddress()">
             <div>
               <i class="iconfont ic-weizhi"></i>
             </div>
-            <div @click="onAddress()">
+            <div>
               {{chooseAddress}}
             </div>
             <div>
