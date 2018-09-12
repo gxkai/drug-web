@@ -2,7 +2,7 @@
   <div class="pay_hospital">
     <new-header title="订单结算">
       <div slot="left">
-        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
+        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
       </div>
     </new-header>
     <div class="pay_hospital-content">
@@ -39,15 +39,15 @@
       <div class="dividing"></div>
       <div class="pay_hospital-content-pay_amount">
         <div>
-          <span>商品总额&#58;</span>
+          <span>商品总额：</span>
           <span>&yen;{{hospitalInfo.amount.toFixed(2)}}</span>
         </div>
         <div>
-          <span>医保扣除&#58;</span>
+          <span>医保扣除：</span>
           <span>&yen;{{hospitalInfo.medicaidAmount.toFixed(2)}}</span>
         </div>
         <div>
-          <span>实际支付&#58;</span>
+          <span>实际支付：</span>
           <span>&yen;{{hospitalInfo.payAmount.toFixed(2)}}</span>
         </div>
       </div>
@@ -365,4 +365,24 @@
     }
   }
 
+  .ic-weixin{
+    color: green;
+  }
+
+  .ic-weixin.active{
+    color: #72bd63!important;
+  }
+  .ic-alipay.active{
+    color: #009fe8!important;
+  }
+  .pay_shop-content-pay_amount{
+    padding: 0px 0px 0px 20px;
+  }
+  .ic-weixin{
+    color: green;
+  }
+
+  .pay_shop-content-pay_type-content span{
+    background: grey;
+  }
 </style>

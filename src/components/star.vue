@@ -89,6 +89,11 @@ export default {
     font-size: 30px;
   }
 
+  .middlerr{
+    font-size: 35px;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
   .middler {
     font-size: 40px;
   }

@@ -52,4 +52,5 @@
       justify-content: space-around;
     }
   }
+  .item-title{border-bottom: 1px solid #f5f5f5;}
 </style>

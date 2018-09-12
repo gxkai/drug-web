@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <new-header title="商家介绍" :style="{background:bgColor, color: color}">
-     <div @click="$router.go(-1)" slot="left">
-      <i class="iconfont ic-arrow-right text-333333" ></i>
-     </div>
+      <div @click="$router.go(-1)" slot="left">
+        <i class="iconfont ic-arrow-right text-333333"></i>
+      </div>
     </new-header>
 
     <div class="shop-header">
@@ -22,35 +22,45 @@
       <div class="shop-list-scores bg-white">
         <div class="shop-list-score-sum">
           <span class="text-l-25">服务总评&nbsp;</span>
-          <span class="shop-score text-l-25">{{resultData.score}}</span>
+          <span class="shop-score text-l-25">{{resultData.score | twoFixed}}</span>
           <span class="text-l-25">（共{{resultData.count}}人参加评分）</span>
         </div>
-
-        <div class="shop-list-score">
-          <span>配送速度&nbsp;</span>
-          <span class="shop-score">{{resultData.describeScore}}</span>
+        <div>
+          <table width="100%">
+            <tr align="center">
+              <td align="center">配送速度：<span class="shop-score">{{resultData.describeScore | twoFixed}}</span></td>
+              <td align="center">服务态度：<span class="shop-score">{{resultData.deliveryScore | twoFixed}}</span></td>
+              <td align="center">描述相符：<span class="shop-score">{{resultData.serviceScore | twoFixed}}</span></td>
+              <td align="center">商品包装：<span class="shop-score">{{resultData.packageScore | twoFixed}}</span></td>
+            </tr>
+          </table>
         </div>
 
-        <div class="shop-list-score">
-          <span>服务态度&nbsp;</span>
-          <span class="shop-score">{{resultData.deliveryScore}}</span>
-        </div>
+        <!-- <div class="shop-list-score">
+           <span>配送速度&nbsp;</span>
+           <span class="shop-score">{{resultData.describeScore}}</span>
+         </div>
 
-        <div class="shop-list-score">
-          <span>描述相符&nbsp;</span>
-          <span class="shop-score">{{resultData.serviceScore}}</span>
-        </div>
+         <div class="shop-list-score">
+           <span>服务态度&nbsp;</span>
+           <span class="shop-score">{{resultData.deliveryScore}}</span>
+         </div>
 
-        <div class="shop-list-score">
-          <span>商品包装&nbsp;</span>
-          <span class="shop-score">{{resultData.packageScore}}</span>
-        </div>
+         <div class="shop-list-score">
+           <span>描述相符&nbsp;</span>
+           <span class="shop-score">{{resultData.serviceScore}}</span>
+         </div>
+
+         <div class="shop-list-score">
+           <span>商品包装&nbsp;</span>
+           <span class="shop-score">{{resultData.packageScore}}</span>
+         </div>-->
       </div>
 
       <div class="shop-list-aptitude bg-white">
         <div class="shop-list-aptitude-title">商家资质</div>
         <div class="shop-list-aptitude-imgs bg-white">
-            <img :src="getImgURL(item, 'LARGE_PIC')" v-for="(item, index) in resultData.fileIds" :key="index"/>
+          <img :src="getImgURL(item, 'LARGE_PIC')" v-for="(item, index) in resultData.fileIds" :key="index"/>
         </div>
       </div>
     </div>
@@ -71,15 +81,20 @@
       this.$http.get('/shops/' + this.$route.query.id).then(res => {
         this.resultData = res.data;
       });
+    },
+    filters: {
+      twoFixed(val) {
+        return val.toFixed(1);
+      }
     }
-  }
-  ;
+  };
 </script>
 <style scoped>
   .shop-list-aptitude-title {
     padding: 20px 0px 0px 20px;
     font-size: 30px;
   }
+
   .shop-list-aptitude-imgs {
     display: flex;
     flex-direction: column;
@@ -87,13 +102,12 @@
     padding: 20px;
     align-items: center;
   }
+
   .shop-list-aptitude-imgs img {
     width: 600px;
     height: 600px;
-    padding: 20px;
-    margin-bottom: 10px;
-    border: 1PX solid #cccccc;
-  }
+    padding: 20px 5px 10px 5px;
+ }
 
   .container {
     width: 720px;
@@ -129,7 +143,7 @@
   .shop-name {
     font-size: 36px;
     color: rgba(255, 254, 254, 1);
-    width:400px;
+    width: 400px;
     display: inline-block;
     margin-left: 10px;
   }
@@ -145,7 +159,7 @@
 
   .shop-list-scores {
     width: 720px;
-    padding-bottom: 10px;
+    padding-bottom: 30px;
   }
 
   .shop-list-score-sum {
@@ -164,36 +178,48 @@
     margin-bottom: 16px;
     color: rgba(0, 0, 0, 1);
   }
+
   .shop-list-score span {
     font-size: 25px;
   }
+
   .shop-score {
     color: rgba(255, 0, 0, 1);
+    font-size: 18px;
   }
 
   .shop-list-aptitude {
     margin-top: 34px;
   }
 
-
-  .icon{
-    width:auto;
+  .icon {
+    width: auto;
     height: auto;
   }
-  .ic-anquanrenzheng{
+
+  .ic-anquanrenzheng {
     display: inline-block;
     margin-left: 108px;
     font-size: 55px;
     margin-right: 32px;
   }
-  .shopname-address{
+
+  .shopname-address {
     font-size: 18px;
     display: inline-block;
   }
-  .shop-store{
-    width:720px;
-    height:73px;
-    background:rgba(255,255,255,1);
+
+  .shop-store {
+    width: 720px;
+    height: 73px;
+    background: rgba(255, 255, 255, 1);
     line-height: 73px;
+  }
+
+  table {
+    margin-top: 30px;
+   }
+  table td{
+    font-size: 18px;
   }
 </style>

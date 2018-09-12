@@ -44,13 +44,10 @@
                  v-for="(origin,index) in origins"
                   :key="index"
                  @click="choose(index)">
-              <div>
-                {{origin.originName}}
+              <div class="width-percent-100">
+                <span class="left">{{origin.originName}}</span><span class="text-red right">¥{{origin.price}}</span>
               </div>
-              <div>
-                <span class="text-red">¥{{origin.price}}</span>
-              </div>
-            </div>
+             </div>
           </div>
       </div>
     </div>
@@ -279,9 +276,24 @@
           margin-top: 10px;
           .item {
             display: flex;
-            justify-content: space-between;
+
             padding: 20px 10px;
-            border-bottom: 1PX solid #f5f5f5;
+            width: 100%;
+            border: none!important;
+            .left{
+              float: left;
+              display: inline-block;
+              text-align: left;
+              width: 87%;
+              font-size: 30px;
+            }
+            .right{
+              float: right;
+              display: inline-block;
+              text-align: right;
+              width: 10%;
+              font-size: 30px;
+            }
             &>div {
               font-size: 28px;
             }
@@ -344,7 +356,7 @@
 
   /* 组件 */
   .rx-shop-drugs-box {
-    width: 720px;
+
     height: 216px;
     background: rgba(255, 255, 255, 1);
   }
@@ -429,5 +441,6 @@
     font-size: 30px;
   }
   .text-red{color: red;font-size: 30px;}
+  .width-percent-100{width: 100%;}
 
 </style>
