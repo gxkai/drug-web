@@ -111,6 +111,11 @@ export default {
       resolution = resolution || 'LARGE_LOGO';
       return process.env.API_ROOT + '/files/' + fileId + '/image?resolution=' + resolution;
     };
+    /**
+     * 获取收货二维码
+     * @param orderId
+     * @returns {string}
+     */
     Vue.prototype.getQrCodeURL = (orderId) => {
       return process.env.API_ROOT + '/qrCode/orders/' + orderId;
     };

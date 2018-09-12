@@ -4,7 +4,7 @@
       <div class="content1">
         <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor="red">
           <div slot="left">
-            <i class="iconfont ic-yaodian" ></i>
+            <i class="iconfont ic-yaodian"></i>
           </div>
           <span slot="left" @click.stop="onShop()" class="text-l-30">{{order.hospitalName}}</span>
           <span slot="right" class="text-l-30">{{order.state|transformOrderState}}</span>
@@ -12,7 +12,7 @@
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE">
           <div slot="left">
-            <i class="iconfont ic-chufangdanluru" ></i>
+            <i class="iconfont ic-chufangdanluru"></i>
           </div>
           <span slot="left" style="color: #13C1FE" class="text-l-30"> 处方单</span>
           <span slot="right" @click="onRx()" class="text-l-30">查看处方></span>
@@ -49,8 +49,12 @@
             <div class="item-bottom-buttons">
               <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
               <button @click="onPay()" v-if="order.state == 'TO_PAY'">我要付款</button>
-              <button class="item-bottom-button-active" @click="onRefund()" v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' ||order.state ==  'TO_RECEIVED' || order.state == 'TO_APPRAISE' ||order.state ==  'COMPLETED'">申请退款</button>
-              <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货</button>
+              <button class="item-bottom-button-active" @click="onRefund()"
+                      v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' ||order.state ==  'TO_RECEIVED' || order.state == 'TO_APPRAISE' ||order.state ==  'COMPLETED'">
+                申请退款
+              </button>
+              <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货
+              </button>
               <button @click="onDetail()">订单详情</button>
             </div>
           </div>
@@ -61,7 +65,7 @@
       <div class="content1">
         <new-header bgColor="white" height="low" leftSize="small" leftColor="black" rightColor="red">
           <div slot="left">
-            <i class="iconfont ic-yaodian" ></i>
+            <i class="iconfont ic-yaodian"></i>
           </div>
           <span slot="left" @click.stop="onShop()" class="text-l-30">{{order.shopName}}</span>
           <span slot="right" class="text-l-30">{{order.state|transformOrderState}}</span>
@@ -77,7 +81,7 @@
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-else>
           <div slot="left">
-            <i class="iconfont ic-chufangdanluru" ></i>
+            <i class="iconfont ic-chufangdanluru"></i>
           </div>
           <span slot="left" style="color: #13C1FE" class="text-l-30">非处方单</span>
         </new-header>
@@ -115,9 +119,19 @@
             <div class="item-bottom-buttons">
               <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
               <button @click="onPay()" v-if="order.state == 'TO_PAY'">我要付款</button>
-              <button class="item-bottom-button-active" @click="onRefund()" v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED'">申请退款</button>
-              <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货</button>
-              <button @click="onDelivery()"  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">查看配送</button>
+              <button class="item-bottom-button-active" @click="onRefund()"
+                      v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED'">
+                申请退款
+              </button>
+              <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货
+              </button>
+              <button @click="popupVisible = true"
+                      v-if="order.deliveryType == 'SELF' && (order.state == 'TO_RECEIVED')">收货二维码
+              </button>
+              <button @click="onDelivery()"
+                      v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
+                查看配送
+              </button>
               <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">我要评价</button>
               <button @click="onDetail()">订单详情</button>
             </div>
@@ -125,22 +139,30 @@
         </div>
       </div>
     </div>
+    <mt-popup
+      v-model="popupVisible"
+      position="center"
+      popup-transition="popup-fade">
+      <img :src="getQrCodeURL(order.id)" class="qr_code">
+    </mt-popup>
   </div>
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
+  import { MessageBox } from 'mint-ui';
+
   export default {
     name: 'order',
     props: ['order'],
     data() {
-      return {};
+      return {
+        popupVisible: false
+      };
     },
     created() {
       console.log(this.order.state);
     },
-    computed: {
-    },
+    computed: {},
     methods: {
       emitOrder() {
         this.$emit('update:order', this.order);
@@ -154,28 +176,28 @@
         });
       },
       onDrug(item) {
-        this.$router.push({path: '/shopDrugSpecs', query: {shopDrugSpecId: item.shopDrugSpecId}});
+        this.$router.push({ path: '/shopDrugSpecs', query: { shopDrugSpecId: item.shopDrugSpecId } });
       },
       onRx() {
-        this.$router.push({path: '/rxs/view', query: {rxId: this.order.rxId}});
+        this.$router.push({ path: '/rxs/view', query: { rxId: this.order.rxId } });
       },
       onShop() {
-        this.$router.push({path: '/shops/view', query: {shopId: this.order.shopId}});
+        this.$router.push({ path: '/shops/view', query: { shopId: this.order.shopId } });
       },
       onDetail() {
-        this.$router.push({path: '/orders/view', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/orders/view', query: { orderId: this.order.id } });
       },
       onPay() {
-        this.$router.push({path: '/orders/pay', query: {orderIds: this.order.id}});
+        this.$router.push({ path: '/orders/pay', query: { orderIds: this.order.id } });
       },
       onRefund() {
-        this.$router.push({path: '/orderRefunds/create', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });
       },
       onDelivery() {
-        this.$router.push({path: '/orders/delivery', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/orders/delivery', query: { orderId: this.order.id } });
       },
       onAppraise() {
-        this.$router.push({path: '/drugAppraises/create', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
       onRemind() {
         MessageBox.alert('提醒发货成功！', '提示');
@@ -197,6 +219,12 @@
     }
   };
 </script>
+<style scoped type="text/less" lang="less">
+  .qr_code {
+    width: 500px;
+    height: 500px;
+  }
+</style>
 
 <style scoped>
 
@@ -219,18 +247,18 @@
     position: relative;
   }
 
-  .slide-content .image img{
+  .slide-content .image img {
     width: 100%;
   }
 
   .chu {
     position: absolute;
-    width:42px;
-    height:24px;
-    background:rgba(43,178,146,1);
-    font-size:18px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
+    width: 42px;
+    height: 24px;
+    background: rgba(43, 178, 146, 1);
+    font-size: 18px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(255, 255, 255, 1);
     text-align: center;
     line-height: 20px;
     border-radius: 21px/12px;
@@ -238,12 +266,12 @@
 
   .feichu {
     position: absolute;
-    width:60px;
-    height:30px;
-    background:rgba(191,191,191,1);
-    font-size:16px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(102,102,102,1);
+    width: 60px;
+    height: 30px;
+    background: rgba(191, 191, 191, 1);
+    font-size: 16px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
     text-align: center;
     line-height: 30px;
     border-radius: 30px/15px;
@@ -317,12 +345,14 @@
     justify-content: flex-end;
     margin-bottom: 10px;
   }
-  .item-bottom-price>span:nth-child(1) {
-    font-size:30px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
+
+  .item-bottom-price > span:nth-child(1) {
+    font-size: 30px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(51, 51, 51, 1);
     margin-right: 20px;
   }
+
   .item-bottom-buttons {
     width: 720px;
     display: flex;
@@ -330,34 +360,38 @@
   }
 
   .item-bottom-buttons button {
-    appearance:none!important;
+    appearance: none !important;
     background: white;
-    padding: 5px ;
+    padding: 5px;
     border-radius: 20px;
     font-size: 25px;
     color: rgba(102, 102, 102, 1);
     outline: none;
-    -webkit-appearance: none!important;
+    -webkit-appearance: none !important;
     border: none;
-    border:1px solid #757575;
+    border: 1px solid #757575;
     margin-left: 10px;
     padding: 5px 15px;
   }
+
   .item-bottom-buttons button:nth-last-child(1) {
     margin-right: 20px;
   }
 
   .item-bottom-button-active {
     color: rgb(19, 193, 254) !important;
-    border:1px solid rgb(19, 193, 254)!important;
+    border: 1px solid rgb(19, 193, 254) !important;
   }
-  .item1{
+
+  .item1 {
     width: 720px;
   }
-  .ic-yaodian{
+
+  .ic-yaodian {
     font-size: 36px;
   }
-  .item1{
+
+  .item1 {
     border-bottom: 6px solid #F6F6F6;
   }
 </style>

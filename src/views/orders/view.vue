@@ -122,9 +122,6 @@
           <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">我要评价</button>
         </div>
       </div>
-      <div class="qr_code">
-        <img :src="getQrCodeURL(orderId)">
-      </div>
     </div>
   </div>
 </template>
