@@ -549,7 +549,7 @@
   .scroll-content li {
     text-align: center;
     height: 50px;
-  }
+   }
 
   .health-img {
     width: 70px;

@@ -28,18 +28,6 @@
         <div>{{item.quantity}}</div>
       </div>
       <div class="pay_order_item-content_item">
-        <div>商品总额&#58;</div>
-        <div>{{item.totalAmount||'0.00'}}</div>
-      </div>
-      <div class="pay_order_item-content_item">
-        <div>医保扣除&#58;</div>
-        <div>{{item.medicaidAmount||'0.00'}}</div>
-      </div>
-      <div class="pay_order_item-content_item">
-        <div>优惠扣除&#58;</div>
-        <div>{{item.couponAmount||'0.00'}}</div>
-      </div>
-      <div class="pay_order_item-content_item">
         <div>实际支付&#58;</div>
         <div>&yen;{{item.payAmount||'0.00'}}</div>
       </div>

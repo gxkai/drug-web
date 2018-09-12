@@ -17,7 +17,7 @@
         </div>
         <div class="position-relative">
           <div class="broadcast-title position-absolute">
-            <p class="drug-name elps text-center">{{shopDrugSpec.name}}</p>
+            <p class="drug-name elps text-center mt-5">{{shopDrugSpec.name}}</p>
             <p class="drug-function elps">{{shopDrugSpec.introduce}}</p>
             <p class="drug-price">¥{{shopDrugSpec.price}}</p>
           </div>
@@ -26,25 +26,19 @@
       </div>
       <!--库存开始-->
       <div class="stock">
-        <div class="elps">
-          <div class="text-1AB6FD text-l-20">
-            国药准字&nbsp;
-          </div>
-          <div class="elps text-l-20">
-            {{shopDrugSpec.sfda}}
-          </div>
-        </div>
-        <div class="vertical-line"></div>
         <div class="elps text-l-20">
-          <div class="text-1AB6FD text-l-20">
-            库存&nbsp;
-          </div>
-          <div class="elps text-l-20">
-            {{shopDrugSpec.stock}}
-          </div>
+          <div class="text-l-20"><i class="text-1AB6FD text-l-20">国药准字</i>&nbsp;  {{shopDrugSpec.sfda}}</div>
+
         </div>
+          <div class="vertical-line"></div>
+
+        <div class="elps text-l-20">
+          <div class="text-l-20"><i class="text-1AB6FD text-l-20">库存</i>&nbsp;{{shopDrugSpec.stock}}</div>
+
+        </div>
+
         <div class="vertical-line "></div>
-        <div class="elps text-l-20">
+         <div class="elps text-l-20">
           <div class="text-1AB6FD text-l-20">包装规格&nbsp;</div>
           <div class="elps text-l-20">
             {{shopDrugSpec.spec}}
@@ -57,7 +51,7 @@
       <div class="distribution">
         <div>
           <div>
-            <i class="iconfont ic-peisong"></i>
+            <i class="iconfont ic-peisong"></i>&nbsp;&nbsp;
           </div>
           <div>商家配送</div>
         </div>
@@ -69,7 +63,7 @@
         </div>
         <div>
           <div>
-            <i class="iconfont ic-mianfei"></i>
+            <i class="iconfont ic-mianfei"></i>&nbsp;&nbsp;
           </div>
           <div>免费配送</div>
         </div>
@@ -507,5 +501,11 @@
   .broadcast-content img {
     height: 100%;
     width: 100%;
+  }
+  i{
+    font-style: normal;
+  }
+  .mt-5{
+    margin-top: 15px!important;
   }
 </style>

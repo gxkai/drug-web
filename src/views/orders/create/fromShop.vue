@@ -45,7 +45,7 @@
         </div>
         <div class="pay_shop-content-delivery_type-content">
           <span :class="{active:deliveryType=='DELIVERY'}"
-                @click.stop="onDeliveryType('DELIVERY')">送货上门</span>
+                @click.stop="onDeliveryType('DELIVERY')">送货</span>
           <span :class="{active:deliveryType=='SELF'}"
                 @click.stop="onDeliveryType('SELF')">上门自提</span>
         </div>
@@ -70,15 +70,15 @@
       <div class="dividing"></div>
       <div class="pay_shop-content-pay_amount">
         <div>
-          <span>商品总额&#58;</span>
+          <span>商品总额：</span>
           <span>&yen;{{shopDrugSpecOrderDTO.amount.toFixed(2)}}</span>
         </div>
         <div>
-          <span>医保扣除&#58;</span>
+          <span>医保扣除：</span>
           <span>&yen;{{shopDrugSpecOrderDTO.medicaidAmount.toFixed(2)}}</span>
         </div>
         <div>
-          <span>实际支付&#58;</span>
+          <span>实际支付：</span>
           <span>&yen;{{shopDrugSpecOrderDTO.payAmount.toFixed(2)}}</span>
         </div>
       </div>
@@ -168,7 +168,7 @@
         orderShopDrugSpecDTO: JSON.parse(this.$route.query.orderShopDrugSpecDTO),
         shopDrugSpecOrderDTO: {},
         deliveryType: this.$storage.get('deliveryType') || 'SELF',
-        payType: 'ALIPAY',
+        payType: 'WECHAT_PAY',
         couponRecord: '',
         coupons: [],
         show: false,
@@ -461,5 +461,38 @@
     }
   }
 
+  .pay_shop-content-delivery_type-content span{
+   width: 146px;
+    height: 55px;
+    display: inline-block;
+    line-height: 55px;
+    text-align: center;
+    border-radius:4px;
+  }
+  .opacity-0{
+    opacity: 0;
+  }
+  .ic-weixin{
+    color: gray;
+  }
+  .ic-alipay{
+    color: gray;
+  }
+
+  .ic-weixin.active{
+    color: #72bd63!important;
+  }
+  .ic-alipay.active{
+    color: #009fe8!important;
+  }
+  .pay_shop-content-pay_amount{
+   padding: 0px 0px 0px 20px;
+  }
+
+
+
+/*  .active {
+    color: red!important;
+  }*/
 </style>
 
