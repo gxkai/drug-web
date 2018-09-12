@@ -91,7 +91,7 @@
         c.captureImage(function (e) {
           // eslint-disable-next-line
           _plus.io.resolveLocalFileSystemURL(e, function (entry) {
-            _this.uploadHead(entry.toLocalURL());
+            _this.uploadHead(entry.toLocalURL(), _this);
             /* 上传图片 */
           }, function (e) {
             console.log('读取拍照文件错误：' + e.message);
@@ -107,30 +107,25 @@
         // eslint-disable-next-line
         var _plus = plus;
         _plus.gallery.pick(function (path) {
-          _this.uploadHead(path);
+          _this.uploadHead(path, _this);
         }, function (e) {
           console.log('取消选择图片');
         }, { filter: 'image', multiple: false });
       },
-      uploadHead(imgPath) {
+      uploadHead(imgPath, _this) {
         console.log(imgPath);
-        var _this = this;
         var image = new Image();
         image.onload = function () {
           var dataUrl = _this.getBase64Image(image);
-          document.getElementById('headImg').src = dataUrl;
           let param = new FormData();
           param.append('fileType', 'LOGO');
           param.append('file', dataUrl);
-          _this.$http({
-            url: '/files/image',
-            type: 'post',
-            data: param,
+          let config = {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             }
-          }).then(res => {
-            alert('fileId:' + res.data);
+          }
+          _this.$http.post('/files/image', param, config).then(res => {
             _this.account.fileId = res.data;
             _this.$http.put('/accounts', _this.account)
               .then(res => {
