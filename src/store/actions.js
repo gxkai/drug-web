@@ -99,8 +99,8 @@ export function LOGIN_OUT({commit}) {
       url: '/accounts/logout'
     })
       .then((res) => {
-        commit(types.SET_TOKEN, '');
-        commit(types.SET_ACCOUNT, {});
+        commit(types.SET_TOKEN, null);
+        commit(types.SET_ACCOUNT, null);
         storage.remove('token');
         storage.remove('account');
         resolve(res);

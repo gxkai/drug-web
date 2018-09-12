@@ -12,7 +12,7 @@
       </div>
     </new-header>
     <div ref="body">
-      <div class="header all-center" v-if="JSON.stringify(account) !== '{}'">
+      <div class="header all-center" v-if="account !== null">
         <img class="header-img" :src="getImgURL(account.fileId,'LARGE_LOGO')"/>
         <!--<span class="everyday"-->
               <!--:style="{backgroundImage:'url('+require('../../assets/image/accounts/dayily.png')+')',backgroundSize:'100%'}"-->
@@ -86,7 +86,7 @@
           <!--<span class="mt-15">我的积分</span>-->
         <!--</router-link>-->
         <router-link class="flex-box account-content-padding border-right-gray border-bottom-gray"
-                     :to="null==this.account.medicalNumber?'/accounts/card/bind':'/accounts/unbind'">
+                     :to="null==account.medicalNumber?'/accounts/card/bind':'/accounts/unbind'" v-if="account!== null">
           <img src="../../assets/image/accounts/card.png"/>
           <span class="mt-15">医保卡信息</span>
         </router-link>

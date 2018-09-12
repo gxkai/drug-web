@@ -124,7 +124,7 @@
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             }
-          }
+          };
           _this.$http.post('/files/image', param, config).then(res => {
             _this.account.fileId = res.data;
             _this.$http.put('/accounts', _this.account)

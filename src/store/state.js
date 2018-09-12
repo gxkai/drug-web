@@ -1,6 +1,6 @@
 export default {
-  token: '',
-  account: {},
+  token: null,
+  account: null,
   cartShops: [],
   addresses: [],
   receiveAddress: null,

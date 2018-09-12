@@ -96,6 +96,7 @@
       };
     },
     created() {
+      this.loadMore();
     },
     methods: {
       getRxs() {
