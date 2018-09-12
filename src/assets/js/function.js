@@ -229,8 +229,17 @@ export default {
     Vue.prototype.linkToOrderAddress = () => {
       router.push('/orders/addresses');
     };
+    /**
+     * 跳转到医保卡绑定页
+     */
     Vue.prototype.linkToCardBind = () => {
       router.push('/accounts/card/bind');
+    };
+    /**
+     * 跳转到扫码收货页
+     */
+    Vue.prototype.linkToQRCode = () => {
+      router.push('/qrCode');
     };
 
     /**
@@ -244,6 +253,21 @@ export default {
           return 'gcj02ll';
         case 'bd09ll':
           return 'bd09ll';
+      }
+    };
+    /**
+     * 保留小数
+     * @param str
+     * @returns {string}
+     */
+    Vue.prototype.toFixedTwo = (str) => {
+      if (typeof str !== 'undefined' && str !== null) {
+        return str.toFixed(2);
+      }
+    };
+    Vue.prototype.toFixedOne = (str) => {
+      if (typeof str !== 'undefined') {
+        return str.toFixed(1);
       }
     };
   }

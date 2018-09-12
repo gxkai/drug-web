@@ -43,19 +43,19 @@
       <div class="item-bottom">
         <div>
           <div class="item-bottom-price">
-            <span>共计{{order.list.length}}件商品 合计{{order.amount.toFixed(2)}}</span>
+            <span>共计{{order.list.length}}件商品 合计{{toFixedTwo(order.amount)}}</span>
           </div>
           <div>
             <div class="item-bottom-buttons">
-              <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
-              <button @click="onPay()" v-if="order.state == 'TO_PAY'">我要付款</button>
-              <button class="item-bottom-button-active" @click="onRefund()"
+              <div @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</div>
+              <div @click="onPay()" v-if="order.state == 'TO_PAY'">我要付款</div>
+              <div class="item-bottom-button-active" @click="onRefund()"
                       v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' ||order.state ==  'TO_RECEIVED' || order.state == 'TO_APPRAISE' ||order.state ==  'COMPLETED'">
                 申请退款
-              </button>
-              <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货
-              </button>
-              <button @click="onDetail()">订单详情</button>
+              </div>
+              <div class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货
+              </div>
+              <div @click="onDetail()">订单详情</div>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
             </div>
             <div class="bottom">
               <div class="price">
-                <span class="text-l-30">¥{{item.price.toFixed(2)}}</span>
+                <span class="text-l-30">¥{{toFixedTwo(item.price)}}</span>
               </div>
               <div class="quantity">
                 <div>
@@ -113,27 +113,29 @@
       <div class="item-bottom">
         <div>
           <div class="item-bottom-price">
-            <span class="text-l-30">共计{{order.list.length}}件商品 合计{{order.amount.toFixed(2)}}</span>
+            <span class="text-l-30">共计{{order.list.length}}件商品 合计{{toFixedTwo(order.amount)}}</span>
           </div>
           <div>
             <div class="item-bottom-buttons">
-              <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
-              <button @click="onPay()" v-if="order.state == 'TO_PAY'">我要付款</button>
-              <button class="item-bottom-button-active" @click="onRefund()"
+              <div @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</div>
+              <div @click="onPay()" v-if="order.state == 'TO_PAY'">我要付款</div>
+              <div class="item-bottom-button-active" @click="onRefund()"
                       v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED'">
                 申请退款
-              </button>
-              <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货
-              </button>
-              <button @click="popupVisible = true"
+              </div>
+              <div class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货
+              </div>
+              <div @click="popupVisible = true"
                       v-if="order.deliveryType == 'SELF' && (order.state == 'TO_RECEIVED')">收货二维码
-              </button>
-              <button @click="onDelivery()"
+              </div>
+              <div v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED')" @click="linkToQRCode">收货扫码
+              </div>
+              <div @click="onDelivery()"
                       v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
                 查看配送
-              </button>
-              <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">我要评价</button>
-              <button @click="onDetail()">订单详情</button>
+              </div>
+              <div @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">我要评价</div>
+              <div @click="onDetail()">订单详情</div>
             </div>
           </div>
         </div>
@@ -335,7 +337,6 @@
     flex-direction: column;
     align-items: flex-end;
     width: 720px;
-    height: 113px;
     background: rgba(255, 255, 255, 1);
     justify-content: space-around;
   }
@@ -357,26 +358,19 @@
     width: 720px;
     display: flex;
     justify-content: flex-end;
+    flex-wrap: wrap;
   }
 
-  .item-bottom-buttons button {
-    appearance: none !important;
+  .item-bottom-buttons >div {
     background: white;
-    padding: 5px;
     border-radius: 20px;
     font-size: 25px;
     color: rgba(102, 102, 102, 1);
-    outline: none;
-    -webkit-appearance: none !important;
-    border: none;
     border: 1px solid #757575;
-    margin-left: 10px;
+    margin: 10px;
     padding: 5px 15px;
   }
 
-  .item-bottom-buttons button:nth-last-child(1) {
-    margin-right: 20px;
-  }
 
   .item-bottom-button-active {
     color: rgb(19, 193, 254) !important;

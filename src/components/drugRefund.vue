@@ -7,7 +7,7 @@
     <span>{{ pages.shopName }}</span>
     <span>规格： {{ drug.spec }}</span>
     <div class="is-flex flex-sb box-right-price">
-      <span>&yen; {{ drug.price }}</span>
+      <span>&yen;{{toFixedTwo(drug.price) }}</span>
       <span>x {{drug.quantity}}</span>
     </div>
     <!--<div class="is-flex mt-40 flex-end box-right-link">-->

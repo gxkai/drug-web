@@ -22,7 +22,7 @@
     <div class="refund-price">
       <div>
         <span>退款金额</span>
-        <span>￥{{orderInfo.totalAmount}}</span>
+        <span>&yen;{{toFixedTwo(orderInfo.totalAmount)}}</span>
       </div>
     </div>
     <div class="refund-description">

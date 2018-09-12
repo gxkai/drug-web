@@ -15,7 +15,7 @@
           </div>
           <div class="collect-drug-rightBottom">
             <span class="collect-drug-shop">商家：{{item.shopName}}</span>
-            <span class="text-red">￥{{item.price}}</span>
+            <span class="text-red">&yen;{{toFixedTwo(item.price)}}</span>
           </div>
 
         </div>

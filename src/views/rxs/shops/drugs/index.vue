@@ -42,60 +42,61 @@
           <div class="list">
             <div class="item"
                  v-for="(origin,index) in origins"
-                  :key="index"
+                 :key="index"
                  @click="choose(index)">
               <div class="width-percent-100">
                 <span class="left">{{origin.originName}}</span><span class="text-red right">¥{{origin.price}}</span>
               </div>
-             </div>
-          </div>
-      </div>
-    </div>
-  </div>
-
-  <ul>
-    <li v-for="(drug,index) in drugs" :key="index" class="m-10 text-l-20 drug-item">
-      <div class="rx-shop-drugs-box is-flex flex-row flex-item pl-20 position-relative">
-        <span class="toc-tip position-absolute all-center" v-if="carts[index].otc === true">非</span>
-        <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
-        <img class="is-200x200" :src="getImgURL(carts[index].fileId, 'LARGE_LOGO')">
-        <div class="box-right is-flex flex-column flex-sa ml-40">
-          <div class="position-relative">
-            <i class="iconfont ic-changfang text-13C1FE"></i>
-            <span class="text-box">厂商:</span>
-            <span class="text-info">{{carts[index].originName}}</span>
-            <i @click="lookMore(index)" :class="{'iconfont ic-youjiantou':isActive}"></i>
-            <i @click="lookMore(index)" :class="{'iconfont ic-xiajiantou':!isActive}"></i>
-          </div>
-          <div>
-            <i class="iconfont ic-yao text-13C1FE"></i>
-            <span class="text-box">名称:</span>
-            <span class="text-l-25">{{carts[index].name}}</span>
-          </div>
-          <div>
-        <span>
-           <i class="iconfont ic-yaopinshuju text-13C1FE"></i>
-           <span class="text-box">规格:</span>
-           <span class="text-l-25">{{carts[index].spec}}</span>
-        </span>
-          </div>
-          <div>
-            <i class="iconfont ic-qian text-13C1FE"></i>
-            <span class="text-box">最低价:</span>
-            <span class="text-red text-l-25">&yen; {{carts[index].price}}</span>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-    </li>
-  </ul>
+    <ul>
+      <li v-for="(drug,index) in drugs" :key="index" class="m-10 text-l-20 drug-item">
+        <div class="rx-shop-drugs-box is-flex flex-row flex-item pl-20 position-relative">
+          <span class="toc-tip position-absolute all-center" v-if="carts[index].otc === true">非</span>
+          <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
+          <img class="is-200x200" :src="getImgURL(carts[index].fileId, 'LARGE_LOGO')">
+          <div class="box-right is-flex flex-column flex-sa ml-40">
+            <div class="position-relative">
+              <i class="iconfont ic-changfang text-13C1FE"></i>
+              <span class="text-box">厂商&#58;</span>
+              <span class="text-info">{{carts[index].originName}}</span>
+              <i @click="lookMore(index)" :class="{'iconfont ic-youjiantou':isActive}"></i>
+              <i @click="lookMore(index)" :class="{'iconfont ic-xiajiantou':!isActive}"></i>
+            </div>
+            <div>
+              <i class="iconfont ic-yao text-13C1FE"></i>
+              <span class="text-box">名称&#58;</span>
+              <span class="text-l-25">{{carts[index].name}}</span>
+            </div>
+            <div>
+        <span>
+           <i class="iconfont ic-yaopinshuju text-13C1FE"></i>
+           <span class="text-box">规格&#58;</span>
+           <span class="text-l-25">{{carts[index].spec}}</span>
+        </span>
+            </div>
+            <div>
+              <i class="iconfont ic-qian text-13C1FE"></i>
+              <span class="text-box">最低价&#58;</span>
+              <span class="text-red text-l-25">&yen;{{toFixedTwo(carts[index].price)}}</span>
+              <span class="text-l-30 text-a6a6a6 ml-l-90">&times;{{carts[index].quantity}}</span>
+            </div>
+          </div>
+        </div>
 
-  <div class="rx-total ml-20 text-l-25">
-    <i class="iconfont ic-qian text-13C1FE"></i>共计{{drugs.length}}件商品&nbsp;&nbsp;合计<span
-    class="text-red rx-total-money">¥ {{amount}}</span>
-  </div>
+      </li>
+    </ul>
 
-  <new-rx-shop-cart :carts="carts" @createCart="createCart" @onBuy="onBuy"></new-rx-shop-cart>
+    <div class="rx-total ml-20 text-l-25">
+      <i class="iconfont ic-qian text-13C1FE"></i>共计{{quantity}}件商品&nbsp;&nbsp;合计<span
+      class="text-red rx-total-money">&yen;{{toFixedTwo(amount)}}</span>
+    </div>
+
+    <new-rx-shop-cart :carts="carts" @createCart="createCart" @onBuy="onBuy"></new-rx-shop-cart>
   </div>
 </template>
 
@@ -115,7 +116,8 @@
         carts: [],
         account: this.$store.getters.account,
         isActive: true,
-        amount: 0
+        amount: 0,
+        quantity: 0
       };
     },
     created() {
@@ -125,6 +127,7 @@
       getDrugs() {
         this.$http.get('/rxs/' + this.rxId + '/shops/' + this.shopId + '/drugs')
           .then(res => {
+            console.log(res.data);
             this.drugs = res.data;
             this.initCart();
           }).catch(error => {
@@ -160,7 +163,8 @@
           });
         });
         this.carts.forEach(e => {
-          this.amount += e.price;
+          this.amount += e.price * e.quantity;
+          this.quantity += e.quantity;
         });
       },
       choose(index) {
@@ -211,8 +215,12 @@
 
 <style scope type="text/less" lang="less">
   @import "../../../../assets/less/index";
-  .shadow{
-    background-color: rgba(16, 14, 14, 0.44)!important;
+
+  .shadow {
+    background-color: rgba(16, 14, 14, 0.44) !important;
+  }
+  .text-a6a6a6 {
+    color: #a6a6a6;
   }
 
   .shadow {
@@ -253,10 +261,10 @@
         .header {
           display: flex;
           align-items: center;
-          .left{
+          .left {
             display: flex;
             align-items: center;
-            &>div {
+            & > div {
               &:nth-child(1) {
                 .iconfont {
                   font-size: 40px;
@@ -279,22 +287,22 @@
 
             padding: 20px 10px;
             width: 100%;
-            border: none!important;
-            .left{
+            border: none !important;
+            .left {
               float: left;
               display: inline-block;
               text-align: left;
               width: 87%;
               font-size: 30px;
             }
-            .right{
+            .right {
               float: right;
               display: inline-block;
               text-align: right;
               width: 10%;
               font-size: 30px;
             }
-            &>div {
+            & > div {
               font-size: 28px;
             }
           }
@@ -320,7 +328,6 @@
     box-sizing: border-box;
   }
 
-
   .hr-box .line {
     display: inline-block;
     width: 260px;
@@ -339,7 +346,6 @@
   .ml-20 {
     margin-left: 20px !important;
   }
-
 
   .rx-total {
     margin-top: 26px;
@@ -407,7 +413,7 @@
   .toc-tip {
     left: 5px;
     top: 5px;
-    padding:0px 20px;
+    padding: 0px 20px;
     background: #bfbfbf;
     color: #ffffff;
     border-radius: 50px / 25px;
@@ -440,7 +446,14 @@
   .drug-item .iconfont, .rx-total .iconfont {
     font-size: 30px;
   }
-  .text-red{color: red;font-size: 30px;}
-  .width-percent-100{width: 100%;}
+
+  .text-red {
+    color: red;
+    font-size: 30px;
+  }
+
+  .width-percent-100 {
+    width: 100%;
+  }
 
 </style>

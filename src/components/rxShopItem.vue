@@ -6,7 +6,7 @@
     <div class="rx_shop_item-right">
         <div class="elps">
           <div>{{item.name}}</div>
-          <div class="text-red color-red">&yen;{{item.amount}}</div>
+          <div class="text-red color-red">&yen;{{toFixedTwo(item.amount)}}</div>
         </div>
         <div class="elps">
           <new-star :score="item.score"></new-star>

@@ -23,7 +23,7 @@
     <div>
       <span class="span1">
         <span class="text-price text-l-20">
-          &yen; {{price}}
+          &yen; {{toFixedTwo(price)}}
         </span>
       </span>
     </div>

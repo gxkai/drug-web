@@ -16,11 +16,11 @@
     <div class="refunds-price">
       <div class="refunds-price-sum">
         <span class="text-l-25">退款总金额</span>
-        <span style="color:#FF0000;" class="text-l-25">￥{{list.price}}</span>
+        <span style="color:#FF0000;" class="text-l-25">&yen;{{toFixedTwo(list.price)}}</span>
       </div>
       <div class="refunds-price-residue">
         <span class="text-l-25">退回余额</span>
-        <span style="color:#FF0000;" class="text-l-25">￥{{list.price}}</span>
+        <span style="color:#FF0000;" class="text-l-25">&yen;{{toFixedTwo(list.price)}}</span>
       </div>
     </div>
 
@@ -55,7 +55,7 @@
 
     <div class="refunds-footer">
       <span>退回原因：{{list.reason||'无'}}</span>
-      <span>退回金额：￥{{list.price}}</span>
+      <span>退回金额：&yen;{{toFixedTwo(list.price)}}</span>
       <span>申请时间：{{timeConvert2(list.createdDate)}}</span>
       <span>退款订单号：{{list.number}}</span>
     </div>

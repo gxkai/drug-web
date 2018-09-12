@@ -22,39 +22,19 @@
       <div class="shop-list-scores bg-white">
         <div class="shop-list-score-sum">
           <span class="text-l-25">服务总评&nbsp;</span>
-          <span class="shop-score text-l-25">{{resultData.score | twoFixed}}</span>
+          <span class="shop-score text-l-25">{{toFixedOne(resultData.score)}}</span>
           <span class="text-l-25">（共{{resultData.count}}人参加评分）</span>
         </div>
         <div>
           <table width="100%">
             <tr align="center">
-              <td align="center">配送速度：<span class="shop-score">{{resultData.describeScore | twoFixed}}</span></td>
-              <td align="center">服务态度：<span class="shop-score">{{resultData.deliveryScore | twoFixed}}</span></td>
-              <td align="center">描述相符：<span class="shop-score">{{resultData.serviceScore | twoFixed}}</span></td>
-              <td align="center">商品包装：<span class="shop-score">{{resultData.packageScore | twoFixed}}</span></td>
+              <td align="center">配送速度：<span class="shop-score">{{toFixedOne(resultData.describeScore)}}</span></td>
+              <td align="center">服务态度：<span class="shop-score">{{toFixedOne(resultData.deliveryScore)}}</span></td>
+              <td align="center">描述相符：<span class="shop-score">{{toFixedOne(resultData.serviceScore)}}</span></td>
+              <td align="center">商品包装：<span class="shop-score">{{toFixedOne(resultData.packageScore)}}</span></td>
             </tr>
           </table>
         </div>
-
-        <!-- <div class="shop-list-score">
-           <span>配送速度&nbsp;</span>
-           <span class="shop-score">{{resultData.describeScore}}</span>
-         </div>
-
-         <div class="shop-list-score">
-           <span>服务态度&nbsp;</span>
-           <span class="shop-score">{{resultData.deliveryScore}}</span>
-         </div>
-
-         <div class="shop-list-score">
-           <span>描述相符&nbsp;</span>
-           <span class="shop-score">{{resultData.serviceScore}}</span>
-         </div>
-
-         <div class="shop-list-score">
-           <span>商品包装&nbsp;</span>
-           <span class="shop-score">{{resultData.packageScore}}</span>
-         </div>-->
       </div>
 
       <div class="shop-list-aptitude bg-white">
@@ -71,7 +51,8 @@
     name: 'shopInfo',
     data() {
       return {
-        resultData: [],
+        resultData: {
+        },
         imgLists: [],
         bgColor: 'white',
         color: '#333333'
@@ -79,13 +60,9 @@
     },
     created: function () {
       this.$http.get('/shops/' + this.$route.query.id).then(res => {
+        console.log(res.data);
         this.resultData = res.data;
       });
-    },
-    filters: {
-      twoFixed(val) {
-        return val.toFixed(1);
-      }
     }
   };
 </script>

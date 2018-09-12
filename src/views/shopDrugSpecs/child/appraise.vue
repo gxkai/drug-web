@@ -4,7 +4,7 @@
       <div class="appraise-title-left">
         <div class="text-l-25">总评分&nbsp;{{shopDrugSpec.shopTotalAppraise.score}}分</div>
         <div>
-          <new-star></new-star>
+          <new-star :score="shopDrugSpec.shopTotalAppraise.score" disabled></new-star>
         </div>
       </div>
       <div class="appraise-title-right">

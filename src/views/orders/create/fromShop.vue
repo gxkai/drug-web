@@ -71,15 +71,15 @@
       <div class="pay_shop-content-pay_amount">
         <div>
           <span>商品总额：</span>
-          <span>&yen;{{shopDrugSpecOrderDTO.amount.toFixed(2)}}</span>
+          <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.amount)}}</span>
         </div>
         <div>
           <span>医保扣除：</span>
-          <span>&yen;{{shopDrugSpecOrderDTO.medicaidAmount.toFixed(2)}}</span>
+          <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.medicaidAmount)}}</span>
         </div>
         <div>
           <span>实际支付：</span>
-          <span>&yen;{{shopDrugSpecOrderDTO.payAmount.toFixed(2)}}</span>
+          <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.payAmount)}}</span>
         </div>
       </div>
       <div class="dividing"></div>
@@ -150,7 +150,7 @@
     </div>
     <div class="pay_shop-footer">
       <div>
-        <span>实付金额&#58;<i>&yen;{{payAmount}}</i></span>
+        <span>实付金额&#58;<i>&yen;{{toFixedTwo(payAmount)}}</i></span>
         <span @click.stop="onOrder()">提交订单</span>
       </div>
     </div>
@@ -177,6 +177,7 @@
     },
     components: {},
     created() {
+      console.log(this.orderShopDrugSpecDTO);
       this.getData();
     },
     computed: {
@@ -215,6 +216,7 @@
           case 'DELIVERY':
             if (this.isBlank(this.receiveAddress)) {
               Toast('请维护收货地址');
+              return;
             } else {
               json.addressId = this.receiveAddress.id;
             }

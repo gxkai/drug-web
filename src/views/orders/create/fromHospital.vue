@@ -40,15 +40,15 @@
       <div class="pay_hospital-content-pay_amount">
         <div>
           <span>商品总额：</span>
-          <span>&yen;{{hospitalInfo.amount.toFixed(2)}}</span>
+          <span>&yen;{{toFixedTwo(hospitalInfo.amount)}}</span>
         </div>
         <div>
           <span>医保扣除：</span>
-          <span>&yen;{{hospitalInfo.medicaidAmount.toFixed(2)}}</span>
+          <span>&yen;{{toFixedTwo(hospitalInfo.medicaidAmount)}}</span>
         </div>
         <div>
           <span>实际支付：</span>
-          <span>&yen;{{hospitalInfo.payAmount.toFixed(2)}}</span>
+          <span>&yen;{{toFixedTwo(hospitalInfo.payAmount)}}</span>
         </div>
       </div>
       <div class="dividing"></div>
@@ -83,7 +83,7 @@
     </div>
     <div class="pay_hospital-footer">
       <div>
-        <span>实付金额&#58;<i>&yen;{{payAmount}}</i></span>
+        <span>实付金额&#58;<i>&yen;{{toFixedTwo(payAmount)}}</i></span>
         <span @click.stop="onOrder()">提交订单</span>
       </div>
     </div>
@@ -379,7 +379,10 @@
     padding: 0px 0px 0px 20px;
   }
   .ic-weixin{
-    color: green;
+    color: gray;
+  }
+  .ic-alipay{
+    color: gray;
   }
 
   .pay_shop-content-pay_type-content span{

@@ -42,7 +42,7 @@
           <div class="close_shop_item-content-item_right_2 text-l-25 text-999999">{{item.specName}}</div>
           <div class="close_shop_item-content-item_right_3">
             <div class="text-l-30 text-red">
-              ￥{{item.price}}
+              &yen;{{toFixedTwo(item.price)}}
             </div>
             <div class="text-l-30 text-999999">
               &times;{{item.quantity}}

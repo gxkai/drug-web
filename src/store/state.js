@@ -4,5 +4,10 @@ export default {
   cartShops: [],
   addresses: [],
   receiveAddress: null,
-  position: null
+  // position: null
+  position: {
+    lat: 31,
+    lng: 130,
+    name: '海创'
+  }
 };

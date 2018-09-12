@@ -27,7 +27,7 @@
       <!--库存开始-->
       <div class="stock">
         <div class="elps text-l-20">
-          <div class="text-l-20"><i class="text-1AB6FD text-l-20">国药准字</i>&nbsp;  {{shopDrugSpec.sfda}}</div>
+          <div class="text-l-20"><i class="text-1AB6FD text-l-20">国药准字</i>&nbsp;{{shopDrugSpec.sfda}}</div>
 
         </div>
           <div class="vertical-line"></div>
@@ -185,13 +185,17 @@
     },
     data() {
       return {
-        shopDrugSpec: {}
+        shopDrugSpec: {
+          shopTotalAppraise: {},
+          drugAppraises: {}
+        }
       };
     },
     created() {
       this.$http.get('/shopDrugSpecs/' + this.$route.query.shopDrugSpecId)
         .then(res => {
           this.shopDrugSpec = res.data;
+          console.log(res.data);
           this.shopDrugSpec.sfda = this.shopDrugSpec.sfda.replace('国药准字', '');
         }).catch(error => {
           this.exception(error);
@@ -353,7 +357,7 @@
   }
 
   .stock > div:nth-child(1), .stock > div:nth-child(3), .stock > div:nth-child(5) {
-    max-width: 200px;
+    max-width: 230px;
   }
 
   /*配送方式*/

@@ -29,7 +29,7 @@
       </div>
       <div class="pay_order_item-content_item">
         <div>实际支付&#58;</div>
-        <div>&yen;{{item.payAmount||'0.00'}}</div>
+        <div>&yen;{{toFixedTwo(item.payAmount)}}</div>
       </div>
     </div>
     <div class="pay_order_item-footer">

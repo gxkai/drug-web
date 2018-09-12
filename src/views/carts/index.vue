@@ -16,7 +16,7 @@
       </div>
       <div class="right">
         <span>合计:</span>
-        <span>￥{{allPrice.toFixed(2)}}</span>
+        <span>&yen;{{toFixedTwo(allPrice)}}</span>
         <button>
           <span @click.stop="onOrder()" class="text-l-30">结算({{allQuantity}})</span>
         </button>
@@ -96,7 +96,7 @@
                         </div>
                         <div class="bottom">
                           <div class="price">
-                            <span class="text-l-25 ml-l-10">¥{{cartDrug.price.toFixed(2)}}</span>
+                            <span class="text-l-25 ml-l-10">&yen;{{toFixedTwo(cartDrug.price)}}</span>
                           </div>
                           <div class="quantity">
                             <div>

@@ -8,7 +8,7 @@
       <span class="text-666666 text-l-26">{{ item.name }}</span>
       <span class="text-666666 text-l-24 mt-l-10">{{ item.sfda }}</span>
       <div class="is-flex flex-sb mt-20">
-        <div class="text-666666 text-l-20"><span class="text-red text-l-28">&yen; {{item.price}}</span> 起</div>
+        <div class="text-666666 text-l-20"><span class="text-red text-l-28">&yen; {{toFixedTwo(item.price)}}</span> 起</div>
         <div class="text-666666 text-l-20"><span class="text-13C1FE text-l-25">{{item.shopCount}}</span>个商家在售</div>
       </div>
     </div>

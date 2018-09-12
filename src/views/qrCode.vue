@@ -64,9 +64,12 @@
           result = result.replace(/\n/g, '');
           that.$http.put(result)
             .then(res => {
-              Toast('收货成功');
-              scan.close();
-              that.$router.replace('/orders');
+              let instance = Toast('收货成功');
+              setTimeout(() => {
+                instance.close();
+                scan.close();
+                that.$router.replace('/orders');
+              }, 3000);
             })
             .catch(err => {
               that.exception(err);

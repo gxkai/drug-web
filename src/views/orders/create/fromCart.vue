@@ -71,15 +71,15 @@
       <div class="pay_cart-content-pay_amount">
         <div>
           <span>商品总额：</span>
-          <span>&yen;{{cart.amount.toFixed(2)}}</span>
+          <span>&yen;{{toFixedTwo(cart.amount)}}</span>
         </div>
         <div>
           <span>医保扣除：</span>
-          <span>&yen;{{cart.medicaidAmount.toFixed(2)}}</span>
+          <span>&yen;{{toFixedTwo(cart.medicaidAmount)}}</span>
         </div>
         <div>
           <span>实际支付：</span>
-          <span>&yen;{{cart.payAmount.toFixed(2)}}</span>
+          <span>&yen;{{toFixedTwo(cart.payAmount)}}</span>
         </div>
       </div>
       <div class="dividing"></div>

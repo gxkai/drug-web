@@ -61,7 +61,7 @@
                      :to="{path :'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
           <img :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')"/>
           <span class="d-inline-block elps text-center">{{recommendList.name}}</span>
-          <span class="text-red d-inline-block elps text-center">&yen; {{recommendList.price}}</span>
+          <span class="text-red d-inline-block elps text-center">&yen; {{toFixedTwo(recommendList.price)}}</span>
         </router-link>
       </div>
     </div>
