@@ -7,7 +7,7 @@
     </new-header>
 
     <div class="news-lists">
-      <router-link v-for="(messageContentType,index) in messageContentList" :key="index"
+      <router-link v-for="(messageContentType,index) in list" :key="index"
                    :to="{path:'/messages',query:{messageType:messageContentType.messageType,titles:messageContentType.name}}">
         <div class="news-list">
           <div class="news-list-left">
@@ -16,14 +16,14 @@
           <div class="news-list-right">
             <div class="news-list-right-top">
               <span class="news-list-title">{{messageContentType.name}}</span>
-              <span class="news-list-time">{{formatDate(messageContentType.date)}}</span>
+              <span class="news-list-time">{{timeConvert(messageContentType.date)}}</span>
             </div>
             <span class="news-list-content">{{messageContentType.message}}</span>
           </div>
         </div>
       </router-link>
     </div>
-    <new-no-data v-if="messageContentList.length===0"></new-no-data>
+    <new-no-data v-if="list.length===0"></new-no-data>
     <div>
     </div>
   </div>
@@ -34,8 +34,7 @@
     name: 'messageTypes',
     data() {
       return {
-        formatDate: this.timeConvert,
-        messageContentList: [],
+        list: [],
         defaultMsgList: [
           {img: require('../../assets/image/message/ACCOUNT_SYSTEM.png')},
           {img: require('../../assets/image/message/ACCOUNT_ORDER.png')},
@@ -50,13 +49,7 @@
       getList() {
         this.$http.get('/messageTypes')
           .then((res) => {
-            const list = res.data;
-            for (let i in list) {
-              list[i].date = this.formatDate(list[i].date);
-              list[i].message = this.formateText(list[i].message);
-            }
-            console.log(list);
-            this.messageContentList = list;
+            this.list = res.data;
           });
       }
     }

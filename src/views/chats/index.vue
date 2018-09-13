@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="chats">
     <div class="header" ref="header">
       <new-header title="咨询列表">
         <div slot="left">
@@ -10,18 +10,18 @@
         </div>
       </new-header>
     </div>
-    <div class="list"
+    <div class="chats-list"
          ref="list"
          v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
          infinite-scroll-distance="0">
-      <div class="item"
+      <div class="chats-list-item"
            v-for="(item,index) in list"
            :key="index"
            @click="$router.push({path:'/chats/view',query:{chatId:item.id,shopId:item.shopId}})">
-        <div class="left">
+        <div class="chats-list-item-left">
           <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
-          <div class="text">
+          <div class="chats-list-item-left-text">
             <div>
               {{item.shopName}}
             </div>
@@ -33,7 +33,7 @@
             </div>
           </div>
         </div>
-        <div class="right">
+        <div class="chats-list-item-left-right">
           <i class="iconfont ic-youjiantou"></i>
         </div>
       </div>
@@ -79,17 +79,17 @@
 </script>
 
 <style scoped type="text/less" lang="less">
-  .container {
+  .chats {
     background-color: #f8f8f8;
-    .list {
-      .item {
+    &-list {
+      &-item {
         background-color: white;
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 20px;
         margin-bottom: 10px;
-        .left {
+        &-left {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -97,14 +97,13 @@
             width: 200px;
             height: 200px;
           }
-          .text {
-            margin-left: 10px;
+          &-text {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             & > div {
               width: 400px;
-              margin-bottom: 10px;
+              padding: 10px 0 10px 30px;
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -120,7 +119,7 @@
             }
           }
         }
-        .right {
+        &-right {
           .iconfont {
             font-size: 50px;
           }

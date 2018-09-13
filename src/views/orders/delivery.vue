@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="delivery">
     <new-header title="配送详情">
       <div slot="left">
         <i @click="$router.push('/orders')" class="iconfont ic-arrow-right"></i>
@@ -36,65 +36,67 @@
       </div>
       <p></p>
     </div>
-    <div class="header">
-      <div>
-        <i class="iconfont ic-yaodian text-333333"></i>
-      </div>
-      <div>
-        {{order.shopName}}
-      </div>
-    </div>
-    <div class="content">
-      <div class="item">
+    <div class="delivery-info">
+      <div class="delivery-info-header">
         <div>
-          <div>
-            <i class="iconfont ic-purse"></i>
-          </div>
-          <div>
-            已支付
-          </div>
+          <i class="iconfont ic-yaodian text-333333"></i>
         </div>
         <div>
-          ¥{{order.totalAmount||0.00}}
+          {{order.shopName}}
         </div>
       </div>
-      <div class="item">
-        <div>
+      <div class="delivery-info-content">
+        <div class="delivery-info-content-item">
           <div>
-            <i class="iconfont ic-weizhi"></i>
+            <div>
+              <i class="iconfont ic-purse"></i>
+            </div>
+            <div>
+              已支付
+            </div>
           </div>
           <div>
-            送货地址
-          </div>
-        </div>
-        <div>
-          {{order.address||'无'}}
-        </div>
-      </div>
-      <div class="item">
-        <div>
-          <div>
-            <i class="iconfont ic-icon-test2"></i>
-          </div>
-          <div>
-            订单编号
+            &yen;{{order.totalAmount||0.00}}
           </div>
         </div>
-        <div>
-          {{order.number||'无'}}
-        </div>
-      </div>
-      <div class="item">
-        <div>
+        <div class="delivery-info-content-item">
           <div>
-            <i class="iconfont ic-shouji"></i>
+            <div>
+              <i class="iconfont ic-weizhi"></i>
+            </div>
+            <div>
+              送货地址
+            </div>
           </div>
           <div>
-            送货人号码
+            {{order.address||'无'}}
           </div>
         </div>
-        <div>
-          {{order.courierPhone||'无'}}
+        <div class="delivery-info-content-item">
+          <div>
+            <div>
+              <i class="iconfont ic-icon-test2"></i>
+            </div>
+            <div>
+              订单编号
+            </div>
+          </div>
+          <div>
+            {{order.number||'无'}}
+          </div>
+        </div>
+        <div class="delivery-info-content-item">
+          <div>
+            <div>
+              <i class="iconfont ic-shouji"></i>
+            </div>
+            <div>
+              送货人号码
+            </div>
+          </div>
+          <div>
+            {{order.courierPhone||'无'}}
+          </div>
         </div>
       </div>
     </div>
@@ -133,53 +135,55 @@
 </script>
 
 <style scoped type="text/less" lang="less">
-  .container {
-    .header {
-      display: flex;
-      align-items: center;
-      padding: 20px;
-      &>div {
-        &:nth-child(1) {
-          .iconfont {
-            font-size: 50px;
-          }
-        }
-        &:nth-child(2) {
-          font-size: 30px;
-        }
-      }
-    }
-    .content {
-      width: 100%;
-      .item {
-        width: 100%;
+  .delivery {
+    &-info {
+      &-header {
         display: flex;
-        padding: 20px;
-        justify-content: space-between;
         align-items: center;
-        &>div{
+        padding: 20px;
+        &>div {
           &:nth-child(1) {
-            display: flex;
-            align-items: center;
-            &>div {
-              &:nth-child(1) {
-                i {
-                  font-size: 40px;
-                }
-              }
-              &:nth-child(2) {
-                font-size: 25px;
-                margin-left: 10px;
-              }
+            .iconfont {
+              font-size: 50px;
             }
           }
           &:nth-child(2) {
-            width: 400px;
-            text-align: right;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-size: 25px;
+            font-size: 30px;
+          }
+        }
+      }
+      &-content {
+        width: 100%;
+        &-item {
+          width: 100%;
+          display: flex;
+          padding: 20px;
+          justify-content: space-between;
+          align-items: center;
+          &>div{
+            &:nth-child(1) {
+              display: flex;
+              align-items: center;
+              &>div {
+                &:nth-child(1) {
+                  i {
+                    font-size: 40px;
+                  }
+                }
+                &:nth-child(2) {
+                  font-size: 25px;
+                  margin-left: 10px;
+                }
+              }
+            }
+            &:nth-child(2) {
+              width: 400px;
+              text-align: right;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-size: 25px;
+            }
           }
         }
       }
@@ -192,7 +196,7 @@
     font-size: 50px;
   }
 
-  .container {
+  .delivery {
     width: 720px;
   }
 
