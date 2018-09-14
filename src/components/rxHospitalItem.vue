@@ -2,6 +2,9 @@
   <div class="rx_hospital_item">
     <div class="rx_hospital_item-left">
         <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
+        <div class="rx_hospital_item-left-icon">
+          医院
+        </div>
     </div>
     <div class="rx_hospital_item-right">
         <div>
@@ -56,6 +59,16 @@
       img {
         width: 245px;
         height: 245px;
+      }
+      &-icon {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        background-color: #1AB6FD;
+        font-size: 25px;
+        padding: 5px 5px;
+        color: white;
+        font-weight: 100;
       }
     }
     &-right {

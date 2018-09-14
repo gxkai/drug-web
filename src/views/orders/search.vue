@@ -29,9 +29,7 @@
         <div v-for="order in orderList">
           <new-order :order.sync="order"></new-order>
         </div>
-        <new-loading v-if="process"></new-loading>
-        <new-all-data v-if="loading"></new-all-data>
-        <new-no-data v-if="orderList.length === 0 && hasSearch"></new-no-data>
+        <new-no-data v-if="loadingComplete && hasSearch"></new-no-data>
       </div>
     </div>
   </div>
@@ -43,12 +41,11 @@
     data() {
       return {
         keyword: '',
-        loading: false,
-        process: false,
+        loading: true,
+        loadingComplete: false,
         hasSearch: false,
         pageNum: 0,
         pageSize: 5,
-        pages: null,
         orderList: []
       };
     },
@@ -79,34 +76,29 @@
         this.saveSearch(this.keyword);
       },
       reset() {
-        this.pages = null;
         this.pageNum = 0;
         this.orderList = [];
-        this.loading = false;
-        this.process = false;
+        this.loading = true;
+        this.loadingComplete = false;
       },
       loadMore() {
         if (this.keyword && this.hasSearch) {
-          this.pageNum++;
-          if (!this.pages || this.pageNum < this.pages) {
-            this.loadData();
-          } else {
-            this.loading = true;
-          }
+          this.loadData();
         }
       },
       loadData() {
-        this.process = true;
+        this.loading = true;
+        this.pageNum++;
         this.$http.get('/orders/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize + '&keyword=' + this.keyword)
           .then(res => {
-            this.orderList = this.orderList.concat(res.data.list);
-            if (!this.pages) {
-              this.pages = res.data.pages;
+            if (res.data.list > 0) {
+              this.orderList = this.orderList.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
             }
-            this.process = false;
           }).catch(error => {
             this.exception(error);
-            this.process = false;
           });
       }
     },

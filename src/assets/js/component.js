@@ -23,7 +23,6 @@ import rxHospitalCart from '../../components/rxHospitalCart';
 import rxShopCart from '../../components/rxShopCart';
 import newCloseShop from '../../components/closeShop';
 import newDrugBottom from '../../components/drugBottom';
-import drugSearch from '../../components/drugSearch';
 import newCloseHospital from '../../components/closeHospital';
 import newTakeList from '../../components/takeList';
 import newRefund from '../../components/refund';
@@ -64,7 +63,6 @@ export default {
     Vue.component('new-rx-shop-cart', rxShopCart);
     Vue.component('new-close-shop', newCloseShop);
     Vue.component('new-drug-buttom', newDrugBottom);
-    Vue.component('drug-search', drugSearch);
     Vue.component('new-close-hospital', newCloseHospital);
     Vue.component('new-take-list', newTakeList);
     Vue.component('new-refund', newRefund);

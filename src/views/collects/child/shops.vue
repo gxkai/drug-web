@@ -13,7 +13,7 @@
             <div>{{item.area}} {{item.address}}</div>
           </div>
         </div>
-      <new-no-data :length="pageList.length"></new-no-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </ul>
   </div>
 </template>
@@ -25,31 +25,25 @@
       return {
         pageNum: 0,
         pageSize: 15,
-        pages: null,
         pageList: [],
-        loading: false,
-        accountId: this.$store.getters.account.id
+        loading: true,
+        loadingComplete: false
       };
     },
     components: {},
     created() {
+      this.loadMore();
     },
     methods: {
       loadMore() {
-        if (this.pages === null || this.pageNum <= this.pages) {
-          this.pageNum++;
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
         this.$http.get('/collects/shop?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then((res) => {
-            if (res.data.list.length === 0) {
-              this.loading = true;
+            if (res.data.list.length > 0) {
+              this.pageList = this.pageList.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
             }
-            this.pageList = this.pageList.concat(res.data.list);
           });
       }
     }

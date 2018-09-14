@@ -19,7 +19,7 @@
              infinite-scroll-disabled="loading"
              infinite-scroll-distance="0">
         <new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>
-        <new-no-data :length="list.length" v-show="loading"></new-no-data>
+        <new-no-data v-if="loadingComplete"></new-no-data>
       </div>
     </div>
   </div>
@@ -33,12 +33,13 @@
         list: [],
         pageNum: 1,
         pageSize: 6,
-        total: null,
-        loading: false
+        loading: true,
+        loadingComplete: false
       };
     },
     computed: {},
     created() {
+      this.loadMore();
     },
     mounted() {
     },
@@ -47,15 +48,11 @@
         this.loading = true;
         this.$http.get('/drugAppraises?shopDrugSpecId=' + this.shopDrugSpec.id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            if (!this.total) {
-              this.total = res.data.total;
-            }
-            if (res.data.list.length !== 0) {
+            if (res.data.list > 0) {
               this.list = this.list.concat(res.data.list);
               this.loading = false;
-              this.pageNum++;
             } else {
-              this.loading = true;
+              this.loadingComplete = true;
             }
           }).catch(error => {
             this.exception(error);

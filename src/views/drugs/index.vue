@@ -64,7 +64,7 @@
          infinite-scroll-distance="0">
       <new-drug-shops class="border-bottom-grey" :item="item"
                       v-for="(item,index) in list" :key="index"></new-drug-shops>
-      <new-no-data :length="list.length" v-show="loading"></new-no-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
   </div>
 </template>
@@ -77,7 +77,8 @@
         list: [],
         pageNum: 0,
         pageSize: 15,
-        loading: false,
+        loading: true,
+        loadingComplete: false,
         pageFrom: this.$route.query.pageFrom,
         drugTypeId: this.$route.query.typeId,
         keyword: this.$route.query.keyword,
@@ -90,6 +91,7 @@
     },
     components: {},
     created() {
+      this.loadMore();
     },
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.filter.clientHeight) + 'px';
@@ -102,7 +104,8 @@
       onReset() {
         this.list = [];
         this.pageNum = 0;
-        this.loading = false;
+        this.loading = true;
+        this.loadingComplete = false;
       },
       onRefresh() {
         this.onReset();
@@ -113,11 +116,11 @@
         this.pageNum++;
         this.$http.get(this.getRequestUrl())
           .then(res => {
-            if (res.data.list.length !== 0) {
+            if (res.data.list.length > 0) {
               this.list = this.list.concat(res.data.list);
               this.loading = false;
             } else {
-              this.loading = true;
+              this.loadingComplete = true;
             }
           }).catch(error => {
             this.exception(error);

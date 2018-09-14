@@ -13,7 +13,7 @@
           <span class="reply">{{ questionContent.answer }}</span>
         </div>
       </li>
-      <new-no-data v-if="questionList.length===0"></new-no-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </ul>
 
   </div>
@@ -26,38 +26,31 @@
     data() {
       return {
         questionList: [],
-        pageSize: 10,
-        pageNum: 1,
-        pages: null,
-        loading: false
+        pageSize: 15,
+        pageNum: 0,
+        loadingComplete: false,
+        loading: true
       };
     },
 
-    created: function () {
+    created() {
       this.loadMore();
     },
-
     methods: {
       loadMore() {
-        if (this.pages === null || this.pageNum <= this.pages) {
-          this.loadData();
-          this.pageNum++;
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
+        this.loading = true;
+        this.pageNum++;
         this.$http.get('/faqs?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
-          .then((res) => {
-            this.questionList = this.questionList.concat(res.data.list);
-            this.pages = res.data.pages;
-            if (this.pages === 0) {
-              this.loading = true;
+          .then(res => {
+            if (res.data.list.length > 0) {
+              this.questionList = this.questionList.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
             }
           })
           .catch((error) => {
-            if (error) {
-            }
+            this.exception(error);
           });
       }
     }

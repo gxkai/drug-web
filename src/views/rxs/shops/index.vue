@@ -57,13 +57,13 @@
       </div>
     </div>
     <div class="shops-container" ref="body">
-      <div @click="$router.push({path:'/orders/create/fromHospital',query:{rxId:rxId}})">
+      <div @click="linkToRxShopDrug(rxId, hospital.id, hospital.name, 'HOSPITAL')">
         <new-rx-hospital-item :item="hospital"/>
       </div>
       <div
         v-for="(rxShop,index) in rxShops"
         :key="index"
-        @click.stop="$router.push({path: '/rxs/shops/drugs', query: {rxId: rxId, shopId: rxShop.id, shopName: rxShop.name}});">
+        @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
         <new-rx-shop-item
           :item="rxShop">
         </new-rx-shop-item>
@@ -107,6 +107,7 @@
         this.$http.get('/rxs/' + this.rxId + '/shops?lng=' + this.position.lng + '&lat=' + this.position.lat)
           .then(res => {
             this.rxShops = res.data;
+            console.log(res.data);
           }).catch(error => {
             this.exception(error);
           });
@@ -115,6 +116,7 @@
         this.$http.get('/rxs/' + this.rxId + '/hospitals')
           .then(res => {
             this.hospital = res.data;
+            console.log(res.data);
           }).catch(error => {
             this.exception(error);
           })

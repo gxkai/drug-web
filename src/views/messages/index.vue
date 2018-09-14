@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <new-no-data v-if="pageList.length===0"></new-no-data>
+    <new-no-data v-if="loadingComplete"></new-no-data>
   </div>
 </template>
 
@@ -24,46 +24,33 @@
 
     data() {
       return {
-        formatDate: this.timeConvert,
         pageNum: 0,
         pageSize: 15,
-        pages: null,
         pageList: [],
-        loading: false,
-        accountId: this.$store.getters.account.id,
+        loading: true,
+        loadingComplete: false,
         messageType: this.$route.query.messageType,
         titles: this.$route.query.titles
       };
     },
     components: {},
-    created: function () {
+    created() {
       this.loadMore();
     },
     methods: {
       loadMore() {
-        if (this.pages === null || this.pageNum <= this.pages) {
-          this.pageNum++;
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
         this.$http.get('/messages?' + '&messageType=' + this.messageType + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then((res) => {
-            this.pages = res.data.pages;
-            if (this.pages === 0) {
-              this.loading = true;
-              return false;
+            if (res.data.list.length > 0) {
+              this.pageList = this.pageList.concat(this.formatData(res.data.list));
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
             }
-            this.pageList = this.pageList.concat(this.formatData(res.data.list));
+          })
+          .catch(err => {
+            this.exception(err);
           });
-      },
-      formatData: function (list) {
-        for (let i in list) {
-          list[i].createdDate = this.formatDate(list[i].createdDate);
-        }
-        return list;
       }
     }
   };

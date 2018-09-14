@@ -23,7 +23,7 @@
         </div>
       </router-link>
     </div>
-    <new-no-data v-if="list.length===0"></new-no-data>
+    <new-no-data v-if="loadingComplete"></new-no-data>
     <div>
     </div>
   </div>
@@ -35,21 +35,28 @@
     data() {
       return {
         list: [],
+        loadingComplete: false,
         defaultMsgList: [
-          {img: require('../../assets/image/message/ACCOUNT_SYSTEM.png')},
-          {img: require('../../assets/image/message/ACCOUNT_ORDER.png')},
-          {img: require('../../assets/image/message/ACCOUNT_RX.png')}
+          { img: require('../../assets/image/message/ACCOUNT_SYSTEM.png') },
+          { img: require('../../assets/image/message/ACCOUNT_ORDER.png') },
+          { img: require('../../assets/image/message/ACCOUNT_RX.png') }
         ]
       };
     },
-    created: function () {
+    created() {
       this.getList();
     },
     methods: {
       getList() {
         this.$http.get('/messageTypes')
           .then((res) => {
-            this.list = res.data;
+            if (res.data.length > 0) {
+              this.list = res.data;
+            } else {
+              this.loadingComplete = true;
+            }
+          }).catch(err => {
+            this.exception(err);
           });
       }
     }

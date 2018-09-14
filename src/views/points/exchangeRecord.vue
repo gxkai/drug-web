@@ -12,7 +12,7 @@
          infinite-scroll-disabled="loading"
          infinite-scroll-distance="0">
       <new-coupon-record-item v-for="(item,index) in list" :key="index" :item="item"></new-coupon-record-item>
-      <new-no-data :length="list.length" v-show="loading"></new-no-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
  </div>
 </template>
@@ -22,11 +22,15 @@
     name: 'newPayList',
     data() {
       return {
-        loading: false,
+        loading: true,
+        loadingComplete: false,
         list: [],
-        pageNum: 1,
+        pageNum: 0,
         pageSize: 15
       };
+    },
+    created() {
+      this.loadMore();
     },
     mounted() {
       this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
@@ -34,17 +38,15 @@
     },
     methods: {
       loadMore() {
-        let params = {params: {
-          pageNum: this.pageNum,
-          pageSize: this.pageSize
-        }};
-        this.$http.get('/couponRecords', params)
+        this.loading = true;
+        this.pageNum++;
+        this.$http.get('/couponRecords?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            if (res.data.list.length !== 0) {
+            if (res.data.list > 0) {
               this.list = this.list.concat(res.data.list);
-              this.pageNum++;
+              this.loading = false;
             } else {
-              this.loading = true;
+              this.loadingComplete = true;
             }
           }).catch(error => {
             this.exception(error);

@@ -25,9 +25,7 @@
           </div>
         </div>
       </div>
-      <new-no-data v-if="list.length===0"></new-no-data>
-      <new-loading v-if="process"></new-loading>
-      <new-all-data v-if="loading"></new-all-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
 
   </div>
@@ -41,34 +39,27 @@
         list: [],
         pageNum: 0,
         pageSize: 5,
-        pages: null,
-        loading: false,
-        process: false,
+        loading: true,
+        loadingComplete: false,
         account: this.$store.getters.account
       };
     },
     created() {
+      this.loadMore();
     },
     methods: {
       loadMore() {
+        this.loading = true;
         this.pageNum++;
-        if (!this.pages || this.pageNum < this.pages) {
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
-        this.process = true;
         this.$http.get('/drugAppraises/mine?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            this.list = this.list.concat(res.data.list);
-            if (!this.pages) {
-              this.pages = res.data.pages;
+            if (res.data.list > 0) {
+              this.list = this.list.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
             }
-            this.process = false;
           }).catch(error => {
-            this.process = false;
             this.exception(error);
           });
       }

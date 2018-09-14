@@ -45,7 +45,10 @@
         </div>
         <div class="pay_shop-content-delivery_type-content">
           <span :class="{active:deliveryType=='DELIVERY'}"
-                @click.stop="onDeliveryType('DELIVERY')">送货</span>
+                @click.stop="onDeliveryType('DELIVERY')"
+                v-if="shopDrugSpecOrderDTO.type === 'SIMPLE'">
+            送货
+          </span>
           <span :class="{active:deliveryType=='SELF'}"
                 @click.stop="onDeliveryType('SELF')">上门自提</span>
         </div>
@@ -185,9 +188,9 @@
     },
     methods: {
       getData() {
-        if (JSON.stringify(this.receiveAddress) === '{}') {
+        if (this.isBlank(this.receiveAddress)) {
           this.$http.get('addresses/default').then(res => {
-            if (res.data) {
+            if (this.isNotBlank(res.data)) {
               this.setReceiveAddress(res.data);
             }
           }).catch(error => {
@@ -197,6 +200,7 @@
         this.$http.post('orders/shop/get', this.orderShopDrugSpecDTO)
           .then(res => {
             this.shopDrugSpecOrderDTO = res.data;
+            console.log(res.data);
             this.payAmount = res.data.payAmount;
             this.$http.get('couponRecords/order')
               .then(res2 => {

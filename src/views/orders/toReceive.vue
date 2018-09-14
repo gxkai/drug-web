@@ -1,14 +1,14 @@
 <template>
   <div>
     <div ref="header">
-      <new-header title="待收货" >
+      <new-header title="待收货">
         <div slot="left">
           <i class="iconfont ic-arrow-right" @click.stop="$router.push('/accounts')"></i>
         </div>
         <div slot="right">
-          <i class="iconfont ic-sousuo"  @click.stop="$router.push('/orders/search')"></i>
+          <i class="iconfont ic-sousuo" @click.stop="$router.push('/orders/search')"></i>
         </div>
-     </new-header>
+      </new-header>
       <new-order-tab :urlRouter="$route.path"></new-order-tab>
     </div>
     <div v-infinite-scroll="loadMore"
@@ -17,9 +17,7 @@
       <div v-for="order in orderList">
         <new-order :order.sync="order"></new-order>
       </div>
-      <new-loading v-if="process"></new-loading>
-      <new-all-data v-if="loading"></new-all-data>
-      <new-no-data v-if="orderList.length === 0"></new-no-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
   </div>
 </template>
@@ -29,41 +27,36 @@
     name: 'toReceive',
     data() {
       return {
-        loading: false,
-        process: false,
+        loading: true,
+        loadingComplete: false,
         pageNum: 0,
-        pageSize: 5,
-        pages: null,
+        pageSize: 15,
         orderList: []
       };
     },
-    methods: {
-      loadMore() {
-        this.pageNum++;
-        if (!this.pages || this.pageNum < this.pages) {
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
-        this.process = true;
-        this.$http.get('/orders/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize + '&orderState=' + 'TO_RECEIVED')
-          .then(res => {
-            this.orderList = this.orderList.concat(res.data.list);
-            if (!this.pages) {
-              this.pages = res.data.pages;
-            }
-            this.process = false;
-          }).catch(error => {
-            this.exception(error);
-            this.process = false;
-          });
-      }
+    created() {
+      this.loadMore();
     },
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
       this.$refs.body.style.overflow = 'auto';
+    },
+    methods: {
+      loadMore() {
+        this.loading = true;
+        this.pageNum++;
+        this.$http.get('/orders/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize + '&orderState=' + 'TO_RECEIVED')
+          .then(res => {
+            if (res.data.list > 0) {
+              this.orderList = this.orderList.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
+            }
+          }).catch(error => {
+            this.exception(error);
+          });
+      }
     }
   };
 </script>

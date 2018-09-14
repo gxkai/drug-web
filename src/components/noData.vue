@@ -1,6 +1,5 @@
 <template>
-  <div v-if="length === 0">暂无数据</div>
-  <div v-else>没有更多数据了</div>
+  <div>没有更多数据了</div>
 </template>
 
 <script>

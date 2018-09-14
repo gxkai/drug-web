@@ -25,7 +25,7 @@
             </div>
           </router-link>
         </div>
-        <new-no-data v-if="pageList.length===0"></new-no-data>
+        <new-no-data v-if="loadingComplete"></new-no-data>
       </div>
     </div>
 
@@ -38,14 +38,15 @@
       return {
         pageNum: 0,
         pageSize: 15,
-        pages: null,
         pageList: [],
-        loading: false,
+        loading: true,
+        loadingComplete: false,
         repositoryTypeId: this.$route.query.repositoryTypeId,
         title: this.$route.query.title
       };
     },
     created() {
+      this.loadMore();
     },
     filters: {
       delHtmlTag(str) {
@@ -54,22 +55,16 @@
     },
     methods: {
       loadMore() {
-        if (this.pages === null || this.pageNum <= this.pages) {
-          this.pageNum++;
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
+        this.loading = true;
+        this.pageNum++;
         this.$http.get('/repositories?repositoryTypeId=' + this.repositoryTypeId + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then((res) => {
-            this.pages = res.data.pages;
-            if (this.pages === 0) {
-              this.loading = true;
-              return false;
+            if (res.data.list.length > 0) {
+              this.pageList = this.pageList.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
             }
-            this.pageList = this.pageList.concat(res.data.list);
           });
       }
     }

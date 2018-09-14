@@ -84,7 +84,7 @@
               </div>
             </div>
         </div>
-      <new-no-data :length="list.length" v-show="loading"></new-no-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
   </div>
 </template>
@@ -96,14 +96,16 @@
       return {
         position: this.$store.getters.position,
         list: [],
-        pageNum: 1,
+        pageNum: 0,
         pageSize: 15,
-        loading: false,
+        loading: true,
+        loadingComplete: false,
         shopSort: 'SYNTHESIZE',
         searchIcon: '\ue64c 药品名'
       };
     },
     created() {
+      this.loadMore();
     },
     mounted() {
       this.$refs.container.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.filter.clientHeight) + 'px';
@@ -113,31 +115,30 @@
       onReset() {
         this.list = [];
         this.pageNum = 0;
-        this.loading = false;
+        this.loading = true;
+        this.loadingComplete = false;
       },
       loadMore() {
-        this.$http.get('/shops', this.getParams())
-          .then(res => {
-            if (res.data.list.length !== 0) {
-              this.list = this.list.concat(res.data.list);
-              this.pageNum++;
-            } else {
-              this.loading = true;
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
-      },
-      getParams() {
-        return {
-          params: {
+        this.loading = true;
+        this.pageNum++;
+        this.$http.get('/shops',
+          {params: {
             lat: this.position.lat,
             lng: this.position.lng,
             shopSort: this.shopSort,
             pageNum: this.pageNum,
             pageSize: this.pageSize
-          }
-        };
+          }})
+          .then(res => {
+            if (res.data.list.length > 0) {
+              this.list = this.list.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
+            }
+          }).catch(error => {
+            this.exception(error);
+          });
       },
       orderBy(shopSort) {
         this.shopSort = shopSort;

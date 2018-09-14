@@ -18,9 +18,7 @@
       <div v-for="order in orderList">
         <new-order :order.sync="order"></new-order>
       </div>
-      <new-loading v-if="process"></new-loading>
-      <new-all-data v-if="loading"></new-all-data>
-      <new-no-data v-if="orderList.length === 0"></new-no-data>
+      <new-no-data v-if="loadingComplete" ></new-no-data>
     </div>
   </div>
 </template>
@@ -30,39 +28,31 @@
     name: 'orderIndex',
     data() {
       return {
-        loading: false,
-        process: false,
+        loading: true,
+        loadingComplete: false,
         url: '',
         pageNum: 0,
-        pageSize: 5,
-        pages: null,
+        pageSize: 15,
         orderList: []
       };
     },
     created() {
-
+      this.loadMore();
     },
     methods: {
       loadMore() {
+        this.loading = true;
         this.pageNum++;
-        if (!this.pages || this.pageNum < this.pages) {
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
-        this.process = true;
         this.$http.get('/orders/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            this.orderList = this.orderList.concat(res.data.list);
-            if (!this.pages) {
-              this.pages = res.data.pages;
+            if (res.data.list.length > 0) {
+              this.orderList = this.orderList.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
             }
-            this.process = false;
           }).catch(error => {
             this.exception(error);
-            this.process = false;
           });
       }
     },

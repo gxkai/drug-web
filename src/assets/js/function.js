@@ -248,7 +248,15 @@ export default {
     Vue.prototype.linkToQRCode = () => {
       router.push('/qrCode');
     };
-
+    /**
+     * 跳转到处方药店药品页
+     * @param rxId
+     * @param shopId
+     * @param name
+     */
+    Vue.prototype.linkToRxShopDrug = (rxId, shopId, name, type) => {
+      router.push({path: '/rxs/shops/drugs', query: {rxId: rxId, shopId: shopId, shopName: name, type: type}});
+    };
     /**
      * 地图coordType 转换
      */

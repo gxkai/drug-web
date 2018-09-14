@@ -2,6 +2,12 @@
   <div class="rx_shop_item">
     <div class="rx_shop_item-left">
         <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
+      <div class="rx_shop_item-left-icon" v-if="item.type === 'HOSPITAL'">
+        医院
+      </div>
+      <div class="rx_shop_item-left-icon" v-else>
+        药店
+      </div>
     </div>
     <div class="rx_shop_item-right">
         <div class="elps">
@@ -82,6 +88,16 @@
       img {
         width: 245px;
         height: 245px;
+      }
+      &-icon {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        background-color: #1AB6FD;
+        font-size: 25px;
+        padding: 5px 5px;
+        color: white;
+        font-weight: 100;
       }
     }
     &-right {

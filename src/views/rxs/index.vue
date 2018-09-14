@@ -72,9 +72,7 @@
           </table>
         </router-link>
       </li>
-      <new-no-data v-if="list.length===0"></new-no-data>
-      <new-loading v-if="process"></new-loading>
-      <new-all-data v-if="loading"></new-all-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </ul>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
@@ -88,9 +86,8 @@
         keyword: '',
         pageNum: 0,
         pageSize: 5,
-        pages: null,
-        loading: false,
-        process: false,
+        loading: true,
+        loadingComplete: false,
         account: this.$store.getters.account,
         icon: '\ue64c 请输入症状搜索'
       };
@@ -105,24 +102,17 @@
         this.loadData();
       },
       loadMore() {
+        this.loading = true;
         this.pageNum++;
-        if (!this.pages || this.pageNum < this.pages) {
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
-        this.process = true;
         this.$http.get('/rxs?' + 'keyword=' + this.keyword + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            this.list = this.list.concat(res.data.list);
-            if (!this.pages) {
-              this.pages = res.data.pages;
+            if (res.data.list.length > 0) {
+              this.list = this.list.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
             }
-            this.process = false;
           }).catch(error => {
-            this.process = false;
             this.exception(error);
           });
       }

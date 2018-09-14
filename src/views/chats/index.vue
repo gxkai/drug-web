@@ -37,7 +37,7 @@
           <i class="iconfont ic-youjiantou"></i>
         </div>
       </div>
-      <new-no-data :length="list.length"></new-no-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
   </div>
 </template>
@@ -47,10 +47,11 @@
     name: 'index',
     data() {
       return {
-        pageNum: 1,
+        pageNum: 0,
         pageSize: 15,
         list: [],
-        loading: false
+        loading: true,
+        loadingComplete: false
       };
     },
     created() {
@@ -63,12 +64,13 @@
     methods: {
       loadMore() {
         this.loading = true;
-        var url = '/chats?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize;
-        this.$http.get(url).then(res => {
+        this.pageNum++;
+        this.$http.get('/chats?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize).then(res => {
           if (res.data.list.length > 0) {
             this.list = this.list.concat(res.data.list);
             this.loading = false;
-            this.pageNum++;
+          } else {
+            this.loadingComplete = true;
           }
         }).catch(error => {
           this.exception(error);

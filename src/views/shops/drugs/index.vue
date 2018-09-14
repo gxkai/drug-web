@@ -24,9 +24,7 @@
           </router-link>
         </div>
       </ul>
-      <new-no-data v-if="list.length===0"></new-no-data>
-      <new-loading v-if="process"></new-loading>
-      <new-all-data v-if="loading"></new-all-data>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
   </div>
 </template>
@@ -36,36 +34,28 @@
     data() {
       return {
         list: [],
-        page: 0,
         pageNum: 0,
         pageSize: 15,
         shopId: this.$route.query.id,
         typeId: this.$route.query.typeId || '',
-        pages: null,
-        process: false,
-        loading: false
+        loadingComplete: false,
+        loading: true
       };
     },
     created: function () {
+      this.loadMore();
     },
     methods: {
       loadMore() {
-        this.loading = false;
-        if (this.pages === null || this.pageNum < this.pages) {
-          this.loadData();
-        } else {
-          this.loading = true;
-        }
-      },
-      loadData() {
+        this.loading = true;
         this.pageNum++;
-        this.process = true;
         this.$http.get('/shops/' + this.shopId + '/drugs?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize + '&typeId=' + this.typeId).then(res => {
-          this.list = this.list.concat(res.data.list);
-          if (!this.pages) {
-            this.pages = res.data.pages;
+          if (res.data.list.length > 0) {
+            this.list = this.list.concat(res.data.list);
+            this.loading = false;
+          } else {
+            this.loadingComplete = true;
           }
-          this.process = false;
         }).catch(error => {
           this.exception(error);
         });

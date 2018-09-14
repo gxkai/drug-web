@@ -17,7 +17,14 @@
         <i class="iconfont ic-gouwuche2"></i>
         <p>购物车</p>
       </router-link>
-      <div class="joincar" @click="$emit('createCart')">
+      <div class="joincar"
+           v-if="type === 'HOSPITAL'"
+            style="background-color: gray">
+        <p>加入购物车</p>
+      </div>
+      <div class="joincar"
+           @click="$emit('createCart')"
+            v-else>
         <p>加入购物车</p>
       </div>
       <div  class="immediately-buy" @click="$emit('onBuy')">
@@ -36,8 +43,7 @@
     },
     created() {
     },
-    props: {
-    },
+    props: ['type'],
     methods: {
     }
   };

@@ -96,7 +96,7 @@
       class="text-red rx-total-money">&yen;{{toFixedTwo(amount)}}</span>
     </div>
 
-    <new-rx-shop-cart :carts="carts" @createCart="createCart" @onBuy="onBuy"></new-rx-shop-cart>
+    <new-rx-shop-cart  @createCart="createCart" @onBuy="onBuy" :type="type"></new-rx-shop-cart>
   </div>
 </template>
 
@@ -109,6 +109,7 @@
         rxId: this.$route.query.rxId,
         shopId: this.$route.query.shopId,
         shopName: this.$route.query.shopName,
+        type: this.$route.query.type,
         drugs: [],
         show: false,
         origins: [],
@@ -200,6 +201,7 @@
           'rxId': this.rxId,
           'shopId': this.shopId,
           'shopName': this.shopName,
+          'type': this.type,
           'orderShopDrugSpecInfoDTOList': this.carts
         };
         this.$http.post('orders/shop/get', json)

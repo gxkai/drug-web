@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <new-no-data v-if="repositoryTypeList.length===0"></new-no-data>
+    <new-no-data v-if="loadingComplete"></new-no-data>
   </div>
 </template>
 
@@ -28,7 +28,8 @@
     name: 'repositoryTypes',
     data() {
       return {
-        repositoryTypeList: []
+        repositoryTypeList: [],
+        loadingComplete: false
       };
     },
     created() {
@@ -38,7 +39,14 @@
       getList() {
         this.$http.get('/repositoryTypes')
           .then((res) => {
-            this.repositoryTypeList = res.data;
+            if (res.data.length > 0) {
+              this.repositoryTypeList = res.data;
+            } else {
+              this.loadingComplete = true;
+            }
+          })
+          .catch(err => {
+            this.exception(err);
           });
       }
     }
