@@ -527,3 +527,13 @@ table {
 .is-flex {
   display: flex;
 }
+.rx_mark {
+  position: absolute;
+  background: red;
+  font-size: 20px;
+  font-family: HiraginoSansGB-W3;
+  color: rgba(255, 255, 255, 1);
+  padding: 0px 15px;
+  border-radius: 20px;
+  font-weight: 200;
+}

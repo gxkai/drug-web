@@ -56,8 +56,7 @@
     <ul>
       <li v-for="(drug,index) in drugs" :key="index" class="m-10 text-l-20 drug-item">
         <div class="rx-shop-drugs-box is-flex flex-row flex-item pl-20 position-relative">
-          <span class="toc-tip position-absolute all-center" v-if="carts[index].otc === true">非</span>
-          <span class="toc-tip position-absolute all-center bg-2BB292" v-else>处</span>
+          <span class="toc-tip position-absolute all-center bg-red" v-if="!carts[index].otc">处</span>
           <img class="is-200x200" :src="getImgURL(carts[index].fileId, 'LARGE_LOGO')">
           <div class="box-right is-flex flex-column flex-sa ml-40">
             <div class="position-relative">
@@ -218,6 +217,9 @@
 
 <style scope type="text/less" lang="less">
   @import "../../../../assets/less/index";
+  .bg-red {
+    background-color: red;
+  }
 
   .shadow {
     background-color: rgba(16, 14, 14, 0.44) !important;

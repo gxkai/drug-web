@@ -84,8 +84,7 @@
                         <i class="iconfont ic-radiochecked" v-show="cartDrug.radio"></i>
                       </div>
                       <div class="image">
-                        <div class="chu" v-if="cartDrug.otc">非</div>
-                        <div class="feichu" v-else>处</div>
+                        <div class="rx_mark" v-if="!cartDrug.otc">处</div>
                         <img :src="getImgURL(cartDrug.fileId, 'LARGE_LOGO')">
                       </div>
                       <div class="text">
@@ -436,31 +435,13 @@
 <style scoped>
   .chu {
     position: absolute;
-    width: 42px;
-    height: 22px;
-    background: rgba(43, 178, 146, 1);
-    font-size: 18px;
+    background: red;
+    font-size: 20px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 255, 255, 1);
-    text-align: center;
-    line-height: 20px;
-    border-radius: 21px/11px;
+    padding: 5px 15px;
+    border-radius: 30px;
   }
-
-  .feichu {
-    position: absolute;
-    width: 60px;
-    height: 30px;
-    background: rgba(191, 191, 191, 1);
-    font-size: 16px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-    text-align: center;
-    line-height: 30px;
-    border-radius: 30px/15px;
-
-  }
-
   /*结算栏*/
   .close {
     display: inline-flex;

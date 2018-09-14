@@ -1,27 +1,32 @@
 <template>
-  <div class="rx_hospital_item">
-    <div class="rx_hospital_item-left">
-        <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
-        <div class="rx_hospital_item-left-icon">
-          医院
-        </div>
+  <div class="rx_shop_item">
+    <div class="rx_shop_item-left">
+      <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
+      <div class="rx_shop_item-left-icon">
+        医院
+      </div>
     </div>
-    <div class="rx_hospital_item-right">
-        <div>
-          {{item.name}}
-        </div>
-        <div>
-          电话：{{item.phone}}
-        </div>
-        <div>
-          地址：{{item.address}}
-        </div>
-        <div class="text-red">
-          ¥{{item.amount}}
-        </div>
+    <div class="rx_shop_item-right">
+      <div class="elps">
+        <div>{{item.name}}</div>
+        <div class="text-red">&yen;{{toFixedTwo(item.amount)}}</div>
+      </div>
+      <div class="elps">
+        电话：{{item.phone}}
+      </div>
+      <div class="elps">
+        地址：{{item.address}}
+      </div>
+      <div class="elpsTwo">
+        <span class="text-blue">可购买</span>
+        <span v-for="(drug,key) in item.drugs" :key="key">
+            {{drug}}
+            <i v-if="key<item.drugs.length-1"></i>
+          </span>
+      </div>
     </div>
-    <div class="rx_hospital_item-cart_icon">
-        <i class="iconfont ic-gouwuche1"></i>
+    <div class="rx_shop_item-cart_icon">
+      <i class="iconfont ic-gouwuche1"></i>
     </div>
   </div>
 </template>
@@ -37,7 +42,6 @@
       return {};
     },
     created() {
-      console.log(this.item);
     },
     mounted() {
     },
@@ -46,10 +50,15 @@
 </script>
 
 <style scoped type="text/less" lang="less">
-  @import "../assets/less/index";
-  .rx_hospital_item {
+  .text-red {
+    color: red;
+  }
+  .text-blue {
+    color: #1AB6FD;
+  }
+  .rx_shop_item {
     width: 700px;
-    margin-left: 10px;
+    margin: 0 auto;
     display: flex;
     padding: 20px 0;
     position: relative;
@@ -64,7 +73,7 @@
         position: absolute;
         left: 20px;
         top: 20px;
-        background-color: #1AB6FD;
+        background-color: #2BB292;
         font-size: 25px;
         padding: 5px 5px;
         color: white;
@@ -72,35 +81,35 @@
       }
     }
     &-right {
+      width: 380px;
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
-      div{
-        width: 400px;
+      justify-content: space-between;
+      div,span{
         font-size:25px;
-        .ellipsis-one();
+      }
+      &>div{
         &:nth-child(1) {
-          font-size: 28px;
-        }
-        &:nth-child(4) {
-          color: red;
+          width: 220px;
+          &>div:nth-child(2) {
+            position: absolute;
+            right: 50px;
+            font-size: 34px!important;
+            line-height: 40px;
+            top: 35px;
+          }
         }
       }
     }
     &-cart_icon {
       position: absolute;
-      right: 0;
-      bottom: 0;
+      right: 10px;
+      bottom: 10px;
       i {
         font-size: 50px;
         color: red;
       }
     }
   }
-  .text-red{color: red;}
-  .ic-gouwuche1{
-    right: 10px!important;
-  }
-  .rx_hospital_item-cart_icon{right:10px;}
-  .rx_hospital_item-cart_icon i{right:10px;}
+
 </style>

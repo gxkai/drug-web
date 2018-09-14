@@ -48,7 +48,7 @@
         this.loading = true;
         this.$http.get('/drugAppraises?shopDrugSpecId=' + this.shopDrugSpec.id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            if (res.data.list > 0) {
+            if (res.data.list.length > 0) {
               this.list = this.list.concat(res.data.list);
               this.loading = false;
             } else {

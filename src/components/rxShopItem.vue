@@ -5,14 +5,11 @@
       <div class="rx_shop_item-left-icon" v-if="item.type === 'HOSPITAL'">
         医院
       </div>
-      <div class="rx_shop_item-left-icon" v-else>
-        药店
-      </div>
     </div>
     <div class="rx_shop_item-right">
         <div class="elps">
           <div>{{item.name}}</div>
-          <div class="text-red color-red">&yen;{{toFixedTwo(item.amount)}}</div>
+          <div class="text-red">&yen;{{toFixedTwo(item.amount)}}</div>
         </div>
         <div class="elps">
           <new-star :score="item.score"></new-star>
@@ -27,7 +24,7 @@
           <span class="text-blue">可购买</span>
           <span v-for="(drug,key) in item.drugs" :key="key">
             {{drug}}
-            <i v-if="key<item.drugs.length-1">&nbsp;</i>
+            <i v-if="key<item.drugs.length-1"></i>
           </span>
         </div>
     </div>
@@ -56,24 +53,8 @@
 </script>
 
 <style scoped type="text/less" lang="less">
-  .rx_shop_item-cart_icon{
-    right: 10px!important;
-  }
-  .rx_shop_item-cart_icon i{
-    right: 10px!important;
-  }
-  .ic-gouwuche1{
-    right: 10px!important;
-  }
   .text-red {
     color: red;
-  }
-  .color-red{
-    position: absolute;
-    right: 50px;
-    font-size: 34px!important;
-    line-height: 40px;
-    top: 35px;
   }
   .text-blue {
     color: #1AB6FD;
@@ -93,7 +74,7 @@
         position: absolute;
         left: 20px;
         top: 20px;
-        background-color: #1AB6FD;
+        background-color: #2BB292;
         font-size: 25px;
         padding: 5px 5px;
         color: white;
@@ -110,16 +91,21 @@
       }
       &>div{
         &:nth-child(1) {
-          width: 300px;
-          display: flex;
-          justify-content: space-between;
+          width: 220px;
+          &>div:nth-child(2) {
+            position: absolute;
+            right: 50px;
+            font-size: 34px!important;
+            line-height: 40px;
+            top: 35px;
+          }
         }
       }
     }
     &-cart_icon {
       position: absolute;
-      right: 0;
-      bottom: 0;
+      right: 10px;
+      bottom: 10px;
       i {
         font-size: 50px;
         color: red;

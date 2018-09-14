@@ -91,7 +91,7 @@
         this.pageNum++;
         this.$http.get('/orders/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize + '&keyword=' + this.keyword)
           .then(res => {
-            if (res.data.list > 0) {
+            if (res.data.list.length > 0) {
               this.orderList = this.orderList.concat(res.data.list);
               this.loading = false;
             } else {

@@ -88,8 +88,7 @@
 
         <div class="slide-content" v-for="item in order.list" @click="onDrug(item)">
           <div class="image">
-            <div class="chu" v-if="item.otc">非</div>
-            <div class="feichu" v-else>处</div>
+            <div class="rx_mark" v-if="!item.otc">处</div>
             <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
           </div>
           <div class="text">

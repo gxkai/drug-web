@@ -28,12 +28,15 @@
         pageNum: 0,
         pageSize: 5,
         loading: true,
-        loadingComplete: false,
-        account: this.$store.getters.account
+        loadingComplete: false
       };
     },
     created() {
       this.loadMore();
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
     },
     methods: {
       loadMore() {
@@ -41,7 +44,7 @@
         this.pageNum++;
         this.$http.get('/orderRefunds?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            if (res.data.list > 0) {
+            if (res.data.list.length > 0) {
               this.list = this.list.concat(res.data.list);
               this.loading = false;
             } else {
@@ -51,10 +54,6 @@
             this.exception(error);
           });
       }
-    },
-    mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>

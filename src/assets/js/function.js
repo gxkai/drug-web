@@ -151,7 +151,7 @@ export default {
           return '退款中';
         case 'REFUND_COMPLETE':
           return '退款完成';
-        case 'CLOSES':
+        case 'CLOSED':
           return '订单关闭';
       }
     };
