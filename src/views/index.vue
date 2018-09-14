@@ -137,9 +137,6 @@
               class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"
               v-for="(recommendList,index) in recommendList" :key="index"
               :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
-              <span class="toc-tip position-absolute all-center" v-if="recommendList.otc === true"
-                    style="background-color: #4caf50">非</span>
-              <span class="toc-tip position-absolute all-center" v-else>处</span>
               <img class="is-260x193" :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')">
               <span class="elps width-180 fz22 text-center mt-l-10">{{recommendList.name}}{{recommendList.spec}}</span>
               <span class="text-red fz24 text-center">¥ {{recommendList.price}} /盒</span>

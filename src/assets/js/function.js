@@ -66,15 +66,17 @@ export default {
      * @returns {string}
      */
     Vue.prototype.timeConvert = (timer) => {
-      var date = new Date(timer);
-      var Y = date.getFullYear();
-      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
-      var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-      var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-      var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-      var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-      var allTime = Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s;
-      return allTime;
+      if (timer !== null) {
+        var date = new Date(timer);
+        var Y = date.getFullYear();
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+        var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+        var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+        var allTime = Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s;
+        return allTime;
+      }
     };
     /**
      * 时间戳
@@ -153,6 +155,23 @@ export default {
           return '退款完成';
         case 'CLOSED':
           return '订单关闭';
+      }
+    };
+    /**
+     * 退款状态 英->中
+     * @param str
+     * @returns {string}
+     */
+    Vue.prototype.transformRefundState = (str) => {
+      switch (str) {
+        case 'REFUNDING':
+          return '退款中';
+        case 'COMPLETE':
+          return '退款完成';
+        case 'FAIL':
+          return '退款失败';
+        default:
+          return '状态异常';
       }
     };
     /**
@@ -255,7 +274,15 @@ export default {
      * @param name
      */
     Vue.prototype.linkToRxShopDrug = (rxId, shopId, name, type) => {
-      router.push({path: '/rxs/shops/drugs', query: {rxId: rxId, shopId: shopId, shopName: name, type: type}});
+      router.push({ path: '/rxs/shops/drugs', query: { rxId: rxId, shopId: shopId, shopName: name, type: type } });
+    };
+
+    /**
+     * 跳转到退款详情页
+     * @param orderRefundId
+     */
+    Vue.prototype.linkToOrderRefundView = (orderRefundId) => {
+      router.push({ path: '/orderRefunds/view', query: { orderRefundId: orderRefundId } });
     };
     /**
      * 地图coordType 转换

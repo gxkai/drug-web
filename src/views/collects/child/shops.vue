@@ -36,6 +36,8 @@
     },
     methods: {
       loadMore() {
+        this.loading = true;
+        this.pageNum++;
         this.$http.get('/collects/shop?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then((res) => {
             if (res.data.list.length > 0) {

@@ -114,42 +114,42 @@
         </div>
       </div>
       <div class="dividing"></div>
-      <div class="pay_shop-content-coupon">
-        <div class="pay_shop-content-coupon_link">
-          <div class="pay_shop-content-coupon_link_left">优惠券</div>
-          <div class="pay_shop-content-coupon_link_right">
-            <div v-if="isNotBlank(couponRecord)">
-              满{{couponRecord.amount}}减{{couponRecord.minus}}
-            </div>
-            <div @click="show = true">
-              <i class="iconfont ic-youjiantou"></i>
-            </div>
-          </div>
-        </div>
-        <div class="pay_shop-content-coupon_popup">
-          <van-popup v-model="show" position="bottom">
-            <div class="pay_shop-content-coupon_popup-container">
-              <div class="pay_shop-content-coupon_popup-container-title text-l-30">
-                使用优惠券
-              </div>
-              <div class="pay_shop-content-coupon_popup-container-list">
-                <div class="pay_shop-content-coupon_popup-container-list-item"
-                     v-for="(item,key) in coupons"
-                     :key="key"
-                     @click="couponRecord = item;show = false;payAmount -= item.amount">
-                  <div class="text-l-28">
-                    满{{item.amount}}减{{item.minus}}
-                  </div>
-                </div>
-                <div v-if="coupons.length === 0" class="pay_shop-content-coupon_popup-container-list-none text-l-28">
-                  没有可用优惠券
-                </div>
-              </div>
-            </div>
-          </van-popup>
-        </div>
-      </div>
-      <div class="dividing"></div>
+      <!--<div class="pay_shop-content-coupon">-->
+        <!--<div class="pay_shop-content-coupon_link">-->
+          <!--<div class="pay_shop-content-coupon_link_left">优惠券</div>-->
+          <!--<div class="pay_shop-content-coupon_link_right">-->
+            <!--<div v-if="isNotBlank(couponRecord)">-->
+              <!--满{{couponRecord.amount}}减{{couponRecord.minus}}-->
+            <!--</div>-->
+            <!--<div @click="show = true">-->
+              <!--<i class="iconfont ic-youjiantou"></i>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="pay_shop-content-coupon_popup">-->
+          <!--<van-popup v-model="show" position="bottom">-->
+            <!--<div class="pay_shop-content-coupon_popup-container">-->
+              <!--<div class="pay_shop-content-coupon_popup-container-title text-l-30">-->
+                <!--使用优惠券-->
+              <!--</div>-->
+              <!--<div class="pay_shop-content-coupon_popup-container-list">-->
+                <!--<div class="pay_shop-content-coupon_popup-container-list-item"-->
+                     <!--v-for="(item,key) in coupons"-->
+                     <!--:key="key"-->
+                     <!--@click="couponRecord = item;show = false;payAmount -= item.amount">-->
+                  <!--<div class="text-l-28">-->
+                    <!--满{{item.amount}}减{{item.minus}}-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div v-if="coupons.length === 0" class="pay_shop-content-coupon_popup-container-list-none text-l-28">-->
+                  <!--没有可用优惠券-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</van-popup>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="dividing"></div>-->
     </div>
     <div class="pay_shop-footer">
       <div>
@@ -375,8 +375,10 @@
             }
             div {
               margin-bottom: 10px;
-              span:nth-child(2) {
-                color: #ef4f4f;
+              &:last-child {
+                span:nth-child(2) {
+                  color: #ef4f4f;
+                }
               }
             }
           }
@@ -443,7 +445,7 @@
       z-index: 2;
       display: flex;
       justify-content: flex-end;
-      width: 100%;
+      width: 720px;
       div {
         span {
           &:nth-child(1) {
@@ -460,7 +462,7 @@
             background-color: #ef4f4f;
             color: white;
             font-weight: 100;
-            padding: 20px 40px;
+            padding: 25px 20px;
           }
         }
       }
@@ -495,10 +497,5 @@
    padding: 0px 0px 0px 20px;
   }
 
-
-
-/*  .active {
-    color: red!important;
-  }*/
 </style>
 

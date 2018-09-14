@@ -54,14 +54,15 @@
 
       <div class="shop-recommend">—— 商家推荐 ——</div>
 
-      <div class="shop-goods text-center m-auto">
+      <div class="shop-goods text-center m-auto position-relative">
         <router-link class="shop-goods-list"
-                     v-for="(recommendList,index) in recommendLists"
+                     v-for="(recommend,index) in recommendList"
                      :key="index"
                      :to="{path :'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
-          <img :src="getImgURL(recommendList.fileId, 'LARGE_LOGO')"/>
-          <span class="d-inline-block elps text-center">{{recommendList.name}}</span>
-          <span class="text-red d-inline-block elps text-center">&yen; {{toFixedTwo(recommendList.price)}}</span>
+          <div class="rx_mark" v-if="!recommend.otc">处</div>
+          <img :src="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
+          <span class="d-inline-block elps text-center">{{recommend.name}}</span>
+          <span class="text-red d-inline-block elps text-center">&yen; {{toFixedTwo(recommend.price)}}</span>
         </router-link>
       </div>
     </div>
@@ -79,7 +80,7 @@
     name: 'shop',
     data() {
       return {
-        recommendLists: [],
+        recommendList: [],
         shopInfo: [],
         shopId: this.$route.query.shopId,
         activeColor: false,
@@ -117,7 +118,8 @@
     },
     created: function () {
       this.$http.get('/shops/' + this.shopId + '/drugs/recommend').then(res => {
-        this.recommendLists = res.data;
+        this.recommendList = res.data;
+        console.log(res.data);
       }).catch(error => {
         this.exception(error);
       });

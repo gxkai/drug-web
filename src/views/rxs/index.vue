@@ -42,7 +42,7 @@
           <table class="position-relative">
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_1.png"></td>
-              <td><span class="td-width-55 ellipsis text-888888 text-l-25">地址</span></td>
+              <td><span class="td-width-55 ellipsis text-888888 text-l-25">医院</span></td>
               <td><span class="td-width-250 ellipsis  text-l-25">{{rx.hospital}}</span></td>
               <td class="text-center "><span class="text-13C1FE text-l-30">{{rx.number}}</span></td>
             </tr>
@@ -72,7 +72,7 @@
           </table>
         </router-link>
       </li>
-      <new-no-data v-if="loadingComplete"></new-no-data>
+      <new-no-data v-if="loadingComplete" class="mb-l-50"></new-no-data>
     </ul>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
@@ -85,21 +85,28 @@
         list: [],
         keyword: '',
         pageNum: 0,
-        pageSize: 5,
+        pageSize: 15,
         loading: true,
         loadingComplete: false,
         account: this.$store.getters.account,
         icon: '\ue64c 请输入症状搜索'
       };
     },
+    computed: {},
     created() {
       this.loadMore();
+    },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.$el.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
     },
     methods: {
       getRxs() {
         this.list = [];
         this.pageNum = 0;
-        this.loadData();
+        this.loading = true;
+        this.loadingComplete = false;
+        this.loadMore();
       },
       loadMore() {
         this.loading = true;
@@ -116,11 +123,6 @@
             this.exception(error);
           });
       }
-    },
-    computed: {},
-    mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.$el.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>

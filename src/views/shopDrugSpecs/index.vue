@@ -168,6 +168,7 @@
           <div class="times width-percent-94 m-auto text-l-25">
             {{timeConvert(drugAppraise.createdDate)}}
           </div>
+          <new-line></new-line>
         </div>
       </div>
     </div>

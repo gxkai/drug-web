@@ -18,7 +18,7 @@
               <span class="news-list-title">{{messageContentType.name}}</span>
               <span class="news-list-time">{{timeConvert(messageContentType.date)}}</span>
             </div>
-            <span class="news-list-content">{{messageContentType.message}}</span>
+            <span class="news-list-content">{{messageContentType.message||'暂无'}}</span>
           </div>
         </div>
       </router-link>

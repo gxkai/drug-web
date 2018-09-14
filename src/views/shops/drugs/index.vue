@@ -13,6 +13,7 @@
                        :to="{path: '/shopDrugSpecs', query: {shopDrugSpecId: drug.id}}">
             <div class="wrap">
               <div class="wrap-left">
+                <div class="rx_mark" v-if="!drug.otc">处</div>
                 <img :src="getImgURL(drug.fileId,'LARGE_LOGO')">
               </div>
               <div class="wrap-right">
@@ -86,6 +87,7 @@
     padding: 0px 30px;
     &-left {
       width: 200px;
+      position: relative;
       img {
         width: 180px;
         height: 180px;

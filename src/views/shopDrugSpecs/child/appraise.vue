@@ -31,8 +31,8 @@
     data() {
       return {
         list: [],
-        pageNum: 1,
-        pageSize: 6,
+        pageNum: 0,
+        pageSize: 15,
         loading: true,
         loadingComplete: false
       };
@@ -46,6 +46,7 @@
     methods: {
       loadMore() {
         this.loading = true;
+        this.pageNum++;
         this.$http.get('/drugAppraises?shopDrugSpecId=' + this.shopDrugSpec.id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
             if (res.data.list.length > 0) {

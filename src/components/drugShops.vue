@@ -1,8 +1,7 @@
 <template>
   <div class="refund-box is-flex flex-row flex-item p-lr-20 position-relative"
        @click="$router.push({path:'/drugs/shops',query:{id:item.id,drugId:item.drugId}})">
-    <span class="toc-tip position-absolute all-center text-l-25 bg-2BB292" v-if="item.otc === true">非</span>
-    <span class="toc-tip position-absolute all-center text-l-25" v-else>处</span>
+    <span class="rx_mark" v-if="!item.otc">处</span>
     <img class="is-200x200" :src="getImgURL(item.fileId, 'LARGE_LOGO')">
     <div class="box-right pl-40 is-flex flex-column flex-sa">
       <span class="text-666666 text-l-26">{{ item.name }}</span>

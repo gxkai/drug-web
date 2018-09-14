@@ -10,7 +10,7 @@
     <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0" ref="body">
       <div v-for="pages in list">
         <div v-for="drug in pages.drugs">
-          <new-drug-refund class="mt-15"
+          <new-drug-refund class="mt-l-25"
                            :pages="pages" :drug="drug"></new-drug-refund>
         </div>
       </div>
@@ -57,9 +57,3 @@
     }
   };
 </script>
-
-<style scoped>
-  .mt-15 {
-    margin-top: 15px !important;
-  }
-</style>

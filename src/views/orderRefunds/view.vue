@@ -9,7 +9,7 @@
       </div>
     </new-header>
     <div class="refunds-header">
-      <span class="refunds-header-state ">{{list.state|transformOrderState}}</span>
+      <span class="refunds-header-state ">{{transformRefundState(list.refundState)}}</span>
       <span class="refunds-header-time">{{timeConvert2(list.lastModifiedDate)}}</span>
     </div>
 
@@ -76,6 +76,7 @@
       this.$http.get('/orderRefunds/' + this.orderRefundId)
         .then(res => {
           this.list = res.data;
+          console.log(res.data);
         }).catch(error => {
           this.exception(error);
         });
