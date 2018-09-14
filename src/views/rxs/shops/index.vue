@@ -113,7 +113,7 @@
           });
       },
       getHospital() {
-        this.$http.get('/rxs/' + this.rxId + '/hospitals')
+        this.$http.get('/rxs/' + this.rxId + '/hospital')
           .then(res => {
             this.hospital = res.data;
             console.log(res.data);
