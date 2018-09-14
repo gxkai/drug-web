@@ -75,7 +75,7 @@ export default {
   }
 };
 </script>
-<style scoped="scoped">
+<style scoped="scoped" type="text/less" lang="less">
   .default-color {
     color: #CCCCCC;
   }

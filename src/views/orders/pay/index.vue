@@ -58,6 +58,7 @@
       getList() {
         this.$http.get('/orders/pay?orderIds=' + this.orderIds).then(res => {
           this.list = res.data;
+          console.log(res.data);
           this.$storage.set('orderIds', this.orderIds);
         }).catch(error => {
           this.exception(error);

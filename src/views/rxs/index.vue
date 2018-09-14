@@ -60,7 +60,7 @@
             </tr>
             <tr>
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_4.png"></td>
-              <td><span class="td-width-55 ellipsis text-888888 text-l-25">倒计时</span></td>
+              <td><span class="td-width-60 ellipsis text-888888 text-l-25">倒计时</span></td>
               <td>
                   <new-count-down :endTime="rx.rxDate"></new-count-down>
               </td>
@@ -248,6 +248,9 @@
 
   .td-width-55 {
     width: 55px;
+  }
+  .td-width-60 {
+    width: 60px;
   }
 
   .ellipsis {

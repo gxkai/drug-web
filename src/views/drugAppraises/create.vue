@@ -18,7 +18,7 @@
             <new-edit-div v-model="item.content"></new-edit-div>
           </div>
           <div class="line3">
-            <i class="iconfont ic-zhaoxiangji"></i>
+            <!--<i class="iconfont ic-zhaoxiangji"></i>-->
             <span>你的评价能帮助其他小伙伴哦</span>
           </div>
         </li>

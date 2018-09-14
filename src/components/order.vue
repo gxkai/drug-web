@@ -99,7 +99,7 @@
             </div>
             <div class="bottom">
               <div class="price">
-                <span class="text-l-30">¥{{toFixedTwo(item.price)}}</span>
+                <span class="text-l-30">&yen;{{toFixedTwo(item.price)}}</span>
               </div>
               <div class="quantity">
                 <div>
@@ -113,7 +113,7 @@
       <div class="item-bottom">
         <div>
           <div class="item-bottom-price">
-            <span class="text-l-30">共计{{order.list.length}}件商品 合计{{toFixedTwo(order.amount)}}</span>
+            <span class="text-l-30">共计{{quantity}}件商品 合计{{toFixedTwo(order.amount)}}</span>
           </div>
           <div>
             <div class="item-bottom-buttons">
@@ -162,9 +162,17 @@
       };
     },
     created() {
-      console.log(this.order.state);
+      console.log(this.order);
     },
-    computed: {},
+    computed: {
+      quantity() {
+        let quantity = 0;
+        this.order.list.forEach(e => {
+          quantity += e.quantity;
+        });
+        return quantity;
+      }
+    },
     methods: {
       emitOrder() {
         this.$emit('update:order', this.order);

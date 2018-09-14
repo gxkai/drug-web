@@ -11,10 +11,10 @@
         <div class="line1"></div>
         <div class="input2">
           <div class="left">
-            <input  class="input21" placeholder="请输入验证码" v-model="captcha">
+            <input  class="input21 text-l-30" placeholder="请输入验证码" v-model="captcha">
           </div>
           <div class="right">
-            <button class="button1" @click="getCaptcha()">获取验证码</button>
+            <button class="button1 text-l-30" @click="getCaptcha()">获取验证码</button>
           </div>
         </div>
       </div>
@@ -30,19 +30,19 @@
         </new-header>
         <div class="input3">
           <div class="left">
-            <span class="span1">新密码</span>
+            <span class="span1 text-l-30">新密码</span>
           </div>
           <div class="right">
-            <input class="input31" placeholder="新密码长度为6-20位字符" v-model="password">
+            <input class="input31 text-l-30" placeholder="新密码长度为6-20位字符" v-model="password">
           </div>
         </div>
         <div class="line1"></div>
         <div class="input3">
           <div class="left">
-            <span class="span1">确认密码</span>
+            <span class="span1 text-l-30">确认密码</span>
           </div>
           <div class="right">
-            <input class="input31" placeholder="请再次输入密码" v-model="passwordConfirm">
+            <input class="input31 text-l-30" placeholder="请再次输入密码" v-model="passwordConfirm">
           </div>
         </div>
       </div>
@@ -175,7 +175,7 @@ export default {
   }
 
   .input2 .left .input21 {
-    width: 520px;
+    width: 400px;
     height: 111px;
     background-color: rgba(255, 255, 255, 1);
     outline: none;
@@ -247,13 +247,16 @@ export default {
   }
 
   .input3 .right .input31 {
-    width: 580px;
+    width: 400px;
     height: 111px;
     background-color:rgba(255,255,255,1);
-    font-size:24px;
     font-family:HiraginoSansGB-W3;
     border: 0;
     outline: none;
+  }
+
+  input::placeholder {
+    text-align: left;
   }
 
   .img1 {

@@ -73,7 +73,7 @@
                   {{item.name}}
                 </div>
                 <div>
-                  <new-star :score="item.score" disabled size="middlerr"></new-star>
+                  <new-star :score="item.score" disabled></new-star>
                 </div>
                 <div>
                   电话：{{item.phone}}
@@ -149,10 +149,6 @@
   ;
 </script>
 <style scoped type="text/less" lang="less">
-  .shops-container-item{
-    background: white;
-    padding:2px 5px 0px 5px!important;
-  }
   .shops {
     height: 100vh;
     width: 720px;
@@ -206,19 +202,24 @@
     }
     &-container {
       /*position: relative;*/
+      background-color: #f5f5f5;
       width: 100%;
       &-item {
         width: 100%;
+        background-color: white;
         display: flex;
         flex-direction: row;
         align-items: center;
         margin-bottom: 10px;
+        &:first-child {
+          margin-top: 10px;
+        }
         padding: 20px;
         &-left{
-          width: 250px;
           padding: 20px;
           img{
-            width: 100%;
+            width: 250px;
+            height: 250px;
           }
         }
         &-right {
@@ -235,19 +236,6 @@
         }
       }
     }
-  }
-
-  .border-bottom-grey {
-    border-bottom: 1px #f3f3f3 solid;
-  }
-  .shops-container{
-    background: #f5f5f5;
-  }
-  .shops-filter{
-    border-bottom: 1px #f5f5f5 solid;
-  }
-  .shops-container-item-right div{
-    margin-bottom: 5px;
   }
 </style>
 

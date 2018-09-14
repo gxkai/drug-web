@@ -1,20 +1,19 @@
 <template>
-  <div class="shop-container ">
+  <div class="collect_shops ">
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-      <router-link v-for="(items,index) in pageList" :to="{path:'/shops/view',query:{shopId:items.id}}" :key="index">
-        <div class="media">
-          <div class="shop-left">
-            <img :src="items.imgUrl" alt="Image">
+        <div class="collect_shops-item"
+             v-for="(item,index) in pageList"
+             :key="index"
+              @click="linkToShopView(item.id)">
+          <div class="collect_shops-item-left">
+            <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
           </div>
-          <div class="shop-right">
-            <span>{{items.name}}</span>
-            <span>{{items.area}} {{items.address}}</span>
+          <div class="collect_shops-item-right">
+            <div>{{item.name}}</div>
+            <div>{{item.area}} {{item.address}}</div>
           </div>
         </div>
-      </router-link>
-      <new-no-data v-if="pageList.length===0"></new-no-data>
-      <new-loading v-if="process"></new-loading>
-      <new-all-data v-if="pageList.length!=0"></new-all-data>
+      <new-no-data :length="pageList.length"></new-no-data>
     </ul>
   </div>
 </template>
@@ -27,7 +26,6 @@
         pageNum: 0,
         pageSize: 15,
         pages: null,
-        process: false,
         pageList: [],
         loading: false,
         accountId: this.$store.getters.account.id
@@ -46,64 +44,49 @@
         }
       },
       loadData() {
-        this.process = true;
         this.$http.get('/collects/shop?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then((res) => {
-            this.pages = res.data.pages;
-            if (this.pages === 0) {
-              this.process = false;
-              return false;
+            if (res.data.list.length === 0) {
+              this.loading = true;
             }
             this.pageList = this.pageList.concat(res.data.list);
-            this.pageList.forEach(e => {
-              e.imgUrl = this.$http.get(this.getImgURL(e.fileId, 'LOGO'));
-            });
           });
       }
     }
   };
 </script>
 
-<style scoped>
-  .shop-container {
+<style scoped type="text/less" lang="less">
+  .collect_shops {
     width: 720px;
-    height: 100vh;
-    overflow: scroll;
+    height: calc(100vh - 200px);
+    overflow: auto;
+    &-item {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      &:first-child {
+        margin-top: 10px;
+      }
+      margin-bottom: 10px;
+      &-left {
+        padding: 10px;
+        img {
+          width: 245px;
+          height: 245px;
+        }
+      }
+      &-right {
+        &>div {
+          width: 400px;
+          padding: 10px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          font-size: 30px;
+        }
+      }
+    }
   }
-
-  .shop-right {
-    height: 149px;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-
-  .shop-left img {
-    width: 236px;
-    height: 170px;
-    margin-right: 30px;
-  }
-
-  .media {
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-
-  .shop-right span {
-    display: block;
-  }
-
-  .shop-right {
-    padding-top: 40px;
-    padding-bottom: 27px;
-    margin-left: 20px;
-  }
-
-  .shop-right > :first-child {
-    color: rgba(51, 51, 51, 1);
-  }
-
-  .shop-right > :last-child {
-    color: rgba(153, 153, 153, 1);
-  }
-
 </style>

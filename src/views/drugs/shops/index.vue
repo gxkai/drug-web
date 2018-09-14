@@ -1,5 +1,5 @@
 <template>
-  <div class="fruit-body">
+  <div class="fruit-body drugs_shops">
     <new-header :title="drugInfo.name">
       <div slot="left">
         <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
@@ -24,11 +24,11 @@
       <div class=" merchant">
         <div>
           <span class="text-l-25 text-red">{{total}}</span>
-          <span class="text-l-22">商家报价</span>
+          <span class="text-l-25">商家报价</span>
         </div>
-        <div @click="changeIcon()">
-          <i class="icon iconfont ic-youjiantou" v-if="hide"></i>
-          <i class="icon iconfont ic-arrowdown" v-if="!hide"></i>
+        <div @click="popupVisible = !popupVisible">
+          <i class="icon iconfont ic-arrowdown" v-if="popupVisible"></i>
+          <i class="icon iconfont ic-youjiantou" v-else></i>
         </div>
       </div>
       <div class="comprehensive">
@@ -58,7 +58,7 @@
                 <i class="icon iconfont ic-aixin text-1AB6FD"></i>
               </div>
               <div>
-                评分：{{shopList.score}}分
+                评分&#58;{{shopList.score}}分
               </div>
             </div>
             <div>
@@ -66,7 +66,7 @@
                 <i class="icon iconfont ic-kucun text-1AB6FD"></i>
               </div>
               <div>
-                库存：{{shopList.stock}}
+                库存&#58;{{shopList.stock}}
               </div>
             </div>
           </div>
@@ -76,11 +76,40 @@
         </div>
       </router-link>
     </div>
-
-    <div v-show="!hide">
-      <new-drug-buttom :drugSpecs='drugSpecs' :drugInfo='drugInfo' :drugSpec.sync="drugSpec"
-                       @close="changeIcon()"></new-drug-buttom>
-    </div>
+    <mt-popup
+      v-model="popupVisible"
+      position="bottom">
+      <div class="drugs_shops-popup">
+        <div class="drugs_shops-popup-header">
+          <div class="drugs_shops-popup-header-left">
+            <img :src="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
+          </div>
+          <div class="drugs_shops-popup-header-center">
+            <div class="elpsTwo">{{drugInfo.name}} {{drugSpec.name}} -{{drugInfo.originName}}</div>
+            <div style="color: #1AB6FD">{{drugInfo.sfda}}</div>
+          </div>
+          <div class="drugs_shops-popup-header-right" @click="popupVisible = false">
+              <i class="iconfont ic-guanbi2"></i>
+          </div>
+        </div>
+        <div class="drugs_shops-popup-content">
+          <div class="drugs_shops-popup-content-title">
+            选择规格
+          </div>
+          <div class="drugs_shops-popup-content-list">
+            <div class="drugs_shops-popup-content-list-item"
+                 v-for="item in drugSpecs"
+                 :class="{'drugs_shops-popup-content-list-active':drugSpec === item}">
+              <div>{{item.name}}</div>
+              <div  @click="popupVisible = false">
+                <input :id="item" type="radio"  :value="item"   v-model="drugSpec">
+                        <label :for="item"></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mt-popup>
   </div>
 </template>
 <script>
@@ -93,7 +122,7 @@
         drugSpec: {},
         drugId: this.$route.query.drugId,
         drugSpecId: this.$route.query.id,
-        hide: true,
+        popupVisible: false,
         total: 0,
         sort: 'SYNTHESIZE',
         val: -1,
@@ -133,9 +162,6 @@
           this.sort = 'PRICE_DESC';
         }
         this.getShopLists();
-      },
-      changeIcon() {
-        this.hide = !this.hide;
       }
     },
     created: function () {
@@ -163,6 +189,109 @@
     img {
       width: 100%;
       height: 450px;
+    }
+  }
+  .drugs_shops {
+    &-popup {
+      width: 720px;
+      min-height: 500px;
+      &-header {
+        width: 100%;
+        padding: 20px 0;
+        position: relative;
+        &-left {
+          position: absolute;
+          bottom: 0;
+          left: 20px;
+          img {
+            width: 160px;
+            height: 160px;
+          }
+        }
+        &-center {
+          margin: 0 20px 0 200px;
+          width: 450px;
+          div {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            &:nth-child(1) {
+              font-size: 28px;
+            }
+            &:nth-child(2) {
+              font-size: 25px;
+              font-weight: 300;
+            }
+          }
+        }
+        &-right {
+          position: absolute;
+          right:20px;
+          top: 10px;
+          i {
+            font-size: 40px;
+            color: #1AB6FD;
+          }
+        }
+      }
+      &-content {
+        &-title {
+          padding: 20px;
+          font-size: 25px;
+        }
+        &-list {
+          padding: 0 20px;
+          &-active {
+            border: 1PX solid #1AB6FD;
+          }
+          &-item {
+            padding: 5px 10px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            div:nth-child(2) {
+              position: relative;
+            }
+            div {
+              font-size: 28px;
+            }
+            label {
+              font-size: 28px;
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              border: 1px solid #999;
+            }
+            input {
+              width: 30px;
+              height: 30px;
+              opacity: 0;
+            }
+            input:checked+label {
+              background-color: #13C1FE;
+              border: 1PX solid #13C1FE;
+            }
+            input:checked+label::after {
+              position: absolute;
+              content: "";
+              width: 7px;
+              height: 12px;
+              top: 4px;
+              left: 8px;
+              border: 1PX solid #fff;
+              border-top: none;
+              border-left: none;
+              transform: rotate(45deg);
+            }
+          }
+        }
+      }
     }
   }
 </style>
@@ -224,7 +353,7 @@
     border-bottom: 1px solid #f5f5f5;
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 10px 30px;
   }
 
   .comprehensive {

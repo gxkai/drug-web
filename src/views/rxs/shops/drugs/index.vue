@@ -176,7 +176,8 @@
         cart.originName = this.origins[index].originName;
         this.amount = 0;
         this.carts.forEach(e => {
-          this.amount += e.price;
+          this.amount += e.price * e.quantity;
+          this.quantity += e.quantity;
         });
         this.show = !this.show;
         this.isActive = !this.isActive;

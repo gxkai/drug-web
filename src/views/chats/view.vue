@@ -36,7 +36,7 @@
     <footer ref="footer">
       <div class="center">
         <input v-model="value" @keyup.enter="send()">
-        <button @click="send()">发送</button>
+        <div @click="send()">发送</div>
       </div>
     </footer>
   </div>
@@ -242,6 +242,10 @@
     align-items: center;
   }
 
+  footer .center {
+    display: flex;
+  }
+
   footer .center input {
     width: 472px;
     height: 60px;
@@ -249,13 +253,16 @@
     border-radius: 3px;
     border: 0;
     outline: none;
+    padding: 0 0 0 10px;
   }
 
-  footer .center button {
-    width: 97px;
-    height: 60px;
+  footer .center div {
     background: rgba(19, 193, 254, 1);
     border-radius: 3px;
-    outline: none;
+    padding: 10px 30px;
+    margin: 0 0 0 10px;
+    font-size: 25px;
+    color: white;
+    font-weight: 100;
   }
 </style>

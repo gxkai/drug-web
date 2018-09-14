@@ -224,6 +224,13 @@ export default {
       router.push({ path: '/shopDrugSpecs', query: { shopDrugSpecId: str } });
     };
     /**
+     * 跳转到药店详情页
+     * @param str
+     */
+    Vue.prototype.linkToShopView = (str) => {
+      router.push({ path: '/shops/view', query: { shopId: str } });
+    };
+    /**
      * 跳转到订单地址页
      */
     Vue.prototype.linkToOrderAddress = () => {
@@ -261,8 +268,10 @@ export default {
      * @returns {string}
      */
     Vue.prototype.toFixedTwo = (str) => {
-      if (typeof str !== 'undefined' && str !== null) {
+      if (typeof str === 'number') {
         return str.toFixed(2);
+      } else {
+        return str;
       }
     };
     Vue.prototype.toFixedOne = (str) => {

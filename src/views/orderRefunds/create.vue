@@ -1,5 +1,5 @@
 <template>
-  <div class="refund-container">
+  <div class="refund_create">
     <new-header title="申请退款">
       <div slot="left">
         <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
@@ -7,77 +7,52 @@
     </new-header>
 
     <new-refund :order="orderInfo"></new-refund>
-    <div class="refund-reason">
-      <div>
-        <span class="text-l-25">退款原因</span>
-        <span class="text-l-25">{{reason}}</span>
+
+    <div class="refund_create-reason">
+      <div class="refund_create-reason-left">
+        <span>退款原因</span>
+        <span style="color: #1AB6FD">{{reason}}</span>
       </div>
-      <div @click="handleClick()">
-        <div class="text-l-25">请选择</div>
-        <div>
-          <i class="iconfont ic-youjiantou"></i>
-        </div>
+      <div class="refund_create-reason-right" @click="popupVisible = !popupVisible">
+        <span>请选择&gt;</span>
       </div>
     </div>
-    <div class="refund-price">
-      <div>
-        <span>退款金额</span>
-        <span>&yen;{{toFixedTwo(orderInfo.totalAmount)}}</span>
-      </div>
+    <div class="refund_create-price">
+      <span>退款金额</span>
+      <span style="color: #ef4f4f">&yen;{{toFixedTwo(orderInfo.totalAmount)}}</span>
     </div>
-    <div class="refund-description">
-      <div>
-        <span class="text-l-25">退款说明</span>
+    <div class="refund_create-explain">
+      <div class="refund_create-explain-left">
+        退款说明
       </div>
-      <div>
-        <textarea placeholder="选填 最多50字" maxlength="50" rows="3" v-model="explain" class="text-l-22">
+      <div class="refund_create-explain-right">
+        <textarea placeholder="最多50字" maxlength="50" cols="30" rows="2" wrap="hard">
+
         </textarea>
       </div>
     </div>
-    <!--<div class="refund-image">-->
-      <!--<div>-->
-        <!--<span>上传凭证</span>-->
-      <!--</div>-->
-      <!--<div class="upload">-->
-        <!--<div class="upload_warp">-->
-          <!--<div class="upload_warp_left">-->
-            <!--<i class="iconfont ic-zhaoxiangji"></i>-->
-            <!--<span>最多三张</span>-->
-            <!--<input @change="fileChange($event)" type="file"  multiple>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="upload_warp_img" v-show="imgList.length!=0">-->
-          <!--<div class="upload_warp_img_div" v-for="(item,index) of imgList">-->
-            <!--<div class="upload_warp_img_div_top">-->
-              <!--<img src="../../assets/image/upload/del.png" class="upload_warp_img_div_del" @click="fileDel(index)">-->
-            <!--</div>-->
-            <!--<img :src="item.file.src">-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
     <mt-popup
       v-model="popupVisible"
-      position="bottom" closeOnClickModal="false">
-      <div class="refund-reason-choose">
-        <div class="refund-reason-choose-item" v-for="(item,index) in reasonList">
-          <label for="index">{{item}}</label><input type="radio" v-model="reason" :value="item"
-                                                    id="index" @click="onClose()"/>
+      position="bottom">
+      <div class="refund_create-popup">
+        <div class="refund_create-popup-list">
+          <div class="refund_create-popup-list-item" v-for="item in reasonList">
+            <div>{{item}}</div>
+            <div  @click="popupVisible = false">
+              <input :id="item" type="radio"  :value="item"   v-model="reason">
+              <label :for="item"></label>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="refund-reason-close" @click="onClose()">
-        <span class="text-l-40">关闭</span>
-      </div>
     </mt-popup>
-    <div class="refund-commit" @click="onCommit()">
-      <span class="text-l-40">提交</span>
+    <div class="refund_create-commit" @click="onCommit()">
+      提交
     </div>
   </div>
 </template>
 
 <script>
-  import {Popup} from 'mint-ui';
-
   export default {
     name: 'orderRefundsCreate',
     data() {
@@ -97,49 +72,7 @@
         account: this.$store.getters.account
       };
     },
-    component: {
-      'mt-popup': Popup
-    },
     methods: {
-      fileChange(el) {
-        if (!el.target.files[0].size) return;
-        this.fileList(el.target.files);
-        el.target.value = '';
-      },
-      fileList(files) {
-        for (let i = 0; i < files.length; i++) {
-          this.fileAdd(files[i]);
-        }
-      },
-      fileAdd(file) {
-        this.size = this.size + file.size;// 总大小
-        let reader = new FileReader();
-        reader.vue = this;
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-          file.src = this.result;
-          this.vue.imgList.push({
-            file
-          });
-        };
-      },
-      fileDel(index) {
-        this.size = this.size - this.imgList[index].file.size;// 总大小
-        this.imgList.splice(index, 1);
-      },
-      bytesToSize(bytes) {
-        if (bytes === 0) return '0 B';
-        let k = 1000;
-        let sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        let i = Math.floor(Math.log(bytes) / Math.log(k));
-        return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
-      },
-      handleClick() {
-        this.popupVisible = true;
-      },
-      onClose() {
-        this.popupVisible = false;
-      },
       onCommit() {
         this.$http.post('/orderRefunds', {
           'explain': this.explain,
@@ -147,7 +80,7 @@
           'price': this.orderInfo.totalAmount,
           'reason': this.reason
         }).then(res => {
-          this.$router.replace({path: '/orderRefunds/view', query: {orderRefundId: res.data}});
+          this.$router.replace({ path: '/orderRefunds/view', query: { orderRefundId: res.data } });
         }).catch(error => {
           this.exception(error);
         });
@@ -156,6 +89,7 @@
     created() {
       this.$http.get('/orders/' + this.orderId)
         .then(res => {
+          console.log(res.data);
           this.orderInfo = res.data;
         }).catch(error => {
           this.exception(error);
@@ -163,96 +97,119 @@
     }
   };
 </script>
+<style scoped type="text/less" lang="less">
+  .refund_create {
+    width: 720px;
+    overflow: auto;
+    &-reason {
+      div, span {
+        font-size: 25px;
+      }
+      padding: 10px;
+      margin: 30px 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      &-left {
+        width: 400px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    &-price {
+      div, span {
+        font-size: 25px;
+      }
+      padding: 10px;
+      margin: 30px 0;
+      width: 100%;
+    }
+    &-explain {
+      div, span {
+        font-size: 25px;
+      }
+      padding: 10px;
+      margin: 30px 0 100px 0;
+      display: flex;
+      textarea {
+        width: 500px;
+        padding: 0 0 0 10px;
+        font-size: 25px;
+        border: none;
+        outline: none;
+      }
+    }
+    &-commit {
+      background-color: #1AB6FD;
+      height: 100px;
+      width: 100%;
+      line-height: 100px;
+      text-align: center;
+      font-size: 40px;
+      font-weight: 300;
+      color: white;
+      position: fixed;
+      bottom: 0;
+    }
+    &-popup {
+      width: 720px;
+      min-height: 300px;
+      &-list {
+        padding: 30px 30px;
+        &-item {
+          padding: 20px 10px;
+          margin: 5px 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          div:nth-child(2) {
+            position: relative;
+          }
+          &:not(:last-child) {
+            border-bottom: 1PX solid #f5f5f5;
+          }
+          div {
+            font-size: 28px;
+            font-weight: 400;
+          }
+          label {
+            position: absolute;
+            left: 5px;
+            top: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid #13C1FE;
+          }
+          input {
+            width: 30px;
+            height: 30px;
+            opacity: 0;
+          }
+          input:checked + label {
+            background-color: #13C1FE;
+            border: 1PX solid #13C1FE;
+          }
+          input:checked + label::after {
+            position: absolute;
+            content: "";
+            width: 7px;
+            height: 12px;
+            top: 6px;
+            left: 8px;
+            border: 1PX solid #fff;
+            border-top: none;
+            border-left: none;
+            transform: rotate(45deg);
+          }
+        }
+      }
+    }
+  }
+</style>
 
 <style scoped>
-  .refund-reason {
-    width: 719px;
-    height: 60px;
-    background: rgba(246, 246, 246, 1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-  }
-
-  .refund-reason div:nth-child(1) {
-    font-size: 26px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-    margin-left: 21px;
-  }
-
-  .refund-reason div:nth-child(1) > span:nth-child(2) {
-    color: #0f81cc;
-  }
-
-  .refund-reason div:nth-child(2) {
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-    display: flex;
-    align-items: center;
-  }
-  .refund-reason div:nth-child(2)>div:nth-child(1) {
-    font-size: 28px;
-  }
-
-  .refund-price {
-    width: 719px;
-    height: 60px;
-    background: rgba(246, 246, 246, 1);
-    margin-top: 15px;
-    display: flex;
-    align-items: center;
-  }
-
-  .refund-price div:nth-child(1) {
-    margin-left: 21px;
-  }
-
-  .refund-price div:nth-child(1) span:nth-child(1) {
-    font-size: 26px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-  }
-
-  .refund-price div:nth-child(1) span:nth-child(2) {
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 0, 0, 1);
-  }
-
-  .refund-description {
-    width: 719px;
-    height: 116px;
-    background: rgba(246, 246, 246, 1);
-    margin-top: 15px;
-    display: flex;
-  }
-
-  .refund-description > div:nth-child(1) {
-    width: 131px;
-    height: 116px;
-  }
-
-  .refund-description > div:nth-child(1) span:nth-child(1) {
-    margin-left: 20px;
-    line-height: 45px;
-  }
-
-  .refund-description > div:nth-child(2) {
-    width: calc(720px - 131px);
-    height: 116px;
-  }
-
-  .refund-description > div:nth-child(2) textarea {
-    width: calc(720px - 131px);
-    height: 116px;
-    background: rgba(246, 246, 246, 1);
-    resize: none;
-    outline: none;
-    border: 0;
-    line-height: 45px;
-  }
 
   .refund-reason-choose {
     width: 720px;
@@ -295,106 +252,5 @@
     font-size: 36px;
     font-family: HiraginoSansGB-W3;
     color: rgba(255, 255, 255, 1);
-  }
-
-  .refund-commit {
-    width: 720px;
-    height: 108px;
-    background: rgba(19, 193, 254, 1);
-    font-size: 36px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 255, 255, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    bottom: 0;
-  }
-
-  .refund-image {
-    width: 720px;
-    height: 206px;
-    background: rgba(245, 245, 245, 1);
-    margin-top: 40px;
-    padding-left: 20px;
-  }
-
-  .refund-image > div:nth-child(1) > span:nth-child(1) {
-    font-size: 26px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-  }
-
-  .upload_warp_img_div_del {
-    position: absolute;
-    top: 6px;
-    width: 16px;
-    right: 4px;
-  }
-
-  .upload_warp_img_div_top {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 30px;
-    background-color: rgba(0, 0, 0, 0.4);
-    line-height: 30px;
-    text-align: left;
-    color: #fff;
-    font-size: 12px;
-    text-indent: 4px;
-  }
-
-  .upload_warp_img_div img {
-    max-width: 100%;
-    max-height: 100%;
-    vertical-align: middle;
-  }
-
-  .upload_warp_img_div {
-    position: relative;
-    height: 100px;
-    width: 120px;
-    border: 1px solid #ccc;
-    margin: 0px 30px 10px 0px;
-    float: left;
-    line-height: 100px;
-    display: table-cell;
-    text-align: center;
-    background-color: #eee;
-    cursor: pointer;
-  }
-
-  .upload_warp_img {
-    margin-top: 20px;
-    overflow: hidden
-  }
-
-  .upload_warp_left {
-    border: 1px dashed #999;
-    width: 121px;
-    height: 147px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    position: relative;
-  }
-  .upload_warp_left span {
-    position: absolute;
-    bottom: 0;
-  }
-  .upload_warp_left input {
-    position: absolute;
-    width: 121px;
-    height: 147px;
-    background-color: red;
-    opacity: 0;
-  }
-
-  .ic-zhaoxiangji:before {
-    font-size: 80px;
-  }
-  .ic-youjiantou {
-    font-size: 40px;
   }
 </style>

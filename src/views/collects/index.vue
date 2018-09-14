@@ -1,19 +1,21 @@
 <template>
-  <div class="collect-body">
-    <new-header title="我的收藏">
-      <div slot="left">
-        <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link>
-      </div>
-   </new-header>
+  <div class="collect-body" style="background-color: #f5f5f5">
+    <div>
+      <new-header title="我的收藏">
+        <div slot="left">
+          <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link>
+        </div>
+      </new-header>
 
-    <ul class="flex-stream-sb">
-      <li @click="shop(1)" class="padding-tb-10">
-        <span :class="{'collects_active':qwere===1}" class="text-l-30">商品</span>
-      </li>
-      <li @click="shop(2)" class="padding-tb-10">
-        <span :class="{'collects_active':qwere===2}" class="text-l-30">商家</span>
-      </li>
-    </ul>
+      <ul class="flex-stream-sb">
+        <li @click="shop(1)" class="padding-tb-10">
+          <span :class="{'collects_active':qwere===1}" class="text-l-30">商品</span>
+        </li>
+        <li @click="shop(2)" class="padding-tb-10">
+          <span :class="{'collects_active':qwere===2}" class="text-l-30">商家</span>
+        </li>
+      </ul>
+    </div>
 
     <keep-alive>
       <component :is="showComponent" @changeComponent="shop"></component>
@@ -28,24 +30,18 @@
 
   export default {
     name: 'collects',
+    components: {
+      'collectDrug': collectDrug,
+      'collectShop': collectShop
+    },
     data() {
       return {
         compountIsshow: 1,
         qwere: 1
       };
     },
-    methods: {
-      shop(index) {
-        this.compountIsshow = index;
-        this.qwere = index;
-      }
-    },
-    components: {
-      'collectDrug': collectDrug,
-      'collectShop': collectShop
-    },
     computed: {
-      showComponent: function () {
+      showComponent() {
         switch (this.compountIsshow) {
           case 1:
             return collectShop;
@@ -55,6 +51,14 @@
       }
     },
     created() {
+    },
+    mounted() {
+    },
+    methods: {
+      shop(index) {
+        this.compountIsshow = index;
+        this.qwere = index;
+      }
     }
   };
 </script>
@@ -70,9 +74,8 @@
     justify-content: space-between;
     align-items: center;
     width: 720px;
-    height: 86px;
+    height: 100px;
     background: rgba(255, 255, 255, 1);
-    margin-bottom: 20px;
   }
 
   .flex-stream-sb li {

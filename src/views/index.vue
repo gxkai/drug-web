@@ -162,7 +162,6 @@
       return {
         searchIcon: '\ue64c 药品名',
         keyword: '',
-        activeIndex: 0,
         leftIndex: '',
         rightIndex: '',
         index: '',
@@ -184,7 +183,8 @@
           lat: '',
           lng: '',
           name: '定位中...'
-        }
+        },
+        activeIndex: 0
       };
     },
     components: {
@@ -200,8 +200,6 @@
       }
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.$el.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'auto';
       setInterval(_ => {
         if (this.activeIndex < 3) {
           this.activeIndex++;
@@ -209,6 +207,28 @@
           this.activeIndex = 1;
         }
       }, 1000);
+      // 定位
+      let _this = this;
+      if (this.$store.getters.position === null) {
+        // eslint-disable-next-line
+        plus.geolocation.getCurrentPosition(function (p) {
+          _this.$http.get(_this.$outside + '/baidu/maps.json?lat=' + p.coords.latitude + '&lng=' + p.coords.longitude + '&coordType=' + _this.transformCoordType(p.coordsType) + '&poi=true')
+            .then(res => {
+              _this.currentPosition.lat = res.data.pois[0].location.lat;
+              _this.currentPosition.lng = res.data.pois[0].location.lng;
+              _this.currentPosition.name = res.data.pois[0].name;
+              _this.$store.commit('SET_POSITION', _this.currentPosition);
+            }).catch(err => {
+              _this.exception(err);
+            });
+        }, function (e) {
+          alert('Geolocation error: ' + e.message);
+        });
+      } else {
+        this.currentPosition = this.$store.getters.position;
+      }
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.$el.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
     },
     methods: {
       onAddress() {
@@ -236,30 +256,10 @@
           });
       }
     },
-    created: function () {
-      let _this = this;
+    created() {
       this.$store.dispatch('VERIFY');
       this.getRepositoryTypeList();
       this.getRepositoryTypeListForHome();
-      // 定位
-      if (this.$store.getters.position === null) {
-        // eslint-disable-next-line
-        plus.geolocation.getCurrentPosition(function (p) {
-          _this.$http.get(_this.$outside + '/baidu/maps.json?lat=' + p.coords.latitude + '&lng=' + p.coords.longitude + '&coordType=' + _this.transformCoordType(p.coordsType) + '&poi=true')
-            .then(res => {
-              _this.currentPosition.lat = res.data.pois[0].location.lat;
-              _this.currentPosition.lng = res.data.pois[0].location.lng;
-              _this.currentPosition.name = res.data.pois[0].name;
-              _this.$store.commit('SET_POSITION', _this.currentPosition);
-            }).catch(err => {
-              _this.exception(err);
-            });
-        }, function (e) {
-          alert('Geolocation error: ' + e.message);
-        });
-      } else {
-        this.currentPosition = this.$store.getters.position;
-      }
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
         this.discountList = res.data;
@@ -545,7 +545,7 @@
   .scroll-content li {
     text-align: center;
     height: 50px;
-   }
+  }
 
   .health-img {
     width: 70px;

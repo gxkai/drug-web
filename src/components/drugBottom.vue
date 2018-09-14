@@ -98,9 +98,7 @@
 
   .ic-guanbi2 {
     color: #13C1FE;
-    width: 28px;
-    height: 28px;
-    font-size: 30px;
+    font-size: 50px;
   }
 
   .cartBottomfooterTop div:nth-child(2) {

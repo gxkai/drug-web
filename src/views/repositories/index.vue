@@ -70,9 +70,6 @@
               return false;
             }
             this.pageList = this.pageList.concat(res.data.list);
-            for (let i in this.pageList.size()) {
-              this.pageList[i].imgUrl = this.getImgURL(this.pageList[i].fileId, 'LOGO');
-            }
           });
       }
     }
