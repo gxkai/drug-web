@@ -168,7 +168,8 @@
           let data = {
             'shopId': this.drugInfo.shopId,
             'shopName': this.drugInfo.shopName,
-            'orderShopDrugSpecInfoDTOList': drugInfoList
+            'orderShopDrugSpecInfoDTOList': drugInfoList,
+            'type': 'SIMPLE'
           };
           this.$http.post('orders/shop/get', data)
             .then(res => {

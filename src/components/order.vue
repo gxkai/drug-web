@@ -7,7 +7,7 @@
             <i class="iconfont ic-yaodian"></i>
           </div>
           <span slot="left" @click.stop="onShop()" class="text-l-30">{{order.hospitalName}}</span>
-          <span slot="right" class="text-l-30" v-if="order.refundState === null">{{order.state|transformOrderState}}</span>
+          <span slot="right" class="text-l-30" v-if="order.refundState === null || order.refundState !== 'REFUNDING'">{{order.state|transformOrderState}}</span>
           <span slot="right" class="text-l-30" v-else>{{transformRefundState(order.refundState)}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
