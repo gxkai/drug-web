@@ -7,7 +7,8 @@
             <i class="iconfont ic-yaodian"></i>
           </div>
           <span slot="left" @click.stop="onShop()" class="text-l-30">{{order.hospitalName}}</span>
-          <span slot="right" class="text-l-30">{{order.state|transformOrderState}}</span>
+          <span slot="right" class="text-l-30" v-if="order.refundState === null">{{order.state|transformOrderState}}</span>
+          <span slot="right" class="text-l-30" v-else>{{transformRefundState(order.refundState)}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE">
@@ -47,10 +48,11 @@
           </div>
           <div>
             <div class="item-bottom-buttons">
+              <div @click="linkToTakeDrug(order.id)" v-if="order.state == 'TO_RECEIVED'">取药地址</div>
               <div @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</div>
               <div @click="onPay()" v-if="order.state == 'TO_PAY'">我要付款</div>
               <div class="item-bottom-button-active" @click="onRefund()"
-                      v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' ||order.state ==  'TO_RECEIVED' || order.state == 'TO_APPRAISE' ||order.state ==  'COMPLETED'">
+                      v-if="(order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' ||order.state ==  'TO_RECEIVED' || order.state == 'TO_APPRAISE' ||order.state ==  'COMPLETED')&& (order.refundState === null) ">
                 申请退款
               </div>
               <div class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货

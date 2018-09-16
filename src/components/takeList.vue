@@ -4,7 +4,7 @@
       <div>
         <i class="iconfont ic-yaodian"></i>
       </div>
-      <div>{{hospitalName}}</div>
+      <div>{{order.hospital}}</div>
     </div>
     <div class="take_drug-content">
       <div class="take_drug-content-item">
@@ -30,15 +30,7 @@
 <script>
   export default {
     name: 'newTakeList',
-    props: {
-      order: {
-        require: true
-      },
-      hospitalName: {
-        type: String,
-        require: true
-      }
-    },
+    props: ['order'],
     methods: {
     }
   };

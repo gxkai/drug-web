@@ -284,6 +284,14 @@ export default {
     Vue.prototype.linkToOrderRefundView = (orderRefundId) => {
       router.push({ path: '/orderRefunds/view', query: { orderRefundId: orderRefundId } });
     };
+
+    /**
+     * 跳转到取药页面
+     * @param orderId
+     */
+    Vue.prototype.linkToTakeDrug = (orderId) => {
+      router.push({ path: '/orders/takeDrug', query: { orderId: orderId } });
+    };
     /**
      * 地图coordType 转换
      */

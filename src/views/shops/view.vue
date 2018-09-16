@@ -58,7 +58,7 @@
         <router-link class="shop-goods-list"
                      v-for="(recommend,index) in recommendList"
                      :key="index"
-                     :to="{path :'/shopDrugSpecs',query:{shopDrugSpecId:recommendList.id}}">
+                     :to="{path :'/shopDrugSpecs',query:{shopDrugSpecId:recommend.id}}">
           <div class="rx_mark" v-if="!recommend.otc">处</div>
           <img :src="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
           <span class="d-inline-block elps text-center">{{recommend.name}}</span>

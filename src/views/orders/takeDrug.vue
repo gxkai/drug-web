@@ -8,7 +8,7 @@
         <span class="text-l-30">完成</span>
       </div>
     </new-header>
-    <new-take-list :order="order" :hospitalName="hospitalName"></new-take-list>
+    <new-take-list :order="order"></new-take-list>
   </div>
 </template>
 
@@ -18,9 +18,7 @@
     name: 'orderPay',
     data() {
       return {
-        deliveryType: this.$route.query.deliveryType,
-        rxId: this.$route.query.rxId,
-        hospitalName: this.$route.query.hospitalName,
+        orderId: this.$route.query.orderId,
         order: []
       };
     },
@@ -31,7 +29,7 @@
     },
     methods: {
       getList() {
-        this.$http.post('/orders/hospital?rxId=' + this.rxId)
+        this.$http.post('/orders/' + this.orderId + '/hospital')
           .then(res => {
             this.order = res.data;
           }).catch(error => {
