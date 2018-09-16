@@ -3,7 +3,7 @@
       <div class="collect_drugs-item"
            v-for="(item,index) in pageList"
            :key="index"
-            @click="linkToShopDrugSpec(item.id)">
+            @click="linkToShopDrugSpec(item.shopDrugSpecId)">
         <div class="collect_drugs-item-left">
           <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
         </div>

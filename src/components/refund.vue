@@ -7,7 +7,8 @@
             <i class="iconfont ic-yaodian"></i>
           </div>
           <span slot="left">{{order.hospitalName}}</span>
-          <span slot="right">{{order.state|transformOrderState}}</span>
+          <span slot="right" class="text-l-30" v-if="order.refundState === null">{{order.state|transformOrderState}}</span>
+          <span slot="right" class="text-l-30" v-if="order.refundState === 'REFUNDING'">{{transformRefundState(order.refundState)}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE">
@@ -45,7 +46,8 @@
               <i class="iconfont ic-yaodian" slot="left"></i>
           </div>
           <span slot="left"  @click="onShop()" class="text-l-30">{{order.shopName}}</span>
-          <span slot="right" class="text-l-30">{{order.state|transformOrderState}}</span>
+          <span slot="right" class="text-l-30" v-if="order.refundState === null || order.refundState !== 'REFUNDING'">{{order.state|transformOrderState}}</span>
+          <span slot="right" class="text-l-30" v-else>{{transformRefundState(order.refundState)}}</span>
         </new-header>
         <new-header bgColor="rgba(246,246,246,1)" height="low" leftSize="small" leftColor="black"
                     rightColor="#13C1FE" v-if="order.rxId">
@@ -65,8 +67,7 @@
 
         <div class="slide-content" v-for="item in order.list">
           <div class="image">
-            <div class="feichu" v-if="item.otc">非</div>
-            <div class="chu" v-else>处</div>
+            <div class="rx_mark" v-if="!item.otc">处</div>
             <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
           </div>
           <div class="text">

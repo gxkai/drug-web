@@ -39,6 +39,10 @@
     created() {
       this.loadMore();
     },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'scroll';
+    },
     methods: {
       loadMore() {
         this.loading = true;
@@ -55,10 +59,6 @@
             this.exception(error);
           });
       }
-    },
-    mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'scroll';
     }
   };
 </script>
