@@ -1,34 +1,75 @@
 <template>
-  <div class="container">
+  <div class="shop_drugs">
     <new-header title="全部商品" ref="header">
       <div @click="$router.go(-1)" slot="left">
         <i class="iconfont ic-arrow-right"></i>
       </div>
     </new-header>
-    <div ref="body">
-      <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-        <div class="width-percent-100">
-          <router-link class="border-bottom-grey" v-for="(drug,index) in list"
-                       :key="index"
-                       :to="{path: '/shopDrugSpecs', query: {shopDrugSpecId: drug.id}}">
-            <div class="wrap">
-              <div class="wrap-left">
-                <div class="rx_mark" v-if="!drug.otc">处</div>
-                <img :src="getImgURL(drug.fileId,'LARGE_LOGO')">
-              </div>
-              <div class="wrap-right">
-                <div class="elps">{{drug.name}}</div>
-                <div class="elps">国药准字{{drug.sfda}}</div>
-                <div class="elps">¥{{drug.price}}</div>
-              </div>
-            </div>
-          </router-link>
+    <div class="shop_drugs-list"
+         v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10"
+        ref="body">
+        <div class="shop_drugs-list-item"
+             v-for="drug in list"
+        @click="linkToShopDrugSpec(drug.id)">
+          <div class="shop_drugs-list-item-left">
+            <div class="rx_mark" v-if="!drug.otc">处</div>
+            <img :src="getImgURL(drug.fileId,'LARGE_LOGO')">
+          </div>
+          <div class="shop_drugs-list-item-right">
+            <div class="shop_drugs-list-item-right_name">{{drug.name}}</div>
+            <div class="shop_drugs-list-item-right_sfda">国药准字{{drug.sfda}}</div>
+            <div class="shop_drugs-list-item-right_price">&yen;{{drug.price}}</div>
+          </div>
         </div>
-      </ul>
       <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
   </div>
 </template>
+<style scoped type="text/less" lang="less">
+  .shop_drugs {
+    background-color: #f5f5f5;
+    height: 100vh;
+    &-list{
+      &-item {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        margin-bottom: 20px;
+        &-left {
+          padding: 20px;
+          img {
+            width: 200px;
+            height: 200px;
+          }
+        }
+        &-right {
+          width: 450px;
+          &>div {
+            padding: 10px;
+          }
+          &_name {
+            font-size: 30px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+          }
+          &_sfda {
+            color: #999999;
+            font-size: 25px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          &_price {
+            color: #FF0000;
+            font-size: 25px;
+          }
+        }
+      }
+    }
+  }
+</style>
 <script>
   export default {
     name: 'shopInfo',
@@ -46,6 +87,10 @@
     created: function () {
       this.loadMore();
     },
+    mounted() {
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'auto';
+    },
     methods: {
       loadMore() {
         this.loading = true;
@@ -61,57 +106,6 @@
           this.exception(error);
         });
       }
-    },
-    mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>
-<style scoped type="text/less" lang="less">
-  .container {
-    background: #f5f5f5;
-    width: 720px;
-  }
-
-
-  .border-bottom-grey {
-    border-bottom: 1px #f5f5f5 solid;
-  }
-
-  .wrap {
-    display: flex;
-    width: 100%;
-    background-color: white;
-    margin-bottom: 10px;
-    padding: 0px 30px;
-    &-left {
-      width: 200px;
-      position: relative;
-      img {
-        width: 180px;
-        height: 180px;
-      }
-    }
-    &-right {
-      width: 400px;
-      padding: 20px;
-      align-self: center;
-      &>div{
-        padding: 5px;
-        &:nth-child(1) {
-          color: black;
-          font-size: 28px;
-        }
-        &:nth-child(2) {
-          color: #cccccc;
-          font-size: 25px;
-        }
-        &:nth-child(3) {
-          color: red;
-          font-size: 24px;
-        }
-      }
-    }
-  }
-</style>

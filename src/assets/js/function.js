@@ -293,9 +293,39 @@ export default {
       router.push({ path: '/orders/takeDrug', query: { orderId: orderId } });
     };
 
+    /**
+     * 跳转到药品药店页面
+     * @param drugSpecId
+     * @param drugId
+     */
     Vue.prototype.linkToDrugShop = (drugSpecId, drugId) => {
       router.push({ path: '/drugs/shops', query: { drugSpecId: drugSpecId, drugId: drugId } });
     };
+
+    /**
+     * 跳转到药店详情页面
+     * @param shopId
+     */
+    Vue.prototype.linkToShopInfo = (shopId) => {
+      router.push({ path: '/shops/info', query: { id: shopId } });
+    };
+
+    /**
+     * 跳转到药店药品页面
+     * @param shopId
+     */
+    Vue.prototype.linkToShopDrugs = (shopId, typeId) => {
+      router.push({ path: '/shops/drugs', query: { id: shopId, typeId: typeId } });
+    };
+
+    /**
+     * 跳转到咨询页面
+     * @param shopId
+     */
+    Vue.prototype.linkToChatView = (shopId) => {
+      router.push({ path: '/chats/view', query: { shopId: shopId } });
+    };
+
     /**
      * 地图coordType 转换
      */
@@ -322,7 +352,7 @@ export default {
       }
     };
     Vue.prototype.toFixedOne = (str) => {
-      if (typeof str !== 'undefined') {
+      if (typeof str !== 'undefined' && str !== null) {
         return str.toFixed(1);
       }
     };
