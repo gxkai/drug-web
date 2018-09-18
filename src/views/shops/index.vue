@@ -125,7 +125,7 @@
           {params: {
             lat: this.position.lat,
             lng: this.position.lng,
-            shopSort: this.shopSort,
+            sort: this.shopSort,
             pageNum: this.pageNum,
             pageSize: this.pageSize
           }})
