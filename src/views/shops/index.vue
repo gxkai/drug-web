@@ -16,9 +16,9 @@
           综合
         </div>
         <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up">
+          <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'SYNTHESIZE'? '#13C1FE': 'gray'} ">
           </div>
-          <div class="shops-filter-item-arrow-down">
+          <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SYNTHESIZE'? '#13C1FE': 'gray'} ">
           </div>
         </div>
       </div>
@@ -27,9 +27,9 @@
           距离最近
         </div>
         <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up">
+          <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'DISTANCE'? '#13C1FE': 'gray'} ">
           </div>
-          <div class="shops-filter-item-arrow-down">
+          <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'DISTANCE'? '#13C1FE': 'gray'} ">
           </div>
         </div>
       </div>
@@ -38,9 +38,9 @@
           好评优先
         </div>
         <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up">
+          <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'APPRAISE'? '#13C1FE': 'gray'} ">
           </div>
-          <div class="shops-filter-item-arrow-down">
+          <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'APPRAISE'? '#13C1FE': 'gray'} ">
           </div>
         </div>
       </div>
@@ -49,9 +49,9 @@
           价格
         </div>
         <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up">
+          <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
           </div>
-          <div class="shops-filter-item-arrow-down">
+          <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
           </div>
         </div>
       </div>

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
+  import {Toast} from 'mint-ui';
   export default {
     name: 'search',
     data() {
@@ -33,7 +33,7 @@
         if (this.keyword) {
           this.loadData();
         } else {
-          MessageBox('提示', '请输入药品名');
+          Toast('请输入药品名');
         }
       },
       loadData() {

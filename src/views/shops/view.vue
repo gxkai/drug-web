@@ -66,7 +66,7 @@
         </router-link>
       </div>
     </div>
-    <div class="shop-footer" spellcheck="false" cellspacing="0" ref="footer">
+    <div class="shop-footer"  ref="footer">
       <router-link :to="{ path: '/shops/info', query: { id: shopId }}">商家介绍</router-link>
       <router-link :to="{ path: '/shops/drugs', query: { id: shopId }}">全部商品</router-link>
       <router-link :to="{ path: '/chats/view', query: { shopId: shopId }}">在线咨询</router-link>
@@ -74,7 +74,7 @@
   </div>
 </template>
 <script>
-  import {Toast} from 'mint-ui';
+  import { Toast } from 'mint-ui';
 
   export default {
     name: 'shop',
@@ -87,34 +87,6 @@
         collectz: '',
         drugTypes: []
       };
-    },
-    methods: {
-      collect() {
-        this.activeColor = !this.activeColor;
-        let data = {
-          'shopId': this.shopId,
-          'isCollect': this.activeColor
-        };
-        this.$http.post('/collects/shop', data).then(res => {
-          if (this.activeColor) {
-            Toast({
-              message: '收藏成功',
-              position: 'middle',
-              duration: 1000
-            });
-            this.collectz = '已收藏';
-          } else {
-            Toast({
-              message: '取消收藏成功',
-              position: 'middle',
-              duration: 1000
-            });
-            this.collectz = '未收藏';
-          }
-        }).catch(error => {
-          this.exception(error);
-        });
-      }
     },
     created: function () {
       this.$http.get('/shops/' + this.shopId + '/drugs/recommend').then(res => {
@@ -149,6 +121,34 @@
     mounted() {
       this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.clientHeight) + 'px';
       this.$refs.body.style.overflow = 'auto';
+    },
+    methods: {
+      collect() {
+        this.activeColor = !this.activeColor;
+        let data = {
+          'shopId': this.shopId,
+          'isCollect': this.activeColor
+        };
+        this.$http.post('/collects/shop', data).then(res => {
+          if (this.activeColor) {
+            Toast({
+              message: '收藏成功',
+              position: 'middle',
+              duration: 1000
+            });
+            this.collectz = '已收藏';
+          } else {
+            Toast({
+              message: '取消收藏成功',
+              position: 'middle',
+              duration: 1000
+            });
+            this.collectz = '未收藏';
+          }
+        }).catch(error => {
+          this.exception(error);
+        });
+      }
     }
   };
 </script>

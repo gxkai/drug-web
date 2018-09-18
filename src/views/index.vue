@@ -131,7 +131,7 @@
         </span>
           <span class="new-liner"></span>
         </div>
-        <div class="bg-white of-hidden">
+        <div class="bg-white of-hidden mb-l-100">
           <ul class="flex-wrap">
             <router-link
               class="drug-box flex-column-center position-relative border-left-gray border-right-gray border-top-gray border-bottom-gray"

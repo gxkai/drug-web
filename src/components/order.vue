@@ -153,7 +153,7 @@
 </template>
 
 <script>
-  import { MessageBox } from 'mint-ui';
+  import { Toast } from 'mint-ui';
 
   export default {
     name: 'order',
@@ -212,7 +212,7 @@
         this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
       onRemind() {
-        MessageBox.alert('提醒发货成功！', '提示');
+        Toast('提醒发货成功!');
       },
       onConfirm() {
         this.$http.put('/orders/' + this.order.id + '/complete').then(res => {

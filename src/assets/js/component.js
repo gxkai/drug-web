@@ -12,7 +12,7 @@ import joinCar from '../../components/joinCar';
 import drugRefund from '../../components/drugRefund';
 import drugs from '../../components/drugs';
 import refundDrugs from '../../components/refundDrugs';
-import drugShops from '../../components/drugShops';
+import drugItem from '../../components/drugItem';
 import newRadio from '../../components/radio';
 import newPayOrderItem from '../../components/payOrderItem';
 import newOrderTab from '../../components/orderTab';
@@ -52,7 +52,7 @@ export default {
     Vue.component('new-drug-refund', drugRefund);
     Vue.component('new-drug', drugs);
     Vue.component('refund-drug', refundDrugs);
-    Vue.component('new-drug-shops', drugShops);
+    Vue.component('new-drug-item', drugItem);
     Vue.component('new-radio', newRadio);
     Vue.component('new-pay-order-item', newPayOrderItem);
     Vue.component('new-order-tab', newOrderTab);

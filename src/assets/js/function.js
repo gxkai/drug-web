@@ -292,6 +292,10 @@ export default {
     Vue.prototype.linkToTakeDrug = (orderId) => {
       router.push({ path: '/orders/takeDrug', query: { orderId: orderId } });
     };
+
+    Vue.prototype.linkToDrugShop = (drugSpecId, drugId) => {
+      router.push({ path: '/drugs/shops', query: { drugSpecId: drugSpecId, drugId: drugId } });
+    };
     /**
      * 地图coordType 转换
      */

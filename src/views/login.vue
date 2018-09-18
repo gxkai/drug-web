@@ -1,51 +1,77 @@
 <template>
-  <div class="top position-relative">
-    <div class="mid1">
-
-      <div>
-        <img src="../assets/image/blue-login.png" class="width-percent-100"/>
-        <div class="font1 position-absolute" style="z-index: 999">
-          药品网上服务平台
-        </div>
-      </div>
-
+  <div class="login">
+    <div :style="note" class="login-header">
+      药品网上服务平台
     </div>
-
     <swiper :options="swiperOption" ref="mySwiper">
-      <swiper-slide class="login">
-        <div class="tel">
-          <i class="iconfont ic-shouji shouji"></i>
-          <input type="number" placeholder="请输入手机号码" v-model="username" class="telephone"/>
+      <swiper-slide>
+        <div class="swiper-slide-login_tel">
+          <div>
+            <i class="iconfont ic-shouji shouji"></i>
+          </div>
+          <input type="number" placeholder="请输入手机号码" v-model="username">
         </div>
-        <div class="password">
-          <i class="iconfont ic-icon2 icon2"></i>
-          <input type="password" placeholder="请输入密码" v-model="password" class="psd">
+        <div class="swiper-slide-login_password">
+          <div>
+            <i class="iconfont ic-icon2"></i>
+          </div>
+          <input type="password" placeholder="请输入手机号码" v-model="password" maxlength="11">
         </div>
-        <div @click="login()" class="login-btn">
-          登录
+        <div class="swiper-slide-login_commit"
+             @click="login()">
+          登陆
+        </div>
+        <div class="swiper-slide-login_bullets">
+          <div class="swiper-slide-login_bullets-empty"
+          @click="swiper.slideTo(1, 1000, false)"></div>
+          <div class="swiper-slide-login_bullets-full"></div>
         </div>
       </swiper-slide>
-      <swiper-slide class="login">
-        <div class="tel">
-          <i class="iconfont ic-shouji shouji"></i>
-          <input type="number" placeholder="请输入手机号码" v-model="registerUsername" class="telephone"/>
-          <button class="button1" @click="getCaptcha()" v-show="showCode">获取验证码</button>
-          <button class="button1" v-show="!showCode">{{count}}</button>
+      <swiper-slide>
+        <div class="swiper-slide-register_tel">
+          <div class="swiper-slide-register_tel-left">
+            <div>
+              <i class="iconfont ic-shouji shouji"></i>
+            </div>
+            <input type="number" placeholder="请输入手机号码" v-model="registerUsername" maxlength="11">
+          </div>
+          <div class="swiper-slide-register_tel-captcha"
+               @click="getCaptcha()"
+               v-if="showCode">
+            获取验证码
+          </div>
+          <div class="swiper-slide-register_tel-captcha"
+               v-else>
+            {{count}}
+          </div>
         </div>
-        <div class="password mt-13">
-          <i class="iconfont ic-anquanrenzheng icon2"></i>
-          <input type="password" placeholder="请输入验证码" v-model="captcha" class="psd">
+        <div class="swiper-slide-register_captcha">
+          <div>
+            <i class="iconfont ic-anquanrenzheng"></i>
+          </div>
+          <input type="password" placeholder="请输入验证码" v-model="captcha">
         </div>
-        <div class="password mt-13">
-          <i class="iconfont ic-xinmima icon2"></i>
-          <input type="password" placeholder="请输入密码" v-model="registerPassword" class="psd">
+        <div class="swiper-slide-register_password">
+          <div>
+            <i class="iconfont ic-icon2"></i>
+          </div>
+          <input type="password" placeholder="请输入手机密码" v-model="registerPassword">
         </div>
-        <div @click="register()" class="login-btn">
+        <div class="swiper-slide-register_commit"
+             @click="register()">
           注册
+        </div>
+        <div class="swiper-slide-register_bullets">
+          <div class="swiper-slide-register_bullets-full"
+          @click="swiper.slideTo(0, 1000, false)"></div>
+          <div class="swiper-slide-register_bullets-empty"></div>
         </div>
       </swiper-slide>
     </swiper>
-    <router-link tag="div" class="foot1" to="/forget">忘记密码？</router-link>
+    <div class="login-footer"
+         @click="$router.push('/forget')">
+      忘记密码?
+    </div>
   </div>
 </template>
 
@@ -56,24 +82,31 @@
     name: 'login',
     data() {
       return {
+        note: {
+          backgroundImage: 'url(' + require('../assets/image/blue-login.png') + ')'
+        },
         swiperOption: {
-          effect: 'cube'
+          effect: 'cube',
+          autoHeight: true,
+          paginationType: 'bullets',
+          pagination: '.swiper-pagination',
+          paginationClickable: true
         },
         cubeEffect: {
-          slideShadows: true,
+          slideShadows: false,
           shadow: false,
-          shadowOffset: 0,
-          shadowScale: 0
+          shadowOffset: 100,
+          shadowScale: 0.6
         },
         showCode: true,
         count: '',
         time: null,
-        username: '18896781024',
+        username: '15995611111',
         password: '123456',
         clientId: '1',
-        registerUsername: '18896781024',
+        registerUsername: '',
         captcha: '',
-        registerPassword: '123456'
+        registerPassword: ''
       };
     },
     computed: {
@@ -155,11 +188,7 @@
           .then((res) => {
             this.username = this.registerUsername;
             this.password = this.registerPassword;
-            MessageBox({
-              title: '注册成功',
-              message: '去登录?',
-              showCancelButton: true
-            }).then(action => {
+            MessageBox.confirm('去登陆?').then(action => {
               this.clearInt();
               this.swiper.slideTo(0, 1000, false);
             });
@@ -171,131 +200,193 @@
     }
   };
 </script>
-
-<style scoped>
-  .top {
-    width: 100%;
+<style scoped type="text/less" lang="less">
+  .swiper-container {
+    position: relative;
+    background-color: transparent;
+    width: 600px!important;;
+    margin-top: -60px;
+    margin-left: 60px;
+  }
+  .swiper-wrapper {
+    transform: rotateY(-48deg)!important;
   }
 
-  .mid1 {
-    width: 100%;
-    height: 435px;
-    background: url("/src/assets/image/blue-login.png") no-repeat;
-    background-size: 100% 100%;
-  }
-
-  .mid1 .font1 {
-    font-size: 48px;
-    color: rgba(255, 255, 255, 1);
-    top: 189px;
-    left: 165px;
-  }
-
-  /*slide1*/
-
-  .foot1 {
-    text-align: center;
-    width: 100%;
-    font-size: 28px;
-    color: rgba(102, 102, 102, 1);
-    position: absolute;
-    top: 1137px;
+  .swiper-slide {
+    background-color: white;
+    width: 600px!important;
+    height: 600px!important;
+    box-shadow: 0px 0px 32px 0px rgba(51, 51, 51, 0.33);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    &-login {
+      &_tel, &_password {
+        display: flex;
+        align-items: center;
+        background-color: #EEEEEE;
+        border-radius: 5px;
+        padding: 20px;
+        i {
+          font-size: 50px;
+          color: #1AB6FD;
+        }
+        input {
+          width: 350px;
+          height: 50px;
+          font-size: 30px;
+          background-color: #EEEEEE;
+          padding-left: 20px;
+          &::placeholder {
+            text-align: left;
+            color: #CCCCCC;
+          }
+          outline: none;
+          border: none;
+        }
+      }
+      &_commit {
+        font-size: 30px;
+        background-color: #1AB6FD;
+        padding: 5px 50px;
+        border-radius: 30px;
+        color: white;
+        font-weight: 200;
+      }
+      &_bullets {
+        display: flex;
+        &-empty {
+          width: 20px;height: 20px;background-color: #1AB6FD;border-radius: 50%;
+        }
+        &-full {
+          width: 20px;height: 20px;background-color: gray;border-radius: 50%;margin-left: 10px;
+        }
+      }
+    }
+    &-register {
+      &_tel {
+        display: flex;
+        align-items: center;
+        background-color: #EEEEEE;
+        border-radius: 5px;
+        &-captcha {
+          font-size: 20px;
+          background-color: #1AB6FD;
+          color: white;
+          width: 130px;
+          height: 90px;
+          line-height: 90px;
+          text-align: center;
+        }
+        &-left {
+          padding: 20px;
+          display: flex;
+          align-items: center;
+          i {
+            font-size: 50px;
+            color: #1AB6FD;
+          }
+          input {
+            width: 220px;
+            height: 50px;
+            font-size: 25px;
+            background-color: #EEEEEE;
+            padding-left: 20px;
+            &::placeholder {
+              text-align: left;
+              color: #CCCCCC;
+            }
+            outline: none;
+            border: none;
+          }
+        }
+      }
+      &_captcha {
+        display: flex;
+        align-items: center;
+        background-color: #EEEEEE;
+        border-radius: 5px;
+        padding: 20px;
+        i {
+          font-size: 50px;
+          color: #1AB6FD;
+        }
+        input {
+          width: 350px;
+          height: 50px;
+          font-size: 25px;
+          background-color: #EEEEEE;
+          padding-left: 20px;
+          &::placeholder {
+            text-align: left;
+            color: #CCCCCC;
+          }
+          outline: none;
+          border: none;
+        }
+      }
+      &_password {
+        display: flex;
+        align-items: center;
+        background-color: #EEEEEE;
+        border-radius: 5px;
+        padding: 20px;
+        i {
+          font-size: 50px;
+          color: #1AB6FD;
+        }
+        input {
+          width: 350px;
+          height: 50px;
+          font-size: 25px;
+          background-color: #EEEEEE;
+          padding-left: 20px;
+          &::placeholder {
+            text-align: left;
+            color: #CCCCCC;
+          }
+          outline: none;
+          border: none;
+        }
+      }
+      &_commit {
+        font-size: 30px;
+        background-color: #1AB6FD;
+        padding: 5px 50px;
+        border-radius: 30px;
+        margin-bottom: 20px;
+        color: white;
+        font-weight: 200;
+      }
+      &_bullets {
+        display: flex;
+        &-empty {
+          width: 20px;height: 20px;background-color: #1AB6FD;border-radius: 50%;margin-left: 10px;
+        }
+        &-full {
+          width: 20px;height: 20px;background-color: gray;border-radius: 50%;
+        }
+      }
+    }
   }
 
   .login {
-    width: 660px;
-    height: 500px !important;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 32px rgba(51, 51, 51, 0.33);
-  }
-
-  .tel, .password {
-    width: 489px;
-    height: 69px;
-    background: rgba(238, 238, 238, 1);
-    border-radius: 5px;
-    margin-left: 110px;
-    line-height: 69px;
-  }
-
-  .tel {
-    margin-top: 87px;
-  }
-
-  .password {
-    margin-top: 38px;
-  }
-
-  .ic-shouji, .ic-icon2, .ic-anquanrenzheng, .ic-xinmima {
-    margin-left: 16px;
-    margin-top: 18px;
-    font-size: 30px;
-  }
-
-  .telephone {
-    display: inline-block;
-    width: 304px;
-    margin-left: 27px;
-    border: none;
-    background: rgba(238, 238, 238, 1);
-    height: 65px;
-    line-height: 65px;
-  }
-
-  .psd {
-    width: 304px;
-    margin-left: 27px;
-    border: none;
-    background: rgba(238, 238, 238, 1);
-    height: 65px;
-    line-height: 65px;
-  }
-
-  .login-btn {
-    width: 198px;
-    height: 59px;
-    background: rgba(26, 182, 253, 1);
-    border-radius: 30px;
-    font-size: 32px;
-    text-align: center;
-    line-height: 59px;
-    margin-top: 66px;
-    margin-left: 231px;
-    color: white;
-  }
-
-  .mt-13 {
-    margin-top: 13px !important;
-  }
-
-  .button1 {
-    position: absolute;
-    width: 155px;
-    height: 70px;
-    background: rgba(26, 182, 253, 1);
-    border-radius: 5px;
-    color: white;
-    text-align: center;
-    line-height: 70px;
-    border: none;
-    font-size: 26px;
-    left: 445px;
-  }
-
-  input {
-    font-size: 24px;
-    outline: none;
-  }
-
-  input::placeholder {
-    text-align: left;
-  }
-
-  .swiper-wrapper {
-    height: 500px !important;
-  }
-
-  .full {
     width: 720px;
+    &-header {
+      height: 425px;
+      width: 720px;
+      text-align: center;
+      line-height: 425px;
+      font-size: 50px;
+      color: white;
+    }
+    &-footer {
+      width: 100%;
+      position: fixed;
+      bottom: 30px;
+      text-align: center;
+      font-size: 30px;
+    }
   }
 </style>

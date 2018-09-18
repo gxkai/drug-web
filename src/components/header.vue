@@ -3,7 +3,7 @@
     <div class="left" :style="{color:leftColor}" :class="leftSize">
       <slot name="left"></slot>
     </div>
-    <div class="fz36">
+    <div class="fz36" style="max-width: 400px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap">
       <slot name="center"></slot>
       {{title}}
     </div>

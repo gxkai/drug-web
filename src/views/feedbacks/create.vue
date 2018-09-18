@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
+  import {Toast} from 'mint-ui';
 
   export default {
     name: 'feedbacks',
@@ -29,9 +29,11 @@
           'content': this.content
         })
           .then((res) => {
-            MessageBox('提示', '感谢您的反馈！').then(action => {
+            let instance = Toast('感谢您的反馈!');
+            setTimeout(() => {
+              instance.close();
               this.$router.go(-1);
-            });
+            }, 2000);
           })
           .catch((error) => {
             this.exception(error);

@@ -121,7 +121,7 @@
         drugSpecs: [],
         drugSpec: {},
         drugId: this.$route.query.drugId,
-        drugSpecId: this.$route.query.id,
+        drugSpecId: this.$route.query.drugSpecId,
         popupVisible: false,
         total: 0,
         sort: 'SYNTHESIZE',

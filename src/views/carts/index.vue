@@ -132,7 +132,7 @@
   </div>
 </template>
 <script>
-  import {MessageBox} from 'mint-ui';
+  import { MessageBox, Toast } from 'mint-ui';
   // import { mapGetters, mapMutations } from 'vuex';
   export default {
     name: 'carts',
@@ -231,7 +231,7 @@
        */
       onRemove(cartShop, cartShopIndex, cartRx, cartRxIndex, cartDrug, cartDrugIndex) {
         if (cartRx.rxId !== '0') {
-          MessageBox('提示', '改处方单中药品会一起删除').then(action => {
+          MessageBox.confirm('改处方单中药品会一起删除').then(action => {
             let cartIds = [];
             cartRx.drugs.forEach(e => {
               cartIds.push(e.cartId);
@@ -246,7 +246,7 @@
             });
           });
         } else {
-          MessageBox('提示', '确定删除?').then(action => {
+          MessageBox.confirm('确定删除？').then(action => {
             this.$http.delete('carts/' + cartDrug.cartId).then(res => {
               cartRx.drugs.splice(cartDrugIndex, 1);
               if (cartRx.drugs.length === 0) {
@@ -265,7 +265,7 @@
        * 批量删除
        */
       onRemoveBatch() {
-        MessageBox('提示', '确定删除?').then(action => {
+        MessageBox.confirm('确定删除?').then(action => {
           this.$http.delete('carts?cartIds=' + this.getCartIds()).then(res => {
             this.remove();
           }).catch(error => {
@@ -323,12 +323,12 @@
       onOrder() {
         let cartIds = this.getCartIds();
         if (cartIds.length === 0) {
-          MessageBox('提示', '请选择药品');
+          Toast('请选择药品');
           return;
         }
         this.$http.get('/orders/cart?cartIds=' + cartIds).then(res => {
           console.log(res.data);
-          this.$router.push({path: '/orders/create/fromCart', query: {cart: JSON.stringify(res.data)}});
+          this.$router.push({ path: '/orders/create/fromCart', query: { cart: JSON.stringify(res.data) } });
         }).catch(error => {
           this.exception(error);
         });

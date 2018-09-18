@@ -68,7 +68,7 @@
 </template>
 
 <script>
-  import { Toast, MessageBox } from 'mint-ui';
+  import { Toast } from 'mint-ui';
   export default {
     name: 'newFooter',
     props: {
@@ -118,7 +118,7 @@
           this.type = 1;
           this.popupVisible = true;
         } else {
-          MessageBox('提示', '处方药不能立即购买');
+          Toast('处方药不能立即购买');
         }
       },
       drugReduce() {
@@ -138,7 +138,7 @@
           this.type = 0;
           this.popupVisible = true;
         } else {
-          MessageBox('提示', '处方药不能加入购物车');
+          Toast('处方药不能加入购物车');
         }
       },
       close() {

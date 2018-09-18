@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
+  import {Toast} from 'mint-ui';
   export default {
     name: 'addressesUpdate',
     data() {
@@ -79,9 +79,11 @@
       save() {
         this.$http.put('/addresses/' + this.id, this.address)
           .then((res) => {
-            MessageBox('提示', '保存成功').then(action => {
+            let instance = Toast('保存成功');
+            setTimeout(() => {
+              instance.close();
               this.$router.go(-1);
-            });
+            }, 2000);
           })
           .catch((error) => {
             this.exception(error);

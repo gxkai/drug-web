@@ -1,45 +1,45 @@
 <template>
-  <div class="container">
+  <div class="card_bind">
     <new-header title="医保卡绑定">
       <div slot="left">
         <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
       </div>
     </new-header>
-    <div class="list">
-      <div class="item">
-        <div class="left">
+    <div class="card_bind-list">
+      <div class="card_bind-list-item">
+        <div class="card_bind-list-item-left">
           <i class="iconfont ic-xingming"></i>
         </div>
-        <div class="right">
+        <div class="card_bind-list-item-right">
           <input type="text" v-model="account.name" placeholder="请输入姓名" />
         </div>
       </div>
-      <div class="item">
-        <div class="left">
+      <div class="card_bind-list-item">
+        <div class="card_bind-list-item-left">
           <i class="iconfont ic-Id"></i>
         </div>
-        <div class="right">
+        <div class="card_bind-list-item-right">
           <input type="text" v-model="account.identityNumber" placeholder="请输入身份证号码" />
         </div>
       </div>
-      <div class="item">
-        <div class="left">
+      <div class="card_bind-list-item">
+        <div class="card_bind-list-item-left">
           <i class="iconfont ic-shouji"></i>
         </div>
-        <div class="right">
-          <input type="text" v-model="account.username" placeholder="请输入手机号码" />
+        <div class="card_bind-list-item-right">
+          <input type="text" v-model="account.username" placeholder="请输入手机号码"/>
         </div>
       </div>
-      <div class="item">
-        <div class="left">
+      <div class="card_bind-list-item">
+        <div class="card_bind-list-item-left">
           <i class="iconfont ic-yibaoqia"></i>
         </div>
-        <div class="right">
+        <div class="card_bind-list-item-right">
           <input type="text" v-model="account.medicaidNumber" placeholder="请输入医保卡编号" />
         </div>
       </div>
     </div>
-    <div class="footer">
+    <div class="card_bind-footer">
       <span @click="bind()">
         确认绑定
       </span>
@@ -85,45 +85,50 @@
 </script>
 
 <style scoped type="text/less" lang="less">
-  @import "../../../assets/less/index";
-  .list {
-    .item {
-      padding: 15px 30px;
-      display: flex;
-      align-items: center;
-      background-color: white;
-      margin-top: 20px;
-      .right {
-        input {
-          width: 400px;
-          margin-left: 150px;
-          font-size: 28px;
-          &::placeholder{
-            text-align: left;
-            color: #CCCCCC;
+  .card_bind {
+    height: 100vh;
+    overflow: auto;
+    &-list {
+      &-item {
+        padding: 15px 30px;
+        display: flex;
+        align-items: center;
+        background-color: white;
+        margin-top: 20px;
+        &-right {
+          input {
+            width: 400px;
+            margin-left: 150px;
+            font-size: 28px;
+            &::placeholder{
+              text-align: left;
+              color: #CCCCCC;
+            }
+            outline: none;
+            border: none;
+          }
+        }
+        &-left {
+          .iconfont {
+            color: #1AB6FD;
+            font-size: 60px;
           }
         }
       }
-      .left {
-        .iconfont {
-          color: #1AB6FD;
-          font-size: 60px;
-        }
-      }
     }
-  }
-  .footer {
-    width: 100%;
-    text-align: center;
-    margin-top: 50px;
-    span {
-      font-size: 30px;
-      padding: 15px 130px;
-      border: 1PX solid white;
-      color: white;
-      font-weight: normal;
-      border-radius: 20PX;
-      background:linear-gradient(0deg,rgba(19,193,254,1),rgba(82,210,255,1));
+    &-footer {
+      width: 100%;
+      text-align: center;
+      margin-top: 50px;
+      span {
+        font-size: 30px;
+        padding: 15px 130px;
+        border: 1PX solid white;
+        color: white;
+        font-weight: normal;
+        border-radius: 20PX;
+        background:linear-gradient(0deg,rgba(19,193,254,1),rgba(82,210,255,1));
+      }
     }
   }
 </style>

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
+  import {Toast} from 'mint-ui';
 
   export default {
     data() {
@@ -99,7 +99,7 @@
       },
       send() {
         if (this.isBlank(this.value)) {
-          MessageBox('提示', '消息不能为空');
+          Toast('消息不能为空');
         } else {
           this.$http.post('/chats', {
             'type': 'ACCOUNT',

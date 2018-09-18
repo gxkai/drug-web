@@ -19,9 +19,9 @@
           默认
         </div>
         <div class="drugs-filter-item-arrow">
-          <div class="drugs-filter-item-arrow-up">
+          <div class="drugs-filter-item-arrow-up" :style="{borderBottomColor:drugSort === 'SYNTHESIZE_DESC'? '#13C1FE': 'gray'} ">
           </div>
-          <div class="drugs-filter-item-arrow-down">
+          <div class="drugs-filter-item-arrow-down" :style="{borderTopColor:drugSort === 'SYNTHESIZE_DESC'? '#13C1FE': 'gray'} ">
           </div>
         </div>
       </div>
@@ -30,9 +30,9 @@
           价格
         </div>
         <div class="drugs-filter-item-arrow">
-          <div class="drugs-filter-item-arrow-up">
+          <div class="drugs-filter-item-arrow-up" :style="{borderBottomColor:drugSort === 'PRICE_ASC'? '#13C1FE': 'gray'} ">
           </div>
-          <div class="drugs-filter-item-arrow-down">
+          <div class="drugs-filter-item-arrow-down" :style="{borderTopColor:drugSort === 'PRICE_DESC'? '#13C1FE': 'gray'} ">
           </div>
         </div>
       </div>
@@ -41,9 +41,9 @@
           销量
         </div>
         <div class="drugs-filter-item-arrow">
-          <div class="drugs-filter-item-arrow-up">
+          <div class="drugs-filter-item-arrow-up" :style="{borderBottomColor:drugSort === 'SALE_ASC'? '#13C1FE': 'gray'} ">
           </div>
-          <div class="drugs-filter-item-arrow-down">
+          <div class="drugs-filter-item-arrow-down" :style="{borderTopColor:drugSort === 'SALE_DESC'? '#13C1FE': 'gray'} ">
           </div>
         </div>
       </div>
@@ -62,8 +62,8 @@
     <div class="drugs-container" ref="body" v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
          infinite-scroll-distance="0">
-      <new-drug-shops class="border-bottom-grey" :item="item"
-                      v-for="(item,index) in list" :key="index"></new-drug-shops>
+      <new-drug-item class="border-bottom-grey" :item="item"
+                      v-for="(item,index) in list" :key="index"></new-drug-item>
       <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
   </div>
@@ -118,6 +118,7 @@
           .then(res => {
             if (res.data.list.length > 0) {
               this.list = this.list.concat(res.data.list);
+              console.log(res.data.list);
               this.loading = false;
             } else {
               this.loadingComplete = true;
@@ -237,13 +238,11 @@
           justify-content: center;
           &-up {
             border: 7px solid white;
-            border-bottom-color: #13C1FE;
             width: 0;
             height: 0;
           }
           &-down {
             border: 7px solid white;
-            border-top-color: #13C1FE;
             width: 0;
             height: 0;
             margin-top: 2px;

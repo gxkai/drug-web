@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import {MessageBox} from 'mint-ui';
+  import {MessageBox, Toast} from 'mint-ui';
 
   export default {
     name: 'addressesEdit',
@@ -47,9 +47,11 @@
         MessageBox.confirm('确定删除？').then(action => {
           this.$http.delete('/addresses/' + id)
             .then((res) => {
-              MessageBox('提示', '删除成功').then(action => {
+              let instance = Toast('删除成功');
+              setTimeout(() => {
+                instance.close();
                 this.addressList.splice(index, 1);
-              });
+              }, 2000);
             })
             .catch((error) => {
               this.exception(error);
