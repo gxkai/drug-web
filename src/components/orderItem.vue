@@ -3,7 +3,9 @@
     <div class="order_item-title">
       <div class="order_item-title-left"
            @click="onShop()">
-        <div class="iconfont ic-yaodian"></div>
+        <div>
+        <i class="iconfont ic-yaodian"></i>
+        </div>
         <div class="order_item-title-left_name" v-text="order.shopName"></div>
       </div>
       <div class="order_item-title-right"
@@ -13,7 +15,9 @@
     <div class="order_item-content">
       <div class="order_item-content-title">
         <div class="order_item-content-title-left">
-          <div class="iconfont ic-chufangdanluru"></div>
+          <div>
+          <i class="iconfont ic-chufangdanluru"></i>
+          </div>
           <div class="order_item-content-title-left_name">处方单</div>
         </div>
         <div class="order_item-content-title-right"
