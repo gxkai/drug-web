@@ -174,6 +174,41 @@ export default {
           return '状态异常';
       }
     };
+
+    /**
+     * 订单状态 英->中
+     * @param str
+     */
+    Vue.prototype.transformOrderState = (str) => {
+      switch (str) {
+        case 'TO_PAY':
+          return '待付款';
+        case 'TO_CHECK':
+          return '待审核';
+        case 'TO_DELIVERY':
+          return '待发货';
+        case 'TO_RECEIVED':
+          return '待收货';
+        case 'TO_APPRAISE':
+          return '待评价';
+        case 'COMPLETED':
+          return '已完成';
+        case 'REFUNDING':
+          return '退款中';
+        case 'REFUND_COMPLETE':
+          return '退款完成';
+        case 'CLOSED':
+          return '订单关闭';
+      }
+    };
+
+    Vue.prototype.transformOrderStateSec = (state, refundState, _this) => {
+      if (refundState === 'REFUNDING') {
+        return _this.transformRefundState(refundState);
+      } else {
+        return _this.transformOrderState(state);
+      }
+    };
     /**
      * 搜索历史存储
      * @param str

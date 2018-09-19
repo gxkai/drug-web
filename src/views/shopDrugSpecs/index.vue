@@ -111,7 +111,7 @@
               客户服务
             </div>
             <div>
-              {{shopDrugSpec.shopTotalAppraise.deliveryScore}}分
+              {{toFixedOne(shopDrugSpec.shopTotalAppraise.deliveryScore)}}分
             </div>
           </div>
           <div class="item">
@@ -119,7 +119,7 @@
               发货速度
             </div>
             <div>
-              {{shopDrugSpec.shopTotalAppraise.deliveryScore}}分
+              {{toFixedOne(shopDrugSpec.shopTotalAppraise.deliveryScore)}}分
             </div>
           </div>
           <div class="item">
@@ -127,7 +127,7 @@
               物流速度
             </div>
             <div>
-              {{shopDrugSpec.shopTotalAppraise.describeScore}}分
+              {{toFixedOne(shopDrugSpec.shopTotalAppraise.describeScore)}}分
             </div>
           </div>
           <div class="item">
@@ -135,7 +135,7 @@
               商品包装
             </div>
             <div>
-              {{shopDrugSpec.shopTotalAppraise.packageScore}}分
+              {{toFixedOne(shopDrugSpec.shopTotalAppraise.packageScore)}}分
             </div>
           </div>
         </div>

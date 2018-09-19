@@ -267,7 +267,7 @@
   }
   .drug-img{
     width:220px;
-    height: auto;
+    height: 220px;
     background:rgba(255,255,255,1);
     margin-left: 30px;
     margin-top: 10px;

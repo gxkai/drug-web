@@ -1,22 +1,24 @@
 <template>
-  <div>
-    <div ref="header">
-      <new-header title="待支付">
-        <div slot="left">
+  <div class="orders">
+    <new-header title="待付款"
+                ref="header">
+      <div slot="left">
         <i class="iconfont ic-arrow-right" @click.stop="$router.push('/accounts')"></i>
       </div>
       <div slot="right">
-          <i class="iconfont ic-sousuo"  @click.stop="$router.push('/orders/search')"></i>
+        <i class="iconfont ic-sousuo" @click.stop="$router.push('/orders/search')"></i>
       </div>
-      </new-header>
-      <new-order-tab :urlRouter="$route.path"></new-order-tab>
-    </div>
+    </new-header>
+    <new-order-tab :urlRouter="$route.path"
+                   ref="orderTab"></new-order-tab>
     <div v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
-         infinite-scroll-distance="0" ref="body">
-      <div v-for="order in orderList">
-        <new-order :order.sync="order"></new-order>
-      </div>
+         infinite-scroll-distance="0"
+         ref="body">
+      <new-order-item
+        :order.sync="order"
+        v-for="(order, key) in orderList"
+        :key="key"></new-order-item>
       <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
   </div>
@@ -38,8 +40,8 @@
       this.loadMore();
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'auto';
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.orderTab.$el.clientHeight) + 'px';
+      this.$refs.body.style.overflow = 'scroll';
     },
     methods: {
       loadMore() {
@@ -61,6 +63,9 @@
   };
 </script>
 
-<style scoped>
-
+<style scoped type="text/less" lang="less">
+  .orders {
+    background-color: #f5f5f5;
+    height: 100vh;
+  }
 </style>
