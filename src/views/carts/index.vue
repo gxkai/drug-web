@@ -1,136 +1,402 @@
 <template>
-  <div>
+  <div class="cart">
     <new-header title="购物车" ref="header">
       <div slot="left" @click="$router.go(-1)">
         <i class="iconfont ic-arrow-right"></i>
       </div>
       <span slot="right" @click="onRemoveBatch()" class="text-l-30">删除</span>
     </new-header>
-    <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
-    <div class="close" ref="close">
-      <div class="left icon1" @click.stop="onRadio(All)">
-       <span>
-          <i class="iconfont ic-radiobox" v-show="!chooseAll"></i>
-          <i class="iconfont ic-radiochecked" v-show="chooseAll"></i>全选
-       </span>
-      </div>
-      <div class="right">
-        <span>合计:</span>
-        <span>&yen;{{toFixedTwo(allPrice)}}</span>
-        <button>
-          <span @click.stop="onOrder()" class="text-l-30">结算({{allQuantity}})</span>
-        </button>
-      </div>
-    </div>
-    <div class="body" ref="body">
-      <ul class="cartShops">
-        <li v-for="cartShop in cartShops">
-          <new-header bgColor="white" height="low" leftSize="small" leftColor="black">
-            <div slot="left" class="icon1" @click.stop="onRadio(SHOP,cartShop)">
-              <i class="iconfont ic-radiobox" v-show="!cartShop.radio"></i>
-              <i class="iconfont ic-radiochecked" v-show="cartShop.radio"></i>
+    <div class="cart-list" ref="list">
+      <new-no-data v-if="cartShops.length === 0"></new-no-data>
+      <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
+        <div class="cart-list-shop"
+             @click="linkToShopView(cartShop.id)">
+          <div class="cart-list-shop_radio"
+               @click.stop="onRadio(SHOP,cartShop)">
+            <input type="checkbox" v-model="cartShop.radio">
+            <label></label>
+          </div>
+          <div>
+            <i class="iconfont ic-yaodian"></i>
+          </div>
+          <div class="cart-list-shop_name" v-text="cartShop.shopName"></div>
+        </div>
+        <div v-for="(cartRx, cartRxIndex) in cartShop.rxs" :key="cartRxIndex">
+          <div class="cart-list-rx"
+               v-if="isRx(cartRx.rxId)">
+            <div class="cart-list-rx-left">
+              <div class="cart-list-rx-left_radio"
+                   @click.stop="onRadio(RX,cartShop,cartRx)">
+                <input type="checkbox" v-model="cartRx.radio">
+                <label></label>
+              </div>
+              <div>
+                <i class="iconfont ic-chufangdanluru"></i>
+              </div>
+              <div class="cart-list-rx-left_name">
+                处方单
+              </div>
             </div>
-            <div slot="left">
-              <i class="iconfont ic-yaodian" slot="left"></i>
+            <div class="cart-list-rx-right"
+                 @click="linkToRxView(cartRx.rxId)">
+              查看处方&gt;
             </div>
-            <div slot="left" @click.stop="$router.push({path:'/shops/view',query:{shopId:cartShop.id}})">
-              <span class="text-l-30">{{cartShop.shopName}}</span>
+          </div>
+          <div class="cart-list-rx"
+               v-else>
+            <div class="cart-list-rx-left">
+              <div class="cart-list-rx-left_radio"
+                   @click.stop="onRadio(RX,cartShop,cartRx)">
+                <input type="checkbox" v-model="cartRx.radio">
+                <label></label>
+              </div>
+              <div>
+                <i class="iconfont ic-jisongchufangdan"></i>
+              </div>
+              <div class="cart-list-rx-left_name">
+                非处方单
+              </div>
             </div>
-          </new-header>
-          <ul class="cartRxs">
-            <li v-for="cartRx in cartShop.rxs">
-              <ul class="cartDrugs">
-                <new-header bgColor="white"
-                            height="low"
-                            leftSize="small"
-                            leftColor="black"
-                            v-if="cartRx.rxId !== '0'&& cartRx.rxState == 'ENABLED'">
-                  <div slot="left"
-                       class="icon1 bg-f6f6f6"
-                       @click.stop="onRadio(RX,cartShop,cartRx)">
-                    <i class="iconfont ic-radiobox" v-show="!cartRx.radio"></i>
-                    <i class="iconfont ic-radiochecked" v-show="cartRx.radio"></i>
+          </div>
+          <div class="cart-list-drugs">
+            <van-cell-swipe v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
+                            :right-width="65"
+                            :key="cartDrugIndex">
+              <div class="cart-list-drugs-item"
+                   @click="linkToShopDrugSpec(cartDrug.id)">
+                <div class="cart-list-drugs-item-left">
+                  <div class="cart-list-drugs-item-left_radio"
+                       @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
+                    <input type="checkbox" v-model="cartDrug.radio">
+                    <label></label>
                   </div>
-                  <div slot="left">
-                    <i class="iconfont ic-chufangdanluru"></i>
-                  </div>
-                  <span slot="left" class="chufangdan">处方单</span>
-                  <span slot="right"
-                        class="chakanchufan"
-                        @click.stop="$router.push({path:'/rxs/view',query:{rxId:cartRx.rxId}})">
-                    查看处方>
-                  </span>
-                </new-header>
-                <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
-                  <div slot="left">
-                    <i class="iconfont ic-jisongchufangdan color-333"></i>
-                  </div>
-                  <span slot="left" class="chufangdan">非处方单</span>
-                </new-header>
-                <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs"
-                    :key="cartDrugIndex"
-                    @click="$router.push({path:'/shopDrugSpecs',query:{shopDrugSpecId:cartDrug.id}})">
-                  <mt-cell-swipe
-                    :right="[
-                      {
-                        content: '删除',
-                        style: { background: 'rgba(19,193,254,1)', color: '#fff', fontSize: '0.3rem', height: '3rem'},
-                        handler: () => onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)
-                      }
-                    ]">
-                    <div class="slide-content">
-                      <div class="icon1" @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
-                        <i class="iconfont ic-radiobox" v-show="!cartDrug.radio"></i>
-                        <i class="iconfont ic-radiochecked" v-show="cartDrug.radio"></i>
-                      </div>
-                      <div class="image">
-                        <div class="rx_mark" v-if="!cartDrug.otc">处</div>
-                        <img :src="getImgURL(cartDrug.fileId, 'LARGE_LOGO')">
-                      </div>
-                      <div class="text">
-                        <div class="top">
-                          <p class="height1"></p>
-                          <div class="name elps">{{cartDrug.name}}</div>
-                          <div class="spec ml-l-10">{{cartDrug.spec}}</div>
-                        </div>
-                        <div class="bottom">
-                          <div class="price">
-                            <span class="text-l-25 ml-l-10">&yen;{{toFixedTwo(cartDrug.price)}}</span>
-                          </div>
-                          <div class="quantity">
-                            <div>
-                              <span class="text-l-25">x{{cartDrug.quantity}}</span>
-                            </div>
-
-
-                            <div class="multi" v-if="cartRx.rxId === '0'">
-                              <div @click.stop="onCut(cartDrug)">-</div>
-                              <div>
-                                <input v-model="cartDrug.quantity" type="number">
-                              </div>
-                              <div @click.stop="onAdd(cartDrug)">+</div>
-                            </div>
-
-
-                            <div class="multi" v-if="cartRx.rxId != '0'">
-
-                            </div>
-
-
-                          </div>
-                        </div>
-                      </div>
+                  <div class="cart-list-drugs-item-left_logo">
+                    <div class="rx_mark"
+                         v-if="!cartDrug.otc">
+                      处
                     </div>
-                  </mt-cell-swipe>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
+                    <img :src="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
+                  </div>
+                </div>
+                <div class="cart-list-drugs-item-right">
+                  <div>
+                    <div class="cart-list-drugs-item-right_name">
+                      {{cartDrug.name}}
+                    </div>
+                    <div class="cart-list-drugs-item-right_spec">
+                      规格：{{cartDrug.spec}}
+                    </div>
+                  </div>
+                  <div>
+                    <div class="cart-list-drugs-item-right_price">
+                      &yen;{{cartDrug.price}}
+                    </div>
+                    <div class="cart-list-drugs-item-right_quantity">
+                      x{{cartDrug.quantity}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span slot="right"
+                    class="cart-list-drugs-item-delete"
+                    @click="onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">删除</span>
+            </van-cell-swipe>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="cart-commit"
+         :style="{'opacity': cartShops.length === 0 ? 0:1}"
+    ref="commit">
+      <div class="cart-commit-left">
+        <div class="cart-commit-left_radio"
+             @click.stop="onRadio(All)">
+          <input type="checkbox" v-model="chooseAll">
+          <label></label>
+        </div>
+        <div class="cart-commit-left_all">
+          全选
+        </div>
+      </div>
+      <div class="cart-commit-right">
+        <div class="cart-commit-right_sum">
+          <span>合计</span>
+          <span class="cart-commit-right_sum-price">&yen;{{toFixedTwo(allPrice)}}</span>
+        </div>
+        <div class="cart-commit-right_close"
+        @click="onOrder()">
+          结算({{allQuantity}})
+        </div>
+      </div>
+    </div>
+    <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
 </template>
+<style scoped type="text/less" lang="less">
+  .cart {
+    width: 720px;
+    height: 100vh;
+    &-list {
+      &-shop {
+        padding: 20px 0;
+        display: flex;
+        align-items: center;
+        background-color: white;
+        &_radio {
+          position: relative;
+          label {
+            position: absolute;
+            left: 5px;
+            top: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid #13C1FE;
+          }
+          input {
+            width: 30px;
+            height: 30px;
+            opacity: 0;
+          }
+          input:checked + label {
+            background-color: #13C1FE;
+            border: 1PX solid #13C1FE;
+          }
+          input:checked + label::after {
+            position: absolute;
+            content: "";
+            width: 7px;
+            height: 12px;
+            top: 6px;
+            left: 8px;
+            border: 1PX solid #fff;
+            border-top: none;
+            border-left: none;
+            transform: rotate(45deg);
+          }
+        }
+        &_name {
+          font-size: 30px;
+        }
+      }
+      &-rx {
+        padding: 20px 0;
+        display: flex;
+        align-items: center;
+        background-color: white;
+        justify-content: space-between;
+        &-left {
+          display: flex;
+          align-items: center;
+          &_radio {
+            position: relative;
+            label {
+              position: absolute;
+              left: 5px;
+              top: 8px;
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              border: 1px solid #13C1FE;
+            }
+            input {
+              width: 30px;
+              height: 30px;
+              opacity: 0;
+            }
+            input:checked + label {
+              background-color: #13C1FE;
+              border: 1PX solid #13C1FE;
+            }
+            input:checked + label::after {
+              position: absolute;
+              content: "";
+              width: 7px;
+              height: 12px;
+              top: 6px;
+              left: 8px;
+              border: 1PX solid #fff;
+              border-top: none;
+              border-left: none;
+              transform: rotate(45deg);
+            }
+          }
+          &_name {
+            font-size: 30px;
+            color: #1AB6FD;
+          }
+        }
+        &-right {
+          font-size: 30px;
+          color: #FF0000;
+        }
+      }
+      &-drugs {
+        &-item {
+          display: flex;
+          background-color: #f5f5f5;
+          margin-bottom: 10px;
+          &-delete {
+            font-size: 30px;
+            color: white;
+            padding: 0 40px;
+            line-height: 240px;
+            font-weight: 200;
+          }
+          &-left {
+            display: flex;
+            &_radio {
+              position: relative;
+              label {
+                position: absolute;
+                left: 5px;
+                top: 8px;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                border: 1px solid #13C1FE;
+              }
+              input {
+                width: 30px;
+                height: 30px;
+                opacity: 0;
+              }
+              input:checked + label {
+                background-color: #13C1FE;
+                border: 1PX solid #13C1FE;
+              }
+              input:checked + label::after {
+                position: absolute;
+                content: "";
+                width: 7px;
+                height: 12px;
+                top: 6px;
+                left: 8px;
+                border: 1PX solid #fff;
+                border-top: none;
+                border-left: none;
+                transform: rotate(45deg);
+              }
+            }
+            &_logo {
+              padding: 20px;
+              img {
+                width: 200px;
+                height: 200px;
+              }
+            }
+          }
+          &-right {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 430px;
+            & > div {
+              &:nth-child(1) {
+                & > div {
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  -webkit-line-clamp: 2;
+                  line-clamp: 2;
+                }
+              }
+              &:nth-child(2) {
+                display: flex;
+                justify-content: space-between;
+              }
+            }
+            &_name {
+              font-size: 30px;
+            }
+            &_spec {
+              font-size: 25px;
+              color: #999999;
+            }
+            &_price {
+              font-size: 30px;
+              color: #FF0000;
+            }
+            &_quantity {
+              font-size: 30px;
+              color: #999999;
+            }
+          }
+        }
+      }
+    }
+    &-commit {
+      width: 100%;
+      position: fixed;
+      bottom: 100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      &-right {
+        display: flex;
+        &_sum {
+          padding: 30px;
+          & > span {
+            font-size: 30px;
+          }
+          &-price {
+            color: #FF0000;
+          }
+        }
+        &_close {
+          background-color: #FF0000;
+          padding: 30px 50px;
+          font-size: 30px;
+          color: white;
+          font-weight: 200;
+        }
+      }
+      &-left {
+        display: flex;
+        align-items: center;
+        &_radio {
+          position: relative;
+          padding: 0 0 8px 0;
+        }
+        &_all {
+          padding-left: 10px;
+          font-size: 30px;
+        }
+        label {
+          position: absolute;
+          left: 5px;
+          top: 8px;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          border: 1px solid #13C1FE;
+        }
+        input {
+          width: 30px;
+          height: 30px;
+          opacity: 0;
+        }
+        input:checked + label {
+          background-color: #13C1FE;
+          border: 1PX solid #13C1FE;
+        }
+        input:checked + label::after {
+          position: absolute;
+          content: "";
+          width: 7px;
+          height: 12px;
+          top: 6px;
+          left: 8px;
+          border: 1PX solid #fff;
+          border-top: none;
+          border-left: none;
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+</style>
 <script>
   import { MessageBox, Toast } from 'mint-ui';
   // import { mapGetters, mapMutations } from 'vuex';
@@ -179,24 +445,15 @@
     created() {
       this.getData();
     },
+    mounted() {
+      this.$nextTick(() => {
+        this.$refs.list.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.commit.clientHeight - this.$refs.footer.$el.clientHeight
+        ) + 'px';
+        this.$refs.list.style.overflow = 'auto';
+      });
+    },
     methods: {
       getData() {
-        // if (this.cartShops.length === 0) {
-        //   this.$http.get('/carts').then(res => {
-        //     res.data.cartShops.forEach(e => {
-        //       e.radio = false;
-        //       e.rxs.forEach(e => {
-        //         e.radio = false;
-        //         e.drugs.forEach(e => {
-        //           e.radio = false;
-        //         });
-        //       });
-        //     });
-        //     this.setCartShops(res.data.cartShops);
-        //   }).catch(error => {
-        //     this.exception(error);
-        //   });
-        // }
         this.$http.get('/carts').then(res => {
           res.data.cartShops.forEach(e => {
             e.radio = false;
@@ -208,6 +465,7 @@
             });
           });
           this.cartShops = res.data.cartShops;
+          console.log(this.cartShops);
         }).catch(error => {
           this.exception(error);
         });
@@ -423,223 +681,7 @@
       // ...mapMutations({
       //   setCartShops: 'SET_CART_SHOPS'
       // })
-    },
-    mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.close.clientHeight - this.$refs.footer.$el.clientHeight
-      ) + 'px';
-      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>
-
-<style scoped>
-  .chu {
-    position: absolute;
-    background: red;
-    font-size: 20px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 255, 255, 1);
-    padding: 5px 15px;
-    border-radius: 30px;
-  }
-  /*结算栏*/
-  .close {
-    display: inline-flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 98px;
-    width: 720px;
-    background-color: rgba(255, 255, 255, 1);
-    position: fixed;
-    bottom: 100px;
-    z-index: 1;
-  }
-
-  .close .right button {
-    height: 98px;
-    background: rgba(240, 43, 43, 1);
-    width: 193px;
-    font-size: 28px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 255, 255, 1);
-    outline: none;
-    border: 0;
-  }
-
-  .close .right > span:nth-child(1) {
-    font-size: 30px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(153, 153, 153, 1);
-  }
-
-  .close .right > span:nth-child(2) {
-    color: rgba(240, 43, 43, 1);
-    font-size: 30px;
-    font-family: HiraginoSansGB-W3;
-    margin-right: 10px;
-  }
-
-  .close .left {
-    display: flex;
-    align-items: center;
-    width: 120px;
-    justify-content: space-around;
-  }
-
-  .close .left span {
-    font-size: 28px;
-    line-height: 25px;
-    color: rgba(51, 51, 51, 1);
-    display: inline-block;
-  }
-
-  /*字体颜色单独设置*/
-  .chufangdan {
-    font-size: 28px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(19, 193, 254, 1);
-  }
-
-  .chakanchufan {
-    font-size: 28px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 0, 0, 1);
-  }
-
-  /*radio颜色*/
-  .icon1 .ic-radiochecked:before, .icon1 .ic-radiobox:before {
-    font-size: 35px !important;
-  }
-
-  .ic-radiochecked:before {
-    color: rgba(19, 193, 254, 1);
-  }
-
-  /*滑块样式*/
-  .slide-content {
-    width: 720px;
-    height: 215px;
-    background-color: rgba(241, 239, 240, 1);
-    display: flex;
-    margin-bottom: 10px;
-  }
-
-  .slide-content .icon1 {
-    width: 60px;
-    text-align: center;
-    line-height: 70px;
-  }
-
-  .slide-content .image {
-    width: 200px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 1px 1px 1px rgba(102, 102, 102, 0.3);
-    align-self: center;
-  }
-
-  .slide-content .image img {
-    width: 100%;
-  }
-
-  .slide-content .text {
-    padding: 20px 10px;
-  }
-
-  .slide-content .text .top {
-    width: 460px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .slide-content .text .top .name {
-    font-size: 25px;
-    color: rgba(51, 51, 51, 1);
-    height: 24px;
-    line-height: 24px;
-  }
-
-  .slide-content .text .top .spec {
-    font-size: 25px;
-    color: rgba(153, 153, 153, 1);
-    margin-top: 12px;
-  }
-
-  .slide-content .text .bottom {
-    height: 110px;
-    width: 460px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .slide-content .text .bottom .price {
-    font-size: 24px;
-    color: rgba(255, 0, 0, 1);
-    align-self: center;
-  }
-
-  .slide-content .text .bottom .quantity {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding-right: 10px;
-  }
-
-  .slide-content .text .bottom .quantity div:nth-child(1) {
-    align-self: flex-end;
-    color: rgba(153, 153, 153, 1);
-  }
-
-  .multi-input input {
-    width: 37px;
-    height: 29px;
-    background: rgba(210, 210, 210, 1);
-    font-size: 24px;
-    color: rgba(51, 51, 51, 1);
-    line-height: 0.1rem;
-    outline: none;
-  }
-
-  .color-333 {
-    color: #333;
-  }
-
-  .quantity span {
-    margin-right: 16px;
-  }
-
-  .mint-cell-swipe-button {
-    font-size: 24px;
-  }
-
-  .bg-f6f6f6 {
-    background: #f6f6f6;
-  }
-
-  .multi {
-    display: flex;
-  }
-
-  .multi > div {
-    min-width: 37px;
-    height: 37px;
-    background-color: white;
-    /* border: 1PX solid #D2D2D2;*/
-    text-align: center;
-    line-height: 37px;
-    font-size: 20px;
-  }
-
-  .multi > div:nth-child(2) input {
-    height: 30px;
-    width: 37px;
-    text-align: center;
-    font-size: 20px;
-    border: none;
-    outline: none;
-  }
-  .height1{height: 15px;width: 100%}
-</style>
-
 

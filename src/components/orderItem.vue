@@ -13,7 +13,8 @@
       </div>
     </div>
     <div class="order_item-content">
-      <div class="order_item-content-title">
+      <div class="order_item-content-title"
+      v-if="isRx(order.rxId)">
         <div class="order_item-content-title-left">
           <div>
           <i class="iconfont ic-chufangdanluru"></i>

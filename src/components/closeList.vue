@@ -1,59 +1,156 @@
 <template>
-  <div>
+  <div class="close_list">
     <div v-for="cartShop in cartShops">
-      <new-header bgColor="white" height="low" leftSize="small" leftColor="black">
-        <div slot="left">
-        <i class="iconfont ic-yaodian" ></i>
+      <div class="close_list-shop"
+      @click="linkToShopView(cartShop.id)">
+        <div>
+          <i class="iconfont ic-yaodian"></i>
         </div>
-        <span slot="left" class="text-l-30">{{cartShop.shopName}}</span>
-      </new-header>
-      <ul class="cartRxs">
-        <li v-for="cartRx in cartShop.rxs">
-          <ul class="cartDrugs">
-            <new-header bgColor="white" height="low" leftSize="small" leftColor="black"
-                        v-if="isRx(cartRx.rxId)">
-              <div slot="left">
-              <i class="iconfont ic-chufangdanluru" ></i>
+        <div class="close_list-shop_name" v-text="cartShop.shopName"></div>
+      </div>
+      <div v-for="cartRx in cartShop.rxs">
+        <div class="close_list-rx"
+             v-if="isRx(cartRx.rxId)">
+          <div class="close_list-rx-left">
+            <div>
+              <i class="iconfont ic-chufangdanluru"></i>
+            </div>
+            <div class="close_list-rx-left_name">
+              处方单
+            </div>
+          </div>
+          <div class="close_list-rx-right"
+          @click="linkToRxView(cartRx.rxId)">
+            查看处方&gt;
+          </div>
+        </div>
+        <div class="close_list-rx"
+             v-else>
+          <div class="close_list-rx-left">
+            <div>
+              <i class="iconfont ic-jisongchufangdan"></i>
+            </div>
+            <div class="close_list-rx-left_name">
+              非处方单
+            </div>
+          </div>
+        </div>
+        <div class="close_list-drugs">
+          <div class="close_list-drugs-item"
+               v-for="cartDrug in cartRx.drugs"
+                @click="linkToShopDrugSpec(cartDrug.id)">
+            <div class="close_list-drugs-item-left">
+              <div class="rx_mark"
+               v-if="!cartDrug.otc">
+                处
               </div>
-              <span slot="left" class="chufangdan">处方单</span>
-              <span slot="right" class="chakanchufan" @click.stop="$router.push({path:'/rxs/view',query:{rxId:cartRx.rxId}})">查看处方></span>
-            </new-header>
-            <new-header bgColor="white" height="low" leftSize="small" leftColor="black" v-else>
-              <div slot="left">
-              <i class="iconfont ic-jisongchufangdan" ></i>
-              </div>
-              <span slot="left" class="chufangdan">非处方单</span>
-            </new-header>
-            <li v-for="(cartDrug,cartDrugIndex) in cartRx.drugs" :key="cartDrugIndex">
-              <div class="slide-content">
-                <div class="image">
-                  <img :src="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
+              <img :src="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
+            </div>
+            <div class="close_list-drugs-item-right">
+              <div>
+                <div class="close_list-drugs-item-right_name">
+                  {{cartDrug.name}}
                 </div>
-                <div class="text">
-                  <div class="top">
-                    <div class="name">{{cartDrug.name}}</div>
-                    <div class="spec">{{cartDrug.spec}}</div>
-                  </div>
-                  <div class="bottom">
-                    <div class="price">
-                      <span class="text-l-25">¥{{cartDrug.price}}</span>
-                    </div>
-                    <div class="quantity">
-                      <div>
-                        <span class="text-l-25">x{{cartDrug.quantity}}</span>
-                      </div>
-                    </div>
-                  </div>
+                <div class="close_list-drugs-item-right_spec">
+                  规格：{{cartDrug.spec}}
                 </div>
               </div>
-            </li>
-          </ul>
-        </li>
-      </ul>
+              <div>
+                <div class="close_list-drugs-item-right_price">
+                  &yen;{{cartDrug.price}}
+                </div>
+                <div class="close_list-drugs-item-right_quantity">
+                  x{{cartDrug.quantity}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
+<style scoped type="text/less" lang="less">
+  .close_list {
+    &-shop {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      background-color: white;
+      &_name {
+        font-size: 30px;
+      }
+    }
+    &-rx {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      background-color: white;
+      justify-content: space-between;
+      &-left {
+        display: flex;
+        align-items: center;
+        &_name {
+          font-size: 30px;
+          color: #1AB6FD;
+        }
+      }
+      &-right {
+        font-size: 30px;
+        color: #FF0000;
+      }
+    }
+    &-drugs {
+      &-item {
+        display: flex;
+        &-left {
+          padding: 20px;
+          img {
+            width: 200px;
+            height: 200px;
+          }
+        }
+        &-right {
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          width: 430px;
+          &>div {
+            &:nth-child(1) {
+              &>div {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+              }
+            }
+            &:nth-child(2) {
+              display: flex;
+              justify-content: space-between;
+            }
+          }
+          &_name {
+            font-size: 30px;
+          }
+          &_spec {
+            font-size: 25px;
+            color: #999999;
+          }
+          &_price {
+            font-size: 30px;
+            color: #FF0000;
+          }
+          &_quantity {
+            font-size: 30px;
+            color: #999999;
+          }
+        }
+      }
+    }
+  }
+</style>
 <script>
   export default {
     name: 'closeList',
@@ -65,91 +162,3 @@
     }
   };
 </script>
-
-<style scoped>
-  /*字体颜色单独设置*/
-  .chufangdan {
-    font-size: 28px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(19, 193, 254, 1);
-  }
-
-  .chakanchufan {
-    font-size: 20px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 0, 0, 1);
-  }
-
-  /*块样式*/
-  .slide-content {
-    width: 720px;
-    height: 215px;
-    background-color: rgba(241, 239, 240, 1);
-    display: flex;
-    margin-bottom: 10px;
-    padding-left: 60px;
-  }
-
-  .slide-content .image {
-    width: 200px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 1px 1px 1px rgba(102, 102, 102, 0.3);
-    align-self: center;
-  }
-  .slide-content .image img{
-    width: 100%;
-  }
-
-  .slide-content .text {
-    padding-left: 20px;
-  }
-
-  .slide-content .text .top {
-    height: 105px;
-    width: 460px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .slide-content .text .top .name {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-  }
-
-  .slide-content .text .top .spec {
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(153, 153, 153, 1);
-  }
-
-  .slide-content .text .bottom {
-    height: 110px;
-    width: 460px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .slide-content .text .bottom .price {
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 0, 0, 1);
-    align-self: center;
-  }
-
-  .slide-content .text .bottom .quantity {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding-right: 10px;
-  }
-
-  .slide-content .text .bottom .quantity div:nth-child(1) {
-    align-self: flex-end;
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(153, 153, 153, 1);
-  }
-</style>

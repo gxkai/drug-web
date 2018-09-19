@@ -1,7 +1,17 @@
 .van-actionsheet__header {
-  line-height: 100px;
-  font-size: 80px;
+  line-height: 100px!important;
+  font-size: 80px!important;
 }
 .van-actionsheet__header .van-icon-close {
-  color: #13C1FE;
+  color: #13C1FE!important;
+}
+.van-cell-swipe__right {
+  background-color: #1AB6FD!important;
+}
+.van-dialog__message {
+  line-height: 3.5!important;
+  font-size: 30px!important;
+}
+.van-button__text {
+  font-size: 30px!important;
 }

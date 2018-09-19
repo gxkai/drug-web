@@ -24,13 +24,17 @@ import {Actionsheet,
   GoodsActionBigBtn,
   GoodsActionMiniBtn,
   Popup,
-  Loading} from 'vant';
+  Loading,
+  CellSwipe,
+  Dialog} from 'vant';
 import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)
   .use(Popup)
   .use(Loading)
+  .use(CellSwipe)
+  .use(Dialog)
 ;
 Vue.use(Mui);
 Vue.use(vueEventCalendar, {locale: 'zh'});
