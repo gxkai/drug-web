@@ -138,6 +138,7 @@
           align-items: center;
           &_name {
             font-size: 30px;
+            color: #13C1FE;
           }
         }
         &-right {
