@@ -20,13 +20,13 @@
       <div class="joincar" @click="joinCar()" v-if="drugInfo.otc">
         <p>加入购物车</p>
       </div>
-      <div class="joincar" @click="joinCar()" v-else style="background-color: lightgrey">
+      <div class="joincar"  v-else style="background-color: lightgrey">
         <p>加入购物车</p>
       </div>
       <div class="immediately-buy" @click.stop="onBuy()" v-if="drugInfo.otc">
         <p>立即购买</p>
       </div>
-      <div class="immediately-buy" @click.stop="onBuy()" style="background-color: #889092" v-else>
+      <div class="immediately-buy"  style="background-color: #889092" v-else>
         <p>立即购买</p>
       </div>
     </footer>
@@ -90,6 +90,7 @@
       };
     },
     created() {
+      console.log(this.drugInfo);
       this.$http.get('/collects/drug/one?shopDrugSpecId=' + this.drugInfo.id)
         .then(res => {
           this.isCollect = res.data;

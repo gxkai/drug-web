@@ -53,7 +53,7 @@
            v-for="recommend in recommendList"
       @click="linkToShopDrugSpec(recommend.id)">
         <div class="shop_view-recommend_list-item_logo">
-          <div class="rx_mark">处</div>
+          <div class="rx_mark" v-if="!recommend.otc">处</div>
           <img :src="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
         </div>
         <div class="shop_view-recommend_list-item_name">{{recommend.name}}</div>
