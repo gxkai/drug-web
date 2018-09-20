@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div ref="header">
-      <new-header title="退货列表">
-        <div slot="left" @click="$router.go(-1)">
-          <i class="iconfont ic-arrow-right"></i>
-        </div>
-      </new-header>
-    </div>
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+        ref="header"
+      />
     <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0" ref="body">
       <div v-for="pages in list">
         <div v-for="drug in pages.drugs">
@@ -35,7 +34,7 @@
       this.loadMore();
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
       this.$refs.body.style.overflow = 'auto';
     },
     methods: {

@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <new-header title="常见问题">
-      <div slot="left">
-        <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <li v-for="(questionContent,index) in questionList">

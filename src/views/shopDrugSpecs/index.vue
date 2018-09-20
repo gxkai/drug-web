@@ -1,10 +1,11 @@
 <template>
   <div class="bind-container">
-    <new-header title="商品详情">
-      <div slot="left" @click.stop="$router.go(-1)">
-        <i class="iconfont ic-arrow-right"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="body">
       <!--上方轮播开始-->
       <div class="broadcast">

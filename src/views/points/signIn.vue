@@ -1,11 +1,11 @@
 <template>
   <div class="points-container">
-    <new-header title="每日签到" class="new-hewder">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
-      </div>
-    </new-header>
-    <new-header></new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="position-relative">
       <img src="../../assets/image/coupon/signin-bg.png" class="sign-bg"/>
       <div class="points-info">

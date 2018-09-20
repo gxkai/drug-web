@@ -1,10 +1,11 @@
 <template>
   <div class="delivery">
-    <new-header title="配送详情">
-      <div slot="left">
-        <i @click="$router.push('/orders')" class="iconfont ic-arrow-right"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <div class="delivery-schedule">
       <div>

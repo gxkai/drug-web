@@ -1,9 +1,14 @@
 <template>
   <div class="container">
-    <new-header title="知识库查阅">
-      <div slot="left"><router-link tag="i" to="/" class="iconfont ic-arrow-right"></router-link></div>
-      <div slot="right"><router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi"></router-link></div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      @click-right="$router.push('/messageTypes')"
+      ref="header"
+    >
+      <van-icon slot="right" name="chat"/>
+    </van-nav-bar>
     <div class="container-list">
       <div v-for="(repositoryType,index) in repositoryTypeList" :key="index"
            class="container-list-item"

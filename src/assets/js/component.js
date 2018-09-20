@@ -17,6 +17,7 @@ import newRadio from '../../components/radio';
 import newPayOrderItem from '../../components/payOrderItem';
 import newOrderTab from '../../components/orderTab';
 import newOrderItem from '../../components/orderItem';
+import newOrderViewItem from '../../components/orderViewItem';
 import newAllData from '../../components/allData';
 import newLoading from '../../components/loading';
 import rxHospitalCart from '../../components/rxHospitalCart';
@@ -57,6 +58,7 @@ export default {
     Vue.component('new-pay-order-item', newPayOrderItem);
     Vue.component('new-order-tab', newOrderTab);
     Vue.component('new-order-item', newOrderItem);
+    Vue.component('new-order-view-item', newOrderViewItem);
     Vue.component('new-all-data', newAllData);
     Vue.component('new-loading', newLoading);
     Vue.component('new-rx-hospital-cart', rxHospitalCart);

@@ -1,11 +1,13 @@
 <template>
   <div class="body">
-    <new-header title="编辑收货地址">
-      <div  slot="left">
-      <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-      </div>
-      <span slot="right" @click="save()" class="text-l-25">保存</span>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      right-text="保存"
+      @click-left="$router.go(-1)"
+      @click-right="save()"
+      ref="header"
+    />
     <div class="body1">
       <div class="input1">
         <div class="left">

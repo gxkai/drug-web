@@ -1,8 +1,16 @@
 <template>
   <div class="main">
-    <new-header title="选择收货地址">
-      <router-link tag="span" to="/addresses" slot="right" class="text-l-25">管理</router-link>
-    </new-header>
+    <!--<new-header title="选择收货地址">-->
+      <!--<router-link tag="span" to="/addresses" slot="right" class="text-l-25">管理</router-link>-->
+    <!--</new-header>-->
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      right-text="管理"
+      @click-right="$router.push('/addresses')"
+      ref="header"
+    />
     <div class="body1">
       <div class="content1" v-for="(address,index) in list" :key="index" @click.stop="onAddress(address)">
         <div class="line1">

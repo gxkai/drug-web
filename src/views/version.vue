@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <new-header title="当前版本">
-      <div slot="left" @click="$router.go(-1)">
-      <i class="iconfont ic-arrow-right " ></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <div class="version-title">E慧药</div>
     <div class="version-v">版本:<span class="text-l-25">{{version}}</span></div>

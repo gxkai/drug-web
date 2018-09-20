@@ -1,10 +1,11 @@
 <template>
   <div class="point">
-    <new-header title="我的积分">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="point-title">
       <div class="point-title-point">
         <div>

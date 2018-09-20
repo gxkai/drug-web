@@ -15,3 +15,26 @@
 .van-button__text {
   font-size: 30px!important;
 }
+.van-nav-bar {
+  background-color: #13C1FE;
+  height: 130px!important;
+  line-height: 130px!important;
+  &__text {
+    font-size: 30px!important;
+    color: white;
+  }
+  &__title {
+    font-size: 35px!important;
+    color: white;
+  }
+  &__left,&__right {
+    i {
+      font-size: 40px!important;
+      color: white!important;
+      &:before {
+        color: white!important;
+      }
+    }
+  }
+}
+

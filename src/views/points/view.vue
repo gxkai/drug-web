@@ -1,10 +1,11 @@
 <template>
   <div class="detail">
-    <new-header title="多力葵花籽油">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="coupon.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="detail-first">
       <img :src="getImgURL(coupon.fileId,'LARGE_LOGO')"/>
     </div>

@@ -1,11 +1,12 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="insurance-container">
-   <mt-header title="消费信息">
-      <router-link to="/" slot="left">
-        <mt-button icon="back"></mt-button>
-      </router-link>
-    </mt-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
       <span>2017年度</span>

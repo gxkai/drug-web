@@ -1,13 +1,11 @@
 <template>
   <div class="container">
-    <new-header title="退款详情" bgColor="white" leftColor="#333333" color="#333333" rightColor="#333333">
-      <div slot="left">
-        <i  @click="$router.go(-1)" class="iconfont ic-arrow-right"></i>
-      </div>
-      <div slot="right" @click="$router.push('/')">
-        <span class="text-l-25">首页</span>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="refunds-header">
       <span class="refunds-header-state ">{{transformRefundState(list.refundState)}}</span>
       <span class="refunds-header-time">{{timeConvert2(list.lastModifiedDate)}}</span>

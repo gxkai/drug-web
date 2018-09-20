@@ -9,11 +9,12 @@
         </div>
       </mt-header>-->
 
-     <new-header title="账户信息">
-      <div slot="left">
-        <router-link tag="i" to="/" class="iconfont ic-arrow-right"></router-link>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
       <span>类型</span>

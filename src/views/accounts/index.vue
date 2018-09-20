@@ -1,16 +1,15 @@
 <template>
   <div class="account-container">
-    <new-header height="low" ref="header">
-      <div slot="left">
-        <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi"></router-link>
-      </div>
-      <div slot="right">
-        <router-link tag="i" to="/qrCode" class=" iconfont ic-saoma"></router-link>
-      </div>
-      <div slot="right">
-        <router-link tag="i" to="/setting" class=" iconfont ic-shezhi1"></router-link>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      @click-left="$router.push('/messageTypes')"
+      @click-right="$router.push('/setting')"
+      ref="header"
+    >
+      <van-icon name="chat" slot="left"/>
+      <van-icon name="setting" slot="right"/>
+    </van-nav-bar>
+
     <div ref="body">
       <div class="header all-center" v-if="account !== null">
         <img class="header-img" :src="getImgURL(account.fileId,'LARGE_LOGO')"/>

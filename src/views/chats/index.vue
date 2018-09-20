@@ -1,15 +1,12 @@
 <template>
   <div class="chats">
-    <div class="header" ref="header">
-      <new-header title="咨询列表">
-        <div slot="left">
-          <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-        </div>
-        <div slot="right">
-          <router-link tag="i" to="/messageTypes" class="iconfont ic-lingdang"></router-link>
-        </div>
-      </new-header>
-    </div>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
+
     <div class="chats-list"
          ref="list"
          v-infinite-scroll="loadMore"

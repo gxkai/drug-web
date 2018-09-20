@@ -1,10 +1,11 @@
 <template>
   <div class="card_bind">
-    <new-header title="医保卡绑定">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="card_bind-list">
       <div class="card_bind-list-item">
         <div class="card_bind-list-item-left">

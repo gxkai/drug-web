@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <new-header :title="titles">
-      <div slot="left" @click="$router.go(-1)">
-        <i class="iconfont ic-arrow-right"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="container-main">
       <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
         <div v-for="item in pageList" class="message-main">

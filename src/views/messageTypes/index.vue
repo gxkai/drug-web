@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <new-header title="我的消息">
-      <div slot="left" @click="$router.go(-1)">
-        <i class="iconfont ic-arrow-right"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <div class="news-lists">
       <router-link v-for="(messageContentType,index) in list" :key="index"

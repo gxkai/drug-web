@@ -1,11 +1,13 @@
 <template>
   <new-main>
-    <new-header title="评价成功" bgColor = "" color="rgba(51,51,51,1)" rightColor="rgba(19,193,254,1)" leftColor = "rgba(51,51,51,1)">
-      <div slot="left">
-      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
-      </div>
-      <span slot="right"  @click="$router.push('/drugAppraises')" class="text-l-25">完成</span>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      @click-right="$router.push('/drugAppraises')"
+      right-text="完成"
+      ref="header"
+    />
     <div class="body1">
         <span>每天都有用户通过看评价来做购物决策~</span>
         <div><span @click="$router.push('/drugAppraises')">查看我的评价</span></div>

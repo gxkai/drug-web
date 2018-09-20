@@ -1,13 +1,13 @@
 <template>
   <div class="main">
-    <new-header title="取药信息">
-      <div slot="left" >
-        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
-      </div>
-      <div slot="right" @click.stop="$router.push('/orders')">
-        <span class="text-l-30">完成</span>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      right-text="完成"
+      @click-right="$router.push('/orders')"
+      ref="header"
+    />
     <new-take-list :order="order"></new-take-list>
   </div>
 </template>

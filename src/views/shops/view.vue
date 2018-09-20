@@ -1,10 +1,11 @@
 <template>
   <div class="shop_view">
-    <new-header title="药店首页">
-      <div @click="$router.go(-1)" slot="left">
-        <i class="iconfont ic-arrow-right"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="shop_view-info">
       <img :src="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
       <div class="shop_view-info-name">{{shopInfo.name}}</div>

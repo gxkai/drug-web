@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <new-header title="商家介绍" :style="{background:bgColor, color: color}">
-      <div @click="$router.go(-1)" slot="left">
-        <i class="iconfont ic-arrow-right text-333333"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <div class="shop-header">
       <div>

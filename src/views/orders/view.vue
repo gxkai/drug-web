@@ -1,133 +1,133 @@
 <template>
-  <div id="OrderDetails">
-    <div ref="header">
-      <new-header title="订单详情" bgColor="white" leftColor="#333333" color="#333333" rightColor="#333333">
-        <div slot="left" @click="$router.go(-1)">
-          <i class="iconfont ic-arrow-right">
-          </i>
+  <div class="order_view">
+    <van-nav-bar
+      title="订单详情"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
+    <!--<div class="order_view-state">-->
+      <!--<div class="order_view-state-left">-->
+        <!--<div class="order_view-state-left_name"-->
+             <!--v-text="transformOrderStateSec(order.state, order.refundState, this)"></div>-->
+        <!--<new-count-down :endTime="timeConvert(order.createdDate)"-->
+                        <!--class="order_view-state-left_time"></new-count-down>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="order_view-address"
+    v-if="order.deliveryType === 'DELIVERY'">
+      <div class="order_view-address-left">
+        <i class="iconfont ic-address"></i>
+      </div>
+      <div class="order_view-address-right">
+        <div class="order_view-address-right_consignee">
+          收货人：{{order.consignee}} {{order.phone}}
         </div>
-      </new-header>
+        <div class="order_view-address-right_address">
+          收货地址：{{order.address}}
+        </div>
+      </div>
     </div>
-    <div ref="container">
-      <div class="order-state" v-if="order.state === 'TO_RECEIVED'">
-        <div>
-          <div>
-            <span>等待买家付款</span>
-          </div>
-          <div>
-          <span>
-            <new-count-down :endTime="timeConvert(order.createdDate)"></new-count-down>
-          </span>
-          </div>
-        </div>
-        <div class="div-icon">
-          <i class="iconfont ic-icon-test"></i>
-        </div>
+    <new-order-view-item :order.sync="order"></new-order-view-item>
+    <div class="order_view-amount">
+      <div>
+      <span>商品总价</span>
+      <span>&yen;{{order.totalAmount}}</span>
       </div>
-      <div class="order-state" v-else-if="order.state === 'TO_APPRAISE'">
-        <div>
-          <div>
-            <span>等待买家评价</span>
-          </div>
-        </div>
-        <div class="div-icon">
-          <i class="iconfont ic-daipingjia01"></i>
-        </div>
+      <div>
+      <span>医保扣除</span>
+      <span>&yen;{{order.medicaidAmount}}</span>
       </div>
-      <div class="order-state" v-else-if="order.state === 'TO_RECEIVED'">
-        <div>
-          <div>
-            <span>等待买家收货</span>
-          </div>
-        </div>
-        <div class="div-icon">
-          <i class="iconfont ic-qianbao"></i>
-        </div>
+      <div>
+        <span>优惠券扣除</span>
+        <span>&yen;{{order.couponAmount}}</span>
       </div>
-      <div class="order-state" v-else-if="order.state === 'TO_DELIVERY'">
-        <div>
-          <div>
-            <span>等待卖家配送</span>
-          </div>
-        </div>
-        <div class="div-icon">
-          <i class="iconfont ic-gerenzhongxindingdandaishouhuo"></i>
-        </div>
+      <div>
+      <span>需付款</span>
+      <span class="text-red">&yen;{{order.payAmount}}</span>
       </div>
-      <div class="order-state" v-else-if="order.state === 'COMPLETED'">
-        <div>
-          <div>
-            <span>订单完成</span>
-          </div>
-        </div>
-        <div class="div-icon">
-          <i class="iconfont ic-kucun"></i>
-        </div>
+    </div>
+    <div class="order_view-deal">
+      <div class="order_view-deal-number">
+        订单编号：{{order.number}}
       </div>
-      <div class="order-address" v-if="order.address">
-        <div>
-          <i class="iconfont ic-address"></i>
-        </div>
-        <div>
-          <div class="text-l-22">
-            收货人：{{order.consignee}} {{order.phone}}
-          </div>
-          <div class="text-l-22 mt-l-10">
-            收货地址：{{order.address}}
-          </div>
-        </div>
+      <div class="order_view-deal-pay_number">
+        支付流水号：{{order.payNumber||'无'}}
       </div>
-      <div class="order-item">
-        <new-refund :order="order"></new-refund>
-      </div>
-      <div class="order-price">
-        <div>
-          <span>商品总价</span>
-          <span>¥{{order.totalAmount}}</span>
-        </div>
-        <div>
-          <span>医保扣除</span>
-          <span>¥{{order.medicaidAmount||0}}</span>
-        </div>
-        <div>
-          <span>需付款</span>
-          <span class="text-red">¥{{order.payAmount||0}}</span>
-        </div>
-      </div>
-      <div class="order-number">
-        <div>
-          订单编号：{{order.number}}
-        </div>
-        <div>
-          支付流水号：{{order.payNumber||'无'}}
-        </div>
-        <div>
-          创建时间：{{timeConvert(order.createdDate)}}
-        </div>
-      </div>
-      <div class="order-buttons">
-        <div class="item-bottom-buttons">
-          <button @click="onCancel()" v-if="order.state == 'TO_PAY'">取消订单</button>
-          <button @click="onPay()" v-if="order.state == 'TO_PAY'">取消订单</button>
-          <button class="item-bottom-button-active" @click="onRefund()"
-                  v-if="order.state == 'TO_CHECK' ||order.state ==  'TO_DELIVERY' ||order.state ==  'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED'">
-            申请退款
-          </button>
-          <button class="item-bottom-button-active" @click="onConfirm()" v-if="order.state == 'TO_RECEIVED'">确认收货
-          </button>
-          <button @click="onDelivery()"
-                  v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state == 'TO_APPRAISE' || order.state == 'COMPLETED' ||order.state ==  'REFUNDING')">
-            查看配送
-          </button>
-          <button @click="onAppraise()" v-if="order.state == 'TO_APPRAISE'">我要评价</button>
-        </div>
+      <div class="order_view-deal-created_date">
+        创建时间：{{timeConvert(order.createdDate)}}
       </div>
     </div>
   </div>
 </template>
 
+<style scoped type="text/less" lang="less">
+  .order_view {
+    width: 720px;
+    &-state {
+      position: relative;
+      background-color: #f5f5f5;
+      height: 160px;
+      &-left {
+        position: absolute;
+        left: 100px;
+        top: 50px;
+        &_name {
+          font-size: 30px;
+          color: #13C1FE;
+          font-weight: 200;
+        }
+        &_time {
+          font-size: 25px;
+          color: #FF0000;
+        }
+      }
+    }
+    &-address {
+      display: flex;
+      align-items: center;
+      &-left {
+        padding: 20px;
+        .iconfont {
+          color: black;
+        }
+      }
+      &-right {
+        width: 550px;
+        & > div {
+          padding: 2px 0;
+          font-size: 25px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+    &-deal {
+      padding: 20px;
+      background-color: #f5f5f5;
+      &>div {
+        padding: 5px;
+        font-size: 25px;
+      }
+    }
+    &-amount {
+      width: 100%;
+      background-color: #f5f5f5;
+      margin-bottom: 20px;
+      &>div {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 20px;
+        font-size: 25px;
+      }
+    }
+  }
+
+</style>
+
 <script>
-  import {Toast} from 'mint-ui';
+  import { Toast } from 'mint-ui';
 
   export default {
     data() {
@@ -144,14 +144,13 @@
       this.initData();
     },
     mounted() {
-      this.$refs.container.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.container.style.overflow = 'auto';
     },
     methods: {
       initData() {
         this.$http.get('/orders/' + this.orderId)
           .then(res => {
             this.order = res.data;
+            console.log(res.data);
           })
           .catch(err => {
             this.exception(err);
@@ -165,16 +164,16 @@
         });
       },
       onPay() {
-        this.$router.push({path: '/orders/pay', query: {orderIds: this.order.id}});
+        this.$router.push({ path: '/orders/pay', query: { orderIds: this.order.id } });
       },
       onRefund() {
-        this.$router.push({path: '/orderRefunds/create', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });
       },
       onDelivery() {
-        this.$router.push({path: '/orders/delivery', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/orders/delivery', query: { orderId: this.order.id } });
       },
       onAppraise() {
-        this.$router.push({path: '/drugAppraises/create', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
       onRemind() {
         Toast('提醒发货成功!');
@@ -201,181 +200,181 @@
   }
 </style>
 
-<style scoped>
-  .order-state {
-    width: 720px;
-    height: 162px;
-    background: rgba(19, 193, 254, 1);
-    display: flex;
-  }
+<!--<style scoped>-->
+<!--.order-state {-->
+<!--width: 720px;-->
+<!--height: 162px;-->
+<!--background: rgba(19, 193, 254, 1);-->
+<!--display: flex;-->
+<!--}-->
 
-  .order-state > div:nth-child(1) {
-    width: calc(720px - 159px);
-    height: 162px;
-  }
+<!--.order-state > div:nth-child(1) {-->
+<!--width: calc(720px - 159px);-->
+<!--height: 162px;-->
+<!--}-->
 
-  .order-state > div:nth-child(1) > div:nth-child(1) {
-    margin-top: 48px;
-  }
+<!--.order-state > div:nth-child(1) > div:nth-child(1) {-->
+<!--margin-top: 48px;-->
+<!--}-->
 
-  .order-state > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) {
-    font-size: 28px;
-    color: rgba(245, 245, 245, 1);
-    margin-left: 80px;
-  }
+<!--.order-state > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) {-->
+<!--font-size: 28px;-->
+<!--color: rgba(245, 245, 245, 1);-->
+<!--margin-left: 80px;-->
+<!--}-->
 
-  .order-state > div:nth-child(1) > div:nth-child(2) > span:nth-child(1) {
-    font-size: 24px;
-    color: rgba(245, 245, 245, 1);
-    margin-left: 80px;
-  }
+<!--.order-state > div:nth-child(1) > div:nth-child(2) > span:nth-child(1) {-->
+<!--font-size: 24px;-->
+<!--color: rgba(245, 245, 245, 1);-->
+<!--margin-left: 80px;-->
+<!--}-->
 
-  .order-state > div:nth-child(2) {
-    width: 159px;
-    height: 162px;
-  }
+<!--.order-state > div:nth-child(2) {-->
+<!--width: 159px;-->
+<!--height: 162px;-->
+<!--}-->
 
-  .order-state > div:nth-child(2) i {
-    font-size: 100px;
-    color: white;
-    margin-top: 31px;
-  }
+<!--.order-state > div:nth-child(2) i {-->
+<!--font-size: 100px;-->
+<!--color: white;-->
+<!--margin-top: 31px;-->
+<!--}-->
 
-  .order-address {
-    width: 720px;
-    height: 120px;
-    background: white;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-   }
+<!--.order-address {-->
+<!--width: 720px;-->
+<!--height: 120px;-->
+<!--background: white;-->
+<!--display: flex;-->
+<!--align-items: center;-->
+<!--padding: 10px;-->
+<!--}-->
 
-  .order-address > div:nth-child(2) {
-    margin-left: 20px;
-  }
+<!--.order-address > div:nth-child(2) {-->
+<!--margin-left: 20px;-->
+<!--}-->
 
-  .ic-weizhi {
-    font-size: 40px;
-  }
+<!--.ic-weizhi {-->
+<!--font-size: 40px;-->
+<!--}-->
 
-  /*.order-address > div:nth-child(2) {*/
-  /*width: calc(720px - 60px);*/
-  /*height: 120px;*/
-  /*}*/
+<!--/*.order-address > div:nth-child(2) {*/-->
+<!--/*width: calc(720px - 60px);*/-->
+<!--/*height: 120px;*/-->
+<!--/*}*/-->
 
-  /*.order-address > div:nth-child(2) > div:nth-child(1) {*/
-  /*margin-top: 20px;*/
-  /*}*/
+<!--/*.order-address > div:nth-child(2) > div:nth-child(1) {*/-->
+<!--/*margin-top: 20px;*/-->
+<!--/*}*/-->
 
-  /*.order-address > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) {*/
-  /*font-size: 20px;*/
-  /*font-family: HiraginoSansGB-W3;*/
-  /*color: rgba(69, 69, 69, 1);*/
-  /*}*/
+<!--/*.order-address > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) {*/-->
+<!--/*font-size: 20px;*/-->
+<!--/*font-family: HiraginoSansGB-W3;*/-->
+<!--/*color: rgba(69, 69, 69, 1);*/-->
+<!--/*}*/-->
 
-  /*.order-address > div:nth-child(2) > div:nth-child(2) > span:nth-child(1) {*/
-  /*font-size: 20px;*/
-  /*font-family: HiraginoSansGB-W3;*/
-  /*color: rgba(51, 51, 51, 1);*/
-  /*}*/
+<!--/*.order-address > div:nth-child(2) > div:nth-child(2) > span:nth-child(1) {*/-->
+<!--/*font-size: 20px;*/-->
+<!--/*font-family: HiraginoSansGB-W3;*/-->
+<!--/*color: rgba(51, 51, 51, 1);*/-->
+<!--/*}*/-->
 
-  .order-price div {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 14px;
-  }
+<!--.order-price div {-->
+<!--display: flex;-->
+<!--justify-content: space-between;-->
+<!--padding: 10px 14px;-->
+<!--}-->
 
-  .order-price > div:nth-child(1) > span {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(153, 153, 153, 1);
-  }
+<!--.order-price > div:nth-child(1) > span {-->
+<!--font-size: 25px;-->
+<!--font-family: HiraginoSansGB-W3;-->
+<!--color: rgba(153, 153, 153, 1);-->
+<!--}-->
 
-  .order-price > div:nth-child(2) > span {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(153, 153, 153, 1);
-  }
+<!--.order-price > div:nth-child(2) > span {-->
+<!--font-size: 25px;-->
+<!--font-family: HiraginoSansGB-W3;-->
+<!--color: rgba(153, 153, 153, 1);-->
+<!--}-->
 
-  .order-price > div:nth-child(3) > span {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-  }
+<!--.order-price > div:nth-child(3) > span {-->
+<!--font-size: 25px;-->
+<!--font-family: HiraginoSansGB-W3;-->
+<!--color: rgba(51, 51, 51, 1);-->
+<!--}-->
 
-  .order-price > div:nth-child(4) > span:nth-child(1) {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-  }
+<!--.order-price > div:nth-child(4) > span:nth-child(1) {-->
+<!--font-size: 25px;-->
+<!--font-family: HiraginoSansGB-W3;-->
+<!--color: rgba(51, 51, 51, 1);-->
+<!--}-->
 
-  .order-price > div:nth-child(4) > span:nth-child(2) {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 0, 0, 1);
-  }
+<!--.order-price > div:nth-child(4) > span:nth-child(2) {-->
+<!--font-size: 25px;-->
+<!--font-family: HiraginoSansGB-W3;-->
+<!--color: rgba(255, 0, 0, 1);-->
+<!--}-->
 
-  .order-price > div:nth-child(5) > span:nth-child(1) {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-  }
+<!--.order-price > div:nth-child(5) > span:nth-child(1) {-->
+<!--font-size: 25px;-->
+<!--font-family: HiraginoSansGB-W3;-->
+<!--color: rgba(51, 51, 51, 1);-->
+<!--}-->
 
-  .order-price > div:nth-child(5) > span:nth-child(2) {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(255, 0, 0, 1);
-  }
+<!--.order-price > div:nth-child(5) > span:nth-child(2) {-->
+<!--font-size: 25px;-->
+<!--font-family: HiraginoSansGB-W3;-->
+<!--color: rgba(255, 0, 0, 1);-->
+<!--}-->
 
-  .order-number {
-    width: 720px;
-    background: rgba(245, 245, 245, 1);
-    font-size: 20px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-    margin-top: 10px;
-    padding: 10px;
-  }
+<!--.order-number {-->
+<!--width: 720px;-->
+<!--background: rgba(245, 245, 245, 1);-->
+<!--font-size: 20px;-->
+<!--font-family: HiraginoSansGB-W3;-->
+<!--color: rgba(102, 102, 102, 1);-->
+<!--margin-top: 10px;-->
+<!--padding: 10px;-->
+<!--}-->
 
-  .order-number div {
-    padding: 10px;
-    font-size: 25px;
-  }
+<!--.order-number div {-->
+<!--padding: 10px;-->
+<!--font-size: 25px;-->
+<!--}-->
 
-  .order-buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
-    padding-right: 20px;
-  }
+<!--.order-buttons {-->
+<!--display: flex;-->
+<!--justify-content: flex-end;-->
+<!--margin-top: 30px;-->
+<!--padding-right: 20px;-->
+<!--}-->
 
-  .item-bottom-buttons button {
-    appearance: none !important;
-    width: 118px;
-    height: 40px;
-    background: white;
-    border-radius: 20px;
-    font-size: 20px;
-    color: rgba(102, 102, 102, 1);
-    outline: none;
-    display: inline-block;
-    -webkit-appearance: none !important;
-    border: none;
-    border: 1PX solid #757575;
-  }
+<!--.item-bottom-buttons button {-->
+<!--appearance: none !important;-->
+<!--width: 118px;-->
+<!--height: 40px;-->
+<!--background: white;-->
+<!--border-radius: 20px;-->
+<!--font-size: 20px;-->
+<!--color: rgba(102, 102, 102, 1);-->
+<!--outline: none;-->
+<!--display: inline-block;-->
+<!-- -webkit-appearance: none !important;-->
+<!--border: none;-->
+<!--border: 1PX solid #757575;-->
+<!--}-->
 
-  .item-bottom-button-active {
-    color: rgb(19, 193, 254) !important;
-    border: 1PX solid rgb(19, 193, 254) !important;
-  }
+<!--.item-bottom-button-active {-->
+<!--color: rgb(19, 193, 254) !important;-->
+<!--border: 1PX solid rgb(19, 193, 254) !important;-->
+<!--}-->
 
-  .ic-weizhi {
-    font-size: 50px;
-  }
+<!--.ic-weizhi {-->
+<!--font-size: 50px;-->
+<!--}-->
 
-  .div-icon i{line-height: 40px;line-height:162px;}
-  .text-red{color: red;}
-  .ic-address{font-size: 48px;}
-</style>
+<!--.div-icon i{line-height: 40px;line-height:162px;}-->
+<!--.text-red{color: red;}-->
+<!--.ic-address{font-size: 48px;}-->
+<!--</style>-->
 
 

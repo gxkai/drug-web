@@ -1,12 +1,13 @@
 <template>
   <div class="pay">
-    <new-header title="订单提交成功"  >
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
-      </div>
-     <div slot="right">
-       <router-link tag="span" to="/orders" class="text-l-25">我的订单</router-link>
-     </div>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      @click-right="$router.push('/orders')"
+      right-text="我的订单"
+      ref="header"
+    />
     </new-header>
     <div class="pay_address"
          v-if="deliveryType === 'DELIVERY'">

@@ -1,14 +1,14 @@
 <template>
   <div class="orders">
-    <new-header title="待评价"
-                ref="header">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click.stop="$router.push('/accounts')"></i>
-      </div>
-      <div slot="right">
-        <i class="iconfont ic-sousuo" @click.stop="$router.push('/orders/search')"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      @click-right="$router.push('/orders/search')"
+      ref="header"
+    >
+      <van-icon name="search" slot="right" />
+    </van-nav-bar>
     <new-order-tab :urlRouter="$route.path"
                    ref="orderTab"></new-order-tab>
     <div v-infinite-scroll="loadMore"

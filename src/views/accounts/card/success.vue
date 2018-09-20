@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <new-header title="医保卡绑定成功">
-      <div slot="left" @click="$router.go(-1)">
-        <i class="iconfont ic-arrow-right"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <div>
       <div class="div-img">

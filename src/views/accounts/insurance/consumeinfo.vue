@@ -1,13 +1,12 @@
 <!-- FIXME 字体大小 -->
 <template>
   <div class="insurance-container">
-   <mt-header title="账户信息">
-      <div slot="left">
-        <router-link to="/">
-          <mt-button icon="back"></mt-button>
-        </router-link>
-      </div>
-  </mt-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
       <span>姓名</span>

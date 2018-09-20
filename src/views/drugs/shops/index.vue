@@ -1,10 +1,11 @@
 <template>
   <div class="fruit-body drugs_shops">
-    <new-header :title="drugInfo.name">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="swiper">
       <mt-swipe :atuo="3000">
         <mt-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">

@@ -1,10 +1,11 @@
 <template>
   <div class="shop_drugs">
-    <new-header title="全部商品" ref="header">
-      <div @click="$router.go(-1)" slot="left">
-        <i class="iconfont ic-arrow-right"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="shop_drugs-list"
          v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10"
         ref="body">

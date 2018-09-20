@@ -1,10 +1,11 @@
 <template>
   <div class="rxs-content position-relative">
-    <new-header title="处方药品列表">
-      <div slot="left">
-        <i @click="$router.go(-1)" class="iconfont ic-arrow-right"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="shadow" v-show="show">
       <div class="box">
         <div class="header">

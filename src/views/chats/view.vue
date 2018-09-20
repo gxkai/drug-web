@@ -1,11 +1,11 @@
 <template>
   <div class="main">
     <div ref="header">
-      <new-header title="咨询">
-        <div slot="left">
-          <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-        </div>
-      </new-header>
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
       <div class="header-state">
         <div>{{shopInfo.shopName}}</div>
         <div v-if="shopInfo.isOnline">

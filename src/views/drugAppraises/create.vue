@@ -1,11 +1,13 @@
 <template>
   <div class="main">
-    <new-header title="发表评论" ref="header">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-      </div>
-      <span slot="right" @click="commit()" class="text-l-25">发布</span>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      right-text="发布"
+      @click-left="$router.go(-1)"
+      @click-right="commit()"
+      ref="header"
+    />
     <div class="body" ref="body">
       <ul>
         <li v-for="(item,index) in list" :key="index">

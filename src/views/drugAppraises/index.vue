@@ -1,10 +1,11 @@
 <template>
   <div class="main">
-    <new-header title="我的评价" ref="header">
-      <div slot="left" @click="$router.go(-1)">
-      <i class="iconfont ic-arrow-right"  ></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="body" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" ref="body">
       <div class="drugAppraises-main" v-for="item in list">
         <div class="line1">

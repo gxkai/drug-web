@@ -1,11 +1,12 @@
 <template>
   <div class="rxs-container">
     <div class="rxs-header position-relative" ref="header">
-      <new-header title="处方列表">
-        <div slot="left" @click="$router.go(-1)">
-          <i class="iconfont ic-arrow-right"></i>
-        </div>
-      </new-header>
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+        ref="header"
+      />
       <div class="account-container">
         <div class="account-container-image">
           <img :src="getImgURL(account.fileId,'SMALL_LOGO')"/>

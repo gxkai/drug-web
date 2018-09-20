@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <new-header :title="title">
-      <div slot="left">
-      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
-      </div>
-      <div  slot="right">
-        <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi"></router-link>
-      </div>
-    </new-header>
-
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      @click-right="$router.push('/messageTypes')"
+      ref="header"
+    >
+      <van-icon name="chat" slot="right"/>
+    </van-nav-bar>
     <div class="body-main">
       <div class="article-body">
         <!--<span class="article-title">{{repositoryInfo.title}}</span>-->

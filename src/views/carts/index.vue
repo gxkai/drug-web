@@ -1,11 +1,13 @@
 <template>
   <div class="cart">
-    <new-header title="购物车" ref="header">
-      <div slot="left" @click="$router.go(-1)">
-        <i class="iconfont ic-arrow-right"></i>
-      </div>
-      <span slot="right" @click="onRemoveBatch()" class="text-l-30">删除</span>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      right-text="删除"
+      @click-left="$router.go(-1)"
+      @click-right="onRemoveBatch()"
+      ref="header"
+    />
     <div class="cart-list" ref="list">
       <new-no-data v-if="cartShops.length === 0"></new-no-data>
       <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">

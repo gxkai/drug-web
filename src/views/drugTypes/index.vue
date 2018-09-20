@@ -1,13 +1,11 @@
 <template>
   <div class="container">
-    <new-header title="分类列表">
-      <div slot="left">
-         <router-link tag="i" to="/" class="iconfont ic-arrow-right" slot="left"></router-link>
-      </div>
-      <div slot="right">
-        <router-link tag="i" to="/messageTypes" class="iconfont ic-xiaoxi" slot="right"></router-link>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <div class="container-main">
       <div class="drug-types">

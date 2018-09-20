@@ -1,10 +1,11 @@
 <template>
   <div class="refund_create">
-    <new-header title="申请退款">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click="$router.go(-1)"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
 
     <new-refund :order="orderInfo"></new-refund>
 

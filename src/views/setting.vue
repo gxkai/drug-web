@@ -1,10 +1,11 @@
 <template>
   <div class="setting-container">
-    <new-header title="设置">
-      <div slot="left" @click="$router.go(-1)">
-        <i class="iconfont ic-arrow-right" ></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="body">
       <router-link tag="div" class="a-content-list flex-stream-sb padding-10" to="/version">
         <span class="text-l-25">当前版本</span>

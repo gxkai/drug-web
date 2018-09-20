@@ -1,11 +1,12 @@
 <template>
   <div class="collect-body" style="background-color: #f5f5f5">
     <div>
-      <new-header title="我的收藏">
-        <div slot="left">
-          <router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link>
-        </div>
-      </new-header>
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+        ref="header"
+      />
 
       <ul class="flex-stream-sb">
         <li @click="shop(1)" class="padding-tb-10">

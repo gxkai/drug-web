@@ -2,11 +2,11 @@
   <div class="forget">
     <div v-if="0 === this.state" class="body1">
       <div>
-        <new-header title="忘记密码">
-          <div slot="left">
-            <router-link tag="i" to="/login" class="iconfont ic-arrow-right"></router-link>
-          </div>
-   </new-header>
+        <van-nav-bar
+          title="忘记密码"
+          left-arrow
+          @click-left="$router.go(-1)"
+        />
         <input type="number" class="input1" placeholder="请输入手机号码" v-model="username">
         <div class="line1"></div>
         <div class="input2">
@@ -23,11 +23,11 @@
 
     <div v-if="1 === this.state" class="body2">
       <div class="body1">
-        <new-header title="找回密码">
-          <div slot="left">
-          <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" ></router-link>
-          </div>
-        </new-header>
+        <van-nav-bar
+          title="找回密码"
+          left-arrow
+          @click-left="$router.go(-1)"
+        />
         <div class="input3">
           <div class="left">
             <span class="span1 text-l-30">新密码</span>
@@ -49,11 +49,11 @@
       <button class="button2" @click="updatePassword()">下一步</button>
     </div>
     <div v-if="2 === this.state" class="body3">
-      <new-header title="修改成功">
-        <div  slot="left">
-        <router-link  tag="i" to="/login" class="iconfont ic-arrow-right" ></router-link>
-        </div>
-      </new-header>
+      <van-nav-bar
+        title="修改成功"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
       <div class="img1">
         <img src="../assets/image/success.png" class="img11">
       </div>

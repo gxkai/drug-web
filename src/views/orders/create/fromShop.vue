@@ -1,10 +1,11 @@
 <template>
   <div class="pay_shop">
-    <new-header title="订单结算">
-      <div slot="left">
-        <i class="iconfont ic-arrow-right" @click.stop="$router.go(-1)"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="pay_shop-content">
       <div class="pay_shop-content-delivery"
            v-if="deliveryType === 'DELIVERY'"

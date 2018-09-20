@@ -1,11 +1,13 @@
 <template>
   <div class="container">
-    <new-header title="我的意见">
-      <div slot="left"><router-link tag="i" to="/accounts" class="iconfont ic-arrow-right"></router-link></div>
-      <div slot="right">
-        <span @click="commit()" class="text-l-25">提交</span>
-      </div>
-     </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      right-text="提交"
+      @click-right="commit()"
+      ref="header"
+    />
     <div>
       <textarea name="" rows="" cols="" v-model="content"
                 placeholder="您的意见对我们非常重要，我们会不断的优化和改善，努力为您带来更高的体验，谢谢"></textarea>

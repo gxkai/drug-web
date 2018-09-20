@@ -1,10 +1,11 @@
 <template>
   <div class="address-body">
-    <new-header title="地址管理">
-      <div slot="left">
-      <i class="iconfont ic-arrow-right"  @click="$router.go(-1)"></i>
-      </div>
-    </new-header>
+    <van-nav-bar
+      :title="$route.name"
+      left-arrow
+      @click-left="$router.go(-1)"
+      ref="header"
+    />
     <div class="address-content" v-for="(address,index) in addressList" :key="index">
       <div class="address-content-lineOne">
         <span class="text-l-25">{{address.consignee}}</span>
