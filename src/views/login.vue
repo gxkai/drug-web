@@ -162,8 +162,10 @@
         this.timer = null;
       },
       login() {
-        // var info = JSON.parse(plus.push.getClientInfo());// eslint-disable-line no-undef
-        // var clientId = info.clientid;
+        // var info = plus.push.getClientInfo();// eslint-disable-line no-undef
+        // this.clientId = info.clientid;
+        // console.log(info);
+        // console.log(this.clientId);
         const userInfo = {
           'username': this.username,
           'password': this.password,

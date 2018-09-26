@@ -82,6 +82,10 @@
                   地址：{{item.address}}
                 </div>
               </div>
+              <div class="shops-container-item-peisong"
+              v-show="item.distribution === true">
+                <i class="iconfont ic-peisong-"></i>
+              </div>
             </div>
         </div>
       <new-no-data v-if="loadingComplete"></new-no-data>
@@ -212,6 +216,7 @@
         flex-direction: row;
         align-items: center;
         margin-bottom: 10px;
+        position: relative;
         &:first-child {
           margin-top: 10px;
         }
@@ -233,6 +238,15 @@
             &:nth-child(2) {
               margin-top: 10px;
             }
+          }
+        }
+        &-peisong {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          i {
+            font-size: 80px;
+            color: #1AB6FD;
           }
         }
       }

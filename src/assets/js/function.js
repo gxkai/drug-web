@@ -201,7 +201,6 @@ export default {
           return '订单关闭';
       }
     };
-
     Vue.prototype.transformOrderStateSec = (state, refundState, _this) => {
       if (refundState === 'REFUNDING') {
         return _this.transformRefundState(refundState);
@@ -362,6 +361,28 @@ export default {
     };
 
     /**
+     * 跳转到消息类型
+     */
+    Vue.prototype.linkToMessageType = () => {
+      router.push('/messageTypes');
+    };
+
+    /**
+     * 跳转到医保消费机构
+     * @param item
+     */
+    Vue.prototype.linkToConsumeInfo = (item) => {
+      router.push({ path: '/accounts/insurance/consumeInfo', query: { consumeInfo: JSON.stringify(item) } });
+    };
+
+    /**
+     * 跳转到医保消费详情
+     * @param item
+     */
+    Vue.prototype.linkToConsumeInfoMore = (item) => {
+      router.push({ path: '/accounts/insurance/consumeInfoMore', query: { consumeInfoMore: JSON.stringify(item) } });
+    };
+    /**
      * 地图coordType 转换
      */
     Vue.prototype.transformCoordType = (str) => {
@@ -389,6 +410,19 @@ export default {
     Vue.prototype.toFixedOne = (str) => {
       if (typeof str !== 'undefined' && str !== null) {
         return str.toFixed(1);
+      }
+    };
+
+    /**
+     * 订单创建后其他内可退款
+     * @param createdDate
+     * @returns {boolean}
+     */
+    Vue.prototype.refundVerification = (createdDate) => {
+      if (createdDate + 7 * 86400000 - Date.parse(new Date()) > 0) {
+        return true;
+      } else {
+        return false;
       }
     };
   }

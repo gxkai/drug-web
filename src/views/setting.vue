@@ -1,27 +1,45 @@
 <template>
-  <div class="setting-container">
+  <div class="setting">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
       ref="header"
     />
-    <div class="body">
-      <router-link tag="div" class="a-content-list flex-stream-sb padding-10" to="/version">
-        <span class="text-l-25">当前版本</span>
-        <i class="iconfont ic-youjiantou"></i>
-      </router-link>
-      <router-link tag="div" class="a-content-list flex-stream-sb padding-10" to="/about">
-        <span class="text-l-25">关于我们</span>
-        <i class="iconfont ic-youjiantou"></i>
-      </router-link>
-    </div>
-    <div class="setting-fixed">
-      <button class="sign-out" @click="logout" v-if="JSON.stringify($store.getters.account) !== '{}'">退出当前账号</button>
-    </div>
+    <van-cell title="当前版本"
+              is-link
+              class="mt-l-20"
+              to="/version">
+    </van-cell>
 
+    <van-cell title="关于我们" class="mt-l-20"
+              is-link
+              to="/about">
+    </van-cell>
+    <div class="setting-footer"
+         @click="logout" v-show="$store.getters.account !==null">
+      退出当前账号
+    </div>
   </div>
 </template>
+<style scoped type="text/less" lang="less" >
+  .setting {
+    width: 720px;
+    height: 100vh;
+    background-color: #f5f5f5;
+    &-footer {
+      color: white;
+      background-color: #1AB6FD;
+      height: 100px;
+      width: 100%;
+      font-size: 30px;
+      position: fixed;
+      bottom: 0;
+      text-align: center;
+      line-height: 100px;
+    }
+  }
+</style>
 <script>
   export default {
     methods: {
@@ -37,56 +55,3 @@
     }
   };
 </script>
-
-<style scoped>
-  .setting-container {
-    width: 720px;
-    height: 100vh;
-    background: #f5f5f5;
-    color:rgba(102,102,102,1);
-  }
-
-  .setting-fixed {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 720px;
-  }
-  .setting-fixed button {
-    font-size:30px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
-  }
-
-  .sign-out {
-    width: 720px;
-    height: 100px;
-    background: rgba(19, 193, 254, 1);
-    border: 0;
-    color: white;
-    letter-spacing: 2px;
-  }
-
-  .a-content-list {
-    display: block;
-    width: 720px;
-    height: 80px;
-    background: rgba(255, 255, 255, 1);
-    margin-top: 15px;
-  }
-
-  .flex-stream-sb {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .padding-10 {
-    padding: 0 20px;
-    box-sizing: border-box;
-  }
-
-  .ic-youjiantou {
-    font-size: 30px;
-  }
-</style>

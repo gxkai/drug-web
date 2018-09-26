@@ -1,20 +1,20 @@
 <template>
-  <div class="detail">
+  <div class="points_view">
     <van-nav-bar
       :title="coupon.name"
       left-arrow
       @click-left="$router.go(-1)"
       ref="header"
     />
-    <div class="detail-first">
+    <div class="points_view-first">
       <img :src="getImgURL(coupon.fileId,'LARGE_LOGO')"/>
     </div>
-    <div class="detail-second">
-      <div class="detail-second-price">
+    <div class="points_view-second">
+      <div class="points_view-second-price">
         <div>{{coupon.name}}</div>
         <div>{{coupon.point}}金币</div>
       </div>
-      <div class="detail-second-date">
+      <div class="points_view-second-date">
         <div>
           <div>
             <i class="iconfont ic-riqi1"></i>
@@ -24,29 +24,29 @@
         <div>{{dateConvert(coupon.startDate)}}至{{dateConvert(coupon.expiryDate)}}</div>
       </div>
     </div>
-    <div class="detail-third">
-      <div class="detail-third-title">
+    <div class="points_view-third">
+      <div class="points_view-third-title">
         商品详情
       </div>
-      <div class="detail-third-content">
-        <div class="detail-third-content-introduction">
-          <div class="detail-third-content-introduction-title">
+      <div class="points_view-third-content">
+        <div class="points_view-third-content-introduction">
+          <div class="points_view-third-content-introduction-title">
             商品介绍
           </div>
-          <div class="detail-third-content-introduction-content">
+          <div class="points_view-third-content-introduction-content">
             {{coupon.content||'暂无'}}
           </div>
         </div>
-        <div class="detail-third-content-flow">
-          <div class="detail-third-content-flow-title">兑换流程</div>
-          <div class="detail-third-content-flow-content">
+        <div class="points_view-third-content-flow">
+          <div class="points_view-third-content-flow-title">兑换流程</div>
+          <div class="points_view-third-content-flow-content">
             <div>1、兑换后在我的积分兑换流程里获得【兑换码】并复制；</div>
             <div>2、点击立即购买-填写收件信息-下一步“使用优惠“输入兑换码完成付款。</div>
           </div>
         </div>
-        <div class="detail-third-content-attention">
-          <div class="detail-third-content-attention-title">注意事项</div>
-          <div class="detail-third-content-attention-content">
+        <div class="points_view-third-content-attention">
+          <div class="points_view-third-content-attention-title">注意事项</div>
+          <div class="points_view-third-content-attention-content">
             <div>1、每位用户福利专享，可多次兑换；</div>
             <div>2、每个订单每张券只能使用一次；</div>
             <div>3、运费描述：全国包邮（港澳台）除外；</div>
@@ -57,32 +57,37 @@
         </div>
       </div>
     </div>
-    <div class="detail-fourth">
-      <button @click.stop="onExchange()">
+    <div class="points_view-fourth">
+      <div @click.stop="onExchange()">
         马上兑换
-      </button>
+      </div>
     </div>
-    <van-actionsheet v-model="show" title="收货信息" class="detail-popup">
-      <div class="detail-popup-content">
-        <div class="detail-popup-content-consignee">
-          <label>收货人&nbsp;&nbsp;&nbsp;</label>
+    <van-popup v-model="popupVisible" position="bottom">
+      <div class="points_view-popup">
+        <div class="points_view-popup_title">
+          <van-icon name="close" class="points_view-popup_title-close_icon" @click="popupVisible = false"></van-icon>
+          收货信息
+        </div>
+        <div class="points_view-popup_item van-hairline--bottom">
+          <label>收货人</label>
           <input placeholder="请输入收货人姓名" v-model="consignee">
         </div>
-        <div class="detail-popup-content-phone">
+        <div class="points_view-popup_item van-hairline--bottom">
           <label>手机号码</label>
           <input placeholder="请输入收货人号码" v-model="phone">
         </div>
-        <div class="detail-popup-content-area">
-          <label>地区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <div class="points_view-popup_item van-hairline--bottom">
+          <label>地区</label>
           <input value="江苏省昆山市" readonly>
         </div>
-        <div class="detail-popup-content-address">
+        <div class="points_view-popup_item">
           <label>详细地址</label>
           <input placeholder="请输入街道门牌信息等" v-model="address">
         </div>
+        <div class="points_view-popup_confirm"
+             @click="onConfirm">确认</div>
       </div>
-      <button @click="onConfirm">确认</button>
-    </van-actionsheet>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -94,10 +99,10 @@
       return {
         couponId: this.$route.query.couponId,
         coupon: {},
-        show: false,
         consignee: '',
         phone: '',
-        address: ''
+        address: '',
+        popupVisible: false
       };
     },
     created() {
@@ -116,14 +121,13 @@
             this.$http.post('/couponRecords?couponId=' + this.coupon.id)
               .then(res => {
                 Toast('兑换成功');
-                this.$store.state.account.point -= this.coupon.point;
               })
               .catch(error => {
                 this.exception(error);
               });
             break;
           case 'ARTICLE':
-            this.show = true;
+            this.popupVisible = true;
         }
       },
       onConfirm() {
@@ -135,9 +139,11 @@
         };
         this.$http.post('/couponRecords/article', params)
           .then(res => {
-            Toast('兑换成功');
-            this.show = false;
-            this.$store.state.account.point -= this.coupon.point;
+            let instance = Toast('兑换成功');
+            setTimeout(() => {
+              instance.close();
+              this.popupVisible = false;
+            }, 3000);
           })
           .catch(error => {
             this.exception(error);
@@ -148,11 +154,54 @@
 </script>
 
 <style scoped type="text/less" lang="less">
-  .detail {
+  .points_view {
     position: fixed;
     background-color: #f5f5f5;
     height: 100%;
     overflow: scroll;
+    &-popup {
+      min-height: 500px;
+      &_title {
+        text-align: center;
+        font-size: 30px;
+        padding: 20px 10px;
+        position: relative;
+        &-close_icon {
+          position: absolute;
+          right: 10px;
+          color: #1AB6FD;
+        }
+      }
+      &_item {
+        padding: 20px 20px;
+        label {
+          display: inline-block;
+          font-size: 30px;
+          width: 150px;
+        }
+        input {
+          font-size: 25px;
+          &::placeholder {
+            text-align: left;
+          }
+          width: 500px;
+          border: none;
+          outline: none;
+        }
+      }
+      &_confirm {
+        height: 80px;
+        line-height: 80px;
+        width: 100%;
+        text-align: center;
+        background-color: #1AB6FD;
+        color: white;
+        font-size: 30px;
+        font-family:HiraginoSansGB-W3;
+        font-weight:normal;
+        margin-top: 10px;
+      }
+    }
     &-first {
       width: 720px;
       height: 300px;
@@ -206,16 +255,21 @@
         > div {
           &:nth-child(1) {
             display: flex;
+            align-items: center;
             > div {
               &:nth-child(1) {
                 .ic-riqi1 {
-                  font-size: 30px;
+                  font-size: 40px;
                 }
               }
               &:nth-child(2) {
                 margin-left: 10px;
+                font-size: 25px;
               }
             }
+          }
+          &:nth-child(2) {
+            font-size: 25px;
           }
         }
       }
@@ -230,6 +284,9 @@
         color: rgba(51, 51, 51, 1);
       }
       &-content {
+        *{
+          font-size: 25px;
+        }
         font-size: 22px;
         font-family: MicrosoftYaHei;
         color: rgba(85, 85, 85, 1);
@@ -258,16 +315,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      button {
+      div {
         width: 347px;
         height: 53px;
         background: rgba(250, 94, 56, 1);
         border-radius: 27px;
-        font-size: 24px;
+        font-size: 25px;
         font-family: MicrosoftYaHei;
         color: rgba(245, 245, 245, 1);
-        outline: none;
-        border-width: 0;
+        text-align: center;
+        line-height: 53px;
       }
     }
     &-popup {

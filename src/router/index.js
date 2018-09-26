@@ -1,15 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
-    {
-      path: '/hello',
-      component: HelloWorld
-    },
     {
       path: '/drugs/search',
       name: '药品搜索',
@@ -79,28 +74,28 @@ export default new Router({
     // accounts_insurance
     {
       path: '/accounts/insurance/account',
-      name: '医保消费信息',
+      name: '医保账户信息',
       component: () => import('@/views/accounts/insurance/account')
     },
     {
-      path: '/accounts/insurance/card',
+      path: '/accounts/insurance',
       name: '医保卡信息',
-      component: () => import('@/views/accounts/insurance/card')
+      component: () => import('@/views/accounts/insurance/index')
     },
     {
       path: '/accounts/insurance/consume',
-      name: '医保卡消费信息',
+      name: '年度消费信息',
       component: () => import('@/views/accounts/insurance/consume')
     },
     {
       path: '/accounts/insurance/consumeinfo',
-      name: '医保卡账户信息',
-      component: () => import('@/views/accounts/insurance/consumeinfo')
+      name: '消费机构信息',
+      component: () => import('@/views/accounts/insurance/consumeInfo')
     },
     {
       path: '/accounts/insurance/consumeinfomore',
-      name: '医保卡',
-      component: () => import('@/views/accounts/insurance/consumeinfomore')
+      name: '消费信息详情',
+      component: () => import('@/views/accounts/insurance/consumeInfoMore')
     },
     // hospital
     {
@@ -291,7 +286,7 @@ export default new Router({
     },
     {
       path: '/shopDrugSpecs',
-      name: '商品详情',
+      name: '商品首页',
       component: () => import('@/views/shopDrugSpecs/index.vue')
     },
     {
@@ -373,11 +368,6 @@ export default new Router({
       path: '/pay/alipay',
       name: '支付宝支付',
       component: () => import('@/views/orders/pay/alipay.vue')
-    },
-    {
-      path: '/orderRefunds/view',
-      name: '退款详情',
-      component: () => import('@/views/orderRefunds/view.vue')
     },
     {
       path: '/drugs',

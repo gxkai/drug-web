@@ -11,7 +11,7 @@
         {{item.point}}金币
       </div>
       <div>
-        2018-8-23
+        {{dateConvert(item.expiryDate)}}
       </div>
     </div>
   </div>
@@ -39,6 +39,7 @@
       justify-content: center;
       img {
         width: 165px;
+        height: 165px;
       }
     }
     &-text {

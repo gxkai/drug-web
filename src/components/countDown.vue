@@ -10,7 +10,15 @@
 <script>
   export default {
     name: 'countDown',
-    props: ['endTime'],
+    props: {
+      endTime: {},
+      durationDay: {
+        default: 0
+      },
+      durationMin: {
+        default: 0
+      }
+    },
     data() {
       return {
         day: 0,
@@ -18,17 +26,17 @@
         min: 0,
         sec: 0,
         msec: 0,
-        endTimeLocal: this.timeConvert(this.endTime)
+        endTimeLocal: this.endTime + this.durationDay * 86400000 + this.durationMin * 60
       };
     },
-    mounted: function () {
+    mounted() {
       this.countdown();
     },
     created() {
     },
     methods: {
-      countdown: function () {
-        const end = Date.parse(new Date(this.endTimeLocal));
+      countdown() {
+        const end = this.endTimeLocal;
         const now = Date.parse(new Date());
         const msec = end - now;
         this.msec = msec;
@@ -41,9 +49,8 @@
           this.hr = hr > 9 ? hr : '0' + hr;
           this.min = min > 9 ? min : '0' + min;
           this.sec = sec > 9 ? sec : '0' + sec;
-          const that = this;
-          setTimeout(function () {
-            that.countdown();
+          setTimeout(() => {
+            this.countdown();
           }, 1000);
         }
       }

@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="cart-list-drugs">
-            <van-cell-swipe v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
+            <van-swipe-cell v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
                             :right-width="65"
                             :key="cartDrugIndex">
               <div class="cart-list-drugs-item"
@@ -102,7 +102,7 @@
               <span slot="right"
                     class="cart-list-drugs-item-delete"
                     @click="onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">删除</span>
-            </van-cell-swipe>
+            </van-swipe-cell>
           </div>
         </div>
       </div>
@@ -138,9 +138,12 @@
   .cart {
     width: 720px;
     height: 100vh;
+    .iconfont {
+      font-size: 50px;
+    }
     &-list {
       &-shop {
-        padding: 20px 0;
+        padding: 20px 20px;
         display: flex;
         align-items: center;
         background-color: white;
@@ -149,7 +152,7 @@
           label {
             position: absolute;
             left: 5px;
-            top: 8px;
+            top: 5px;
             width: 30px;
             height: 30px;
             border-radius: 50%;
@@ -182,7 +185,7 @@
         }
       }
       &-rx {
-        padding: 20px 0;
+        padding: 20px 20px;
         display: flex;
         align-items: center;
         background-color: white;
@@ -195,7 +198,7 @@
             label {
               position: absolute;
               left: 5px;
-              top: 8px;
+              top: 5px;
               width: 30px;
               height: 30px;
               border-radius: 50%;
@@ -238,12 +241,14 @@
           display: flex;
           background-color: #f5f5f5;
           margin-bottom: 10px;
+          padding: 0 20px;
           &-delete {
             font-size: 30px;
             color: white;
-            padding: 0 40px;
-            line-height: 240px;
+            padding: 105px 40px;
+            line-height: 250px;
             font-weight: 200;
+            background-color: #1AB6FD;
           }
           &-left {
             display: flex;
@@ -252,7 +257,7 @@
               label {
                 position: absolute;
                 left: 5px;
-                top: 8px;
+                top: 20px;
                 width: 30px;
                 height: 30px;
                 border-radius: 50%;
@@ -335,6 +340,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 999;
+      padding-left: 20px;
       &-right {
         display: flex;
         &_sum {

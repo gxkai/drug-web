@@ -62,27 +62,36 @@
         </div>
         <div class="order_item-content-button"
              @click="onRefund()"
-             v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED'"
+             v-if="(order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED')
+                    && refundVerification(order.createdDate)"
              :style="activeButton">
           申请退款
         </div>
-        <div class="order_item-content-button"
-             @click="onConfirm()"
-             v-if="order.state == 'TO_RECEIVED'"
-             :style="activeButton">
-          确认收货
+        <div class="order_item-content-button order_item-content-button-receiveType"
+        v-if="order.state == 'TO_RECEIVED'"
+        :style="activeButton"
+        @click="showData = !showData">
+          收货方式
+          <div class="order_item-content-button-receiveType-list"
+          v-show="showData">
+            <div class="order_item-content-button-receiveType-list-item"
+                 @click="linkToQRCode">
+              扫码确认
+            </div>
+            <div class="order_item-content-button-receiveType-list-item"
+                 @click="popupVisible = true"
+                 v-if="order.deliveryType == 'SELF'">
+              收货二维码
+            </div>
+            <div class="order_item-content-button-receiveType-list-item"
+                  v-if="order.deliveryType == 'DELIVERY'"
+                 @click="onConfirm()">
+              手动确认
+            </div>
+          </div>
         </div>
         <div class="order_item-content-button"
-             @click="popupVisible = true"
-             v-if="order.deliveryType == 'SELF' && (order.state == 'TO_RECEIVED')">
-          收货二维码
-        </div>
-        <div class="order_item-content-button"
-             v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED')"
-             @click="linkToQRCode">
-          收货扫码
-        </div>
-        <div @click="onDelivery()"
+          @click="onDelivery()"
         v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
         查看配送
         </div>
@@ -112,6 +121,9 @@
   .order_item {
     background-color: white;
     margin-top: 20px;
+    .iconfont {
+      font-size: 50px;
+    }
     &-title {
       padding: 20px;
       display: flex;
@@ -216,6 +228,39 @@
         color: #555555;
         font-size: 25px;
         margin: 5px;
+        &-receiveType {
+          padding-right: 30px;
+          position: relative;
+          &:after {
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            content: '';
+            width: 0;
+            border-top: 10px solid #00ADB3;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            height: 0;
+          }
+          &-list {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            z-index: 9999;
+            background: white;
+            &-item {
+              border: 1PX solid #00ADB3;
+              border-radius: 20PX;
+              width:150px;
+              height: 50px;
+              text-align: center;
+              line-height: 50px;
+              margin: 5px;
+              font-size: 25px;
+            }
+          }
+        }
       }
     }
     &-qr_code {
@@ -237,7 +282,8 @@
         activeButton: {
           color: '#00ADB3',
           borderColor: '#00ADB3'
-        }
+        },
+        showData: false
       };
     },
     created() {

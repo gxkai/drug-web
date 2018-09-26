@@ -31,6 +31,10 @@
     <div class="rx_shop_item-cart_icon">
         <i class="iconfont ic-gouwuche1"></i>
     </div>
+    <div class="rx_shop_item-peisong_icon"
+    v-show="item.distribution === true">
+      <i class="iconfont ic-peisong-"></i>
+    </div>
   </div>
 </template>
 
@@ -45,6 +49,7 @@
       return {};
     },
     created() {
+      console.log(this.item);
     },
     mounted() {
     },
@@ -109,6 +114,15 @@
       i {
         font-size: 50px;
         color: red;
+      }
+    }
+    &-peisong_icon {
+      position: absolute;
+      right: 10px;
+      top: 80px;
+      i {
+        font-size: 80px;
+        color: #1AB6FD;
       }
     }
   }

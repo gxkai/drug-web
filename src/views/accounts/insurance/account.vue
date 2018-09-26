@@ -1,50 +1,74 @@
-<!-- FIXME 字体大小 -->
 <template>
-  <div class="insurance-container">
+  <div class="insurance-account">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
       ref="header"
     />
+    <div class="insurance-account__content"
+         ref="content">
+      <van-cell title="姓名"
+                class="mt-l-20"
+                :value="accountInfo.name">
+      </van-cell>
 
-    <router-link class="a-content-list flex-stream-sb padding-10" to="/faqs">
-      <span>2017年度</span>
-      <i class="iconfont ic-youjiantou"></i>
-    </router-link>
-    <router-link class="a-content-list flex-stream-sb padding-10" to="/feedbacks/create">
-      <span>2018年度</span>
-      <i class="iconfont ic-youjiantou"></i>
-    </router-link>
+      <van-cell title="医保编号" class="mt-l-20"
+                :value="accountInfo.medicaidNumber">
+      </van-cell>
 
+      <van-cell title="历史账户余额" class="mt-l-20"
+                :value="accountInfo.allBalance">
+      </van-cell>
+
+      <van-cell title="本年预划额度" class="mt-l-20"
+                :value="accountInfo.limit">
+      </van-cell>
+
+      <van-cell title="本年账户划入" class="mt-l-20"
+                :value="Number(accountInfo.shift)">
+      </van-cell>
+
+      <van-cell title="本年消费累计" class="mt-l-20"
+                :value="accountInfo.consume">
+      </van-cell>
+
+      <van-cell title="医保账户余额" class="mt-l-20"
+                :value="accountInfo.balance">
+      </van-cell>
+
+      <van-cell title="累计月数" class="mt-l-20"
+                :value="accountInfo.month">
+      </van-cell>
+    </div>
   </div>
 </template>
-<style scoped>
-
-  .insurance-container{
-    width: 720px;
-    height: 100vh;
-    background: #f5f5f5;
+<script>
+  export default {
+    data() {
+      return {
+        accountInfo: []
+      };
+    },
+    created() {
+      this.$http.get(this.$medicaid, {params: {ic: '1'}})
+        .then(res => {
+          this.accountInfo = res.data;
+          console.log(res.data);
+        })
+        .catch(err => {
+          this.exception(err);
+        });
+    },
+    mounted() {
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight
+      ) + 'px';
+      this.$refs.content.style.overflow = 'auto';
+    }
+  };
+</script>
+<style scoped type="text/less" lang="less">
+  .insurance-account {
+    background-color: #f5f5f5;
   }
-
-  .a-content-list{
-    display: block;
-    width:720px;
-    height:80px;
-    background:rgba(255,255,255,1);
-    margin-bottom: 15px;
-  }
-  .a-content-list span{
-    color: #535353;
-  }
-  .flex-stream-sb{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .padding-10{
-    padding:0 10px;
-    box-sizing: border-box;
-  }
-
 </style>

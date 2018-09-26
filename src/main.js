@@ -15,9 +15,11 @@ import fastclick from 'fastclick';
 import VueTouch from 'vue-touch';
 import filters from './assets/js/filters';
 import './assets/font/iconfont.css';
+import './assets/font/vanIcon.css';
 // import './assets/js/vconsole';
 import '../src/assets/plugin/vue-event-calendar/dist/style.css';
 import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
+import 'vant/lib/vant-css/icon-local.css';
 import Mui from 'vue-awesome-mui';
 import {Actionsheet,
   GoodsAction,
@@ -25,26 +27,38 @@ import {Actionsheet,
   GoodsActionMiniBtn,
   Popup,
   Loading,
-  CellSwipe,
+  SwipeCell,
   Dialog,
   NavBar,
-  Icon} from 'vant';
+  Icon,
+  Cell,
+  CellGroup,
+  Tabbar,
+  TabbarItem,
+  Row,
+  Col} from 'vant';
 import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)
   .use(Popup)
   .use(Loading)
-  .use(CellSwipe)
+  .use(SwipeCell)
   .use(Dialog)
   .use(NavBar)
   .use(Icon)
-
+  .use(Cell)
+  .use(CellGroup)
+  .use(Tabbar)
+  .use(TabbarItem)
+  .use(Row)
+  .use(Col)
 ;
 Vue.use(Mui);
 Vue.use(vueEventCalendar, {locale: 'zh'});
 Vue.prototype.$http = axios;
 Vue.prototype.$outside = process.env.OUTSIDE_ROOT;
+Vue.prototype.$medicaid = process.env.MEDICAID_ROOT;
 Vue.prototype.$storage = storage;
 Vue.config.productionTip = false;
 Vue.use(MintUI, {

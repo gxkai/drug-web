@@ -13,7 +13,7 @@
         </div>
         <div>
           <span>剩余积分</span>
-          <span>{{$store.getters.account.point}}</span>
+          <span>{{point}}</span>
         </div>
       </div>
       <div class="point-title-record">
@@ -31,9 +31,11 @@
         <div>兑换商品</div>
         <div></div>
       </div>
-      <div class="point-goods-list">
-        <new-coupon-item v-for="(item, index) in couponList" :key="index" :item="item"></new-coupon-item>
+      <div class="point-goods-list"
+           v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0">
+        <new-coupon-item v-for="(item, index) in list" :key="index" :item="item"></new-coupon-item>
       </div>
+      <new-no-data v-if="loadingComplete"></new-no-data>
     </div>
 
   </div>
@@ -43,31 +45,54 @@
     name: 'newPayList',
     data() {
       return {
-        pageNum: 1,
-        pageSize: 15,
-        couponList: [],
-        accountId: this.$store.getters.account.id
+        pageNum: 0,
+        pageSize: 8,
+        list: [],
+        loading: true,
+        loadingComplete: false,
+        account: this.$store.getters.account,
+        point: 0
       };
     },
-    methods: {
-      changes() {
-        this.$router.push('/points/exchangeRecord?id=' + this.accountId + '&type=realrecord');
-      }
+    created() {
+      this.getPoint();
+      this.loadMore();
     },
-    created: function () {
-      this.$http.get('/coupons')
-        .then(res => {
-          this.couponList = res.data.list;
-          this.id = res.data.list.id;
-        }).catch(error => {
-          this.exception(error);
-        });
+    mounted() {
+    },
+    methods: {
+      loadMore() {
+        this.loading = true;
+        this.pageNum++;
+        this.$http.get('/coupons?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+          .then(res => {
+            if (res.data.list.length > 0) {
+              this.list = this.list.concat(res.data.list);
+              this.loading = false;
+            } else {
+              this.loadingComplete = true;
+            }
+            console.log(res.data.list);
+          }).catch(error => {
+            this.exception(error);
+          });
+      },
+      getPoint() {
+        this.$http.get('/accounts')
+          .then(res => {
+            this.point = res.data.point;
+          })
+          .catch(err => {
+            this.exception(err);
+          });
+      }
     }
   };
 </script>
 <style scoped type="text/less" lang="less">
   .point {
     width: 720px;
+    height: 100vh;
     &-title {
       width: 100%;
       height:120px;
@@ -95,9 +120,11 @@
           font-family:HiraginoSansGB-W3;
           >span:nth-child(1) {
             color:rgba(51,51,51,1);
+            font-size: 30px;
           }
           >span:nth-child(2) {
             color: #EC6941;
+            font-size: 30px;
           }
         }
       }
@@ -110,9 +137,11 @@
         }
         >div:nth-child(2) {
           margin-left: 30px;
-          font-size:24px;
           font-family:HiraginoSansGB-W3;
           color:rgba(51,51,51,1);
+          &>span {
+            font-size: 30px;
+          }
         }
       }
     }

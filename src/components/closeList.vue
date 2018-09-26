@@ -81,6 +81,9 @@
       &_name {
         font-size: 30px;
       }
+      .iconfont {
+        font-size: 50px;
+      }
     }
     &-rx {
       padding: 20px;
@@ -94,6 +97,9 @@
         &_name {
           font-size: 30px;
           color: #1AB6FD;
+        }
+        .iconfont {
+          font-size: 50px;
         }
       }
       &-right {

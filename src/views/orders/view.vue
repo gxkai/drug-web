@@ -1,19 +1,19 @@
 <template>
   <div class="order_view">
     <van-nav-bar
-      title="订单详情"
+      :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
       ref="header"
     />
-    <!--<div class="order_view-state">-->
-      <!--<div class="order_view-state-left">-->
-        <!--<div class="order_view-state-left_name"-->
-             <!--v-text="transformOrderStateSec(order.state, order.refundState, this)"></div>-->
-        <!--<new-count-down :endTime="timeConvert(order.createdDate)"-->
-                        <!--class="order_view-state-left_time"></new-count-down>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="order_view-state"
+    :style="stateStyle">
+      <div class="order_view-state_name" v-text="transformOrderStateSec(order.state, order.refundState, this)">
+      </div>
+      <new-count-down :endTime="order.lastModifiedDate" durationMin='15' durationDay="100"
+                      class="order_view-state_time"
+                      v-show="order.state === 'TO_CHECK' || order.state === 'TO_PAY'"/>
+    </div>
     <div class="order_view-address"
     v-if="order.deliveryType === 'DELIVERY'">
       <div class="order_view-address-left">
@@ -32,19 +32,19 @@
     <div class="order_view-amount">
       <div>
       <span>商品总价</span>
-      <span>&yen;{{order.totalAmount}}</span>
+      <span>&yen;{{order.totalAmount||'0.0'}}</span>
       </div>
       <div>
       <span>医保扣除</span>
-      <span>&yen;{{order.medicaidAmount}}</span>
+      <span>&yen;{{order.medicaidAmount||'0.0'}}</span>
       </div>
       <div>
         <span>优惠券扣除</span>
-        <span>&yen;{{order.couponAmount}}</span>
+        <span>&yen;{{order.couponAmount||'0.0'}}</span>
       </div>
       <div>
       <span>需付款</span>
-      <span class="text-red">&yen;{{order.payAmount}}</span>
+      <span class="text-red">&yen;{{order.payAmount||'0.0'}}</span>
       </div>
     </div>
     <div class="order_view-deal">
@@ -58,6 +58,56 @@
         创建时间：{{timeConvert(order.createdDate)}}
       </div>
     </div>
+    <div class="order_view-buttons">
+      <div class="order_view-button"
+           @click="onCancel()"
+           v-if="order.state == 'TO_PAY'">
+        取消订单
+      </div>
+      <div class="order_view-button"
+           @click="onPay()"
+           v-if="order.state == 'TO_PAY'"
+           :style="activeButton">
+        我要付款
+      </div>
+      <div class="order_view-button"
+           @click="onRefund()"
+           v-if="(order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED')
+                && refundVerification(order.createdDate)"
+           :style="activeButton">
+        申请退款
+      </div>
+      <div class="order_view-button"
+           @click="onConfirm()"
+           v-if="order.state == 'TO_RECEIVED'"
+           :style="activeButton">
+        确认收货
+      </div>
+      <div class="order_view-button"
+           @click="popupVisible = true"
+           v-if="order.deliveryType == 'SELF' && (order.state == 'TO_RECEIVED')">
+        收货二维码
+      </div>
+      <div class="order_view-button"
+           v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED')"
+           @click="linkToQRCode">
+        收货扫码
+      </div>
+      <div class="order_view-button"
+           @click="onDelivery()"
+           v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
+        查看配送
+      </div>
+      <div class="order_view-button"
+           @click="onAppraise()"
+           v-if="order.state == 'TO_APPRAISE'">
+        我要评价
+      </div>
+      <div @click="linkToTakeDrug(order.id)"
+           v-if="order.state == 'TO_RECEIVED' && order.type === 'HOSPITAL'">取药地址
+      </div>
+
+    </div>
   </div>
 </template>
 
@@ -66,21 +116,22 @@
     width: 720px;
     &-state {
       position: relative;
-      background-color: #f5f5f5;
-      height: 160px;
-      &-left {
+      width: 100%;
+      height: 200px;
+      &_name {
         position: absolute;
-        left: 100px;
+        left: 150px;
         top: 50px;
-        &_name {
-          font-size: 30px;
-          color: #13C1FE;
-          font-weight: 200;
-        }
-        &_time {
-          font-size: 25px;
-          color: #FF0000;
-        }
+        font-size: 30px;
+        color: white;
+        font-weight: 200;
+      }
+      &_time {
+        position: absolute;
+        left: 150px;
+        top: 90px;
+        font-size: 25px;
+        color: #1AB6FD;
       }
     }
     &-address {
@@ -90,6 +141,7 @@
         padding: 20px;
         .iconfont {
           color: black;
+          font-size: 50px;
         }
       }
       &-right {
@@ -114,13 +166,31 @@
     &-amount {
       width: 100%;
       background-color: #f5f5f5;
-      margin-bottom: 20px;
+      margin: 20px 0;
       &>div {
         display: flex;
         justify-content: space-between;
         padding: 5px 20px;
         font-size: 25px;
+        &>span {
+          font-size: 25px;
+        }
       }
+    }
+    &-buttons {
+      background-color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    &-button {
+      border: 1PX solid #BFBFBF;
+      border-radius: 20PX;
+      padding: 5px 20px;
+      color: #555555;
+      font-size: 25px;
+      margin: 5px;
     }
   }
 
@@ -135,11 +205,56 @@
         title: '订单详情',
         orderId: this.$route.query.orderId,
         order: {},
-        showRx: true,
-        showNor: true
+        activeButton: {
+          color: '#00ADB3',
+          borderColor: '#00ADB3'
+        },
+        stateStyle: '',
+        deliverStyle: {
+          backgroundImage: 'url(' + require('@/assets/image/orderView/toDeliver.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100%'
+        },
+        receiveStyle: {
+          backgroundImage: 'url(' + require('@/assets/image/orderView/toReceive.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100%'
+        },
+        appraiseStyle: {
+          backgroundImage: 'url(' + require('@/assets/image/orderView/toAppraise.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100%'
+        },
+        payStyle: {
+          backgroundImage: 'url(' + require('@/assets/image/orderView/toPay.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100%'
+        },
+        refundingStyle: {
+          backgroundImage: 'url(' + require('@/assets/image/orderView/refunding.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100%'
+        },
+        completeStyle: {
+          backgroundImage: 'url(' + require('@/assets/image/orderView/complete.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100%'
+        },
+        checkStyle: {
+          backgroundImage: 'url(' + require('@/assets/image/orderView/toCheck.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100%'
+        },
+        closeStyle: {
+          backgroundImage: 'url(' + require('@/assets/image/orderView/close.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: '100%'
+        }
       };
     },
     components: {},
+    computed: {
+    },
     created() {
       this.initData();
     },
@@ -151,10 +266,32 @@
           .then(res => {
             this.order = res.data;
             console.log(res.data);
+            this.stateStyle = this.getStateStyle();
           })
           .catch(err => {
             this.exception(err);
           });
+      },
+      getStateStyle() {
+        if (this.order.refundState === 'REFUNDING') {
+          return this.refundingStyle;
+        }
+        switch (this.order.state) {
+          case 'CLOSED':
+            return this.closeStyle;
+          case 'TO_CHECK':
+            return this.checkStyle;
+          case 'TO_PAY':
+            return this.payStyle;
+          case 'TO_APPRAISE':
+            return this.appraiseStyle;
+          case 'TO_RECEIVED':
+            return this.receiveStyle;
+          case 'TO_DELIVERY':
+            return this.deliverStyle;
+          case 'COMPLETE':
+            return this.completeStyle;
+        }
       },
       onCancel() {
         this.$http.put('/orders/' + this.order.id + '/close').then(res => {

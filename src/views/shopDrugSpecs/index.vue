@@ -48,29 +48,6 @@
       </div>
       <!--库存结束-->
 
-      <!--配送商家开始-->
-      <div class="distribution">
-        <div>
-          <div>
-            <i class="iconfont ic-peisong"></i>&nbsp;&nbsp;
-          </div>
-          <div>商家配送</div>
-        </div>
-        <div>
-          <div>
-            <i class="iconfont ic-zitidai"></i>
-          </div>
-          <div>门店自提</div>
-        </div>
-        <div>
-          <div>
-            <i class="iconfont ic-mianfei"></i>&nbsp;&nbsp;
-          </div>
-          <div>免费配送</div>
-        </div>
-      </div>
-      <!--配送商家结束-->
-
       <!--商品详情开始-->
       <div class="shop-detail">
         <div
@@ -103,6 +80,8 @@
             </div>
           </div>
           <div class="right">
+            <i class="iconfont ic-peisong-"
+            v-show="shopDrugSpec.distribution === true"></i>
             <i class="iconfont ic-anquan"></i>
           </div>
         </div>
@@ -164,7 +143,7 @@
             <span class="fr d-inline-block text-l-25">{{drugAppraise.username|asterisk}}</span>
           </div>
           <div class="width-percent-94 m-auto good-comment">
-            <span class="elps text-l-25">{{drugAppraise.content||'暂无'}}</span>
+            <span class="elpsTwo text-l-25">{{drugAppraise.content||'暂无'}}</span>
           </div>
           <div class="times width-percent-94 m-auto text-l-25">
             {{timeConvert(drugAppraise.createdDate)}}
@@ -220,6 +199,7 @@
       .left {
         img {
           width: 100px;
+          height: 100px;
         }
       }
       .center {
@@ -276,13 +256,6 @@
 </style>
 
 <style scoped>
-  .is-flex {
-    display: flex !important;
-  }
-
-  .flex-sa {
-    justify-content: space-around;
-  }
 
   .bind-container {
     width: 720px;
@@ -363,16 +336,6 @@
   }
 
   /*配送方式*/
-
-  .distribution {
-    width: 720px;
-    height: 80px;
-    margin-top: 16px;
-    background: rgba(255, 255, 255, 1);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
 
   .distribution > div {
     display: flex;

@@ -19,7 +19,7 @@
     "postcss-px2rem": "^0.3.0",
     "px2rem-loader": "^0.1.9",
     "script-loader": "^0.7.2",
-    "vant": "^1.1.16",
+    "vant": "^1.2.1",
     "vconsole": "^3.2.0",
     "vue": "^2.5.2",
     "vue-awesome-mui": "^1.7.3",

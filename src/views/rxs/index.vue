@@ -63,7 +63,7 @@
               <td><img class="is-30x30" src="../../assets/image/rxs/recipe_4.png"></td>
               <td><span class="td-width-60 ellipsis text-888888 text-l-25">倒计时</span></td>
               <td>
-                  <new-count-down :endTime="rx.rxDate"></new-count-down>
+                  <new-count-down :endTime="rx.rxDate" durationDay="3"></new-count-down>
               </td>
             </tr>
             <div class="position-absolute position-rb t-l-60">

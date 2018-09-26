@@ -1,18 +1,19 @@
 <template>
-  <div class="insurance-consume">
+  <div class="insurance-consumeInfo">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
       ref="header"
     />
-    <div class="insurance-consume__content"
+    <div class="insurance-consumeInfo__content"
     ref="content">
-      <van-cell :title="item.year"
-                is-link
+      <van-cell :title="item.hospital"
                 class="mt-l-20"
-                v-for="(item,index) in items" :key="index"
-                @click="linkToConsumeInfo(item)">
+                :value="dateConvert(item.date)"
+                is-link
+                v-for="(item,index) in consumeInfo.list" :key="index"
+                @click="linkToConsumeInfoMore(item)">
       </van-cell>
     </div>
   </div>
@@ -21,18 +22,10 @@
   export default {
     data() {
       return {
-        items: []
+        consumeInfo: JSON.parse(this.$route.query.consumeInfo)
       };
     },
     created() {
-      this.$http.get(this.$medicaid + '/consume', { params: { ic: '1' } })
-        .then(res => {
-          this.items = res.data;
-          console.log(res.data);
-        })
-        .catch(err => {
-          this.exception(err);
-        });
     },
     mounted() {
       this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight
@@ -42,8 +35,7 @@
   };
 </script>
 <style scoped type="text/less" lang="less">
-  .insurance-consume {
+  .insurance-consumeInfo {
     background-color: #f5f5f5;
   }
-
 </style>

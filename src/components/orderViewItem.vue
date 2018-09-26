@@ -4,7 +4,7 @@
       <div class="order_item-title-left"
            @click="onShop()">
         <div>
-        <i class="iconfont ic-yaodian"></i>
+          <i class="iconfont ic-yaodian"></i>
         </div>
         <div class="order_item-title-left_name" v-text="order.shopName"></div>
       </div>
@@ -14,15 +14,16 @@
     </div>
     <div class="order_item-content">
       <div class="order_item-content-title"
-      v-if="isRx(order.rxId)">
+           v-if="isRx(order.rxId)">
         <div class="order_item-content-title-left">
           <div>
-          <i class="iconfont ic-chufangdanluru"></i>
+            <i class="iconfont ic-chufangdanluru"></i>
           </div>
           <div class="order_item-content-title-left_name">处方单</div>
         </div>
         <div class="order_item-content-title-right"
-             @click="onRx()">查看处方&gt;</div>
+             @click="onRx()">查看处方&gt;
+        </div>
       </div>
       <div class="order_item-content-info"
            v-for="item in order.list">
@@ -39,65 +40,20 @@
           </div>
           <div>
             <div class="order_item-content-info-right_price">
-                 &yen;{{item.price}}</div>
+              &yen;{{item.price}}
+            </div>
             <div class="order_item-content-info-right_quantity">
-              x{{item.quantity}}</div>
+              x{{item.quantity}}
+            </div>
           </div>
         </div>
       </div>
-      <div class="order_item-content-buttons">
-        <div class="order_item-content-button"
-             @click="onCancel()"
-             v-if="order.state == 'TO_PAY'">
-          取消订单
-        </div>
-        <div class="order_item-content-button"
-             @click="onPay()"
-             v-if="order.state == 'TO_PAY'"
-             :style="activeButton">
-          我要付款
-        </div>
-        <div class="order_item-content-button"
-             @click="onRefund()"
-             v-if="order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED'"
-             :style="activeButton">
-          申请退款
-        </div>
-        <div class="order_item-content-button"
-             @click="onConfirm()"
-             v-if="order.state == 'TO_RECEIVED'"
-             :style="activeButton">
-          确认收货
-        </div>
-        <div class="order_item-content-button"
-             @click="popupVisible = true"
-             v-if="order.deliveryType == 'SELF' && (order.state == 'TO_RECEIVED')">
-          收货二维码
-        </div>
-        <div class="order_item-content-button"
-             v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED')"
-             @click="linkToQRCode">
-          收货扫码
-        </div>
-        <div @click="onDelivery()"
-        v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
-        查看配送
-        </div>
-        <div class="order_item-content-button"
-             @click="onAppraise()"
-             v-if="order.state == 'TO_APPRAISE'">
-          我要评价
-        </div>
-        <div @click="linkToTakeDrug(order.id)"
-             v-if="order.state == 'TO_RECEIVED' && order.type === 'HOSPITAL'">取药地址</div>
-
-      </div>
     </div>
     <mt-popup
-    v-model="popupVisible"
-    position="center"
-    popup-transition="popup-fade">
-    <img :src="getQrCodeURL(order.id)" class="order_item-qr_code">
+      v-model="popupVisible"
+      position="center"
+      popup-transition="popup-fade">
+      <img :src="getQrCodeURL(order.id)" class="order_item-qr_code">
     </mt-popup>
   </div>
 </template>
@@ -105,6 +61,9 @@
   .order_item {
     background-color: white;
     margin-top: 20px;
+    .iconfont {
+      font-size: 50px;
+    }
     &-title {
       padding: 20px;
       display: flex;
@@ -155,7 +114,7 @@
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          &>div {
+          & > div {
             width: 450px;
             &:nth-child(2) {
               display: flex;
@@ -195,21 +154,6 @@
         justify-content: flex-end;
         font-size: 30px;
       }
-      &-buttons {
-        background-color: white;
-        padding: 20px;
-        display: flex;
-        justify-content: flex-end;
-        flex-wrap: wrap;
-      }
-      &-button {
-        border: 1PX solid #BFBFBF;
-        border-radius: 20PX;
-        padding: 5px 20px;
-        color: #555555;
-        font-size: 25px;
-        margin: 5px;
-      }
     }
     &-qr_code {
       width: 500px;
@@ -236,8 +180,7 @@
     created() {
       console.log(this.order);
     },
-    computed: {
-    },
+    computed: {},
     methods: {
       emitOrder() {
         this.$emit('update:order', this.order);
