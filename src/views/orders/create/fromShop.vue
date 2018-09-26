@@ -135,12 +135,16 @@
                 使用优惠券
               </div>
               <div class="pay_shop-content-coupon_popup-container-list">
-                <div class="pay_shop-content-coupon_popup-container-list-item"
+                <div class="pay_shop-content-coupon_popup-container-list-item van-hairline--bottom"
                      v-for="(item,key) in coupons"
                      :key="key"
                      @click="couponRecord = item;show = false;payAmount = shopDrugSpecOrderDTO.payAmount - item.minus">
                   <div class="text-l-28">
                     满{{item.amount}}减{{item.minus}}
+                  </div>
+                  <div>
+                    <input :id="item" type="radio"  :value="item"   v-model="couponRecord">
+                    <label :for="item"></label>
                   </div>
                 </div>
                 <div v-if="coupons.length === 0" class="pay_shop-content-coupon_popup-container-list-none text-l-28">
@@ -435,9 +439,48 @@
             &-list {
               padding: 20px;
               &-item {
-                text-align: center;
-                border-bottom: 1PX solid #999999;
-                padding: 10px;
+                padding: 5px 10px;
+                margin: 10px 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                div:nth-child(2) {
+                  position: relative;
+                }
+                div {
+                  font-size: 28px;
+                }
+                label {
+                  font-size: 28px;
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 50%;
+                  border: 1px solid #999;
+                }
+                input {
+                  width: 30px;
+                  height: 30px;
+                  opacity: 0;
+                }
+                input:checked+label {
+                  background-color: #13C1FE;
+                  border: 1PX solid #13C1FE;
+                }
+                input:checked+label::after {
+                  position: absolute;
+                  content: "";
+                  width: 7px;
+                  height: 12px;
+                  top: 4px;
+                  left: 8px;
+                  border: 1PX solid #fff;
+                  border-top: none;
+                  border-left: none;
+                  transform: rotate(45deg);
+                }
               }
               &-none {
                 text-align: center;

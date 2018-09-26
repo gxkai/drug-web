@@ -317,7 +317,13 @@
         this.$router.push({ path: '/rxs/view', query: { rxId: this.order.rxId } });
       },
       onShop() {
-        this.$router.push({ path: '/shops/view', query: { shopId: this.order.shopId } });
+        switch (this.order.type) {
+          case 'HOSPITAL':
+            this.$router.push({ path: '/hospital/view', query: { shopId: this.order.shopId } });
+            break;
+          default:
+            this.$router.push({ path: '/shops/view', query: { shopId: this.order.shopId } });
+        }
       },
       onDetail() {
         this.$router.push({ path: '/orders/view', query: { orderId: this.order.id } });

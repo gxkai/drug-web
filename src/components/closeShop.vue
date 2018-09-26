@@ -2,7 +2,8 @@
   <div class="close_shop_item">
     <div class="close_shop_item-header">
       <div class="close_shop_item-header-shop">
-        <div class="close_shop_item-header-shop_left">
+        <div class="close_shop_item-header-shop_left"
+        @click="onShop()">
           <div>
             <i class="iconfont ic-yaodian"></i>
           </div>
@@ -60,6 +61,17 @@
     props: ['shopInfo'],
     created() {
       console.log(this.shopInfo);
+    },
+    methods: {
+      onShop() {
+        switch (this.shopInfo.type) {
+          case 'HOSPITAL':
+            this.$router.push({ path: '/hospital/view', query: { shopId: this.shopInfo.shopId } });
+            break;
+          default:
+            this.$router.push({ path: '/shops/view', query: { shopId: this.shopInfo.shopId } });
+        }
+      }
     }
   };
 </script>

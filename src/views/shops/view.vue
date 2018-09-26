@@ -6,63 +6,66 @@
       @click-left="$router.go(-1)"
       ref="header"
     />
-    <div class="shop_view-info">
-      <img :src="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
-      <div class="shop_view-info-name">{{shopInfo.name}}</div>
-      <div class="shop_view-info-collect"
-           v-text="colloct ? '已收藏':'未收藏'"
-           :style="{backgroundColor: colloct ? 'red' : '#BFBFBF'}"
-           @click="collect"></div>
-    </div>
-    <div class="shop_view-score">
-      <div class="shop_view-score-info">
-        <div>{{shopInfo.describeScore}}分</div>
-        <div>客户服务</div>
+    <div ref="content">
+      <div class="shop_view-info mt-l-20">
+        <img :src="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
+        <div class="shop_view-info-name">{{shopInfo.name}}</div>
+        <div class="shop_view-info-collect"
+             v-text="colloct ? '已收藏':'未收藏'"
+             :style="{backgroundColor: colloct ? 'red' : '#BFBFBF'}"
+             @click="collect"></div>
       </div>
-      <div class="shop_view-score-cut_line"></div>
-      <div class="shop_view-score-info">
-        <div>{{toFixedOne(shopInfo.deliveryScore)}}分</div>
-        <div>发货速度</div>
-      </div>
-      <div class="shop_view-score-cut_line"></div>
-      <div class="shop_view-score-info">
-        <div>{{toFixedOne(shopInfo.serviceScore)}}分</div>
-        <div>物流速度</div>
-      </div>
-      <div class="shop_view-score-cut_line"></div>
-      <div class="shop_view-score-info">
-        <div>{{toFixedOne(shopInfo.packageScore)}}分</div>
-        <div>商品包装</div>
-      </div>
-    </div>
-
-    <div class="shop_view-drug_type">
-      <div v-for="item in drugTypes"
-      @click="linkToShopDrugs(shopId, item.id)">
-        {{item.type}}
-      </div>
-    </div>
-
-    <div class="shop_view-recommend_title">
-      <div></div>
-      <div>商家推荐</div>
-      <div></div>
-    </div>
-
-    <div class="shop_view-recommend_list">
-      <div class="shop_view-recommend_list-item"
-           v-for="recommend in recommendList"
-      @click="linkToShopDrugSpec(recommend.id)">
-        <div class="shop_view-recommend_list-item_logo">
-          <div class="rx_mark" v-if="!recommend.otc">处</div>
-          <img :src="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
+      <div class="shop_view-score">
+        <div class="shop_view-score-info">
+          <div>{{shopInfo.describeScore}}分</div>
+          <div>客户服务</div>
         </div>
-        <div class="shop_view-recommend_list-item_name">{{recommend.name}}</div>
-        <div class="shop_view-recommend_list-item_price">&yen;{{toFixedTwo(recommend.price)}}</div>
+        <div class="shop_view-score-cut_line"></div>
+        <div class="shop_view-score-info">
+          <div>{{toFixedOne(shopInfo.deliveryScore)}}分</div>
+          <div>发货速度</div>
+        </div>
+        <div class="shop_view-score-cut_line"></div>
+        <div class="shop_view-score-info">
+          <div>{{toFixedOne(shopInfo.serviceScore)}}分</div>
+          <div>物流速度</div>
+        </div>
+        <div class="shop_view-score-cut_line"></div>
+        <div class="shop_view-score-info">
+          <div>{{toFixedOne(shopInfo.packageScore)}}分</div>
+          <div>商品包装</div>
+        </div>
+      </div>
+
+      <div class="shop_view-drug_type">
+        <div v-for="item in drugTypes"
+             @click="linkToShopDrugs(shopId, item.id)">
+          {{item.type}}
+        </div>
+      </div>
+
+      <div class="shop_view-recommend_title">
+        <div></div>
+        <div>商家推荐</div>
+        <div></div>
+      </div>
+
+      <div class="shop_view-recommend_list">
+        <div class="shop_view-recommend_list-item"
+             v-for="recommend in recommendList"
+             @click="linkToShopDrugSpec(recommend.id)">
+          <div class="shop_view-recommend_list-item_logo">
+            <div class="rx_mark" v-if="!recommend.otc">处</div>
+            <img :src="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
+          </div>
+          <div class="shop_view-recommend_list-item_name">{{recommend.name}}</div>
+          <div class="shop_view-recommend_list-item_price">&yen;{{toFixedTwo(recommend.price)}}</div>
+        </div>
       </div>
     </div>
 
-    <div class="shop_view-footer">
+    <div class="shop_view-footer"
+    ref="footer">
         <div @click="linkToShopInfo(shopId)">
           商家介绍
         </div>
@@ -170,7 +173,6 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
-      margin-bottom: 100px;
       flex-wrap: wrap;
       &-item {
         width: 350px;
@@ -273,8 +275,9 @@
         });
     },
     mounted() {
-      // this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.clientHeight) + 'px';
-      // this.$refs.body.style.overflow = 'auto';
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight -
+        this.$refs.footer.clientHeight) + 'px';
+      this.$refs.content.style.overflow = 'auto';
     },
     methods: {
       collect() {
@@ -306,148 +309,3 @@
     }
   };
 </script>
-<!--<style scoped>-->
-<!--.is-flex {-->
-<!--display: flex !important;-->
-<!--}-->
-
-<!--.flex-wrap {-->
-<!--flex-wrap: wrap;-->
-<!--}-->
-
-<!--.type-list {-->
-<!--display: block;-->
-<!--width: 240px;-->
-<!--height: 80px;-->
-<!--line-height: 80px;-->
-<!--text-align: center;-->
-<!--font-size: 26px;-->
-<!--}-->
-
-<!--.container {-->
-<!--width: 720px;-->
-<!--height: 100vh;-->
-<!--}-->
-
-<!--.shop-header {-->
-<!--margin-top: 2px;-->
-<!--width: 720px;-->
-<!--height: 167px;-->
-<!--background: rgba(19, 193, 254, 1);-->
-<!--display: flex;-->
-<!--align-items: center;-->
-<!--justify-content: space-between;-->
-<!--}-->
-
-<!--.shop-header img {-->
-<!--width: 100px;-->
-<!--border-radius: 50%;-->
-<!--border: 1px solid #FFFEFE;-->
-<!--background: rgb(255, 254, 254);-->
-<!--display: block;-->
-<!--margin-left: 59px;-->
-<!--}-->
-
-<!--.shop-name {-->
-<!--font-size: 36px;-->
-<!--color: rgba(255, 254, 254, 1);-->
-<!--}-->
-
-<!--.shop-collect {-->
-<!--background: #ef4f4f;-->
-<!--margin-right: 35px;-->
-<!--font-size: 22px;-->
-<!--color: rgba(255, 254, 254, 1);-->
-<!--border: 1PX solid #cccccc;-->
-<!--padding: 5px 10px;-->
-<!--}-->
-
-<!--.shop-not-collect {-->
-<!--background: rgba(191, 191, 191, 1);-->
-<!--margin-right: 35px;-->
-<!--font-size: 22px;-->
-<!--color: rgba(255, 254, 254, 1);-->
-<!--border: 1PX solid #cccccc;-->
-<!--padding: 5px 10px;-->
-<!--}-->
-<!--.shop-score {-->
-<!--width: 650px;-->
-<!--height: 100px;-->
-<!--background: rgba(255, 255, 255, 1);-->
-<!--display: flex;-->
-<!--justify-content: space-between;-->
-<!--align-items: center;-->
-<!--margin: auto;-->
-<!--margin-top: 14px;-->
-<!--}-->
-
-<!--.shop-score li {-->
-<!--display: inline-block;-->
-<!--}-->
-
-<!--.shop-score span {-->
-<!--display: block;-->
-<!--width: 100px;-->
-<!--font-size: 24px;-->
-<!--color: rgba(153, 153, 153, 1);-->
-<!--text-align: center;-->
-<!--}-->
-
-<!--.shop-score-boundary {-->
-<!--width: 1PX;-->
-<!--height: 45px;-->
-<!--background-color: #999999;-->
-<!--}-->
-
-<!--.shop-recommend {-->
-<!--width: 720px;-->
-<!--background: rgba(255, 255, 255, 1);-->
-<!--font-size: 26px;-->
-<!--color: rgba(51, 51, 51, 1);-->
-<!--display: flex;-->
-<!--justify-content: center;-->
-<!--padding: 30px 0;-->
-<!--}-->
-
-<!--.shop-goods-list {-->
-<!--width: 360px;-->
-<!--height: 409px;-->
-<!--background: rgba(255, 255, 255, 1);-->
-<!--float: left;-->
-<!--border: 1PX solid #f5f5f5;-->
-<!--}-->
-
-<!--.shop-goods img {-->
-<!--width: 224px;-->
-<!--height: 224px;-->
-<!--margin: 72px 50px 26px 50px;-->
-<!--}-->
-
-<!--.shop-goods span {-->
-<!--width: 218px;-->
-<!--display: block;-->
-<!--text-align: center;-->
-<!--font-size: 25px;-->
-<!--color: black;-->
-<!--}-->
-
-<!--.shop-footer {-->
-<!--width: 720px;-->
-<!--height: 89px;-->
-<!--background: rgba(255, 255, 255, 1);-->
-<!--position: fixed;-->
-<!--bottom: 0;-->
-<!--left: 0;-->
-<!--}-->
-
-<!--.shop-footer a {-->
-<!--width: 230px;-->
-<!--height: 90px;-->
-<!--display: inline-block;-->
-<!--line-height: 90px;-->
-<!--text-align: center;-->
-<!--color: rgba(102, 102, 102, 1);-->
-<!--font-size: 30px;-->
-<!--}-->
-
-<!--</style>-->

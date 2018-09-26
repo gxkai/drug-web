@@ -36,7 +36,11 @@ import {Actionsheet,
   Tabbar,
   TabbarItem,
   Row,
-  Col} from 'vant';
+  Col,
+  Swipe,
+  SwipeItem,
+  RadioGroup,
+  Radio} from 'vant';
 import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
@@ -53,6 +57,10 @@ Vue.use(Actionsheet).use(GoodsAction)
   .use(TabbarItem)
   .use(Row)
   .use(Col)
+  .use(Swipe)
+  .use(SwipeItem)
+  .use(RadioGroup)
+  .use(Radio)
 ;
 Vue.use(Mui);
 Vue.use(vueEventCalendar, {locale: 'zh'});
@@ -119,8 +127,8 @@ axios.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          store.commit('SET_TOKEN', '');
-          store.commit('SET_ACCOUNT', {});
+          store.commit('SET_TOKEN', null);
+          store.commit('SET_ACCOUNT', null);
           router.push({
             path: '/login',
             query: {redirect: router.currentRoute.fullPath}

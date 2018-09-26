@@ -100,9 +100,10 @@
           <div class="drugs_shops-popup-content-list">
             <div class="drugs_shops-popup-content-list-item"
                  v-for="item in drugSpecs"
-                 :class="{'drugs_shops-popup-content-list-active':drugSpec === item}">
+                 :class="{'drugs_shops-popup-content-list-active':drugSpec === item}"
+                 @click="popupVisible = false; drugSpec = item">
               <div>{{item.name}}</div>
-              <div  @click="popupVisible = false">
+              <div>
                 <input :id="item" type="radio"  :value="item"   v-model="drugSpec">
                         <label :for="item"></label>
               </div>
