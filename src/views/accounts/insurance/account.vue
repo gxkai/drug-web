@@ -51,7 +51,7 @@
       };
     },
     created() {
-      this.$http.get(this.$medicaid, {params: {ic: '1'}})
+      this.$http.get('/accounts/medicaid')
         .then(res => {
           this.accountInfo = res.data;
           console.log(res.data);

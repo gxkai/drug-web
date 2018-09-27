@@ -1,62 +1,72 @@
 <template>
   <div class="shops">
-    <div class="shops-header" ref="header">
-      <new-header>
-        <div slot="left" @click="$router.go(-1)">
-          <i class="iconfont ic-arrow-right"></i>
+    <div ref="header">
+      <div class="shops-header">
+        <new-header>
+          <div slot="left" @click="$router.go(-1)">
+            <i class="iconfont ic-arrow-right"></i>
+          </div>
+          <div slot="center">
+            <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/drugs')">
+          </div>
+        </new-header>
+      </div>
+      <div class="shops-filter">
+        <div class="shops-filter-item" @click="orderById()">
+          <div class="shops-filter-item-text">
+            综合
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'ID_DESC'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
         </div>
-        <div slot="center">
-          <input v-model="keyword" class="iconfont" :placeholder="searchIcon" @focus="$router.push('/shops')">
+        <div class="shops-filter-item" @click="orderByDistance()">
+          <div class="shops-filter-item-text">
+            距离
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:sort === 'DISTANCE_ASC'? '#13C1FE': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'DISTANCE_DESC'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
         </div>
-      </new-header>
+        <div class="shops-filter-item" @click="orderByScore()">
+          <div class="shops-filter-item-text">
+            评价
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:sort === 'SCORE_ASC'? '#13C1FE': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'SCORE_DESC'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
+        </div>
+        <div class="shops-filter-item" @click="orderByPrice()">
+          <div class="shops-filter-item-text">
+            价格
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:sort === 'PRICE_ASC'? '#13C1FE': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'PRICE_DESC'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="shops-filter" ref="filter">
-      <div class="shops-filter-item" @click="orderById()">
-        <div class="shops-filter-item-text">
-          综合
-        </div>
-        <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up">
-          </div>
-          <div class="shops-filter-item-arrow-down">
-          </div>
-        </div>
-      </div>
-      <div class="shops-filter-item" @click="orderByDistance()">
-        <div class="shops-filter-item-text">
-          距离最近
-        </div>
-        <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up">
-          </div>
-          <div class="shops-filter-item-arrow-down">
-          </div>
-        </div>
-      </div>
-      <div class="shops-filter-item" @click="orderByScore()">
-        <div class="shops-filter-item-text">
-          好评优先
-        </div>
-        <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up">
-          </div>
-          <div class="shops-filter-item-arrow-down">
-          </div>
-        </div>
-      </div>
-      <div class="shops-filter-item" @click="orderByPrice()">
-        <div class="shops-filter-item-text">
-          价格
-        </div>
-        <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up">
-          </div>
-          <div class="shops-filter-item-arrow-down">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="shops-container" ref="body">
+    <div class="shops-container"
+         ref="content">
       <div @click="linkToRxShopDrug(rxId, hospital.id, hospital.name, 'HOSPITAL')">
         <new-rx-hospital-item :item="hospital"/>
       </div>
@@ -79,24 +89,15 @@
         rxId: this.$route.query.rxId,
         rxShops: [],
         position: this.$store.getters.position,
-        val: -1,
-        comprehensive1: -1,
-        index1: 1,
-        index2: 2,
-        index3: 3,
-        index4: 4,
-        comprehensive2: -2,
-        comprehensive3: -3,
-        comprehensive4: -4,
         hospitalId: this.$route.query.hospitalId,
         hospital: {},
-        keyword: '',
-        searchIcon: '\ue64c 药品名'
+        searchIcon: '\ue64c 药品名',
+        sort: 'ID_DESC'
       };
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.filter.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'auto';
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.content.style.overflow = 'auto';
     },
     created() {
       this.getRxShops();
@@ -123,102 +124,34 @@
         ;
       },
       orderById() {
-        this.rxShops = this.orderListsById(this.rxShops);
-        this.comprehensive1 = 1;
-        this.comprehensive2 = 7;
-        this.comprehensive3 = 7;
-        this.comprehensive4 = 7;
+        this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);
       },
       orderByDistance() {
-        this.rxShops = this.orderListsByDistance(this.rxShops);
-        this.comprehensive2 = 2;
-        this.comprehensive1 = 7;
-        this.comprehensive3 = 7;
-        this.comprehensive4 = 7;
+        if (this.sort === 'DISTANCE_DESC') {
+          this.sort = 'DISTANCE_ASC';
+          this.rxShops = this.rxShops.sort((a, b) => a.distance - b.distance);
+        } else {
+          this.sort = 'DISTANCE_DESC';
+          this.rxShops = this.rxShops.sort((a, b) => b.distance - a.distance);
+        }
       },
       orderByScore() {
-        this.rxShops = this.orderListsByScore(this.rxShops);
-        this.comprehensive3 = 3;
-        this.comprehensive1 = 7;
-        this.comprehensive2 = 7;
-        this.comprehensive4 = 7;
+        if (this.sort === 'SCORE_DESC') {
+          this.sort = 'SCORE_ASC';
+          this.rxShops = this.rxShops.sort((a, b) => a.score - b.score);
+        } else {
+          this.sort = 'SCORE_DESC';
+          this.rxShops = this.rxShops.sort((a, b) => b.score - a.score);
+        }
       },
       orderByPrice() {
-        this.comprehensive4 = 4;
-        this.comprehensive1 = 7;
-        this.comprehensive2 = 7;
-        this.comprehensive3 = 7;
-        this.val = -(this.val);
-        if (this.val === -1) {
-          this.rxShops = this.orderListsByPriceASC(this.rxShops);
+        if (this.sort === 'PRICE_DESC') {
+          this.sort = 'PRICE_ASC';
+          this.rxShops = this.rxShops.sort((a, b) => a.amount - b.amount);
         } else {
-          this.rxShops = this.orderListsByPriceDESC(this.rxShops);
+          this.sort = 'PRICE_DESC';
+          this.rxShops = this.rxShops.sort((a, b) => b.amount - a.amount);
         }
-      },
-      orderListsByPriceASC(list) {
-        const len = list.length;
-        for (let i = 0; i < len - 1; i++) {
-          for (let j = 0; j < len - 1 - i; j++) {
-            if (list[j].amount > list[j + 1].amount) {
-              let temp = list[j + 1];
-              list[j + 1] = list[j];
-              list[j] = temp;
-            }
-          }
-        }
-        return list;
-      },
-      orderListsByPriceDESC(list) {
-        const len = list.length;
-        for (let i = 0; i < len - 1; i++) {
-          for (let j = 0; j < len - 1 - i; j++) {
-            if (list[j].amount < list[j + 1].amount) {
-              let temp = list[j + 1];
-              list[j + 1] = list[j];
-              list[j] = temp;
-            }
-          }
-        }
-        return list;
-      },
-      orderListsById(list) {
-        const len = list.length;
-        for (let i = 0; i < len - 1; i++) {
-          for (let j = 0; j < len - 1 - i; j++) {
-            if (list[j].id > list[j + 1].id) {
-              let temp = list[j + 1];
-              list[j + 1] = list[j];
-              list[j] = temp;
-            }
-          }
-        }
-        return list;
-      },
-      orderListsByDistance(list) {
-        const len = list.length;
-        for (let i = 0; i < len - 1; i++) {
-          for (let j = 0; j < len - 1 - i; j++) {
-            if (list[j].distance > list[j + 1].distance) {
-              let temp = list[j + 1];
-              list[j + 1] = list[j];
-              list[j] = temp;
-            }
-          }
-        }
-        return list;
-      },
-      orderListsByScore(list) {
-        const len = list.length;
-        for (let i = 0; i < len - 1; i++) {
-          for (let j = 0; j < len - 1 - i; j++) {
-            if (list[j].score > list[j + 1].score) {
-              let temp = list[j + 1];
-              list[j + 1] = list[j];
-              list[j] = temp;
-            }
-          }
-        }
-        return list;
       }
     }
   };
@@ -226,7 +159,6 @@
 
 <style scoped type="text/less" lang="less">
   .shops {
-    height: 100vh;
     width: 720px;
     &-header {
       header {
@@ -262,13 +194,13 @@
           justify-content: center;
           &-up {
             border: 7px solid white;
-            border-bottom-color: #13C1FE;
+            border-bottom-color: gray;
             width: 0;
             height: 0;
           }
           &-down {
             border: 7px solid white;
-            border-top-color: #13C1FE;
+            border-top-color: gray;
             width: 0;
             height: 0;
             margin-top: 2px;
@@ -276,9 +208,5 @@
         }
       }
     }
-  }
-
-  .border-bottom-grey {
-    border-bottom: 1px #f3f3f3 solid;
   }
 </style>

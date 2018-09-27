@@ -21,6 +21,7 @@
     },
     data() {
       return {
+        timer: '',
         day: 0,
         hr: 0,
         min: 0,
@@ -33,6 +34,9 @@
       this.countdown();
     },
     created() {
+    },
+    beforeDestroy() {
+      clearTimeout(this.timer);
     },
     methods: {
       countdown() {
@@ -49,7 +53,7 @@
           this.hr = hr > 9 ? hr : '0' + hr;
           this.min = min > 9 ? min : '0' + min;
           this.sec = sec > 9 ? sec : '0' + sec;
-          setTimeout(() => {
+          this.timer = setTimeout(() => {
             this.countdown();
           }, 1000);
         }

@@ -40,7 +40,11 @@ import {Actionsheet,
   Swipe,
   SwipeItem,
   RadioGroup,
-  Radio} from 'vant';
+  Radio,
+  SubmitBar,
+  Rate,
+  Button,
+  Stepper} from 'vant';
 import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
@@ -61,6 +65,10 @@ Vue.use(Actionsheet).use(GoodsAction)
   .use(SwipeItem)
   .use(RadioGroup)
   .use(Radio)
+  .use(SubmitBar)
+  .use(Rate)
+  .use(Button)
+  .use(Stepper)
 ;
 Vue.use(Mui);
 Vue.use(vueEventCalendar, {locale: 'zh'});

@@ -157,13 +157,12 @@
       </div>
       <div class="dividing"></div>
     </div>
-    <div class="pay_shop-footer"
-    ref="footer">
-      <div>
-        <span>实付金额&#58;<i>&yen;{{toFixedTwo(payAmount)}}</i></span>
-        <span @click.stop="onOrder()">提交订单</span>
-      </div>
-    </div>
+    <van-submit-bar
+      :price="payAmount*100"
+      button-text="提交订单"
+      @submit="onOrder"
+      ref="footer"
+    />
   </div>
 </template>
 <script>
@@ -194,7 +193,7 @@
       this.getData();
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.clientHeight
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.$el.clientHeight
       ) + 'px';
       this.$refs.content.style.overflow = 'auto';
     },
@@ -227,6 +226,7 @@
           });
       },
       onOrder() {
+        this.$refs.footer._props.loading = true;
         let json = {};
         switch (this.deliveryType) {
           case 'DELIVERY':
@@ -247,6 +247,7 @@
             path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType
           });
         }).catch(error => {
+          this.$refs.footer._props.loading = true;
           this.exception(error);
         });
       },

@@ -8,7 +8,7 @@
       @click-right="onRemoveBatch()"
       ref="header"
     />
-    <div class="cart-list" ref="list">
+    <div class="cart-list" ref="content">
       <new-no-data v-if="cartShops.length === 0"></new-no-data>
       <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
         <div class="cart-list-shop"
@@ -64,15 +64,15 @@
             <van-swipe-cell v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
                             :right-width="65"
                             :key="cartDrugIndex">
-              <div class="cart-list-drugs-item"
-                   @click="linkToShopDrugSpec(cartDrug.id)">
+              <div class="cart-list-drugs-item">
                 <div class="cart-list-drugs-item-left">
                   <div class="cart-list-drugs-item-left_radio"
                        @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
                     <input type="checkbox" v-model="cartDrug.radio">
                     <label></label>
                   </div>
-                  <div class="cart-list-drugs-item-left_logo">
+                  <div class="cart-list-drugs-item-left_logo"
+                       @click="linkToShopDrugSpec(cartDrug.id)">
                     <div class="rx_mark"
                          v-if="!cartDrug.otc">
                       处
@@ -93,8 +93,16 @@
                     <div class="cart-list-drugs-item-right_price">
                       &yen;{{cartDrug.price}}
                     </div>
-                    <div class="cart-list-drugs-item-right_quantity">
-                      x{{cartDrug.quantity}}
+                    <div>
+                      <span class="cart-list-drugs-item-right_quantity"
+                            v-if="isRx(cartRx.rxId)">x{{cartDrug.quantity}}</span>
+                      <van-stepper
+                        v-model="cartDrug.quantity"
+                        integer
+                        :min="1"
+                        :step="1"
+                        v-else
+                      />
                     </div>
                   </div>
                 </div>
@@ -107,31 +115,21 @@
         </div>
       </div>
     </div>
-    <div class="cart-commit"
-         :style="{'opacity': cartShops.length === 0 ? 0:1}"
-    ref="commit">
-      <div class="cart-commit-left">
-        <div class="cart-commit-left_radio"
-             @click.stop="onRadio(All)">
+    <div ref="footer">
+      <van-submit-bar
+        :price="allPrice*100"
+        :button-text="'结算('+allQuantity+')'"
+        @submit="onOrder"
+        :style="{'opacity': cartShops.length === 0 ? 0:1}"
+      >
+        <div @click.stop="onRadio(All)">
           <input type="checkbox" v-model="chooseAll">
           <label></label>
+          <span>全选</span>
         </div>
-        <div class="cart-commit-left_all">
-          全选
-        </div>
-      </div>
-      <div class="cart-commit-right">
-        <div class="cart-commit-right_sum">
-          <span>合计</span>
-          <span class="cart-commit-right_sum-price">&yen;{{toFixedTwo(allPrice)}}</span>
-        </div>
-        <div class="cart-commit-right_close"
-        @click="onOrder()">
-          结算({{allQuantity}})
-        </div>
-      </div>
+      </van-submit-bar>
+      <new-footer :urlRouter="$route.path"></new-footer>
     </div>
-    <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
 </template>
 <style scoped type="text/less" lang="less">
@@ -332,75 +330,41 @@
         }
       }
     }
-    &-commit {
-      width: 100%;
-      position: fixed;
+    .van-submit-bar {
       bottom: 100px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 999;
-      padding-left: 20px;
-      &-right {
-        display: flex;
-        &_sum {
-          padding: 30px;
-          & > span {
-            font-size: 30px;
-          }
-          &-price {
-            color: #FF0000;
-          }
-        }
-        &_close {
-          background-color: #FF0000;
-          padding: 30px 50px;
-          font-size: 30px;
-          color: white;
-          font-weight: 200;
-        }
+      span {
+        margin-left: 20px;
+        font-size: 30px;
       }
-      &-left {
-        display: flex;
-        align-items: center;
-        &_radio {
-          position: relative;
-          padding: 0 0 8px 0;
-        }
-        &_all {
-          padding-left: 10px;
-          font-size: 30px;
-        }
-        label {
-          position: absolute;
-          left: 5px;
-          top: 8px;
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          border: 1px solid #13C1FE;
-        }
-        input {
-          width: 30px;
-          height: 30px;
-          opacity: 0;
-        }
-        input:checked + label {
-          background-color: #13C1FE;
-          border: 1PX solid #13C1FE;
-        }
-        input:checked + label::after {
-          position: absolute;
-          content: "";
-          width: 7px;
-          height: 12px;
-          top: 6px;
-          left: 8px;
-          border: 1PX solid #fff;
-          border-top: none;
-          border-left: none;
-          transform: rotate(45deg);
-        }
+      label {
+        position: absolute;
+        left: 20px;
+        top: 34px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 1px solid #13C1FE;
+      }
+      input {
+        width: 30px;
+        height: 30px;
+        opacity: 0;
+      }
+      input:checked + label {
+        background-color: #13C1FE;
+        border: 1PX solid #13C1FE;
+      }
+      input:checked + label::after {
+        position: absolute;
+        content: "";
+        width: 7px;
+        height: 12px;
+        top: 6px;
+        left: 8px;
+        border: 1PX solid #fff;
+        border-top: none;
+        border-left: none;
+        transform: rotate(45deg);
       }
     }
   }
@@ -454,11 +418,9 @@
       this.getData();
     },
     mounted() {
-      this.$nextTick(() => {
-        this.$refs.list.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.commit.clientHeight - this.$refs.footer.$el.clientHeight
-        ) + 'px';
-        this.$refs.list.style.overflow = 'auto';
-      });
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight -
+        this.$refs.footer.offsetTop) + 'px';
+      this.$refs.content.style.overflow = 'auto';
     },
     methods: {
       getData() {
@@ -592,10 +554,12 @@
           Toast('请选择药品');
           return;
         }
+        this.$refs.commit._props.loading = true;
         this.$http.get('/orders/cart?cartIds=' + cartIds).then(res => {
           console.log(res.data);
           this.$router.push({ path: '/orders/create/fromCart', query: { cart: JSON.stringify(res.data) } });
         }).catch(error => {
+          this.$refs.commit._props.loading = false;
           this.exception(error);
         });
       },

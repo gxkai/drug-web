@@ -1,5 +1,4 @@
 <template>
-  <div>
     <footer>
       <router-link tag="div" to="/chats">
         <i class="iconfont ic-zixun"></i>
@@ -31,7 +30,6 @@
         <p>立即购买</p>
       </div>
     </footer>
-  </div>
 </template>
 
 <script>

@@ -33,9 +33,6 @@
     i {
       font-size: 40px!important;
       color: white!important;
-      &:before {
-        color: white!important;
-      }
     }
   }
 }
@@ -84,6 +81,34 @@
       font-size: 25px!important;
       margin-top: 10px!important;
     }
+  }
+}
+
+.van-goods-action {
+  &-mini-btn {
+    height: 100px;
+    font-size: 25px;
+    &__icon {
+      font-size: 30px;
+    }
+  }
+  &-big-btn {
+    height: 100px;
+    line-height: 100px;
+  }
+}
+
+.van-submit-bar {
+  &__bar {
+    height: 100px;
+  }
+  &__text {
+    span {
+      font-size: 30px;
+    }
+  }
+  .van-button {
+    width: 180px;
   }
 }
 

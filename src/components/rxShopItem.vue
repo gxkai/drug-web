@@ -12,7 +12,13 @@
           <div class="text-red">&yen;{{toFixedTwo(item.amount)}}</div>
         </div>
         <div class="elps">
-          <new-star :score="item.score"></new-star>
+          <van-rate
+            v-model="item.score"
+            :size="15"
+            :count="5"
+            disabled
+            disabled-color="red"
+          />
         </div>
         <div class="elps">
           电话：{{item.phone}}

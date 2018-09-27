@@ -1,102 +1,98 @@
 <template>
-  <div class="rxs-content position-relative">
+  <div class="rx">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
       ref="header"
     />
-    <div class="shadow" v-show="show">
-      <div class="box">
-        <div class="header">
-          <div class="left">
-            <div>
-              <i class="iconfont ic-changshangbaojia text-13C1FE"></i>
-            </div>
-            <div>
-              选择厂商
-            </div>
+    <van-popup v-model="show">
+      <div class="rx__popup">
+        <div class="rx__popup__header van-hairline--bottom">
+          <div class="rx__popup__header__left">
+            <van-icon name="changshangbaojia" color="#13C1FE" size="3em"/>
+            <span>选择厂商</span>
           </div>
-          <div class="right">
-            <i class="iconfont ic-guanbi2 text-13C1FE" @click="takeUp"></i>
+          <div class="rx__popup__header__right">
+            <van-icon name="arrowdown" color="#13C1FE" size="3em"/>
           </div>
         </div>
-        <div class="content">
-          <div class="header">
-            <div class="left">
-              <div>
-                <i class="iconfont ic-changfang text-13C1FE"></i>
-              </div>
-              <div>
-                厂商名称
-              </div>
+        <div class="rx__popup__content">
+          <div class="rx__popup__content__header van-hairline--bottom">
+            <div class="rx__popup__content__header__left">
+              <van-icon name="changfang" color="#13C1FE" size="3em"/>
+              <span>厂商名称</span>
             </div>
-            <div class="right">
-              <div>
-                <i class="iconfont ic-jiage text-13C1FE"></i>
-              </div>
-              <div>
-                价格
-              </div>
+            <div class="rx__popup__content__header__right">
+              <van-icon name="jiage" color="#13C1FE" size="3em"/>
+              <span>价格</span>
             </div>
           </div>
-          <div class="list">
-            <div class="item"
-                 v-for="(origin,index) in origins"
-                 :key="index"
-                 @click="choose(index)">
-              <div class="width-percent-100">
-                <span class="left">{{origin.originName}}</span><span class="text-red right">¥{{origin.price}}</span>
-              </div>
-            </div>
+          <div class="rx__popup__content__item van-hairline--bottom"
+               v-for="(origin,index) in origins"
+               :key="index"
+               @click="choose(index)">
+            <span>
+              {{origin.originName}}
+            </span>
+            <span>
+              &yen;{{origin.price}}
+            </span>
           </div>
         </div>
       </div>
-    </div>
+    </van-popup>
 
-    <ul>
-      <li v-for="(drug,index) in drugs" :key="index" class="m-10 text-l-20 drug-item">
-        <div class="rx-shop-drugs-box is-flex flex-row flex-item pl-20 position-relative">
-          <span class="toc-tip position-absolute all-center bg-red" v-if="!carts[index].otc">处</span>
-          <img class="is-200x200" :src="getImgURL(carts[index].fileId, 'LARGE_LOGO')">
-          <div class="box-right is-flex flex-column flex-sa ml-40">
-            <div class="position-relative">
-              <i class="iconfont ic-changfang text-13C1FE"></i>
-              <span class="text-box">厂商&#58;</span>
-              <span class="text-info">{{carts[index].originName}}</span>
-              <i @click="lookMore(index)" :class="{'iconfont ic-youjiantou':isActive}"></i>
-              <i @click="lookMore(index)" :class="{'iconfont ic-xiajiantou':!isActive}"></i>
-            </div>
-            <div>
-              <i class="iconfont ic-yao text-13C1FE"></i>
-              <span class="text-box">名称&#58;</span>
-              <span class="text-l-25">{{carts[index].name}}</span>
-            </div>
-            <div>
-        <span>
-           <i class="iconfont ic-yaopinshuju text-13C1FE"></i>
-           <span class="text-box">规格&#58;</span>
-           <span class="text-l-25">{{carts[index].spec}}</span>
-        </span>
-            </div>
-            <div>
-              <i class="iconfont ic-qian text-13C1FE"></i>
-              <span class="text-box">最低价&#58;</span>
-              <span class="text-red text-l-25">&yen;{{toFixedTwo(carts[index].price)}}</span>
-              <span class="text-l-30 text-a6a6a6 ml-l-90">&times;{{carts[index].quantity}}</span>
-            </div>
+    <div class="rx__content" ref="content">
+      <div class="rx__content__item"
+           v-for="(drug,index) in drugs" :key="index">
+        <div class="rx__content__item__left">
+          <div class="rx_mark"
+               v-if="!carts[index].otc">处</div>
+          <img  v-lazy="getImgURL(carts[index].fileId, 'LARGE_LOGO')"
+          class="rx__content__item__left-logo">
+        </div>
+        <div class="rx__content__item__right">
+          <div class="rx__content__item__right-originName">
+            <van-icon name="changfang" color="#13C1FE" size="3em"></van-icon>
+            <span>厂商</span>
+            <span>{{carts[index].originName}}</span>
+            <van-icon name="arrow" @click="lookMore(index)"></van-icon>
+          </div>
+          <div class="rx__content__item__right-name">
+            <van-icon name="yao" color="#13C1FE" size="3em"></van-icon>
+            <span>名称</span>
+            <span>{{carts[index].name}}</span>
+          </div>
+          <div class="rx__content__item__right-spec">
+            <van-icon name="yaopinshuju" color="#13C1FE" size="3em"></van-icon>
+            <span>规格</span>
+            <span>{{carts[index].spec}}</span>
+          </div>
+          <div class="rx__content__item__right-price">
+            <van-icon name="qian" color="#13C1FE" size="3em"></van-icon>
+            <span>最低价</span>
+            <span>&yen;{{carts[index].price}}</span>
+            <span>X{{carts[index].quantity}}</span>
           </div>
         </div>
-
-      </li>
-    </ul>
-
-    <div class="rx-total ml-20 text-l-25">
-      <i class="iconfont ic-qian text-13C1FE"></i>共计{{quantity}}件商品&nbsp;&nbsp;合计<span
-      class="text-red rx-total-money">&yen;{{toFixedTwo(amount)}}</span>
+      </div>
+      <div class="rx__content__total">
+        <van-icon name="qian" color="#13C1FE" size="3em"></van-icon>
+        <span class="ml-l-20">总计{{quantity}}件商品</span>
+        <span class="ml-l-20">合计</span>
+        <span class="ml-l-20">&yen;{{toFixedTwo(amount)}}</span>
+      </div>
     </div>
-
-    <new-rx-shop-cart  @createCart="createCart" @onBuy="onBuy" :type="type"></new-rx-shop-cart>
+    <van-goods-action
+    ref="footer">
+      <van-goods-action-mini-btn icon="chat" text="咨询" :to="{path:'/chats/view',query:{shopId:shopId}}"/>
+      <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts" />
+      <van-goods-action-mini-btn icon="shop" text="店铺" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
+      <van-goods-action-big-btn text="加入购物车" @click="type==='HOSPITAL'? '' : createCart()"
+      :style="{backgroundColor:type==='HOSPITAL'?'gray':'#f85'}"/>
+      <van-goods-action-big-btn text="立即购买" primary @click="onBuy"/>
+    </van-goods-action>
   </div>
 </template>
 
@@ -123,6 +119,11 @@
     },
     created() {
       this.getDrugs();
+    },
+    mounted() {
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight -
+      this.$refs.footer.$el.clientHeight) + 'px';
+      this.$refs.content.style.overflow = 'auto';
     },
     methods: {
       getDrugs() {
@@ -221,245 +222,126 @@
   .bg-red {
     background-color: red;
   }
-
-  .shadow {
-    background-color: rgba(16, 14, 14, 0.44) !important;
-  }
   .text-a6a6a6 {
     color: #a6a6a6;
   }
 
-  .shadow {
-    .box {
-      width: 600px;
-      height: 700px;
-      background-color: white;
-      margin: 200px auto 0;
-      overflow: auto;
-      .header {
+  .rx {
+    background-color: #f5f5f5;
+    &__content{
+      position: relative;
+      &__item {
+        background-color: white;
+        margin-top: 20px;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .left {
-          display: flex;
-          align-items: center;
-          padding-left: 20px;
-          & > div {
-            &:nth-child(1) {
-              i {
-                font-size: 40px;
-              }
-            }
-            &:nth-child(2) {
-              font-size: 30px;
-              margin-left: 10px;
-            }
+        &__left {
+          position: relative;
+          padding: 20px;
+          &-logo {
+            width: 200px;
+            height: 200px;
           }
         }
-        .right {
-          i {
-            font-size: 40px;
+        &__right {
+          padding: 20px;
+          &>div {
+            padding: 2px 0;
+            display: flex;
+            align-items: baseline;
+            &>span {
+              font-size: 25px;
+              font-family:HiraginoSansGB-W3;
+              font-weight:normal;
+              color: #000000;
+              display: inline-block;
+              padding-left: 10px;
+              &:nth-of-type(1) {
+                width: 100px;
+              }
+              &:nth-of-type(2) {
+                width: 250px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+            }
+          }
+          &-price {
+            &>span {
+              &:last-of-type {
+                color: #FF0000;
+              }
+            }
           }
         }
       }
-      .content {
-        padding: 10px;
-        .header {
-          display: flex;
-          align-items: center;
-          .left {
-            display: flex;
-            align-items: center;
-            & > div {
-              &:nth-child(1) {
-                .iconfont {
-                  font-size: 40px;
-                }
-              }
-              &:nth-child(2) {
-                font-size: 28px;
-                margin-left: 20px;
-              }
-            }
+      &__total {
+        padding: 20px;
+        display: flex;
+        align-items: baseline;
+        span {
+          &:not(:last-child) {
+            font-size: 25px;
           }
-          .right {
-            .left();
+          &:last-child {
+            font-size: 30px;
+            color: #FF0000;
           }
         }
-        .list {
-          margin-top: 10px;
-          .item {
-            display: flex;
-
-            padding: 20px 10px;
-            width: 100%;
-            border: none !important;
-            .left {
-              float: left;
-              display: inline-block;
-              text-align: left;
-              width: 87%;
-              font-size: 30px;
+      }
+    }
+    .van-popup {
+      top: 30%;
+    }
+    &__popup {
+      width: 680px;
+      &__header {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 10px;
+        &__left {
+          span {
+            font-size: 30px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color: #000000;
+          }
+        }
+      }
+      &__content {
+        padding: 20px 40px;
+        &__header {
+          display: flex;
+          justify-content: space-between;
+          span {
+            font-size: 28px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color: #13C1FE;
+          }
+        }
+        &__item {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px 0;
+          span {
+            font-size: 28px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            display: inline-block;
+            &:first-child {
+              width: 400px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              -webkit-line-clamp: 2;
+              line-clamp: 2;
             }
-            .right {
-              float: right;
-              display: inline-block;
-              text-align: right;
-              width: 10%;
-              font-size: 30px;
-            }
-            & > div {
-              font-size: 28px;
+            &:last-child {
+              color: #FF0000;
             }
           }
         }
       }
     }
   }
-</style>
-
-<style scoped>
-  .rxs-content {
-    width: 720px;
-    height: 100vh;
-    background: #f5f5f5;
-  }
-
-  .is-flex {
-    display: flex !important;
-  }
-
-  .m-10 {
-    margin-top: 10px !important;
-    box-sizing: border-box;
-  }
-
-  .hr-box .line {
-    display: inline-block;
-    width: 260px;
-    border-top: 1px solid #13c1fe;
-  }
-
-  .hr-box .txt {
-    width: 112px;
-    height: 26px;
-    font-size: 28px;
-    color: rgba(0, 0, 0, 1);
-    line-height: 61px;
-    vertical-align: middle;
-  }
-
-  .ml-20 {
-    margin-left: 20px !important;
-  }
-
-  .rx-total {
-    margin-top: 26px;
-  }
-
-  .rx-total-money {
-    font-size: 26px;
-  }
-
-  footer {
-    position: fixed;
-    bottom: 0;
-  }
-
-  /* 组件 */
-  .rx-shop-drugs-box {
-
-    height: 216px;
-    background: rgba(255, 255, 255, 1);
-  }
-
-  .is-200x200 {
-    width: 200px;
-    height: 200px;
-  }
-
-  .pl-20 {
-    padding-left: 20px !important;
-    box-sizing: border-box;
-  }
-
-  .ml-40 {
-    margin-left: 40px !important;
-  }
-
-  .is-flex {
-    display: flex !important;
-  }
-
-  .flex-row {
-    flex-direction: row;
-  }
-
-  .flex-column {
-    flex-direction: column;
-  }
-
-  .flex-sa {
-    justify-content: space-around;
-  }
-
-  .flex-sb {
-    justify-content: space-between;
-  }
-
-  .flex-item {
-    align-items: center;
-  }
-
-  .box-right {
-    height: 150px;
-  }
-
-  /*处方标识*/
-  .toc-tip {
-    left: 5px;
-    top: 5px;
-    padding: 0px 20px;
-    background: #bfbfbf;
-    color: #ffffff;
-    border-radius: 50px / 25px;
-  }
-
-  .all-center {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .bg-2BB292 {
-    background: #2BB292;
-    color: white;
-  }
-
-  .text-box {
-    width: 90px !important;
-    display: inline-block;
-    font-size: 25px;
-  }
-
-  .text-info {
-    width: 180px !important;
-    display: inline-block;
-    font-size: 25px;
-  }
-
-  .drug-item .iconfont, .rx-total .iconfont {
-    font-size: 30px;
-  }
-
-  .text-red {
-    color: red;
-    font-size: 30px;
-  }
-
-  .width-percent-100 {
-    width: 100%;
-  }
-
 </style>

@@ -112,6 +112,7 @@
         display: flex;
         &-left {
           padding: 20px;
+          position: relative;
           img {
             width: 200px;
             height: 200px;
