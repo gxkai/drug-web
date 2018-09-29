@@ -1,32 +1,57 @@
 <template>
-  <div class="container">
+  <div class="faqs">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
       ref="header"
     />
-
-    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-      <li v-for="(questionContent,index) in questionList">
-        <div class="my-question-lists">
-          <span  class="question">{{index+1}}、{{ questionContent.question }}</span>
-          <span class="reply">{{ questionContent.answer }}</span>
+    <div class="faqs__content"
+         ref="content"
+         v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0">
+      <div class="faqs__content__item"
+           v-for="(item,index) in list">
+        <div class="faqs__content__item__question">
+          {{index+1}}、{{ item.question }}
         </div>
-      </li>
+        <div class="faqs__content__item__answer">
+          {{ item.answer }}
+        </div>
+      </div>
       <new-no-data v-if="loadingComplete"></new-no-data>
-    </ul>
-
+    </div>
   </div>
 </template>
-
+<style scoped type="text/less" lang="less">
+  .faqs {
+    background-color: #f5f5f5;
+    &__content {
+      &__item {
+        background-color: white;
+        &:first-child {
+          margin-top: 20px;
+        }
+        margin-bottom: 20px;
+        &__question {
+          font-size: 30px;
+          padding: 20px;
+        }
+        &__answer {
+          padding: 20px;
+          font-size: 25px;
+          color: #999999;
+        }
+      }
+    }
+  }
+</style>
 <script>
   export default {
     name: 'faqs',
 
     data() {
       return {
-        questionList: [],
+        list: [],
         pageSize: 15,
         pageNum: 0,
         loadingComplete: false,
@@ -37,6 +62,10 @@
     created() {
       this.loadMore();
     },
+    mounted() {
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
+      this.$refs.content.style.overflow = 'auto';
+    },
     methods: {
       loadMore() {
         this.loading = true;
@@ -44,7 +73,7 @@
         this.$http.get('/faqs?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
             if (res.data.list.length > 0) {
-              this.questionList = this.questionList.concat(res.data.list);
+              this.list = this.list.concat(res.data.list);
               this.loading = false;
             } else {
               this.loadingComplete = true;
@@ -57,41 +86,3 @@
     }
   };
 </script>
-
-<style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
-  }
-  .container{
-    width:720px;
-    height:100vh;
-  }
-  .my-question-lists {
-    width: 680px;
-    background: rgba(255, 255, 255, 1);
-    margin: auto;
-  }
-
-  .question {
-    display: block;
-    margin-top: 20px;
-    width: 680px;
-    font-size: 22px;
-
-    color: rgba(102, 102, 102, 1);
-    line-height: 30px;
-  }
-
-  .reply {
-    display: block;
-    width: 680px;
-    font-size: 20px;
-    color: rgba(153, 153, 153, 1);
-    line-height: 24px;
-    margin-top: 17px;
-    margin-bottom: 50px;
-  }
-</style>

@@ -15,7 +15,7 @@
     </div>
     <div class="about-footer">
       <span>2017-2018 E慧药版权所有</span>
-      <span>昆山网进科技股份有限公司</span>
+      <span>江苏网进科技股份有限公司</span>
     </div>
   </div>
 </template>
@@ -61,8 +61,8 @@
 
   .about-footer {
     position: fixed;
-   bottom: 0px;
-    left: 0;
+    bottom: 0;
+    padding: 20px;
   }
 
   .about-footer span {

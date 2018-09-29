@@ -1,24 +1,24 @@
 <template>
   <div class="order_tab">
-    <div :class="{active:urlRouter == '/orders'}" @click.stop="$router.push('/orders')">
+    <div :class="{active:state == '/orders'}" @click.stop="$emit('update:state','')">
       <p class="text-l-30">全部</p>
-      <div class="order_tab-bar" v-show="urlRouter === '/orders'"></div>
+      <div class="order_tab-bar" v-show="state === ''"></div>
     </div>
-    <div :class="{active:urlRouter == '/orders/toPay'}" @click.stop="$router.push('/orders/toPay')">
+    <div :class="{active:state == '/orders/toPay'}" @click.stop="$emit('update:state','TO_PAY')">
       <p class="text-l-30">待付款</p>
-      <div class="order_tab-bar" v-show="urlRouter === '/orders/toPay'"></div>
+      <div class="order_tab-bar" v-show="state === 'TO_PAY'"></div>
     </div>
-    <div :class="{active:urlRouter == '/orders/toDeliver'}" @click.stop="$router.push('/orders/toDeliver')">
+    <div :class="{active:state == '/orders/toDeliver'}" @click.stop="$emit('update:state','TO_DELIVERY')">
       <p class="text-l-30">待发货</p>
-      <div class="order_tab-bar" v-show="urlRouter === '/orders/toDeliver'"></div>
+      <div class="order_tab-bar" v-show="state === 'TO_DELIVERY'"></div>
     </div>
-    <div :class="{active:urlRouter == '/orders/toReceive'}" @click.stop="$router.push('/orders/toReceive')">
+    <div :class="{active:state == '/orders/toReceive'}" @click.stop="$emit('update:state','TO_RECEIVED')">
       <p class="text-l-30">待收货</p>
-      <div class="order_tab-bar" v-show="urlRouter === '/orders/toReceive'"></div>
+      <div class="order_tab-bar" v-show="state === 'TO_RECEIVED'"></div>
     </div>
-    <div :class="{active:urlRouter == '/orders/toAppraise'}" @click.stop="$router.push('/orders/toAppraise')">
+    <div :class="{active:state == '/orders/toAppraise'}" @click.stop="$emit('update:state','TO_APPRAISE')">
       <p class="text-l-30">待评价</p>
-      <div class="order_tab-bar" v-show="urlRouter === '/orders/toAppraise'"></div>
+      <div class="order_tab-bar" v-show="state === 'TO_APPRAISE'"></div>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@
 <script>
   export default {
     name: 'orderTab',
-    props: ['urlRouter']
+    props: ['state']
   };
 </script>
 

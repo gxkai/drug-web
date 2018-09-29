@@ -4,7 +4,7 @@
       <div class="appraise-title-left">
         <div class="text-l-25">总评分&nbsp;{{shopDrugSpec.shopTotalAppraise.score}}分</div>
         <div>
-          <new-star :score="shopDrugSpec.shopTotalAppraise.score" disabled></new-star>
+          <van-rate v-model="shopDrugSpec.shopTotalAppraise.score"  disabled  disabled-color="red" :size="15"></van-rate>
         </div>
       </div>
       <div class="appraise-title-right">

@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="content" id="bcid">
+  <div class="qr">
+    <div class="qr__content" id="bcid">
     </div>
   </div>
 </template>
@@ -64,12 +64,9 @@
           result = result.replace(/\n/g, '');
           that.$http.put(result)
             .then(res => {
-              let instance = Toast('收货成功');
-              setTimeout(() => {
-                instance.close();
-                scan.close();
-                that.$router.replace('/orders');
-              }, 3000);
+              Toast('收货成功');
+              scan.close();
+              that.$router.replace('/orders');
             })
             .catch(err => {
               that.exception(err);
@@ -82,9 +79,9 @@
   };
 </script>
 <style lang="less" type="text/less">
-  .container {
+  .qr {
     height: 100%;
-    .content {
+    &__content {
       width: 100%;
       position: absolute;
       left: 0;

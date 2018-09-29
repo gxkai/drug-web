@@ -1,203 +1,208 @@
 <template>
-  <div class="container">
+  <div class="shop-info">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
       ref="header"
     />
-
-    <div class="shop-header">
-      <div>
-        <img :src="getImgURL(resultData.logo, 'SMALL_LOGO') "/>
-        <span class="shop-name elps">{{resultData.name}}</span>
-        <i class="icon iconfont ic-anquanrenzheng ic-size text-white"></i>
+    <div ref="content">
+      <div class="shop-info__part-1">
+        <img :src="getImgURL(shopInfo.logo, 'LARGE_LOGO')">
+        <span>{{shopInfo.name}}</span>
+        <van-icon name="anquan" color="#FFFFFF" size="5em"></van-icon>
       </div>
-    </div>
-
-    <div class="shop-main">
-      <div class="shop-list-address bg-white shop-store">
-        <span class="text-l-25 d-inline-block elps"><span class="text-l-25">门店地址&nbsp;</span>{{resultData.area}}{{resultData.address}}</span>
+      <div class="shop-info__part-2">
+          <span class="shop-info__part-2__span-name">门店地址:</span>
+          <span class="shop-info__part-2__span-adress">{{shopInfo.address}}</span>
       </div>
-
-      <div class="shop-list-scores bg-white">
-        <div class="shop-list-score-sum">
-          <span class="text-l-25">服务总评&nbsp;</span>
-          <span class="shop-score text-l-25">{{toFixedOne(resultData.score)}}</span>
-          <span class="text-l-25">（共{{resultData.count}}人参加评分）</span>
+      <div class="shop-info__part-3">
+        <div class="shop-info__part-3__header van-hairline--bottom">
+          <span class="shop-info__part-3__header__span-name">服务总评</span>
+          <span class="shop-info__part-3__header__span-score">{{toFixedOne(shopInfo.score)}}</span>
+          <span class="shop-info__part-3__header__span-count">（共{{shopInfo.count}}人参加评分）</span>
         </div>
-        <div>
-          <table width="100%">
-            <tr align="center">
-              <td align="center">配送速度：<span class="shop-score">{{toFixedOne(resultData.describeScore)}}</span></td>
-              <td align="center">服务态度：<span class="shop-score">{{toFixedOne(resultData.deliveryScore)}}</span></td>
-              <td align="center">描述相符：<span class="shop-score">{{toFixedOne(resultData.serviceScore)}}</span></td>
-              <td align="center">商品包装：<span class="shop-score">{{toFixedOne(resultData.packageScore)}}</span></td>
-            </tr>
-          </table>
+        <div class="shop-info__part-3__content">
+          <div class="shop-info__part-3__content__item">
+            <span class="shop-info__part-3__content__item__span-name">配送速度</span>
+            <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.deliveryScore)}}</span>
+          </div>
+          <div class="shop-info__part-3__content__item">
+            <span class="shop-info__part-3__content__item__span-name">服务态度</span>
+            <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.serviceScore)}}</span>
+          </div>
+          <div class="shop-info__part-3__content__item">
+            <span class="shop-info__part-3__content__item__span-name">描述相符</span>
+            <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.describeScore)}}</span>
+          </div>
+          <div class="shop-info__part-3__content__item">
+            <span class="shop-info__part-3__content__item__span-name">商品包装</span>
+            <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.packageScore)}}</span>
+          </div>
         </div>
       </div>
-
-      <div class="shop-list-aptitude bg-white">
-        <div class="shop-list-aptitude-title">商家资质</div>
-        <div class="shop-list-aptitude-imgs bg-white">
-          <img :src="getImgURL(item, 'LARGE_PIC')" v-for="(item, index) in resultData.fileIds" :key="index"/>
+      <div class="shop-info__part-4">
+        <div class="shop-info__part-4__header">
+          <span>商家资质</span>
         </div>
+          <van-row class="shop-info__part-4__content">
+            <van-col span='12' v-for="(item, index) in shopInfo.fileIds" :key="index"
+                     class="shop-info__part-4__content__item">
+              <img :src="getImgURL(item, 'LARGE_PIC')">
+            </van-col>
+          </van-row>
       </div>
     </div>
   </div>
 </template>
+<style scoped type="text/less" lang="less">
+  .shop-info {
+    background-color: #f5f5f5;
+    &__part-4 {
+      background-color: white;
+      padding: 20px;
+      &__header {
+        span {
+          font-size:24px;
+          font-family:HiraginoSansGB-W3;
+          font-weight:normal;
+          color:rgba(0,0,0,1);
+        }
+      }
+      &__content {
+        margin-top: 20px;
+        &__item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          img {
+            width: 300px;
+            height: 250px;
+          }
+        }
+      }
+    }
+    &__part-3 {
+      background-color: white;
+      margin-bottom: 20px;
+      &__header {
+        padding: 20px;
+        &__span {
+          &-name {
+            font-size:24px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(0,0,0,1);
+          }
+          &-score {
+            font-size:20px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(255,0,0,1);
+            margin-left: 40px;
+          }
+          &-count {
+            font-size:24px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(51,51,51,1);
+            margin-left: 40px;
+          }
+        }
+      }
+      &__content {
+        padding: 20px;
+        &__item {
+          &:not(:first-child) {
+            margin-top: 10px;
+          }
+          &__span {
+            &-name {
+              font-size:18px;
+              font-family:HiraginoSansGB-W3;
+              font-weight:normal;
+              color:rgba(0,0,0,1);
+            }
+            &-score {
+              font-size:20px;
+              font-family:HiraginoSansGB-W3;
+              font-weight:normal;
+              color:rgba(255,0,0,1);
+              margin-left: 40px;
+            }
+          }
+        }
+      }
+    }
+    &__part-2 {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      &__span {
+        &-name {
+          font-size:18px;
+          font-family:HiraginoSansGB-W3;
+          font-weight:normal;
+          color:rgba(102,102,102,1);
+        }
+        &-address {
+          font-size:25px;
+          font-family:HiraginoSansGB-W3;
+          font-weight:normal;
+        }
+      }
+    }
+    &__part-1 {
+      width: 720px;
+      height: 134px;
+      background: #13C1FE;
+      display: flex;
+      padding: 20px 30px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+      }
+      span {
+        font-size: 36px;
+        font-family: HiraginoSansGB-W3;
+        font-weight: 400;
+        color: rgba(255, 254, 254, 1);
+        display: inline-block;
+        width: 400px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+      }
+    }
+  }
+</style>
 <script>
   export default {
     name: 'shopInfo',
     data() {
       return {
-        resultData: {
-        },
+        shopInfo: {},
         imgLists: [],
         bgColor: 'white',
-        color: '#333333'
+        color: '#333333',
+        shopId: this.$route.query.id
       };
     },
-    created: function () {
-      this.$http.get('/shops/' + this.$route.query.id).then(res => {
+    created() {
+      this.$http.get('/shops/' + this.shopId).then(res => {
         console.log(res.data);
-        this.resultData = res.data;
+        this.shopInfo = res.data;
       });
+    },
+    mounted() {
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
+      this.$refs.content.style.scroll = 'auto';
     }
   };
 </script>
-<style scoped>
-  .shop-list-aptitude-title {
-    padding: 20px 0px 0px 20px;
-    font-size: 30px;
-  }
-
-  .shop-list-aptitude-imgs {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 20px;
-    align-items: center;
-  }
-
-  .shop-list-aptitude-imgs img {
-    width: 600px;
-    height: 600px;
-    padding: 20px 5px 10px 5px;
- }
-
-  .container {
-    width: 720px;
-    height: 100vh;
-    background: #f5f5f5;
-  }
-
-  .shop-header {
-    width: 720px;
-    margin-top: 2px;
-    height: 167px;
-    background: rgba(19, 193, 254, 1);
-
-  }
-
-  .shop-header > div {
-    height: 167px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .shop-header img {
-    width: 100px;
-    border-radius: 50%;
-    border: 1px solid #FFFEFE;
-    background: rgb(255, 254, 254);
-    display: inline-block;
-    margin-left: 59px;
-    float: left;
-  }
-
-  .shop-name {
-    font-size: 36px;
-    color: rgba(255, 254, 254, 1);
-    width: 400px;
-    display: inline-block;
-    margin-left: 10px;
-  }
-
-  .shop-list-address {
-    font-size: 24px;
-    color: rgba(102, 102, 102, 1);
-    display: block;
-    margin-top: 18px;
-    margin-bottom: 36px;
-    padding-left: 21px;
-  }
-
-  .shop-list-scores {
-    width: 720px;
-    padding-bottom: 30px;
-  }
-
-  .shop-list-score-sum {
-    height: 52px;
-    display: flex;
-    margin-left: 20px;
-    line-height: 52px;
-    color: rgba(0, 0, 0, 1);
-    border-bottom: 1px solid #f5f5f5;
-    margin-bottom: 10px;
-  }
-
-  .shop-list-score {
-    display: flex;
-    margin-left: 20px;
-    margin-bottom: 16px;
-    color: rgba(0, 0, 0, 1);
-  }
-
-  .shop-list-score span {
-    font-size: 25px;
-  }
-
-  .shop-score {
-    color: rgba(255, 0, 0, 1);
-    font-size: 18px;
-  }
-
-  .shop-list-aptitude {
-    margin-top: 34px;
-  }
-
-  .icon {
-    width: auto;
-    height: auto;
-  }
-
-  .ic-anquanrenzheng {
-    display: inline-block;
-    margin-left: 108px;
-    font-size: 55px;
-    margin-right: 32px;
-  }
-
-  .shopname-address {
-    font-size: 18px;
-    display: inline-block;
-  }
-
-  .shop-store {
-    width: 720px;
-    height: 73px;
-    background: rgba(255, 255, 255, 1);
-    line-height: 73px;
-  }
-
-  table {
-    margin-top: 30px;
-   }
-  table td{
-    font-size: 18px;
-  }
-</style>

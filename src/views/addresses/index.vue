@@ -1,29 +1,112 @@
 <template>
-  <div class="address-body">
+  <div class="address">
     <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
+    :title="$route.name"
+    left-arrow
+    @click-left="$router.go(-1)"
+    ref="header"
     />
-    <div class="address-content" v-for="(address,index) in addressList" :key="index">
-      <div class="address-content-lineOne">
-        <span class="text-l-25">{{address.consignee}}</span>
-        <span class="text-l-25">{{address.phone}}</span>
+    <div class="address__content"
+    ref="content">
+      <div class="address__content__item"
+           v-for="(address,index) in addressList" :key="index">
+        <div class="address__content__item__top">
+          <span class="address__content__item__top-consignee">
+            {{address.consignee}}
+          </span>
+          <span class="address__content__item__top-phone">
+            {{address.phone}}
+          </span>
+        </div>
+        <div class="address__content__item__bottom">
+          <van-icon name="moren" size="4em" color="#FF0000"></van-icon>
+          <span class="address__content__item__bottom-address">{{address.address}}</span>
+          <van-icon name="edit" size="3em"
+                    @click="$router.push({path:'/addresses/edit',query:{id:address.id}})"></van-icon>
+          <van-icon name="delete" size="3em"
+                    @click="del(address.id,index)"></van-icon>
+        </div>
       </div>
-      <div class="address-content-lineTwo">
-        <img v-if="address.defaulted" src="../../assets/image/defaulPic.png"/>
-        <span class="text-l-25">{{address.address}}</span>
-        <router-link :to="{path:'/addresses/edit',query:{id:address.id}}" class="address-content-edit">
-          <img src="../../assets/image/edit.png"/>
-        </router-link>
-        <button @click="del(address.id,index)" class="text-l-25">删除</button>
-      </div>
+
     </div>
-    <router-link tag="button" to="/addresses/create" class="address-footer">+ 新增地址</router-link>
+    <div class="address__footer"
+         ref="footer"
+    @click="$router.push('/addresses/create')">
+      +新增地址
+    </div>
   </div>
 </template>
-
+<style scoped type="text/less" lang="less">
+  .address {
+    position: relative;
+    background-color: #f5f5f5;
+    &__content {
+      &__item {
+        background-color: white;
+        &:first-child {
+          margin-top: 20px;
+        }
+        margin-bottom: 20px;
+        &__top {
+          padding: 20px;
+          &-consignee {
+            font-size:28px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(51,51,51,1);
+          }
+          &-phone {
+            font-size:28px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(51,51,51,1);
+          }
+        }
+        &__bottom {
+          padding: 0 20px;
+          display: flex;
+          align-items: center;
+          span {
+            display: inline-block;
+          }
+          &-address {
+            width: 500px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            font-size:28px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(153,153,153,1);
+            padding-left: 30px;
+          }
+          .van-icon {
+            &-moren {
+              margin-bottom: 10px;
+            }
+            &-delete {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+    &__footer {
+      width:720px;
+      height:100px;
+      background:rgba(19,193,254,1);
+      line-height: 100px;
+      font-size:32px;
+      font-family:HiraginoSansGB-W3;
+      font-weight:normal;
+      color:rgba(255,255,255,1);
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+    }
+  }
+</style>
 <script>
   import {MessageBox, Toast} from 'mint-ui';
 
@@ -36,6 +119,11 @@
     },
     created() {
       this.getList();
+    },
+    mounted() {
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight -
+        this.$refs.footer.clientHeight) + 'px';
+      this.$refs.content.style.overflow = 'auto';
     },
     methods: {
       getList() {
@@ -62,93 +150,3 @@
     }
   };
 </script>
-
-<style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
-  }
-
-  .address-body {
-    width: 720px;
-    height: 100vh;
-  }
-
-  .address-content {
-    width: 720px;
-    height: 100px;
-    margin-top: 31px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .address-content-lineOne {
-    font-size: 28px;
-    color: rgba(51, 51, 51, 1);
-    margin-bottom: 18px;
-  }
-
-  .address-content-lineOne span {
-    margin-right: 22px;
-  }
-
-  .address-content-lineTwo {
-
-    height: 42px;
-    display: flex;
-  }
-
-  .address-content-lineTwo img {
-    width: 48px;
-    margin-top: 5px;
-    height: 30px;
-    margin-right: 30px;
-  }
-
-  .address-content-lineTwo span {
-    width: 475px;
-    height: 42px;
-    font-size: 28px;
-    color: rgba(153, 153, 153, 1);
-    margin-right: 50px;
-    display: block;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .address-content-edit img {
-    width: 33px;
-    height: 36px;
-    position: absolute;
-    right: 80px;
-  }
-
-  .address-content-lineTwo button {
-    width: 60px;
-    height: 36px;
-    position: absolute;
-    right: 30px;
-    margin-top: 8px;
-  }
-
-  .address-footer {
-    width: 720px;
-    height: 100px;
-    background: rgba(19, 193, 254, 1);
-    border: 0;
-    outline: none;
-    font-size: 32px;
-    color: rgba(255, 255, 255, 1);
-    line-height: 30px;
-    position: fixed;
-    bottom: 0;
-  }
-
-  button{
-    background: none;
-    border: none;
-  }
-</style>

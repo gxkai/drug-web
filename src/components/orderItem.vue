@@ -75,7 +75,8 @@
           <div class="order_item-content-button-receiveType-list"
           v-show="showData">
             <div class="order_item-content-button-receiveType-list-item"
-                 @click="linkToQRCode">
+                 @click="linkToQRCode"
+                 v-if="order.deliveryType == 'DELIVERY'">
               扫码确认
             </div>
             <div class="order_item-content-button-receiveType-list-item"
@@ -84,7 +85,6 @@
               收货二维码
             </div>
             <div class="order_item-content-button-receiveType-list-item"
-                  v-if="order.deliveryType == 'DELIVERY'"
                  @click="onConfirm()">
               手动确认
             </div>

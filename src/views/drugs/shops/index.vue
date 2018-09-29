@@ -1,199 +1,287 @@
 <template>
-  <div class="fruit-body drugs_shops">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
-    <div class="swiper">
-      <mt-swipe :atuo="3000">
-        <mt-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
+  <div class="drugs-shops">
+    <div ref="header">
+      <van-nav-bar
+        :title="drugInfo.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+      <van-swipe :autoplay="3000">
+        <van-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
           <img :src="getImgURL(pic, 'MIDDLE_PIC')"/>
-        </mt-swipe-item>
-      </mt-swipe>
-    </div>
-    <div class="drug-div1 position-relative">
-      <div class="drug-div2 position-absolute">
-        <p class="elps drug-head-line">{{drugInfo.name}}</p>
-        <p class="elpsTwo drug-head-benefit">{{drugInfo.introduce}}</p>
-        <p class="drug-firm elps">{{drugInfo.sfda}}</p>
-        <p class="drug-firm elps">厂商：{{drugInfo.originName}}</p>
-      </div>
-    </div>
-    <div class="drug-offer">
-      <div class=" merchant">
-        <div>
-          <span class="text-l-25 text-red">{{total}}</span>
-          <span class="text-l-25">商家报价</span>
+        </van-swipe-item>
+      </van-swipe>
+      <div class="drugs-shops__part-1">
+        <div class="drugs-shops__part-1__front">
+          <div class="drugs-shops__part-1__front-name">{{drugInfo.name}}</div>
+          <div class="drugs-shops__part-1__front-introduce">{{drugInfo.introduce}}</div>
+          <div class="drugs-shops__part-1__front-sfda">国药准字{{drugInfo.sfda}}</div>
+          <div class="drugs-shops__part-1__front-originName">厂商{{drugInfo.originName}}</div>
         </div>
-        <div @click="popupVisible = !popupVisible">
-          <i class="icon iconfont ic-arrowdown" v-if="popupVisible"></i>
-          <i class="icon iconfont ic-youjiantou" v-else></i>
+        <div class="drugs-shops__part-1__behind">
+
         </div>
       </div>
-      <div class="comprehensive">
-        <div @click="orderById()">综合<i class="ic-sanx-up icon iconfont text-1AB6FD"></i></div>
-        <div @click="orderByDistance()">距离</div>
-        <div @click="orderByPrice()">价格</div>
+      <div class="drugs-shops__part-2 van-hairline--bottom">
+        <van-cell is-link :arrow-direction="show=== true ? 'down' : 'right'" @click="show = true">
+          <template slot="title">
+          <span class="drugs-shops__part-2__left-number">
+            {{total}}个
+          </span>
+            <span class="drugs-shops__part-2__left-name">
+            商家报价
+          </span>
+          </template>
+        </van-cell>
       </div>
-    </div>
-    <div class="width-percent-100 bg-white drug-shops" v-for="(shopList,index) in shopLists" :key="index">
-      <router-link :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:shopList.shopDrugSpecId}}">
-        <div class="ordinary width-percent-96 m-auto">
-          <div class="drug-ordinary">
-            <span class="d-inline-block fl drug-shop">{{shopList.name}}</span>
-            <span class="text-red d-inline-block fr drug-price">¥{{shopList.price}}</span>
+      <div class="drugs-shops__part-3">
+        <div class="drugs-shops__part-3__item"
+        @click="orderById">
+          <div class="drugs-shops__part-3__item__name">
+            综合
           </div>
-          <div class="rote">
-            <div>
-              <div>
-                <i class="icon iconfont ic-ditu text-1AB6FD"></i>
-              </div>
-              <div>
-                {{shopList.address}}
-              </div>
-            </div>
-            <div>
-              <div>
-                <i class="icon iconfont ic-aixin text-1AB6FD"></i>
-              </div>
-              <div>
-                评分&#58;{{shopList.score}}分
-              </div>
-            </div>
-            <div>
-              <div>
-                <i class="icon iconfont ic-kucun text-1AB6FD"></i>
-              </div>
-              <div>
-                库存&#58;{{shopList.stock}}
-              </div>
-            </div>
-          </div>
-          <div class="shopping-car">
-            <i class="iconfont ic-gouwuche3 text-1AB6FD"></i>
+          <div class="drugs-shops__part-3__item__arrow">
+            <div class="drugs-shops__part-3__item__arrow-up" :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
+            <div class="drugs-shops__part-3__item__arrow-down" :style="{borderTopColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
           </div>
         </div>
-      </router-link>
+        <div class="drugs-shops__part-3__item"
+        @click="orderByDistance">
+          <div class="drugs-shops__part-3__item__name">
+            距离
+          </div>
+          <div class="drugs-shops__part-3__item__arrow">
+            <div class="drugs-shops__part-3__item__arrow-up"
+                 :style="{borderBottomColor: sort === 'DISTANCE'?'#13C1FE':'gray'}"></div>
+            <div class="drugs-shops__part-3__item__arrow-down"
+                 :style="{borderTopColor: sort === 'DISTANCE'?'#13C1FE':'gray'}"></div>
+          </div>
+        </div>
+        <div class="drugs-shops__part-3__item"
+        @click="orderByPrice">
+          <div class="drugs-shops__part-3__item__name">
+            价格
+          </div>
+          <div class="drugs-shops__part-3__item__arrow">
+            <div class="drugs-shops__part-3__item__arrow-up"
+                 :style="{borderBottomColor: sort === 'PRICE_ASC'?'#13C1FE':'gray'}"></div>
+            <div class="drugs-shops__part-3__item__arrow-down"
+                 :style="{borderTopColor: sort === 'PRICE_DESC'?'#13C1FE':'gray'}"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <mt-popup
-      v-model="popupVisible"
+    <div class="drugs-shops__part-4"
+         ref="content">
+      <div class="drugs-shops__part-4__item"
+           v-for="(shop,index) in shops" :key="index"
+      @click="linkToShopDrugSpec(shop.shopDrugSpecId)">
+        <div class="drugs-shops__part-4__item__name">
+          {{shop.name}}
+        </div>
+        <div class="drugs-shops__part-4__item__price">
+          &yen;{{shop.price}}
+        </div>
+        <div class="drugs-shops__part-4__item__icon">
+          <van-icon name="gouwuche3" color="#13C1FE" size="4em"></van-icon>
+        </div>
+        <div class="drugs-shops__part-4__item__info">
+          <van-icon name="ditu" color="#13C1FE"></van-icon>
+          <span>{{shop.address}}</span>
+          <van-icon name="aixin" color="#13C1FE"></van-icon>
+          <span>{{shop.score}}</span>
+          <van-icon name="kucun" color="#13C1FE"></van-icon>
+          <span>{{shop.stock}}</span>
+        </div>
+      </div>
+    </div>
+    <van-popup
+      v-model="show"
       position="bottom">
-      <div class="drugs_shops-popup">
-        <div class="drugs_shops-popup-header">
-          <div class="drugs_shops-popup-header-left">
+      <div class="drugs-shops-popup">
+        <div class="drugs-shops-popup-header">
+          <div class="drugs-shops-popup-header-left">
             <img :src="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
           </div>
-          <div class="drugs_shops-popup-header-center">
+          <div class="drugs-shops-popup-header-center">
             <div class="elpsTwo">{{drugInfo.name}} {{drugSpec.name}} -{{drugInfo.originName}}</div>
             <div style="color: #1AB6FD">{{drugInfo.sfda}}</div>
           </div>
-          <div class="drugs_shops-popup-header-right" @click="popupVisible = false">
-              <i class="iconfont ic-guanbi2"></i>
+          <div class="drugs-shops-popup-header-right" @click="show = false">
+            <i class="iconfont ic-guanbi2"></i>
           </div>
         </div>
-        <div class="drugs_shops-popup-content">
-          <div class="drugs_shops-popup-content-title">
+        <div class="drugs-shops-popup-content">
+          <div class="drugs-shops-popup-content-title">
             选择规格
           </div>
-          <div class="drugs_shops-popup-content-list">
-            <div class="drugs_shops-popup-content-list-item"
+          <div class="drugs-shops-popup-content-list">
+            <div class="drugs-shops-popup-content-list-item"
                  v-for="item in drugSpecs"
-                 :class="{'drugs_shops-popup-content-list-active':drugSpec === item}"
-                 @click="popupVisible = false; drugSpec = item">
+                 :class="{'drugs-shops-popup-content-list-active':drugSpec === item}"
+                 @click="show = false; drugSpec = item">
               <div>{{item.name}}</div>
               <div>
-                <input :id="item" type="radio"  :value="item"   v-model="drugSpec">
-                        <label :for="item"></label>
+                <input :id="item" type="radio" :value="item" v-model="drugSpec">
+                <label :for="item"></label>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </mt-popup>
+    </van-popup>
   </div>
 </template>
-<script>
-  export default {
-    data() {
-      return {
-        shopLists: [],
-        drugInfo: [],
-        drugSpecs: [],
-        drugSpec: {},
-        drugId: this.$route.query.drugId,
-        drugSpecId: this.$route.query.drugSpecId,
-        popupVisible: false,
-        total: 0,
-        sort: 'SYNTHESIZE',
-        val: -1,
-        lat: this.$store.getters.position.lat,
-        lng: this.$store.getters.position.lng
-      };
-    },
-    watch: {
-      drugSpec(value) {
-        this.getShopLists();
-      }
-    },
-    methods: {
-      getShopLists() {
-        var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.drugSpec.id + '/shops?sort=' + this.sort + '&lat=' + this.lat + '&lng=' + this.lng;
-        this.$http.get(url).then((res) => {
-          this.total = res.data.total;
-          this.shopLists = res.data.list;
-        }).catch(error => {
-          this.exception(error);
-        });
-      },
-
-      orderById() {
-        this.sort = 'SYNTHESIZE';
-        this.getShopLists();
-      },
-      orderByDistance() {
-        this.sort = 'DISTANCE';
-        this.getShopLists();
-      },
-      orderByPrice() {
-        this.val = -(this.val);
-        if (this.val === -1) {
-          this.sort = 'PRICE_ASC';
-        } else {
-          this.sort = 'PRICE_DESC';
-        }
-        this.getShopLists();
-      }
-    },
-    created: function () {
-      const drugURL = '/drugs/' + this.drugId;
-      this.$http.get(drugURL).then((res) => {
-        this.drugInfo = res.data;
-        this.drugSpecs = res.data.drugSpecs;
-        this.drugSpecs.forEach(e => {
-          if (e.id === this.drugSpecId) {
-            this.drugSpec = e;
-          }
-        });
-        this.getShopLists();
-      }).catch(error => {
-        this.exception(error);
-      });
-    }
-  };
-</script>
-
 <style type="text/less" lang="less">
-  .swiper {
-    width: 100%;
-    height: 500px;
-    img {
+  .drugs-shops {
+    background-color: #f5f5f5;
+    .van-swipe {
       width: 100%;
-      height: 450px;
+      height: 400px;
+      &-item {
+        img {
+          width: 100%;
+          height: 400px;
+        }
+      }
     }
-  }
-  .drugs_shops {
+    &__part-4 {
+      &__item {
+        position: relative;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: white;
+        &:first-child {
+          margin-top: 20px;
+        }
+        &__name {
+          font-size: 26px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
+          color: rgba(51, 51, 51, 1);
+        }
+        &__price {
+          position: absolute;
+          right: 20px;
+          top: 20px;
+          font-size: 24px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
+          color: rgba(255, 0, 0, 1);
+        }
+        &__icon {
+          position: absolute;
+          right: 20px;
+          bottom: 0;
+        }
+        &__info {
+          padding-top: 20px;
+          span {
+            font-size: 20px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
+            color: rgba(102, 102, 102, 1);
+          }
+        }
+      }
+    }
+    &__part-3 {
+      display: flex;
+      height: 70px;
+      justify-content: space-around;
+      align-items: center;
+      background-color: white;
+      &__item {
+        display: flex;
+        align-items: center;
+        &__name {
+          font-size: 25px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
+          color: rgba(51, 51, 51, 1);
+        }
+        &__arrow {
+          display: flex;
+          flex-direction: column;
+          &-up, &-down {
+            border: 7px solid white;
+            width: 0;
+            height: 0;
+          }
+          &-down {
+            margin-top: 2px;
+          }
+        }
+      }
+    }
+    &__part-1 {
+      position: relative;
+      &__front {
+        background-color: white;
+        position: absolute;
+        width: 660px;
+        height: 250px;
+        left: 30px;
+        border: 1PX solid #13C1FE;
+        border-bottom: none;
+        z-index: 1;
+        padding: 20px;
+        &-name {
+          font-size: 24px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
+          color: rgba(51, 51, 51, 1);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        &-introduce {
+          width: 100%;
+          margin: 20px 0;
+          font-size: 18px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
+          color: rgba(51, 51, 51, 1);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+        }
+        &-sfda, &-originName {
+          font-size: 20px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
+          color: rgba(153, 153, 153, 1);
+        }
+      }
+      &__behind {
+        background-color: white;
+        position: absolute;
+        width: 680px;
+        height: 220px;
+        left: 20px;
+        top: 40px;
+        border: 1PX solid #13C1FE;
+        border-bottom: none;
+        z-index: 0;
+      }
+    }
+    &__part-2 {
+      margin-top: 270px;
+      &__left {
+        span {
+          font-size: 24px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
+          color: rgba(19, 193, 254, 1);
+        }
+        &-number {
+          color: #FF0000 !important;
+        }
+      }
+    }
     &-popup {
       width: 720px;
       min-height: 500px;
@@ -205,6 +293,7 @@
           position: absolute;
           bottom: 0;
           left: 20px;
+          z-index: 2015;
           img {
             width: 160px;
             height: 160px;
@@ -230,7 +319,7 @@
         }
         &-right {
           position: absolute;
-          right:20px;
+          right: 20px;
           top: 10px;
           i {
             font-size: 40px;
@@ -275,11 +364,11 @@
               height: 30px;
               opacity: 0;
             }
-            input:checked+label {
+            input:checked + label {
               background-color: #13C1FE;
               border: 1PX solid #13C1FE;
             }
-            input:checked+label::after {
+            input:checked + label::after {
               position: absolute;
               content: "";
               width: 7px;
@@ -297,138 +386,75 @@
     }
   }
 </style>
+<script>
+  export default {
+    data() {
+      return {
+        shops: [],
+        drugInfo: [],
+        drugSpecs: [],
+        drugSpec: {},
+        drugId: this.$route.query.drugId,
+        drugSpecId: this.$route.query.drugSpecId,
+        show: false,
+        total: 0,
+        sort: 'SYNTHESIZE',
+        val: -1,
+        lat: this.$store.getters.position.lat,
+        lng: this.$store.getters.position.lng
+      };
+    },
+    watch: {
+      drugSpec(value) {
+        this.getShops();
+      }
+    },
+    created() {
+      this.$http.get('/drugs/' + this.drugId).then((res) => {
+        this.drugInfo = res.data;
+        this.drugSpecs = res.data.drugSpecs;
+        this.drugSpecs.forEach(e => {
+          if (e.id === this.drugSpecId) {
+            this.drugSpec = e;
+          }
+        });
+        this.getShops();
+      }).catch(error => {
+        this.exception(error);
+      });
+    },
+    mounted() {
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.content.style.overflow = 'auto';
+    },
+    methods: {
+      getShops() {
+        var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.drugSpec.id + '/shops?sort=' + this.sort + '&lat=' + this.lat + '&lng=' + this.lng;
+        this.$http.get(url).then((res) => {
+          this.total = res.data.total;
+          this.shops = res.data.list;
+        }).catch(error => {
+          this.exception(error);
+        });
+      },
 
-<style scoped>
-  .fruit-body {
-    background: #fbf7f7;
-    width: 720px;
-  }
-
-  .drug-div1 {
-    width: 680px;
-    height: 228px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
-    margin-left: 20px;
-    border: 1px solid #13C1FE;
-  }
-
-  .drug-div2 {
-    width: 660px;
-    height: 246px;
-    background: rgba(255, 255, 255, 1);
-    margin-left: 10px;
-    z-index: 9;
-    border: 1px solid #13C1FE;
-    margin-bottom: 10px;
-    top: -28px;
-  }
-
-  .drug-head-line {
-    width: 600px;
-    font-size: 30px;
-    color: rgba(51, 51, 51, 1);
-    margin: 10px 0 0 30px;
-  }
-
-  .drug-head-benefit {
-    width: 583px;
-    font-size: 20px;
-    color: rgba(51, 51, 51, 1);
-    margin: 10px 0 0 30px;
-  }
-
-  .drug-firm {
-    width: 500px;
-    font-size: 20px;
-    color: rgba(153, 153, 153, 1);
-    margin: 22px 0px 16px 30px;
-  }
-
-  .drug-offer {
-    margin-top: 10px;
-    width: 720px;
-    background: white;
-  }
-
-  .merchant {
-    border-bottom: 1px solid #f5f5f5;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 30px;
-  }
-
-  .comprehensive {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px 0;
-  }
-
-  .comprehensive > div {
-    font-size: 24px;
-  }
-
-  .ordinary {
-    margin-top: 15px;
-    position: relative;
-    padding-bottom: 20px;
-  }
-
-  .drug-ordinary {
-    margin-top: 22px;
-    height: 69px;
-    line-height: 69px;
-  }
-
-  .drug-shop {
-    margin-left: 20px;
-    font-size: 26px;
-  }
-
-  .drug-price {
-    margin-right: 21px;
-    font-size: 24px;
-  }
-
-  .rote {
-    display: flex;
-    align-items: center;
-  }
-
-  .rote > div {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-  }
-
-  .rote > div > div {
-    font-size: 25px;
-  }
-
-  .rote > div > div .iconfont {
-    font-size: 30px;
-  }
-
-  .shopping-car {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-  }
-
-  a span {
-    color: #333333;
-  }
-
-  .ic-youjiantou, .ic-arrowdown {
-    font-size: 25px;
-  }
-
-  .text-red {
-    color: red;
-  }
-
-  .ic-gouwuche3 {
-    font-size: 30px;
-  }
-</style>
+      orderById() {
+        this.sort = 'SYNTHESIZE';
+        this.getShops();
+      },
+      orderByDistance() {
+        this.sort = 'DISTANCE';
+        this.getShops();
+      },
+      orderByPrice() {
+        if (this.sort === 'PRICE_DESC') {
+          this.sort = 'PRICE_ASC';
+        } else {
+          this.sort = 'PRICE_DESC';
+        }
+        this.getShops();
+      }
+    }
+  };
+</script>
 

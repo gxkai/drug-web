@@ -10,7 +10,7 @@
     </div>
     <div class="item-container">
       <div>
-        <new-star size="small" :score="item.score" disabled></new-star>
+        <van-rate v-model="item.score"  disabled  disabled-color="red" :size="14"></van-rate>
       </div>
       <div class="text-l-25">
         {{item.content||'无文字评价'}}
@@ -45,6 +45,7 @@
       }
     }
     &-container {
+      padding-top: 20px;
       width: 100%;
       height: 100px;
       display: flex;

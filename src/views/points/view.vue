@@ -21,7 +21,7 @@
           </div>
           <div>有效期</div>
         </div>
-        <div>{{dateConvert(coupon.startDate)}}至{{dateConvert(coupon.expiryDate)}}</div>
+        <div>{{dateConvert(coupon.startDate)}}至{{dateConvert(coupon.endDate)}}</div>
       </div>
     </div>
     <div class="points_view-third">
@@ -52,7 +52,7 @@
             <div>3、运费描述：全国包邮（港澳台）除外；</div>
             <div>4、新疆、西藏、内蒙古偏远地区无法到达；</div>
             <div>5、商家客服电话：400-601-5563；</div>
-            <div>6、券码使用有效日期：收到优惠码之日起至{{dateConvert(coupon.expiryDate)}}</div>
+            <div>6、券码使用有效日期：收到优惠码之日起至{{dateConvert(coupon.endDate)}}</div>
           </div>
         </div>
       </div>

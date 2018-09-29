@@ -131,7 +131,7 @@
         left: 150px;
         top: 90px;
         font-size: 25px;
-        color: #1AB6FD;
+        color: white;
       }
     }
     &-address {

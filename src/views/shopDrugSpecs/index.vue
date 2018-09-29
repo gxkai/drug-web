@@ -6,14 +6,12 @@
       @click-left="$router.go(-1)"
       ref="header"
     >
-      <van-icon name="like" slot="right"
-      @click="onCollect"/>
     </van-nav-bar>
     <div class="shopDrugSpec__content"
          ref="content">
       <van-swipe :autoplay="3000">
         <van-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
-          <img v-lazy="getImgURL(fileId,'LARGE_PIC')"/>
+          <img :src="getImgURL(fileId,'LARGE_PIC')"/>
         </van-swipe-item>
       </van-swipe>
       <div class="shopDrugSpec__content__part-1">
@@ -74,7 +72,7 @@
       <div class="shopDrugSpec__content__part-4">
         <div class="shopDrugSpec__content__part-4__header">
           <div class="shopDrugSpec__content__part-4__header__left">
-            <img v-lazy="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')"
+            <img :src="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')"
                  class="shopDrugSpec__content__part-4__header__left-logo"/>
           </div>
           <div class="shopDrugSpec__content__part-4__header__center">
@@ -146,7 +144,8 @@
       ref="footer">
       <van-goods-action-mini-btn icon="chat" text="咨询" :to="{path:'/chats/view',query:{shopId:shopDrugSpec.shopId}}"/>
       <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
-      <van-goods-action-mini-btn icon="shop" text="店铺" :to="{path:'/shops/view',query:{shopId:shopDrugSpec.shopId}}"/>
+      <van-goods-action-mini-btn icon="shoucang" text="收藏" :style="{color: collected === true? 'red': ''}"
+      @click="onCollect"/>
       <van-goods-action-big-btn text="加入购物车"
                                 :style="{backgroundColor:shopDrugSpec.otc===false?'gray':'#f85'}"
                                 @click="shopDrugSpec.otc===false? '' : show=true;type=0"/>
@@ -158,11 +157,11 @@
       <div class="shopDrugSpec__popup">
         <div class="shopDrugSpec__popup__part-1 van-hairline--bottom">
           <div class="shopDrugSpec__popup__part-1__close-icon">
-            <van-icon name="close"
+            <van-icon name="close" size="3em" color="#13C1FE"
             @click="show = false"/>
           </div>
           <div class="shopDrugSpec__popup__part-1__left">
-            <img v-lazy="getImgURL(shopDrugSpec.drugLogo,'LARGE_LOGO')" class="shopDrugSpec__popup__part-1__left-logo"/>
+            <img :src="getImgURL(shopDrugSpec.drugLogo,'LARGE_LOGO')" class="shopDrugSpec__popup__part-1__left-logo"/>
           </div>
           <div class="shopDrugSpec__popup__part-1__right">
             <div class="shopDrugSpec__popup__part-1__right-name">
@@ -178,9 +177,8 @@
             购买数量
           </div>
           <div class="shopDrugSpec__popup__part-2__right">
-            <van-stepper
+            <new-stepper
               v-model="number"
-              integer
               :min="1"
               :step="1"
             />
@@ -464,10 +462,12 @@
         &__item {
           padding: 20px 0;
           &__header {
+            padding: 10px 0;
             display: flex;
             justify-content: space-between;
           }
           &__content {
+            padding: 10px 0;
             font-size: 20px;
             font-family: HiraginoSansGB-W3;
             font-weight: normal;
@@ -504,7 +504,6 @@
         .then(res => {
           this.shopDrugSpec = res.data;
           console.log(res.data);
-          this.shopDrugSpec.sfda = this.shopDrugSpec.sfda.replace('国药准字', '');
         }).catch(error => {
           this.exception(error);
         });

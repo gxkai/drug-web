@@ -89,6 +89,7 @@
   .card_bind {
     height: 100vh;
     overflow: auto;
+    background-color: #f5f5f5;
     &-list {
       &-item {
         padding: 15px 30px;

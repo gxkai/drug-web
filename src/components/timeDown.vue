@@ -1,5 +1,6 @@
 <template>
   <div id="times">
+    <span class="d_Downtime">{{day}}</span>:
     <span class="d_Downtime">{{hour}}</span>:
     <span class="d_Downtime">{{min}}</span>:
     <span class="d_Downtime">{{second}}</span>
@@ -12,6 +13,7 @@
       return {
         time: '',
         flag: false,
+        day: '',
         hour: '',
         min: '',
         second: ''
@@ -44,6 +46,7 @@
           this.$emit('time-end');
         }
         this.time = `${d}天${h}小时${m}分${s}秒`;
+        this.day = d;
         this.hour = h;
         this.min = m;
         this.second = s;

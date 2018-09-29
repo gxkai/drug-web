@@ -96,11 +96,8 @@
                     <div>
                       <span class="cart-list-drugs-item-right_quantity"
                             v-if="isRx(cartRx.rxId)">x{{cartDrug.quantity}}</span>
-                      <van-stepper
+                      <new-stepper
                         v-model="cartDrug.quantity"
-                        integer
-                        :min="1"
-                        :step="1"
                         v-else
                       />
                     </div>

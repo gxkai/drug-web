@@ -161,6 +161,7 @@
       & > div {
         &:nth-child(even) {
           padding: 20px;
+          font-size: 25px;
         }
         &:nth-child(odd) {
           width: 50px;

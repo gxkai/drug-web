@@ -16,7 +16,7 @@ import VueTouch from 'vue-touch';
 import filters from './assets/js/filters';
 import './assets/font/iconfont.css';
 import './assets/font/vanIcon.css';
-// import './assets/js/vconsole';
+import './assets/js/vconsole';
 import '../src/assets/plugin/vue-event-calendar/dist/style.css';
 import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
 import 'vant/lib/vant-css/icon-local.css';
@@ -44,7 +44,10 @@ import {Actionsheet,
   SubmitBar,
   Rate,
   Button,
-  Stepper} from 'vant';
+  Stepper,
+  Search,
+  List,
+  PullRefresh} from 'vant';
 import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
@@ -69,6 +72,9 @@ Vue.use(Actionsheet).use(GoodsAction)
   .use(Rate)
   .use(Button)
   .use(Stepper)
+  .use(Search)
+  .use(List)
+  .use(PullRefresh)
 ;
 Vue.use(Mui);
 Vue.use(vueEventCalendar, {locale: 'zh'});

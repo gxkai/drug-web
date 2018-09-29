@@ -1,40 +1,51 @@
 <template>
   <div class="account">
     <div class="account-header"
-    ref="header">
-      <img  :src="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"
-      v-if="account!== null"/>
+         ref="header">
+      <img :src="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"
+           v-if="account!== null"/>
       <div class="account-header-login"
            @click="$router.push('/login')"
-      v-else>
-          <img  src="../../assets/image/accounts/default_head.jpg"/>
+           v-else>
+        <img src="../../assets/image/accounts/default_head.jpg"/>
         <div class="account-header-login_text">登录/注册</div>
       </div>
 
       <van-icon name="lingdang"
                 class="lingdang"
                 @click="linkToMessageType"></van-icon>
+      <van-icon name="setting"
+                class="setting"
+                @click="$router.push('/setting')"></van-icon>
       <div class="account-header-sign_in"
            v-text="signIn === true ? '已签到' : '每日签到'"
            :style="{backgroundColor: signIn === true ? 'Pink': ''}"
-      @click="everyDay()">
+           @click="everyDay()">
       </div>
     </div>
 
     <div class="account-content"
-    ref="content">
+         ref="content">
       <van-cell-group>
         <van-cell title="全部订单" value="我的订单" to="/orders" is-link/>
       </van-cell-group>
 
       <van-tabbar :fixed="Boolean(false)">
-        <van-tabbar-item icon="icon-test" :info="count.toAppraiseCount" to="/orders/toPay">待付款</van-tabbar-item>
-        <van-tabbar-item icon="icon-test1" :info="count.toDeliveryCount" to="/orders/toDeliver">待发货</van-tabbar-item>
-        <van-tabbar-item icon="daishouhuo" :info="count.toPayCount" to="/orders/toReceive">待收货</van-tabbar-item>
-        <van-tabbar-item icon="daipingjia01" :info="count.toReceivedCount" to="/orders/toAppraise">待评价</van-tabbar-item>
+        <van-tabbar-item icon="icon-test" :info="count.toAppraiseCount === 0 ? '':count.toAppraiseCount"
+                         :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
+        </van-tabbar-item>
+        <van-tabbar-item icon="icon-test1" :info="count.toDeliveryCount === 0 ? '':count.toDeliveryCount "
+                         :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
+        </van-tabbar-item>
+        <van-tabbar-item icon="daishouhuo" :info="count.toPayCount === 0 ? '' : count.toPayCount"
+                         :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
+        </van-tabbar-item>
+        <van-tabbar-item icon="daipingjia01" :info="count.toReceivedCount === 0 ? '' : count.toReceivedCount"
+                         :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
+        </van-tabbar-item>
       </van-tabbar>
 
-      <van-tabbar :fixed="Boolean(false)" class="mt-l-20 account-enter">
+      <van-tabbar :fixed="Boolean(false)" class="mt-l-20">
         <van-tabbar-item icon="dingdan"
                          class="van-hairline--right"
                          to="/orders">
@@ -55,7 +66,7 @@
           我的收藏
         </van-tabbar-item>
       </van-tabbar>
-      <van-tabbar :fixed="Boolean(false)" class="account-enter">
+      <van-tabbar :fixed="Boolean(false)">
         <van-tabbar-item icon="purse"
                          class="van-hairline--right"
                          to="/orderRefunds">
@@ -63,7 +74,7 @@
         </van-tabbar-item>
         <van-tabbar-item icon="wo"
                          class="van-hairline--right"
-                         to="/setting">
+                         to="/accounts/edit">
           账号设置
         </van-tabbar-item>
         <van-tabbar-item icon="jifen1"
@@ -76,17 +87,22 @@
           医保信息
         </van-tabbar-item>
       </van-tabbar>
-
-      <van-cell title="常见问题"
-                is-link
-                class="mt-l-20"
-                to="/faqs">
-      </van-cell>
-
-      <van-cell title="意见反馈" class="mt-l-20"
-                is-link
-                to="/feedbacks/create">
-      </van-cell>
+      <van-row>
+        <van-col span="12">
+          <van-tabbar :fixed="Boolean(false)">
+            <van-tabbar-item icon="changjianwenti1"
+                             class="van-hairline--right"
+                             to="/faqs">
+              常见问题
+            </van-tabbar-item>
+            <van-tabbar-item icon="yijianfankui"
+                             class="van-hairline--right"
+                             to="/feedbacks/create">
+              意见反馈
+            </van-tabbar-item>
+          </van-tabbar>
+        </van-col>
+      </van-row>
     </div>
     <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
   </div>
@@ -95,7 +111,7 @@
 <style scoped type="text/less" lang="less">
   /deep/ .van-icon {
     font-size: 40px;
-    &-dizhi1{
+    &-dizhi1 {
       color: #FF3BAE;
     }
     &-xingxing2 {
@@ -116,16 +132,23 @@
     &-jifen1 {
       color: #9850DB;
     }
-    &-yibaoqia{
+    &-yibaoqia {
       color: red;
     }
+    &-changjianwenti1 {
+      color: #72bd63;
+    }
+    &-yijianfankui {
+      color: #ff9800;
+    }
   }
+
   .account {
     background-color: #f5f5f5;
     &-header {
-      width:720px;
-      height:369px;
-      background:linear-gradient(0deg,rgba(0,173,179,1),rgba(19,193,254,1),rgba(134,219,249,1));
+      width: 720px;
+      height: 369px;
+      background: linear-gradient(0deg, rgba(0, 173, 179, 1), rgba(19, 193, 254, 1), rgba(134, 219, 249, 1));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -159,6 +182,13 @@
         color: white;
         position: absolute;
         right: 20px;
+        top: 20px;
+      }
+      .setting {
+        font-size: 40px;
+        color: white;
+        position: absolute;
+        left: 20px;
         top: 20px;
       }
     }
@@ -206,15 +236,7 @@
     },
     methods: {
       everyDay() {
-        this.$http.post('/pointRecords/signIn').then(res => {
-          this.$http.get('/pointRecords/signInPoint').then(res => {
-            this.$router.push('/points/signIn?points=' + res.data);
-          }).then(error => {
-            this.exception(error);
-          });
-        }).catch(error => {
-          this.exception(error);
-        });
+        this.$router.push('/points/signIn');
       }
     }
   }

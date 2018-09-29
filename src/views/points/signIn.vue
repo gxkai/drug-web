@@ -20,14 +20,16 @@
         <div class="change-point">
           <i class="iconfont ic-liwu-copy text-13C1FE"></i>
           <span class="fz28">积分兑换</span>
-          <span class="fz20 fr">查看更多 <i class="iconfont ic-youjiantou"></i></span>
+          <span class="fz20 fr"
+          @click="$router.push('/points')">查看更多 <i class="iconfont ic-youjiantou"></i></span>
         </div>
       </div>
       <div class="signin-gift">
         <ul>
           <li
             :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}"
-            v-for="(item,index) in couPunList" v-if="index<3">
+            v-for="(item,index) in coupons" v-if="index<3"
+          @click="linkToPointView(item.id)">
             {{item.point}}积分兑换
           </li>
         </ul>
@@ -62,11 +64,11 @@
       return {
         headTitle: '多力葵花籽油',
         show: false,
-        points: '',
-        couPunList: [],
+        points: 0,
+        coupons: [],
         demoEvents: [],
         arr: [],
-        continuityDays: ''
+        continuityDays: 0
       };
     },
     methods: {
@@ -81,44 +83,45 @@
         return new Date(date);
       },
       continuousDate() {
-        var date = new Date();
-        var y = date.getFullYear();
-        var m = date.getMonth() + 1;
-        var d = date.getDate();
-        var today = y + '/' + m + '/' + d;
-        var num = 0;// 声明计数变量;
-        this.$http.get('/pointRecords/signIn?month=' + m + '&year=' + y)
-          .then(res => {
-            let arr = res.data;
-            arr.pop();
-            let newArr = arr.map(val => {
-              let json = {};
-              json.date = val.split('-').join('/');
-              return json;
-            });
-            var le = newArr.length;
-            if (le !== 0) {
-              if (new Date(today) - new Date(newArr[le - 1].date) === 86400000) {
-                num = 2;
-                for (var i = le; i > 0; i--) {
-                  if (new Date(newArr[i - 1]).date - new Date(newArr[i - 2]).date === 86400000) {
-                    num++;
-                  } else {
-                    this.continuityDays = num + 1;
-                    break;
-                  }
-                }
-              }
-            } else {
-              this.continuityDays = '1';
+        let date = new Date();
+        let y = date.getFullYear();
+        let m = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+        let d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        console.log(this.arr);
+        console.log(y + '-' + m + '-' + d);
+        let arr = this.arr.map(e => Date.parse(new Date(e))).sort((a, b) => b - a);
+        console.log(arr);
+        let today = Date.parse(new Date(y + '-' + m + '-' + d));
+        console.log(today);
+        for (let i = 0; i < arr.length; i++) {
+          console.log(i, arr[i]);
+          if (i === 0) {
+            if (today === arr[i]) {
+              this.continuityDays++;
             }
-          });
+          } else {
+            if (arr[i - 1] - arr[i] === 86400000) {
+              this.continuityDays++;
+            }
+          }
+        }
+      },
+      getPoints() {
+        this.$http.get('/pointRecords/signInPoint').then(res => {
+          this.points = res.data;
+        }).then(error => {
+          this.exception(error);
+        });
       }
     },
     created() {
-      let point = this.$route.query.points;
-      this.points = point;
-      this.show = !this.show;
+      this.$http.post('/pointRecords/signIn').then(res => {
+        this.getPoints();
+        this.show = !this.show;
+      }).catch(error => {
+        this.getPoints();
+        this.exception(error);
+      });
       var date = new Date();
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
@@ -134,10 +137,17 @@
           });
           this.demoEvents = newArr;
           this.continuousDate();
+        })
+        .catch(err => {
+          this.exception(err);
         });
       this.$http.get('/coupons?pageNum=1&pageSize=3')
         .then(res => {
-          this.couPunList = res.data.list;
+          this.coupons = res.data.list;
+          console.log(res.data.list);
+        })
+        .catch(err => {
+          this.exception(err);
         });
     }
   };

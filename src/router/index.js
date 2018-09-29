@@ -201,7 +201,7 @@ export default new Router({
     },
     {
       path: '/drugAppraises/success',
-      name: '药品评价创建成功',
+      name: '药品评价成功',
       component: () => import('@/views/drugAppraises/success.vue')
     },
     {
@@ -276,7 +276,7 @@ export default new Router({
     },
     {
       path: '/shops/info',
-      name: '药店信息',
+      name: '商家介绍',
       component: () => import('@/views/shops/info.vue')
     },
     {
@@ -315,11 +315,6 @@ export default new Router({
       component: () => import('@/views/orders/create/fromShop.vue')
     },
     {
-      path: '/orders/create/fromHospital',
-      name: '医院结算',
-      component: () => import('@/views/orders/create/fromHospital.vue')
-    },
-    {
       path: '/orders/addresses',
       name: '订单地址',
       component: () => import('@/views/orders/addresses/index.vue')
@@ -333,31 +328,6 @@ export default new Router({
       path: '/orders',
       name: '全部订单',
       component: () => import('@/views/orders/index.vue')
-    },
-    {
-      path: '/orders/toPay',
-      name: '待支付',
-      component: () => import('@/views/orders/toPay.vue')
-    },
-    {
-      path: '/orders/toAppraise',
-      name: '待评价',
-      component: () => import('@/views/orders/toAppraise.vue')
-    },
-    {
-      path: '/orders/toDeliver',
-      name: '待发货',
-      component: () => import('@/views/orders/toDeliver.vue')
-    },
-    {
-      path: '/orders/toReceive',
-      name: '待收货',
-      component: () => import('@/views/orders/toReceive.vue')
-    },
-    {
-      path: '/orders/search',
-      name: '订单搜索',
-      component: () => import('@/views/orders/search.vue')
     },
     {
       path: '/orders/takeDrug',

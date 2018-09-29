@@ -1,25 +1,45 @@
 <template>
   <div class="orders">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      @click-right="$router.push('/orders/search')"
-      ref="header"
-    >
-      <van-icon name="search" slot="right" />
-    </van-nav-bar>
-      <new-order-tab :urlRouter="$route.path"
-      ref="orderTab"></new-order-tab>
-    <div v-infinite-scroll="loadMore"
-         infinite-scroll-disabled="loading"
-         infinite-scroll-distance="0"
-         ref="body">
-        <new-order-item
-          :order.sync="order"
-          v-for="(order, key) in orderList"
-          :key="key"></new-order-item>
-      <new-no-data v-if="loadingComplete"></new-no-data>
+    <div ref="header"
+         class="orders__header">
+      <van-nav-bar
+        :title="title"
+        left-arrow
+        @click-left="$router.go(-1)"
+        @click-right="show = true"
+        v-show="!show"
+      >
+        <van-icon name="search" slot="right"/>
+      </van-nav-bar>
+      <van-nav-bar
+        right-text="搜索"
+        left-text="取消"
+        @click-left="onCancel"
+        @click-right="onSearch"
+        v-show="show"
+        class="orders__header__search">
+        <input
+          class="orders__header__search-input van-icon"
+          :placeholder="icon"
+          v-model='keyword'
+          @keyup.enter = "onSearch"
+          slot="title">
+      </van-nav-bar>
+      <new-order-tab :state.sync="state"></new-order-tab>
+    </div>
+    <div ref="content">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          @load="onLoad">
+          <new-order-item
+            :order.sync="order"
+            v-for="(order, key) in list"
+            :key="key"></new-order-item>
+        </van-list>
+        <new-no-data v-show="finished === true"></new-no-data>
+      </van-pull-refresh>
     </div>
   </div>
 </template>
@@ -29,32 +49,76 @@
     name: 'orderIndex',
     data() {
       return {
-        loading: true,
-        loadingComplete: false,
-        url: '',
+        loading: false,
+        finished: false,
+        isLoading: false,
         pageNum: 0,
         pageSize: 15,
-        orderList: []
+        list: [],
+        show: false,
+        keyword: '',
+        icon: '\ue64c 药品名',
+        state: this.$route.query.state || ''
       };
     },
     created() {
-      this.loadMore();
+    },
+    watch: {
+      state() {
+        this.onRefresh();
+      }
+    },
+    computed: {
+      title() {
+        switch (this.state) {
+          case 'TO_PAY':
+            return '待付款';
+          case 'TO_APPRAISE':
+            return '待评价';
+          case 'TO_DELIVERY':
+            return '待发货';
+          case 'TO_RECEIVED':
+            return '待收货';
+          default:
+            return '全部订单';
+        }
+      }
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.orderTab.$el.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'scroll';
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
+      this.$refs.content.style.overflow = 'scroll';
     },
     methods: {
-      loadMore() {
-        this.loading = true;
+      onCancel() {
+        this.keyword = '';
+        this.show = false;
+        this.onRefresh();
+      },
+      onSearch() {
+        this.onRefresh();
+      },
+      onRefresh() {
+        this.finished = false;
+        this.list = [];
+        this.pageNum = 0;
+        this.onLoad();
+      },
+      onLoad() {
         this.pageNum++;
-        this.$http.get('/orders/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+        this.$http.get('/orders/', {
+          params: {
+            'pageNum': this.pageNum,
+            'pageSize': this.pageSize,
+            'orderState': this.state,
+            'keyword': this.keyword
+          }
+        })
           .then(res => {
-            if (res.data.list.length > 0) {
-              this.orderList = this.orderList.concat(res.data.list);
-              this.loading = false;
-            } else {
-              this.loadingComplete = true;
+            this.isLoading = false;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
             }
           }).catch(error => {
             this.exception(error);
@@ -67,6 +131,22 @@
 <style scoped type="text/less" lang="less">
   .orders {
     background-color: #f5f5f5;
-    height: 100vh;
+    &__header {
+      &__search {
+        &-input {
+          height: 60px;
+          width: 400px;
+          padding: 0 20px;
+          -webkit-appearance: none;
+          border: none;
+          outline: none;
+          color: black;
+          font-size: 25px;
+          &::placeholder {
+            text-align: center;
+          }
+        }
+      }
+    }
   }
 </style>

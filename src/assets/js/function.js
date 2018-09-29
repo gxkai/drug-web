@@ -383,6 +383,13 @@ export default {
       router.push({ path: '/accounts/insurance/consumeInfoMore', query: { consumeInfoMore: JSON.stringify(item) } });
     };
     /**
+     * 跳转到优惠券详情
+     * @param couponId
+     */
+    Vue.prototype.linkToPointView = (couponId) => {
+      router.push({ path: '/points/view', query: { couponId: couponId } });
+    };
+    /**
      * 地图coordType 转换
      */
     Vue.prototype.transformCoordType = (str) => {
