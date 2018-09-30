@@ -34,17 +34,12 @@
         list: [],
         loading: false,
         finished: false,
-        pageNum: 0,
+        pageNum: 1,
         pageSize: 15,
         temporary: []
       };
     },
-    mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'scroll';
-    },
-
-    filters: {
+   filters: {
       TYPE(data) {
         if (data === 'AWARD') {
           return '奖励';
@@ -66,11 +61,11 @@
 
     },
     created() {
-      this.onLoad();
+      this.loadingStart();
       let _this = this;
       window.onscroll = function () {
-        if (_this.getScrollTop() + _this.getClientHeight() >= _this.getScrollHeight()) {
-          _this.onLoad();
+        if (_this.getScrollTop() + _this.getClientHeight() === _this.getScrollHeight()) {
+          _this.loadingStart();
         }
       };
     },
@@ -102,13 +97,14 @@
         let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
         return Y + '-' + M;
       },
-      onLoad() {
+      loadingStart() {
         let _this = this;
+        _this.list = [];
         _this.$http.get('/pointRecords?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
           .then(res => {
-            if (_this.pageNum < res.data.pages) {
-              _this.list = _this.list.concat(res.data.list);
+            if (_this.pageNum <= res.data.pages) {
               _this.pageNum++;
+              _this.list = _this.list.concat(res.data.list);
               let times = [];
               _this.list.forEach(item => {
                 times.push(_this.timeReset(item.createdDate));
@@ -123,9 +119,6 @@
                 });
                 _this.temporary.push(list);
               });
-            } else {
-              _this.finished = true;
-              _this.loading = false;
             }
             ;
           }).catch(error => {
