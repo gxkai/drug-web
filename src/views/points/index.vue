@@ -11,7 +11,7 @@
         <div>
           <i class="iconfont ic-jifen"></i>
         </div>
-        <div>
+        <div @click.stop="$router.push('/points/residualeRecord')">
           <span>剩余积分</span>
           <span>{{point}}</span>
         </div>
