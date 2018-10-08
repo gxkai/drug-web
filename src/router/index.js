@@ -26,6 +26,11 @@ export default new Router({
       component: () => import('@/views/points/exchangeRecord')
     },
     {
+      path: '/points/residualeRecord',
+      name: '积分详情',
+      component: () => import('@/views/points/residualeRecord')
+    },
+    {
       path: '/points',
       alias: '/points/index',
       name: '积分列表',
@@ -148,11 +153,6 @@ export default new Router({
       path: '/faqs',
       name: '常见问题',
       component: () => import('@/views/faqs/index.vue')
-    },
-    {
-      path: '/addresses/create',
-      name: '地址创建',
-      component: () => import('@/views/addresses/create.vue')
     },
     {
       path: '/addresses/edit',
