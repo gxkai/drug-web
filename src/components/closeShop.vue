@@ -36,7 +36,7 @@
       :key="key"
       @click="linkToShopDrugSpec(item.shopDrugSpecId)">
         <div class="close_shop_item-content-item_left">
-          <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
+          <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
         </div>
         <div class="close_shop_item-content-item_right">
           <div class="close_shop_item-content-item_right_1 text-l-30 elps">{{item.drugName}}</div>

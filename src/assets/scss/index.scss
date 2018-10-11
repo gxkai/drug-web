@@ -21,10 +21,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor:pointer;
 }
-input::placeholder {
-  text-align: center;
-}
+//input::placeholder {
+//  text-align: center;
+//}
 a {
   text-decoration: none;
 }

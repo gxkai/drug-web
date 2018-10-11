@@ -1,12 +1,14 @@
 <template>
   <div class="account">
     <div class="account-header"
-         ref="header">
-      <img :src="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"
-           v-if="account!== null"/>
+         id="header">
+      <van-uploader :after-read="onRead">
+        <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"
+             v-if="account!== null"/>
+      </van-uploader>
       <div class="account-header-login"
            @click="$router.push('/login')"
-           v-else>
+           v-if="account === null">
         <img src="../../assets/image/accounts/default_head.jpg"/>
         <div class="account-header-login_text">登录/注册</div>
       </div>
@@ -20,12 +22,12 @@
       <div class="account-header-sign_in"
            v-text="signIn === true ? '已签到' : '每日签到'"
            :style="{backgroundColor: signIn === true ? 'Pink': ''}"
-           @click="everyDay()">
+           @click="$router.push('/points/signIn')">
       </div>
     </div>
 
     <div class="account-content"
-         ref="content">
+         :style="contentStyle">
       <van-cell-group>
         <van-cell title="全部订单" value="我的订单" to="/orders" is-link/>
       </van-cell-group>
@@ -75,7 +77,7 @@
         <van-tabbar-item icon="wo"
                          class="van-hairline--right"
                          to="/accounts/edit">
-          账号设置
+          账号信息
         </van-tabbar-item>
         <van-tabbar-item icon="jifen1"
                          class="van-hairline--right"
@@ -88,7 +90,7 @@
         </van-tabbar-item>
       </van-tabbar>
       <van-row>
-        <van-col span="12">
+        <van-col span="18">
           <van-tabbar :fixed="Boolean(false)">
             <van-tabbar-item icon="changjianwenti1"
                              class="van-hairline--right"
@@ -100,11 +102,35 @@
                              to="/feedbacks/create">
               意见反馈
             </van-tabbar-item>
+            <van-tabbar-item icon="pingjia"
+                             class="van-hairline--right"
+                             to="/drugAppraises">
+              我的评价
+            </van-tabbar-item>
           </van-tabbar>
         </van-col>
       </van-row>
     </div>
-    <new-footer :urlRouter="$route.path" ref="footer"></new-footer>
+    <van-tabbar
+      :value="4"
+      id="footer"
+    >
+      <van-tabbar-item icon="icon"
+                       to="/">首页
+      </van-tabbar-item>
+      <van-tabbar-item icon="chufang"
+                       to="/rxs">处方单
+      </van-tabbar-item>
+      <van-tabbar-item icon="fenlei"
+                       to="/drugTypes">分类
+      </van-tabbar-item>
+      <van-tabbar-item icon="gouwuche2"
+                       to="/carts">购物车
+      </van-tabbar-item>
+      <van-tabbar-item icon="wo"
+                       to="/accounts">我
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
@@ -140,6 +166,9 @@
     }
     &-yijianfankui {
       color: #ff9800;
+    }
+    &-pingjia {
+      color: #FF0000;
     }
   }
 
@@ -207,7 +236,11 @@
         },
         account: this.$store.getters.account,
         show: true,
-        signIn: false
+        signIn: false,
+        contentStyle: {
+          overflow: 'auto',
+          height: 0
+        }
       };
     },
     created() {
@@ -230,13 +263,31 @@
       }
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.$el.clientHeight
-      ) + 'px';
-      this.$refs.content.style.overflow = 'auto';
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight - document.getElementById('footer').clientHeight) + 'px';
     },
     methods: {
-      everyDay() {
-        this.$router.push('/points/signIn');
+      onRead(file) {
+        let param = new FormData();
+        param.append('fileType', 'LOGO');
+        param.append('file', file.content);
+        let config = {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        };
+        this.$http.post('/files/image', param, config).then(res => {
+          this.account.fileId = res.data;
+          this.$http.put('/accounts', this.account)
+            .then(res => {
+              this.$store.commit('SET_ACCOUNT', this.account);
+            })
+            .catch(err => {
+              this.exception(err);
+            });
+        })
+          .catch(err => {
+            this.exception(err);
+          });
       }
     }
   }

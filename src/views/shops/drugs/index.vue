@@ -4,25 +4,30 @@
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
+      id="header"
     />
-    <div class="shop_drugs-list"
-         v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10"
-        ref="body">
-        <div class="shop_drugs-list-item"
-             v-for="drug in list"
-        @click="linkToShopDrugSpec(drug.id)">
-          <div class="shop_drugs-list-item-left">
-            <div class="rx_mark" v-if="!drug.otc">处</div>
-            <img :src="getImgURL(drug.fileId,'LARGE_LOGO')">
+    <div :style="contentStyle">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          @load="onLoad">
+          <div class="shop_drugs-list-item"
+               v-for="drug in list"
+               @click="linkToShopDrugSpec(drug.id)">
+            <div class="shop_drugs-list-item-left">
+              <div class="rx_mark" v-if="!drug.otc">处</div>
+              <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')">
+            </div>
+            <div class="shop_drugs-list-item-right">
+              <div class="shop_drugs-list-item-right_name">{{drug.name}}</div>
+              <div class="shop_drugs-list-item-right_sfda">国药准字{{drug.sfda}}</div>
+              <div class="shop_drugs-list-item-right_price">&yen;{{drug.price}}</div>
+            </div>
           </div>
-          <div class="shop_drugs-list-item-right">
-            <div class="shop_drugs-list-item-right_name">{{drug.name}}</div>
-            <div class="shop_drugs-list-item-right_sfda">国药准字{{drug.sfda}}</div>
-            <div class="shop_drugs-list-item-right_price">&yen;{{drug.price}}</div>
-          </div>
-        </div>
-      <new-no-data v-if="loadingComplete"></new-no-data>
+          <new-no-data v-if="finished"></new-no-data>
+        </van-list>
+      </van-pull-refresh>
     </div>
   </div>
 </template>
@@ -30,7 +35,7 @@
   .shop_drugs {
     background-color: #f5f5f5;
     height: 100vh;
-    &-list{
+    &-list {
       &-item {
         display: flex;
         align-items: center;
@@ -46,7 +51,7 @@
         }
         &-right {
           width: 450px;
-          &>div {
+          & > div {
             padding: 10px;
           }
           &_name {
@@ -77,36 +82,52 @@
     name: 'shopInfo',
     data() {
       return {
-        list: [],
+        loading: false,
+        finished: false,
+        isLoading: false,
         pageNum: 0,
         pageSize: 15,
+        list: [],
+        contentStyle: {
+          height: 0,
+          overflow: 'auto'
+        },
         shopId: this.$route.query.id,
-        typeId: this.$route.query.typeId || '',
-        loadingComplete: false,
-        loading: true
+        typeId: this.$route.query.typeId || ''
       };
     },
-    created: function () {
-      this.loadMore();
+    created() {
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'auto';
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
-      loadMore() {
-        this.loading = true;
+      onRefresh() {
+        this.finished = false;
+        this.list = [];
+        this.pageNum = 0;
+        this.onLoad();
+      },
+      onLoad() {
         this.pageNum++;
-        this.$http.get('/shops/' + this.shopId + '/drugs?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize + '&typeId=' + this.typeId).then(res => {
-          if (res.data.list.length > 0) {
-            this.list = this.list.concat(res.data.list);
-            this.loading = false;
-          } else {
-            this.loadingComplete = true;
+        this.$http.get('/shops/' + this.shopId + '/drugs', {
+          params: {
+            'pageNum': this.pageNum,
+            'pageSize': this.pageSize,
+            'typeId': this.typeId
           }
-        }).catch(error => {
-          this.exception(error);
-        });
+        })
+          .then(res => {
+            this.isLoading = false;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            console.log(this.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
+            }
+          }).catch(error => {
+            this.exception(error);
+          });
       }
     }
   };

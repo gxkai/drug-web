@@ -38,7 +38,7 @@
             <img src="../../assets/image/fei.png"/>
           </div>
           <div class="refunds-info-detail-drugImg">
-            <img :src="getImgURL(drug.fileId,'LARGE_LOGO')"/>
+            <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')"/>
           </div>
         </div>
         <div class="refunds-info-detail-message">

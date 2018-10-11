@@ -1,7 +1,7 @@
 <template>
   <div class="rx_shop_item">
     <div class="rx_shop_item-left">
-      <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
+      <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
       <div class="rx_shop_item-left-icon">
         医院
       </div>

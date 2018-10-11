@@ -76,8 +76,6 @@
 </template>
 
 <script>
-  import { MessageBox } from 'mint-ui';
-
   export default {
     name: 'login',
     data() {
@@ -190,7 +188,7 @@
           .then((res) => {
             this.username = this.registerUsername;
             this.password = this.registerPassword;
-            MessageBox.confirm('去登陆?').then(action => {
+            this.$dialog.confirm({message: '去登陆?'}).then(action => {
               this.clearInt();
               this.swiper.slideTo(0, 1000, false);
             });

@@ -8,7 +8,7 @@
     />
     <div class="insurance__content"
          ref="content">
-      <van-cell title="医保卡绑定"
+      <van-cell title="我的医保卡"
                 is-link
                 class="mt-l-20"
                 to="/accounts/card/bind">

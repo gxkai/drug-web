@@ -2,7 +2,7 @@
   <div class="new-stepper">
     <button class="new-stepper__minus"
     @click="minus">-</button>
-    <input type="number" class="new-stepper__input" v-model="number" :style="{width: inputWidth}" readonly>
+    <button  class="new-stepper__input" readonly>{{number}}</button>
     <button class="new-stepper__plus"
     @click="plus">+</button>
   </div>
@@ -26,14 +26,11 @@
     watch: {
       number(newValue) {
         this.$emit('input', newValue);
-        this.inputWidth = newValue.toString().length * 0.5 + 'rem';
-        console.log(this.inputWidth);
       }
     },
     computed: {},
     data() {
       return {
-        inputWidth: '0.5rem',
         number: this.value
       };
     },
@@ -71,11 +68,13 @@
     &__input {
       -webkit-appearance: none;
       border: 1PX solid #999999;
-      border-width: 1PX 0;
       height: 30px;
-      text-align: center;
+      padding: 0 10px;
+      line-height: 20px;
+      background-color: white;
       font-size: 25px;
-      max-width: 70px;
+      border-left: none;
+      border-right: none;
     }
   }
 </style>

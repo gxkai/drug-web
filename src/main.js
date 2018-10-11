@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import App from './App';
-import MintUI from 'mint-ui';
 import store from './store';
 import base from './assets/js/function';
 import component from './assets/js/component';
@@ -12,7 +11,6 @@ import '../src/assets/js/flex';
 import VueAwesomeSwiper from '../src/assets/plugin/vue-awesome-swiper';
 import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
-import VueTouch from 'vue-touch';
 import filters from './assets/js/filters';
 import './assets/font/iconfont.css';
 import './assets/font/vanIcon.css';
@@ -20,7 +18,6 @@ import './assets/js/vconsole';
 import '../src/assets/plugin/vue-event-calendar/dist/style.css';
 import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
 import 'vant/lib/vant-css/icon-local.css';
-import Mui from 'vue-awesome-mui';
 import {Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
@@ -47,7 +44,17 @@ import {Actionsheet,
   Stepper,
   Search,
   List,
-  PullRefresh} from 'vant';
+  PullRefresh,
+  Field,
+  CheckboxGroup,
+  Checkbox,
+  Tab,
+  Tabs,
+  Toast,
+  Lazyload,
+  Collapse,
+  CollapseItem,
+  Uploader} from 'vant';
 import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
@@ -75,27 +82,28 @@ Vue.use(Actionsheet).use(GoodsAction)
   .use(Search)
   .use(List)
   .use(PullRefresh)
-;
-Vue.use(Mui);
-Vue.use(vueEventCalendar, {locale: 'zh'});
-Vue.prototype.$http = axios;
-Vue.prototype.$outside = process.env.OUTSIDE_ROOT;
-Vue.prototype.$medicaid = process.env.MEDICAID_ROOT;
-Vue.prototype.$storage = storage;
-Vue.config.productionTip = false;
-Vue.use(MintUI, {
-  lazyload: {
+  .use(Field)
+  .use(CheckboxGroup)
+  .use(Checkbox)
+  .use(Tab)
+  .use(Tabs)
+  .use(Toast)
+  .use(Collapse)
+  .use(CollapseItem)
+  .use(Uploader)
+  .use(Lazyload, {
     preLoad: 1,
     error: require('./assets/image/lazyLoad/default.png'),
     loading: require('./assets/image/lazyLoad/loading.gif'),
-    attempt: 3,
-    throttleWait: 10,
-    filter: {
-      webp(listener, options) {},
-      progressive(listener, options) {}
-    }
-  }
-});
+    attempt: 3
+  })
+;
+Vue.use(vueEventCalendar, {locale: 'zh', className: ''});
+Vue.prototype.$http = axios;
+Vue.prototype.$env = process.env.NODE_ENV;
+Vue.prototype.$outside = process.env.OUTSIDE_ROOT;
+Vue.prototype.$storage = storage;
+Vue.config.productionTip = false;
 Vue.use(VueAwesomeSwiper);
 Vue.use(base);
 Vue.use(component);
@@ -106,14 +114,6 @@ Vue.use(BaiduMap, {
  * 解决移动端点击事件延迟
  */
 fastclick.attach(document.body);
-/**
- * 左滑动
- */
-Vue.use(VueTouch, {name: 'v-touch'});
-VueTouch.config.swipe = {
-  direction: 'horizontal',
-  threshold: 200
-};
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.defaults.timeout = 50000;
 axios.interceptors.request.use(

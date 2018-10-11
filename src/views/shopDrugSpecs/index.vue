@@ -11,7 +11,7 @@
          ref="content">
       <van-swipe :autoplay="3000">
         <van-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
-          <img :src="getImgURL(fileId,'LARGE_PIC')"/>
+          <img v-lazy="getImgURL(fileId,'LARGE_PIC')"/>
         </van-swipe-item>
       </van-swipe>
       <div class="shopDrugSpec__content__part-1">
@@ -49,7 +49,7 @@
       </div>
       <div class="shopDrugSpec__content__part-3">
         <div class="shopDrugSpec__content__part-3__item"
-             @click="$router.push({path: '/shopDrugSpecs/view', query: {index: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
+             @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
           <div class="shopDrugSpec__content__part-3__item__left">
             <van-icon name="liwu-copy"></van-icon>
             <span>商品详情</span>
@@ -59,7 +59,7 @@
           </div>
         </div>
         <div class="shopDrugSpec__content__part-3__item"
-             @click="$router.push({path: '/shopDrugSpecs/view', query: {index: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
+             @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
           <div class="shopDrugSpec__content__part-3__item__left">
             <van-icon name="pingjia"></van-icon>
             <span>商品评价</span>
@@ -72,7 +72,7 @@
       <div class="shopDrugSpec__content__part-4">
         <div class="shopDrugSpec__content__part-4__header">
           <div class="shopDrugSpec__content__part-4__header__left">
-            <img :src="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')"
+            <img v-lazy="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')"
                  class="shopDrugSpec__content__part-4__header__left-logo"/>
           </div>
           <div class="shopDrugSpec__content__part-4__header__center">
@@ -121,7 +121,7 @@
             顾客评论({{shopDrugSpec.drugAppraises.total}})
           </div>
           <div class="shopDrugSpec__content__part-5__header__right"
-               @click="$router.push({path: '/shopDrugSpecs/view', query: {index: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
+               @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
             全部评价&gt;
           </div>
         </div>
@@ -129,7 +129,9 @@
              v-for="drugAppraise in shopDrugSpec.drugAppraises.list">
           <div class="shopDrugSpec__content__part-5__item__header">
             <van-rate v-model="drugAppraise.score" disabled disabled-color="red" :size="15"/>
-            <div>{{drugAppraise.username|asterisk}}</div>
+            <div
+            class="shopDrugSpec__content__part-5__item__header--right"
+            >{{drugAppraise.username|asterisk}}</div>
           </div>
           <div class="shopDrugSpec__content__part-5__item__content">
             {{drugAppraise.content||'没有评论内容'}}
@@ -161,7 +163,7 @@
             @click="show = false"/>
           </div>
           <div class="shopDrugSpec__popup__part-1__left">
-            <img :src="getImgURL(shopDrugSpec.drugLogo,'LARGE_LOGO')" class="shopDrugSpec__popup__part-1__left-logo"/>
+            <img v-lazy="getImgURL(shopDrugSpec.drugLogo,'LARGE_LOGO')" class="shopDrugSpec__popup__part-1__left-logo"/>
           </div>
           <div class="shopDrugSpec__popup__part-1__right">
             <div class="shopDrugSpec__popup__part-1__right-name">
@@ -185,7 +187,7 @@
           </div>
         </div>
         <div class="shopDrugSpec__popup__part-3">
-          <van-button size="large" @click="onConfirm" ref="button">确定</van-button>
+          <van-button size="large" @click="onConfirm" :loading="loading">确定</van-button>
         </div>
       </div>
     </van-popup>
@@ -465,6 +467,9 @@
             padding: 10px 0;
             display: flex;
             justify-content: space-between;
+            &--right {
+              font-size: 25px;
+            }
           }
           &__content {
             padding: 10px 0;
@@ -474,7 +479,7 @@
             color: #666666;
           }
           &__footer {
-            font-size: 16px;
+            font-size: 22px;
             font-family: HiraginoSansGB-W3;
             font-weight: normal;
             color: #999999;
@@ -485,7 +490,6 @@
   }
 </style>
 <script>
-  import { Toast } from 'mint-ui';
   export default {
     data() {
       return {
@@ -496,20 +500,21 @@
         show: false,
         type: 0,
         number: 1,
-        collected: false
+        collected: false,
+        loading: false
       };
     },
     created() {
       this.$http.get('/shopDrugSpecs/' + this.$route.query.shopDrugSpecId)
         .then(res => {
           this.shopDrugSpec = res.data;
-          console.log(res.data);
-        }).catch(error => {
-          this.exception(error);
-        });
-      this.$http.get('/collects/drug/one?shopDrugSpecId=' + this.shopDrugSpec.id)
-        .then(res => {
-          this.collected = res.data;
+          this.$http.get('/collects/drug/one?shopDrugSpecId=' + this.shopDrugSpec.id)
+            .then(res => {
+              this.collected = res.data;
+              console.log(res.data);
+            }).catch(error => {
+              this.exception(error);
+            });
         }).catch(error => {
           this.exception(error);
         });
@@ -532,16 +537,16 @@
             this.collected = !this.collected;
             console.log(this.collected);
             if (this.collected) {
-              Toast('收藏成功');
+              this.$toast('收藏成功');
             } else {
-              Toast('取消收藏成功');
+              this.$toast('取消收藏成功');
             }
           }).catch(error => {
             this.exception(error);
           });
       },
       onConfirm() {
-        this.$refs.button._props.loading = true;
+        this.loading = true;
         if (this.type === 0) {
           this.$http.post('/carts', [{
             shopId: this.shopDrugSpec.shopId,
@@ -549,11 +554,11 @@
             shopDrugSpecId: this.shopDrugSpec.id,
             quantity: this.number
           }]).then(res => {
-            this.$refs.button._props.loading = false;
-            Toast('加入购物车成功');
+            this.loading = false;
+            this.$toast('加入购物车成功');
             this.show = false;
           }).catch(err => {
-            this.$refs.button._props.loading = false;
+            this.loading = false;
             this.exception(err);
           });
         } else {
@@ -573,7 +578,7 @@
               this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(data));
             })
             .catch(err => {
-              this.$refs.button._props.loading = false;
+              this.loading = false;
               this.exception(err);
             });
         }

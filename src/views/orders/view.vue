@@ -197,8 +197,6 @@
 </style>
 
 <script>
-  import { Toast } from 'mint-ui';
-
   export default {
     data() {
       return {
@@ -313,7 +311,7 @@
         this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
       onRemind() {
-        Toast('提醒发货成功!');
+        this.$toast('提醒发货成功!');
       },
       onConfirm() {
         this.$http.put('/orders/' + this.order.id + '/complete').then(res => {

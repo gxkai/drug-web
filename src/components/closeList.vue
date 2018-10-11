@@ -44,7 +44,7 @@
                v-if="!cartDrug.otc">
                 处
               </div>
-              <img :src="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
+              <img v-lazy="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
             </div>
             <div class="close_list-drugs-item-right">
               <div>

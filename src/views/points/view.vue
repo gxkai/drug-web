@@ -6,60 +6,62 @@
       @click-left="$router.go(-1)"
       ref="header"
     />
-    <div class="points_view-first">
-      <img :src="getImgURL(coupon.fileId,'LARGE_LOGO')"/>
-    </div>
-    <div class="points_view-second">
-      <div class="points_view-second-price">
-        <div>{{coupon.name}}</div>
-        <div>{{coupon.point}}金币</div>
+    <div ref="content">
+      <div class="points_view-first">
+        <img v-lazy="coupon.type === 'ARTICLE'? getImgURL(coupon.fileId,'SMALL_PIC') : require('../../assets/image/coupon/coupon-bg.png')">
       </div>
-      <div class="points_view-second-date">
-        <div>
+      <div class="points_view-second">
+        <div class="points_view-second-price">
+          <div>{{coupon.name}}</div>
+          <div>{{coupon.point}}金币</div>
+        </div>
+        <div class="points_view-second-date">
           <div>
-            <i class="iconfont ic-riqi1"></i>
+            <div>
+              <i class="iconfont ic-riqi1"></i>
+            </div>
+            <div>兑换日期</div>
           </div>
-          <div>有效期</div>
-        </div>
-        <div>{{dateConvert(coupon.startDate)}}至{{dateConvert(coupon.endDate)}}</div>
-      </div>
-    </div>
-    <div class="points_view-third">
-      <div class="points_view-third-title">
-        商品详情
-      </div>
-      <div class="points_view-third-content">
-        <div class="points_view-third-content-introduction">
-          <div class="points_view-third-content-introduction-title">
-            商品介绍
-          </div>
-          <div class="points_view-third-content-introduction-content">
-            {{coupon.content||'暂无'}}
-          </div>
-        </div>
-        <div class="points_view-third-content-flow">
-          <div class="points_view-third-content-flow-title">兑换流程</div>
-          <div class="points_view-third-content-flow-content">
-            <div>1、兑换后在我的积分兑换流程里获得【兑换码】并复制；</div>
-            <div>2、点击立即购买-填写收件信息-下一步“使用优惠“输入兑换码完成付款。</div>
-          </div>
-        </div>
-        <div class="points_view-third-content-attention">
-          <div class="points_view-third-content-attention-title">注意事项</div>
-          <div class="points_view-third-content-attention-content">
-            <div>1、每位用户福利专享，可多次兑换；</div>
-            <div>2、每个订单每张券只能使用一次；</div>
-            <div>3、运费描述：全国包邮（港澳台）除外；</div>
-            <div>4、新疆、西藏、内蒙古偏远地区无法到达；</div>
-            <div>5、商家客服电话：400-601-5563；</div>
-            <div>6、券码使用有效日期：收到优惠码之日起至{{dateConvert(coupon.endDate)}}</div>
-          </div>
+          <div>{{dateConvert(coupon.startDate)}}至{{dateConvert(coupon.endDate)}}</div>
         </div>
       </div>
-    </div>
-    <div class="points_view-fourth">
-      <div @click.stop="onExchange()">
-        马上兑换
+      <div class="points_view-third">
+        <div class="points_view-third-title">
+          商品详情
+        </div>
+        <div class="points_view-third-content">
+          <div class="points_view-third-content-introduction">
+            <div class="points_view-third-content-introduction-title">
+              商品介绍
+            </div>
+            <div class="points_view-third-content-introduction-content">
+              {{coupon.content||'暂无'}}
+            </div>
+          </div>
+          <div class="points_view-third-content-flow">
+            <div class="points_view-third-content-flow-title">兑换流程</div>
+            <div class="points_view-third-content-flow-content">
+              <div>1、兑换后在我的积分兑换流程里获得【兑换码】并复制；</div>
+              <div>2、点击立即购买-填写收件信息-下一步“使用优惠“输入兑换码完成付款。</div>
+            </div>
+          </div>
+          <div class="points_view-third-content-attention">
+            <div class="points_view-third-content-attention-title">注意事项</div>
+            <div class="points_view-third-content-attention-content">
+              <div>1、每位用户福利专享，可多次兑换；</div>
+              <div>2、每个订单每张券只能使用一次；</div>
+              <div>3、运费描述：全国包邮（港澳台）除外；</div>
+              <div>4、新疆、西藏、内蒙古偏远地区无法到达；</div>
+              <div>5、商家客服电话：400-601-5563；</div>
+              <div>6、券码使用有效日期：收到优惠码之日起至{{dateConvert(expiryDate)}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="points_view-fourth">
+        <div @click.stop="onExchange()">
+          马上兑换
+        </div>
       </div>
     </div>
     <van-popup v-model="popupVisible" position="bottom">
@@ -91,8 +93,6 @@
   </div>
 </template>
 <script>
-  import {Toast} from 'mint-ui';
-
   export default {
     name: 'newPayList',
     data() {
@@ -102,25 +102,39 @@
         consignee: '',
         phone: '',
         address: '',
-        popupVisible: false
+        popupVisible: false,
+        expiryDate: ''
       };
     },
     created() {
       this.$http.get('/coupons/' + this.couponId)
         .then(res => {
           this.coupon = res.data;
+          if (this.coupon.expiryDate === null) {
+            this.expiryDate = this.dateConvert(new Date(new Date().toLocaleDateString()).getTime() + this.coupon.validDay * 86400000);
+          } else {
+            this.expiryDate = this.coupon.expiryDate;
+          }
         })
         .catch(error => {
           this.exception(error);
         });
     },
+    mounted() {
+      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
+      this.$refs.content.style.overflow = 'auto';
+    },
     methods: {
       onExchange() {
+        if (!(this.coupon.startDate < new Date().getTime() && new Date().getTime() < this.coupon.endDate)) {
+          this.$toast('当前时间不在兑换范围内');
+          return;
+        }
         switch (this.coupon.type) {
           case 'TICKET':
             this.$http.post('/couponRecords?couponId=' + this.coupon.id)
               .then(res => {
-                Toast('兑换成功');
+                this.$toast('兑换成功');
               })
               .catch(error => {
                 this.exception(error);
@@ -139,7 +153,7 @@
         };
         this.$http.post('/couponRecords/article', params)
           .then(res => {
-            let instance = Toast('兑换成功');
+            let instance = this.$toast('兑换成功');
             setTimeout(() => {
               instance.close();
               this.popupVisible = false;
@@ -155,10 +169,7 @@
 
 <style scoped type="text/less" lang="less">
   .points_view {
-    position: fixed;
     background-color: #f5f5f5;
-    height: 100%;
-    overflow: scroll;
     &-popup {
       min-height: 500px;
       &_title {

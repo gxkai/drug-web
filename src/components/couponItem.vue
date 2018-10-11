@@ -1,7 +1,7 @@
 <template>
    <div class="coupon_item">
      <div class="coupon_item-image">
-       <img :src="getImgURL(item.fileId,'SMALL_LOGO')">
+       <img v-lazy="item.type === 'ARTICLE'? getImgURL(item.fileId,'SMALL_PIC') : require('../assets/image/coupon/coupon-bg.png')">
      </div>
      <div class="coupon_item-text">
        <span v-if="item.type === 'TICKET'">满{{item.amount}}元减{{item.minus}}优惠券</span>
@@ -44,10 +44,9 @@
     align-items: center;
     border: 1PX solid rgba(238,238,238,1);
     &-image {
-      width: 160px;
-      height: 160px;
       img {
-        width: 100%;
+        width: 160px;
+        height: 160px;
       }
     }
     &-text {

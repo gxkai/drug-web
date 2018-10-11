@@ -30,8 +30,8 @@
         <input readonly v-else type="text" placeholder="请输入身份证" v-model="account.identityNumber"/>
       </div>
     </div>
-    <button class="btn-fixed" @click="save" v-if="clicked">保存</button>
-    <button class="btn-fixed" @click="change()" v-else>编辑</button>
+    <!--<button class="btn-fixed" @click="save" v-if="clicked">保存</button>-->
+    <!--<button class="btn-fixed" @click="change()" v-else>编辑</button>-->
   </div>
 </template>
 

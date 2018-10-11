@@ -8,7 +8,7 @@
       />
       <van-swipe :autoplay="3000">
         <van-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
-          <img :src="getImgURL(pic, 'MIDDLE_PIC')"/>
+          <img v-lazy="getImgURL(pic, 'MIDDLE_PIC')"/>
         </van-swipe-item>
       </van-swipe>
       <div class="drugs-shops__part-1">
@@ -86,11 +86,11 @@
           <van-icon name="gouwuche3" color="#13C1FE" size="4em"></van-icon>
         </div>
         <div class="drugs-shops__part-4__item__info">
-          <van-icon name="ditu" color="#13C1FE"></van-icon>
+          <van-icon name="ditu" color="#13C1FE" size="2em"></van-icon>
           <span>{{shop.address}}</span>
-          <van-icon name="aixin" color="#13C1FE"></van-icon>
+          <van-icon name="aixin" color="#13C1FE" size="2em"></van-icon>
           <span>{{shop.score}}</span>
-          <van-icon name="kucun" color="#13C1FE"></van-icon>
+          <van-icon name="kucun" color="#13C1FE" size="2em"></van-icon>
           <span>{{shop.stock}}</span>
         </div>
       </div>
@@ -101,7 +101,7 @@
       <div class="drugs-shops-popup">
         <div class="drugs-shops-popup-header">
           <div class="drugs-shops-popup-header-left">
-            <img :src="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
+            <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
           </div>
           <div class="drugs-shops-popup-header-center">
             <div class="elpsTwo">{{drugInfo.name}} {{drugSpec.name}} -{{drugInfo.originName}}</div>
@@ -284,16 +284,16 @@
     }
     &-popup {
       width: 720px;
-      min-height: 500px;
+      min-height: 600px;
       &-header {
         width: 100%;
-        padding: 20px 0;
+        padding: 50px 0;
         position: relative;
         &-left {
           position: absolute;
           bottom: 0;
           left: 20px;
-          z-index: 2015;
+          z-index: 1;
           img {
             width: 160px;
             height: 160px;

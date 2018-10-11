@@ -14,19 +14,36 @@
           {{item.type}}
         </div>
       </div>
-      <div class="drugs-details-list" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"
-           infinite-scroll-distance="0">
+      <div class="drugs-details-list">
         <div v-for="item in drugkindtwo" class="drugs-details">
           <router-link :to="{path:'/drugs',query:{showDrugTitle:item.type, typeId:item.id, pageFrom:'drugType'}}">
-            <img :src="getImgURL(item.fileId,'MIDDLE_LOGO')" class="img-circle"/>
+            <img v-lazy="getImgURL(item.fileId,'MIDDLE_LOGO')" class="img-circle"/>
             <div class="drugs-name">{{item.type}}</div>
           </router-link>
         </div>
       </div>
     </div>
 
-    <new-footer :urlRouter="$route.path"></new-footer>
-  </div>
+    <van-tabbar
+      :value="2"
+      ref="footer"
+    >
+      <van-tabbar-item icon="icon"
+                       to="/">首页
+      </van-tabbar-item>
+      <van-tabbar-item icon="chufang"
+                       to="/rxs">处方单
+      </van-tabbar-item>
+      <van-tabbar-item icon="fenlei"
+                       to="/drugTypes">分类
+      </van-tabbar-item>
+      <van-tabbar-item icon="gouwuche2"
+                       to="/carts">购物车
+      </van-tabbar-item>
+      <van-tabbar-item icon="wo"
+                       to="/accounts">我
+      </van-tabbar-item>
+    </van-tabbar>  </div>
 </template>
 
 <script>
@@ -40,22 +57,20 @@
       };
     },
     components: {
-      'allBottom': this.allBottom,
-      'searchHeader': this.searchHeader
     },
-    created: function () {
+    created() {
+      this.$http.get('/drugTypes')
+        .then((res) => {
+          this.drugkind = res.data;
+          this.drugkindtwo = this.drugkind[this.qwere].drugType;
+        }).catch(err => {
+          this.exception(err);
+        });
     },
     methods: {
       leftLi(index) {
         this.qwere = index;
         this.drugkindtwo = this.drugkind[index].drugType;
-      },
-      loadMore() {
-        this.$http.get('/drugTypes')
-          .then((res) => {
-            this.drugkind = res.data;
-            this.drugkindtwo = this.drugkind[this.qwere].drugType;
-          });
       }
     }
   };

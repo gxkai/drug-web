@@ -2,7 +2,7 @@
 <div class="drug_refund" @click="linkToOrderRefundView(pages.id)">
   <div class="drug_refund-left">
     <span class="rx_mark">处</span>
-    <img :src="getImgURL(drug.fileId, 'LARGE_LOGO')">
+    <img v-lazy="getImgURL(drug.fileId, 'LARGE_LOGO')">
   </div>
   <div class="drug_refund-center">
     <div>

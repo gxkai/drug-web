@@ -78,6 +78,7 @@
       }
       .van-info {
         font-size: 25px!important;
+        top: 0!important;
       }
     }
     &__text {
@@ -115,3 +116,8 @@
   }
 }
 
+.van-dialog {
+  &__message {
+    text-align: center;
+  }
+}

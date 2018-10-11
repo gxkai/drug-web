@@ -4,16 +4,17 @@
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
+      id="header"
     />
-    <div class="exchange_record-list"
-         ref="content"
-         v-infinite-scroll="loadMore"
-         infinite-scroll-disabled="loading"
-         infinite-scroll-distance="0">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        @load="onLoad"
+        :style="contentStyle"
+      >
       <new-coupon-record-item v-for="(item,index) in list" :key="index" :item="item"></new-coupon-record-item>
-      <new-no-data v-if="loadingComplete"></new-no-data>
-    </div>
+      <new-no-data v-show="finished === true"></new-no-data>
+      </van-list>
  </div>
 </template>
 
@@ -22,31 +23,37 @@
     name: 'newPayList',
     data() {
       return {
-        loading: true,
-        loadingComplete: false,
+        loading: false,
+        finished: false,
         list: [],
         pageNum: 0,
-        pageSize: 15
+        pageSize: 15,
+        contentStyle: {
+          height: 0,
+          overflow: 'auto'
+        }
       };
     },
     created() {
-      this.loadMore();
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'scroll';
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
-      loadMore() {
-        this.loading = true;
+      onLoad() {
         this.pageNum++;
-        this.$http.get('/couponRecords?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+        this.$http.get('/couponRecords/', {
+          params: {
+            'pageNum': this.pageNum,
+            'pageSize': this.pageSize
+          }
+        })
           .then(res => {
-            if (res.data.list.length > 0) {
-              this.list = this.list.concat(res.data.list);
-              this.loading = false;
-            } else {
-              this.loadingComplete = true;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            console.log(res.data.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
             }
           }).catch(error => {
             this.exception(error);
@@ -59,9 +66,6 @@
 <style scoped type="text/less" lang="less">
   .exchange_record {
     width: 720px;
-    &-list {
-      width: 100%;
-      background-color: #f5f5f5;
-    }
+    background-color: #f5f5f5;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="repositoryTypes">
     <van-nav-bar
       :title="$route.name"
       left-arrow
@@ -9,12 +9,12 @@
     >
       <van-icon slot="right" name="chat"/>
     </van-nav-bar>
-    <div class="container-list">
+    <div class="repositoryTypes-list">
       <div v-for="(repositoryType,index) in repositoryTypeList" :key="index"
-           class="container-list-item"
+           class="repositoryTypes-list-item"
             @click="$router.push({path:'/repositories',query:{repositoryTypeId:repositoryType.id,title:repositoryType.name}})">
         <div>
-          <img :src="require('../../assets/image/' + repositoryType.icon + '.png')"/>
+          <img v-lazy="require('../../assets/image/' + repositoryType.icon + '.png')"/>
         </div>
         <div>
           {{ repositoryType.name }}
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <new-no-data v-if="loadingComplete"></new-no-data>
+    <new-no-data v-if="finished"></new-no-data>
   </div>
 </template>
 
@@ -34,32 +34,29 @@
     data() {
       return {
         repositoryTypeList: [],
-        loadingComplete: false
+        finished: false
       };
     },
     created() {
-      this.getList();
+      this.$http.get('/repositoryTypes')
+        .then((res) => {
+          if (res.data.length > 0) {
+            this.repositoryTypeList = res.data;
+          } else {
+            this.finished = true;
+          }
+        })
+        .catch(err => {
+          this.exception(err);
+        });
     },
     methods: {
-      getList() {
-        this.$http.get('/repositoryTypes')
-          .then((res) => {
-            if (res.data.length > 0) {
-              this.repositoryTypeList = res.data;
-            } else {
-              this.loadingComplete = true;
-            }
-          })
-          .catch(err => {
-            this.exception(err);
-          });
-      }
     }
   };
 </script>
 
 <style scoped type="text/less" lang="less">
-  .container {
+  .repositoryTypes {
     width: 720px;
     height: 100vh;
     &-list {

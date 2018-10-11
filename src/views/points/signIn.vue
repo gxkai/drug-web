@@ -9,7 +9,7 @@
     <div class="position-relative">
       <img src="../../assets/image/coupon/signin-bg.png" class="sign-bg"/>
       <div class="points-info">
-        <p class="all-points">{{$store.getters.account.point}}积分</p>
+        <p class="all-points">{{point}}积分</p>
         <p class="has-signed width-percent-100">&nbsp;已签到</p>
         <p class="text-center text-13C1FE continuity width-percent-100">&nbsp;&nbsp;连续{{continuityDays}}天</p>
         <p class="text-center has-signed2 text-white width-percent-100">今日已签到，获得{{points}}积分</p>
@@ -18,7 +18,7 @@
     <div class="bg-white">
       <div class="width-percent-96 m-auto">
         <div class="change-point">
-          <i class="iconfont ic-liwu-copy text-13C1FE"></i>
+          <van-icon name="liwu-copy" color="#13C1FE" size="3em"></van-icon>
           <span class="fz28">积分兑换</span>
           <span class="fz20 fr"
           @click="$router.push('/points')">查看更多 <i class="iconfont ic-youjiantou"></i></span>
@@ -27,10 +27,10 @@
       <div class="signin-gift">
         <ul>
           <li
-            :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}"
-            v-for="(item,index) in coupons" v-if="index<3"
+          :style="{backgroundImage: 'url(' + require('../../assets/image/coupon/wallet.png') +')',backgroundSize:'100%'}"
+          v-for="(item,index) in coupons" v-if="index<3"
           @click="linkToPointView(item.id)">
-            {{item.point}}积分兑换
+          {{item.point}}积分兑换
           </li>
         </ul>
       </div>
@@ -48,7 +48,7 @@
           <i class="iconfont ic-guanbi" @click="closed()"></i>
         </div>
         <div>
-          <img :src="require('../../assets/image/coupon/golen.png')" class="golden"/>
+          <img v-lazy="require('../../assets/image/coupon/golen.png')" class="golden"/>
         </div>
         <div class="text-center scccsess">签到成功</div>
         <div class="text-center controduction">恭喜你获得</div>
@@ -62,9 +62,9 @@
     name: 'newPayList',
     data() {
       return {
-        headTitle: '多力葵花籽油',
         show: false,
         points: 0,
+        point: 0,
         coupons: [],
         demoEvents: [],
         arr: [],
@@ -109,38 +109,45 @@
       getPoints() {
         this.$http.get('/pointRecords/signInPoint').then(res => {
           this.points = res.data;
-        }).then(error => {
+          console.log('今日签到获得' + res.data + '积分');
+        }).catch(error => {
           this.exception(error);
         });
       }
     },
     created() {
-      this.$http.post('/pointRecords/signIn').then(res => {
-        this.getPoints();
-        this.show = !this.show;
-      }).catch(error => {
-        this.getPoints();
-        this.exception(error);
-      });
-      var date = new Date();
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      this.$http.get('/pointRecords/signIn?month=' + month + '&year=' + year)
+      this.$http.get('/accounts')
         .then(res => {
-          let arr = res.data;
-          this.arr = res.data;
-          let newArr = arr.map(val => {
-            let json = {};
-            json.date = val.split('-').join('/');
-            json.title = '';
-            return json;
-          });
-          this.demoEvents = newArr;
-          this.continuousDate();
+          this.point = res.data.point;
         })
         .catch(err => {
           this.exception(err);
         });
+      this.$http.post('/pointRecords/signIn').then(res => {
+        this.getPoints();
+        this.show = !this.show;
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        this.$http.get('/pointRecords/signIn?month=' + month + '&year=' + year)
+          .then(res => {
+            let arr = res.data;
+            this.arr = res.data;
+            let newArr = arr.map(val => {
+              let json = {};
+              json.date = val.split('-').join('/');
+              json.title = '';
+              return json;
+            });
+            this.demoEvents = newArr;
+            this.continuousDate();
+          })
+          .catch(err => {
+            this.exception(err);
+          });
+      }).catch(() => {
+        this.getPoints();
+      });
       this.$http.get('/coupons?pageNum=1&pageSize=3')
         .then(res => {
           this.coupons = res.data.list;
@@ -154,6 +161,9 @@
 </script>
 
 <style scoped>
+  >>>.van-nav-bar:after {
+    border-bottom: none!important;
+  }
   .points-container {
     width: 720px;
     background: #f5f5f5;

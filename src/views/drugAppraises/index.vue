@@ -4,31 +4,37 @@
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
+      id="header"
     />
-    <div class="body" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10" ref="body">
-      <div class="drugAppraises-main" v-for="item in list">
-        <div class="line1">
-          <div>
-            <img :src="getImgURL(account.fileId,'LARGE_LOGO')">
-            <span>{{account.username|asterisk}}</span>
+    <div :style="contentStyle" class="body">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          @load="onLoad">
+          <div class="drugAppraises-main" v-for="item in list">
+            <div class="line1">
+              <div>
+                <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')">
+                <span>{{account.username|asterisk}}</span>
+              </div>
+              <span class="text-l-25">{{timeConvert(item.createdDate)}}</span>
+            </div>
+            <div class="line2">
+              {{item.content}}
+            </div>
+            <div class="line3">
+              <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
+              <div class="right">
+                <p>药品名称：{{item.name}}</p>
+                <p>规格:{{item.spec}}</p>
+              </div>
+            </div>
           </div>
-          <span class="text-l-25">{{timeConvert(item.createdDate)}}</span>
-        </div>
-        <div class="line2">
-          {{item.content}}
-        </div>
-        <div class="line3">
-          <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
-          <div class="right">
-            <p>药品名称：{{item.name}}</p>
-            <p>规格:{{item.spec}}</p>
-          </div>
-        </div>
-      </div>
-      <new-no-data v-if="loadingComplete"></new-no-data>
+          <new-no-data v-if="finished"></new-no-data>
+        </van-list>
+      </van-pull-refresh>
     </div>
-
   </div>
 </template>
 
@@ -37,49 +43,64 @@
     name: 'myAppraise',
     data() {
       return {
-        list: [],
+        loading: false,
+        finished: false,
+        isLoading: false,
         pageNum: 0,
-        pageSize: 5,
-        loading: true,
-        loadingComplete: false,
+        pageSize: 15,
+        list: [],
+        contentStyle: {
+          height: 0,
+          overflow: 'auto'
+        },
         account: this.$store.getters.account
       };
     },
     created() {
-      this.loadMore();
+    },
+    mounted() {
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
-      loadMore() {
-        this.loading = true;
+      onRefresh() {
+        this.finished = false;
+        this.list = [];
+        this.pageNum = 0;
+        this.onLoad();
+      },
+      onLoad() {
         this.pageNum++;
-        this.$http.get('/drugAppraises/mine?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+        this.$http.get('/drugAppraises/mine', {
+          params: {
+            'pageNum': this.pageNum,
+            'pageSize': this.pageSize
+          }
+        })
           .then(res => {
-            if (res.data.list.length > 0) {
-              this.list = this.list.concat(res.data.list);
-              this.loading = false;
-            } else {
-              this.loadingComplete = true;
+            this.isLoading = false;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            console.log(this.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
             }
           }).catch(error => {
             this.exception(error);
           });
       }
-    },
-    mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'auto';
     }
   };
 </script>
 
 <style scoped>
-  .drugAppraises-main{
-    width:680px;
-    height:328px;
+  .drugAppraises-main {
+    width: 680px;
+    height: 328px;
     margin: auto;
     margin-bottom: 40px;
-    background:rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
   }
+
   .main {
     background: rgba(241, 239, 240, 1);
     width: 720px;
@@ -104,16 +125,16 @@
   }
 
   .line1 div:nth-child(1) img {
-    width:62px;
-    height:62px;
+    width: 62px;
+    height: 62px;
     margin-right: 21px;
     border-radius: 50%;
   }
 
   .line1 div:nth-child(1) span {
-    font-size:28px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(102,102,102,1);
+    font-size: 28px;
+    font-family: HiraginoSansGB-W3;
+    color: rgba(102, 102, 102, 1);
   }
 
   .line1 div:nth-child(2) span {

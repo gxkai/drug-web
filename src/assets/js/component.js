@@ -10,7 +10,6 @@ export default {
     Vue.component('new-shop', () => import('../../components/shops'));
     Vue.component('new-close-list', () => import('../../components/closeList'));
     Vue.component('new-line', () => import('../../components/line'));
-    Vue.component('new-join-car', () => import('../../components/joinCar'));
     Vue.component('new-drug-refund', () => import('../../components/drugRefund'));
     Vue.component('new-drug', () => import('../../components/drugs'));
     Vue.component('refund-drug', () => import('../../components/refundDrugs'));
@@ -18,6 +17,8 @@ export default {
     Vue.component('new-radio', () => import('../../components/radio'));
     Vue.component('new-pay-order-item', () => import('../../components/payOrderItem'));
     Vue.component('new-order-tab', () => import('../../components/orderTab'));
+    Vue.component('new-collect-tab', () => import('../../components/collectTab'));
+    Vue.component('new-drug-tab', () => import('../../components/drugTab'));
     Vue.component('new-order-item', () => import('../../components/orderItem'));
     Vue.component('new-order-view-item', () => import('../../components/orderViewItem'));
     Vue.component('new-all-data', () => import('../../components/allData'));

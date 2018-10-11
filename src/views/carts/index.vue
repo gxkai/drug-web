@@ -77,7 +77,7 @@
                          v-if="!cartDrug.otc">
                       处
                     </div>
-                    <img :src="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
+                    <img v-lazy="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
                   </div>
                 </div>
                 <div class="cart-list-drugs-item-right">
@@ -117,7 +117,9 @@
         :price="allPrice*100"
         :button-text="'结算('+allQuantity+')'"
         @submit="onOrder"
+        :loading="loading"
         :style="{'opacity': cartShops.length === 0 ? 0:1}"
+        ref="submit"
       >
         <div @click.stop="onRadio(All)">
           <input type="checkbox" v-model="chooseAll">
@@ -125,7 +127,26 @@
           <span>全选</span>
         </div>
       </van-submit-bar>
-      <new-footer :urlRouter="$route.path"></new-footer>
+      <van-tabbar
+        :value="3"
+        ref="footer"
+      >
+        <van-tabbar-item icon="icon"
+                         to="/">首页
+        </van-tabbar-item>
+        <van-tabbar-item icon="chufang"
+                         to="/rxs">处方单
+        </van-tabbar-item>
+        <van-tabbar-item icon="fenlei"
+                         to="/drugTypes">分类
+        </van-tabbar-item>
+        <van-tabbar-item icon="gouwuche2"
+                         to="/carts">购物车
+        </van-tabbar-item>
+        <van-tabbar-item icon="wo"
+                         to="/accounts">我
+        </van-tabbar-item>
+      </van-tabbar>
     </div>
   </div>
 </template>
@@ -367,8 +388,8 @@
   }
 </style>
 <script>
-  import { MessageBox, Toast } from 'mint-ui';
   // import { mapGetters, mapMutations } from 'vuex';
+  const qs = require('qs');
   export default {
     name: 'carts',
     data() {
@@ -378,7 +399,8 @@
         SHOP: 'SHOP',
         RX: 'RX',
         DRUG: 'DRUG',
-        cartShops: []
+        cartShops: [],
+        loading: false
       };
     },
     components: {},
@@ -456,7 +478,7 @@
        */
       onRemove(cartShop, cartShopIndex, cartRx, cartRxIndex, cartDrug, cartDrugIndex) {
         if (cartRx.rxId !== '0') {
-          MessageBox.confirm('改处方单中药品会一起删除').then(action => {
+          this.$dialog.confirm({ message: '改处方单中药品会一起删除' }).then(action => {
             let cartIds = [];
             cartRx.drugs.forEach(e => {
               cartIds.push(e.cartId);
@@ -471,7 +493,7 @@
             });
           });
         } else {
-          MessageBox.confirm('确定删除？').then(action => {
+          this.$dialog.confirm({ message: '确定删除？' }).then(action => {
             this.$http.delete('carts/' + cartDrug.cartId).then(res => {
               cartRx.drugs.splice(cartDrugIndex, 1);
               if (cartRx.drugs.length === 0) {
@@ -490,8 +512,20 @@
        * 批量删除
        */
       onRemoveBatch() {
-        MessageBox.confirm('确定删除?').then(action => {
-          this.$http.delete('carts?cartIds=' + this.getCartIds()).then(res => {
+        let cartIds = this.getCartIds();
+        if (cartIds.length === 0) {
+          this.$toast('请选择药品');
+          return;
+        }
+        this.$dialog.confirm({ message: '确定删除?' }).then(action => {
+          this.$http.delete('carts', {
+            params: {
+              cartIds: cartIds
+            },
+            paramsSerializer: (params) => {
+              return qs.stringify(params, { arrayFormat: 'repeat' });
+            }
+          }).then(res => {
             this.remove();
           }).catch(error => {
             this.exception(error);
@@ -548,15 +582,15 @@
       onOrder() {
         let cartIds = this.getCartIds();
         if (cartIds.length === 0) {
-          Toast('请选择药品');
+          this.$toast('请选择药品');
           return;
         }
-        this.$refs.commit._props.loading = true;
+        this.loading = true;
         this.$http.get('/orders/cart?cartIds=' + cartIds).then(res => {
           console.log(res.data);
           this.$router.push({ path: '/orders/create/fromCart', query: { cart: JSON.stringify(res.data) } });
         }).catch(error => {
-          this.$refs.commit._props.loading = false;
+          this.loading = false;
           this.exception(error);
         });
       },

@@ -4,7 +4,7 @@
       <div class="appraise-title-left">
         <div class="text-l-25">总评分&nbsp;{{shopDrugSpec.shopTotalAppraise.score}}分</div>
         <div>
-          <van-rate v-model="shopDrugSpec.shopTotalAppraise.score"  disabled  disabled-color="red" :size="15"></van-rate>
+          <van-rate v-model="shopDrugSpec.shopTotalAppraise.score" disabled disabled-color="red" :size="15"></van-rate>
         </div>
       </div>
       <div class="appraise-title-right">
@@ -14,46 +14,60 @@
       </div>
     </div>
 
-    <div class="appraise-container" ref="container">
-      <div   v-infinite-scroll="loadMore"
-             infinite-scroll-disabled="loading"
-             infinite-scroll-distance="0">
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        @load="onLoad">
         <new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>
-        <new-no-data v-if="loadingComplete"></new-no-data>
-      </div>
-    </div>
+        <new-no-data v-if="finished"></new-no-data>
+      </van-list>
+    </van-pull-refresh>
+  </div>
   </div>
 </template>
 
 <script>
   export default {
+    name: 'drugAppraise',
     props: ['shopDrugSpec'],
     data() {
       return {
-        list: [],
+        loading: false,
+        finished: false,
+        isLoading: false,
         pageNum: 0,
         pageSize: 15,
-        loading: true,
-        loadingComplete: false
+        list: []
       };
     },
-    computed: {},
     created() {
-      this.loadMore();
     },
     mounted() {
     },
     methods: {
-      loadMore() {
-        this.loading = true;
+      onRefresh() {
+        this.finished = false;
+        this.list = [];
+        this.pageNum = 0;
+        this.onLoad();
+      },
+      onLoad() {
         this.pageNum++;
-        this.$http.get('/drugAppraises?shopDrugSpecId=' + this.shopDrugSpec.id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+        this.$http.get('/drugAppraises', {
+          params: {
+            'pageNum': this.pageNum,
+            'pageSize': this.pageSize,
+            'shopDrugSpecId': this.shopDrugSpec.id
+          }
+        })
           .then(res => {
-            if (res.data.list.length > 0) {
-              this.list = this.list.concat(res.data.list);
-              this.loading = false;
-            } else {
-              this.loadingComplete = true;
+            this.isLoading = false;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            console.log(this.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
             }
           }).catch(error => {
             this.exception(error);

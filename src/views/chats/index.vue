@@ -4,37 +4,41 @@
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
+      id="header"
     />
-
-    <div class="chats-list"
-         ref="list"
-         v-infinite-scroll="loadMore"
-         infinite-scroll-disabled="loading"
-         infinite-scroll-distance="0">
-      <div class="chats-list-item"
-           v-for="(item,index) in list"
-           :key="index"
-           @click="$router.push({path:'/chats/view',query:{chatId:item.id,shopId:item.shopId}})">
-        <div class="chats-list-item-left">
-          <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
-          <div class="chats-list-item-left-text">
-            <div>
-              {{item.shopName}}
+    <div :style="contentStyle" class="pt-l-20">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-list
+          class="chats-list"
+          v-model="loading"
+          :finished="finished"
+          @load="onLoad"
+        >
+          <div class="chats-list-item"
+               v-for="(item,index) in list"
+               :key="index"
+               @click="$router.push({path:'/chats/view',query:{chatId:item.id,shopId:item.shopId}})">
+            <div class="chats-list-item-left">
+              <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
+              <div class="chats-list-item-left-text">
+                <div>
+                  {{item.shopName}}
+                </div>
+                <div>
+                  {{timeConvert(item.lastModifiedDate)}}
+                </div>
+                <div>
+                  {{item.message||'暂无'}}
+                </div>
+              </div>
             </div>
-            <div>
-              {{timeConvert(item.lastModifiedDate)}}
-            </div>
-            <div>
-              {{item.message||'暂无'}}
+            <div class="chats-list-item-left-right">
+              <i class="iconfont ic-youjiantou"></i>
             </div>
           </div>
-        </div>
-        <div class="chats-list-item-left-right">
-          <i class="iconfont ic-youjiantou"></i>
-        </div>
-      </div>
-      <new-no-data v-if="loadingComplete"></new-no-data>
+          <new-no-data v-if="finished"></new-no-data>
+        </van-list>
+      </van-pull-refresh>
     </div>
   </div>
 </template>
@@ -44,34 +48,49 @@
     name: 'index',
     data() {
       return {
+        loading: false,
+        finished: false,
+        isLoading: false,
         pageNum: 0,
         pageSize: 15,
         list: [],
-        loading: true,
-        loadingComplete: false
+        contentStyle: {
+          height: 0,
+          overflow: 'auto'
+        }
       };
     },
     created() {
-      this.loadMore();
     },
     mounted() {
-      this.$refs.list.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.list.style.overflow = 'auto';
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
-      loadMore() {
-        this.loading = true;
+      onRefresh() {
+        this.finished = false;
+        this.list = [];
+        this.pageNum = 0;
+        this.onLoad();
+      },
+      onLoad() {
         this.pageNum++;
-        this.$http.get('/chats?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize).then(res => {
-          if (res.data.list.length > 0) {
-            this.list = this.list.concat(res.data.list);
-            this.loading = false;
-          } else {
-            this.loadingComplete = true;
+        this.$http.get('/chats/', {
+          params: {
+            'pageNum': this.pageNum,
+            'pageSize': this.pageSize
           }
-        }).catch(error => {
-          this.exception(error);
-        });
+        })
+          .then(res => {
+            this.isLoading = false;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            console.log(this.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
+            }
+          }).catch(error => {
+            this.exception(error);
+          });
       }
     }
   };
@@ -87,7 +106,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         &-left {
           display: flex;
           align-items: center;

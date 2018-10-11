@@ -14,7 +14,7 @@
         </div>
         <div class="account-container-item-right">
           <div>
-            <img :src="getImgURL(account.fileId,'SMALL_LOGO')" id="headImg"/>
+            <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')" id="headImg"/>
           </div>
           <div>
             <i class="iconfont ic-youjiantou"></i>

@@ -64,7 +64,6 @@
   </div>
 </template>
 <script>
-import {Toast} from 'mint-ui';
 export default {
   data() {
     return {
@@ -116,7 +115,7 @@ export default {
     },
     updatePassword() {
       if (this.password !== this.passwordConfirm) {
-        Toast('输入密码不同');
+        this.$toast('输入密码不同');
         return;
       }
       this.$http.put('/accounts/forget', {

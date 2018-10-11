@@ -1,7 +1,7 @@
 <template>
   <div class="refund-box is-flex flex-row flex-item p-lr-20 position-relative">
     <span class="rx_mark" v-if="!isOtc">处</span>
-    <img class="is-200x200" :src="getImgURL(fileId, 'LOGO')">
+    <img class="is-200x200" v-lazy="getImgURL(fileId, 'LOGO')">
     <div class="box-right pl-40 is-flex flex-column flex-sa">
       <span>{{ drugName }}</span>
       <span>规格：{{ spec }}</span>

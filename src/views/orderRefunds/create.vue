@@ -32,7 +32,7 @@
         </textarea>
       </div>
     </div>
-    <mt-popup
+    <van-popup
       v-model="popupVisible"
       position="bottom">
       <div class="refund_create-popup">
@@ -46,7 +46,7 @@
           </div>
         </div>
       </div>
-    </mt-popup>
+    </van-popup>
     <div class="refund_create-commit" @click="onCommit()">
       提交
     </div>

@@ -46,8 +46,6 @@
 </template>
 
 <script>
-  // import {MessageBox} from 'mint-ui';
-
   export default {
     name: 'repositioning',
     data() {
@@ -59,7 +57,7 @@
         inputVal: '',
         positionList: [],
         libraryList: [],
-        searchIcon: '\ue64c 地理位置'
+        searchIcon: '\ue64c 手动定位'
       };
     },
     watch: {
@@ -103,35 +101,6 @@
         this.$store.commit('SET_POSITION', position);
         this.$router.go(-1);
       },
-      // getLocation() {
-      //   if (navigator.geolocation) {
-      //     navigator.geolocation.getCurrentPosition(this.showPosition, this.showError);
-      //   } else {
-      //     MessageBox('提示', '浏览器不支持获取地理位置');
-      //   }
-      // },
-      // showPosition(position) {
-      //   this.center.lat = position.coords.latitude;
-      //   this.center.lng = position.coords.longitude;
-      //   this.showMap(true);
-      //   this.getPositionList();
-      // },
-      // showError(error) {
-      //   switch (error.code) {
-      //     case error.PERMISSION_DENIED:
-      //       MessageBox('提示', 'User denied the request for Geolocation.');
-      //       break;
-      //     case error.POSITION_UNAVAILABLE:
-      //       MessageBox('提示', 'Location information is unavailable.');
-      //       break;
-      //     case error.TIMEOUT:
-      //       MessageBox('提示', 'The request to get user location timed out.');
-      //       break;
-      //     case error.UNKNOWN_ERROR:
-      //       MessageBox('提示', 'An unknown error occurred.');
-      //       break;
-      //   }
-      // },
       getPositionList() {
         var url = this.$outside + '/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true' + '&coordType=bd09ll';
         this.$http.get(url).then(res => {
@@ -163,6 +132,9 @@
     color: black;
     padding: 0 30px;
     font-size: 25px;
+  }
+  .header-input::placeholder {
+    text-align: center;
   }
 
   .map {

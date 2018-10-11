@@ -8,7 +8,7 @@
     />
     <div ref="content">
       <div class="shop-info__part-1">
-        <img :src="getImgURL(shopInfo.logo, 'LARGE_LOGO')">
+        <img v-lazy="getImgURL(shopInfo.logo, 'LARGE_LOGO')">
         <span>{{shopInfo.name}}</span>
         <van-icon name="anquan" color="#FFFFFF" size="5em"></van-icon>
       </div>
@@ -48,7 +48,7 @@
           <van-row class="shop-info__part-4__content">
             <van-col span='12' v-for="(item, index) in shopInfo.fileIds" :key="index"
                      class="shop-info__part-4__content__item">
-              <img :src="getImgURL(item, 'LARGE_PIC')">
+              <img v-lazy="getImgURL(item, 'LARGE_PIC')">
             </van-col>
           </van-row>
       </div>

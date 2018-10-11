@@ -19,7 +19,7 @@
           </span>
         </div>
         <div class="address__content__item__bottom">
-          <van-icon name="moren" size="4em" color="#FF0000"></van-icon>
+          <van-icon name="moren" size="4em" color="#FF0000" v-show="address.defaulted"></van-icon>
           <span class="address__content__item__bottom-address">{{address.address}}</span>
           <van-icon name="edit" size="3em"
                     @click="$router.push({path:'/addresses/edit',query:{id:address.id}})"></van-icon>
@@ -31,7 +31,7 @@
     </div>
     <div class="address__footer"
          ref="footer"
-    @click="$router.push('/addresses/create')">
+    @click="$router.push('/addresses/edit')">
       +新增地址
     </div>
   </div>
@@ -108,8 +108,6 @@
   }
 </style>
 <script>
-  import {MessageBox, Toast} from 'mint-ui';
-
   export default {
     name: 'addressesEdit',
     data() {
@@ -133,14 +131,11 @@
           });
       },
       del(id, index) {
-        MessageBox.confirm('确定删除？').then(action => {
+        this.$dialog.confirm({message: '确定删除？'}).then(action => {
           this.$http.delete('/addresses/' + id)
             .then((res) => {
-              let instance = Toast('删除成功');
-              setTimeout(() => {
-                instance.close();
-                this.addressList.splice(index, 1);
-              }, 2000);
+              this.addressList.splice(index, 1);
+              this.$toast('删除成功');
             })
             .catch((error) => {
               this.exception(error);

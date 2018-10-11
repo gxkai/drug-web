@@ -75,7 +75,7 @@ export default {
   <div v-swiper:mySwiper="swiperOption">
     <div class="swiper-wrapper">
       <div class="swiper-slide" v-for="banner in banners">
-        <img :src="banner">
+        <img v-lazy="banner">
       </div>
     </div>
     <div class="swiper-pagination swiper-pagination-bullets"></div>

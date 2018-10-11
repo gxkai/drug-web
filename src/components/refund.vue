@@ -21,7 +21,7 @@
 
         <div class="slide-content" v-for="item in order.list">
           <div class="image">
-            <img :src="getImgURL(item.fileId, 'MIDDLE_LOGO')">
+            <img v-lazy="getImgURL(item.fileId, 'MIDDLE_LOGO')">
           </div>
           <div class="text">
             <div class="top">
@@ -68,7 +68,7 @@
         <div class="slide-content" v-for="item in order.list">
           <div class="image">
             <div class="rx_mark" v-if="!item.otc">处</div>
-            <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
+            <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
           </div>
           <div class="text">
             <div class="top">

@@ -3,7 +3,7 @@
   @click="linkToDrugShop(item.id, item.drugId)">
       <div class="drug_item-left">
         <div class="rx_mark">处</div>
-        <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
+        <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
       </div>
       <div class="drug_item-right">
         <div class="drug_item-right-info">

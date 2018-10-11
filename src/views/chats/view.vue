@@ -22,12 +22,12 @@
         <ul>
           <li v-for="(item,index) in list" :key="index">
             <div class="content1" v-if="item.type === 'SHOP'">
-              <img :src="shopInfo.headImg">
+              <img v-lazy="shopInfo.headImg">
               <div class="bubble">{{item.message}}</div>
             </div>
             <div class="content2" v-else>
               <div class="bubble2">{{item.message}}</div>
-              <img :src="getImgURL(account.fileId,'SMALL_LOGO')">
+              <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')">
             </div>
           </li>
         </ul>
@@ -44,8 +44,6 @@
 </template>
 
 <script>
-  import {Toast} from 'mint-ui';
-
   export default {
     data() {
       return {
@@ -99,7 +97,7 @@
       },
       send() {
         if (this.isBlank(this.value)) {
-          Toast('消息不能为空');
+          this.$toast('消息不能为空');
         } else {
           this.$http.post('/chats', {
             'type': 'ACCOUNT',

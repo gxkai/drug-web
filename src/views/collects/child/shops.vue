@@ -1,88 +1,125 @@
 <template>
-  <div class="collect_shops ">
-    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-        <div class="collect_shops-item"
-             v-for="(item,index) in pageList"
-             :key="index"
-              @click="linkToShopView(item.id)">
-          <div class="collect_shops-item-left">
-            <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
-          </div>
-          <div class="collect_shops-item-right">
-            <div>{{item.name}}</div>
-            <div>{{item.area}} {{item.address}}</div>
+  <div class="collect-shops">
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        @load="onLoad">
+        <div
+          class="collect-shops--item"
+          v-for="item in list"
+          :key="item.id"
+          @click="linkToShopView(item.id)"
+        >
+          <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')"
+               class="collect-shops--item--logo"
+          >
+          <div
+            class="collect-shops--item__right"
+          >
+            <div>
+              <span>{{item.name}}</span>
+            </div>
+            <div>
+              <span>{{item.area}} {{item.address}}</span>
+            </div>
           </div>
         </div>
-      <new-no-data v-if="loadingComplete"></new-no-data>
-    </ul>
+        <new-no-data v-show="finished === true"></new-no-data>
+      </van-list>
+    </van-pull-refresh>
   </div>
 </template>
-
+<style scoped type="text/less" lang="less">
+  .collect-shops {
+    &--item {
+      display: flex;
+      padding: 20px;
+      background-color: white;
+      margin-top: 20px;
+      &--logo {
+        width: 200px;
+        height: 200px;
+      }
+      &__right {
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        &>div {
+          width: 400px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
+          &:nth-child(1) {
+            span {
+              font-size:28px;
+              font-family:HiraginoSansGB-W3;
+              font-weight:normal;
+              color:rgba(51,51,51,1);
+            }
+          }
+          &:nth-child(2) {
+            span {
+              font-size:18px;
+              font-family:HiraginoSansGB-W3;
+              font-weight:normal;
+              color:rgba(153,153,153,1);
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
 <script>
   export default {
-    name: 'collectShop',
+    name: 'collectDrugs',
     data() {
       return {
+        loading: false,
+        finished: false,
+        isLoading: false,
         pageNum: 0,
         pageSize: 15,
-        pageList: [],
-        loading: true,
-        loadingComplete: false
+        list: []
       };
     },
-    components: {},
     created() {
-      this.loadMore();
+    },
+    mounted() {
     },
     methods: {
-      loadMore() {
-        this.loading = true;
+      onRefresh() {
+        this.finished = false;
+        this.list = [];
+        this.pageNum = 0;
+        this.onLoad();
+      },
+      onLoad() {
         this.pageNum++;
-        this.$http.get('/collects/shop?' + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
-          .then((res) => {
-            if (res.data.list.length > 0) {
-              this.pageList = this.pageList.concat(res.data.list);
-              this.loading = false;
-            } else {
-              this.loadingComplete = true;
+        this.$http.get('/collects/shop', {
+          params: {
+            'pageNum': this.pageNum,
+            'pageSize': this.pageSize
+          }
+        })
+          .then(res => {
+            this.isLoading = false;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            console.log(this.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
             }
+          }).catch(error => {
+            this.exception(error);
           });
       }
     }
   };
 </script>
 
-<style scoped type="text/less" lang="less">
-  .collect_shops {
-    width: 720px;
-    height: calc(100vh - 200px);
-    overflow: auto;
-    &-item {
-      display: flex;
-      align-items: center;
-      background-color: white;
-      &:first-child {
-        margin-top: 10px;
-      }
-      margin-bottom: 10px;
-      &-left {
-        padding: 10px;
-        img {
-          width: 245px;
-          height: 245px;
-        }
-      }
-      &-right {
-        &>div {
-          width: 400px;
-          padding: 10px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          -webkit-line-clamp: 2;
-          line-clamp: 2;
-          font-size: 30px;
-        }
-      }
-    }
-  }
-</style>

@@ -4,21 +4,26 @@
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
+      id="header"
     />
-    <div class="faqs__content"
-         ref="content"
-         v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="0">
-      <div class="faqs__content__item"
-           v-for="(item,index) in list">
-        <div class="faqs__content__item__question">
-          {{index+1}}、{{ item.question }}
-        </div>
-        <div class="faqs__content__item__answer">
-          {{ item.answer }}
-        </div>
-      </div>
-      <new-no-data v-if="loadingComplete"></new-no-data>
+    <div :style="contentStyle">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          @load="onLoad">
+          <div class="faqs__content__item"
+               v-for="(item,index) in list">
+            <div class="faqs__content__item__question">
+              {{index+1}}、{{ item.question }}
+            </div>
+            <div class="faqs__content__item__answer">
+              {{ item.answer }}
+            </div>
+          </div>
+          <new-no-data v-if="finished"></new-no-data>
+        </van-list>
+      </van-pull-refresh>
     </div>
   </div>
 </template>
@@ -48,38 +53,49 @@
 <script>
   export default {
     name: 'faqs',
-
     data() {
       return {
-        list: [],
-        pageSize: 15,
+        loading: false,
+        finished: false,
+        isLoading: false,
         pageNum: 0,
-        loadingComplete: false,
-        loading: true
+        pageSize: 15,
+        list: [],
+        contentStyle: {
+          height: 0,
+          overflow: 'auto'
+        }
       };
     },
-
     created() {
-      this.loadMore();
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'auto';
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
-      loadMore() {
-        this.loading = true;
+      onRefresh() {
+        this.finished = false;
+        this.list = [];
+        this.pageNum = 0;
+        this.onLoad();
+      },
+      onLoad() {
         this.pageNum++;
-        this.$http.get('/faqs?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
+        this.$http.get('/faqs', {
+          params: {
+            'pageNum': this.pageNum,
+            'pageSize': this.pageSize
+          }
+        })
           .then(res => {
-            if (res.data.list.length > 0) {
-              this.list = this.list.concat(res.data.list);
-              this.loading = false;
-            } else {
-              this.loadingComplete = true;
+            this.isLoading = false;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            console.log(this.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
             }
-          })
-          .catch((error) => {
+          }).catch(error => {
             this.exception(error);
           });
       }

@@ -26,9 +26,9 @@ export default new Router({
       component: () => import('@/views/points/exchangeRecord')
     },
     {
-      path: '/points/residualeRecord',
-      name: '积分详情',
-      component: () => import('@/views/points/residualeRecord')
+      path: '/points/pointRecord',
+      name: '积分记录',
+      component: () => import('@/views/points/pointRecord')
     },
     {
       path: '/points',
@@ -73,7 +73,7 @@ export default new Router({
     },
     {
       path: '/accounts/edit',
-      name: '账户信息修改',
+      name: '账户信息',
       component: () => import('@/views/accounts/edit')
     },
     // accounts_insurance
@@ -215,16 +215,6 @@ export default new Router({
       component: () => import('@/views/collects/index.vue')
     },
     {
-      path: '/collects/child/drugs',
-      name: '药品收藏',
-      component: () => import('@/views/collects/child/drugs.vue')
-    },
-    {
-      path: '/collects/child/shops',
-      name: '药店收藏',
-      component: () => import('@/views/collects/child/shops.vue')
-    },
-    {
       path: '/repositories',
       name: '知识库列表',
       component: () => import('@/views/repositories/index.vue')
@@ -343,16 +333,6 @@ export default new Router({
       path: '/drugs',
       name: '药品列表',
       component: () => import('@/views/drugs/index.vue')
-    },
-    {
-      path: '/drugs/screen',
-      name: '药品筛选',
-      component: () => import('@/views/drugs/screen.vue')
-    },
-    {
-      path: '/drugs/screenConfirm',
-      name: '药品筛选确认',
-      component: () => import('@/views/drugs/screenConfirm.vue')
     },
     {
       path: '/drugs/shops',

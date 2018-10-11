@@ -9,10 +9,10 @@
 
     <div class="news-lists">
       <router-link v-for="(messageContentType,index) in list" :key="index"
-                   :to="{path:'/messages',query:{messageType:messageContentType.messageType,titles:messageContentType.name}}">
+                   :to="{path:'/messages',query:{messageType:messageContentType.messageType,title:messageContentType.name}}">
         <div class="news-list">
           <div class="news-list-left">
-            <img :src="defaultMsgList[index].img"/>
+            <img v-lazy="defaultMsgList[index].img"/>
           </div>
           <div class="news-list-right">
             <div class="news-list-right-top">
@@ -24,7 +24,7 @@
         </div>
       </router-link>
     </div>
-    <new-no-data v-if="loadingComplete"></new-no-data>
+    <new-no-data v-if="finished"></new-no-data>
     <div>
     </div>
   </div>
@@ -36,7 +36,7 @@
     data() {
       return {
         list: [],
-        loadingComplete: false,
+        finished: false,
         defaultMsgList: [
           { img: require('../../assets/image/message/ACCOUNT_SYSTEM.png') },
           { img: require('../../assets/image/message/ACCOUNT_ORDER.png') },
@@ -45,21 +45,18 @@
       };
     },
     created() {
-      this.getList();
+      this.$http.get('/messageTypes')
+        .then((res) => {
+          if (res.data.length > 0) {
+            this.list = res.data;
+          } else {
+            this.finished = true;
+          }
+        }).catch(err => {
+          this.exception(err);
+        });
     },
     methods: {
-      getList() {
-        this.$http.get('/messageTypes')
-          .then((res) => {
-            if (res.data.length > 0) {
-              this.list = res.data;
-            } else {
-              this.loadingComplete = true;
-            }
-          }).catch(err => {
-            this.exception(err);
-          });
-      }
     }
   };
 </script>

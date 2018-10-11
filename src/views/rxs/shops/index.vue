@@ -169,6 +169,9 @@
             outline: none;
             border-width: 0;
             font-size: 20px;
+            &::placeholder {
+              text-align: center;
+            }
           }
         }
       }

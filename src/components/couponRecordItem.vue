@@ -1,7 +1,7 @@
 <template>
   <div class="item" @click="$router.push({path:'/points/view', query:{couponId:item.couponId}})">
     <div class="item-image">
-      <img :src="getImgURL(item.fileId, 'LARGE_LOGO')">
+      <img v-lazy="item.type === 'ARTICLE'? getImgURL(item.fileId,'SMALL_PIC') : require('../assets/image/coupon/coupon-bg.png')">
     </div>
     <div class="item-text">
       <div>

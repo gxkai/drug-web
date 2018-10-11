@@ -4,19 +4,19 @@
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
+      id="header"
     />
-    <div class="rxs_view-content">
+    <div class="rxs_view-content" :style="contentStyle">
       <div class="rxs_view-content-header">
         处方筏
       </div>
       <div class="rxs_view-content-list">
         <div class="rxs_view-content-list-item">
           <div>
-            NO：{{rxList.number}}
+            NO：{{rx.number}}
           </div>
           <div>
-            处方日期：{{timeConvert(rxList.rxDate)}}
+            处方日期：{{timeConvert(rx.rxDate)}}
           </div>
         </div>
         <div class="rxs_view-content-list-item">
@@ -32,15 +32,15 @@
         </div>
         <div class="rxs_view-content-list-item">
           <div>
-            医院：{{rxList.hospital}}
+            医院：{{rx.hospital}}
           </div>
           <div>
-            科室：{{rxList.office}}
+            科室：{{rx.office}}
           </div>
         </div>
         <div class="rxs_view-content-list-item">
           <div>
-            临床（初步）诊断：{{rxList.illness}}
+            临床（初步）诊断：{{rx.illness}}
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@
           RP:
         </div>
         <div class="rxs_view-content-rp-content">
-          <div v-for="(item,index) in rxList.list" :key="index"
+          <div v-for="(item,index) in rx.list" :key="index"
                class="rxs_view-content-rp-content-item">
             <div>
               {{index}}、{{item.name}} {{item.spec}} {{item.quantity}}件
@@ -71,15 +71,9 @@
         </div>
       </div>
     </div>
-    <div v-if="rxList.state === 'ENABLED'"
-         class="rxs_view-footer"
-         @click="$router.push({path:'/rxs/shops',query:{rxId:rxId,hospitalId:rxList.hospitalId}})"
-         style="background-color: #1AB6FD;">
-      购药
-    </div>
-    <div v-else
-         class="rxs_view-footer"
-         style="background-color: gray">
+    <div class="rxs_view-footer" id="footer"
+         @click="submit"
+         :style="{backgroundColor: rx.state === 'ENABLED'? '#1AB6FD' : 'gray'}">
       购药
     </div>
   </div>
@@ -91,21 +85,30 @@
       return {
         rxId: this.$route.query.rxId,
         state: '',
-        rxList: [],
-        account: this.$store.getters.account
+        rx: [],
+        account: this.$store.getters.account,
+        contentStyle: {
+          overflow: 'auto',
+          height: 0
+        }
       };
     },
     created() {
-      this.getData();
+      this.$http.get('/rxs/' + this.rxId).then(
+        res => {
+          this.rx = res.data;
+        }).catch(error => {
+        this.exception(error);
+      });
+    },
+    mounted() {
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight - document.getElementById('footer').clientHeight) + 'px';
     },
     methods: {
-      getData() {
-        this.$http.get('/rxs/' + this.rxId).then(
-          res => {
-            this.rxList = res.data;
-          }).catch(error => {
-          this.exception(error);
-        });
+      submit() {
+        if (this.rx.state === 'ENABLED') {
+          this.$router.push({ path: '/rxs/shops', query: { rxId: this.rxId, hospitalId: this.rx.hospitalId } });
+        }
       }
     }
   };
@@ -137,7 +140,6 @@
   .rxs_view {
     &-content {
       width: 720px;
-      margin-bottom: 80px;
       &-header {
         width: 100%;
         padding: 10px 0;

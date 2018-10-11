@@ -8,7 +8,7 @@
     />
     <div class="hospital-view__content"
          ref="content">
-        <img :src="getImgURL(hospitalInfo.fileId,'LARGE_LOGO')"
+        <img v-lazy="getImgURL(hospitalInfo.fileId,'LARGE_LOGO')"
         class="hospital-view__content__logo">
       <div class="hospital-view__content__title">
         <div>医院介绍</div>

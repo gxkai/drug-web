@@ -1,56 +1,79 @@
 <template>
   <div class="container">
     <van-nav-bar
-      :title="$route.name"
+      :title="title"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
+      id="header"
     />
-    <div class="container-main">
-      <div v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-        <div v-for="item in pageList" class="message-main">
-          <div class="message-date">{{formatDate(item.createdDate)}}</div>
-          <div class="message-title">{{item.title}}</div>
-          <div class="message-content">{{item.content}}</div>
-        </div>
-      </div>
+    <div :style="contentStyle">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          @load="onLoad">
+          <div v-for="item in list" class="message-main">
+            <div class="message-date">{{formatDate(item.createdDate)}}</div>
+            <div class="message-title">{{item.title}}</div>
+            <div class="message-content">{{item.content}}</div>
+          </div>
+          <new-no-data v-show="finished"></new-no-data>
+        </van-list>
+      </van-pull-refresh>
     </div>
-    <new-no-data v-if="loadingComplete"></new-no-data>
   </div>
 </template>
 
 <script>
   export default {
     name: 'messages',
-
     data() {
       return {
+        loading: false,
+        finished: false,
+        isLoading: false,
         pageNum: 0,
         pageSize: 15,
-        pageList: [],
-        loading: true,
-        loadingComplete: false,
+        list: [],
+        contentStyle: {
+          height: 0,
+          overflow: 'auto'
+        },
         messageType: this.$route.query.messageType,
-        titles: this.$route.query.titles
+        title: this.$route.query.title
       };
     },
-    components: {},
     created() {
-      this.loadMore();
+    },
+    mounted() {
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
-      loadMore() {
-        this.$http.get('/messages?' + '&messageType=' + this.messageType + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize)
-          .then((res) => {
-            if (res.data.list.length > 0) {
-              this.pageList = this.pageList.concat(this.formatData(res.data.list));
-              this.loading = false;
-            } else {
-              this.loadingComplete = true;
+      onRefresh() {
+        this.finished = false;
+        this.list = [];
+        this.pageNum = 0;
+        this.onLoad();
+      },
+      onLoad() {
+        this.pageNum++;
+        this.$http.get('/messages', {
+          params: {
+            'pageNum': this.pageNum,
+            'pageSize': this.pageSize,
+            'messageType': this.messageType
+          }
+        })
+          .then(res => {
+            this.isLoading = false;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            console.log(this.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
             }
-          })
-          .catch(err => {
-            this.exception(err);
+          }).catch(error => {
+            this.exception(error);
           });
       }
     }
@@ -58,13 +81,6 @@
 </script>
 
 <style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
-  }
-
   .container {
     width: 720px;
     height: 100vh;

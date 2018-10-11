@@ -49,7 +49,7 @@
         <div class="rx__content__item__left">
           <div class="rx_mark"
                v-if="!carts[index].otc">处</div>
-          <img  :src="getImgURL(carts[index].fileId, 'LARGE_LOGO')"
+          <img  v-lazy="getImgURL(carts[index].fileId, 'LARGE_LOGO')"
           class="rx__content__item__left-logo">
         </div>
         <div class="rx__content__item__right">

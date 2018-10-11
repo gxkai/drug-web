@@ -1,110 +1,45 @@
 <template>
-    <header :style="{background:bgColor,color:color}" :class="height">
-      <div class="left" :style="{color:leftColor}" :class="leftSize">
-       <slot name="left"></slot>
+  <div class="header-second">
+    <div class="header-second__content">
+      <div class="header-second__content__left"></div>
+      <div class="header-second__content__center">
+        <slot></slot>
       </div>
-      <div>
-        <slot name="center"></slot>
-        {{title}}
-      </div>
-      <div class="right" :style="{color:rightColor}" :class="rightSize">
-        <slot name="right"></slot>
-      </div>
-    </header>
+      <div class="header-second__content__right"></div>
+    </div>
+  </div>
 </template>
 
 <script>
   export default {
     name: 'newHeader',
-    props: {
-      title: {
-        type: String,
-        default: ''
-      },
-      bgColor: {
-        type: String,
-        default: 'rgba(19,193,254,1)'
-      },
-      color: {
-        type: String,
-        default: 'rgba(254, 254, 254, 1)'
-      },
-      leftColor: {
-        type: String,
-        default: 'rgba(254, 254, 254, 1)'
-      },
-      rightColor: {
-        type: String,
-        default: 'rgba(254, 254, 254, 1)'
-      },
-      leftSize: {
-        type: String,
-        default: 'medium'
-      },
-      rightSize: {
-        type: String,
-        default: 'small'
-      },
-      height: {
-        type: String,
-        default: 'middle'
-      }
-    }
+    props: ['title', 'leftIcon']
   };
 </script>
 
-<style scoped>
- header {
-    width: 720px;
-    font-size: 36px;
-    font-family: HiraginoSansGB-W3;
-    height: 130px;
+<style scoped type="text/less" lang="less">
+  .header-second {
+    height: 100px;
     display: flex;
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: -ms-flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .left {
-    display: flex;
-    align-items: center;
-  }
-  .right {
-    display: flex;
-    align-items: center;
-  }
-  .smaller {
-    font-size: 20px;
-  }
-  .small {
-    font-size: 30px;
-  }
-  .medium {
-    font-size: 50px;
-  }
-  .large {
-    font-size: 70px;
-  }
-  .left .iconfont:before{
-    font-size: 50px;
-  }
-
-  .right .iconfont:before{
-    font-size: 50px;
-  }
-  .lower {
-    height: 50px!important;
-  }
-  .low {
-    height: 80px!important;
-  }
-  .high {
-    height: 150px!important;
-  }
-  .middle {
-    height: 130px;
+    &__content {
+      display: flex;
+      align-items: center;
+      &__center {
+        font-family: HiraginoSansGB-W3;
+        font-weight: normal;
+        color: rgba(19, 193, 254, 1);
+        margin: 0 20px;
+        div {
+          font-size: 28px;
+        }
+      }
+      &__left, &__right {
+        width: 117px;
+        height: 1PX;
+        border: 1PX solid rgba(191, 191, 191, 1);
+      }
+    }
   }
 </style>

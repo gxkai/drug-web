@@ -1,72 +1,83 @@
 <template>
   <div class="shops">
-    <div class="shops-header" ref="header">
-      <new-header>
-        <div slot="left" @click="$router.go(-1)">
-          <i class="iconfont ic-arrow-right"></i>
+    <div id="header">
+      <div class="shops-header">
+        <new-header>
+          <div slot="left" @click="$router.go(-1)">
+            <i class="iconfont ic-arrow-right"></i>
+          </div>
+          <div slot="center">
+            <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/drugs')"/>
+          </div>
+        </new-header>
+      </div>
+      <div class="shops-filter">
+        <div class="shops-filter-item" @click="orderBy('SYNTHESIZE')">
+          <div class="shops-filter-item-text">
+            综合
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:shopSort === 'SYNTHESIZE'? '#13C1FE': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:shopSort === 'SYNTHESIZE'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
         </div>
-        <div slot="center">
-          <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/shops')"/>
+        <div class="shops-filter-item" @click="orderBy('DISTANCE')">
+          <div class="shops-filter-item-text">
+            距离最近
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:shopSort === 'DISTANCE'? '#13C1FE': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:shopSort === 'DISTANCE'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
         </div>
-      </new-header>
+        <div class="shops-filter-item" @click="orderBy('APPRAISE')">
+          <div class="shops-filter-item-text">
+            好评优先
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:shopSort === 'APPRAISE'? '#13C1FE': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:shopSort === 'APPRAISE'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
+        </div>
+        <div class="shops-filter-item" @click="orderBy('SALE')">
+          <div class="shops-filter-item-text">
+            销量最多
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="shops-filter" ref="filter">
-      <div class="shops-filter-item" @click="orderBy('SYNTHESIZE')">
-        <div class="shops-filter-item-text">
-          综合
-        </div>
-        <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'SYNTHESIZE'? '#13C1FE': 'gray'} ">
-          </div>
-          <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SYNTHESIZE'? '#13C1FE': 'gray'} ">
-          </div>
-        </div>
-      </div>
-      <div class="shops-filter-item" @click="orderBy('DISTANCE')">
-        <div class="shops-filter-item-text">
-          距离最近
-        </div>
-        <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'DISTANCE'? '#13C1FE': 'gray'} ">
-          </div>
-          <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'DISTANCE'? '#13C1FE': 'gray'} ">
-          </div>
-        </div>
-      </div>
-      <div class="shops-filter-item" @click="orderBy('APPRAISE')">
-        <div class="shops-filter-item-text">
-          好评优先
-        </div>
-        <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'APPRAISE'? '#13C1FE': 'gray'} ">
-          </div>
-          <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'APPRAISE'? '#13C1FE': 'gray'} ">
-          </div>
-        </div>
-      </div>
-      <div class="shops-filter-item" @click="orderBy('SALE')">
-        <div class="shops-filter-item-text">
-          价格
-        </div>
-        <div class="shops-filter-item-arrow">
-          <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
-          </div>
-          <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="shops-container" ref="container">
-        <div  v-infinite-scroll="loadMore"
-              infinite-scroll-disabled="loading"
-              infinite-scroll-distance="0">
+    <div class="shops-container">
+      <div :style="contentStyle">
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            @load="onLoad">
             <div class="shops-container-item"
                  :item="item"
                  v-for="(item,index) in list"
                  :key="index"
                  @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
               <div class="shops-container-item-left">
-                <img :src="getImgURL(item.fileId,'LARGE_LOGO')"/>
+                <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')"/>
               </div>
               <div class="shops-container-item-right">
                 <div>
@@ -83,12 +94,14 @@
                 </div>
               </div>
               <div class="shops-container-item-peisong"
-              v-show="item.distribution === true">
+                   v-show="item.distribution === true">
                 <i class="iconfont ic-peisong-"></i>
               </div>
             </div>
-        </div>
-      <new-no-data v-if="loadingComplete"></new-no-data>
+            <new-no-data v-if="finished"></new-no-data>
+          </van-list>
+        </van-pull-refresh>
+      </div>
     </div>
   </div>
 </template>
@@ -98,47 +111,55 @@
     props: {},
     data() {
       return {
-        position: this.$store.getters.position,
-        list: [],
+        loading: false,
+        finished: false,
+        isLoading: false,
         pageNum: 0,
         pageSize: 15,
-        loading: true,
-        loadingComplete: false,
+        list: [],
+        contentStyle: {
+          height: 0,
+          overflow: 'auto'
+        },
         shopSort: 'SYNTHESIZE',
         searchIcon: '\ue64c 药品名'
       };
     },
+    computed: {
+      position() {
+        return this.$store.getters.position;
+      }
+    },
     created() {
-      this.loadMore();
     },
     mounted() {
-      this.$refs.container.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.filter.clientHeight) + 'px';
-      this.$refs.container.style.overflow = 'scroll';
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
-      onReset() {
+      onRefresh() {
+        this.finished = false;
         this.list = [];
         this.pageNum = 0;
-        this.loading = true;
-        this.loadingComplete = false;
+        this.onLoad();
       },
-      loadMore() {
-        this.loading = true;
+      onLoad() {
         this.pageNum++;
-        this.$http.get('/shops',
-          {params: {
+        this.$http.get('/shops', {
+          params: {
             lat: this.position.lat,
             lng: this.position.lng,
             sort: this.shopSort,
             pageNum: this.pageNum,
             pageSize: this.pageSize
-          }})
+          }
+        })
           .then(res => {
-            if (res.data.list.length > 0) {
-              this.list = this.list.concat(res.data.list);
-              this.loading = false;
-            } else {
-              this.loadingComplete = true;
+            this.isLoading = false;
+            this.loading = false;
+            this.list = this.list.concat(res.data.list);
+            console.log(this.list);
+            if (res.data.list.length === 0) {
+              this.finished = true;
             }
           }).catch(error => {
             this.exception(error);
@@ -146,8 +167,7 @@
       },
       orderBy(shopSort) {
         this.shopSort = shopSort;
-        this.onReset();
-        this.loadMore();
+        this.onRefresh();
       }
     }
   }
@@ -155,17 +175,23 @@
 </script>
 <style scoped type="text/less" lang="less">
   .shops {
-    height: 100vh;
     width: 720px;
+    background-color: #f5f5f5;
     &-header {
       header {
         & > div:nth-child(2) {
           input {
             width: 500px;
-            height: 70px;
+            height: 55px;
             outline: none;
             border-width: 0;
-            font-size: 20px;
+            font-size: 30px;
+            color: black;
+            border-radius: 10PX;
+            padding: 0 20px;
+            &::placeholder {
+              text-align: center;
+            }
           }
         }
       }
@@ -179,6 +205,7 @@
       font-size: 24px;
       font-family: HiraginoSansGB-W3;
       color: rgba(69, 69, 69, 1);
+      background-color: white;
       &-item {
         display: flex;
         align-items: center;
@@ -206,9 +233,6 @@
       }
     }
     &-container {
-      /*position: relative;*/
-      background-color: #f5f5f5;
-      width: 100%;
       &-item {
         width: 100%;
         background-color: white;
@@ -221,9 +245,9 @@
           margin-top: 10px;
         }
         padding: 20px;
-        &-left{
+        &-left {
           padding: 20px;
-          img{
+          img {
             width: 250px;
             height: 250px;
           }

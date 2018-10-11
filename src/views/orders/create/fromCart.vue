@@ -158,6 +158,7 @@
       :price="payAmount*100"
       button-text="提交订单"
       @submit="onOrder"
+      :loading="loading"
       ref="footer"
     />
   </div>
@@ -166,8 +167,6 @@
 </template>
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  import { Toast } from 'mint-ui';
-
   export default {
     name: 'createFromCart',
     data() {
@@ -180,7 +179,8 @@
         couponRecord: '',
         coupons: [],
         show: false,
-        payAmount: 0
+        payAmount: 0,
+        loading: false
       };
     },
     components: {},
@@ -232,12 +232,12 @@
         return cartIds;
       },
       onOrder() {
-        this.$refs.footer._props.loading = true;
+        this.loading = true;
         let json = {};
         switch (this.deliveryType) {
           case 'DELIVERY':
             if (this.isBlank(this.receiveAddress)) {
-              Toast('请维护收货地址');
+              this.$toast('请维护收货地址');
             } else {
               json.addressId = this.receiveAddress.id;
             }
@@ -255,7 +255,7 @@
             path: '/orders/pay?' + str + '&deliveryType=' + this.deliveryType
           });
         }).catch(error => {
-          this.$refs.footer._props.loading = false;
+          this.loading = false;
           this.exception(error);
         });
       },

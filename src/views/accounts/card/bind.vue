@@ -12,7 +12,7 @@
           <i class="iconfont ic-xingming"></i>
         </div>
         <div class="card_bind-list-item-right">
-          <input type="text" v-model="account.name" placeholder="请输入姓名" />
+          <input type="text" v-model="account.name" readonly/>
         </div>
       </div>
       <div class="card_bind-list-item">
@@ -20,7 +20,7 @@
           <i class="iconfont ic-Id"></i>
         </div>
         <div class="card_bind-list-item-right">
-          <input type="text" v-model="account.identityNumber" placeholder="请输入身份证号码" />
+          <input type="text" v-model="account.identityNumber" readonly/>
         </div>
       </div>
       <div class="card_bind-list-item">
@@ -28,7 +28,7 @@
           <i class="iconfont ic-shouji"></i>
         </div>
         <div class="card_bind-list-item-right">
-          <input type="text" v-model="account.username" placeholder="请输入手机号码"/>
+          <input type="text" v-model="account.username" readonly/>
         </div>
       </div>
       <div class="card_bind-list-item">
@@ -36,15 +36,15 @@
           <i class="iconfont ic-yibaoqia"></i>
         </div>
         <div class="card_bind-list-item-right">
-          <input type="text" v-model="account.medicaidNumber" placeholder="请输入医保卡编号" />
+          <input type="text" v-model="account.medicaidNumber" readonly />
         </div>
       </div>
     </div>
-    <div class="card_bind-footer">
-      <span @click="bind()">
-        确认绑定
-      </span>
-    </div>
+    <!--<div class="card_bind-footer">-->
+      <!--<span @click="bind()">-->
+        <!--确认绑定-->
+      <!--</span>-->
+    <!--</div>-->
   </div>
 
 </template>

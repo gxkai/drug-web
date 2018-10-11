@@ -1,6 +1,6 @@
 <template>
   <div class="orders">
-    <div ref="header"
+    <div id="header"
          class="orders__header">
       <van-nav-bar
         :title="title"
@@ -11,23 +11,28 @@
       >
         <van-icon name="search" slot="right"/>
       </van-nav-bar>
-      <van-nav-bar
-        right-text="搜索"
-        left-text="取消"
-        @click-left="onCancel"
-        @click-right="onSearch"
+      <div
         v-show="show"
-        class="orders__header__search">
+        class="orders__header__search"
+      >
+        <span
+        class="orders__header__search--left"
+        @click="onCancel"
+        >取消</span>
         <input
-          class="orders__header__search-input van-icon"
-          :placeholder="icon"
-          v-model='keyword'
-          @keyup.enter = "onSearch"
-          slot="title">
-      </van-nav-bar>
+        class="orders__header__search-input"
+        placeholder="输入药品名称"
+        v-model='keyword'
+        @keyup.enter = "onRefresh"
+        >
+        <span
+        class="orders__header__search--right"
+        @click="onRefresh"
+        >搜索</span>
+      </div>
       <new-order-tab :state.sync="state"></new-order-tab>
     </div>
-    <div ref="content">
+    <div :style="contentStyle">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-model="loading"
@@ -37,8 +42,8 @@
             :order.sync="order"
             v-for="(order, key) in list"
             :key="key"></new-order-item>
+          <new-no-data v-show="finished === true"></new-no-data>
         </van-list>
-        <new-no-data v-show="finished === true"></new-no-data>
       </van-pull-refresh>
     </div>
   </div>
@@ -55,13 +60,14 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
+        contentStyle: {
+          height: 0,
+          overflow: 'auto'
+        },
         show: false,
         keyword: '',
-        icon: '\ue64c 药品名',
         state: this.$route.query.state || ''
       };
-    },
-    created() {
     },
     watch: {
       state() {
@@ -84,17 +90,15 @@
         }
       }
     },
+    created() {
+    },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'scroll';
+      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onCancel() {
         this.keyword = '';
         this.show = false;
-        this.onRefresh();
-      },
-      onSearch() {
         this.onRefresh();
       },
       onRefresh() {
@@ -133,6 +137,16 @@
     background-color: #f5f5f5;
     &__header {
       &__search {
+        height: 130px;
+        background-color: #13C1FE;
+        display: flex;
+        align-items: center;justify-content: space-between;
+        padding: 0 20px;
+        span {
+          font-size: 30px!important;
+          color: white!important;
+          font-weight: 200!important;
+        }
         &-input {
           height: 60px;
           width: 400px;

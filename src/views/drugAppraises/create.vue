@@ -13,7 +13,7 @@
            v-for="(item,index) in list" :key="index">
         <div class="drug-appraise-create__part-1__item">
           <div class="drug-appraise-create__part-1__item__header van-hairline--bottom">
-            <img :src="getImgURL(item.fileId, 'LARGE_LOGO')"
+            <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')"
                  class="drug-appraise-create__part-1__item__header--logo">
             <new-star size="middle" :score.sync="item.score"
                       class="drug-appraise-create__part-1__item__header--star"></new-star>

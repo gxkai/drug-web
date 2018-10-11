@@ -8,7 +8,7 @@
     />
     <div ref="content">
       <div class="shop_view-info mt-l-20">
-        <img :src="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
+        <img v-lazy="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
         <div class="shop_view-info-name">{{shopInfo.name}}</div>
         <div class="shop_view-info-collect"
              v-text="colloct ? '已收藏':'未收藏'"
@@ -56,7 +56,7 @@
              @click="linkToShopDrugSpec(recommend.id)">
           <div class="shop_view-recommend_list-item_logo">
             <div class="rx_mark" v-if="!recommend.otc">处</div>
-            <img :src="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
+            <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
           </div>
           <div class="shop_view-recommend_list-item_name">{{recommend.name}}</div>
           <div class="shop_view-recommend_list-item_price">&yen;{{toFixedTwo(recommend.price)}}</div>
@@ -231,8 +231,6 @@
 
 </style>
 <script>
-  import { Toast } from 'mint-ui';
-
   export default {
     name: 'shop',
     data() {
@@ -289,18 +287,10 @@
         };
         this.$http.post('/collects/shop', data).then(res => {
           if (this.colloct) {
-            Toast({
-              message: '收藏成功',
-              position: 'middle',
-              duration: 1000
-            });
+            this.$toast('收藏成功');
             this.collectz = '已收藏';
           } else {
-            Toast({
-              message: '取消收藏成功',
-              position: 'middle',
-              duration: 1000
-            });
+            this.$toast('取消收藏成功');
             this.collectz = '未收藏';
           }
         }).catch(error => {

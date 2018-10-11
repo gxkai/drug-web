@@ -28,7 +28,7 @@
            v-for="item in order.list">
         <div class="order_item-content-info-left">
           <div class="rx_mark" v-if="!item.otc">处</div>
-          <img :src="getImgURL(item.fileId,'LARGE_LOGO')">
+          <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
         </div>
         <div class="order_item-content-info-right">
           <div>
@@ -109,12 +109,11 @@
 
       </div>
     </div>
-    <mt-popup
+    <van-popup
     v-model="popupVisible"
-    position="center"
-    popup-transition="popup-fade">
-    <img :src="getQrCodeURL(order.id)" class="order_item-qr_code">
-    </mt-popup>
+    position="top">
+      <img :src="getQrCodeURL(order.id)" class="order_item-qr_code">
+    </van-popup>
   </div>
 </template>
 <style scoped type="text/less" lang="less">
@@ -266,13 +265,12 @@
     &-qr_code {
       width: 500px;
       height: 500px;
+      margin: 0 110px;
     }
   }
 </style>
 
 <script>
-  import { Toast } from 'mint-ui';
-
   export default {
     name: 'order',
     props: ['order'],
@@ -341,7 +339,7 @@
         this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
       onRemind() {
-        Toast('提醒发货成功!');
+        this.$toast('提醒发货成功!');
       },
       onConfirm() {
         this.$http.put('/orders/' + this.order.id + '/complete').then(res => {

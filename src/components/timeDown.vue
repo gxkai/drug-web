@@ -1,6 +1,5 @@
 <template>
   <div id="times">
-    <span class="d_Downtime">{{day}}</span>:
     <span class="d_Downtime">{{hour}}</span>:
     <span class="d_Downtime">{{min}}</span>:
     <span class="d_Downtime">{{second}}</span>
@@ -16,21 +15,25 @@
         day: '',
         hour: '',
         min: '',
-        second: ''
+        second: '',
+        timer: ''
       };
     },
     mounted() {
-      let time = setInterval(() => {
+      this.timer = setInterval(() => {
         if (this.flag) {
-          clearInterval(time);
+          clearInterval(this.timer);
         }
         this.timeDown();
       }, 500);
     },
     props: {
       endTime: {
-        type: String
+        default: new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1
       }
+    },
+    beforeDestroy() {
+      clearTimeout(this.timer);
     },
     methods: {
       timeDown() {

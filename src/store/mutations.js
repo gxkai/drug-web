@@ -18,5 +18,8 @@ export default {
   },
   [types.SET_RECEIVE_ADDRESS](state, receiveAddress) {
     state.receiveAddress = receiveAddress;
+  },
+  [types.SET_FIRST_OPEN](state, firstOpen) {
+    state.firstOpen = firstOpen;
   }
 };

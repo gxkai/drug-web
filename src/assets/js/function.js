@@ -432,5 +432,14 @@ export default {
         return false;
       }
     };
+
+    /**
+     * html格式化
+     * @param str
+     * @returns {*}
+     */
+    Vue.prototype.delHtmlTag = (str) => {
+      return str.replace(/<[^>]+>|&[^>]+;/g, '').trim();
+    };
   }
 };
