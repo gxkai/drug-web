@@ -1,6 +1,6 @@
 <template>
-  <div class="rxs">
-    <div id="header">
+  <new-layout class="rxs">
+    <div slot="top">
     <van-nav-bar
       :title="$route.name"
       left-arrow
@@ -33,7 +33,7 @@
         v-model="keyword"
         @keyup.enter="onRefresh">
     </div>
-    <div :style="contentStyle" class="pt-l-30">
+    <div slot="center" class="pt-l-30">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-model="loading"
@@ -82,7 +82,8 @@
     </div>
     <van-tabbar
       :value="1"
-      id="footer"
+      slot="bottom"
+      :fixed="Boolean(false)"
     >
       <van-tabbar-item icon="icon"
                        to="/">首页
@@ -100,7 +101,7 @@
                        to="/accounts">我
       </van-tabbar-item>
     </van-tabbar>
-  </div>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   /deep/.van-nav-bar:after {
@@ -197,19 +198,17 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        },
-        account: this.$store.getters.account,
         icon: '\ue64c 请输入症状搜索'
       };
     },
-    computed: {},
+    computed: {
+      account() {
+        return this.$store.getters.account;
+      }
+    },
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight - document.getElementById('footer').clientHeight) + 'px';
     },
     methods: {
       onRefresh() {

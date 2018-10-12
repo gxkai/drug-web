@@ -4,9 +4,8 @@
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      id="header"
     />
-    <div :style="contentStyle">
+    <div class="shop_drugs-content">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-model="loading"
@@ -35,6 +34,11 @@
   .shop_drugs {
     background-color: #f5f5f5;
     height: 100vh;
+    display: flex;
+    flex-flow: column;
+    &-content {
+      flex: 1;
+    }
     &-list {
       &-item {
         display: flex;
@@ -88,10 +92,6 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        },
         shopId: this.$route.query.id,
         typeId: this.$route.query.typeId || ''
       };
@@ -99,7 +99,6 @@
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onRefresh() {

@@ -1,12 +1,14 @@
 <template>
-  <div class="rxs_view">
+  <new-layout class="rxs_view"
+              centerColor="white"
+  >
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      id="header"
+      slot="top"
     />
-    <div class="rxs_view-content" :style="contentStyle">
+    <div class="rxs_view-content" slot="center">
       <div class="rxs_view-content-header">
         处方筏
       </div>
@@ -71,12 +73,12 @@
         </div>
       </div>
     </div>
-    <div class="rxs_view-footer" id="footer"
+    <div class="rxs_view-footer" slot="bottom"
          @click="submit"
          :style="{backgroundColor: rx.state === 'ENABLED'? '#1AB6FD' : 'gray'}">
       购药
     </div>
-  </div>
+  </new-layout>
 </template>
 
 <script>
@@ -85,13 +87,13 @@
       return {
         rxId: this.$route.query.rxId,
         state: '',
-        rx: [],
-        account: this.$store.getters.account,
-        contentStyle: {
-          overflow: 'auto',
-          height: 0
-        }
+        rx: []
       };
+    },
+    computed: {
+      account() {
+        return this.$store.getters.account;
+      }
     },
     created() {
       this.$http.get('/rxs/' + this.rxId).then(
@@ -102,7 +104,6 @@
       });
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight - document.getElementById('footer').clientHeight) + 'px';
     },
     methods: {
       submit() {
@@ -193,8 +194,6 @@
     &-footer {
       width: 100%;
       height: 80px;
-      position: fixed;
-      bottom: 0;
       font-size: 40px;
       text-align: center;
       line-height: 80px;

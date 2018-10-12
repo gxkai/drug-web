@@ -1,6 +1,8 @@
 <template>
-  <div class="point">
-    <div id="header">
+  <new-layout class="point"
+  centerColor="white"
+  >
+    <div slot="top">
       <van-nav-bar
         :title="$route.name"
         left-arrow
@@ -33,8 +35,9 @@
         <div></div>
       </div>
     </div>
-    <div class="point-goods" ref="content">
-      <div :style="contentStyle">
+    <div class="point-goods"
+    slot="center"
+    >
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list
             v-model="loading"
@@ -47,9 +50,8 @@
             <new-no-data v-if="finished"></new-no-data>
           </van-list>
         </van-pull-refresh>
-      </div>
     </div>
-  </div>
+  </new-layout>
 </template>
 <script>
   export default {
@@ -62,10 +64,6 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        },
         point: 0
       };
     },
@@ -79,7 +77,6 @@
         });
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onRefresh() {

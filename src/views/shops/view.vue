@@ -4,10 +4,9 @@
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
     />
-    <div ref="content">
-      <div class="shop_view-info mt-l-20">
+    <div class="shop_view-content">
+      <div class="shop_view-info">
         <img v-lazy="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
         <div class="shop_view-info-name">{{shopInfo.name}}</div>
         <div class="shop_view-info-collect"
@@ -52,7 +51,7 @@
 
       <div class="shop_view-recommend_list">
         <div class="shop_view-recommend_list-item"
-             v-for="recommend in recommendList"
+             v-for="recommend in list"
              @click="linkToShopDrugSpec(recommend.id)">
           <div class="shop_view-recommend_list-item_logo">
             <div class="rx_mark" v-if="!recommend.otc">处</div>
@@ -64,8 +63,7 @@
       </div>
     </div>
 
-    <div class="shop_view-footer"
-    ref="footer">
+    <div class="shop_view-footer">
         <div @click="linkToShopInfo(shopId)">
           商家介绍
         </div>
@@ -81,9 +79,14 @@
 <style scoped type="text/less" lang="less">
   .shop_view {
     background-color: #f5f5f5;
-    overflow: auto;
     height: 100vh;
     width: 720px;
+    display: flex;
+    flex-flow: column;
+    &-content {
+      flex: 1;
+      overflow: auto;
+    }
     &-info {
       background-color: rgb(19, 193, 254);
       padding: 40px 80px;
@@ -211,8 +214,6 @@
     &-footer {
       background-color: white;
       display: flex;
-      position: fixed;
-      bottom: 0;
       &>div {
         width: 240px;
         height: 100px;
@@ -235,7 +236,7 @@
     name: 'shop',
     data() {
       return {
-        recommendList: [],
+        list: [],
         shopInfo: [],
         shopId: this.$route.query.shopId,
         colloct: false,
@@ -243,9 +244,9 @@
         drugTypes: []
       };
     },
-    created: function () {
+    created() {
       this.$http.get('/shops/' + this.shopId + '/drugs/recommend').then(res => {
-        this.recommendList = res.data;
+        this.list = res.data;
         console.log(res.data);
       }).catch(error => {
         this.exception(error);
@@ -274,9 +275,6 @@
         });
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight -
-        this.$refs.footer.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'auto';
     },
     methods: {
       collect() {

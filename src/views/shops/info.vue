@@ -4,9 +4,8 @@
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
     />
-    <div ref="content">
+    <div class="shop-info__content">
       <div class="shop-info__part-1">
         <img v-lazy="getImgURL(shopInfo.logo, 'LARGE_LOGO')">
         <span>{{shopInfo.name}}</span>
@@ -58,6 +57,13 @@
 <style scoped type="text/less" lang="less">
   .shop-info {
     background-color: #f5f5f5;
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    &__content {
+      flex: 1;
+      overflow: auto;
+    }
     &__part-4 {
       background-color: white;
       padding: 20px;
@@ -198,11 +204,11 @@
       this.$http.get('/shops/' + this.shopId).then(res => {
         console.log(res.data);
         this.shopInfo = res.data;
+      }).catch(err => {
+        this.exception(err);
       });
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.content.style.scroll = 'auto';
     }
   };
 </script>

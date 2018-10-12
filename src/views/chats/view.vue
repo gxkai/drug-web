@@ -1,6 +1,6 @@
 <template>
-  <div class="main">
-    <div ref="header">
+  <div class="chats-view">
+    <div class="chats-view--header">
       <van-nav-bar
         :title="$route.name"
         left-arrow
@@ -17,7 +17,7 @@
       </div>
       <new-edit-line :name="getCurrentTime()"></new-edit-line>
     </div>
-    <div ref="body">
+    <div class="chats-view--content">
       <div>
         <ul>
           <li v-for="(item,index) in list" :key="index">
@@ -33,7 +33,7 @@
         </ul>
       </div>
     </div>
-    <footer ref="footer">
+    <footer class="chats-view--footer">
       <div class="center">
         <input v-model="value" @keyup.enter="send()">
         <div @click="send()">发送</div>
@@ -58,7 +58,7 @@
         account: this.$store.getters.account
       };
     },
-    created: function () {
+    created() {
       /**
        * 获取chatId
        */
@@ -74,8 +74,6 @@
       }
     },
     mounted() {
-      this.$refs.body.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight - this.$refs.footer.clientHeight) + 'px';
-      this.$refs.body.style.overflow = 'auto';
     },
     methods: {
       getChatInfo() {
@@ -118,10 +116,16 @@
 </script>
 
 <style scoped>
-  .main {
+  .chats-view {
     background: rgba(241, 239, 240, 1);
     width: 720px;
     height: 100vh;
+    display: flex;
+    flex-flow: column;
+  }
+  .chats-view--content {
+    flex: 1;
+    overflow: auto;
   }
 
   .header-state {
@@ -230,8 +234,6 @@
   }
 
   footer {
-    position: fixed;
-    bottom: 0;
     width: 720px;
     height: 140px;
     background-color: white;

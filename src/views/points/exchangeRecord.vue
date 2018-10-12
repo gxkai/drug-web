@@ -1,21 +1,21 @@
 <template>
-  <div class="exchange_record">
+  <new-layout class="exchange_record">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      id="header"
+      slot="top"
     />
       <van-list
         v-model="loading"
         :finished="finished"
         @load="onLoad"
-        :style="contentStyle"
+        slot="center"
       >
       <new-coupon-record-item v-for="(item,index) in list" :key="index" :item="item"></new-coupon-record-item>
       <new-no-data v-show="finished === true"></new-no-data>
       </van-list>
- </div>
+ </new-layout>
 </template>
 
 <script>
@@ -27,17 +27,12 @@
         finished: false,
         list: [],
         pageNum: 0,
-        pageSize: 15,
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        }
+        pageSize: 15
       };
     },
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onLoad() {

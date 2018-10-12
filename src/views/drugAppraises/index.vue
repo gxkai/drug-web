@@ -1,33 +1,52 @@
 <template>
-  <div class="main">
+  <new-layout class="drugAppraises">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      id="header"
+      slot="top"
     />
-    <div :style="contentStyle" class="body">
+    <div slot="center">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-model="loading"
           :finished="finished"
           @load="onLoad">
-          <div class="drugAppraises-main" v-for="item in list">
-            <div class="line1">
-              <div>
+          <div class="drugAppraises--item"
+               v-for="item in list"
+               :key="item.id"
+          >
+            <div class="drugAppraises--item--title">
+              <div class="drugAppraises--item--title__left">
                 <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')">
                 <span>{{account.username|asterisk}}</span>
+                <van-rate  v-model="item.score" color="red" :size="13" readonly/>
               </div>
-              <span class="text-l-25">{{timeConvert(item.createdDate)}}</span>
+              <div class="drugAppraises--item--title__right">
+                {{dateConvert(item.createdDate)}}
+              </div>
             </div>
-            <div class="line2">
+            <div class="drugAppraises--item--content">
               {{item.content}}
             </div>
-            <div class="line3">
-              <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
-              <div class="right">
-                <p>药品名称：{{item.name}}</p>
-                <p>规格:{{item.spec}}</p>
+            <div class="drugAppraises--item--drug">
+              <img
+              class="drugAppraises--item--drug--left"
+              v-lazy="getImgURL(item.fileId,'LARGE_LOGO')"
+              >
+              <div
+              class="drugAppraises--item--drug__right"
+              >
+                <div
+                class="drugAppraises--item--drug__right--name"
+                >
+                  {{`药品名称:${item.name}`}}
+                </div>
+                <div
+                class="drugAppraises--item--drug__right--spec"
+                >
+                  {{`规格:${item.spec}`}}
+                </div>
               </div>
             </div>
           </div>
@@ -35,9 +54,79 @@
         </van-list>
       </van-pull-refresh>
     </div>
-  </div>
+  </new-layout>
 </template>
-
+<style scoped type="text/less" lang="less">
+  .drugAppraises {
+    &--item {
+      background-color: white;
+      margin-top: 20px;
+      padding: 20px;
+      &--title {
+        padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &__left{
+          display: flex;
+          align-items: center;
+          img {
+            width: 100px;
+            height: 100px;
+          }
+          span {
+            font-size:28px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(102,102,102,1);
+            margin: 0 20px;
+          }
+        }
+        &__right {
+          font-size:18px;
+          font-family:HiraginoSansGB-W3;
+          font-weight:normal;
+          color:rgba(102,102,102,1);
+        }
+      }
+      &--content {
+        padding: 20px 0;
+        font-size:22px;
+        font-family:HiraginoSansGB-W3;
+        font-weight:normal;
+        color:rgba(51,51,51,1);
+      }
+      &--drug {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        background:rgba(238,238,238,1);
+        &--left {
+          width: 100px;
+          height: 100px;
+        }
+        &__right {
+          display: flex;
+          flex-flow: column;
+          justify-content: center;
+          margin-left: 40px;
+          &--name {
+            font-size:20px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(0,0,0,1);
+          }
+          &--spec {
+            font-size:20px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(102,102,102,1);
+          }
+        }
+      }
+    }
+  }
+</style>
 <script>
   export default {
     name: 'myAppraise',
@@ -48,18 +137,17 @@
         isLoading: false,
         pageNum: 0,
         pageSize: 15,
-        list: [],
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        },
-        account: this.$store.getters.account
+        list: []
       };
+    },
+    computed: {
+      account() {
+        return this.$store.getters.account;
+      }
     },
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onRefresh() {
@@ -91,94 +179,3 @@
     }
   };
 </script>
-
-<style scoped>
-  .drugAppraises-main {
-    width: 680px;
-    height: 328px;
-    margin: auto;
-    margin-bottom: 40px;
-    background: rgba(255, 255, 255, 1);
-  }
-
-  .main {
-    background: rgba(241, 239, 240, 1);
-    width: 720px;
-    height: 100vh;
-  }
-
-  .body {
-    width: 720px;
-    background: rgba(255, 255, 255, 1);
-    padding: 20px;
-  }
-
-  .line1 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .line1 div:nth-child(1) {
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .line1 div:nth-child(1) img {
-    width: 62px;
-    height: 62px;
-    margin-right: 21px;
-    border-radius: 50%;
-  }
-
-  .line1 div:nth-child(1) span {
-    font-size: 28px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-  }
-
-  .line1 div:nth-child(2) span {
-    font-size: 18px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-  }
-
-  .line2 {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-    padding: 30px 10px;
-  }
-
-  .line3 {
-    width: 679px;
-    padding: 10px;
-    background: rgba(238, 238, 238, 1);
-    margin: auto;
-    display: flex;
-    align-items: center;
-  }
-
-  .line3 img {
-    width: 150px;
-    height: 150px;
-    margin-left: 10px;
-    margin-right: 31px;
-  }
-
-  .line3 .right {
-    margin-left: 20px;
-  }
-
-  .line3 .right p:nth-child(1) {
-    font-size: 25px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(0, 0, 0, 1);
-  }
-
-  .line3 .right p:nth-child(2) {
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-  }
-</style>

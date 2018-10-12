@@ -32,7 +32,7 @@
 </template>
 <style scoped type="text/less" lang="less">
   .drug_refund {
-    background-color: #F6F6F6;
+    background-color:white;
     position: relative;
     padding: 10px 20px;
     display: flex;

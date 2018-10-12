@@ -1,6 +1,6 @@
 <template>
-  <div class="collects">
-    <div id="header">
+  <new-layout class="collects">
+    <div slot="top">
       <van-nav-bar
         :title="$route.name"
         left-arrow
@@ -8,17 +8,14 @@
       />
       <new-collect-tab :state.sync="state"></new-collect-tab>
     </div>
-    <div :style="contentStyle">
+    <div slot="center">
       <keep-alive>
         <component :is="component"></component>
       </keep-alive>
     </div>
-  </div>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
-  .collects {
-    background-color: #f5f5f5;
-  }
 </style>
 
 <script>
@@ -42,17 +39,12 @@
     },
     data() {
       return {
-        state: 0,
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        }
+        state: 0
       };
     },
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
     }

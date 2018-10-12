@@ -1,6 +1,6 @@
 <template>
-  <div class="shops">
-    <div id="header">
+  <new-layout class="shops">
+    <div slot="top">
       <div class="shops-header">
         <new-header>
           <div slot="left" @click="$router.go(-1)">
@@ -64,8 +64,9 @@
         </div>
       </div>
     </div>
-    <div class="shops-container">
-      <div :style="contentStyle">
+    <div class="shops-container"
+    slot="center"
+    >
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list
             v-model="loading"
@@ -101,9 +102,8 @@
             <new-no-data v-if="finished"></new-no-data>
           </van-list>
         </van-pull-refresh>
-      </div>
     </div>
-  </div>
+  </new-layout>
 </template>
 <script>
   export default {
@@ -117,10 +117,6 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        },
         shopSort: 'SYNTHESIZE',
         searchIcon: '\ue64c 药品名'
       };
@@ -133,7 +129,6 @@
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onRefresh() {

@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <div id="header" class="home__header">
+  <new-layout class="home">
+    <div slot="top" class="home__header">
       <div class="home__header__first">
         <div class="home__header__first__left"
         @click="$router.push('/addresses/repositioning')"
@@ -20,7 +20,7 @@
         >
       </div>
     </div>
-    <div :style="contentStyle"
+    <div slot="center"
          class="home__content"
     >
       <van-swipe
@@ -184,7 +184,8 @@
     </div>
     <van-tabbar
       :value="0"
-      id="footer"
+      :fixed="Boolean(false)"
+      slot="bottom"
     >
       <van-tabbar-item icon="icon"
                        to="/">首页
@@ -202,7 +203,7 @@
                        to="/accounts">我
       </van-tabbar-item>
     </van-tabbar>
-  </div>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   @keyframes myMove {
@@ -424,11 +425,7 @@
         repositories: [],
         number: 0,
         repositoryTypes: [],
-        position: {},
-        contentStyle: {
-          overflow: 'auto',
-          height: 0
-        }
+        position: {}
       };
     },
     components: {
@@ -503,7 +500,6 @@
     mounted() {
       this.startMove();
       this.startLocation();
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight - document.getElementById('footer').clientHeight) + 'px';
     },
     methods: {
       startMove() {

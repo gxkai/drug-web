@@ -102,8 +102,8 @@
 <!--</style>-->
 
 <template>
-  <div class="shop-drug-spec">
-    <div id="header">
+  <new-layout class="shop-drug-spec">
+    <div slot="top">
       <van-nav-bar
         :title="$route.name"
         left-arrow
@@ -111,12 +111,12 @@
       />
       <new-drug-tab :state.sync="state"></new-drug-tab>
     </div>
-    <div :style="contentStyle">
+    <div slot="center">
       <keep-alive>
         <component :is="component" :shopDrugSpec="shopDrugSpec" ></component>
       </keep-alive>
     </div>
-  </div>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   .shop-drug-spec {
@@ -146,17 +146,12 @@
     data() {
       return {
         shopDrugSpec: JSON.parse(this.$route.query.shopDrugSpec),
-        state: this.$route.query.state || 0,
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        }
+        state: this.$route.query.state || 0
       };
     },
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
     }

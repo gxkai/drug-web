@@ -1,15 +1,15 @@
 <template>
-  <div class="repositories">
+  <new-layout class="repositories">
     <van-nav-bar
       :title="title"
       left-arrow
       @click-left="$router.go(-1)"
       @click-right="$router.push('/messageTypes')"
-      id="header"
+      slot="top"
     >
       <van-icon name="chat" slot="right"/>
     </van-nav-bar>
-    <div :style="contentStyle">
+    <div slot="center">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-model="loading"
@@ -39,12 +39,14 @@
         </van-list>
       </van-pull-refresh>
     </div>
-  </div>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   .repositories {
     &--item {
       padding: 20px;
+      background-color: white;
+      margin-top: 20px;
       &__top {
         display: flex;
         justify-content: space-between;
@@ -78,10 +80,6 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        },
         repositoryTypeId: this.$route.query.repositoryTypeId,
         title: this.$route.query.title
       };
@@ -89,7 +87,6 @@
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onRefresh() {

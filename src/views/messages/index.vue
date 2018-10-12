@@ -1,12 +1,14 @@
 <template>
-  <div class="container">
+  <new-layout
+    centerColor="white"
+  >
     <van-nav-bar
       :title="title"
       left-arrow
       @click-left="$router.go(-1)"
-      id="header"
+      slot="top"
     />
-    <div :style="contentStyle">
+    <div slot="center">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-model="loading"
@@ -21,7 +23,7 @@
         </van-list>
       </van-pull-refresh>
     </div>
-  </div>
+  </new-layout>
 </template>
 
 <script>
@@ -35,10 +37,6 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        },
         messageType: this.$route.query.messageType,
         title: this.$route.query.title
       };
@@ -46,7 +44,6 @@
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onRefresh() {
@@ -81,10 +78,6 @@
 </script>
 
 <style scoped>
-  .container {
-    width: 720px;
-    height: 100vh;
-  }
 
   .message-main {
     width: 720px;

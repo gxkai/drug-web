@@ -1,16 +1,16 @@
 <template>
-  <div class="point-record">
+  <new-layout class="point-record">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      id="header"
+      slot="top"
     />
     <van-list
       v-model="loading"
       :finished="finished"
       @load="onLoad()"
-      :style="contentStyle"
+      slot="center"
     >
       <div class="point-record__item van-hairline--bottom"
            v-for="(item,index) in list"
@@ -38,7 +38,7 @@
       </div>
       <new-no-data v-show="finished === true"></new-no-data>
     </van-list>
-  </div>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   .point-record {
@@ -90,11 +90,7 @@
         loading: false,
         finished: false,
         pageNum: 0,
-        pageSize: 15,
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        }
+        pageSize: 15
       };
     },
     filters: {
@@ -121,7 +117,6 @@
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onLoad() {

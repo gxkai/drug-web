@@ -1,6 +1,6 @@
 <template>
-  <div class="orders">
-    <div id="header"
+  <new-layout class="orders">
+    <div slot="top"
          class="orders__header">
       <van-nav-bar
         :title="title"
@@ -32,7 +32,7 @@
       </div>
       <new-order-tab :state.sync="state"></new-order-tab>
     </div>
-    <div :style="contentStyle">
+    <div slot="center">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-model="loading"
@@ -46,7 +46,7 @@
         </van-list>
       </van-pull-refresh>
     </div>
-  </div>
+  </new-layout>
 </template>
 
 <script>
@@ -60,10 +60,6 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        contentStyle: {
-          height: 0,
-          overflow: 'auto'
-        },
         show: false,
         keyword: '',
         state: this.$route.query.state || ''
@@ -93,7 +89,6 @@
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onCancel() {
