@@ -4,12 +4,10 @@
     :title="$route.name"
     left-arrow
     @click-left="$router.go(-1)"
-    ref="header"
     />
-    <div class="address__content"
-    ref="content">
+    <div class="address__content">
       <div class="address__content__item"
-           v-for="(address,index) in addressList" :key="index">
+           v-for="(address,index) in list" :key="index">
         <div class="address__content__item__top">
           <span class="address__content__item__top-consignee">
             {{address.consignee}}
@@ -38,9 +36,12 @@
 </template>
 <style scoped type="text/less" lang="less">
   .address {
-    position: relative;
     background-color: #f5f5f5;
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
     &__content {
+      flex: 1;
       &__item {
         background-color: white;
         &:first-child {
@@ -102,8 +103,6 @@
       font-weight:normal;
       color:rgba(255,255,255,1);
       text-align: center;
-      position: fixed;
-      bottom: 0;
     }
   }
 </style>
@@ -112,29 +111,25 @@
     name: 'addressesEdit',
     data() {
       return {
-        addressList: []
+        list: []
       };
     },
     created() {
-      this.getList();
+      this.$http.get('/addresses')
+        .then((res) => {
+          this.list = res.data;
+        }).catch(err => {
+          this.exception(err);
+        });
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight -
-        this.$refs.footer.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'auto';
     },
     methods: {
-      getList() {
-        this.$http.get('/addresses')
-          .then((res) => {
-            this.addressList = res.data;
-          });
-      },
       del(id, index) {
-        this.$dialog.confirm({message: '确定删除？'}).then(action => {
+        this.$dialog.confirm({ message: '确定删除？' }).then(() => {
           this.$http.delete('/addresses/' + id)
             .then((res) => {
-              this.addressList.splice(index, 1);
+              this.list.splice(index, 1);
               this.$toast('删除成功');
             })
             .catch((error) => {

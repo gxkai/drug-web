@@ -72,9 +72,9 @@ export default new Router({
       component: () => import('@/views/accounts/view')
     },
     {
-      path: '/accounts/edit',
+      path: '/accounts/info',
       name: '账户信息',
-      component: () => import('@/views/accounts/edit')
+      component: () => import('@/views/accounts/info')
     },
     // accounts_insurance
     {

@@ -1,7 +1,6 @@
 <template>
   <div class="account">
-    <div class="account-header"
-         id="header">
+    <div class="account-header">
       <van-uploader :after-read="onRead">
         <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"
              v-if="account!== null"/>
@@ -26,8 +25,7 @@
       </div>
     </div>
 
-    <div class="account-content"
-         :style="contentStyle">
+    <div class="account-content">
       <van-cell-group>
         <van-cell title="全部订单" value="我的订单" to="/orders" is-link/>
       </van-cell-group>
@@ -47,71 +45,88 @@
         </van-tabbar-item>
       </van-tabbar>
 
-      <van-tabbar :fixed="Boolean(false)" class="mt-l-20">
-        <van-tabbar-item icon="dingdan"
-                         class="van-hairline--right"
-                         to="/orders">
-          我的订单
-        </van-tabbar-item>
-        <van-tabbar-item icon="kefu-tianchong"
-                         class="van-hairline--right"
-                         to="/chats">
-          我的咨询
-        </van-tabbar-item>
-        <van-tabbar-item icon="dizhi1"
-                         class="van-hairline--right"
-                         to="/addresses">
-          地址
-        </van-tabbar-item>
-        <van-tabbar-item icon="xingxing2"
-                         to="/collects">
-          我的收藏
-        </van-tabbar-item>
-      </van-tabbar>
-      <van-tabbar :fixed="Boolean(false)">
-        <van-tabbar-item icon="purse"
-                         class="van-hairline--right"
-                         to="/orderRefunds">
-          退款
-        </van-tabbar-item>
-        <van-tabbar-item icon="wo"
-                         class="van-hairline--right"
-                         to="/accounts/edit">
-          账号信息
-        </van-tabbar-item>
-        <van-tabbar-item icon="jifen1"
-                         class="van-hairline--right"
-                         to="/points">
-          我的积分
-        </van-tabbar-item>
-        <van-tabbar-item icon="yibaoqia"
-                         to="/accounts/insurance">
-          医保信息
-        </van-tabbar-item>
-      </van-tabbar>
-      <van-row>
-        <van-col span="18">
-          <van-tabbar :fixed="Boolean(false)">
-            <van-tabbar-item icon="changjianwenti1"
-                             class="van-hairline--right"
-                             to="/faqs">
-              常见问题
-            </van-tabbar-item>
-            <van-tabbar-item icon="yijianfankui"
-                             class="van-hairline--right"
-                             to="/feedbacks/create">
-              意见反馈
-            </van-tabbar-item>
-            <van-tabbar-item icon="pingjia"
-                             class="van-hairline--right"
-                             to="/drugAppraises">
-              我的评价
-            </van-tabbar-item>
-          </van-tabbar>
-        </van-col>
-      </van-row>
+      <div class="account--grid">
+        <router-link
+          class="account--grid--item"
+          to="/orders"
+        >
+          <van-icon name="dingdan"></van-icon>
+          <div>我的订单</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/chats"
+        >
+          <van-icon name="kefu-tianchong"></van-icon>
+          <div>我的咨询</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/addresses"
+        >
+          <van-icon name="dizhi1"></van-icon>
+          <div>我的地址</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/collects"
+        >
+          <van-icon name="xingxing2"></van-icon>
+          <div>我的收藏</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/orderRefunds"
+        >
+          <van-icon name="purse"></van-icon>
+          <div>我的退款</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/accounts/info"
+        >
+          <van-icon name="wo"></van-icon>
+          <div>我的账号</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/points"
+        >
+          <van-icon name="jifen1"></van-icon>
+          <div>我的积分</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/accounts/insurance"
+        >
+          <van-icon name="yibaoqia"></van-icon>
+          <div>我的医保</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/drugAppraises"
+        >
+          <van-icon name="pingjia"></van-icon>
+          <div>我的评价</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/faqs"
+        >
+          <van-icon name="changjianwenti1"></van-icon>
+          <div>常见问题</div>
+        </router-link>
+        <router-link
+          class="account--grid--item"
+          to="/feedbacks/create"
+        >
+          <van-icon name="yijianfankui"></van-icon>
+          <div>意见反馈</div>
+        </router-link>
+      </div>
     </div>
     <van-tabbar
+      :fixed="Boolean(false)"
       :value="4"
       id="footer"
     >
@@ -174,6 +189,32 @@
 
   .account {
     background-color: #f5f5f5;
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    &--grid {
+      margin-top: 20px;
+      display: flex;
+      flex-flow: row wrap;
+      &--item {
+        flex: 0 0 25%;
+        height: 120px;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        border-top: 1PX solid #EBEBEB;
+        border-right: 1PX solid #EBEBEB;
+        &>div {
+          font-size: 25px;
+          margin-top: 5px;
+        }
+      }
+    }
+    &-content {
+      flex: 1;
+    }
     &-header {
       width: 720px;
       height: 369px;
@@ -236,11 +277,7 @@
         },
         account: this.$store.getters.account,
         show: true,
-        signIn: false,
-        contentStyle: {
-          overflow: 'auto',
-          height: 0
-        }
+        signIn: false
       };
     },
     created() {
@@ -263,7 +300,6 @@
       }
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight - document.getElementById('footer').clientHeight) + 'px';
     },
     methods: {
       onRead(file) {

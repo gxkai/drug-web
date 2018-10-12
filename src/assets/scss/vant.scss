@@ -19,6 +19,9 @@
   background-color: #13C1FE;
   height: 130px!important;
   line-height: 130px!important;
+  &:after {
+    border-bottom: none!important;
+  }
   &__text {
     font-size: 30px!important;
     color: white!important;

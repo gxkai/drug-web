@@ -1,83 +1,74 @@
 <template>
-  <div class="container">
+  <div class="about">
     <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
+    :title="$route.name"
+    left-arrow
+    @click-left="$router.go(-1)"
     />
-    <div class="about-img">
-      <div class="about-word">
-        E慧药致力于提供专业药品服务的第三方互联网交易服务平台，已经获得国家
-        食品药品监督管理局颁发的互联网交易服务资格证书。
+    <div
+    class="about--content"
+    >
+    <div class="about--content--bg">
+      <div class="about--content--text">
+        {{projectInfo.introduction}}
       </div>
-      <img src="../assets/image/qrcode.jpg"/>
+      <img src="../assets/image/qrcode.jpg" class="about--content--qrcode"/>
     </div>
-    <div class="about-footer">
-      <span>2017-2018 E慧药版权所有</span>
-      <span>江苏网进科技股份有限公司</span>
+    </div>
+    <div
+      class="about--footer">
+      <div>{{projectInfo.copyright}}</div>
+      <div>{{projectInfo.company}}</div>
     </div>
   </div>
 </template>
+<style scoped type="text/less" lang="less">
+  .about {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    background-color: #f5f5f5;
+    &--content {
+      flex: 1;
+      overflow: auto;
+      &--text {
+        padding: 20px 40px;
+        color: white;
+        font-size: 25px;
+        font-weight: 200;
+      }
+      &--qrcode {
+        position: absolute;
+        height: 250px;
+        width: 250px;
+        left: calc((720px - 250px)/2);
+        bottom: -100px;
+      }
+      &--bg {
+        position: relative;
+        background-color: #13C1FE;
+        height: 400px;
+        border-bottom-left-radius: 300px ;
+        border-bottom-right-radius: 300px ;
+      }
+    }
+    &--footer {
+      padding: 20px;
+      &>div {
+        text-align: center;
+        font-size: 25px;
+        color: #999999;
+      }
+    }
+  }
+</style>
 <script>
   export default {
     name: 'about',
-    data() {
-      return {};
-    },
-    created() {
+    computed: {
+      projectInfo() {
+        return this.$store.state.projectInfo;
+      }
     }
   };
 </script>
-<style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
-  }
-
-  .container {
-    width: 720px;
-    height: 100vh;
-  }
-
-  .about-img {
-    height: 425px;
-    background: rgba(19, 193, 254, 1);
-    -webkit-border-radius: 0 0 285px 285px;
-    display: block;
-  }
-
-  .about-word {
-    display: block;
-    margin: 0 auto;
-    margin-top: 2px;
-    padding: 50px;
-    width: 620px;
-    font-size: 28px;
-    color: rgba(255, 255, 255, 1);
-  }
-
-  .about-footer {
-    position: fixed;
-    bottom: 0;
-    padding: 20px;
-  }
-
-  .about-footer span {
-    display: block;
-    width: 720px;
-    text-align: center;
-    font-size: 24px;
-  }
-
-  .about-img img {
-    position: fixed;
-    top: 418px;
-    left: 231px;
-    width: 100%;
-    width: 259px;
-    height: 229px;
-  }
-</style>

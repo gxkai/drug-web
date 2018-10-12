@@ -1,87 +1,85 @@
 <template>
-  <div class="container">
+  <div class="version">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
     />
-
-    <div class="version-title">E慧药</div>
-    <div class="version-v">版本:<span class="text-l-25">{{version}}</span></div>
-    <div class="version-fixed">
-      <span>2017-2018 E慧药版权所有</span>
-      <span>昆山网进科技股份有限公司</span>
+    <div
+      class="version--content"
+    >
+      <div class="version--name">
+        {{version.name}}
+      </div>
+      <div class="version--number">
+        {{`版本:&nbsp;&nbsp;v${version.number}`}}
+      </div>
     </div>
-
+    <div
+      class="version--footer">
+      <div>{{projectInfo.copyright}}</div>
+      <div>{{projectInfo.company}}</div>
+    </div>
   </div>
 </template>
+<style scoped type="text/less" lang="less">
+  .version {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    background-color: #f5f5f5;
+    &--content {
+      flex: 1;
+      overflow: auto;
+    }
+    &--name {
+      font-size:72px;
+      font-family:HiraginoSansGB-W3;
+      font-weight:normal;
+      color:rgba(19,193,254,1);
+      text-align: center;
+      margin-top: 150px;
+    }
+    &--number {
+      font-size:26px;
+      font-family:HiraginoSansGB-W3;
+      font-weight:normal;
+      color:rgba(153,153,153,1);
+      text-align: center;
+    }
+    &--footer {
+      padding: 20px;
+      &>div {
+        text-align: center;
+        font-size: 25px;
+        color: #999999;
+      }
+    }
+  }
+</style>
 <script>
   export default {
     data() {
       return {
-        version: '0.0'
+        version: {
+          name: '药品服务平台',
+          number: '0.0'
+        }
       };
     },
-    created: function () {
-      this.getVersion();
-    },
-    methods: {
-      getVersion() {
-        this.$http.get('/version')
-          .then((res) => {
-            this.version = res.data;
-          });
+    computed: {
+      projectInfo() {
+        return this.$store.state.projectInfo;
       }
+    },
+    created() {
+      this.$http.get('/version')
+        .then((res) => {
+          this.version.number = res.data;
+        })
+        .catch(err => {
+          this.exception(err);
+        });
     }
   };
 </script>
-<style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
-  }
-
-  .container {
-    width: 720px;
-    height: 100vh;
-  }
-
-  .version-title {
-    font-size: 72px;
-    color: rgba(19, 193, 254, 1);
-    line-height: 88px;
-    margin-top: 268px;
-    display: block;
-    width: 720px;
-    text-align: center;
-
-  }
-
-  .version-v {
-    display: block;
-    margin-top: 24px;
-    width: 720px;
-    text-align: center;
-    font-size: 26px;
-    color: rgba(153, 153, 153, 1);
-    line-height: 88px;
-  }
-
-  .version-fixed {
-    position: fixed;
-    bottom: 20px;
-    left: 0;
-  }
-
-  .version-fixed span {
-    display: block;
-    width: 720px;
-    text-align: center;
-    font-size: 25px;
-  }
-
-
-</style>
