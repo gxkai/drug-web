@@ -59,8 +59,4 @@
 </script>
 
 <style scoped type="text/less" lang="less">
-  .exchange_record {
-    width: 720px;
-    background-color: #f5f5f5;
-  }
 </style>

@@ -6,11 +6,6 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '/drugs/search',
-      name: '药品搜索',
-      component: () => import('@/views/drugs/search')
-    },
-    {
       path: '/error',
       name: '错误页面',
       component: () => import('@/components/error')

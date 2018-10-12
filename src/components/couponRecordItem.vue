@@ -31,7 +31,7 @@
     background-color: white;
     display: flex;
     flex-direction: row;
-    margin-bottom: 15px;
+    margin-top: 20px;
     &-image {
       width: 258px;
       display: flex;
