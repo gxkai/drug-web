@@ -144,7 +144,7 @@
     </div>
     <van-goods-action
       ref="footer">
-      <van-goods-action-mini-btn icon="chat" text="咨询" :to="{path:'/chats/view',query:{shopId:shopDrugSpec.shopId}}"/>
+      <!--<van-goods-action-mini-btn icon="chat" text="咨询" :to="{path:'/chats/view',query:{shopId:shopDrugSpec.shopId}}"/>-->
       <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
       <van-goods-action-mini-btn icon="shoucang" text="收藏" :style="{color: collected === true? 'red': ''}"
       @click="onCollect"/>

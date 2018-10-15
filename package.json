@@ -28,6 +28,7 @@
     "vue-carousel-3d": "^0.1.23",
     "vue-concise-slider": "^3.2.1",
     "vue-router": "^3.0.1",
+    "vue-select": "^2.5.1",
     "vue-touch": "^2.0.0-beta.4",
     "vuex": "^3.0.1"
   },

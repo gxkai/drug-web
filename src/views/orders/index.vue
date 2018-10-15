@@ -41,10 +41,17 @@
           <new-order-item
             :order.sync="order"
             v-for="(order, key) in list"
-            :key="key"></new-order-item>
+            :key="key"
+            @onQrcode = "onQrcode"
+          ></new-order-item>
           <new-no-data v-show="finished === true"></new-no-data>
         </van-list>
       </van-pull-refresh>
+      <van-popup
+        v-model="popupVisible"
+        position="top">
+        <img v-lazy="popupUrl" class="orders-qr_code">
+      </van-popup>
     </div>
   </new-layout>
 </template>
@@ -61,6 +68,8 @@
         pageSize: 15,
         list: [],
         show: false,
+        popupUrl: '',
+        popupVisible: false,
         keyword: '',
         state: this.$route.query.state || ''
       };
@@ -91,6 +100,10 @@
     mounted() {
     },
     methods: {
+      onQrcode(order) {
+        this.popupUrl = this.getQrCodeURL(order.id);
+        this.popupVisible = true;
+      },
       onCancel() {
         this.keyword = '';
         this.show = false;
@@ -130,6 +143,11 @@
 <style scoped type="text/less" lang="less">
   .orders {
     background-color: #f5f5f5;
+    &-qr_code {
+      width: 500px;
+      height: 500px;
+      margin: 0 110px;
+    }
     &__header {
       &__search {
         height: 130px;

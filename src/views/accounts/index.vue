@@ -18,11 +18,11 @@
       <van-icon name="setting"
                 class="setting"
                 @click="$router.push('/setting')"></van-icon>
-      <div class="account-header-sign_in"
-           v-text="signIn === true ? '已签到' : '每日签到'"
-           :style="{backgroundColor: signIn === true ? 'Pink': ''}"
-           @click="$router.push('/points/signIn')">
-      </div>
+      <!--<div class="account-header-sign_in"-->
+           <!--v-text="signIn === true ? '已签到' : '每日签到'"-->
+           <!--:style="{backgroundColor: signIn === true ? 'Pink': ''}"-->
+           <!--@click="$router.push('/points/signIn')">-->
+      <!--</div>-->
     </div>
 
     <div class="account-content">
@@ -53,13 +53,13 @@
           <van-icon name="dingdan"></van-icon>
           <div>我的订单</div>
         </router-link>
-        <router-link
-          class="account--grid--item"
-          to="/chats"
-        >
-          <van-icon name="kefu-tianchong"></van-icon>
-          <div>我的咨询</div>
-        </router-link>
+        <!--<router-link-->
+          <!--class="account&#45;&#45;grid&#45;&#45;item"-->
+          <!--to="/chats"-->
+        <!--&gt;-->
+          <!--<van-icon name="kefu-tianchong"></van-icon>-->
+          <!--<div>我的咨询</div>-->
+        <!--</router-link>-->
         <router-link
           class="account--grid--item"
           to="/addresses"
@@ -76,30 +76,23 @@
         </router-link>
         <router-link
           class="account--grid--item"
-          to="/orderRefunds"
-        >
-          <van-icon name="purse"></van-icon>
-          <div>我的退款</div>
-        </router-link>
-        <router-link
-          class="account--grid--item"
           to="/accounts/info"
         >
           <van-icon name="wo"></van-icon>
           <div>我的账号</div>
         </router-link>
-        <router-link
-          class="account--grid--item"
-          to="/points"
-        >
-          <van-icon name="jifen1"></van-icon>
-          <div>我的积分</div>
-        </router-link>
+        <!--<router-link-->
+          <!--class="account&#45;&#45;grid&#45;&#45;item"-->
+          <!--to="/points"-->
+        <!--&gt;-->
+          <!--<van-icon name="jifen1"></van-icon>-->
+          <!--<div>我的积分</div>-->
+        <!--</router-link>-->
         <router-link
           class="account--grid--item"
           to="/accounts/insurance"
         >
-          <van-icon name="yibaoqia"></van-icon>
+          <van-icon name="yibao-" color="#ff8400"></van-icon>
           <div>我的医保</div>
         </router-link>
         <router-link
@@ -208,7 +201,7 @@
         border-right: 1PX solid #EBEBEB;
         &>div {
           font-size: 25px;
-          margin-top: 5px;
+          margin-top: 10px;
         }
       }
     }

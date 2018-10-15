@@ -70,9 +70,9 @@
         <div @click="linkToShopDrugs(shopId)">
           全部商品
         </div>
-        <div @click="linkToChatView(shopId)">
-          在线咨询
-        </div>
+        <!--<div @click="linkToChatView(shopId)">-->
+          <!--在线咨询-->
+        <!--</div>-->
     </div>
   </div>
 </template>
@@ -215,7 +215,7 @@
       background-color: white;
       display: flex;
       &>div {
-        width: 240px;
+        flex: 0 0 50%;
         height: 100px;
         line-height: 100px;
         text-align: center;

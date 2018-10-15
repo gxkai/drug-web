@@ -60,13 +60,6 @@
              :style="activeButton">
           我要付款
         </div>
-        <div class="order_item-content-button"
-             @click="onRefund()"
-             v-if="(order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED')
-                    && refundVerification(order.createdDate)"
-             :style="activeButton">
-          申请退款
-        </div>
         <div class="order_item-content-button order_item-content-button-receiveType"
         v-if="order.state == 'TO_RECEIVED'"
         :style="activeButton"
@@ -80,7 +73,7 @@
               扫码确认
             </div>
             <div class="order_item-content-button-receiveType-list-item"
-                 @click="popupVisible = true"
+                 @click="$emit('onQrcode', order)"
                  v-if="order.deliveryType == 'SELF'">
               收货二维码
             </div>
@@ -109,11 +102,6 @@
 
       </div>
     </div>
-    <van-popup
-    v-model="popupVisible"
-    position="top">
-      <img :src="getQrCodeURL(order.id)" class="order_item-qr_code">
-    </van-popup>
   </div>
 </template>
 <style scoped type="text/less" lang="less">
@@ -262,11 +250,6 @@
         }
       }
     }
-    &-qr_code {
-      width: 500px;
-      height: 500px;
-      margin: 0 110px;
-    }
   }
 </style>
 
@@ -338,9 +321,6 @@
       onAppraise() {
         this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
-      onRemind() {
-        this.$toast('提醒发货成功!');
-      },
       onConfirm() {
         this.$http.put('/orders/' + this.order.id + '/complete').then(res => {
           if (this.order.type === 'HOSPITAL') {
@@ -356,165 +336,3 @@
     }
   };
 </script>
-
-<!--<style scoped>-->
-
-  <!--/*滑块样式*/-->
-  <!--.slide-content {-->
-    <!--width: 720px;-->
-    <!--height: 215px;-->
-    <!--background: rgba(246, 246, 246, 1);-->
-    <!--display: flex;-->
-    <!--margin-bottom: 20px;-->
-    <!--padding-left: 40px;-->
-    <!--padding-bottom: 20px;-->
-  <!--}-->
-
-  <!--.slide-content .image {-->
-    <!--width: 200px;-->
-    <!--background: rgba(255, 255, 255, 1);-->
-    <!--box-shadow: 1px 1px 1px rgba(102, 102, 102, 0.3);-->
-    <!--align-self: center;-->
-    <!--position: relative;-->
-  <!--}-->
-
-  <!--.slide-content .image img {-->
-    <!--width: 100%;-->
-  <!--}-->
-
-  <!--.chu {-->
-    <!--position: absolute;-->
-    <!--width: 42px;-->
-    <!--height: 24px;-->
-    <!--background: rgba(43, 178, 146, 1);-->
-    <!--font-size: 18px;-->
-    <!--font-family: HiraginoSansGB-W3;-->
-    <!--color: rgba(255, 255, 255, 1);-->
-    <!--text-align: center;-->
-    <!--line-height: 20px;-->
-    <!--border-radius: 21px/12px;-->
-  <!--}-->
-
-  <!--.feichu {-->
-    <!--position: absolute;-->
-    <!--width: 60px;-->
-    <!--height: 30px;-->
-    <!--background: rgba(191, 191, 191, 1);-->
-    <!--font-size: 16px;-->
-    <!--font-family: HiraginoSansGB-W3;-->
-    <!--color: rgba(102, 102, 102, 1);-->
-    <!--text-align: center;-->
-    <!--line-height: 30px;-->
-    <!--border-radius: 30px/15px;-->
-  <!--}-->
-
-  <!--.slide-content .text {-->
-    <!--padding-left: 20px;-->
-  <!--}-->
-
-  <!--.slide-content .text .top {-->
-    <!--height: 105px;-->
-    <!--width: 460px;-->
-    <!--display: flex;-->
-    <!--flex-direction: column;-->
-    <!--justify-content: center;-->
-  <!--}-->
-
-  <!--.slide-content .text .top .name {-->
-    <!--font-size: 30px;-->
-    <!--font-family: HiraginoSansGB-W3;-->
-    <!--color: rgba(51, 51, 51, 1);-->
-  <!--}-->
-
-  <!--.slide-content .text .top .spec {-->
-    <!--font-size: 30px;-->
-    <!--font-family: HiraginoSansGB-W3;-->
-    <!--color: rgba(153, 153, 153, 1);-->
-  <!--}-->
-
-  <!--.slide-content .text .bottom {-->
-    <!--height: 110px;-->
-    <!--width: 460px;-->
-    <!--display: flex;-->
-    <!--flex-direction: row;-->
-    <!--justify-content: space-between;-->
-  <!--}-->
-
-  <!--.slide-content .text .bottom .price {-->
-    <!--font-size: 30px;-->
-    <!--font-family: HiraginoSansGB-W3;-->
-    <!--color: rgba(255, 0, 0, 1);-->
-    <!--align-self: center;-->
-  <!--}-->
-
-  <!--.slide-content .text .bottom .quantity {-->
-    <!--display: flex;-->
-    <!--flex-direction: column;-->
-    <!--justify-content: space-around;-->
-    <!--padding-right: 10px;-->
-  <!--}-->
-
-  <!--.slide-content .text .bottom .quantity div:nth-child(1) {-->
-    <!--align-self: flex-end;-->
-    <!--font-size: 30px;-->
-    <!--font-family: HiraginoSansGB-W3;-->
-    <!--color: rgba(153, 153, 153, 1);-->
-  <!--}-->
-
-  <!--.item-bottom {-->
-    <!--display: flex;-->
-    <!--flex-direction: column;-->
-    <!--align-items: flex-end;-->
-    <!--width: 720px;-->
-    <!--background: rgba(255, 255, 255, 1);-->
-    <!--justify-content: space-around;-->
-  <!--}-->
-
-  <!--.item-bottom-price {-->
-    <!--display: flex;-->
-    <!--justify-content: flex-end;-->
-    <!--margin-bottom: 10px;-->
-  <!--}-->
-
-  <!--.item-bottom-price > span:nth-child(1) {-->
-    <!--font-size: 30px;-->
-    <!--font-family: HiraginoSansGB-W3;-->
-    <!--color: rgba(51, 51, 51, 1);-->
-    <!--margin-right: 20px;-->
-  <!--}-->
-
-  <!--.item-bottom-buttons {-->
-    <!--width: 720px;-->
-    <!--display: flex;-->
-    <!--justify-content: flex-end;-->
-    <!--flex-wrap: wrap;-->
-  <!--}-->
-
-  <!--.item-bottom-buttons >div {-->
-    <!--background: white;-->
-    <!--border-radius: 20px;-->
-    <!--font-size: 25px;-->
-    <!--color: rgba(102, 102, 102, 1);-->
-    <!--border: 1px solid #757575;-->
-    <!--margin: 10px;-->
-    <!--padding: 5px 15px;-->
-  <!--}-->
-
-
-  <!--.item-bottom-button-active {-->
-    <!--color: rgb(19, 193, 254) !important;-->
-    <!--border: 1px solid rgb(19, 193, 254) !important;-->
-  <!--}-->
-
-  <!--.item1 {-->
-    <!--width: 720px;-->
-  <!--}-->
-
-  <!--.ic-yaodian {-->
-    <!--font-size: 36px;-->
-  <!--}-->
-
-  <!--.item1 {-->
-    <!--border-bottom: 6px solid #F6F6F6;-->
-  <!--}-->
-<!--</style>-->

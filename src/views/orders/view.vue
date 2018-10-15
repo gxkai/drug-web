@@ -1,114 +1,117 @@
 <template>
-  <div class="order_view">
+  <new-layout
+    class="order_view"
+    center-color="white"
+  >
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
-      ref="header"
+      slot="top"
     />
-    <div class="order_view-state"
-    :style="stateStyle">
-      <div class="order_view-state_name" v-text="transformOrderStateSec(order.state, order.refundState, this)">
-      </div>
-      <new-count-down :endTime="order.lastModifiedDate" durationMin='15' durationDay="100"
-                      class="order_view-state_time"
-                      v-show="order.state === 'TO_CHECK' || order.state === 'TO_PAY'"/>
-    </div>
-    <div class="order_view-address"
-    v-if="order.deliveryType === 'DELIVERY'">
-      <div class="order_view-address-left">
-        <i class="iconfont ic-address"></i>
-      </div>
-      <div class="order_view-address-right">
-        <div class="order_view-address-right_consignee">
-          收货人：{{order.consignee}} {{order.phone}}
+    <div slot="center">
+      <div class="order_view-state"
+           :style="stateStyle">
+        <div class="order_view-state_name" v-text="transformOrderStateSec(order.state, order.refundState, this)">
         </div>
-        <div class="order_view-address-right_address">
-          收货地址：{{order.address}}
+        <new-count-down :endTime="order.lastModifiedDate" durationMin='15'
+                        class="order_view-state_time"
+                        v-show="order.state === 'TO_CHECK' || order.state === 'TO_PAY'"/>
+      </div>
+      <div class="order_view-address"
+           v-if="order.deliveryType === 'DELIVERY'">
+        <div class="order_view-address-left">
+          <i class="iconfont ic-address"></i>
+        </div>
+        <div class="order_view-address-right">
+          <div class="order_view-address-right_consignee">
+            收货人：{{order.consignee}} {{order.phone}}
+          </div>
+          <div class="order_view-address-right_address">
+            收货地址：{{order.address}}
+          </div>
         </div>
       </div>
+      <new-order-view-item :order.sync="order"></new-order-view-item>
+      <div class="order_view-amount">
+        <div>
+          <span>商品总价</span>
+          <span>&yen;{{order.totalAmount||'0.0'}}</span>
+        </div>
+        <div>
+          <span>医保扣除</span>
+          <span>&yen;{{order.medicaidAmount||'0.0'}}</span>
+        </div>
+        <div>
+          <span>优惠券扣除</span>
+          <span>&yen;{{order.couponAmount||'0.0'}}</span>
+        </div>
+        <div>
+          <span>需付款</span>
+          <span class="text-red">&yen;{{order.payAmount||'0.0'}}</span>
+        </div>
+      </div>
+      <div class="order_view-deal">
+        <div class="order_view-deal-number">
+          订单编号：{{order.number}}
+        </div>
+        <div class="order_view-deal-pay_number">
+          支付流水号：{{order.payNumber||'无'}}
+        </div>
+        <div class="order_view-deal-created_date">
+          创建时间：{{timeConvert(order.createdDate)}}
+        </div>
+      </div>
+      <div class="order_view-buttons">
+        <div class="order_view-button"
+             @click="onCancel()"
+             v-if="order.state == 'TO_PAY'">
+          取消订单
+        </div>
+        <div class="order_view-button"
+             @click="onPay()"
+             v-if="order.state == 'TO_PAY'"
+             :style="activeButton">
+          我要付款
+        </div>
+        <div class="order_view-button"
+             @click="onConfirm()"
+             v-if="order.state == 'TO_RECEIVED'"
+             :style="activeButton">
+          确认收货
+        </div>
+        <div class="order_view-button"
+             @click="popupVisible = true"
+             v-if="order.deliveryType == 'SELF' && (order.state == 'TO_RECEIVED')">
+          收货二维码
+        </div>
+        <div class="order_view-button"
+             v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED')"
+             @click="linkToQRCode">
+          收货扫码
+        </div>
+        <div class="order_view-button"
+             @click="onDelivery()"
+             v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
+          查看配送
+        </div>
+        <div class="order_view-button"
+             @click="onAppraise()"
+             v-if="order.state == 'TO_APPRAISE'">
+          我要评价
+        </div>
+        <div @click="linkToTakeDrug(order.id)"
+             v-if="order.state == 'TO_RECEIVED' && order.type === 'HOSPITAL'">取药地址
+        </div>
+      </div>
+      <van-popup
+        v-model="popupVisible"
+        position="top"
+      >
+        <img v-lazy="getQrCodeURL(order.id)" class="order_view-qr_code">
+      </van-popup>
     </div>
-    <new-order-view-item :order.sync="order"></new-order-view-item>
-    <div class="order_view-amount">
-      <div>
-      <span>商品总价</span>
-      <span>&yen;{{order.totalAmount||'0.0'}}</span>
-      </div>
-      <div>
-      <span>医保扣除</span>
-      <span>&yen;{{order.medicaidAmount||'0.0'}}</span>
-      </div>
-      <div>
-        <span>优惠券扣除</span>
-        <span>&yen;{{order.couponAmount||'0.0'}}</span>
-      </div>
-      <div>
-      <span>需付款</span>
-      <span class="text-red">&yen;{{order.payAmount||'0.0'}}</span>
-      </div>
-    </div>
-    <div class="order_view-deal">
-      <div class="order_view-deal-number">
-        订单编号：{{order.number}}
-      </div>
-      <div class="order_view-deal-pay_number">
-        支付流水号：{{order.payNumber||'无'}}
-      </div>
-      <div class="order_view-deal-created_date">
-        创建时间：{{timeConvert(order.createdDate)}}
-      </div>
-    </div>
-    <div class="order_view-buttons">
-      <div class="order_view-button"
-           @click="onCancel()"
-           v-if="order.state == 'TO_PAY'">
-        取消订单
-      </div>
-      <div class="order_view-button"
-           @click="onPay()"
-           v-if="order.state == 'TO_PAY'"
-           :style="activeButton">
-        我要付款
-      </div>
-      <div class="order_view-button"
-           @click="onRefund()"
-           v-if="(order.state == 'TO_CHECK' || order.state == 'TO_DELIVERY' || order.state == 'TO_RECEIVED' || order.state =='TO_APPRAISE' ||order.state == 'COMPLETED')
-                && refundVerification(order.createdDate)"
-           :style="activeButton">
-        申请退款
-      </div>
-      <div class="order_view-button"
-           @click="onConfirm()"
-           v-if="order.state == 'TO_RECEIVED'"
-           :style="activeButton">
-        确认收货
-      </div>
-      <div class="order_view-button"
-           @click="popupVisible = true"
-           v-if="order.deliveryType == 'SELF' && (order.state == 'TO_RECEIVED')">
-        收货二维码
-      </div>
-      <div class="order_view-button"
-           v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED')"
-           @click="linkToQRCode">
-        收货扫码
-      </div>
-      <div class="order_view-button"
-           @click="onDelivery()"
-           v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
-        查看配送
-      </div>
-      <div class="order_view-button"
-           @click="onAppraise()"
-           v-if="order.state == 'TO_APPRAISE'">
-        我要评价
-      </div>
-      <div @click="linkToTakeDrug(order.id)"
-           v-if="order.state == 'TO_RECEIVED' && order.type === 'HOSPITAL'">取药地址
-      </div>
-
-    </div>
-  </div>
+  </new-layout>
 </template>
 
 <style scoped type="text/less" lang="less">
@@ -158,7 +161,7 @@
     &-deal {
       padding: 20px;
       background-color: #f5f5f5;
-      &>div {
+      & > div {
         padding: 5px;
         font-size: 25px;
       }
@@ -167,12 +170,12 @@
       width: 100%;
       background-color: #f5f5f5;
       margin: 20px 0;
-      &>div {
+      & > div {
         display: flex;
         justify-content: space-between;
         padding: 5px 20px;
         font-size: 25px;
-        &>span {
+        & > span {
           font-size: 25px;
         }
       }
@@ -192,6 +195,11 @@
       font-size: 25px;
       margin: 5px;
     }
+    &-qr_code {
+      width: 500px;
+      height: 500px;
+      margin: 0 110px;
+    }
   }
 
 </style>
@@ -202,6 +210,7 @@
       return {
         title: '订单详情',
         orderId: this.$route.query.orderId,
+        popupVisible: false,
         order: {},
         activeButton: {
           color: '#00ADB3',
@@ -251,8 +260,7 @@
       };
     },
     components: {},
-    computed: {
-    },
+    computed: {},
     created() {
       this.initData();
     },
@@ -310,9 +318,6 @@
       onAppraise() {
         this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
-      onRemind() {
-        this.$toast('提醒发货成功!');
-      },
       onConfirm() {
         this.$http.put('/orders/' + this.order.id + '/complete').then(res => {
           this.order.state = 'TO_APPRAISE';
@@ -324,192 +329,5 @@
     }
   };
 </script>
-<style scoped type="text/less" lang="less">
-  .qr_code {
-    display: flex;
-    justify-content: center;
-    img {
-      width: 400px;
-      height: 400px;
-    }
-  }
-</style>
-
-<!--<style scoped>-->
-<!--.order-state {-->
-<!--width: 720px;-->
-<!--height: 162px;-->
-<!--background: rgba(19, 193, 254, 1);-->
-<!--display: flex;-->
-<!--}-->
-
-<!--.order-state > div:nth-child(1) {-->
-<!--width: calc(720px - 159px);-->
-<!--height: 162px;-->
-<!--}-->
-
-<!--.order-state > div:nth-child(1) > div:nth-child(1) {-->
-<!--margin-top: 48px;-->
-<!--}-->
-
-<!--.order-state > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) {-->
-<!--font-size: 28px;-->
-<!--color: rgba(245, 245, 245, 1);-->
-<!--margin-left: 80px;-->
-<!--}-->
-
-<!--.order-state > div:nth-child(1) > div:nth-child(2) > span:nth-child(1) {-->
-<!--font-size: 24px;-->
-<!--color: rgba(245, 245, 245, 1);-->
-<!--margin-left: 80px;-->
-<!--}-->
-
-<!--.order-state > div:nth-child(2) {-->
-<!--width: 159px;-->
-<!--height: 162px;-->
-<!--}-->
-
-<!--.order-state > div:nth-child(2) i {-->
-<!--font-size: 100px;-->
-<!--color: white;-->
-<!--margin-top: 31px;-->
-<!--}-->
-
-<!--.order-address {-->
-<!--width: 720px;-->
-<!--height: 120px;-->
-<!--background: white;-->
-<!--display: flex;-->
-<!--align-items: center;-->
-<!--padding: 10px;-->
-<!--}-->
-
-<!--.order-address > div:nth-child(2) {-->
-<!--margin-left: 20px;-->
-<!--}-->
-
-<!--.ic-weizhi {-->
-<!--font-size: 40px;-->
-<!--}-->
-
-<!--/*.order-address > div:nth-child(2) {*/-->
-<!--/*width: calc(720px - 60px);*/-->
-<!--/*height: 120px;*/-->
-<!--/*}*/-->
-
-<!--/*.order-address > div:nth-child(2) > div:nth-child(1) {*/-->
-<!--/*margin-top: 20px;*/-->
-<!--/*}*/-->
-
-<!--/*.order-address > div:nth-child(2) > div:nth-child(1) > span:nth-child(1) {*/-->
-<!--/*font-size: 20px;*/-->
-<!--/*font-family: HiraginoSansGB-W3;*/-->
-<!--/*color: rgba(69, 69, 69, 1);*/-->
-<!--/*}*/-->
-
-<!--/*.order-address > div:nth-child(2) > div:nth-child(2) > span:nth-child(1) {*/-->
-<!--/*font-size: 20px;*/-->
-<!--/*font-family: HiraginoSansGB-W3;*/-->
-<!--/*color: rgba(51, 51, 51, 1);*/-->
-<!--/*}*/-->
-
-<!--.order-price div {-->
-<!--display: flex;-->
-<!--justify-content: space-between;-->
-<!--padding: 10px 14px;-->
-<!--}-->
-
-<!--.order-price > div:nth-child(1) > span {-->
-<!--font-size: 25px;-->
-<!--font-family: HiraginoSansGB-W3;-->
-<!--color: rgba(153, 153, 153, 1);-->
-<!--}-->
-
-<!--.order-price > div:nth-child(2) > span {-->
-<!--font-size: 25px;-->
-<!--font-family: HiraginoSansGB-W3;-->
-<!--color: rgba(153, 153, 153, 1);-->
-<!--}-->
-
-<!--.order-price > div:nth-child(3) > span {-->
-<!--font-size: 25px;-->
-<!--font-family: HiraginoSansGB-W3;-->
-<!--color: rgba(51, 51, 51, 1);-->
-<!--}-->
-
-<!--.order-price > div:nth-child(4) > span:nth-child(1) {-->
-<!--font-size: 25px;-->
-<!--font-family: HiraginoSansGB-W3;-->
-<!--color: rgba(51, 51, 51, 1);-->
-<!--}-->
-
-<!--.order-price > div:nth-child(4) > span:nth-child(2) {-->
-<!--font-size: 25px;-->
-<!--font-family: HiraginoSansGB-W3;-->
-<!--color: rgba(255, 0, 0, 1);-->
-<!--}-->
-
-<!--.order-price > div:nth-child(5) > span:nth-child(1) {-->
-<!--font-size: 25px;-->
-<!--font-family: HiraginoSansGB-W3;-->
-<!--color: rgba(51, 51, 51, 1);-->
-<!--}-->
-
-<!--.order-price > div:nth-child(5) > span:nth-child(2) {-->
-<!--font-size: 25px;-->
-<!--font-family: HiraginoSansGB-W3;-->
-<!--color: rgba(255, 0, 0, 1);-->
-<!--}-->
-
-<!--.order-number {-->
-<!--width: 720px;-->
-<!--background: rgba(245, 245, 245, 1);-->
-<!--font-size: 20px;-->
-<!--font-family: HiraginoSansGB-W3;-->
-<!--color: rgba(102, 102, 102, 1);-->
-<!--margin-top: 10px;-->
-<!--padding: 10px;-->
-<!--}-->
-
-<!--.order-number div {-->
-<!--padding: 10px;-->
-<!--font-size: 25px;-->
-<!--}-->
-
-<!--.order-buttons {-->
-<!--display: flex;-->
-<!--justify-content: flex-end;-->
-<!--margin-top: 30px;-->
-<!--padding-right: 20px;-->
-<!--}-->
-
-<!--.item-bottom-buttons button {-->
-<!--appearance: none !important;-->
-<!--width: 118px;-->
-<!--height: 40px;-->
-<!--background: white;-->
-<!--border-radius: 20px;-->
-<!--font-size: 20px;-->
-<!--color: rgba(102, 102, 102, 1);-->
-<!--outline: none;-->
-<!--display: inline-block;-->
-<!-- -webkit-appearance: none !important;-->
-<!--border: none;-->
-<!--border: 1PX solid #757575;-->
-<!--}-->
-
-<!--.item-bottom-button-active {-->
-<!--color: rgb(19, 193, 254) !important;-->
-<!--border: 1PX solid rgb(19, 193, 254) !important;-->
-<!--}-->
-
-<!--.ic-weizhi {-->
-<!--font-size: 50px;-->
-<!--}-->
-
-<!--.div-icon i{line-height: 40px;line-height:162px;}-->
-<!--.text-red{color: red;}-->
-<!--.ic-address{font-size: 48px;}-->
-<!--</style>-->
 
 

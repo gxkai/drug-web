@@ -1,11 +1,14 @@
 <template>
-  <div class="shop_drugs">
+  <new-layout class="shop_drugs">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
+      slot="top"
     />
-    <div class="shop_drugs-content">
+    <div class="shop_drugs-content"
+    slot="center"
+    >
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-model="loading"
@@ -28,23 +31,18 @@
         </van-list>
       </van-pull-refresh>
     </div>
-  </div>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   .shop_drugs {
-    background-color: #f5f5f5;
-    height: 100vh;
-    display: flex;
-    flex-flow: column;
     &-content {
-      flex: 1;
     }
     &-list {
       &-item {
         display: flex;
         align-items: center;
         background-color: white;
-        margin-bottom: 20px;
+        margin-top: 20px;
         &-left {
           padding: 20px;
           position: relative;

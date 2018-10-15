@@ -97,9 +97,18 @@
     name: 'drugTypes',
     data() {
       return {
-        list: [],
-        active: 0
+        list: []
       };
+    },
+    computed: {
+      active: {
+        get() {
+          return this.$store.state.drugTypeActive;
+        },
+        set(newValue) {
+          this.$store.state.drugTypeActive = newValue;
+        }
+      }
     },
     components: {
     },

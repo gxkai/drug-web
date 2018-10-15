@@ -43,9 +43,12 @@
         <div class="home__content__entry__item"
              @click="$router.push('/rxs')"
         >
-          <img src="../assets/image/home/homefirst.png"
-               class="home__content__entry__item--image"
-          />
+          <!--<img src="../assets/image/home/homefirst.png"-->
+               <!--class="home__content__entry__item&#45;&#45;image"-->
+          <!--/>-->
+          <div class="home__content__entry__item--icon">
+            <van-icon name="chufang-" color="#f72250" size="5em" class="home__content__entry__item--icon--chufang"></van-icon>
+          </div>
           <div
             class="home__content__entry__item--name"
           >我的处方
@@ -53,9 +56,9 @@
         </div>
         <div class="home__content__entry__item"
              @click="$router.push('/repositoryTypes')">
-          <img src="../assets/image/home/hometwo.png"
-               class="home__content__entry__item--image"
-          />
+          <div class="home__content__entry__item--icon">
+            <van-icon name="zhishiku-" color="#11c6fe" size="5em" class="home__content__entry__item--icon--chufang"></van-icon>
+          </div>
           <div
             class="home__content__entry__item--name"
           >知识库
@@ -64,21 +67,23 @@
         <div class="home__content__entry__item"
              @click="$router.push('/shops')"
         >
-          <img src="../assets/image/home/homethree.png"
-               class="home__content__entry__item--image"
-          />
+          <div class="home__content__entry__item--icon">
+            <van-icon name="yaofang-" color="#2bb292" size="5em" class="home__content__entry__item--icon--chufang"></van-icon>
+          </div>
           <div
             class="home__content__entry__item--name"
           >药房
           </div>
         </div>
-        <div class="home__content__entry__item">
-          <img src="../assets/image/home/homefor.png"
-               class="home__content__entry__item--image"
-          />
+        <div class="home__content__entry__item"
+             @click="$router.push('/accounts/insurance')"
+        >
+          <div class="home__content__entry__item--icon">
+            <van-icon name="yibao-" color="#ff8400" size="5em" class="home__content__entry__item--icon--chufang"></van-icon>
+          </div>
           <div
             class="home__content__entry__item--name"
-          >移动医疗
+          >我的医保
           </div>
         </div>
       </div>
@@ -361,6 +366,17 @@
             width: 90px;
             height: 90px;
             border-radius: 50%;
+          }
+          &--icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background:rgba(245,245,245,1);
+            box-shadow:1px 1px 0px 0px rgba(0,0,0,0.2);
+            text-align: center;
+            .van-icon {
+              line-height: 80px;
+            }
           }
           &--name {
             font-size: 25px;

@@ -49,12 +49,6 @@
         </div>
       </div>
     </div>
-    <van-popup
-      v-model="popupVisible"
-      position="top"
-    >
-      <img v-lazy="getQrCodeURL(order.id)" class="order_item-qr_code">
-    </van-popup>
   </div>
 </template>
 <style scoped type="text/less" lang="less">

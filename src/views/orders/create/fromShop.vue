@@ -55,24 +55,22 @@
                 @click.stop="onDeliveryType('SELF')">上门自提</span>
         </div>
       </div>
-      <div class="dividing"></div>
-      <div class="pay_shop-content-pay_type">
-        <div class="pay_shop-content-pay_type-header">
-          <div>
-            <i class="iconfont ic-dingdanzhifufangshi"></i>
-          </div>
-          <div>支付方式</div>
-        </div>
-        <div class="pay_shop-content-pay_type-content">
-            <span class="iconfont ic-weixin"
-                  :class="{active:payType=='WECHAT_PAY'}"
-                  @click.stop="onPayType('WECHAT_PAY')"></span>
-          <span class="iconfont ic-alipay"
-                :class="{active:payType=='ALIPAY'}"
-                @click.stop="onPayType('ALIPAY')"></span>
-        </div>
-      </div>
-      <div class="dividing"></div>
+      <!--<div class="pay_shop-content-pay_type">-->
+        <!--<div class="pay_shop-content-pay_type-header">-->
+          <!--<div>-->
+            <!--<i class="iconfont ic-dingdanzhifufangshi"></i>-->
+          <!--</div>-->
+          <!--<div>支付方式</div>-->
+        <!--</div>-->
+        <!--<div class="pay_shop-content-pay_type-content">-->
+            <!--<span class="iconfont ic-weixin"-->
+                  <!--:class="{active:payType=='WECHAT_PAY'}"-->
+                  <!--@click.stop="onPayType('WECHAT_PAY')"></span>-->
+          <!--<span class="iconfont ic-alipay"-->
+                <!--:class="{active:payType=='ALIPAY'}"-->
+                <!--@click.stop="onPayType('ALIPAY')"></span>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="pay_shop-content-pay_amount">
         <div>
           <span>商品总额：</span>
@@ -115,47 +113,46 @@
           </div>
         </div>
       </div>
-      <div class="dividing"></div>
-      <div class="pay_shop-content-coupon">
-        <div class="pay_shop-content-coupon_link">
-          <div class="pay_shop-content-coupon_link_left">优惠券</div>
-          <div class="pay_shop-content-coupon_link_right">
-            <div v-if="isNotBlank(couponRecord)">
-              满{{couponRecord.amount}}减{{couponRecord.minus}}
-            </div>
-            <div @click="show = true">
-              <i class="iconfont ic-youjiantou"></i>
-            </div>
-          </div>
-        </div>
-        <div class="pay_shop-content-coupon_popup">
-          <van-popup v-model="show" position="bottom">
-            <div class="pay_shop-content-coupon_popup-container">
-              <div class="pay_shop-content-coupon_popup-container-title text-l-30">
-                使用优惠券
-              </div>
-              <div class="pay_shop-content-coupon_popup-container-list">
-                <div class="pay_shop-content-coupon_popup-container-list-item van-hairline--bottom"
-                     v-for="(item,key) in coupons"
-                     :key="key"
-                     @click="couponRecord = item;show = false;payAmount = shopDrugSpecOrderDTO.payAmount - item.minus">
-                  <div class="text-l-28">
-                    满{{item.amount}}减{{item.minus}}
-                  </div>
-                  <div>
-                    <input :id="item" type="radio"  :value="item"   v-model="couponRecord">
-                    <label :for="item"></label>
-                  </div>
-                </div>
-                <div v-if="coupons.length === 0" class="pay_shop-content-coupon_popup-container-list-none text-l-28">
-                  没有可用优惠券
-                </div>
-              </div>
-            </div>
-          </van-popup>
-        </div>
-      </div>
-      <div class="dividing"></div>
+      <!--<div class="pay_shop-content-coupon">-->
+        <!--<div class="pay_shop-content-coupon_link">-->
+          <!--<div class="pay_shop-content-coupon_link_left">优惠券</div>-->
+          <!--<div class="pay_shop-content-coupon_link_right">-->
+            <!--<div v-if="isNotBlank(couponRecord)">-->
+              <!--满{{couponRecord.amount}}减{{couponRecord.minus}}-->
+            <!--</div>-->
+            <!--<div @click="show = true">-->
+              <!--<i class="iconfont ic-youjiantou"></i>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="pay_shop-content-coupon_popup">-->
+          <!--<van-popup v-model="show" position="bottom">-->
+            <!--<div class="pay_shop-content-coupon_popup-container">-->
+              <!--<div class="pay_shop-content-coupon_popup-container-title text-l-30">-->
+                <!--使用优惠券-->
+              <!--</div>-->
+              <!--<div class="pay_shop-content-coupon_popup-container-list">-->
+                <!--<div class="pay_shop-content-coupon_popup-container-list-item van-hairline&#45;&#45;bottom"-->
+                     <!--v-for="(item,key) in coupons"-->
+                     <!--:key="key"-->
+                     <!--@click="couponRecord = item;show = false;payAmount = shopDrugSpecOrderDTO.payAmount - item.minus">-->
+                  <!--<div class="text-l-28">-->
+                    <!--满{{item.amount}}减{{item.minus}}-->
+                  <!--</div>-->
+                  <!--<div>-->
+                    <!--<input :id="item" type="radio"  :value="item"   v-model="couponRecord">-->
+                    <!--<label :for="item"></label>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div v-if="coupons.length === 0" class="pay_shop-content-coupon_popup-container-list-none text-l-28">-->
+                  <!--没有可用优惠券-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</van-popup>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="dividing"></div>-->
     </div>
     <van-submit-bar
       :price="payAmount*100"
@@ -177,7 +174,7 @@
         orderShopDrugSpecDTO: JSON.parse(this.$route.query.orderShopDrugSpecDTO),
         shopDrugSpecOrderDTO: {},
         deliveryType: this.$storage.get('deliveryType') || 'SELF',
-        payType: 'WECHAT_PAY',
+        payType: 'KRCB',
         couponRecord: '',
         coupons: [],
         show: false,
@@ -282,8 +279,8 @@
     background-color: #f5f5f5;
     width: 720px;
     &-content {
-      margin-bottom: 90px;
       &-delivery {
+        margin-bottom: 20px;
         &-bar {
           width: 100%;
           img {
@@ -316,6 +313,7 @@
         }
       }
       &-delivery_type {
+        margin-bottom: 20px;
         &-header {
           background-color: white;
           display: flex;
@@ -376,6 +374,7 @@
       }
       &-medicaid {
         background-color: white;
+        margin-bottom: 20px;
         &-header {
           font-size: 30px;
           padding: 10px 0 10px 20px;
