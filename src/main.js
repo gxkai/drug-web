@@ -18,8 +18,6 @@ import './assets/js/vconsole';
 import '../src/assets/plugin/vue-event-calendar/dist/style.css';
 import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
 import 'vant/lib/vant-css/icon-local.css';
-import vSelect from 'vue-select';
-Vue.component('v-select', vSelect);
 import {Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
