@@ -1,4 +1,4 @@
-import { Toast } from 'mint-ui';
+import { Toast } from 'vant';
 import router from '../../router';
 import storage from 'good-storage';
 

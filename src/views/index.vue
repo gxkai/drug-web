@@ -475,7 +475,8 @@
         this.$toast.loading({
           duration: 0,
           forbidClick: true,
-          loadingType: 'spinner'
+          loadingType: 'spinner',
+          message: '登陆中...'
         });
         this.$store.dispatch('LOGIN', this.userInfo)
           .then(() => {

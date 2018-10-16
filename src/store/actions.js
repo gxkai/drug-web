@@ -1,5 +1,5 @@
 import * as types from './mutation_types';
-import axios from 'axios';
+import axios from '../assets/js/axios';
 import { setToken, setAccount } from '../assets/js/auth';
 
 /**
@@ -13,9 +13,11 @@ import { setToken, setAccount } from '../assets/js/auth';
 export function LOGIN({ commit, state }, userInfo) {
   return new Promise((resolve, reject) => {
     axios.post('/accounts/login', userInfo).then(res => {
+      console.log('token', res.data);
       commit(types.SET_TOKEN, res.data);
       setToken(res.data);
       axios.get('/accounts').then(res => {
+        console.log('account', res.data);
         commit(types.SET_ACCOUNT, res.data);
         setAccount(res.data);
         resolve(res);
