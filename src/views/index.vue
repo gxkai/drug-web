@@ -472,9 +472,15 @@
     created() {
       // 默认登陆
       if (!getLogin()) {
+        this.$toast.loading({
+          duration: 0,
+          forbidClick: true,
+          loadingType: 'spinner'
+        });
         this.$store.dispatch('LOGIN', this.userInfo)
           .then(() => {
             setLogin();
+            this.$toast.clear();
           }).catch(() => {
             this.$toast('登陆失败，请刷新页面');
           });
