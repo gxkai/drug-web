@@ -2,15 +2,8 @@
   <div class="account">
     <div class="account-header">
       <van-uploader :after-read="onRead">
-        <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"
-             v-if="account!== null"/>
+        <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"/>
       </van-uploader>
-      <div class="account-header-login"
-           @click="$router.push('/login')"
-           v-if="account === null">
-        <img src="../../assets/image/accounts/default_head.jpg"/>
-        <div class="account-header-login_text">登录/注册</div>
-      </div>
 
       <van-icon name="lingdang"
                 class="lingdang"
@@ -48,6 +41,7 @@
       <div class="account--grid">
         <router-link
           class="account--grid--item"
+          tag="div"
           to="/orders"
         >
           <van-icon name="dingdan"></van-icon>
@@ -62,6 +56,7 @@
         <!--</router-link>-->
         <router-link
           class="account--grid--item"
+          tag="div"
           to="/addresses"
         >
           <van-icon name="dizhi1"></van-icon>
@@ -69,6 +64,7 @@
         </router-link>
         <router-link
           class="account--grid--item"
+          tag="div"
           to="/collects"
         >
           <van-icon name="xingxing2"></van-icon>
@@ -76,6 +72,7 @@
         </router-link>
         <router-link
           class="account--grid--item"
+          tag="div"
           to="/accounts/info"
         >
           <van-icon name="wo"></van-icon>
@@ -90,6 +87,7 @@
         <!--</router-link>-->
         <router-link
           class="account--grid--item"
+          tag="div"
           to="/accounts/insurance"
         >
           <van-icon name="yibao-" color="#ff8400"></van-icon>
@@ -97,6 +95,7 @@
         </router-link>
         <router-link
           class="account--grid--item"
+          tag="div"
           to="/drugAppraises"
         >
           <van-icon name="pingjia"></van-icon>
@@ -104,6 +103,7 @@
         </router-link>
         <router-link
           class="account--grid--item"
+          tag="div"
           to="/faqs"
         >
           <van-icon name="changjianwenti1"></van-icon>
@@ -111,6 +111,7 @@
         </router-link>
         <router-link
           class="account--grid--item"
+          tag="div"
           to="/feedbacks/create"
         >
           <van-icon name="yijianfankui"></van-icon>
@@ -274,23 +275,21 @@
       };
     },
     created() {
-      if (this.account !== null) {
-        this.$http.get('/orders/count')
-          .then(res => {
-            this.count = res.data;
-            console.log(res.data);
-          }).catch(error => {
-            this.exception(error);
-          });
-        this.$http.get('pointRecords/signIn/validateDailySignIn')
-          .then(res => {
-            this.signIn = res.data;
-            console.log(res.data);
-          })
-          .catch(err => {
-            this.exception(err);
-          });
-      }
+      this.$http.get('/orders/count')
+        .then(res => {
+          this.count = res.data;
+          console.log(res.data);
+        }).catch(error => {
+          this.exception(error);
+        });
+      this.$http.get('pointRecords/signIn/validateDailySignIn')
+        .then(res => {
+          this.signIn = res.data;
+          console.log(res.data);
+        })
+        .catch(err => {
+          this.exception(err);
+        });
     },
     mounted() {
     },

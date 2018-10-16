@@ -64,6 +64,7 @@
     .van-tab {
       span {
         line-height: 100px!important;
+        font-size: 25px!important;
       }
     }
   }

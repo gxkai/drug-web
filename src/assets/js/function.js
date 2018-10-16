@@ -44,7 +44,6 @@ export default {
         }
       } else {
         Toast('网络异常');
-        this.$router.push('/error');
       }
     };
     /**

@@ -5,22 +5,24 @@
 </template>
 
 <script>
+import { setAccount, setToken, getToken, getAccount } from './assets/js/auth';
+
 export default {
   name: 'App',
   created() {
     /**
      * 首次打开 storage -> vux
      */
-    this.$storage.get('account') &&
-    this.$store.commit('SET_ACCOUNT', this.$storage.get('account'));
-    this.$storage.get('token') &&
-    this.$store.commit('SET_TOKEN', this.$storage.get('token'));
+    getAccount() &&
+    this.$store.commit('SET_ACCOUNT', getAccount());
+    getToken() &&
+    this.$store.commit('SET_TOKEN', getToken());
     /**
      * 刷新 vux -> storage
      */
     window.addEventListener('beforeunload', () => {
-      this.$storage.set('account', this.$store.getters.account);
-      this.$storage.set('token', this.$store.getters.token);
+      setAccount(this.$store.getters.account);
+      setToken(this.$store.getters.token);
     });
   }
 };

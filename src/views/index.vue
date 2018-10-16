@@ -428,6 +428,7 @@
 </style>
 <script>
   import { Carousel3d, Slide } from 'vue-carousel-3d';
+  import { getLogin, setLogin } from '../assets/js/auth';
   import BMap from 'BMap';
   export default {
     name: 'home',
@@ -441,7 +442,12 @@
         repositories: [],
         number: 0,
         repositoryTypes: [],
-        position: {}
+        position: {},
+        userInfo: {
+          username: 15995611111,
+          password: 123456,
+          clientId: 1
+        }
       };
     },
     components: {
@@ -464,7 +470,15 @@
       }
     },
     created() {
-      this.$store.dispatch('VERIFY');
+      // 默认登陆
+      if (!getLogin()) {
+        this.$store.dispatch('LOGIN', this.userInfo)
+          .then(() => {
+            setLogin();
+          }).catch(() => {
+            this.$toast('登陆失败，请刷新页面');
+          });
+      };
       // 让利惠民
       this.$http.get('/drugs/discount').then(res => {
         console.log('让利惠民', res.data);
