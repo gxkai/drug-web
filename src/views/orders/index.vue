@@ -43,6 +43,7 @@
             v-for="(order, key) in list"
             :key="key"
             @onQrcode = "onQrcode"
+            @onReceive = "onReceive"
           ></new-order-item>
           <new-no-data v-show="finished === true"></new-no-data>
         </van-list>
@@ -71,7 +72,8 @@
         popupUrl: '',
         popupVisible: false,
         keyword: '',
-        state: this.$route.query.state || ''
+        state: this.$route.query.state || '',
+        columns: []
       };
     },
     watch: {

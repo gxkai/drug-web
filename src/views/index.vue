@@ -439,7 +439,6 @@
 </style>
 <script>
   import { Carousel3d, Slide } from 'vue-carousel-3d';
-  import { getLogin } from '../assets/js/auth';
   import BMap from 'BMap';
 
   export default {
@@ -454,11 +453,6 @@
         repositories: [],
         number: 0,
         repositoryTypes: [],
-        userInfo: {
-          username: 15995611111,
-          password: 123456,
-          clientId: 1
-        },
         isLoading: false,
         timer: ''
       };
@@ -486,23 +480,6 @@
       }
     },
     created() {
-      // 默认登陆
-      if (!getLogin()) {
-        this.$toast.loading({
-          duration: 0,
-          forbidClick: true,
-          loadingType: 'spinner',
-          message: '登陆中...'
-        });
-        console.log('登陆中');
-        this.$store.dispatch('LOGIN', this.userInfo)
-          .then(() => {
-            this.$toast.clear();
-            console.log('登陆成功');
-          }).catch(() => {
-            this.$toast('登陆失败，请刷新页面');
-          });
-      };
       this.$http.all(this.getHttpList());
     },
     mounted() {

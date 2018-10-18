@@ -32,9 +32,9 @@ export function getLogin() {
 }
 
 export function setLogin() {
-  return storage.set(LoginKey, true);
+  storage.set(LoginKey, true);
 }
 
 export function removeLogin() {
-  return storage.remove(LoginKey);
+  storage.remove(LoginKey);
 };

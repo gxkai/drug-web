@@ -267,8 +267,13 @@ const orderRouter = [
   },
   {
     path: '/orders/pay',
-    name: '支付成功',
+    name: '支付页面',
     component: () => import('@/views/orders/pay/index.vue')
+  },
+  {
+    path: '/orders/pay/success',
+    name: '支付成功',
+    component: () => import('@/views/orders/pay/success.vue')
   },
   {
     path: '/orders',
@@ -347,11 +352,6 @@ const otherRouter = [
     path: '/faqs',
     name: '常见问题',
     component: () => import('@/views/faqs/index.vue')
-  },
-  {
-    path: '/pay/alipay',
-    name: '支付宝支付',
-    component: () => import('@/views/orders/pay/alipay.vue')
   },
   {
     path: '/qrCode',

@@ -81,16 +81,6 @@
           确认收货
         </div>
         <div class="order_view-button"
-             @click="popupVisible = true"
-             v-if="order.deliveryType == 'SELF' && (order.state == 'TO_RECEIVED')">
-          收货二维码
-        </div>
-        <div class="order_view-button"
-             v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED')"
-             @click="linkToQRCode">
-          收货扫码
-        </div>
-        <div class="order_view-button"
              @click="onDelivery()"
              v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
           查看配送
@@ -104,12 +94,12 @@
              v-if="order.state == 'TO_RECEIVED' && order.type === 'HOSPITAL'">取药地址
         </div>
       </div>
-      <van-popup
-        v-model="popupVisible"
-        position="top"
-      >
-        <img v-lazy="getQrCodeURL(order.id)" class="order_view-qr_code">
-      </van-popup>
+      <!--<van-popup-->
+        <!--v-model="popupVisible"-->
+        <!--position="top"-->
+      <!--&gt;-->
+        <!--<img v-lazy="getQrCodeURL(order.id)" class="order_view-qr_code">-->
+      <!--</van-popup>-->
     </div>
   </new-layout>
 </template>

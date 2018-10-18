@@ -54,7 +54,8 @@ import {Actionsheet,
   Lazyload,
   Collapse,
   CollapseItem,
-  Uploader} from 'vant';
+  Uploader,
+  Picker} from 'vant';
 import router from './router';
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
@@ -91,6 +92,7 @@ Vue.use(Actionsheet).use(GoodsAction)
   .use(Collapse)
   .use(CollapseItem)
   .use(Uploader)
+  .use(Picker)
   .use(Lazyload, {
     preLoad: 1,
     error: require('./assets/image/lazyLoad/default.png'),

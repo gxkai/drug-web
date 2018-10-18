@@ -24,16 +24,16 @@
       </van-cell-group>
 
       <van-tabbar :fixed="Boolean(false)">
-        <van-tabbar-item icon="icon-test" :info="count.toAppraiseCount === 0 ? '':count.toAppraiseCount"
+        <van-tabbar-item icon="icon-test" :info="count.toPayCount === 0 ? '':count.toPayCount"
                          :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
         </van-tabbar-item>
         <van-tabbar-item icon="icon-test1" :info="count.toDeliveryCount === 0 ? '':count.toDeliveryCount "
                          :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
         </van-tabbar-item>
-        <van-tabbar-item icon="daishouhuo" :info="count.toPayCount === 0 ? '' : count.toPayCount"
+        <van-tabbar-item icon="daishouhuo" :info="count.toReceivedCount === 0 ? '' : count.toReceivedCount"
                          :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
         </van-tabbar-item>
-        <van-tabbar-item icon="daipingjia01" :info="count.toReceivedCount === 0 ? '' : count.toReceivedCount"
+        <van-tabbar-item icon="daipingjia01" :info="count.toAppraiseCount === 0 ? '' : count.toAppraiseCount"
                          :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
         </van-tabbar-item>
       </van-tabbar>
