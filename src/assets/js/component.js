@@ -2,16 +2,10 @@ export default {
   install(Vue, options) {
     Vue.component('new-header', () => import('../../components/header'));
     Vue.component('new-star', () => import('../../components/star'));
-    Vue.component('new-footer', () => import('../../components/footer'));
     Vue.component('new-no-data', () => import('../../components/noData'));
-    Vue.component('new-edit-div', () => import('../../components/editDiv'));
     Vue.component('new-edit-line', () => import('../../components/editLine'));
-    Vue.component('new-main', () => import('../../components/main'));
-    Vue.component('new-shop', () => import('../../components/shops'));
     Vue.component('new-close-list', () => import('../../components/closeList'));
-    Vue.component('new-line', () => import('../../components/line'));
     Vue.component('new-drug-refund', () => import('../../components/drugRefund'));
-    Vue.component('new-drug', () => import('../../components/drugs'));
     Vue.component('refund-drug', () => import('../../components/refundDrugs'));
     Vue.component('new-drug-item', () => import('../../components/drugItem'));
     Vue.component('new-radio', () => import('../../components/radio'));
@@ -21,18 +15,12 @@ export default {
     Vue.component('new-drug-tab', () => import('../../components/drugTab'));
     Vue.component('new-order-item', () => import('../../components/orderItem'));
     Vue.component('new-order-view-item', () => import('../../components/orderViewItem'));
-    Vue.component('new-all-data', () => import('../../components/allData'));
-    Vue.component('new-loading', () => import('../../components/loading'));
-    Vue.component('new-rx-hospital-cart', () => import('../../components/rxHospitalCart'));
-    Vue.component('new-rx-shop-cart', () => import('../../components/rxShopCart'));
     Vue.component('new-close-shop', () => import('../../components/closeShop'));
-    Vue.component('new-drug-buttom', () => import('../../components/drugBottom'));
     Vue.component('new-take-list', () => import('../../components/takeList'));
     Vue.component('new-refund', () => import('../../components/refund'));
     Vue.component('new-time-down', () => import('../../components/timeDown'));
     Vue.component('new-count-down', () => import('../../components/countDown'));
     Vue.component('new-header-sec', () => import('../../components/headerSec'));
-    Vue.component('new-shop-item', () => import('../../components/shopItem'));
     Vue.component('new-appraise-item', () => import('../../components/appraiseItem'));
     Vue.component('new-coupon-item', () => import('../../components/couponItem'));
     Vue.component('new-coupon-record-item', () => import('../../components/couponRecordItem'));

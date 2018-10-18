@@ -125,3 +125,20 @@
   }
 }
 
+.van-list {
+  &__loading {
+    &-text {
+      font-size: 25px;
+    }
+  }
+}
+
+.van-pull-refresh {
+  &__text {
+    font-size: 25px;
+  }
+  &__loading {
+    font-size: 25px;
+  }
+}
+

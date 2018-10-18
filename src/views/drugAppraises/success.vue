@@ -1,113 +1,170 @@
 <template>
-  <new-main>
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      @click-right="$router.push('/drugAppraises')"
-      right-text="完成"
-      ref="header"
-    />
-    <div class="body1">
-        <span>每天都有用户通过看评价来做购物决策~</span>
-        <div><span @click="$router.push('/drugAppraises')">查看我的评价</span></div>
+  <new-layout
+  class="appraise-success"
+  >
+    <div slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+        @click-right="$router.push('/')"
+        right-text="继续下单"
+      />
+      <div
+        class="appraise-success--first"
+      >
+        <div>
+          每天都有用户通过看评价来做购物决策~
+        </div>
+        <div
+        @click="$router.push('/drugAppraises')"
+        >
+          查看我的评价
+        </div>
+      </div>
     </div>
-    <new-edit-line name="接着评下去吧" v-if="list.length>0"></new-edit-line>
-    <ul class="body2">
-      <li v-for="(item,index) in list" :key="index">
-        <img v-lazy="item.logo">
-        <div contenteditable="true" class="center">{{item.name}}</div>
-        <router-link  tag="button" :to="{path:'/drugAppraises/create',query:{id:item.orderId}}">去评价</router-link>>
-      </li>
-    </ul>
-  </new-main>
+    <div
+    class="appraise-success--second"
+    slot="center"
+    >
+      <div class="appraise-success--second--cut">
+        <div class="appraise-success--second--cut__left"></div>
+        <div class="appraise-success--second--cut__center">接着评下去吧</div>
+        <div class="appraise-success--second--cut__right"></div>
+      </div>
+      <div class="appraise-success--second--list">
+        <div class="appraise-success--second--list--item"
+        v-for="item in list" :key="item.orderId"
+        >
+          <div class="appraise-success--second--list--item__left">
+            <img
+            class="appraise-success--second--list--item__left--image"
+            v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')"
+            >
+          </div>
+          <div class="appraise-success--second--list--item__center"
+          v-text="item.name"
+          >
+          </div>
+          <div class="appraise-success--second--list--item__right"
+          @click="$router.push({path:'/drugAppraises/create',query:{orderId:item.orderId}})"
+          >
+            去评价
+          </div>
+        </div>
+      </div>
+    </div>
+  </new-layout>
 </template>
-
+<style scoped type="text/less" lang="less">
+  .appraise-success {
+    &--first {
+      height: 162px;
+      background-color: #13C1FE;
+      display: flex;
+      flex-flow: column;
+      justify-content: space-around;
+      align-items: center;
+      div {
+        font-size:26px;
+        font-family:HiraginoSansGB-W3;
+        font-weight:100;
+        color:rgba(254,255,255,1);
+        &:nth-child(2) {
+          width:199px;
+          height:47px;
+          border:2PX solid rgba(255,255,255,1);
+          border-radius:20px;
+          text-align: center;
+        }
+      }
+    }
+    &--second {
+      &--cut {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        div:nth-child(2) {
+          width: 300px;
+          font-size:25px;
+          font-family:HiraginoSansGB-W3;
+          font-weight:normal;
+          color:rgba(153,153,153,1);
+          text-align: center;
+        }
+        div:not(:nth-child(2)) {
+          width:238px;
+          height:1PX;
+          background:rgba(191,191,191,1);
+        }
+      }
+      &--list {
+        &--item {
+          margin-top: 20px;
+          height: 160px;
+          background-color: white;
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          &__left {
+            &--image {
+              width:126px;
+              height:126px;
+              background:rgba(255,255,255,1);
+              border:1px solid rgba(238,238,238,1);
+              box-shadow:0px 1px 1px 0px rgba(102,102,102,0.3);
+            }
+          }
+          &__center {
+            padding-left: 20px;
+            font-size:22px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(51,51,51,1);
+            flex: 1;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          &__right {
+            width:127px;
+            height:39px;
+            background:rgba(19,193,254,1);
+            border-radius:20px;
+            font-size:24px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(255,255,255,1);
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+</style>
 <script>
   export default {
     name: 'myAppraise',
     data() {
       return {
-        list: [],
-        account: this.$store.getters.account
+        list: []
       };
+    },
+    computed: {
+      account() {
+        return this.$store.getters.account;
+      }
     },
     created() {
       this.$http.get('/drugAppraises/toAppraise')
         .then(res => {
           this.list = res.data;
-          this.list.forEach(e => {
-            e.logo = this.getImgURL(e.fileId, 'LARGE_LOGO');
-          });
         }).catch(error => {
           this.exception(error);
         });
     }
   };
 </script>
-
-<style scoped>
-  .body1 {
-    width:720px;
-    height:162px;
-    background:rgba(19,193,254,1);
-    font-size:26px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(254,255,255,1);
-    text-align: center;
-  }
-  .body1>span {
-    line-height: 100px;
-    font-size: 25px;
-  }
-  .body1 div span{
-    padding: 10px 20px;
-    border: 1PX solid rgba(255,255,255,1);
-    border-radius:20px;
-    color: rgba(255,255,255,1);
-    background-color: rgba(19,193,254,1);
-  }
-
-  .body2 {
-    margin-top: 30px;
-    height: calc(100vh - 367px);
-    overflow: auto;
-  }
-  .body2 li {
-    height: 159px;
-    display: flex;
-    align-items: center;
-    background:rgba(255,255,255,1);
-    margin-bottom: 10px;
-  }
-  .body2 li .center{
-    height: 130px ;
-    padding: 20px;
-    font-size:22px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
-    line-height: 50px;
-  }
-
-  .body2 li button{
-    width:127px;
-    height:39px;
-    background:rgba(19,193,254,1);
-    border-radius:20px;
-    margin-right: 10px;
-    font-size:24px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(255,255,255,1);
-  }
-
-  .body2 img {
-    height:119px;
-    margin-left: 20px;
-  }
-
-  .body2 .center {
-    word-break: break-all;
-    word-wrap: break-word;
-    overflow: auto;
-  }
-</style>

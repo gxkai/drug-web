@@ -53,11 +53,13 @@
           class="rx__content__item__left-logo">
         </div>
         <div class="rx__content__item__right">
-          <div class="rx__content__item__right-originName">
+          <div class="rx__content__item__right-originName"
+               @click="lookMore(index)"
+          >
             <van-icon name="changfang" color="#13C1FE" size="3em"></van-icon>
             <span>厂商</span>
             <span>{{carts[index].originName}}</span>
-            <van-icon name="arrow" @click="lookMore(index)"></van-icon>
+            <van-icon name="arrow"  size="2em"></van-icon>
           </div>
           <div class="rx__content__item__right-name">
             <van-icon name="yao" color="#13C1FE" size="3em"></van-icon>
@@ -86,7 +88,6 @@
     </div>
     <van-goods-action
     ref="footer">
-      <van-goods-action-mini-btn icon="chat" text="咨询" :to="{path:'/chats/view',query:{shopId:shopId}}"/>
       <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts" />
       <van-goods-action-mini-btn icon="shop" text="店铺" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
       <van-goods-action-big-btn text="加入购物车" @click="type==='HOSPITAL'? '' : createCart()"
@@ -111,11 +112,15 @@
         origins: [],
         index: 0,
         carts: [],
-        account: this.$store.getters.account,
         isActive: true,
         amount: 0,
         quantity: 0
       };
+    },
+    computed: {
+      account() {
+        return this.$store.getters.account;
+      }
     },
     created() {
       this.getDrugs();

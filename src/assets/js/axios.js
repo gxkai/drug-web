@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from './auth';
+import { getToken, removeLogin } from './auth';
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.defaults.timeout = 50000;
 axios.interceptors.request.use(
@@ -27,6 +27,7 @@ axios.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
+          removeLogin();
           window.location.href = 'http://www.baidu.com';
       }
     }

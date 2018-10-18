@@ -420,7 +420,7 @@ export default {
     };
 
     /**
-     * 订单创建后其他内可退款
+     * 订单创建后7天内可退款
      * @param createdDate
      * @returns {boolean}
      */

@@ -1,11 +1,14 @@
 <template>
-  <div class="shop_view">
+  <new-layout class="shop_view">
     <van-nav-bar
       :title="$route.name"
       left-arrow
       @click-left="$router.go(-1)"
+      slot="top"
     />
-    <div class="shop_view-content">
+    <div class="shop_view-content"
+    slot="center"
+    >
       <div class="shop_view-info">
         <img v-lazy="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
         <div class="shop_view-info-name">{{shopInfo.name}}</div>
@@ -63,30 +66,20 @@
       </div>
     </div>
 
-    <div class="shop_view-footer">
+    <div class="shop_view-footer"
+    slot="bottom"
+    >
         <div @click="linkToShopInfo(shopId)">
           商家介绍
         </div>
         <div @click="linkToShopDrugs(shopId)">
           全部商品
         </div>
-        <!--<div @click="linkToChatView(shopId)">-->
-          <!--在线咨询-->
-        <!--</div>-->
     </div>
-  </div>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   .shop_view {
-    background-color: #f5f5f5;
-    height: 100vh;
-    width: 720px;
-    display: flex;
-    flex-flow: column;
-    &-content {
-      flex: 1;
-      overflow: auto;
-    }
     &-info {
       background-color: rgb(19, 193, 254);
       padding: 40px 80px;
@@ -240,7 +233,6 @@
         shopInfo: [],
         shopId: this.$route.query.shopId,
         colloct: false,
-        collectz: '',
         drugTypes: []
       };
     },
@@ -281,15 +273,13 @@
         this.colloct = !this.colloct;
         let data = {
           'shopId': this.shopId,
-          'isCollect': this.colloct
+          'collected': this.colloct
         };
         this.$http.post('/collects/shop', data).then(res => {
           if (this.colloct) {
             this.$toast('收藏成功');
-            this.collectz = '已收藏';
           } else {
             this.$toast('取消收藏成功');
-            this.collectz = '未收藏';
           }
         }).catch(error => {
           this.exception(error);

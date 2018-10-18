@@ -1,23 +1,20 @@
 <template>
-  <div>没有更多数据了</div>
+  <div
+  class="no-data"
+  >没有更多数据了</div>
 </template>
 
 <script>
   export default {
-    name: 'noData',
-    props: {
-      length: {
-        type: Number,
-        default: 0
-      }
-    }
+    name: 'noData'
   };
 </script>
 
 <style scoped>
-  div {
+  .no-data {
     text-align: center;
-    font-size: 30px;
+    font-size: 25px;
     padding: 20px;
+    color: #999999;
   }
 </style>

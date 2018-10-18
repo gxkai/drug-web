@@ -28,9 +28,13 @@ export function removeAccount() {
 }
 
 export function getLogin() {
-  return storage.session.get(LoginKey);
+  return storage.get(LoginKey);
 }
 
 export function setLogin() {
-  return storage.session.set(LoginKey, 'YES');
+  return storage.set(LoginKey, true);
 }
+
+export function removeLogin() {
+  return storage.remove(LoginKey);
+};

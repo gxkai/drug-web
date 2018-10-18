@@ -1,6 +1,6 @@
 import * as types from './mutation_types';
 import axios from '../assets/js/axios';
-import { setToken, setAccount } from '../assets/js/auth';
+import { setToken, setAccount, setLogin } from '../assets/js/auth';
 
 /**
  * 登陆
@@ -20,6 +20,7 @@ export function LOGIN({ commit, state }, userInfo) {
         console.log('account', res.data);
         commit(types.SET_ACCOUNT, res.data);
         setAccount(res.data);
+        setLogin();
         resolve(res);
       }).catch(err => {
         reject(err);

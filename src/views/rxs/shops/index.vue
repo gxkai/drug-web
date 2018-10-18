@@ -1,6 +1,8 @@
 <template>
-  <div class="shops">
-    <div ref="header">
+  <new-layout class="shops"
+  centerColor="white"
+  >
+    <div slot="top">
       <div class="shops-header">
         <new-header>
           <div slot="left" @click="$router.go(-1)">
@@ -66,7 +68,7 @@
       </div>
     </div>
     <div class="shops-container"
-         ref="content">
+         slot="center">
       <div @click="linkToRxShopDrug(rxId, hospital.id, hospital.name, 'HOSPITAL')">
         <new-rx-hospital-item :item="hospital"/>
       </div>
@@ -79,7 +81,7 @@
         </new-rx-shop-item>
       </div>
     </div>
-  </div>
+  </new-layout>
 </template>
 
 <script>
@@ -96,8 +98,6 @@
       };
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'auto';
     },
     created() {
       this.getRxShops();

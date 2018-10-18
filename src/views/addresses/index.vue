@@ -1,11 +1,14 @@
 <template>
-  <div class="address">
+  <new-layout class="address">
     <van-nav-bar
     :title="$route.name"
     left-arrow
     @click-left="$router.go(-1)"
+    slot="top"
     />
-    <div class="address__content">
+    <div class="address__content"
+    slot="center"
+    >
       <div class="address__content__item"
            v-for="(address,index) in list" :key="index">
         <div class="address__content__item__top">
@@ -17,7 +20,9 @@
           </span>
         </div>
         <div class="address__content__item__bottom">
-          <van-icon name="moren" size="4em" color="#FF0000" v-show="address.defaulted"></van-icon>
+          <div class="address__content__item__bottom-default">
+            <van-icon name="moren" size="4em" color="#FF0000" v-show="address.defaulted"></van-icon>
+          </div>
           <span class="address__content__item__bottom-address">{{address.address}}</span>
           <van-icon name="edit" size="3em"
                     @click="$router.push({path:'/addresses/edit',query:{id:address.id}})"></van-icon>
@@ -28,18 +33,14 @@
 
     </div>
     <div class="address__footer"
-         ref="footer"
+         slot="bottom"
     @click="$router.push('/addresses/edit')">
       +新增地址
     </div>
-  </div>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   .address {
-    background-color: #f5f5f5;
-    display: flex;
-    flex-flow: column;
-    height: 100vh;
     &__content {
       flex: 1;
       &__item {
@@ -64,14 +65,14 @@
           }
         }
         &__bottom {
-          padding: 0 20px;
+          padding: 10px 20px;
           display: flex;
           align-items: center;
-          span {
-            display: inline-block;
+          &-default {
+            width: 100px;
           }
           &-address {
-            width: 500px;
+            flex: 1;
             overflow: hidden;
             text-overflow: ellipsis;
             -webkit-line-clamp: 2;
@@ -84,7 +85,6 @@
           }
           .van-icon {
             &-moren {
-              margin-bottom: 10px;
             }
             &-delete {
               margin-left: 10px;
