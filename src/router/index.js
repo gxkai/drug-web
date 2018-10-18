@@ -395,6 +395,7 @@ const appRouter = [
 const Router = new VueRouter({
   routes: [
     errorRouter,
+    collectRouter,
     ...appRouter,
     ...accountRouter,
     ...hospitalRouter,
@@ -402,7 +403,6 @@ const Router = new VueRouter({
     ...addressRouter,
     ...drugAppraiseRouter,
     ...repositoryRouter,
-    ...collectRouter,
     ...shopDrugSpecRouter,
     ...messageRouter,
     ...orderRouter,
