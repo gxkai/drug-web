@@ -46,8 +46,8 @@
           <div>配送方式</div>
         </div>
         <div class="pay_cart-content-delivery_type-content">
-          <span :class="{active:deliveryType=='DELIVERY'}"
-                @click.stop="onDeliveryType('DELIVERY')">送货上门</span>
+          <!--<span :class="{active:deliveryType=='DELIVERY'}"-->
+                <!--@click.stop="onDeliveryType('DELIVERY')">送货上门</span>-->
           <span :class="{active:deliveryType=='SELF'}"
                 @click.stop="onDeliveryType('SELF')">上门自提</span>
         </div>

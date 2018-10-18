@@ -35,6 +35,7 @@
           >
             <img v-lazy="getImgURL(advert.fileId, 'ADVERT')"
                  class="home__content__swipe__item--advert"
+                 @click="$router.push(advert.url)"
             />
           </van-swipe-item>
         </van-swipe>

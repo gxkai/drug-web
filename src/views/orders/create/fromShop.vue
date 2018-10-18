@@ -46,11 +46,11 @@
           <div>配送方式</div>
         </div>
         <div class="pay_shop-content-delivery_type-content">
-          <span :class="{active:deliveryType=='DELIVERY'}"
-                @click.stop="onDeliveryType('DELIVERY')"
-                v-if="shopDrugSpecOrderDTO.type === 'SIMPLE'">
-            送货
-          </span>
+          <!--<span :class="{active:deliveryType=='DELIVERY'}"-->
+                <!--@click.stop="onDeliveryType('DELIVERY')"-->
+                <!--v-if="shopDrugSpecOrderDTO.type === 'SIMPLE'">-->
+            <!--送货-->
+          <!--</span>-->
           <span :class="{active:deliveryType=='SELF'}"
                 @click.stop="onDeliveryType('SELF')">上门自提</span>
         </div>
