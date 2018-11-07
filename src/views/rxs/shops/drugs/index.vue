@@ -90,8 +90,8 @@
     ref="footer">
       <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts" />
       <van-goods-action-mini-btn icon="shop" text="店铺" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
-      <van-goods-action-big-btn text="加入购物车" @click="type==='HOSPITAL'? '' : createCart()"
-      :style="{backgroundColor:type==='HOSPITAL'?'gray':'#f85'}"/>
+      <!--<van-goods-action-big-btn text="加入购物车" @click="createCart()"-->
+      <!--:style="{backgroundColor:type==='HOSPITAL'?'gray':'#f85'}"/>-->
       <van-goods-action-big-btn text="立即购买" primary @click="onBuy"/>
     </van-goods-action>
   </div>

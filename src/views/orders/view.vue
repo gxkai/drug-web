@@ -95,10 +95,10 @@
         </div>
       </div>
       <!--<van-popup-->
-        <!--v-model="popupVisible"-->
-        <!--position="top"-->
+      <!--v-model="popupVisible"-->
+      <!--position="top"-->
       <!--&gt;-->
-        <!--<img v-lazy="getQrCodeURL(order.id)" class="order_view-qr_code">-->
+      <!--<img v-lazy="getQrCodeURL(order.id)" class="order_view-qr_code">-->
       <!--</van-popup>-->
     </div>
   </new-layout>
@@ -261,8 +261,8 @@
         this.$http.get('/orders/' + this.orderId)
           .then(res => {
             this.order = res.data;
-            console.log(res.data);
             this.stateStyle = this.getStateStyle();
+            console.log(this.stateStyle);
           })
           .catch(err => {
             this.exception(err);
@@ -285,7 +285,7 @@
             return this.receiveStyle;
           case 'TO_DELIVERY':
             return this.deliverStyle;
-          case 'COMPLETE':
+          case 'COMPLETED':
             return this.completeStyle;
         }
       },
@@ -297,16 +297,16 @@
         });
       },
       onPay() {
-        this.$router.push({ path: '/orders/pay', query: { orderIds: this.order.id } });
+        this.$router.push({path: '/orders/pay', query: {orderIds: this.order.id}});
       },
       onRefund() {
-        this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });
+        this.$router.push({path: '/orderRefunds/create', query: {orderId: this.order.id}});
       },
       onDelivery() {
-        this.$router.push({ path: '/orders/delivery', query: { orderId: this.order.id } });
+        this.$router.push({path: '/orders/delivery', query: {orderId: this.order.id}});
       },
       onAppraise() {
-        this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
+        this.$router.push({path: '/drugAppraises/create', query: {orderId: this.order.id}});
       },
       onConfirm() {
         this.$http.put('/orders/' + this.order.id + '/complete').then(res => {
