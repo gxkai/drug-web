@@ -14,15 +14,15 @@
                 to="/accounts/card/bind">
       </van-cell>
 
-      <van-cell title="医保账户信息查询" class="mt-l-20"
-                is-link
-                to="/accounts/insurance/account">
-      </van-cell>
+      <!--<van-cell title="医保账户信息查询" class="mt-l-20"-->
+                <!--is-link-->
+                <!--to="/accounts/insurance/account">-->
+      <!--</van-cell>-->
 
-      <van-cell title="医保消息信息查询" class="mt-l-20"
-                is-link
-                to="/accounts/insurance/consume">
-      </van-cell>
+      <!--<van-cell title="医保消息信息查询" class="mt-l-20"-->
+                <!--is-link-->
+                <!--to="/accounts/insurance/consume">-->
+      <!--</van-cell>-->
     </div>
   </div>
 </template>

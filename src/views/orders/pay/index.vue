@@ -75,7 +75,7 @@
             // document.forms[0].submit();
             this.list.splice(key, 1);
             if (this.list.length === 0) {
-              this.$router.push('orders/pay/success');
+              this.$router.push('/orders/pay/success');
             }
           }).catch((error) => {
             this.exception(error);

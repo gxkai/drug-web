@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from '../../router';
 import { getToken, removeLogin } from './auth';
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.defaults.timeout = 50000;
@@ -28,7 +29,10 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           removeLogin();
-          window.location.href = 'http://www.baidu.com';
+          router.push({
+            path: '/login',
+            query: {redirect: router.currentRoute.fullPath}
+          });
       }
     }
     return Promise.reject(error);

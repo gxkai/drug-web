@@ -69,9 +69,9 @@
     </div>
     <div class="shops-container"
          slot="center">
-      <div @click="linkToRxShopDrug(rxId, hospital.id, hospital.name, 'HOSPITAL')">
-        <new-rx-hospital-item :item="hospital"/>
-      </div>
+      <!--<div @click="linkToRxShopDrug(rxId, hospital.id, hospital.name, 'HOSPITAL')">-->
+        <!--<new-rx-hospital-item :item="hospital"/>-->
+      <!--</div>-->
       <div
         v-for="(rxShop,index) in rxShops"
         :key="index"
@@ -113,16 +113,16 @@
             this.exception(error);
           });
       },
-      getHospital() {
-        this.$http.get('/rxs/' + this.rxId + '/hospital')
-          .then(res => {
-            this.hospital = res.data;
-            console.log(res.data);
-          }).catch(error => {
-            this.exception(error);
-          })
-        ;
-      },
+      // getHospital() {
+      //   this.$http.get('/rxs/' + this.rxId + '/hospital')
+      //     .then(res => {
+      //       this.hospital = res.data;
+      //       console.log(res.data);
+      //     }).catch(error => {
+      //       this.exception(error);
+      //     })
+      //   ;
+      // },
       orderById() {
         this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);
       },

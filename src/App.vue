@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import { setAccount, setToken, getLogin, getAccount, getToken } from './assets/js/auth';
+import { setAccount, setToken, getAccount, getToken } from './assets/js/auth';
 
 export default {
   name: 'App',
   data() {
     return {
       loginInfo: {
-        username: '15995611111',
+        username: '18896781024',
         password: '123456',
         clientId: '1'
       }
@@ -21,31 +21,13 @@ export default {
   computed: {
   },
   created() {
-    // 默认登陆
-    if (!getLogin()) {
-      this.$toast.loading({
-        duration: 0,
-        forbidClick: true,
-        loadingType: 'spinner',
-        message: '登陆中...'
-      });
-      console.log('登陆中');
-      this.$store.dispatch('LOGIN', this.loginInfo)
-        .then(() => {
-          this.$toast.clear();
-          console.log('登陆成功');
-        }).catch((err) => {
-          this.exception(err);
-        });
-    } else {
-      /**
+    /**
        * 首次打开 storage -> vux
        */
-      getAccount() &&
+    getAccount() &&
       this.$store.commit('SET_ACCOUNT', getAccount());
-      getToken() &&
+    getToken() &&
       this.$store.commit('SET_TOKEN', getToken());
-    }
     /**
      * 刷新 vux -> storage
      */
