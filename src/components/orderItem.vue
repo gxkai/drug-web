@@ -62,7 +62,9 @@
         </div>
         <div class="order_item-content-button"
         v-if="order.state == 'TO_RECEIVED'"
-        :style="activeButton">
+        :style="activeButton"
+        @click="onConfirm()"
+        >
           确认收货
         </div>
         <div class="order_item-content-button"
