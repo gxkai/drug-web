@@ -203,7 +203,9 @@
     },
     computed: {
       account() {
-        return this.$store.getters.account;
+        return this.$store.getters.account || {
+          fileId: ''
+        };
       }
     },
     created() {
