@@ -101,7 +101,6 @@
     },
     created() {
       this.getRxShops();
-      this.getHospital();
     },
     methods: {
       getRxShops() {
@@ -113,16 +112,16 @@
             this.exception(error);
           });
       },
-      // getHospital() {
-      //   this.$http.get('/rxs/' + this.rxId + '/hospital')
-      //     .then(res => {
-      //       this.hospital = res.data;
-      //       console.log(res.data);
-      //     }).catch(error => {
-      //       this.exception(error);
-      //     })
-      //   ;
-      // },
+      getHospital() {
+        this.$http.get('/rxs/' + this.rxId + '/hospital')
+          .then(res => {
+            this.hospital = res.data;
+            console.log(res.data);
+          }).catch(error => {
+            this.exception(error);
+          })
+        ;
+      },
       orderById() {
         this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);
       },

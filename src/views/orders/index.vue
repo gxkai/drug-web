@@ -42,6 +42,7 @@
             :order.sync="order"
             v-for="(order, key) in list"
             :key="key"
+            @onQrcode="onQrcode"
           ></new-order-item>
           <new-no-data v-show="finished === true"></new-no-data>
         </van-list>
@@ -101,6 +102,7 @@
     },
     methods: {
       onQrcode(order) {
+        console.log('order', order);
         this.popupUrl = this.getQrCodeURL(order.id);
         this.popupVisible = true;
       },

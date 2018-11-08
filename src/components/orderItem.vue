@@ -60,12 +60,30 @@
              :style="activeButton">
           我要付款
         </div>
-        <div class="order_item-content-button"
-        v-if="order.state == 'TO_RECEIVED'"
-        :style="activeButton"
-        @click="onConfirm()"
-        >
-          确认收货
+        <!--<div class="order_item-content-button"-->
+        <!--v-if="order.state == 'TO_RECEIVED'"-->
+        <!--:style="activeButton"-->
+        <!--@click="onConfirm()"-->
+        <!--&gt;-->
+          <!--确认收货-->
+        <!--</div>-->
+        <div class="order_item-content-button order_item-content-button-receiveType"
+             v-if="order.state == 'TO_RECEIVED'"
+             :style="activeButton"
+             @click="showData = !showData">
+          收货方式
+          <div class="order_item-content-button-receiveType-list"
+               v-show="showData">
+            <div class="order_item-content-button-receiveType-list-item"
+                 @click="$emit('onQrcode', order)"
+                 v-if="order.deliveryType == 'SELF'">
+              收货二维码
+            </div>
+            <div class="order_item-content-button-receiveType-list-item"
+                 @click="onConfirm()">
+              手动确认
+            </div>
+          </div>
         </div>
         <div class="order_item-content-button"
           @click="onDelivery()"
