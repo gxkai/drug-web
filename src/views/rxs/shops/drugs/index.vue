@@ -182,6 +182,7 @@
         cart.fileId = this.origins[index].fileId;
         cart.originName = this.origins[index].originName;
         this.amount = 0;
+        this.quantity = 0;
         this.carts.forEach(e => {
           this.amount += e.price * e.quantity;
           this.quantity += e.quantity;

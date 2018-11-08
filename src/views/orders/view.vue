@@ -285,7 +285,7 @@
             return this.receiveStyle;
           case 'TO_DELIVERY':
             return this.deliverStyle;
-          case 'COMPLETE':
+          case 'COMPLETED':
             return this.completeStyle;
         }
       },
