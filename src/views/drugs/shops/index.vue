@@ -6,6 +6,8 @@
         left-arrow
         @click-left="$router.go(-1)"
       />
+    </div>
+    <div ref="content">
       <van-swipe :autoplay="3000">
         <van-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
           <img v-lazy="getImgURL(pic, 'MIDDLE_PIC')"/>
@@ -36,17 +38,19 @@
       </div>
       <div class="drugs-shops__part-3">
         <div class="drugs-shops__part-3__item"
-        @click="orderById">
+             @click="orderById">
           <div class="drugs-shops__part-3__item__name">
             综合
           </div>
           <div class="drugs-shops__part-3__item__arrow">
-            <div class="drugs-shops__part-3__item__arrow-up" :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
-            <div class="drugs-shops__part-3__item__arrow-down" :style="{borderTopColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
+            <div class="drugs-shops__part-3__item__arrow-up"
+                 :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
+            <div class="drugs-shops__part-3__item__arrow-down"
+                 :style="{borderTopColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
           </div>
         </div>
         <div class="drugs-shops__part-3__item"
-        @click="orderByDistance">
+             @click="orderByDistance">
           <div class="drugs-shops__part-3__item__name">
             距离
           </div>
@@ -58,7 +62,7 @@
           </div>
         </div>
         <div class="drugs-shops__part-3__item"
-        @click="orderByPrice">
+             @click="orderByPrice">
           <div class="drugs-shops__part-3__item__name">
             价格
           </div>
@@ -70,28 +74,27 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="drugs-shops__part-4"
-         ref="content">
-      <div class="drugs-shops__part-4__item"
-           v-for="(shop,index) in shops" :key="index"
-      @click="linkToShopDrugSpec(shop.shopDrugSpecId)">
-        <div class="drugs-shops__part-4__item__name">
-          {{shop.name}}
-        </div>
-        <div class="drugs-shops__part-4__item__price">
-          &yen;{{shop.price}}
-        </div>
-        <div class="drugs-shops__part-4__item__icon">
-          <van-icon name="gouwuche3" color="#13C1FE" size="4em"></van-icon>
-        </div>
-        <div class="drugs-shops__part-4__item__info">
-          <van-icon name="ditu" color="#13C1FE" size="2em"></van-icon>
-          <span>{{shop.address}}</span>
-          <van-icon name="aixin" color="#13C1FE" size="2em"></van-icon>
-          <span>{{shop.score}}</span>
-          <van-icon name="kucun" color="#13C1FE" size="2em"></van-icon>
-          <span>{{shop.stock}}</span>
+      <div class="drugs-shops__part-4">
+        <div class="drugs-shops__part-4__item"
+             v-for="(shop,index) in shops" :key="index"
+             @click="linkToShopDrugSpec(shop.shopDrugSpecId)">
+          <div class="drugs-shops__part-4__item__name">
+            {{shop.name}}
+          </div>
+          <div class="drugs-shops__part-4__item__price">
+            &yen;{{shop.price}}
+          </div>
+          <div class="drugs-shops__part-4__item__icon">
+            <van-icon name="gouwuche3" color="#13C1FE" size="4em"></van-icon>
+          </div>
+          <div class="drugs-shops__part-4__item__info">
+            <van-icon name="ditu" color="#13C1FE" size="2em"></van-icon>
+            <span>{{shop.address}}</span>
+            <van-icon name="aixin" color="#13C1FE" size="2em"></van-icon>
+            <span>{{shop.score}}</span>
+            <van-icon name="kucun" color="#13C1FE" size="2em"></van-icon>
+            <span>{{shop.stock}}</span>
+          </div>
         </div>
       </div>
     </div>
