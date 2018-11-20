@@ -2,16 +2,16 @@
   <div class="drug_item"
   @click="linkToDrugShop(item.id, item.drugId)">
       <div class="drug_item-left">
-        <div class="rx_mark">处</div>
+        <div v-if="!item.otc" class="rx_mark">处</div>
         <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
       </div>
       <div class="drug_item-right">
         <div class="drug_item-right-info">
         <div class="drug_item-right-info_name">
-          {{ item.name }}
+          {{ item.name }}({{ item.spec }})
         </div>
         <div class="drug_item-right-info_sfda">
-          {{ item.sfda }}
+          国药准字：{{ item.sfda }}
         </div>
         <!--<div class="drug_item-right-info_sales">-->
           <!--已销售 {{ item.sales || 0}}-->

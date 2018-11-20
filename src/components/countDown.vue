@@ -3,7 +3,7 @@
      {{`${day}天${hr}小时${min}分${sec}秒` }}
   </span>
   <!--<span v-else class="text-l-25">-->
-    <!--倒计时结束-->
+  <!--倒计时结束-->
   <!--</span>-->
 </template>
 

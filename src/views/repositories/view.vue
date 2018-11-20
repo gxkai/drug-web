@@ -32,7 +32,7 @@
     </div>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
+<style type="text/less" lang="less">
   .repositories-view {
     &--title {
       padding: 20px;
@@ -46,7 +46,7 @@
     &--content {
       padding: 0 20px;
       * {
-        font-size: 25px;
+        font-size: 30px;
         font-family: HiraginoSansGB-W3;
         font-weight: normal;
       }

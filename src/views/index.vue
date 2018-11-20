@@ -156,7 +156,7 @@
           <carousel-3d :count="shows.length" width="250" height="160" display="3">
             <slide v-for="(slide, i) in shows" :index="i" :key="i">
               <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
-                <img :data-index="index"
+                <img :data-index="index" style="width: 250px;height: 160px;"
                      :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
                      v-lazy="getImgURL(slide.fileId, 'LARGE_LOGO')"
                      @click="$router.push({path:'/shops/view',query:{shopId:slide.id}})">
