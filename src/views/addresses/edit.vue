@@ -33,7 +33,7 @@
         @click="$router.push('/addresses/confirm')"
         />
         <van-field
-          v-model="address.detail"
+          v-model="address.room"
           label="门牌号"
           type="text"
           placeholder="例：8号楼404室"

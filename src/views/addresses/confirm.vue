@@ -25,29 +25,31 @@
         </baidu-map>
         <div class="address-confirm--nearby--content">
           <div class="address-confirm--nearby--content--item">
-              <div class="address-confirm--nearby--content--item__left">
-                <van-icon name="location" size="3em" color="#098AFF"></van-icon>
-              </div>
-              <div class="address-confirm--nearby--content--item__right">
-                  <div class="address-confirm--nearby--content--item__right--first" style="color:rgba(35,149,255,1);">
-                    海创大厦C座
-                  </div>
-                  <div class="address-confirm--nearby--content--item__right--second">
-                    江苏省苏州市昆山市登云路288号
-                  </div>
-              </div>
-          </div>
-          <div class="address-confirm--nearby--content--item">
             <div class="address-confirm--nearby--content--item__left">
-              <van-icon name="radiobox" size="2em" ></van-icon>
+              <van-icon name="location" size="3em" color="#098AFF"></van-icon>
+            </div>
+            <div class="address-confirm--nearby--content--item__right">
+              <div class="address-confirm--nearby--content--item__right--first" style="color:rgba(35,149,255,1);">
+                {{position.name}}
+              </div>
+              <div class="address-confirm--nearby--content--item__right--second">
+                {{position.address}}
+              </div>
+            </div>
+          </div>
+          <div class="address-confirm--nearby--content--item"
+               v-for="nearbyPosition in nearbyPositions"
+               :key="nearbyPosition.id"
+          >
+            <div class="address-confirm--nearby--content--item__left">
+              <van-icon name="radiobox" size="2em"></van-icon>
             </div>
             <div class="address-confirm--nearby--content--item__right">
               <div class="address-confirm--nearby--content--item__right--first" style="color:rgba(0,0,0,1);">
-                海创大厦C座
+                {{nearbyPosition.name}}
               </div>
               <div class="address-confirm--nearby--content--item__right--second">
-                江苏省苏州市昆山市登云路288号舞文玩法范德萨发的方法答复撒发噶过过过过少时诵诗书所所所舞文玩法范德萨发的方法答复撒发噶过过过过少时诵诗书所所所
-
+                {{nearbyPosition.address}}
               </div>
             </div>
           </div>
@@ -58,18 +60,23 @@
           <input
             :placeholder="searchIcon"
             class="address-confirm--filter--search__input iconfont"
+            v-model="key"
+            @keyup.enter="getKeyLocation"
           >
           <div class="address-confirm--filter--search__cancel"
-          @click="isNearby = !isNearby"
+               @click="isNearby = !isNearby"
           >
             取消
           </div>
         </div>
         <div class="address-confirm--filter--content">
-          <div class="address-confirm--filter--content--item van-hairline--top">
+          <div class="address-confirm--filter--content--item van-hairline--top"
+          v-for="keyPosition in keyPositions"
+               :key="keyPosition.uid"
+          >
             <div class="address-confirm--filter--content--item--first">
               <div class="address-confirm--filter--content--item--first__left">
-                舞文玩法范德萨发的方法答复撒发噶过过过过少时诵诗书所所所
+                {{keyPosition.name}}
               </div>
               <div class="address-confirm--filter--content--item--first__right">
                 30.9km
@@ -99,18 +106,18 @@
           &__right {
             width: 550px;
             &--first {
-              font-size:27px;
-              font-family:MicrosoftYaHei;
-              font-weight:bold;
+              font-size: 27px;
+              font-family: MicrosoftYaHei;
+              font-weight: bold;
               text-overflow: ellipsis;
               overflow: hidden;
               white-space: nowrap;
             }
             &--second {
-              font-size:23px;
-              font-family:MicrosoftYaHei;
-              font-weight:400;
-              color:rgba(143,143,143,1);
+              font-size: 23px;
+              font-family: MicrosoftYaHei;
+              font-weight: 400;
+              color: rgba(143, 143, 143, 1);
               text-overflow: ellipsis;
               overflow: hidden;
               white-space: nowrap;
@@ -156,26 +163,26 @@
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
-              font-size:27px;
-              font-family:MicrosoftYaHei;
-              font-weight:400;
-              color:rgba(0,0,0,1);
+              font-size: 27px;
+              font-family: MicrosoftYaHei;
+              font-weight: 400;
+              color: rgba(0, 0, 0, 1);
             }
             &__right {
-              font-size:23px;
-              font-family:MicrosoftYaHei;
-              font-weight:400;
-              color:rgba(143,143,143,1);
+              font-size: 23px;
+              font-family: MicrosoftYaHei;
+              font-weight: 400;
+              color: rgba(143, 143, 143, 1);
             }
           }
           &--second {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size:23px;
-            font-family:MicrosoftYaHei;
-            font-weight:400;
-            color:rgba(143,143,143,1);
+            font-size: 23px;
+            font-family: MicrosoftYaHei;
+            font-weight: 400;
+            color: rgba(143, 143, 143, 1);
           }
         }
       }
@@ -212,6 +219,7 @@
 </style>
 <script>
   import BMap from 'BMap';
+
   export default {
     name: '',
     mixins: [],
@@ -221,12 +229,17 @@
       return {
         searchIcon: '\ue64c搜索小区/写字楼',
         position: {
+          name: '',
+          address: '',
           location: {
-            lat: 31,
-            lng: 130
+            lat: '',
+            lng: ''
           }
         },
-        isNearby: true
+        isNearby: true,
+        nearbyPositions: [],
+        key: '',
+        keyPositions: []
       };
     },
     created() {
@@ -237,8 +250,17 @@
     methods: {
       getLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
-          const data = await this.$axios.get(this.$outside + '/baidu/maps.json?lat=' + r.latitude + '&lng=' + r.longitude + '&coordType=bd09ll' + '&poi=true');
+          const data = await this.$http.get(this.$outside + '/baidu/maps.json?lat=' + r.latitude + '&lng=' + r.longitude + '&coordType=bd09ll' + '&poi=true');
+          console.log(data);
           this.position = data.pois[0];
+          data.pois.splice(0, 1);
+          this.nearbyPositions = data.pois;
+        });
+      },
+      getKeyLocation() {
+        new BMap.Geolocation().getCurrentPosition(async (r) => {
+          const data = await this.$http.get(`${this.$outside}/baidu/places.json?query=${this.key}&lng=${r.longitude}&lat=${r.latitude}`);
+          this.keyPositions = data.result;
         });
       }
     }
