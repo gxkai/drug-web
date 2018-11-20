@@ -232,7 +232,6 @@
             this.isLoading = false;
             this.loading = false;
             this.list = this.list.concat(res.data.list);
-            console.log(this.list);
             if (res.data.list.length === 0) {
               this.finished = true;
             }
