@@ -68,7 +68,7 @@
       };
     },
     created() {
-      this.$http.get('/accounts')
+      this.$axios.get('/accounts')
         .then(res => {
           this.point = res.data.point;
         })
@@ -87,7 +87,7 @@
       },
       onLoad() {
         this.pageNum++;
-        this.$http.get('/coupons', {
+        this.$axios.get('/coupons', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize

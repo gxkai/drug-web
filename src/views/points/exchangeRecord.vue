@@ -37,7 +37,7 @@
     methods: {
       onLoad() {
         this.pageNum++;
-        this.$http.get('/couponRecords/', {
+        this.$axios.get('/couponRecords/', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize

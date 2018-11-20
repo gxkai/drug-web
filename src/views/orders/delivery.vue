@@ -124,7 +124,7 @@
     },
     methods: {
       initData() {
-        this.$http.get('/orders/' + this.orderId)
+        this.$axios.get('/orders/' + this.orderId)
           .then(res => {
             console.log(res);
             this.order = res.data;

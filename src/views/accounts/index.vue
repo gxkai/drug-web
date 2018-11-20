@@ -275,14 +275,14 @@
       };
     },
     created() {
-      this.$http.get('/orders/count')
+      this.$axios.get('/orders/count')
         .then(res => {
           this.count = res.data;
           console.log(res.data);
         }).catch(error => {
           this.exception(error);
         });
-      this.$http.get('pointRecords/signIn/validateDailySignIn')
+      this.$axios.get('pointRecords/signIn/validateDailySignIn')
         .then(res => {
           this.signIn = res.data;
           console.log(res.data);
@@ -303,9 +303,9 @@
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         };
-        this.$http.post('/files/image', param, config).then(res => {
+        this.$axios.post('/files/image', param, config).then(res => {
           this.account.fileId = res.data;
-          this.$http.put('/accounts', this.account)
+          this.$axios.put('/accounts', this.account)
             .then(res => {
               this.$store.commit('SET_ACCOUNT', this.account);
             })

@@ -76,7 +76,7 @@
       },
       onLoad() {
         this.pageNum++;
-        this.$http.get('/faqs', {
+        this.$axios.get('/faqs', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize

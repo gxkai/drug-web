@@ -135,7 +135,7 @@
         this.orderId = this.$storage.get('orderId');
         // 拼接跳转链接
         let orderIds = this.$storage.get('orderIds');
-        this.$http.get(this.URL_PATH + '/alipay/callback', {params: map}).then(res => {
+        this.$axios.get(this.URL_PATH + '/alipay/callback', {params: map}).then(res => {
           delete orderIds.map[this.$route.query.out_trade_no];
           if (Object.keys(orderIds.map).length !== 0) {
             let arr = [];

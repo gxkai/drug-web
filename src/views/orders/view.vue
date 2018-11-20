@@ -258,7 +258,7 @@
     },
     methods: {
       initData() {
-        this.$http.get('/orders/' + this.orderId)
+        this.$axios.get('/orders/' + this.orderId)
           .then(res => {
             this.order = res.data;
             console.log(res.data);
@@ -290,7 +290,7 @@
         }
       },
       onCancel() {
-        this.$http.put('/orders/' + this.order.id + '/close').then(res => {
+        this.$axios.put('/orders/' + this.order.id + '/close').then(res => {
           this.order.state = 'CLOSED';
         }).catch(error => {
           this.exception(error);
@@ -309,7 +309,7 @@
         this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
       onConfirm() {
-        this.$http.put('/orders/' + this.order.id + '/complete').then(res => {
+        this.$axios.put('/orders/' + this.order.id + '/complete').then(res => {
           this.order.state = 'TO_APPRAISE';
           this.emitOrder();
         }).catch(error => {

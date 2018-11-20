@@ -76,7 +76,7 @@
       };
     },
     created() {
-      this.$http.get('/repositories/' + this.id)
+      this.$axios.get('/repositories/' + this.id)
         .then(res => {
           this.info = res.data;
           console.log(res.data);

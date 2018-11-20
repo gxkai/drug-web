@@ -198,7 +198,7 @@
     methods: {
       getData() {
         if (this.isBlank(this.receiveAddress)) {
-          this.$http.get('addresses/default').then(res => {
+          this.$axios.get('addresses/default').then(res => {
             if (this.isNotBlank(res.data)) {
               this.setReceiveAddress(res.data);
             }
@@ -206,12 +206,12 @@
             this.exception(error);
           });
         }
-        this.$http.post('orders/shop/get', this.orderShopDrugSpecDTO)
+        this.$axios.post('orders/shop/get', this.orderShopDrugSpecDTO)
           .then(res => {
             this.shopDrugSpecOrderDTO = res.data;
             console.log(res.data);
             this.payAmount = res.data.payAmount;
-            this.$http.get('couponRecords/order')
+            this.$axios.get('couponRecords/order')
               .then(res2 => {
                 this.coupons = res2.data.filter(e => res.data.payAmount >= e.amount);
               })
@@ -239,7 +239,7 @@
         json.deliveryType = this.deliveryType;
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
-        this.$http.post('/orders/shop', json).then(res => {
+        this.$axios.post('/orders/shop', json).then(res => {
           console.log(res.data);
           this.$router.replace({
             path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType

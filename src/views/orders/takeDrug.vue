@@ -29,7 +29,7 @@
     },
     methods: {
       getList() {
-        this.$http.post('/orders/' + this.orderId + '/hospital')
+        this.$axios.post('/orders/' + this.orderId + '/hospital')
           .then(res => {
             this.order = res.data;
           }).catch(error => {

@@ -1,5 +1,7 @@
 <template>
-  <new-layout class="home">
+  <new-layout
+    centerColor="white"
+    class="home">
     <div slot="top" class="home__header">
       <div class="home__header__first">
         <div class="home__header__first__left"
@@ -123,31 +125,34 @@
             <van-icon name="shijian2" color="#FF9800" size="3em" class="home__content__discount--time--icon"></van-icon>
             <new-time-down class="home__content__discount--time--down"></new-time-down>
           </div>
-          <van-row
+          <van-swipe :loop="false"
+                     :width="100"
+                     :show-indicators="false"
+                     class="home__content__discount__content"
           >
-            <van-col
-              span="12"
-              class="van-hairline--bottom van-hairline--right home__content__discount__content"
+            <van-swipe-item
               v-for="discount in discounts"
               :key="discount.id"
+              @click="linkToShopDrugSpec(discount.id)"
             >
               <div class="home__content__discount__content__item"
-                   @click="linkToShopDrugSpec(discount.id)"
               >
                 <img
                   class="home__content__discount__content__item--logo"
                   v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')">
                 <div
                   class="home__content__discount__content__item--name"
-                >{{discount.name}}
+                >
+                  {{discount.name}}
                 </div>
                 <div
                   class="home__content__discount__content__item--spec"
-                >{{discount.spec}}
+                >
+                  ￥{{discount.price}}
                 </div>
               </div>
-            </van-col>
-          </van-row>
+            </van-swipe-item>
+          </van-swipe>
         </div>
         <div class="home__content__show">
           <new-header-sec>
@@ -274,7 +279,7 @@
   .home {
     background-color: #f5f5f5;
     &__content {
-      &__recommend, &__discount {
+      &__recommend {
         &__content {
           &__item {
             display: flex;
@@ -316,6 +321,40 @@
           &--down {
             margin-left: 20px;
             margin-top: 10px;
+          }
+        }
+        &__content {
+          margin-top: 20px;
+          &__item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            width: 180px;
+            &--logo {
+              width: 160px;
+              height: 160px;
+              border:1PX solid rgba(19, 193, 254, 1);
+              border-radius:7px;
+            }
+            &--name, &--spec {
+              width: 100px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            &--name {
+              font-size: 22px;
+              font-family: HiraginoSansGB-W3;
+              font-weight: normal;
+              color: rgba(69, 69, 69, 1);
+            }
+            &--spec {
+              font-size: 24px;
+              font-family: HiraginoSansGB-W3;
+              font-weight: normal;
+              color: rgba(255, 0, 0, 1);
+            }
           }
         }
       }
@@ -481,7 +520,7 @@
       }
     },
     created() {
-      this.$http.all(this.getHttpList());
+      this.$axios.all(this.getHttpList());
     },
     mounted() {
       this.startLocation();
@@ -494,35 +533,35 @@
       getHttpList() {
         return [
           // 让利惠民
-          this.$http.get('/drugs/discount').then(res => {
+          this.$axios.get('/drugs/discount').then(res => {
             console.log('让利惠民', res.data);
             this.discounts = res.data;
           }).catch(error => {
             this.exception(error);
           }),
           // 医保定点
-          this.$http.get('/shops/show').then(res => {
+          this.$axios.get('/shops/show').then(res => {
             console.log('医保定点', res.data);
             this.shows = res.data;
           }).catch(error => {
             this.exception(error);
           }),
           // 广告
-          this.$http.get('/adverts').then(res => {
+          this.$axios.get('/adverts').then(res => {
             console.log('广告', res.data);
             this.adverts = res.data;
           }).catch(error => {
             this.exception(error);
           }),
           // 好货推荐
-          this.$http.get('/drugs/recommend').then(res => {
+          this.$axios.get('/drugs/recommend').then(res => {
             console.log('好货推荐', res.data);
             this.recommends = res.data;
           }).catch(error => {
             this.exception(error);
           }),
           // 知识库
-          this.$http.get('/repositories/home')
+          this.$axios.get('/repositories/home')
             .then(res => {
               console.log('健康咨询', res.data);
               this.repositories = res.data;
@@ -531,7 +570,7 @@
               this.exception(error);
             }),
           // 咨询类别
-          this.$http.get('/repositoryTypes')
+          this.$axios.get('/repositoryTypes')
             .then((res) => {
               this.repositoryTypes = res.data;
             }).catch(error => {
@@ -541,7 +580,7 @@
       },
       onRefresh() {
         this.startLocation();
-        this.$http.all(this.getHttpList()).then(() => {
+        this.$axios.all(this.getHttpList()).then(() => {
           this.isLoading = false;
         });
       },
@@ -557,7 +596,7 @@
       },
       startLocation() {
         new BMap.Geolocation().getCurrentPosition((r) => {
-          this.$http.get(this.$outside + '/baidu/maps.json?lat=' + r.latitude + '&lng=' + r.longitude + '&coordType=bd09ll' + '&poi=true')
+          this.$axios.get(this.$outside + '/baidu/maps.json?lat=' + r.latitude + '&lng=' + r.longitude + '&coordType=bd09ll' + '&poi=true')
             .then(res => {
               console.log('经纬度获取成功');
               console.log(res.data.pois[0], res.data.pois[0].lat, res.data.pois[0].name);

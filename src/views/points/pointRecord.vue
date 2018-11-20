@@ -121,7 +121,7 @@
     methods: {
       onLoad() {
         this.pageNum++;
-        this.$http.get('/pointRecords/', {
+        this.$axios.get('/pointRecords/', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize

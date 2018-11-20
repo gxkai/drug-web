@@ -75,7 +75,7 @@
     },
     methods: {
       onCommit() {
-        this.$http.post('/orderRefunds', {
+        this.$axios.post('/orderRefunds', {
           'explain': this.explain,
           'orderId': this.orderId,
           'price': this.orderInfo.totalAmount,
@@ -88,7 +88,7 @@
       }
     },
     created() {
-      this.$http.get('/orders/' + this.orderId)
+      this.$axios.get('/orders/' + this.orderId)
         .then(res => {
           console.log(res.data);
           this.orderInfo = res.data;

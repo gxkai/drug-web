@@ -54,7 +54,7 @@
       },
       onLoad() {
         this.pageNum++;
-        this.$http.get('/messages', {
+        this.$axios.get('/messages', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize,

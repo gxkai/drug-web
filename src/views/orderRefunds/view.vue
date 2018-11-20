@@ -71,7 +71,7 @@
       };
     },
     created() {
-      this.$http.get('/orderRefunds/' + this.orderRefundId)
+      this.$axios.get('/orderRefunds/' + this.orderRefundId)
         .then(res => {
           this.list = res.data;
           console.log(res.data);

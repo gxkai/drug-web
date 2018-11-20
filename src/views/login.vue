@@ -118,7 +118,7 @@
     },
     methods: {
       getCaptcha() {
-        this.$http.post('/captchas', {
+        this.$axios.post('/captchas', {
           'username': this.registerUsername,
           'captchaType': 'ACCOUNT_REGISTER'
         })
@@ -131,7 +131,7 @@
           });
       },
       checkCaptcha() {
-        this.$http.post('/captchas/check', {
+        this.$axios.post('/captchas/check', {
           'username': this.registerUsername,
           'captcha': this.captcha
         }).then(res => {

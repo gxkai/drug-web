@@ -45,7 +45,7 @@
       };
     },
     created() {
-      this.$http.get('/messageTypes')
+      this.$axios.get('/messageTypes')
         .then((res) => {
           if (res.data.length > 0) {
             this.list = res.data;

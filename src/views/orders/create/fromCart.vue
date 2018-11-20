@@ -195,7 +195,7 @@
       getData() {
         this.payAmount = this.cart.payAmount;
         if (this.isBlank(this.receiveAddress)) {
-          this.$http.get('addresses/default').then(res => {
+          this.$axios.get('addresses/default').then(res => {
             if (res.data) {
               this.setReceiveAddress(res.data);
             }
@@ -203,7 +203,7 @@
             this.exception(error);
           });
         }
-        this.$http.get('couponRecords/order')
+        this.$axios.get('couponRecords/order')
           .then(res => {
             this.coupons = res.data.filter(e => this.cart.payAmount >= e.amount);
             console.log(this.coupons);
@@ -241,7 +241,7 @@
         json.cartIds = this.getCartIds();
         json.deliveryType = this.deliveryType;
         json.payType = this.payType;
-        this.$http.post('/orders', json).then(res => {
+        this.$axios.post('/orders', json).then(res => {
           let str = '';
           res.data.forEach(e => {
             str += 'orderIds=' + e + '&';

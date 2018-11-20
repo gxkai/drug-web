@@ -237,18 +237,18 @@
       };
     },
     created() {
-      this.$http.get('/shops/' + this.shopId + '/drugs/recommend').then(res => {
+      this.$axios.get('/shops/' + this.shopId + '/drugs/recommend').then(res => {
         this.list = res.data;
         console.log(res.data);
       }).catch(error => {
         this.exception(error);
       });
-      this.$http.get('/shops/' + this.shopId).then(res => {
+      this.$axios.get('/shops/' + this.shopId).then(res => {
         this.shopInfo = res.data;
       }).catch(error => {
         this.exception(error);
       });
-      this.$http.get('/collects/shop/one?' + '&shopId=' + this.shopId)
+      this.$axios.get('/collects/shop/one?' + '&shopId=' + this.shopId)
         .then(res => {
           if (res.data) {
             this.colloct = true;
@@ -259,7 +259,7 @@
           this.exception(error);
         });
       // 药品大类
-      this.$http.get('/drugTypes')
+      this.$axios.get('/drugTypes')
         .then((res) => {
           this.drugTypes = res.data;
         }).catch(error => {
@@ -275,7 +275,7 @@
           'shopId': this.shopId,
           'collected': this.colloct
         };
-        this.$http.post('/collects/shop', data).then(res => {
+        this.$axios.post('/collects/shop', data).then(res => {
           if (this.colloct) {
             this.$toast('收藏成功');
           } else {

@@ -83,7 +83,7 @@
       };
     },
     created() {
-      this.$http.get('/hospitals/' + this.shopId)
+      this.$axios.get('/hospitals/' + this.shopId)
         .then(res => {
           this.hospitalInfo = res.data;
           console.log(res.data);

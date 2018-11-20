@@ -52,7 +52,7 @@
       },
       onLoad() {
         this.pageNum++;
-        this.$http.get('/orderRefunds', {
+        this.$axios.get('/orderRefunds', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize

@@ -37,7 +37,7 @@
           this.$toast('输入密码不同');
           return;
         }
-        this.$http.put('/accounts/password', {password: this.password})
+        this.$axios.put('/accounts/password', {password: this.password})
           .then((res) => {
             this.$router.go(-1);
           })

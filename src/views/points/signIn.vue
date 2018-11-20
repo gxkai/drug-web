@@ -107,7 +107,7 @@
         }
       },
       getPoints() {
-        this.$http.get('/pointRecords/signInPoint').then(res => {
+        this.$axios.get('/pointRecords/signInPoint').then(res => {
           this.points = res.data;
           console.log('今日签到获得' + res.data + '积分');
         }).catch(error => {
@@ -116,20 +116,20 @@
       }
     },
     created() {
-      this.$http.get('/accounts')
+      this.$axios.get('/accounts')
         .then(res => {
           this.point = res.data.point;
         })
         .catch(err => {
           this.exception(err);
         });
-      this.$http.post('/pointRecords/signIn').then(res => {
+      this.$axios.post('/pointRecords/signIn').then(res => {
         this.getPoints();
         this.show = !this.show;
         var date = new Date();
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
-        this.$http.get('/pointRecords/signIn?month=' + month + '&year=' + year)
+        this.$axios.get('/pointRecords/signIn?month=' + month + '&year=' + year)
           .then(res => {
             let arr = res.data;
             this.arr = res.data;
@@ -148,7 +148,7 @@
       }).catch(() => {
         this.getPoints();
       });
-      this.$http.get('/coupons?pageNum=1&pageSize=3')
+      this.$axios.get('/coupons?pageNum=1&pageSize=3')
         .then(res => {
           this.coupons = res.data.list;
           console.log(res.data.list);

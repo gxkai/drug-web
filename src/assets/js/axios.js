@@ -1,6 +1,7 @@
 import axios from 'axios';
-import router from '../../router';
 import { getToken, removeLogin } from './auth';
+import { Toast } from 'vant';
+import router from '../../router';
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.defaults.timeout = 50000;
 axios.interceptors.request.use(
@@ -29,13 +30,21 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           removeLogin();
-          router.push({
-            path: '/login',
-            query: {redirect: router.currentRoute.fullPath}
-          });
+          router.push('/login');
+          break;
+        case 400:
+          if (error.response.data.fieldErrors) {
+            Toast(error.response.data.fieldErrors[0].message);
+          }
+          if (error.response.data.message) {
+            Toast(error.response.data.message);
+          }
+          break;
+        default:
+          Toast('网络异常');
+          break;
       }
     }
     return Promise.reject(error);
   });
-
 export default axios;

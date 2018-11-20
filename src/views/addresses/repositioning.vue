@@ -70,7 +70,7 @@
     methods: {
       search() {
         var url = this.$outside + '/baidu/places.json?query=' + this.inputVal;
-        this.$http.get(url).then((res) => {
+        this.$axios.get(url).then((res) => {
           this.libraryList = res.data.result;
           this.showMap(false);
         }).catch(error => {
@@ -103,7 +103,7 @@
       },
       getPositionList() {
         var url = this.$outside + '/baidu/maps.json?lat=' + this.center.lat + '&lng=' + this.center.lng + '&poi=true' + '&coordType=bd09ll';
-        this.$http.get(url).then(res => {
+        this.$axios.get(url).then(res => {
           this.positionList = res.data.pois;
           this.showMap(true);
         }).catch(error => {

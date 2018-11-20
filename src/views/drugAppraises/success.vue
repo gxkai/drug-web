@@ -159,7 +159,7 @@
       }
     },
     created() {
-      this.$http.get('/drugAppraises/toAppraise')
+      this.$axios.get('/drugAppraises/toAppraise')
         .then(res => {
           this.list = res.data;
         }).catch(error => {

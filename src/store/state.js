@@ -1,14 +1,6 @@
 export default {
-  token: null,
-  account: null,
   cartShops: [],
   addresses: [],
-  receiveAddress: null,
-  position: {
-    lat: 31,
-    lng: 130,
-    name: '定位中..'
-  },
   firstOpen: true,
   projectInfo: {
     copyright: '2017-2018 药品服务平台版权所有',

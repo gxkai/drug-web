@@ -168,6 +168,16 @@ const addressRouter = [
     path: '/addresses/repositioning',
     name: '地址选择',
     component: () => import('@/views/addresses/repositioning.vue')
+  },
+  {
+    path: '/addresses/choose',
+    name: '选择收货地址',
+    component: () => import('@/views/addresses/choose.vue')
+  },
+  {
+    path: '/addresses/confirm',
+    name: '确认收货地址',
+    component: () => import('@/views/addresses/confirm.vue')
   }
 ];
 
@@ -362,6 +372,11 @@ const otherRouter = [
 const appRouter = [
   {
     path: '/',
+    name: '跳转入口',
+    component: () => import('@/views/entry')
+  },
+  {
+    path: '/index',
     name: '首页',
     component: () => import('@/views/index')
   },
@@ -393,6 +408,7 @@ const appRouter = [
 ];
 
 const Router = new VueRouter({
+  mode: 'history',
   routes: [
     errorRouter,
     collectRouter,

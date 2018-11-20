@@ -104,7 +104,7 @@
     },
     methods: {
       getRxShops() {
-        this.$http.get('/rxs/' + this.rxId + '/shops?lng=' + this.position.lng + '&lat=' + this.position.lat)
+        this.$axios.get('/rxs/' + this.rxId + '/shops?lng=' + this.position.lng + '&lat=' + this.position.lat)
           .then(res => {
             this.rxShops = res.data;
             console.log(res.data);
@@ -113,7 +113,7 @@
           });
       },
       getHospital() {
-        this.$http.get('/rxs/' + this.rxId + '/hospital')
+        this.$axios.get('/rxs/' + this.rxId + '/hospital')
           .then(res => {
             this.hospital = res.data;
             console.log(res.data);

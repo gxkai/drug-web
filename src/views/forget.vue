@@ -93,7 +93,7 @@ export default {
           }
         }, 1000);
       }
-      this.$http.post('/accounts/captcha', {
+      this.$axios.post('/accounts/captcha', {
         'username': this.username,
         'captchaType': 'PASSWORD'
       })
@@ -105,7 +105,7 @@ export default {
         });
     },
     checkCaptcha() {
-      this.$http.post('/accounts/forget', {'username': this.registerUsername, 'captcha': this.captcha})
+      this.$axios.post('/accounts/forget', {'username': this.registerUsername, 'captcha': this.captcha})
         .then((res) => {
           this.state = 1;
         })
@@ -118,7 +118,7 @@ export default {
         this.$toast('输入密码不同');
         return;
       }
-      this.$http.put('/accounts/forget', {
+      this.$axios.put('/accounts/forget', {
         'username': this.registerUsername,
         'captcha': this.captcha,
         'password': this.password

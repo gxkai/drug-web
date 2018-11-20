@@ -115,7 +115,7 @@
       };
     },
     created() {
-      this.$http.get('/addresses')
+      this.$axios.get('/addresses')
         .then((res) => {
           this.list = res.data;
         }).catch(err => {
@@ -127,7 +127,7 @@
     methods: {
       del(id, index) {
         this.$dialog.confirm({ message: '确定删除？' }).then(() => {
-          this.$http.delete('/addresses/' + id)
+          this.$axios.delete('/addresses/' + id)
             .then((res) => {
               this.list.splice(index, 1);
               this.$toast('删除成功');

@@ -413,7 +413,7 @@
       }
     },
     created() {
-      this.$http.get('/drugs/' + this.drugId).then((res) => {
+      this.$axios.get('/drugs/' + this.drugId).then((res) => {
         this.drugInfo = res.data;
         this.drugSpecs = res.data.drugSpecs;
         this.drugSpecs.forEach(e => {
@@ -433,7 +433,7 @@
     methods: {
       getShops() {
         var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.drugSpec.id + '/shops?sort=' + this.sort + '&lat=' + this.lat + '&lng=' + this.lng;
-        this.$http.get(url).then((res) => {
+        this.$axios.get(url).then((res) => {
           this.total = res.data.total;
           this.shops = res.data.list;
         }).catch(error => {

@@ -201,7 +201,7 @@
       };
     },
     created() {
-      this.$http.get('/shops/' + this.shopId).then(res => {
+      this.$axios.get('/shops/' + this.shopId).then(res => {
         console.log(res.data);
         this.shopInfo = res.data;
       }).catch(err => {

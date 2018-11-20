@@ -132,7 +132,7 @@
     },
     methods: {
       getDrugs() {
-        this.$http.get('/rxs/' + this.rxId + '/shops/' + this.shopId + '/drugs')
+        this.$axios.get('/rxs/' + this.rxId + '/shops/' + this.shopId + '/drugs')
           .then(res => {
             console.log(res.data);
             this.drugs = res.data;
@@ -191,7 +191,7 @@
         this.isActive = !this.isActive;
       },
       createCart() {
-        this.$http.post('/carts', this.carts)
+        this.$axios.post('/carts', this.carts)
           .then(res => {
             Toast({
               message: '加入购物车成功',
@@ -211,7 +211,7 @@
           'type': this.type,
           'orderShopDrugSpecInfoDTOList': this.carts
         };
-        this.$http.post('orders/shop/get', json)
+        this.$axios.post('orders/shop/get', json)
           .then(res => {
             this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(json));
           })

@@ -51,7 +51,7 @@
     },
     methods: {
       commit() {
-        this.$http.post('/feedbacks', {
+        this.$axios.post('/feedbacks', {
           'content': this.content
         })
           .then((res) => {

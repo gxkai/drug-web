@@ -158,7 +158,7 @@
       },
       onLoad() {
         this.pageNum++;
-        this.$http.get('/drugAppraises/mine', {
+        this.$axios.get('/drugAppraises/mine', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize

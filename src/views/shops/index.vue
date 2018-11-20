@@ -139,7 +139,7 @@
       },
       onLoad() {
         this.pageNum++;
-        this.$http.get('/shops', {
+        this.$axios.get('/shops', {
           params: {
             lat: this.position.lat,
             lng: this.position.lng,

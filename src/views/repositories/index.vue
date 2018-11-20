@@ -97,7 +97,7 @@
       },
       onLoad() {
         this.pageNum++;
-        this.$http.get('/repositories/', {
+        this.$axios.get('/repositories/', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize,

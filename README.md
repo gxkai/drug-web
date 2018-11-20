@@ -24,7 +24,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 
 ``` javascript
-this.pageList.forEach(e => { e.imgUrl = this.$http.get(this.getImgURL(e.fileId, 'LOGO')); });
+this.pageList.forEach(e => { e.imgUrl = this.$axios.get(this.getImgURL(e.fileId, 'LOGO')); });
 ```
 baidumap
 ios Uat07M7GFSHS26TWT7iZwBQdTw3DL3GM

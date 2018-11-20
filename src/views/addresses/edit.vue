@@ -1,15 +1,16 @@
 <template>
-  <div class="address-edit">
-    <van-nav-bar
-    :title="id === undefined ? '地址创建' : '地址编辑'"
-    left-arrow
-    right-text="保存"
-    @click-left="$router.go(-1)"
-    @click-right="save()"
-    ref="header"
-    />
+  <new-layout class="address-edit">
+    <template slot="top">
+      <van-nav-bar
+        :title="id === undefined ? '地址创建' : '地址编辑'"
+        left-arrow
+        right-text="保存"
+        @click-left="$router.go(-1)"
+        @click-right="save()"
+      />
+    </template>
 
-    <div ref="content">
+    <template slot="center">
       <van-cell-group>
         <van-field
           v-model="address.consignee"
@@ -27,17 +28,23 @@
         <van-field
         v-model="address.address"
         label="地址"
-        type="textarea"
-        placeholder="请输入详细地址"
-        rows="1"
+        type="text"
+        placeholder="选择收货地址"
+        @click="$router.push('/addresses/confirm')"
+        />
+        <van-field
+          v-model="address.detail"
+          label="门牌号"
+          type="text"
+          placeholder="例：8号楼404室"
         />
       </van-cell-group>
 
       <van-cell-group class="mt-l-20 address-edit__checkbox">
         <van-checkbox v-model="address.defaulted">设为默认地址</van-checkbox>
       </van-cell-group>
-    </div>
-  </div>
+    </template>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   /deep/.van-checkbox {
@@ -46,7 +53,6 @@
     }
   }
   .address-edit {
-    background-color: #f5f5f5;
     &__checkbox {
       padding: 20px;
     }
@@ -67,12 +73,10 @@
       }
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'auto';
     },
     methods: {
       getList() {
-        this.$http.get('/addresses/' + this.id)
+        this.$axios.get('/addresses/' + this.id)
           .then((res) => {
             this.address = res.data;
           })
@@ -82,7 +86,7 @@
       },
       save() {
         if (this.id !== undefined) {
-          this.$http.put('/addresses/' + this.id, this.address)
+          this.$axios.put('/addresses/' + this.id, this.address)
             .then((res) => {
               let instance = this.$toast('保存成功');
               setTimeout(() => {
@@ -94,7 +98,7 @@
               this.exception(error);
             });
         } else {
-          this.$http.post('/addresses/', this.address)
+          this.$axios.post('/addresses/', this.address)
             .then((res) => {
               let instance = this.$toast('保存成功');
               setTimeout(() => {

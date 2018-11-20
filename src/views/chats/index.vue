@@ -69,7 +69,7 @@
       },
       onLoad() {
         this.pageNum++;
-        this.$http.get('/chats/', {
+        this.$axios.get('/chats/', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize

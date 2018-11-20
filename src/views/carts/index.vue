@@ -443,7 +443,7 @@
     },
     methods: {
       getData() {
-        this.$http.get('/carts').then(res => {
+        this.$axios.get('/carts').then(res => {
           res.data.cartShops.forEach(e => {
             e.radio = false;
             e.rxs.forEach(e => {
@@ -483,7 +483,7 @@
             cartRx.drugs.forEach(e => {
               cartIds.push(e.cartId);
             });
-            this.$http.delete('carts?cartIds=' + cartIds).then(res => {
+            this.$axios.delete('carts?cartIds=' + cartIds).then(res => {
               cartShop.rxs.splice(cartRxIndex, 1);
               if (cartShop.rxs.length === 0) {
                 this.cartShops.splice(cartShopIndex, 1);
@@ -494,7 +494,7 @@
           });
         } else {
           this.$dialog.confirm({ message: '确定删除？' }).then(action => {
-            this.$http.delete('carts/' + cartDrug.cartId).then(res => {
+            this.$axios.delete('carts/' + cartDrug.cartId).then(res => {
               cartRx.drugs.splice(cartDrugIndex, 1);
               if (cartRx.drugs.length === 0) {
                 cartShop.rxs.splice(cartRxIndex, 1);
@@ -518,7 +518,7 @@
           return;
         }
         this.$dialog.confirm({ message: '确定删除?' }).then(action => {
-          this.$http.delete('carts', {
+          this.$axios.delete('carts', {
             params: {
               cartIds: cartIds
             },
@@ -533,7 +533,7 @@
         });
       },
       onRemoveBatchWithOutTip() {
-        this.$http.delete('carts?cartIds=' + this.getCartIds()).then(res => {
+        this.$axios.delete('carts?cartIds=' + this.getCartIds()).then(res => {
           this.remove();
         }).catch(error => {
           this.exception(error);
@@ -586,7 +586,7 @@
           return;
         }
         this.loading = true;
-        this.$http.get('/orders/cart?cartIds=' + cartIds).then(res => {
+        this.$axios.get('/orders/cart?cartIds=' + cartIds).then(res => {
           console.log(res.data);
           this.$router.push({ path: '/orders/create/fromCart', query: { cart: JSON.stringify(res.data) } });
         }).catch(error => {

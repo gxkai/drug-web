@@ -73,7 +73,7 @@
       }
     },
     created() {
-      this.$http.get('/version')
+      this.$axios.get('/version')
         .then((res) => {
           this.version.number = res.data;
         })

@@ -52,7 +52,7 @@
     },
     methods: {
       getList() {
-        this.$http.get('/addresses')
+        this.$axios.get('/addresses')
           .then((res) => {
             this.list = res.data;
           }).catch(error => {

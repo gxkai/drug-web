@@ -21,5 +21,8 @@ export default {
   },
   [types.SET_FIRST_OPEN](state, firstOpen) {
     state.firstOpen = firstOpen;
+  },
+  [types.SET_RECEIVED_POSITION](state, receivedPosition) {
+    state.receivedPosition = receivedPosition;
   }
 };

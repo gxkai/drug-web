@@ -57,7 +57,7 @@
     },
     methods: {
       getList() {
-        this.$http.get('/orders/pay?orderIds=' + this.orderIds).then(res => {
+        this.$axios.get('/orders/pay?orderIds=' + this.orderIds).then(res => {
           this.list = res.data;
           console.log(res.data);
           this.$storage.set('orderIds', this.orderIds);
@@ -66,7 +66,7 @@
         });
       },
       onPay(item, key) {
-        this.$http.get('/orders/' + item.id + '/pay')
+        this.$axios.get('/orders/' + item.id + '/pay')
           .then(res => {
             // this.$storage.set('orderId', item.id);
             // const div = document.createElement('div');

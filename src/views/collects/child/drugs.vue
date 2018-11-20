@@ -111,7 +111,7 @@
       },
       onLoad() {
         this.pageNum++;
-        this.$http.get('/collects/drug', {
+        this.$axios.get('/collects/drug', {
           params: {
             'pageNum': this.pageNum,
             'pageSize': this.pageSize

@@ -107,7 +107,7 @@
       };
     },
     created() {
-      this.$http.get('/coupons/' + this.couponId)
+      this.$axios.get('/coupons/' + this.couponId)
         .then(res => {
           this.coupon = res.data;
           if (this.coupon.expiryDate === null) {
@@ -132,7 +132,7 @@
         }
         switch (this.coupon.type) {
           case 'TICKET':
-            this.$http.post('/couponRecords?couponId=' + this.coupon.id)
+            this.$axios.post('/couponRecords?couponId=' + this.coupon.id)
               .then(res => {
                 this.$toast('兑换成功');
               })
@@ -151,7 +151,7 @@
           'phone': this.phone,
           'address': this.address
         };
-        this.$http.post('/couponRecords/article', params)
+        this.$axios.post('/couponRecords/article', params)
           .then(res => {
             let instance = this.$toast('兑换成功');
             setTimeout(() => {

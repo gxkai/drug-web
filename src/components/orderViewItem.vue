@@ -179,7 +179,7 @@
         this.$emit('update:order', this.order);
       },
       onCancel() {
-        this.$http.put('/orders/' + this.order.id + '/close').then(res => {
+        this.$axios.put('/orders/' + this.order.id + '/close').then(res => {
           this.order.state = 'CLOSED';
           this.emitOrder();
         }).catch(error => {
@@ -220,7 +220,7 @@
         this.$toast('提醒发货成功!');
       },
       onConfirm() {
-        this.$http.put('/orders/' + this.order.id + '/complete').then(res => {
+        this.$axios.put('/orders/' + this.order.id + '/complete').then(res => {
           if (this.order.type === 'HOSPITAL') {
             this.order.state = 'COMPLETED';
           } else {

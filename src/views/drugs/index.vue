@@ -304,7 +304,7 @@
       onLoad() {
         this.pageNum++;
         console.log(this.commonName, this.originId, this.specId, this.formId);
-        this.$http.get('/drugs', {
+        this.$axios.get('/drugs', {
           params: {
             pageNum: this.pageNum,
             pageSize: this.pageSize,
@@ -352,7 +352,7 @@
         this.onRefresh();
       },
       filterByName() {
-        this.$http.get('/drugs/name', {
+        this.$axios.get('/drugs/name', {
           params: {
             drugTypeId: this.drugTypeId,
             originId: this.originId,
@@ -371,7 +371,7 @@
           });
       },
       filterByOrigin() {
-        this.$http.get('/origins', {
+        this.$axios.get('/origins', {
           params: {
             drugTypeId: this.drugTypeId,
             commonName: this.commonName,
@@ -390,7 +390,7 @@
           });
       },
       filterBySpec() {
-        this.$http.get('/specs', {
+        this.$axios.get('/specs', {
           params: {
             drugTypeId: this.drugTypeId,
             commonName: this.commonName,
@@ -409,7 +409,7 @@
           });
       },
       filterByForm() {
-        this.$http.get('/forms', {
+        this.$axios.get('/forms', {
           params: {
             drugTypeId: this.drugTypeId,
             commonName: this.commonName,

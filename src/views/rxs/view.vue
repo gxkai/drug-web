@@ -96,7 +96,7 @@
       }
     },
     created() {
-      this.$http.get('/rxs/' + this.rxId).then(
+      this.$axios.get('/rxs/' + this.rxId).then(
         res => {
           this.rx = res.data;
         }).catch(error => {

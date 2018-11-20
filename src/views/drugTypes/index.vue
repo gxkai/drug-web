@@ -114,7 +114,7 @@
     components: {
     },
     created() {
-      this.$http.get('/drugTypes')
+      this.$axios.get('/drugTypes')
         .then((res) => {
           this.list = res.data;
           console.log(res.data);

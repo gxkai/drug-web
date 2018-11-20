@@ -28,5 +28,6 @@ export default {
     Vue.component('new-rx-hospital-item', () => import('../../components/rxHospitalItem'));
     Vue.component('new-stepper', () => import('../../components/stepper'));
     Vue.component('new-layout', () => import('../../components/layout'));
+    Vue.component('base-layout', () => import('../../components/baseLayout'));
   }
 };

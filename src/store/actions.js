@@ -12,7 +12,7 @@ import { setToken, setAccount, setLogin } from '../assets/js/auth';
  */
 export function LOGIN({ commit, state }, userInfo) {
   return new Promise((resolve, reject) => {
-    axios.post('/accounts/login', userInfo).then(res => {
+    axios.post('/accounts/login1', userInfo).then(res => {
       console.log('token', res.data);
       commit(types.SET_TOKEN, res.data);
       setToken(res.data);

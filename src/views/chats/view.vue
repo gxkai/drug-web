@@ -63,7 +63,7 @@
        * 获取chatId
        */
       if (!this.chatId) {
-        this.$http.get('/chats/id?shopId=' + this.shopId).then(res => {
+        this.$axios.get('/chats/id?shopId=' + this.shopId).then(res => {
           this.chatId = res.data;
           this.getChatInfo();
         }).catch(error => {
@@ -82,7 +82,7 @@
          * @type {string}
          */
         let url = '/chats/' + this.chatId + '?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize;
-        this.$http.get(url).then(res => {
+        this.$axios.get(url).then(res => {
           this.shopInfo = {
             'shopName': res.data.shopName,
             'headImg': this.getImgURL(res.data.shopFileId),
@@ -97,7 +97,7 @@
         if (this.isBlank(this.value)) {
           this.$toast('消息不能为空');
         } else {
-          this.$http.post('/chats', {
+          this.$axios.post('/chats', {
             'type': 'ACCOUNT',
             'message': this.value,
             'shopId': this.shopId

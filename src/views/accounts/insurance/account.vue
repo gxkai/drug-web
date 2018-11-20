@@ -51,7 +51,7 @@
       };
     },
     created() {
-      this.$http.get('/accounts/medicaid')
+      this.$axios.get('/accounts/medicaid')
         .then(res => {
           this.accountInfo = res.data;
           console.log(res.data);

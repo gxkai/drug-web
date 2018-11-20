@@ -6,6 +6,7 @@ import store from './store';
 import base from './assets/js/function';
 import component from './assets/js/component';
 import axios from './assets/js/axios';
+import http from './assets/js/http';
 import storage from 'good-storage';
 import '../src/assets/js/flex';
 import VueAwesomeSwiper from '../src/assets/plugin/vue-awesome-swiper';
@@ -101,7 +102,8 @@ Vue.use(Actionsheet).use(GoodsAction)
   })
 ;
 Vue.use(vueEventCalendar, {locale: 'zh', className: ''});
-Vue.prototype.$http = axios;
+Vue.prototype.$axios = axios;
+Vue.prototype.$http = http;
 Vue.prototype.$env = process.env.NODE_ENV;
 Vue.prototype.$outside = process.env.OUTSIDE_ROOT;
 Vue.prototype.$storage = storage;

@@ -25,7 +25,7 @@
       };
     },
     created() {
-      this.$http.get('/accounts/medicaid/consume')
+      this.$axios.get('/accounts/medicaid/consume')
         .then(res => {
           this.items = res.data;
           console.log(res.data);

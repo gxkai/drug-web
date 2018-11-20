@@ -505,10 +505,10 @@
       };
     },
     created() {
-      this.$http.get('/shopDrugSpecs/' + this.$route.query.shopDrugSpecId)
+      this.$axios.get('/shopDrugSpecs/' + this.$route.query.shopDrugSpecId)
         .then(res => {
           this.shopDrugSpec = res.data;
-          this.$http.get('/collects/drug/one?shopDrugSpecId=' + this.shopDrugSpec.id)
+          this.$axios.get('/collects/drug/one?shopDrugSpecId=' + this.shopDrugSpec.id)
             .then(res => {
               this.collected = res.data;
               console.log(res.data);
@@ -532,7 +532,7 @@
           'shopDrugSpecId': this.shopDrugSpec.id,
           'collected': !this.collected
         };
-        this.$http.post('/collects/drug', data)
+        this.$axios.post('/collects/drug', data)
           .then(res => {
             this.collected = !this.collected;
             console.log(this.collected);
@@ -548,7 +548,7 @@
       onConfirm() {
         this.loading = true;
         if (this.type === 0) {
-          this.$http.post('/carts', [{
+          this.$axios.post('/carts', [{
             shopId: this.shopDrugSpec.shopId,
             drugSpecId: this.shopDrugSpec.drugSpecId,
             shopDrugSpecId: this.shopDrugSpec.id,
@@ -573,7 +573,7 @@
             'orderShopDrugSpecInfoDTOList': drugInfoList,
             'type': 'SIMPLE'
           };
-          this.$http.post('orders/shop/get', data)
+          this.$axios.post('orders/shop/get', data)
             .then(res => {
               this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(data));
             })

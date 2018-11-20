@@ -138,7 +138,7 @@
       };
     },
     created() {
-      this.$http.get('/orders/' + this.orderId + '/appraise')
+      this.$axios.get('/orders/' + this.orderId + '/appraise')
         .then(res => {
           this.list = res.data;
           this.list.forEach(e => {
@@ -178,7 +178,7 @@
           'serviceScore': this.serviceScore,
           'drugs': this.drugs
         };
-        this.$http.post('/drugAppraises', data).then(res => {
+        this.$axios.post('/drugAppraises', data).then(res => {
           this.$router.replace('/drugAppraises/success');
         }).catch(error => {
           this.exception(error);

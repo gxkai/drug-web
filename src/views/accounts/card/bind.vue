@@ -66,7 +66,7 @@
     },
     methods: {
       bind() {
-        this.$http.put('/accounts', this.account)
+        this.$axios.put('/accounts', this.account)
           .then(res => {
             this.$store.commit('SET_ACCOUNT', this.account);
             if (this.fromPath.includes('/orders/create')) {

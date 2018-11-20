@@ -38,7 +38,7 @@
       };
     },
     created() {
-      this.$http.get('/repositoryTypes')
+      this.$axios.get('/repositoryTypes')
         .then((res) => {
           if (res.data.length > 0) {
             this.repositoryTypeList = res.data;
