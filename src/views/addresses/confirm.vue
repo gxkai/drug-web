@@ -79,11 +79,8 @@
                 {{keyPosition.name}}
               </div>
               <div class="address-confirm--filter--content--item--first__right">
-                30.9km
+                {{keyPosition.distance/1000}}km
               </div>
-            </div>
-            <div class="address-confirm--filter--content--item--second">
-              舞文玩法范德萨发的方法答复撒发噶过过过过少时诵诗书所所所舞文玩法范德萨发的方法答复撒发噶过过过过少时诵诗书所所所
             </div>
           </div>
         </div>
