@@ -1,16 +1,11 @@
 <template>
   <new-layout class="shops">
     <template slot="top">
-      <div class="shops-header">
-        <new-header>
-          <div slot="left" @click="$router.go(-1)">
-            <i class="iconfont ic-arrow-right"></i>
-          </div>
-          <div slot="center">
-            <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/drugs')"/>
-          </div>
-        </new-header>
-      </div>
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
       <div class="shops-filter">
         <div class="shops-filter-item" @click="orderBy('SYNTHESIZE')">
           <div class="shops-filter-item-text">
@@ -56,7 +51,8 @@
             销量最多
           </div>
           <div class="shops-filter-item-arrow">
-            <div class="shops-filter-item-arrow-up" :style="{borderBottomColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
             </div>

@@ -129,7 +129,7 @@
             v-for="(item, index) in names"
             clickable
             :key="index"
-            :title="`${item.name}`"
+            :title="item.name"
             @click="$refs.names[index].toggle()"
           >
             <van-checkbox :name="item" ref="names"/>
@@ -379,8 +379,10 @@
   };
 </script>
 <style scope type="text/less" lang="less">
+  .van-icon-success:before {
+    content: ""!important;
+  }
   .drugs {
-    width: 720px;
     &--popup {
       height: 200vh;
       width: 50vw;
@@ -424,27 +426,6 @@
       &__right {
 
       }
-      /*header {*/
-        /*& > div {*/
-          /*&:nth-child(2) {*/
-            /*input {*/
-              /*width: 500px;*/
-              /*height: 55px;*/
-              /*outline: none;*/
-              /*border-width: 0;*/
-              /*font-size: 30px;*/
-              /*color: black;*/
-              /*border-radius: 10PX;*/
-              /*padding: 0 20px;*/
-              /*&::placeholder {*/
-                /*text-align: center;*/
-              /*}*/
-            /*}*/
-          /*}*/
-          /*&:nth-child(3) {*/
-            /*padding-right: 10px;*/
-          /*}*/
-        /*}*/
     }
     &-filter {
       width: 100%;
