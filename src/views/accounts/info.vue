@@ -1,11 +1,13 @@
 <template>
-  <div class="account-edit" >
-    <van-nav-bar
-    :title="$route.name"
-    left-arrow
-    @click-left="$router.go(-1)"
-    ref="header"/>
-    <div class="account-edit--content">
+  <new-layout>
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
       <van-cell title="手机号"
                 class="mt-l-20"
                 :value="account.username">
@@ -35,20 +37,10 @@
                 class="mt-l-20"
                 :value="account.medicaidNumber">
       </van-cell>
-    </div>
-  </div>
+    </template>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
-  .account-edit {
-    display: flex;
-    flex-flow: column;
-    height: 100vh;
-    &--content {
-      background-color: #f5f5f5;
-      flex: 1;
-      overflow: auto;
-    }
-  }
 </style>
 <script>
   export default {

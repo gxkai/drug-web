@@ -165,11 +165,6 @@ const addressRouter = [
     component: () => import('@/views/addresses/index.vue')
   },
   {
-    path: '/addresses/repositioning',
-    name: '地址选择',
-    component: () => import('@/views/addresses/repositioning.vue')
-  },
-  {
     path: '/addresses/choose',
     name: '选择收货地址',
     component: () => import('@/views/addresses/choose.vue')

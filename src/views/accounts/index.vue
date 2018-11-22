@@ -275,25 +275,15 @@
       };
     },
     created() {
-      this.$axios.get('/orders/count')
-        .then(res => {
-          this.count = res.data;
-          console.log(res.data);
-        }).catch(error => {
-          this.exception(error);
-        });
-      this.$axios.get('pointRecords/signIn/validateDailySignIn')
-        .then(res => {
-          this.signIn = res.data;
-          console.log(res.data);
-        })
-        .catch(err => {
-          this.exception(err);
-        });
+      this.initData();
     },
     mounted() {
     },
     methods: {
+      async initData() {
+        this.count = await this.$http.get('/orders/count');
+        this.signIn = await this.$http.get('pointRecords/signIn/validateDailySignIn');
+      },
       onRead(file) {
         let param = new FormData();
         param.append('fileType', 'LOGO');
@@ -303,19 +293,11 @@
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         };
-        this.$axios.post('/files/image', param, config).then(res => {
+        this.$axios.post('/files/image', param, config).then(async res => {
           this.account.fileId = res.data;
-          this.$axios.put('/accounts', this.account)
-            .then(res => {
-              this.$store.commit('SET_ACCOUNT', this.account);
-            })
-            .catch(err => {
-              this.exception(err);
-            });
-        })
-          .catch(err => {
-            this.exception(err);
-          });
+          await this.$http.put('/accounts', this.account);
+          this.$store.commit('SET_ACCOUNT', this.account);
+        });
       }
     }
   }

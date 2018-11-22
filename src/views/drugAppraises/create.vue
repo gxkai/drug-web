@@ -1,14 +1,15 @@
 <template>
-  <div class="drug-appraise-create">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      right-text="发布"
-      @click-left="$router.go(-1)"
-      @click-right="commit()"
-      ref="header"
-    />
-    <div ref="content">
+  <new-layout class="drug-appraise-create">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        right-text="发布"
+        @click-left="$router.go(-1)"
+        @click-right="commit()"
+      />
+    </template>
+    <template slot="center">
       <div class="drug-appraise-create__part-1"
            v-for="(item,index) in list" :key="index">
         <div class="drug-appraise-create__part-1__item">
@@ -51,12 +52,11 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   .drug-appraise-create {
-    background-color: #f5f5f5;
     &__part-2 {
       background-color: white;
       padding: 20px;
@@ -138,26 +138,22 @@
       };
     },
     created() {
-      this.$axios.get('/orders/' + this.orderId + '/appraise')
-        .then(res => {
-          this.list = res.data;
-          this.list.forEach(e => {
-            e.score = 5;
-            e.content = '';
-          });
-          if (this.list && this.list.length > 0) {
-            this.shopId = this.list[0].shopId;
-          }
-        }).catch(error => {
-          this.exception(error);
-        });
+      this.initData();
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight) + 'px';
-      this.$refs.content.style.scroll = 'auto';
     },
     methods: {
-      commit() {
+      async initData() {
+        this.list = await this.$http.get('/orders/' + this.orderId + '/appraise');
+        this.list.forEach(e => {
+          e.score = 5;
+          e.content = '';
+        });
+        if (this.list && this.list.length > 0) {
+          this.shopId = this.list[0].shopId;
+        }
+      },
+      async commit() {
         this.list.forEach(e => {
           let data = {
             'orderItemId': e.orderItemId,
@@ -178,11 +174,8 @@
           'serviceScore': this.serviceScore,
           'drugs': this.drugs
         };
-        this.$axios.post('/drugAppraises', data).then(res => {
-          this.$router.replace('/drugAppraises/success');
-        }).catch(error => {
-          this.exception(error);
-        });
+        await this.$http.post('/drugAppraises', data);
+        this.$router.replace('/drugAppraises/success');
       }
     }
   };

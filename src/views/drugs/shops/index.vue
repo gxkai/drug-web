@@ -1,103 +1,5 @@
 <template>
-  <div class="drugs-shops">
-    <div ref="header">
-      <van-nav-bar
-        :title="drugInfo.name"
-        left-arrow
-        @click-left="$router.go(-1)"
-      />
-    </div>
-    <div ref="content">
-      <van-swipe :autoplay="3000">
-        <van-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
-          <img v-lazy="getImgURL(pic, 'MIDDLE_PIC')"/>
-        </van-swipe-item>
-      </van-swipe>
-      <div class="drugs-shops__part-1">
-        <div class="drugs-shops__part-1__front">
-          <div class="drugs-shops__part-1__front-name">{{drugInfo.name}}</div>
-          <div class="drugs-shops__part-1__front-introduce">{{drugInfo.introduce}}</div>
-          <div class="drugs-shops__part-1__front-sfda">国药准字{{drugInfo.sfda}}</div>
-          <div class="drugs-shops__part-1__front-originName">厂商{{drugInfo.originName}}</div>
-        </div>
-        <div class="drugs-shops__part-1__behind">
-
-        </div>
-      </div>
-      <div class="drugs-shops__part-2 van-hairline--bottom">
-        <van-cell is-link :arrow-direction="show=== true ? 'down' : 'right'" @click="show = true">
-          <template slot="title">
-          <span class="drugs-shops__part-2__left-number">
-            {{total}}个
-          </span>
-            <span class="drugs-shops__part-2__left-name">
-            商家报价
-          </span>
-          </template>
-        </van-cell>
-      </div>
-      <div class="drugs-shops__part-3">
-        <div class="drugs-shops__part-3__item"
-             @click="orderById">
-          <div class="drugs-shops__part-3__item__name">
-            综合
-          </div>
-          <div class="drugs-shops__part-3__item__arrow">
-            <div class="drugs-shops__part-3__item__arrow-up"
-                 :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
-            <div class="drugs-shops__part-3__item__arrow-down"
-                 :style="{borderTopColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
-          </div>
-        </div>
-        <div class="drugs-shops__part-3__item"
-             @click="orderByDistance">
-          <div class="drugs-shops__part-3__item__name">
-            距离
-          </div>
-          <div class="drugs-shops__part-3__item__arrow">
-            <div class="drugs-shops__part-3__item__arrow-up"
-                 :style="{borderBottomColor: sort === 'DISTANCE'?'#13C1FE':'gray'}"></div>
-            <div class="drugs-shops__part-3__item__arrow-down"
-                 :style="{borderTopColor: sort === 'DISTANCE'?'#13C1FE':'gray'}"></div>
-          </div>
-        </div>
-        <div class="drugs-shops__part-3__item"
-             @click="orderByPrice">
-          <div class="drugs-shops__part-3__item__name">
-            价格
-          </div>
-          <div class="drugs-shops__part-3__item__arrow">
-            <div class="drugs-shops__part-3__item__arrow-up"
-                 :style="{borderBottomColor: sort === 'PRICE_ASC'?'#13C1FE':'gray'}"></div>
-            <div class="drugs-shops__part-3__item__arrow-down"
-                 :style="{borderTopColor: sort === 'PRICE_DESC'?'#13C1FE':'gray'}"></div>
-          </div>
-        </div>
-      </div>
-      <div class="drugs-shops__part-4">
-        <div class="drugs-shops__part-4__item"
-             v-for="(shop,index) in shops" :key="index"
-             @click="linkToShopDrugSpec(shop.shopDrugSpecId)">
-          <div class="drugs-shops__part-4__item__name">
-            {{shop.name}}
-          </div>
-          <div class="drugs-shops__part-4__item__price">
-            &yen;{{shop.price}}
-          </div>
-          <div class="drugs-shops__part-4__item__icon">
-            <van-icon name="gouwuche3" color="#13C1FE" size="4em"></van-icon>
-          </div>
-          <div class="drugs-shops__part-4__item__info">
-            <van-icon name="ditu" color="#13C1FE" size="2em"></van-icon>
-            <span>{{shop.address}}</span>
-            <van-icon name="aixin" color="#13C1FE" size="2em"></van-icon>
-            <span>{{shop.score}}</span>
-            <van-icon name="kucun" color="#13C1FE" size="2em"></van-icon>
-            <span>{{shop.stock}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div>
     <van-popup
       v-model="show"
       position="bottom">
@@ -133,6 +35,106 @@
         </div>
       </div>
     </van-popup>
+    <new-layout class="drugs-shops">
+      <template slot="top">
+        <van-nav-bar
+          :title="drugInfo.name"
+          left-arrow
+          @click-left="$router.go(-1)"
+        />
+      </template>
+      <template slot="center">
+        <van-swipe :autoplay="3000">
+          <van-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
+            <img v-lazy="getImgURL(pic, 'MIDDLE_PIC')"/>
+          </van-swipe-item>
+        </van-swipe>
+        <div class="drugs-shops__part-1">
+          <div class="drugs-shops__part-1__front">
+            <div class="drugs-shops__part-1__front-name">{{drugInfo.name}}</div>
+            <div class="drugs-shops__part-1__front-introduce">{{drugInfo.introduce}}</div>
+            <div class="drugs-shops__part-1__front-sfda">国药准字{{drugInfo.sfda}}</div>
+            <div class="drugs-shops__part-1__front-originName">厂商{{drugInfo.originName}}</div>
+          </div>
+          <div class="drugs-shops__part-1__behind">
+
+          </div>
+        </div>
+        <div class="drugs-shops__part-2 van-hairline--bottom">
+          <van-cell is-link :arrow-direction="show=== true ? 'down' : 'right'" @click="show = true">
+            <template slot="title">
+          <span class="drugs-shops__part-2__left-number">
+            {{total}}个
+          </span>
+              <span class="drugs-shops__part-2__left-name">
+            商家报价
+          </span>
+            </template>
+          </van-cell>
+        </div>
+        <div class="drugs-shops__part-3">
+          <div class="drugs-shops__part-3__item"
+               @click="orderById">
+            <div class="drugs-shops__part-3__item__name">
+              综合
+            </div>
+            <div class="drugs-shops__part-3__item__arrow">
+              <div class="drugs-shops__part-3__item__arrow-up"
+                   :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
+              <div class="drugs-shops__part-3__item__arrow-down"
+                   :style="{borderTopColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
+            </div>
+          </div>
+          <div class="drugs-shops__part-3__item"
+               @click="orderByDistance">
+            <div class="drugs-shops__part-3__item__name">
+              距离
+            </div>
+            <div class="drugs-shops__part-3__item__arrow">
+              <div class="drugs-shops__part-3__item__arrow-up"
+                   :style="{borderBottomColor: sort === 'DISTANCE'?'#13C1FE':'gray'}"></div>
+              <div class="drugs-shops__part-3__item__arrow-down"
+                   :style="{borderTopColor: sort === 'DISTANCE'?'#13C1FE':'gray'}"></div>
+            </div>
+          </div>
+          <div class="drugs-shops__part-3__item"
+               @click="orderByPrice">
+            <div class="drugs-shops__part-3__item__name">
+              价格
+            </div>
+            <div class="drugs-shops__part-3__item__arrow">
+              <div class="drugs-shops__part-3__item__arrow-up"
+                   :style="{borderBottomColor: sort === 'PRICE_ASC'?'#13C1FE':'gray'}"></div>
+              <div class="drugs-shops__part-3__item__arrow-down"
+                   :style="{borderTopColor: sort === 'PRICE_DESC'?'#13C1FE':'gray'}"></div>
+            </div>
+          </div>
+        </div>
+        <div class="drugs-shops__part-4">
+          <div class="drugs-shops__part-4__item"
+               v-for="(shop,index) in shops" :key="index"
+               @click="linkToShopDrugSpec(shop.shopDrugSpecId)">
+            <div class="drugs-shops__part-4__item__name">
+              {{shop.name}}
+            </div>
+            <div class="drugs-shops__part-4__item__price">
+              &yen;{{shop.price}}
+            </div>
+            <div class="drugs-shops__part-4__item__icon">
+              <van-icon name="gouwuche3" color="#13C1FE" size="4em"></van-icon>
+            </div>
+            <div class="drugs-shops__part-4__item__info">
+              <van-icon name="ditu" color="#13C1FE" size="2em"></van-icon>
+              <span>{{shop.address}}</span>
+              <van-icon name="aixin" color="#13C1FE" size="2em"></van-icon>
+              <span>{{shop.score}}</span>
+              <van-icon name="kucun" color="#13C1FE" size="2em"></van-icon>
+              <span>{{shop.stock}}</span>
+            </div>
+          </div>
+        </div>
+      </template>
+    </new-layout>
   </div>
 </template>
 <style type="text/less" lang="less">
@@ -390,6 +392,8 @@
   }
 </style>
 <script>
+  import { getReceivedPosition } from '../../../assets/js/auth';
+
   export default {
     data() {
       return {
@@ -402,9 +406,7 @@
         show: false,
         total: 0,
         sort: 'SYNTHESIZE',
-        val: -1,
-        lat: this.$store.getters.position.lat,
-        lng: this.$store.getters.position.lng
+        val: -1
       };
     },
     watch: {
@@ -412,33 +414,32 @@
         this.getShops();
       }
     },
+    computed: {
+      position() {
+        return getReceivedPosition().position;
+      }
+    },
     created() {
-      this.$axios.get('/drugs/' + this.drugId).then((res) => {
-        this.drugInfo = res.data;
-        this.drugSpecs = res.data.drugSpecs;
+      this.initData();
+    },
+    mounted() {
+    },
+    methods: {
+      async initData() {
+        const data = await this.$http.get('/drugs/' + this.drugId);
+        this.drugInfo = data;
+        this.drugSpecs = data.drugSpecs;
         this.drugSpecs.forEach(e => {
           if (e.id === this.drugSpecId) {
             this.drugSpec = e;
           }
         });
         this.getShops();
-      }).catch(error => {
-        this.exception(error);
-      });
-    },
-    mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'auto';
-    },
-    methods: {
-      getShops() {
-        var url = '/drugs/' + this.drugId + '/drugSpecs/' + this.drugSpec.id + '/shops?sort=' + this.sort + '&lat=' + this.lat + '&lng=' + this.lng;
-        this.$axios.get(url).then((res) => {
-          this.total = res.data.total;
-          this.shops = res.data.list;
-        }).catch(error => {
-          this.exception(error);
-        });
+      },
+      async getShops() {
+        const data = await this.$http.get(`/drugs/${this.drugId}/drugSpecs/${this.drugSpec.id}/shops?sort=${this.sort}&lat=${this.position.lat}&lng=${this.position.lng}`);
+        this.total = data.total;
+        this.shops = data.list;
       },
 
       orderById() {

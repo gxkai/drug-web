@@ -1,13 +1,13 @@
 <template>
-  <div class="insurance-consumeInfoMore">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
-    <div class="insurance-consumeInfoMore__content"
-         ref="content">
+  <new-layout>
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
       <van-cell title="类型"
                 class="mt-l-20"
                 :value="consumeInfoMore.type">
@@ -44,8 +44,8 @@
                 class="mt-l-20"
                 :value="consumeInfoMore.self">
       </van-cell>
-    </div>
-  </div>
+    </template>
+  </new-layout>
 </template>
 <script>
   export default {
@@ -57,14 +57,8 @@
     created() {
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight
-      ) + 'px';
-      this.$refs.content.style.overflow = 'auto';
     }
   };
 </script>
 <style scoped type="text/less" lang="less">
-  .insurance-consumeInfoMore {
-    background-color: #f5f5f5;
-  }
 </style>

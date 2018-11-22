@@ -1,31 +1,31 @@
 <template>
-  <div class="repositoryTypes">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      @click-right="$router.push('/messageTypes')"
-      ref="header"
-    >
-      <van-icon slot="right" name="chat"/>
-    </van-nav-bar>
-    <div class="repositoryTypes-list">
-      <div v-for="(repositoryType,index) in repositoryTypeList" :key="index"
-           class="repositoryTypes-list-item"
-            @click="$router.push({path:'/repositories',query:{repositoryTypeId:repositoryType.id,title:repositoryType.name}})">
-        <div>
-          <img v-lazy="require('../../assets/image/' + repositoryType.icon + '.png')"/>
+  <new-layout class="repository-types">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+        @click-right="$router.push('/messageTypes')"
+      >
+        <van-icon slot="right" name="chat"/>
+      </van-nav-bar>
+    </template>
+    <template slot="center">
+      <div class="repository-types--item"
+           v-for="(item,index) in list" :key="index"
+           @click="$router.push({path:'/repositories',query:{repositoryTypeId:item.id,title:item.name}})"
+      >
+        <div class="repository-types--item__left">
+          <img v-lazy="require('../../assets/image/' + item.icon + '.png')"/>
+          <div>{{ item.name }}</div>
         </div>
-        <div>
-          {{ repositoryType.name }}
-        </div>
-        <div>
-          <i class="iconfont ic-youjiantou"></i>
+        <div class="repository-types--item__right">
+          <van-icon name="arrow" size="3em"></van-icon>
         </div>
       </div>
-    </div>
-    <new-no-data v-if="finished"></new-no-data>
-  </div>
+      <new-no-data v-if="finished"></new-no-data>
+    </template>
+  </new-layout>
 </template>
 
 <script>
@@ -33,85 +33,52 @@
     name: 'repositoryTypes',
     data() {
       return {
-        repositoryTypeList: [],
+        list: [],
         finished: false
       };
     },
     created() {
-      this.$axios.get('/repositoryTypes')
-        .then((res) => {
-          if (res.data.length > 0) {
-            this.repositoryTypeList = res.data;
-          } else {
-            this.finished = true;
-          }
-        })
-        .catch(err => {
-          this.exception(err);
-        });
+      this.initData();
     },
     methods: {
+      async initData() {
+        const data = await this.$http.get('/repositoryTypes');
+        if (data.length > 0) {
+          this.list = data;
+        } else {
+          this.finished = true;
+        }
+      }
     }
   };
 </script>
 
 <style scoped type="text/less" lang="less">
-  .repositoryTypes {
-    width: 720px;
-    height: 100vh;
-    &-list {
-      &-item {
+  .repository-types {
+    &--item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      margin-top: 20px;
+      background-color: white;
+      &__left {
+        flex: 1;
+        overflow: hidden;
         display: flex;
-        padding: 20px;
-        position: relative;
-        >div {
-          &:nth-child(1) {
-            width: 80px;
-            img {
-              vertical-align: middle;
-              width: 100%;
-            }
-          }
-          &:nth-child(2) {
-            align-self: center;
-            padding-left: 10px;
-            font-size: 30px;
-          }
-          &:nth-child(3) {
-            position: absolute;
-            right: 0;
-            top: 40px;
-            .ic-youjiantou {
-              font-size: 40px;
-            }
-          }
+        align-items: center;
+        img {
+          width: 100px;
+          height: 100px;
+        }
+        &>div {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 30px;
+          padding: 0 20px;
         }
       }
     }
   }
-
-  .type-list {
-    height: 80px;
-    background: rgba(255, 255, 255, 1);
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-
-  .icon-img {
-    width: 58px;
-    height: 58px;
-    margin-left: 40px;
-  }
-
-  .type-title {
-    width: 720px;
-    font-size: 28px;
-    color: rgba(51, 51, 51, 1);
-    margin-left: 17px;
-    display: block;
-  }
-
 </style>

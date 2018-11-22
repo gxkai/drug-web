@@ -108,7 +108,6 @@
 </template>
 <style scoped type="text/less" lang="less">
   .order_item {
-    background-color: white;
     margin-top: 20px;
     .iconfont {
       font-size: 50px;
@@ -117,6 +116,7 @@
       padding: 20px;
       display: flex;
       justify-content: space-between;
+      background-color: white;
       &-left {
         display: flex;
         align-items: center;
@@ -130,11 +130,11 @@
       }
     }
     &-content {
-      background-color: #f5f5f5;
       &-title {
         padding: 20px;
         display: flex;
         justify-content: space-between;
+        background-color: white;
         &-left {
           display: flex;
           align-items: center;
@@ -150,6 +150,8 @@
       }
       &-info {
         display: flex;
+        background-color: white;
+        margin-top: 20px;
         &-left {
           position: relative;
           padding: 20px;
@@ -197,6 +199,7 @@
       }
       &-sum {
         background-color: white;
+        margin-top: 20px;
         width: 100%;
         padding: 20px;
         display: flex;

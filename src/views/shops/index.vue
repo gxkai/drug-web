@@ -1,6 +1,6 @@
 <template>
   <new-layout class="shops">
-    <div slot="top">
+    <template slot="top">
       <div class="shops-header">
         <new-header>
           <div slot="left" @click="$router.go(-1)">
@@ -63,10 +63,10 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="shops-container"
-    slot="center"
-    >
+    </template>
+    <template slot="center">
+      <div class="shops-container"
+      >
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list
             v-model="loading"
@@ -102,10 +102,13 @@
             <new-no-data v-if="finished"></new-no-data>
           </van-list>
         </van-pull-refresh>
-    </div>
+      </div>
+    </template>
   </new-layout>
 </template>
 <script>
+  import { getReceivedPosition } from '../../assets/js/auth';
+
   export default {
     name: 'shopInfo',
     props: {},
@@ -123,7 +126,7 @@
     },
     computed: {
       position() {
-        return this.$store.getters.position;
+        return getReceivedPosition().position;
       }
     },
     created() {
@@ -137,28 +140,23 @@
         this.pageNum = 0;
         this.onLoad();
       },
-      onLoad() {
+      async onLoad() {
         this.pageNum++;
-        this.$axios.get('/shops', {
-          params: {
-            lat: this.position.lat,
-            lng: this.position.lng,
-            sort: this.shopSort,
-            pageNum: this.pageNum,
-            pageSize: this.pageSize
-          }
-        })
-          .then(res => {
-            this.isLoading = false;
-            this.loading = false;
-            this.list = this.list.concat(res.data.list);
-            console.log(this.list);
-            if (res.data.list.length === 0) {
-              this.finished = true;
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
+        const params = {
+          lat: this.position.lat,
+          lng: this.position.lng,
+          sort: this.shopSort,
+          pageNum: this.pageNum,
+          pageSize: this.pageSize
+        };
+        const data = await this.$http.get('/shops', params);
+        this.isLoading = false;
+        this.loading = false;
+        this.list = this.list.concat(data.list);
+        console.log(this.list);
+        if (data.list.length === 0) {
+          this.finished = true;
+        }
       },
       orderBy(shopSort) {
         this.shopSort = shopSort;
@@ -170,8 +168,6 @@
 </script>
 <style scoped type="text/less" lang="less">
   .shops {
-    width: 720px;
-    background-color: #f5f5f5;
     &-header {
       header {
         & > div:nth-child(2) {

@@ -1,51 +1,54 @@
 <template>
-  <div class="card_bind">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
-    <div class="card_bind-list">
-      <div class="card_bind-list-item">
-        <div class="card_bind-list-item-left">
-          <i class="iconfont ic-xingming"></i>
+  <new-layout class="card_bind">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
+      <div class="card_bind-list">
+        <div class="card_bind-list-item">
+          <div class="card_bind-list-item-left">
+            <i class="iconfont ic-xingming"></i>
+          </div>
+          <div class="card_bind-list-item-right">
+            <input type="text" v-model="account.name" readonly/>
+          </div>
         </div>
-        <div class="card_bind-list-item-right">
-          <input type="text" v-model="account.name" readonly/>
+        <div class="card_bind-list-item">
+          <div class="card_bind-list-item-left">
+            <i class="iconfont ic-Id"></i>
+          </div>
+          <div class="card_bind-list-item-right">
+            <input type="text" v-model="account.identityNumber" readonly/>
+          </div>
+        </div>
+        <div class="card_bind-list-item">
+          <div class="card_bind-list-item-left">
+            <i class="iconfont ic-shouji"></i>
+          </div>
+          <div class="card_bind-list-item-right">
+            <input type="text" v-model="account.username" readonly/>
+          </div>
+        </div>
+        <div class="card_bind-list-item">
+          <div class="card_bind-list-item-left">
+            <i class="iconfont ic-yibaoqia"></i>
+          </div>
+          <div class="card_bind-list-item-right">
+            <input type="text" v-model="account.medicaidNumber" readonly />
+          </div>
         </div>
       </div>
-      <div class="card_bind-list-item">
-        <div class="card_bind-list-item-left">
-          <i class="iconfont ic-Id"></i>
-        </div>
-        <div class="card_bind-list-item-right">
-          <input type="text" v-model="account.identityNumber" readonly/>
-        </div>
-      </div>
-      <div class="card_bind-list-item">
-        <div class="card_bind-list-item-left">
-          <i class="iconfont ic-shouji"></i>
-        </div>
-        <div class="card_bind-list-item-right">
-          <input type="text" v-model="account.username" readonly/>
-        </div>
-      </div>
-      <div class="card_bind-list-item">
-        <div class="card_bind-list-item-left">
-          <i class="iconfont ic-yibaoqia"></i>
-        </div>
-        <div class="card_bind-list-item-right">
-          <input type="text" v-model="account.medicaidNumber" readonly />
-        </div>
-      </div>
-    </div>
+    </template>
     <!--<div class="card_bind-footer">-->
       <!--<span @click="bind()">-->
         <!--确认绑定-->
       <!--</span>-->
     <!--</div>-->
-  </div>
+  </new-layout>
 
 </template>
 
@@ -65,21 +68,16 @@
       });
     },
     methods: {
-      bind() {
-        this.$axios.put('/accounts', this.account)
-          .then(res => {
-            this.$store.commit('SET_ACCOUNT', this.account);
-            if (this.fromPath.includes('/orders/create')) {
-              this.$router.go(-1);
-            } else {
-              this.$router.push({
-                path: '/accounts/card/bind/success'
-              });
-            }
-          })
-          .catch((error) => {
-            this.exception(error);
+      async bind() {
+        await this.$http.put('/accounts', this.account);
+        this.$store.commit('SET_ACCOUNT', this.account);
+        if (this.fromPath.includes('/orders/create')) {
+          this.$router.go(-1);
+        } else {
+          this.$router.push({
+            path: '/accounts/card/bind/success'
           });
+        }
       }
     }
   };
@@ -87,9 +85,6 @@
 
 <style scoped type="text/less" lang="less">
   .card_bind {
-    height: 100vh;
-    overflow: auto;
-    background-color: #f5f5f5;
     &-list {
       &-item {
         padding: 15px 30px;

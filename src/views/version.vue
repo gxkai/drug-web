@@ -73,13 +73,12 @@
       }
     },
     created() {
-      this.$axios.get('/version')
-        .then((res) => {
-          this.version.number = res.data;
-        })
-        .catch(err => {
-          this.exception(err);
-        });
+      this.initData();
+    },
+    methods: {
+      async initData() {
+        this.version.number = await this.$http.get('/version');
+      }
     }
   };
 </script>

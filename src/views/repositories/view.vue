@@ -1,15 +1,16 @@
 <template>
   <new-layout class="repositories-view">
-    <van-nav-bar
-      :title="info.title"
-      left-arrow
-      @click-left="$router.go(-1)"
-      @click-right="$router.push('/messageTypes')"
-      slot="top"
-    >
-      <van-icon name="chat" slot="right"/>
-    </van-nav-bar>
-    <div slot="center">
+    <template slot="top">
+      <van-nav-bar
+        :title="info.title"
+        left-arrow
+        @click-left="$router.go(-1)"
+        @click-right="$router.push('/messageTypes')"
+      >
+        <van-icon name="chat" slot="right"/>
+      </van-nav-bar>
+    </template>
+    <template slot="center">
       <div class="repositories-view--title"
       >
       <span>
@@ -29,7 +30,7 @@
       </div>
       <div class="repositories-view--content" v-html="info.content">
       </div>
-    </div>
+    </template>
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
@@ -71,19 +72,16 @@
         },
         title: '',
         id: this.$route.query.id,
-        repositoryTypeId: this.$route.query.repositoryTypeId,
-        pageNum: Number(this.$route.query.pageNum)
+        repositoryTypeId: this.$route.query.repositoryTypeId
       };
     },
     created() {
-      this.$axios.get('/repositories/' + this.id)
-        .then(res => {
-          this.info = res.data;
-          console.log(res.data);
-        }).catch(err => {
-          this.exception(err);
-        });
+      this.initData();
     },
-    methods: {}
+    methods: {
+      async initData() {
+        this.info = await this.$http.get('/repositories/' + this.id);
+      }
+    }
   };
 </script>

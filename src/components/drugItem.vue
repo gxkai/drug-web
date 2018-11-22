@@ -34,6 +34,8 @@
 <style scoped type="text/less" lang="less">
   .drug_item {
     display: flex;
+    margin-top: 20px;
+    background-color: white;
     &-left {
       padding: 20px;
       img {

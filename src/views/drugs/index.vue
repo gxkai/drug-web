@@ -1,86 +1,80 @@
 <template>
-  <div class="drugs">
-    <div id="header">
-      <div class="drugs-header">
-        <new-header>
-          <div slot="left" @click="$router.go('-1')">
-            <i class="iconfont ic-arrow-right"></i>
-          </div>
-          <div slot="center">
-            <input v-model="keyword" class="iconfont" :placeholder="searchIcon" @keyup.enter="onRefresh()">
-          </div>
-          <div slot="right" @click="onRefresh()">
-            <i class="iconfont ic-sousuo"></i>
-          </div>
-        </new-header>
-      </div>
-      <div class="drugs-filter">
-        <div class="drugs-filter-item" @click="OrderById()">
-          <div class="drugs-filter-item-text">
-            默认
-          </div>
-          <div class="drugs-filter-item-arrow">
-            <div class="drugs-filter-item-arrow-up"
-                 :style="{borderBottomColor:drugSort === 'SYNTHESIZE_DESC'? '#13C1FE': 'gray'} ">
+  <div>
+    <new-layout class="drugs">
+      <template slot="top">
+        <div class="drugs-header">
+          <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white"></van-icon>
+          <input v-model="keyword" class="iconfont drugs-header__input" :placeholder="searchIcon" @keyup.enter="onRefresh()">
+          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="onRefresh()"></van-icon>
+        </div>
+        <div class="drugs-filter">
+          <div class="drugs-filter-item" @click="OrderById()">
+            <div class="drugs-filter-item-text">
+              默认
             </div>
-            <div class="drugs-filter-item-arrow-down"
-                 :style="{borderTopColor:drugSort === 'SYNTHESIZE_DESC'? '#13C1FE': 'gray'} ">
+            <div class="drugs-filter-item-arrow">
+              <div class="drugs-filter-item-arrow-up"
+                   :style="{borderBottomColor:drugSort === 'SYNTHESIZE_DESC'? '#13C1FE': 'gray'} ">
+              </div>
+              <div class="drugs-filter-item-arrow-down"
+                   :style="{borderTopColor:drugSort === 'SYNTHESIZE_DESC'? '#13C1FE': 'gray'} ">
+              </div>
+            </div>
+          </div>
+          <div class="drugs-filter-item" @click="OrderByPrice()">
+            <div class="drugs-filter-item-text">
+              价格
+            </div>
+            <div class="drugs-filter-item-arrow">
+              <div class="drugs-filter-item-arrow-up"
+                   :style="{borderBottomColor:drugSort === 'PRICE_ASC'? '#13C1FE': 'gray'} ">
+              </div>
+              <div class="drugs-filter-item-arrow-down"
+                   :style="{borderTopColor:drugSort === 'PRICE_DESC'? '#13C1FE': 'gray'} ">
+              </div>
+            </div>
+          </div>
+          <div class="drugs-filter-item" @click="OrderBySales()">
+            <div class="drugs-filter-item-text">
+              销量
+            </div>
+            <div class="drugs-filter-item-arrow">
+              <div class="drugs-filter-item-arrow-up"
+                   :style="{borderBottomColor:drugSort === 'SALE_ASC'? '#13C1FE': 'gray'} ">
+              </div>
+              <div class="drugs-filter-item-arrow-down"
+                   :style="{borderTopColor:drugSort === 'SALE_DESC'? '#13C1FE': 'gray'} ">
+              </div>
+            </div>
+          </div>
+          <div class="drugs-filter-item" @click="show = true">
+            <div class="drugs-filter-item-text">
+              筛选
+            </div>
+            <div class="drugs-filter-item-arrow">
+              <div class="drugs-filter-item-arrow-up">
+              </div>
+              <div class="drugs-filter-item-arrow-down" style="margin-top: .1rem">
+              </div>
             </div>
           </div>
         </div>
-        <div class="drugs-filter-item" @click="OrderByPrice()">
-          <div class="drugs-filter-item-text">
-            价格
-          </div>
-          <div class="drugs-filter-item-arrow">
-            <div class="drugs-filter-item-arrow-up"
-                 :style="{borderBottomColor:drugSort === 'PRICE_ASC'? '#13C1FE': 'gray'} ">
-            </div>
-            <div class="drugs-filter-item-arrow-down"
-                 :style="{borderTopColor:drugSort === 'PRICE_DESC'? '#13C1FE': 'gray'} ">
-            </div>
-          </div>
-        </div>
-        <div class="drugs-filter-item" @click="OrderBySales()">
-          <div class="drugs-filter-item-text">
-            销量
-          </div>
-          <div class="drugs-filter-item-arrow">
-            <div class="drugs-filter-item-arrow-up"
-                 :style="{borderBottomColor:drugSort === 'SALE_ASC'? '#13C1FE': 'gray'} ">
-            </div>
-            <div class="drugs-filter-item-arrow-down"
-                 :style="{borderTopColor:drugSort === 'SALE_DESC'? '#13C1FE': 'gray'} ">
-            </div>
-          </div>
-        </div>
-        <div class="drugs-filter-item" @click="show = true">
-          <div class="drugs-filter-item-text">
-            筛选
-          </div>
-          <div class="drugs-filter-item-arrow">
-            <div class="drugs-filter-item-arrow-up">
-            </div>
-            <div class="drugs-filter-item-arrow-down" style="margin-top: .1rem">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div :style="contentStyle">
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          @load="onLoad"
-          class="drugs-container"
-        >
-          <new-drug-item class="border-bottom-grey" :item="item"
-                         v-for="(item,index) in list" :key="index"></new-drug-item>
-          <new-no-data v-if="finished"></new-no-data>
-        </van-list>
-      </van-pull-refresh>
-    </div>
+      </template>
+      <template slot="center">
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            @load="onLoad"
+            class="drugs-container"
+          >
+            <new-drug-item class="border-bottom-grey" :item="item"
+                           v-for="(item,index) in list" :key="index"></new-drug-item>
+            <new-no-data v-if="finished"></new-no-data>
+          </van-list>
+        </van-pull-refresh>
+      </template>
+    </new-layout>
     <van-popup v-model="show" position="right"
                class="drugs--popup"
     >
@@ -222,7 +216,6 @@
 </template>
 
 <script>
-  const qs = require('qs');
   export default {
     name: 'goodsList',
     data() {
@@ -286,7 +279,6 @@
     created() {
     },
     mounted() {
-      this.contentStyle.height = (document.documentElement.clientHeight - document.getElementById('header').clientHeight) + 'px';
     },
     methods: {
       onReset() {
@@ -301,35 +293,27 @@
         this.pageNum = 0;
         this.onLoad();
       },
-      onLoad() {
+      async onLoad() {
         this.pageNum++;
         console.log(this.commonName, this.originId, this.specId, this.formId);
-        this.$axios.get('/drugs', {
-          params: {
-            pageNum: this.pageNum,
-            pageSize: this.pageSize,
-            keyword: this.keyword,
-            drugTypeId: this.drugTypeId,
-            sort: this.drugSort,
-            commonName: this.commonName,
-            originId: this.originId,
-            specId: this.specId,
-            formId: this.formId
-          },
-          paramsSerializer: (params) => {
-            return qs.stringify(params, { arrayFormat: 'repeat' });
-          }
-        })
-          .then(res => {
-            this.isLoading = false;
-            this.loading = false;
-            this.list = this.list.concat(res.data.list);
-            if (res.data.list.length === 0) {
-              this.finished = true;
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
+        const params = {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          keyword: this.keyword,
+          drugTypeId: this.drugTypeId,
+          sort: this.drugSort,
+          commonName: this.commonName,
+          originId: this.originId,
+          specId: this.specId,
+          formId: this.formId
+        };
+        const data = await this.$http.get('/drugs', params);
+        this.isLoading = false;
+        this.loading = false;
+        this.list = this.list.concat(data.list);
+        if (data.list.length === 0) {
+          this.finished = true;
+        }
       },
       OrderById() {
         this.drugSort = 'SYNTHESIZE_DESC';
@@ -351,81 +335,45 @@
         }
         this.onRefresh();
       },
-      filterByName() {
-        this.$axios.get('/drugs/name', {
-          params: {
-            drugTypeId: this.drugTypeId,
-            originId: this.originId,
-            specId: this.specId,
-            formId: this.formId
-          },
-          paramsSerializer: (params) => {
-            return qs.stringify(params, { arrayFormat: 'repeat' });
-          }
-        })
-          .then(res => {
-            this.namesResult = [];
-            this.names = res.data;
-          }).catch(error => {
-            this.exception(error);
-          });
+      async filterByName() {
+        const params = {
+          drugTypeId: this.drugTypeId,
+          originId: this.originId,
+          specId: this.specId,
+          formId: this.formId
+        };
+        this.names = await this.$http.get('/drugs/name', params);
+        this.namesResult = [];
       },
-      filterByOrigin() {
-        this.$axios.get('/origins', {
-          params: {
-            drugTypeId: this.drugTypeId,
-            commonName: this.commonName,
-            specId: this.specId,
-            formId: this.formId
-          },
-          paramsSerializer: (params) => {
-            return qs.stringify(params, { arrayFormat: 'repeat' });
-          }
-        })
-          .then(res => {
-            this.originsResult = [];
-            this.origins = res.data;
-          }).catch(error => {
-            this.exception(error);
-          });
+      async filterByOrigin() {
+        const params = {
+          drugTypeId: this.drugTypeId,
+          commonName: this.commonName,
+          specId: this.specId,
+          formId: this.formId
+        };
+        this.origins = await this.$http.get('/origins', params);
+        this.originsResult = [];
       },
-      filterBySpec() {
-        this.$axios.get('/specs', {
-          params: {
-            drugTypeId: this.drugTypeId,
-            commonName: this.commonName,
-            originId: this.originId,
-            formId: this.formId
-          },
-          paramsSerializer: (params) => {
-            return qs.stringify(params, { arrayFormat: 'repeat' });
-          }
-        })
-          .then(res => {
-            this.specsResult = [];
-            this.specs = res.data;
-          }).catch(error => {
-            this.exception(error);
-          });
+      async filterBySpec() {
+        const params = {
+          drugTypeId: this.drugTypeId,
+          commonName: this.commonName,
+          originId: this.originId,
+          formId: this.formId
+        };
+        this.specs = await this.$http.get('/specs', params);
+        this.specsResult = [];
       },
-      filterByForm() {
-        this.$axios.get('/forms', {
-          params: {
-            drugTypeId: this.drugTypeId,
-            commonName: this.commonName,
-            originId: this.originId,
-            specId: this.specId
-          },
-          paramsSerializer: (params) => {
-            return qs.stringify(params, { arrayFormat: 'repeat' });
-          }
-        })
-          .then(res => {
-            this.formsResult = [];
-            this.forms = res.data;
-          }).catch(error => {
-            this.exception(error);
-          });
+      async filterByForm() {
+        const params = {
+          drugTypeId: this.drugTypeId,
+          commonName: this.commonName,
+          originId: this.originId,
+          specId: this.specId
+        };
+        this.forms = await this.$http.get('/forms', params);
+        this.formsResult = [];
       }
     }
   };
@@ -451,28 +399,52 @@
       position: relative;
     }
     &-header {
-      header {
-        & > div {
-          &:nth-child(2) {
-            input {
-              width: 500px;
-              height: 55px;
-              outline: none;
-              border-width: 0;
-              font-size: 30px;
-              color: black;
-              border-radius: 10PX;
-              padding: 0 20px;
-              &::placeholder {
-                text-align: center;
-              }
-            }
-          }
-          &:nth-child(3) {
-            padding-right: 10px;
-          }
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100px;
+      background-color: #1AB6FD;
+      padding: 0 20px;
+      &__left {
+
+      }
+      &__input {
+        width: 500px;
+        height: 45px;
+        outline: none;
+        border-width: 0;
+        font-size: 30px;
+        color: black;
+        border-radius: 10PX;
+        padding: 0 20px;
+        &::placeholder {
+        text-align: center;
         }
       }
+      &__right {
+
+      }
+      /*header {*/
+        /*& > div {*/
+          /*&:nth-child(2) {*/
+            /*input {*/
+              /*width: 500px;*/
+              /*height: 55px;*/
+              /*outline: none;*/
+              /*border-width: 0;*/
+              /*font-size: 30px;*/
+              /*color: black;*/
+              /*border-radius: 10PX;*/
+              /*padding: 0 20px;*/
+              /*&::placeholder {*/
+                /*text-align: center;*/
+              /*}*/
+            /*}*/
+          /*}*/
+          /*&:nth-child(3) {*/
+            /*padding-right: 10px;*/
+          /*}*/
+        /*}*/
     }
     &-filter {
       width: 100%;

@@ -1,18 +1,19 @@
 <template>
   <new-layout class="setting">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      slot="top"
-    />
-    <div slot="center">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
       <van-cell title="当前版本"
                 is-link
                 class="mt-l-20"
                 to="/version">
       </van-cell>
-    </div>
+    </template>
   </new-layout>
 </template>
 <script>

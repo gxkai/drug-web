@@ -52,26 +52,21 @@
         this.pageNum = 0;
         this.onLoad();
       },
-      onLoad() {
+      async onLoad() {
         this.pageNum++;
-        this.$axios.get('/drugAppraises', {
-          params: {
-            'pageNum': this.pageNum,
-            'pageSize': this.pageSize,
-            'shopDrugSpecId': this.shopDrugSpec.id
-          }
-        })
-          .then(res => {
-            this.isLoading = false;
-            this.loading = false;
-            this.list = this.list.concat(res.data.list);
-            console.log(this.list);
-            if (res.data.list.length === 0) {
-              this.finished = true;
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
+        const params = {
+          'pageNum': this.pageNum,
+          'pageSize': this.pageSize,
+          'shopDrugSpecId': this.shopDrugSpec.id
+        };
+        const data = await this.$http.get('/drugAppraises', params);
+        this.isLoading = false;
+        this.loading = false;
+        this.list = this.list.concat(data.list);
+        console.log(this.list);
+        if (data.list.length === 0) {
+          this.finished = true;
+        }
       }
     }
   };
@@ -79,9 +74,6 @@
 
 <style scoped type="text/less" lang="less">
   .appraise {
-    width: 720px;
-    height: 100vh;
-    background: #f5f5f5;
     padding: 20px;
     &-title {
       width: 100%;

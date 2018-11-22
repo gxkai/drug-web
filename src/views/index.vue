@@ -5,7 +5,7 @@
     <div slot="top" class="home__header">
       <div class="home__header__first">
         <div class="home__header__first__left"
-             @click="$router.push('/addresses/repositioning')"
+             @click="$router.push('/addresses/choose')"
         >
           <van-icon name="weizhi" color="white" size="3em"></van-icon>
           <span class="home__header__first__left--name">{{position.name}}</span>
@@ -133,13 +133,14 @@
             <van-swipe-item
               v-for="discount in discounts"
               :key="discount.id"
-              @click="linkToShopDrugSpec(discount.id)"
             >
               <div class="home__content__discount__content__item"
               >
                 <img
                   class="home__content__discount__content__item--logo"
-                  v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')">
+                  v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')"
+                  @click="linkToShopDrugSpec(discount.id)"
+                >
                 <div
                   class="home__content__discount__content__item--name"
                 >
@@ -197,6 +198,10 @@
                 <div
                   class="home__content__recommend__content__item--spec"
                 >{{recommend.spec}}
+                </div>
+                <div
+                  class="home__content__recommend__content__item--price"
+                >{{`￥${recommend.price}`}}
                 </div>
               </div>
             </van-col>
@@ -295,14 +300,12 @@
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
-            }
-            &--name {
               font-size: 22px;
               font-family: HiraginoSansGB-W3;
               font-weight: normal;
               color: rgba(69, 69, 69, 1);
             }
-            &--spec {
+            &--price {
               font-size: 24px;
               font-family: HiraginoSansGB-W3;
               font-weight: normal;
@@ -479,7 +482,7 @@
 </style>
 <script>
   import { Carousel3d, Slide } from 'vue-carousel-3d';
-  import BMap from 'BMap';
+  import { getReceivedPosition } from '../assets/js/auth';
 
   export default {
     name: 'home',
@@ -516,73 +519,37 @@
         }
       },
       position() {
-        return this.$store.getters.position;
+        return getReceivedPosition();
       }
     },
     created() {
-      this.$axios.all(this.getHttpList());
+      this.getData();
     },
     mounted() {
-      this.startLocation();
       this.startMove();
     },
     beforeDestroy() {
       clearTimeout(this.timer);
     },
     methods: {
-      getHttpList() {
-        return [
-          // 让利惠民
-          this.$axios.get('/drugs/discount').then(res => {
-            console.log('让利惠民', res.data);
-            this.discounts = res.data;
-          }).catch(error => {
-            this.exception(error);
-          }),
-          // 医保定点
-          this.$axios.get('/shops/show').then(res => {
-            console.log('医保定点', res.data);
-            this.shows = res.data;
-          }).catch(error => {
-            this.exception(error);
-          }),
-          // 广告
-          this.$axios.get('/adverts').then(res => {
-            console.log('广告', res.data);
-            this.adverts = res.data;
-          }).catch(error => {
-            this.exception(error);
-          }),
-          // 好货推荐
-          this.$axios.get('/drugs/recommend').then(res => {
-            console.log('好货推荐', res.data);
-            this.recommends = res.data;
-          }).catch(error => {
-            this.exception(error);
-          }),
-          // 知识库
-          this.$axios.get('/repositories/home')
-            .then(res => {
-              console.log('健康咨询', res.data);
-              this.repositories = res.data;
-              setInterval(this.scroll, 2000);
-            }).catch(error => {
-              this.exception(error);
-            }),
-          // 咨询类别
-          this.$axios.get('/repositoryTypes')
-            .then((res) => {
-              this.repositoryTypes = res.data;
-            }).catch(error => {
-              this.exception(error);
-            })
-        ];
+      async getData() {
+        // 让利惠民
+        this.discounts = await this.$http.get('/drugs/discount');
+        // 医保定点
+        this.shows = await this.$http.get('/shops/show');
+        // 广告
+        this.adverts = await this.$http.get('/adverts');
+        // 好货推荐
+        this.recommends = await this.$http.get('/drugs/recommend');
+        // 知识库
+        this.repositories = await this.$http.get('/repositories/home');
+        setInterval(this.scroll, 2000);
+        // 咨询类别
+        this.repositoryTypes = await this.$http.get('/repositoryTypes');
       },
-      onRefresh() {
-        this.startLocation();
-        this.$axios.all(this.getHttpList()).then(() => {
-          this.isLoading = false;
-        });
+      async onRefresh() {
+        await this.getData();
+        this.isLoading = false;
       },
       startMove() {
         this.timer = setTimeout(() => {
@@ -593,23 +560,6 @@
           }
           this.startMove();
         }, 3000);
-      },
-      startLocation() {
-        new BMap.Geolocation().getCurrentPosition((r) => {
-          this.$axios.get(this.$outside + '/baidu/maps.json?lat=' + r.latitude + '&lng=' + r.longitude + '&coordType=bd09ll' + '&poi=true')
-            .then(res => {
-              console.log('经纬度获取成功');
-              console.log(res.data.pois[0], res.data.pois[0].lat, res.data.pois[0].name);
-              this.position.lat = res.data.pois[0].location.lat;
-              this.position.lng = res.data.pois[0].location.lng;
-              this.position.name = res.data.pois[0].name;
-              this.$store.commit('SET_POSITION', this.position);
-              this.$store.commit('SET_FIRST_OPEN', false);
-            }).catch(err => {
-              this.position.name = '定位失败';
-              this.exception(err);
-            });
-        });
       }
     }
   };

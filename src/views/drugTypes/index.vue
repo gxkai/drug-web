@@ -2,55 +2,57 @@
   <new-layout class="drugTypes"
   centerColor="white"
   >
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      slot="top"
-    />
-    <van-tabs v-model="active"
-              swipeable
-              color="#13C1FE"
-    slot="center"
-    >
-      <van-tab :title="item.type"
-               v-for="(item,index) in list"
-               :key="index"
-               class="drugTypes--drug"
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template  slot="center">
+      <van-tabs v-model="active"
+                swipeable
+                color="#13C1FE"
       >
-        <div
-          v-for="item in item.drugType"
-          :key="item.id"
-          class="drugTypes--drug--item"
-          @click="$router.push({path:'/drugs',query:{typeId:item.id}})"
+        <van-tab :title="item.type"
+                 v-for="(item,index) in list"
+                 :key="index"
+                 class="drugTypes--drug"
         >
-          <img v-lazy="getImgURL(item.fileId,'MIDDLE_LOGO')"/>
-          <div>{{item.type}}</div>
-        </div>
-      </van-tab>
-    </van-tabs>
-
-    <van-tabbar
-      :value="2"
-      :fixed="Boolean(false)"
-      slot="bottom"
-    >
-      <van-tabbar-item icon="icon"
-                       to="/">首页
-      </van-tabbar-item>
-      <van-tabbar-item icon="chufang"
-                       to="/rxs">处方单
-      </van-tabbar-item>
-      <van-tabbar-item icon="fenlei"
-                       to="/drugTypes">分类
-      </van-tabbar-item>
-      <van-tabbar-item icon="gouwuche2"
-                       to="/carts">购物车
-      </van-tabbar-item>
-      <van-tabbar-item icon="wo"
-                       to="/accounts">我
-      </van-tabbar-item>
-    </van-tabbar>
+          <div
+            v-for="item in item.drugType"
+            :key="item.id"
+            class="drugTypes--drug--item"
+            @click="$router.push({path:'/drugs',query:{typeId:item.id}})"
+          >
+            <img v-lazy="getImgURL(item.fileId,'MIDDLE_LOGO')"/>
+            <div>{{item.type}}</div>
+          </div>
+        </van-tab>
+      </van-tabs>
+    </template>
+    <template  slot="bottom">
+      <van-tabbar
+        :value="2"
+        :fixed="Boolean(false)"
+      >
+        <van-tabbar-item icon="icon"
+                         to="/">首页
+        </van-tabbar-item>
+        <van-tabbar-item icon="chufang"
+                         to="/rxs">处方单
+        </van-tabbar-item>
+        <van-tabbar-item icon="fenlei"
+                         to="/drugTypes">分类
+        </van-tabbar-item>
+        <van-tabbar-item icon="gouwuche2"
+                         to="/carts">购物车
+        </van-tabbar-item>
+        <van-tabbar-item icon="wo"
+                         to="/accounts">我
+        </van-tabbar-item>
+      </van-tabbar>
+    </template>
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
@@ -114,15 +116,12 @@
     components: {
     },
     created() {
-      this.$axios.get('/drugTypes')
-        .then((res) => {
-          this.list = res.data;
-          console.log(res.data);
-        }).catch(err => {
-          this.exception(err);
-        });
+      this.initData();
     },
     methods: {
+      async initData() {
+        this.list = await this.$http.get('/drugTypes');
+      }
     }
   };
 </script>

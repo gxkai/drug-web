@@ -3,13 +3,14 @@
     class="order_view"
     center-color="white"
   >
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      slot="top"
-    />
-    <div slot="center">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
       <div class="order_view-state"
            :style="stateStyle">
         <div class="order_view-state_name" v-text="transformOrderStateSec(order.state, order.refundState, this)">
@@ -100,13 +101,12 @@
       <!--&gt;-->
         <!--<img v-lazy="getQrCodeURL(order.id)" class="order_view-qr_code">-->
       <!--</van-popup>-->
-    </div>
+    </template>
   </new-layout>
 </template>
 
 <style scoped type="text/less" lang="less">
   .order_view {
-    width: 720px;
     &-state {
       position: relative;
       width: 100%;
@@ -289,12 +289,9 @@
             return this.completeStyle;
         }
       },
-      onCancel() {
-        this.$axios.put('/orders/' + this.order.id + '/close').then(res => {
-          this.order.state = 'CLOSED';
-        }).catch(error => {
-          this.exception(error);
-        });
+      async onCancel() {
+        await this.$http.put(`/orders/${this.order.id}/close`);
+        this.order.state = 'CLOSED';
       },
       onPay() {
         this.$router.push({ path: '/orders/pay', query: { orderIds: this.order.id } });
@@ -308,13 +305,9 @@
       onAppraise() {
         this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
-      onConfirm() {
-        this.$axios.put('/orders/' + this.order.id + '/complete').then(res => {
-          this.order.state = 'TO_APPRAISE';
-          this.emitOrder();
-        }).catch(error => {
-          this.exception(error);
-        });
+      async onConfirm() {
+        await this.$http.put(`/orders/${this.order.id}/complete`);
+        this.order.state = 'TO_APPRAISE';
       }
     }
   };

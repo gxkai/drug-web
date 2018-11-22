@@ -33,11 +33,8 @@ axios.interceptors.response.use(
           router.push('/login');
           break;
         case 400:
-          if (error.response.data.fieldErrors) {
+          if (error.response.data.fieldErrors !== undefined) {
             Toast(error.response.data.fieldErrors[0].message);
-          }
-          if (error.response.data.message) {
-            Toast(error.response.data.message);
           }
           break;
         default:

@@ -1,115 +1,113 @@
 <template>
-  <div class="delivery">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
+  <new-layout class="delivery">
+   <template slot="top">
+     <van-nav-bar
+       :title="$route.name"
+       left-arrow
+       @click-left="$router.go(-1)"
+     />
+   </template>
 
-    <div class="delivery-schedule">
-      <div>
-        <div><img src="../../assets/image/delivery/ordersure.png"/></div>
-        <div class="delivery-schedule-message text-#13C1FE">订单已确认</div>
-      </div>
-
-      <div style="z-index: 999">
-        <div v-if="order.state== 'TO_RECEIVED' || order.state== 'TO_DELIVERY'||order.state== 'TO_APPRAISE' || order.state== 'COMPLETED'">
-          <img src="../../assets/image/delivery/distribution.png"/>
-          <div class="delivery-schedule-message text-#999999">配送中</div>
-        </div>
-        <div v-else>
-          <img src="../../assets/image/delivery/distributioning.png"/>
-          <div class="delivery-schedule-message text-#13C1FE">配送中</div>
-        </div>
-      </div>
-
-      <div>
-        <div v-if="order.state== 'TO_APPRAISE' || order.state== 'COMPLETED'">
-          <img src="../../assets/image/delivery/received.png"/>
-          <div class="delivery-schedule-message text-#999999">已收货</div>
-        </div>
-        <div v-else>
-          <img src="../../assets/image/delivery/receiveing.png"/>
-          <div class="delivery-schedule-message text-#13C1FE">已收货</div>
-        </div>
-
-      </div>
-      <p></p>
-    </div>
-    <div class="delivery-info">
-      <div class="delivery-info-header">
+    <template slot="center">
+      <div class="delivery-schedule">
         <div>
-          <i class="iconfont ic-yaodian text-333333"></i>
+          <div><img src="../../assets/image/delivery/ordersure.png"/></div>
+          <div class="delivery-schedule-message text-#13C1FE">订单已确认</div>
         </div>
+
+        <div style="z-index: 999">
+          <div v-if="order.state== 'TO_RECEIVED' || order.state== 'TO_DELIVERY'||order.state== 'TO_APPRAISE' || order.state== 'COMPLETED'">
+            <img src="../../assets/image/delivery/distribution.png"/>
+            <div class="delivery-schedule-message text-#999999">配送中</div>
+          </div>
+          <div v-else>
+            <img src="../../assets/image/delivery/distributioning.png"/>
+            <div class="delivery-schedule-message text-#13C1FE">配送中</div>
+          </div>
+        </div>
+
         <div>
-          {{order.shopName}}
+          <div v-if="order.state== 'TO_APPRAISE' || order.state== 'COMPLETED'">
+            <img src="../../assets/image/delivery/received.png"/>
+            <div class="delivery-schedule-message text-#999999">已收货</div>
+          </div>
+          <div v-else>
+            <img src="../../assets/image/delivery/receiveing.png"/>
+            <div class="delivery-schedule-message text-#13C1FE">已收货</div>
+          </div>
+
+        </div>
+        <p></p>
+      </div>
+      <div class="delivery-info">
+        <div class="delivery-info-header">
+          <div>
+            <i class="iconfont ic-yaodian text-333333"></i>
+          </div>
+          <div>
+            {{order.shopName}}
+          </div>
+        </div>
+        <div class="delivery-info-content">
+          <div class="delivery-info-content-item">
+            <div>
+              <div>
+                <i class="iconfont ic-purse"></i>
+              </div>
+              <div>
+                已支付
+              </div>
+            </div>
+            <div>
+              &yen;{{order.totalAmount||0.00}}
+            </div>
+          </div>
+          <div class="delivery-info-content-item">
+            <div>
+              <div>
+                <i class="iconfont ic-weizhi"></i>
+              </div>
+              <div>
+                送货地址
+              </div>
+            </div>
+            <div>
+              {{order.address||'无'}}
+            </div>
+          </div>
+          <div class="delivery-info-content-item">
+            <div>
+              <div>
+                <i class="iconfont ic-icon-test2"></i>
+              </div>
+              <div>
+                订单编号
+              </div>
+            </div>
+            <div>
+              {{order.number||'无'}}
+            </div>
+          </div>
+          <div class="delivery-info-content-item">
+            <div>
+              <div>
+                <i class="iconfont ic-shouji"></i>
+              </div>
+              <div>
+                送货人号码
+              </div>
+            </div>
+            <div>
+              {{order.courierPhone||'无'}}
+            </div>
+          </div>
         </div>
       </div>
-      <div class="delivery-info-content">
-        <div class="delivery-info-content-item">
-          <div>
-            <div>
-              <i class="iconfont ic-purse"></i>
-            </div>
-            <div>
-              已支付
-            </div>
-          </div>
-          <div>
-            &yen;{{order.totalAmount||0.00}}
-          </div>
-        </div>
-        <div class="delivery-info-content-item">
-          <div>
-            <div>
-              <i class="iconfont ic-weizhi"></i>
-            </div>
-            <div>
-              送货地址
-            </div>
-          </div>
-          <div>
-            {{order.address||'无'}}
-          </div>
-        </div>
-        <div class="delivery-info-content-item">
-          <div>
-            <div>
-              <i class="iconfont ic-icon-test2"></i>
-            </div>
-            <div>
-              订单编号
-            </div>
-          </div>
-          <div>
-            {{order.number||'无'}}
-          </div>
-        </div>
-        <div class="delivery-info-content-item">
-          <div>
-            <div>
-              <i class="iconfont ic-shouji"></i>
-            </div>
-            <div>
-              送货人号码
-            </div>
-          </div>
-          <div>
-            {{order.courierPhone||'无'}}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    </template>
+  </new-layout>
 </template>
 
 <script>
-  import Vue from 'vue';
-  import {Cell} from 'mint-ui';
-
-  Vue.component(Cell.name, Cell);
-
   export default {
     name: 'delivery',
     data() {
@@ -123,13 +121,8 @@
       this.initData();
     },
     methods: {
-      initData() {
-        this.$axios.get('/orders/' + this.orderId)
-          .then(res => {
-            console.log(res);
-            this.order = res.data;
-            console.log(this.order);
-          });
+      async initData() {
+        this.order = await this.$http.get(`/orders/${this.orderId}`);
       }
     }
   };
@@ -193,10 +186,6 @@
 </style>
 
 <style scoped>
-  .fz-50{
-    font-size: 50px;
-  }
-
   .delivery {
     width: 720px;
   }
@@ -235,29 +224,6 @@
     margin-top: 50px;
   }
 
-  .delivery-drugstore {
-    width: 680px;
-    margin: auto;
-/*    display: flex;
-    justify-content: space-between;
-    align-items: center;*/
-    margin-bottom: 47px;
-  }
-
-  .delivery-drugstore-name {
-    font-size: 24px;
-    color: rgba(51, 51, 51, 1);
-    display: block;
-  }
-
-  .delivery-drug {
-    width: 680px;
-    margin: auto;
-    margin-bottom: 39px;
-    display: flex;
-    align-items: center;
-  }
-
   .delivery-drug-dot img {
     width: 14px;
     height: 14px;
@@ -277,7 +243,4 @@
     display: flex;
     text-align: center;
   }
-
-
-
 </style>

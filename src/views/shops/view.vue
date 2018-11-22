@@ -1,81 +1,83 @@
 <template>
   <new-layout class="shop_view">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      slot="top"
-    />
-    <div class="shop_view-content"
-    slot="center"
-    >
-      <div class="shop_view-info">
-        <img v-lazy="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
-        <div class="shop_view-info-name">{{shopInfo.name}}</div>
-        <div class="shop_view-info-collect"
-             v-text="colloct ? '已收藏':'未收藏'"
-             :style="{backgroundColor: colloct ? 'red' : '#BFBFBF'}"
-             @click="collect"></div>
-      </div>
-      <div class="shop_view-score">
-        <div class="shop_view-score-info">
-          <div>{{shopInfo.describeScore}}分</div>
-          <div>客户服务</div>
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
+      <div class="shop_view-content"
+      >
+        <div class="shop_view-info">
+          <img v-lazy="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
+          <div class="shop_view-info-name">{{shopInfo.name}}</div>
+          <div class="shop_view-info-collect"
+               v-text="collect ? '已收藏':'未收藏'"
+               :style="{backgroundColor: collect ? 'red' : '#BFBFBF'}"
+               @click="onCollect"></div>
         </div>
-        <div class="shop_view-score-cut_line"></div>
-        <div class="shop_view-score-info">
-          <div>{{toFixedOne(shopInfo.deliveryScore)}}分</div>
-          <div>发货速度</div>
-        </div>
-        <div class="shop_view-score-cut_line"></div>
-        <div class="shop_view-score-info">
-          <div>{{toFixedOne(shopInfo.serviceScore)}}分</div>
-          <div>物流速度</div>
-        </div>
-        <div class="shop_view-score-cut_line"></div>
-        <div class="shop_view-score-info">
-          <div>{{toFixedOne(shopInfo.packageScore)}}分</div>
-          <div>商品包装</div>
-        </div>
-      </div>
-
-      <div class="shop_view-drug_type">
-        <div v-for="item in drugTypes"
-             @click="linkToShopDrugs(shopId, item.id)">
-          {{item.type}}
-        </div>
-      </div>
-
-      <div class="shop_view-recommend_title">
-        <div></div>
-        <div>商家推荐</div>
-        <div></div>
-      </div>
-
-      <div class="shop_view-recommend_list">
-        <div class="shop_view-recommend_list-item"
-             v-for="recommend in list"
-             @click="linkToShopDrugSpec(recommend.id)">
-          <div class="shop_view-recommend_list-item_logo">
-            <div class="rx_mark" v-if="!recommend.otc">处</div>
-            <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
+        <div class="shop_view-score">
+          <div class="shop_view-score-info">
+            <div>{{shopInfo.describeScore}}分</div>
+            <div>客户服务</div>
           </div>
-          <div class="shop_view-recommend_list-item_name">{{recommend.name}}</div>
-          <div class="shop_view-recommend_list-item_price">&yen;{{toFixedTwo(recommend.price)}}</div>
+          <div class="shop_view-score-cut_line"></div>
+          <div class="shop_view-score-info">
+            <div>{{toFixedOne(shopInfo.deliveryScore)}}分</div>
+            <div>发货速度</div>
+          </div>
+          <div class="shop_view-score-cut_line"></div>
+          <div class="shop_view-score-info">
+            <div>{{toFixedOne(shopInfo.serviceScore)}}分</div>
+            <div>物流速度</div>
+          </div>
+          <div class="shop_view-score-cut_line"></div>
+          <div class="shop_view-score-info">
+            <div>{{toFixedOne(shopInfo.packageScore)}}分</div>
+            <div>商品包装</div>
+          </div>
+        </div>
+
+        <div class="shop_view-drug_type">
+          <div v-for="item in drugTypes"
+               @click="linkToShopDrugs(shopId, item.id)">
+            {{item.type}}
+          </div>
+        </div>
+
+        <div class="shop_view-recommend_title">
+          <div></div>
+          <div>商家推荐</div>
+          <div></div>
+        </div>
+
+        <div class="shop_view-recommend_list">
+          <div class="shop_view-recommend_list-item"
+               v-for="recommend in list"
+               @click="linkToShopDrugSpec(recommend.id)">
+            <div class="shop_view-recommend_list-item_logo">
+              <div class="rx_mark" v-if="!recommend.otc">处</div>
+              <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
+            </div>
+            <div class="shop_view-recommend_list-item_name">{{recommend.name}}</div>
+            <div class="shop_view-recommend_list-item_price">&yen;{{toFixedTwo(recommend.price)}}</div>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="shop_view-footer"
-    slot="bottom"
-    >
+    </template>
+    <template slot="bottom">
+      <div class="shop_view-footer"
+      >
         <div @click="linkToShopInfo(shopId)">
           商家介绍
         </div>
         <div @click="linkToShopDrugs(shopId)">
           全部商品
         </div>
-    </div>
+      </div>
+    </template>
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
@@ -232,58 +234,34 @@
         list: [],
         shopInfo: [],
         shopId: this.$route.query.shopId,
-        colloct: false,
+        collect: false,
         drugTypes: []
       };
     },
     created() {
-      this.$axios.get('/shops/' + this.shopId + '/drugs/recommend').then(res => {
-        this.list = res.data;
-        console.log(res.data);
-      }).catch(error => {
-        this.exception(error);
-      });
-      this.$axios.get('/shops/' + this.shopId).then(res => {
-        this.shopInfo = res.data;
-      }).catch(error => {
-        this.exception(error);
-      });
-      this.$axios.get('/collects/shop/one?' + '&shopId=' + this.shopId)
-        .then(res => {
-          if (res.data) {
-            this.colloct = true;
-          } else {
-            this.colloct = false;
-          }
-        }).catch(error => {
-          this.exception(error);
-        });
-      // 药品大类
-      this.$axios.get('/drugTypes')
-        .then((res) => {
-          this.drugTypes = res.data;
-        }).catch(error => {
-          this.exception(error);
-        });
+      this.initData();
     },
     mounted() {
     },
     methods: {
-      collect() {
-        this.colloct = !this.colloct;
+      async initData() {
+        this.list = await this.$http.get(`/shops/${this.shopId}/drugs/recommend`);
+        this.shopInfo = await this.$http.get(`/shops/${this.shopId}`);
+        this.collect = await this.$http.get(`/collects/shop/one?shopId=${this.shopId}`);
+        this.drugTypes = await this.$http.get('/drugTypes');
+      },
+      async onCollect() {
+        this.collect = !this.collect;
         let data = {
           'shopId': this.shopId,
-          'collected': this.colloct
+          'collected': this.collect
         };
-        this.$axios.post('/collects/shop', data).then(res => {
-          if (this.colloct) {
-            this.$toast('收藏成功');
-          } else {
-            this.$toast('取消收藏成功');
-          }
-        }).catch(error => {
-          this.exception(error);
-        });
+        await this.$http.post('/collects/shop', data);
+        if (this.collect) {
+          this.$toast('收藏成功');
+        } else {
+          this.$toast('取消收藏成功');
+        }
       }
     }
   };

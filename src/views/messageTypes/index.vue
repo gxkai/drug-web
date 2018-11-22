@@ -1,42 +1,91 @@
 <template>
-  <div class="container">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
-
-    <div class="news-lists">
-      <router-link v-for="(messageContentType,index) in list" :key="index"
-                   :to="{path:'/messages',query:{messageType:messageContentType.messageType,title:messageContentType.name}}">
-        <div class="news-list">
-          <div class="news-list-left">
-            <img v-lazy="defaultMsgList[index].img"/>
-          </div>
-          <div class="news-list-right">
-            <div class="news-list-right-top">
-              <span class="news-list-title">{{messageContentType.name}}</span>
-              <span class="news-list-time">{{timeConvert(messageContentType.date)}}</span>
+  <new-layout>
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
+      <div class="message-type--item"
+           v-for="(item,index) in list"
+           @click="$router.push({path:'/messages',query:{messageType:item.messageType,title:item.name}})"
+      >
+        <div class="message-type--item__left">
+          <img v-lazy="defaultMsgList[index].img"/>
+        </div>
+        <div class="message-type--item__right">
+          <div class="message-type--item__right__first">
+            <div class="message-type--item__right__first--name">
+              {{item.name}}
             </div>
-            <span class="news-list-content">{{messageContentType.message||'暂无'}}</span>
+            <div class="message-type--item__right__first--date">
+              {{timeConvert(item.date)}}
+            </div>
+          </div>
+          <div class="message-type--item__right__second">
+            {{item.message||'暂无'}}
           </div>
         </div>
-      </router-link>
-    </div>
-    <new-no-data v-if="finished"></new-no-data>
-    <div>
-    </div>
-  </div>
+      </div>
+    </template>
+  </new-layout>
 </template>
-
+<style scoped type="text/less" lang="less">
+  .message-type {
+    &--item {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      margin-top: 20px;
+      padding: 0 20px;
+      &__left {
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+      &__right {
+        margin-left: 10px;
+        flex: 1;
+        &__first {
+          display: flex;
+          justify-content: space-between;
+          &--name {
+            flex: 1;
+            font-size:28px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(51,51,51,1);
+          }
+          &--date {
+            font-size:18px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(102,102,102,1);
+          }
+        }
+        &__second {
+          width: 500px;
+          font-size:20px;
+          font-family:HiraginoSansGB-W3;
+          font-weight:normal;
+          color:rgba(102,102,102,1);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+</style>
 <script>
   export default {
     name: 'messageTypes',
     data() {
       return {
         list: [],
-        finished: false,
         defaultMsgList: [
           { img: require('../../assets/image/message/ACCOUNT_SYSTEM.png') },
           { img: require('../../assets/image/message/ACCOUNT_ORDER.png') },
@@ -45,91 +94,12 @@
       };
     },
     created() {
-      this.$axios.get('/messageTypes')
-        .then((res) => {
-          if (res.data.length > 0) {
-            this.list = res.data;
-          } else {
-            this.finished = true;
-          }
-        }).catch(err => {
-          this.exception(err);
-        });
+      this.initData();
     },
     methods: {
+      async initData() {
+        this.list = await this.$http.get('/messageTypes');
+      }
     }
   };
 </script>
-
-<style scoped>
-  * {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    font-family: HiraginoSansGB-W3;
-  }
-
-  .container {
-    width: 720px;
-    height: 100vh;
-  }
-
-  .news-lists {
-    width: 720px;
-    background: rgba(255, 255, 255, 1);
-    display: block;
-    padding-top: 23px;
-  }
-
-  .news-list {
-    height: 91px;
-    margin-bottom: 39px;
-    display: flex;
-    align-items: center;
-
-  }
-
-  .news-list-left {
-    width: 91px;
-    height: 91px;
-    margin-left: 21px;
-  }
-
-  .news-list-left img {
-    width: 100%;
-  }
-
-  .news-list-right {
-    width: 550px;
-    height: 91px;
-    margin: auto;
-  }
-
-  .news-list-right-top {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-  }
-
-  .news-list-title {
-    font-size: 28px;
-    color: rgba(51, 51, 51, 1);
-  }
-
-  .news-list-time {
-    font-size: 24px;
-    color: rgba(102, 102, 102, 1);
-    margin-right: 21px;
-  }
-
-  .news-list-content {
-    display: block;
-    width: 550px;
-    font-size: 24px;
-    color: rgba(102, 102, 102, 1);
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-</style>

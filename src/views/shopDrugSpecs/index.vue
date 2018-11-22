@@ -1,166 +1,171 @@
 <template>
-  <div class="shopDrugSpec">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    >
-    </van-nav-bar>
-    <div class="shopDrugSpec__content"
-         ref="content">
-      <van-swipe :autoplay="3000">
-        <van-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
-          <img v-lazy="getImgURL(fileId,'LARGE_PIC')"/>
-        </van-swipe-item>
-      </van-swipe>
-      <div class="shopDrugSpec__content__part-1">
-        <div class="shopDrugSpec__content__part-1__front">
-          <div class="shopDrugSpec__content__part-1__front-name">
-            {{shopDrugSpec.name}}
-          </div>
-          <div class="shopDrugSpec__content__part-1__front-introduce">
-            {{shopDrugSpec.introduce}}
-          </div>
-          <div class="shopDrugSpec__content__part-1__front-price">
-            &yen;{{shopDrugSpec.price}}
-          </div>
-        </div>
-        <div class="shopDrugSpec__content__part-1__behind">
-        </div>
-      </div>
-      <div class="shopDrugSpec__content__part-2">
-        <div class="shopDrugSpec__content__part-2__item">
-          <span>国药准字</span>
-          <span>{{shopDrugSpec.sfda}}</span>
-        </div>
-        <div class="shopDrugSpec__content__part-2__dividing">
-        </div>
-        <div class="shopDrugSpec__content__part-2__item">
-          <span>库存</span>
-          <span>{{shopDrugSpec.stock}}</span>
-        </div>
-        <div class="shopDrugSpec__content__part-2__dividing">
-        </div>
-        <div class="shopDrugSpec__content__part-2__item">
-          <span>包装规格</span>
-          <span>{{shopDrugSpec.spec}}</span>
-        </div>
-      </div>
-      <div class="shopDrugSpec__content__part-3">
-        <div class="shopDrugSpec__content__part-3__item"
-             @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
-          <div class="shopDrugSpec__content__part-3__item__left">
-            <van-icon name="liwu-copy"></van-icon>
-            <span>商品详情</span>
-          </div>
-          <div class="shopDrugSpec__content__part-3__item__right">
-            <van-icon name="arrow"></van-icon>
-          </div>
-        </div>
-        <div class="shopDrugSpec__content__part-3__item"
-             @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
-          <div class="shopDrugSpec__content__part-3__item__left">
-            <van-icon name="pingjia"></van-icon>
-            <span>商品评价</span>
-          </div>
-          <div class="shopDrugSpec__content__part-3__item__right">
-            <van-icon name="arrow"></van-icon>
-          </div>
-        </div>
-      </div>
-      <div class="shopDrugSpec__content__part-4">
-        <div class="shopDrugSpec__content__part-4__header">
-          <div class="shopDrugSpec__content__part-4__header__left">
-            <img v-lazy="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')"
-                 class="shopDrugSpec__content__part-4__header__left-logo"/>
-          </div>
-          <div class="shopDrugSpec__content__part-4__header__center">
-            <div class="shopDrugSpec__content__part-4__header__center-shopName">
-              {{shopDrugSpec.shopName}}
+  <div>
+    <new-layout class="shopDrugSpec">
+      <template slot="top">
+        <van-nav-bar
+          :title="$route.name"
+          left-arrow
+          @click-left="$router.go(-1)"
+        >
+        </van-nav-bar>
+      </template>
+      <template slot="center">
+        <div class="shopDrugSpec__content">
+          <van-swipe :autoplay="3000">
+            <van-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
+              <img v-lazy="getImgURL(fileId,'LARGE_PIC')"/>
+            </van-swipe-item>
+          </van-swipe>
+          <div class="shopDrugSpec__content__part-1">
+            <div class="shopDrugSpec__content__part-1__front">
+              <div class="shopDrugSpec__content__part-1__front-name">
+                {{shopDrugSpec.name}}
+              </div>
+              <div class="shopDrugSpec__content__part-1__front-introduce">
+                {{shopDrugSpec.introduce}}
+              </div>
+              <div class="shopDrugSpec__content__part-1__front-price">
+                &yen;{{shopDrugSpec.price}}
+              </div>
             </div>
-            <div>
-              <van-rate v-model="shopDrugSpec.shopTotalAppraise.score" disabled disabled-color="red" :size="15"/>
+            <div class="shopDrugSpec__content__part-1__behind">
             </div>
           </div>
-          <div class="shopDrugSpec__content__part-4__header__right">
-            <van-icon name="peisong-" color="#13C1FE" size="5em"/>
-            <van-icon name="anquan" color="#13C1FE" size="5em"/>
+          <div class="shopDrugSpec__content__part-2">
+            <div class="shopDrugSpec__content__part-2__item">
+              <span>国药准字</span>
+              <span>{{shopDrugSpec.sfda}}</span>
+            </div>
+            <div class="shopDrugSpec__content__part-2__dividing">
+            </div>
+            <div class="shopDrugSpec__content__part-2__item">
+              <span>库存</span>
+              <span>{{shopDrugSpec.stock}}</span>
+            </div>
+            <div class="shopDrugSpec__content__part-2__dividing">
+            </div>
+            <div class="shopDrugSpec__content__part-2__item">
+              <span>包装规格</span>
+              <span>{{shopDrugSpec.spec}}</span>
+            </div>
+          </div>
+          <div class="shopDrugSpec__content__part-3">
+            <div class="shopDrugSpec__content__part-3__item"
+                 @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 0,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
+              <div class="shopDrugSpec__content__part-3__item__left">
+                <van-icon name="liwu-copy"></van-icon>
+                <span>商品详情</span>
+              </div>
+              <div class="shopDrugSpec__content__part-3__item__right">
+                <van-icon name="arrow"></van-icon>
+              </div>
+            </div>
+            <div class="shopDrugSpec__content__part-3__item"
+                 @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
+              <div class="shopDrugSpec__content__part-3__item__left">
+                <van-icon name="pingjia"></van-icon>
+                <span>商品评价</span>
+              </div>
+              <div class="shopDrugSpec__content__part-3__item__right">
+                <van-icon name="arrow"></van-icon>
+              </div>
+            </div>
+          </div>
+          <div class="shopDrugSpec__content__part-4">
+            <div class="shopDrugSpec__content__part-4__header">
+              <div class="shopDrugSpec__content__part-4__header__left">
+                <img v-lazy="getImgURL(shopDrugSpec.shopLogo,'LARGE_LOGO')"
+                     class="shopDrugSpec__content__part-4__header__left-logo"/>
+              </div>
+              <div class="shopDrugSpec__content__part-4__header__center">
+                <div class="shopDrugSpec__content__part-4__header__center-shopName">
+                  {{shopDrugSpec.shopName}}
+                </div>
+                <div>
+                  <van-rate v-model="shopDrugSpec.shopTotalAppraise.score" disabled disabled-color="red" :size="15"/>
+                </div>
+              </div>
+              <div class="shopDrugSpec__content__part-4__header__right">
+                <van-icon name="peisong-" color="#13C1FE" size="5em"/>
+                <van-icon name="anquan" color="#13C1FE" size="5em"/>
+              </div>
+            </div>
+            <div class="shopDrugSpec__content__part-4__content">
+              <van-row gutter="20">
+                <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
+                  <div>客户服务</div>
+                  <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.serviceScore)}}分</div>
+                </van-col>
+                <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
+                  <div>发货速度</div>
+                  <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.deliveryScore)}}分</div>
+                </van-col>
+                <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
+                  <div>商品包装</div>
+                  <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.packageScore)}}分</div>
+                </van-col>
+                <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
+                  <div>商品描述</div>
+                  <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.describeScore)}}分</div>
+                </van-col>
+              </van-row>
+            </div>
+            <div class="shopDrugSpec__content__part-4__footer">
+              <div class="shopDrugSpec__content__part-4__footer-button"
+                   @click="$router.push({path:'/shops/view',query:{shopId:shopDrugSpec.shopId}})">
+                进入店铺
+              </div>
+            </div>
+          </div>
+          <div class="shopDrugSpec__content__part-5">
+            <div class="shopDrugSpec__content__part-5__header van-hairline--bottom">
+              <div class="shopDrugSpec__content__part-5__header__left">
+                顾客评论({{shopDrugSpec.drugAppraises.total}})
+              </div>
+              <div class="shopDrugSpec__content__part-5__header__right"
+                   @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
+                全部评价&gt;
+              </div>
+            </div>
+            <div class="shopDrugSpec__content__part-5__item van-hairline--bottom"
+                 v-for="drugAppraise in shopDrugSpec.drugAppraises.list">
+              <div class="shopDrugSpec__content__part-5__item__header">
+                <van-rate v-model="drugAppraise.score" disabled disabled-color="red" :size="15"/>
+                <div
+                  class="shopDrugSpec__content__part-5__item__header--right"
+                >{{drugAppraise.username|asterisk}}</div>
+              </div>
+              <div class="shopDrugSpec__content__part-5__item__content">
+                {{drugAppraise.content||'没有评论内容'}}
+              </div>
+              <div class="shopDrugSpec__content__part-5__item__footer">
+                {{timeConvert(drugAppraise.createdDate)}}
+              </div>
+            </div>
           </div>
         </div>
-        <div class="shopDrugSpec__content__part-4__content">
-          <van-row gutter="20">
-            <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
-              <div>客户服务</div>
-              <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.serviceScore)}}分</div>
-            </van-col>
-            <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
-              <div>发货速度</div>
-              <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.deliveryScore)}}分</div>
-            </van-col>
-            <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
-              <div>商品包装</div>
-              <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.packageScore)}}分</div>
-            </van-col>
-            <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
-              <div>商品描述</div>
-              <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.describeScore)}}分</div>
-            </van-col>
-          </van-row>
-        </div>
-        <div class="shopDrugSpec__content__part-4__footer">
-          <div class="shopDrugSpec__content__part-4__footer-button"
-               @click="$router.push({path:'/shops/view',query:{shopId:shopDrugSpec.shopId}})">
-            进入店铺
-          </div>
-        </div>
-      </div>
-      <div class="shopDrugSpec__content__part-5">
-        <div class="shopDrugSpec__content__part-5__header van-hairline--bottom">
-          <div class="shopDrugSpec__content__part-5__header__left">
-            顾客评论({{shopDrugSpec.drugAppraises.total}})
-          </div>
-          <div class="shopDrugSpec__content__part-5__header__right"
-               @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 1,shopDrugSpec:JSON.stringify(shopDrugSpec)}})">
-            全部评价&gt;
-          </div>
-        </div>
-        <div class="shopDrugSpec__content__part-5__item van-hairline--bottom"
-             v-for="drugAppraise in shopDrugSpec.drugAppraises.list">
-          <div class="shopDrugSpec__content__part-5__item__header">
-            <van-rate v-model="drugAppraise.score" disabled disabled-color="red" :size="15"/>
-            <div
-            class="shopDrugSpec__content__part-5__item__header--right"
-            >{{drugAppraise.username|asterisk}}</div>
-          </div>
-          <div class="shopDrugSpec__content__part-5__item__content">
-            {{drugAppraise.content||'没有评论内容'}}
-          </div>
-          <div class="shopDrugSpec__content__part-5__item__footer">
-            {{timeConvert(drugAppraise.createdDate)}}
-          </div>
-        </div>
-      </div>
-    </div>
-    <van-goods-action
-      ref="footer">
-      <!--<van-goods-action-mini-btn icon="chat" text="咨询" :to="{path:'/chats/view',query:{shopId:shopDrugSpec.shopId}}"/>-->
-      <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
-      <van-goods-action-mini-btn icon="shoucang" text="收藏" :style="{color: collected === true? 'red': ''}"
-      @click="onCollect"/>
-      <van-goods-action-big-btn text="加入购物车"
-                                :style="{backgroundColor:shopDrugSpec.otc===false?'gray':'#f85'}"
-                                @click="shopDrugSpec.otc===false? '' : show=true;type=0"/>
-      <van-goods-action-big-btn text="立即购买" primary
-                                :style="{backgroundColor:shopDrugSpec.otc===false?'gray':'#f44'}"
-                                @click="shopDrugSpec.otc===false? '' : show=true;type=1"/>
-    </van-goods-action>
+      </template>
+      <template slot="bottom">
+        <van-goods-action style="position: sticky">
+          <!--<van-goods-action-mini-btn icon="chat" text="咨询" :to="{path:'/chats/view',query:{shopId:shopDrugSpec.shopId}}"/>-->
+          <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
+          <van-goods-action-mini-btn icon="shoucang" text="收藏" :style="{color: collected === true? 'red': ''}"
+                                     @click="onCollect"/>
+          <van-goods-action-big-btn text="加入购物车"
+                                    :style="{backgroundColor:shopDrugSpec.otc===false?'gray':'#f85'}"
+                                    @click="shopDrugSpec.otc===false? '' : show=true;type=0"/>
+          <van-goods-action-big-btn text="立即购买" primary
+                                    :style="{backgroundColor:shopDrugSpec.otc===false?'gray':'#f44'}"
+                                    @click="shopDrugSpec.otc===false? '' : show=true;type=1"/>
+        </van-goods-action>
+      </template>
+    </new-layout>
     <van-popup position="bottom" v-model="show">
       <div class="shopDrugSpec__popup">
         <div class="shopDrugSpec__popup__part-1 van-hairline--bottom">
           <div class="shopDrugSpec__popup__part-1__close-icon">
             <van-icon name="close" size="3em" color="#13C1FE"
-            @click="show = false"/>
+                      @click="show = false"/>
           </div>
           <div class="shopDrugSpec__popup__part-1__left">
             <img v-lazy="getImgURL(shopDrugSpec.drugLogo,'LARGE_LOGO')" class="shopDrugSpec__popup__part-1__left-logo"/>
@@ -501,66 +506,48 @@
         type: 0,
         number: 1,
         collected: false,
-        loading: false
+        loading: false,
+        shopDrugSpecId: this.$route.query.shopDrugSpecId
       };
     },
     created() {
-      this.$axios.get('/shopDrugSpecs/' + this.$route.query.shopDrugSpecId)
-        .then(res => {
-          this.shopDrugSpec = res.data;
-          this.$axios.get('/collects/drug/one?shopDrugSpecId=' + this.shopDrugSpec.id)
-            .then(res => {
-              this.collected = res.data;
-              console.log(res.data);
-            }).catch(error => {
-              this.exception(error);
-            });
-        }).catch(error => {
-          this.exception(error);
-        });
+      this.initData();
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight -
-        this.$refs.footer.$el.clientHeight) + 'px';
-      this.$refs.content.style.overflow = 'auto';
     },
     methods: {
-      onCollect() {
+      async initData() {
+        this.shopDrugSpec = await this.$http.get(`/shopDrugSpecs/${this.shopDrugSpecId}`);
+        this.collected = await this.$http.get(`/collects/drug/one?shopDrugSpecId=${this.shopDrugSpec.id}`);
+      },
+      async onCollect() {
         let data = {
           'shopId': this.shopDrugSpec.shopId,
           'drugSpecId': this.shopDrugSpec.drugSpecId,
           'shopDrugSpecId': this.shopDrugSpec.id,
           'collected': !this.collected
         };
-        this.$axios.post('/collects/drug', data)
-          .then(res => {
-            this.collected = !this.collected;
-            console.log(this.collected);
-            if (this.collected) {
-              this.$toast('收藏成功');
-            } else {
-              this.$toast('取消收藏成功');
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
+        await this.$http.post('/collects/drug', data);
+        this.collected = !this.collected;
+        if (this.collected) {
+          this.$toast('收藏成功');
+        } else {
+          this.$toast('取消收藏成功');
+        }
       },
-      onConfirm() {
+      async onConfirm() {
         this.loading = true;
         if (this.type === 0) {
-          this.$axios.post('/carts', [{
+          const data = [{
             shopId: this.shopDrugSpec.shopId,
             drugSpecId: this.shopDrugSpec.drugSpecId,
             shopDrugSpecId: this.shopDrugSpec.id,
             quantity: this.number
-          }]).then(res => {
-            this.loading = false;
-            this.$toast('加入购物车成功');
-            this.show = false;
-          }).catch(err => {
-            this.loading = false;
-            this.exception(err);
-          });
+          }];
+          await this.$http.post('/carts', data);
+          this.loading = false;
+          this.$toast('加入购物车成功');
+          this.show = false;
         } else {
           let drugInfoList = [];
           drugInfoList.push({
@@ -573,14 +560,8 @@
             'orderShopDrugSpecInfoDTOList': drugInfoList,
             'type': 'SIMPLE'
           };
-          this.$axios.post('orders/shop/get', data)
-            .then(res => {
-              this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(data));
-            })
-            .catch(err => {
-              this.loading = false;
-              this.exception(err);
-            });
+          await this.$http.post('orders/shop/get', data);
+          this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(data));
         }
       }
     }

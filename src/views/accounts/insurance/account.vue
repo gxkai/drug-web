@@ -1,13 +1,13 @@
 <template>
-  <div class="insurance-account">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
-    <div class="insurance-account__content"
-         ref="content">
+  <new-layout class="insurance-account">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
       <van-cell title="姓名"
                 class="mt-l-20"
                 :value="accountInfo.name">
@@ -40,8 +40,8 @@
       <van-cell title="累计月数" class="mt-l-20"
                 :value="accountInfo.month">
       </van-cell>
-    </div>
-  </div>
+    </template>
+  </new-layout>
 </template>
 <script>
   export default {
@@ -51,24 +51,14 @@
       };
     },
     created() {
-      this.$axios.get('/accounts/medicaid')
-        .then(res => {
-          this.accountInfo = res.data;
-          console.log(res.data);
-        })
-        .catch(err => {
-          this.exception(err);
-        });
+      this.initData();
     },
-    mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight
-      ) + 'px';
-      this.$refs.content.style.overflow = 'auto';
+    methods: {
+      async initData() {
+        this.accountInfo = this.$http.get('/accounts/medicaid');
+      }
     }
   };
 </script>
 <style scoped type="text/less" lang="less">
-  .insurance-account {
-    background-color: #f5f5f5;
-  }
 </style>

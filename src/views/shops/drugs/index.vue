@@ -1,36 +1,38 @@
 <template>
   <new-layout class="shop_drugs">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      slot="top"
-    />
-    <div class="shop_drugs-content"
-    slot="center"
-    >
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          @load="onLoad">
-          <div class="shop_drugs-list-item"
-               v-for="drug in list"
-               @click="linkToShopDrugSpec(drug.id)">
-            <div class="shop_drugs-list-item-left">
-              <div class="rx_mark" v-if="!drug.otc">处</div>
-              <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
+      <div class="shop_drugs-content"
+      >
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            @load="onLoad">
+            <div class="shop_drugs-list-item"
+                 v-for="drug in list"
+                 @click="linkToShopDrugSpec(drug.id)">
+              <div class="shop_drugs-list-item-left">
+                <div class="rx_mark" v-if="!drug.otc">处</div>
+                <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')">
+              </div>
+              <div class="shop_drugs-list-item-right">
+                <div class="shop_drugs-list-item-right_name">{{drug.name}}</div>
+                <div class="shop_drugs-list-item-right_sfda">国药准字{{drug.sfda}}</div>
+                <div class="shop_drugs-list-item-right_price">&yen;{{drug.price}}</div>
+              </div>
             </div>
-            <div class="shop_drugs-list-item-right">
-              <div class="shop_drugs-list-item-right_name">{{drug.name}}</div>
-              <div class="shop_drugs-list-item-right_sfda">国药准字{{drug.sfda}}</div>
-              <div class="shop_drugs-list-item-right_price">&yen;{{drug.price}}</div>
-            </div>
-          </div>
-          <new-no-data v-if="finished"></new-no-data>
-        </van-list>
-      </van-pull-refresh>
-    </div>
+            <new-no-data v-if="finished"></new-no-data>
+          </van-list>
+        </van-pull-refresh>
+      </div>
+    </template>
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
@@ -105,26 +107,21 @@
         this.pageNum = 0;
         this.onLoad();
       },
-      onLoad() {
+      async onLoad() {
         this.pageNum++;
-        this.$axios.get('/shops/' + this.shopId + '/drugs', {
-          params: {
-            'pageNum': this.pageNum,
-            'pageSize': this.pageSize,
-            'typeId': this.typeId
-          }
-        })
-          .then(res => {
-            this.isLoading = false;
-            this.loading = false;
-            this.list = this.list.concat(res.data.list);
-            console.log(this.list);
-            if (res.data.list.length === 0) {
-              this.finished = true;
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
+        const params = {
+          'pageNum': this.pageNum,
+          'pageSize': this.pageSize,
+          'typeId': this.typeId
+        };
+        const data = await this.$http.get(`/shops/${this.shopId}/drugs`, params);
+        this.isLoading = false;
+        this.loading = false;
+        this.list = this.list.concat(data.list);
+        console.log(this.list);
+        if (data.list.length === 0) {
+          this.finished = true;
+        }
       }
     }
   };

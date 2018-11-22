@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import {mapGetters, mapMutations} from 'vuex';
+  import { mapGetters, mapMutations } from 'vuex';
   export default {
     name: 'addresses',
     data() {
@@ -45,19 +45,14 @@
       };
     },
     created() {
-      this.getList();
+      this.initData();
     },
     computed: {
       ...mapGetters(['receiveAddress'])
     },
     methods: {
-      getList() {
-        this.$axios.get('/addresses')
-          .then((res) => {
-            this.list = res.data;
-          }).catch(error => {
-            this.exception(error);
-          });
+      async initData() {
+        this.list = await this.$http.get('/addresses');
       },
       onAddress(address) {
         this.setReceiveAddress(address);

@@ -53,33 +53,24 @@
       ...mapGetters(['receiveAddress'])
     },
     created() {
-      this.getList();
+      this.initData();
     },
     methods: {
-      getList() {
-        this.$axios.get('/orders/pay?orderIds=' + this.orderIds).then(res => {
-          this.list = res.data;
-          console.log(res.data);
-          this.$storage.set('orderIds', this.orderIds);
-        }).catch(error => {
-          this.exception(error);
-        });
+      async initData() {
+        this.list = await this.$http.get('/orders/pay?orderIds=' + this.orderIds);
+        this.$storage.set('orderIds', this.orderIds);
       },
-      onPay(item, key) {
-        this.$axios.get('/orders/' + item.id + '/pay')
-          .then(res => {
-            // this.$storage.set('orderId', item.id);
-            // const div = document.createElement('div');
-            // div.innerHTML = res.data;
-            // document.body.appendChild(div);
-            // document.forms[0].submit();
-            this.list.splice(key, 1);
-            if (this.list.length === 0) {
-              this.$router.push('/orders/pay/success');
-            }
-          }).catch((error) => {
-            this.exception(error);
-          });
+      async onPay(item, key) {
+        await this.$http.get('/orders/' + item.id + '/pay');
+        // this.$storage.set('orderId', item.id);
+        // const div = document.createElement('div');
+        // div.innerHTML = res.data;
+        // document.body.appendChild(div);
+        // document.forms[0].submit();
+        this.list.splice(key, 1);
+        if (this.list.length === 0) {
+          this.$router.push('/orders/pay/success');
+        }
       }
     }
   };
@@ -113,29 +104,5 @@
       }
     }
   }
-  /*.pay {*/
-    /*background-color: rgba(246, 246, 246, 1);*/
-    /*height: 100vh;*/
-    /*width: 720px;*/
-  /*}*/
-
-  /*.address {*/
-    /*width: 100%;*/
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*padding: 20px 10px;*/
-    /*background-color: white;*/
-  /*}*/
-  /*.address>div:nth-child(2) {*/
-    /*width: 80%;*/
-    /*margin-left: 10px;*/
-  /*}*/
-  /*.address .iconfont {*/
-    /*font-size: 50px;*/
-  /*}*/
-
-  /*.image-bar {*/
-    /*width: 100%;*/
-  /*}*/
 </style>
 

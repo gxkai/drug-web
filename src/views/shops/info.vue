@@ -1,68 +1,66 @@
 <template>
-  <div class="shop-info">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-    />
-    <div class="shop-info__content">
-      <div class="shop-info__part-1">
-        <img v-lazy="getImgURL(shopInfo.logo, 'LARGE_LOGO')">
-        <span>{{shopInfo.name}}</span>
-        <van-icon name="anquan" color="#FFFFFF" size="5em"></van-icon>
-      </div>
-      <div class="shop-info__part-2">
+  <new-layout class="shop-info">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
+      <div class="shop-info__content">
+        <div class="shop-info__part-1">
+          <img v-lazy="getImgURL(shopInfo.logo, 'LARGE_LOGO')">
+          <span>{{shopInfo.name}}</span>
+          <van-icon name="anquan" color="#FFFFFF" size="5em"></van-icon>
+        </div>
+        <div class="shop-info__part-2">
           <span class="shop-info__part-2__span-name">门店地址:</span>
           <span class="shop-info__part-2__span-adress">{{shopInfo.address}}</span>
-      </div>
-      <div class="shop-info__part-3">
-        <div class="shop-info__part-3__header van-hairline--bottom">
-          <span class="shop-info__part-3__header__span-name">服务总评</span>
-          <span class="shop-info__part-3__header__span-score">{{toFixedOne(shopInfo.score)}}</span>
-          <span class="shop-info__part-3__header__span-count">（共{{shopInfo.count}}人参加评分）</span>
         </div>
-        <div class="shop-info__part-3__content">
-          <div class="shop-info__part-3__content__item">
-            <span class="shop-info__part-3__content__item__span-name">配送速度</span>
-            <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.deliveryScore)}}</span>
+        <div class="shop-info__part-3">
+          <div class="shop-info__part-3__header van-hairline--bottom">
+            <span class="shop-info__part-3__header__span-name">服务总评</span>
+            <span class="shop-info__part-3__header__span-score">{{toFixedOne(shopInfo.score)}}</span>
+            <span class="shop-info__part-3__header__span-count">（共{{shopInfo.count}}人参加评分）</span>
           </div>
-          <div class="shop-info__part-3__content__item">
-            <span class="shop-info__part-3__content__item__span-name">服务态度</span>
-            <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.serviceScore)}}</span>
-          </div>
-          <div class="shop-info__part-3__content__item">
-            <span class="shop-info__part-3__content__item__span-name">描述相符</span>
-            <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.describeScore)}}</span>
-          </div>
-          <div class="shop-info__part-3__content__item">
-            <span class="shop-info__part-3__content__item__span-name">商品包装</span>
-            <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.packageScore)}}</span>
+          <div class="shop-info__part-3__content">
+            <div class="shop-info__part-3__content__item">
+              <span class="shop-info__part-3__content__item__span-name">配送速度</span>
+              <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.deliveryScore)}}</span>
+            </div>
+            <div class="shop-info__part-3__content__item">
+              <span class="shop-info__part-3__content__item__span-name">服务态度</span>
+              <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.serviceScore)}}</span>
+            </div>
+            <div class="shop-info__part-3__content__item">
+              <span class="shop-info__part-3__content__item__span-name">描述相符</span>
+              <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.describeScore)}}</span>
+            </div>
+            <div class="shop-info__part-3__content__item">
+              <span class="shop-info__part-3__content__item__span-name">商品包装</span>
+              <span class="shop-info__part-3__content__item__span-score">{{toFixedOne(shopInfo.packageScore)}}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="shop-info__part-4">
-        <div class="shop-info__part-4__header">
-          <span>商家资质</span>
-        </div>
+        <div class="shop-info__part-4">
+          <div class="shop-info__part-4__header">
+            <span>商家资质</span>
+          </div>
           <van-row class="shop-info__part-4__content">
             <van-col span='12' v-for="(item, index) in shopInfo.fileIds" :key="index"
                      class="shop-info__part-4__content__item">
               <img v-lazy="getImgURL(item, 'LARGE_PIC')">
             </van-col>
           </van-row>
+        </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   .shop-info {
-    background-color: #f5f5f5;
-    display: flex;
-    flex-flow: column;
-    height: 100vh;
     &__content {
-      flex: 1;
-      overflow: auto;
     }
     &__part-4 {
       background-color: white;
@@ -194,21 +192,16 @@
     data() {
       return {
         shopInfo: {},
-        imgLists: [],
-        bgColor: 'white',
-        color: '#333333',
         shopId: this.$route.query.id
       };
     },
     created() {
-      this.$axios.get('/shops/' + this.shopId).then(res => {
-        console.log(res.data);
-        this.shopInfo = res.data;
-      }).catch(err => {
-        this.exception(err);
-      });
+      this.initData();
     },
-    mounted() {
+    methods: {
+      async initData() {
+        this.shopInfo = await this.$http.get(`/shops/${this.shopId}`);
+      }
     }
   };
 </script>

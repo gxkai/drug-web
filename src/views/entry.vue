@@ -3,6 +3,8 @@
 </template>
 
 <script>
+  import { getReceivedPosition } from '../assets/js/auth';
+
   export default {
     name: '',
     mixins: [],
@@ -12,7 +14,7 @@
       return {};
     },
     created() {
-      if (this.$store.getters.receivedPosition === undefined) {
+      if (getReceivedPosition() === undefined) {
         this.$router.push('/addresses/choose');
       } else {
         this.$router.push('/index');

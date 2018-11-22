@@ -9,7 +9,7 @@
         left-arrow
         right-text="管理"
         @click-left="$router.go(-1)"
-        @click-right="save()"
+        @click-right="$router.push('/addresses')"
       />
     </template>
     <template slot="center">
@@ -40,6 +40,7 @@
         <div class="address-choose--receive--item van-hairline--bottom"
              v-for="address in addresses"
              :key="address.id"
+             @click="setPosition(address)"
         >
           <div class="address-choose--receive--item--address">
             {{address.address}}
@@ -171,6 +172,8 @@
 
 <script>
   import BMap from 'BMap';
+  import { setReceivedPosition } from '../../assets/js/auth';
+
   export default {
     name: '',
     mixins: [],
@@ -185,7 +188,7 @@
             lat: 31,
             lng: 130
           },
-          name: '定位中'
+          name: '定位中...'
         }
       };
     },
@@ -198,6 +201,17 @@
     methods: {
       async getAddresses() {
         this.addresses = await this.$http.get('/addresses');
+      },
+      setPosition(address) {
+        const position = {
+          name: address.address,
+          position: {
+            lat: address.lat,
+            lng: address.lng
+          }
+        };
+        setReceivedPosition(position);
+        this.$router.push('/index');
       },
       getLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {

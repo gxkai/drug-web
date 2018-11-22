@@ -1,13 +1,13 @@
 <template>
-  <div class="insurance">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
-    <div class="insurance__content"
-         ref="content">
+  <new-layout>
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
       <van-cell title="我的医保卡"
                 is-link
                 class="mt-l-20"
@@ -23,20 +23,10 @@
                 <!--is-link-->
                 <!--to="/accounts/insurance/consume">-->
       <!--</van-cell>-->
-    </div>
-  </div>
+    </template>
+  </new-layout>
 </template>
 <script>
-  export default {
-    mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight
-      ) + 'px';
-      this.$refs.content.style.overflow = 'auto';
-    }
-  };
 </script>
 <style scoped type="text/less" lang="less">
-  .insurance {
-    background-color: #f5f5f5;
-  }
 </style>

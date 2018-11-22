@@ -30,8 +30,18 @@
         label="地址"
         type="text"
         placeholder="选择收货地址"
-        @click="$router.push('/addresses/confirm')"
+        @click="setPosition()"
         />
+        <van-field
+          v-model="address.lat"
+          label="经度"
+          style="display: none"
+          disabled/>
+        <van-field
+          v-model="address.lng"
+          label="纬度"
+          style="display: none"
+          disabled/>
         <van-field
           v-model="address.room"
           label="门牌号"
@@ -60,10 +70,18 @@
 </style>
 <script>
   export default {
-    name: 'addressesUpdate',
+    name: 'addressUpdate',
     data() {
       return {
-        address: {},
+        address: {
+          consignee: '',
+          phone: '',
+          address: '',
+          lat: '',
+          lng: '',
+          room: '',
+          defaulted: false
+        },
         id: this.$route.query.id
       };
     },
@@ -72,44 +90,40 @@
         this.getList();
       }
     },
-    mounted() {
+    beforeRouteLeave(to, from, next) {
+      this.$route.meta.keepAlive = false;
+      next();
+    },
+    activated() {
+      if (this.$route.query.position !== undefined) {
+        const position = JSON.parse(this.$route.query.position);
+        this.address.lat = position.location.lat;
+        this.address.lng = position.location.lng;
+        this.address.address = position.name;
+      }
     },
     methods: {
-      getList() {
-        this.$axios.get('/addresses/' + this.id)
-          .then((res) => {
-            this.address = res.data;
-          })
-          .catch((error) => {
-            this.exception(error);
-          });
-      },
-      save() {
-        if (this.id !== undefined) {
-          this.$axios.put('/addresses/' + this.id, this.address)
-            .then((res) => {
-              let instance = this.$toast('保存成功');
-              setTimeout(() => {
-                instance.close();
-                this.$router.go(-1);
-              }, 2000);
-            })
-            .catch((error) => {
-              this.exception(error);
-            });
+      setPosition() {
+        if (this.address.lat !== '') {
+          const location = {
+            lat: this.address.lat,
+            lng: this.address.lng
+          };
+          this.$router.push({ path: '/addresses/confirm', query: { location: JSON.stringify(location) } });
         } else {
-          this.$axios.post('/addresses/', this.address)
-            .then((res) => {
-              let instance = this.$toast('保存成功');
-              setTimeout(() => {
-                instance.close();
-                this.$router.go(-1);
-              }, 2000);
-            })
-            .catch((error) => {
-              this.exception(error);
-            });
+          this.$router.push('/addresses/confirm');
         }
+      },
+      async getList() {
+        this.address = await this.$http.get('/addresses/' + this.id);
+      },
+      async save() {
+        if (this.id !== undefined) {
+          await this.$http.put('/addresses/' + this.id, this.address);
+        } else {
+          await this.$http.post('/addresses/', this.address);
+        }
+        this.$toast('保存成功');
       }
     }
   };

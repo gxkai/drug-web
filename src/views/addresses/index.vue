@@ -1,42 +1,44 @@
 <template>
   <new-layout class="address">
-    <van-nav-bar
-    :title="$route.name"
-    left-arrow
-    @click-left="$router.go(-1)"
-    slot="top"
-    />
-    <div class="address__content"
-    slot="center"
-    >
-      <div class="address__content__item"
-           v-for="(address,index) in list" :key="index">
-        <div class="address__content__item__top">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
+      <div class="address__content"
+      >
+        <div class="address__content__item"
+             v-for="(address,index) in list" :key="index">
+          <div class="address__content__item__top">
           <span class="address__content__item__top-consignee">
             {{address.consignee}}
           </span>
-          <span class="address__content__item__top-phone">
+            <span class="address__content__item__top-phone">
             {{address.phone}}
           </span>
-        </div>
-        <div class="address__content__item__bottom">
-          <div class="address__content__item__bottom-default">
-            <van-icon name="moren" size="4em" color="#FF0000" v-show="address.defaulted"></van-icon>
           </div>
-          <span class="address__content__item__bottom-address">{{address.address}}</span>
-          <van-icon name="edit" size="3em"
-                    @click="$router.push({path:'/addresses/edit',query:{id:address.id}})"></van-icon>
-          <van-icon name="delete" size="3em"
-                    @click="del(address.id,index)"></van-icon>
+          <div class="address__content__item__bottom">
+            <div class="address__content__item__bottom-default">
+              <van-icon name="moren" size="4em" color="#FF0000" v-show="address.defaulted"></van-icon>
+            </div>
+            <span class="address__content__item__bottom-address">{{address.address}}</span>
+            <van-icon name="edit" size="3em"
+                      @click="$router.push({path:'/addresses/edit',query:{id:address.id}})"></van-icon>
+            <van-icon name="delete" size="3em"
+                      @click="del(address.id,index)"></van-icon>
+          </div>
         </div>
       </div>
-
-    </div>
-    <div class="address__footer"
-         slot="bottom"
-    @click="$router.push('/addresses/edit')">
-      +新增地址
-    </div>
+    </template>
+    <template slot="bottom">
+      <div class="address__footer"
+           @click="$router.push('/addresses/edit')">
+        +新增地址
+      </div>
+    </template>
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
@@ -115,26 +117,19 @@
       };
     },
     created() {
-      this.$axios.get('/addresses')
-        .then((res) => {
-          this.list = res.data;
-        }).catch(err => {
-          this.exception(err);
-        });
+      this.initData();
     },
     mounted() {
     },
     methods: {
+      async initData() {
+        this.list = await this.$http.get('/addresses');
+      },
       del(id, index) {
-        this.$dialog.confirm({ message: '确定删除？' }).then(() => {
-          this.$axios.delete('/addresses/' + id)
-            .then((res) => {
-              this.list.splice(index, 1);
-              this.$toast('删除成功');
-            })
-            .catch((error) => {
-              this.exception(error);
-            });
+        this.$dialog.confirm({ message: '确定删除？' }).then(async () => {
+          await this.$http.delete('/addresses/' + id);
+          this.list.splice(index, 1);
+          this.$toast.success('成功');
         });
       }
     }

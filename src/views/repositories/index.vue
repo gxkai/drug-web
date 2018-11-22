@@ -1,15 +1,16 @@
 <template>
   <new-layout class="repositories">
-    <van-nav-bar
-      :title="title"
-      left-arrow
-      @click-left="$router.go(-1)"
-      @click-right="$router.push('/messageTypes')"
-      slot="top"
-    >
-      <van-icon name="chat" slot="right"/>
-    </van-nav-bar>
-    <div slot="center">
+    <template slot="top">
+      <van-nav-bar
+        :title="title"
+        left-arrow
+        @click-left="$router.go(-1)"
+        @click-right="$router.push('/messageTypes')"
+      >
+        <van-icon name="chat" slot="right"/>
+      </van-nav-bar>
+    </template>
+    <template slot="center">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list
           v-model="loading"
@@ -25,7 +26,7 @@
             class="repositories--item__top"
             >
               <span>
-                {{item.title }}
+                {{item.title}}
               </span>
               <van-icon name="arrow" color="#999999"></van-icon>
             </div>
@@ -38,7 +39,7 @@
           <new-no-data v-show="finished === true"></new-no-data>
         </van-list>
       </van-pull-refresh>
-    </div>
+    </template>
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
@@ -51,6 +52,10 @@
         display: flex;
         justify-content: space-between;
         span {
+          flex: 1;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
           font-size:26px;
           font-family:HiraginoSansGB-W3;
           font-weight:normal;
@@ -95,26 +100,21 @@
         this.pageNum = 0;
         this.onLoad();
       },
-      onLoad() {
+      async onLoad() {
         this.pageNum++;
-        this.$axios.get('/repositories/', {
-          params: {
-            'pageNum': this.pageNum,
-            'pageSize': this.pageSize,
-            'repositoryTypeId': this.repositoryTypeId
-          }
-        })
-          .then(res => {
-            this.isLoading = false;
-            this.loading = false;
-            this.list = this.list.concat(res.data.list);
-            console.log(this.list);
-            if (res.data.list.length === 0) {
-              this.finished = true;
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
+        const params = {
+          'pageNum': this.pageNum,
+          'pageSize': this.pageSize,
+          'repositoryTypeId': this.repositoryTypeId
+        };
+        const data = await this.$http.get('/repositories/', params);
+        this.isLoading = false;
+        this.loading = false;
+        this.list = this.list.concat(data.list);
+        console.log(this.list);
+        if (data.list.length === 0) {
+          this.finished = true;
+        }
       }
     }
   };

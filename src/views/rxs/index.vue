@@ -1,16 +1,15 @@
 <template>
   <new-layout class="rxs">
-    <div slot="top">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
-    <div class="rxs--header">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+      <div class="rxs--header">
         <div class="rxs--header__left">
           <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"
-          class="rxs--header__left--logo"
+               class="rxs--header__left--logo"
           />
         </div>
         <div class="rxs--header__right">
@@ -25,82 +24,85 @@
             <span class="ml-l-20">{{account.identityNumber|| '未填写'}}</span>
           </div>
         </div>
-    </div>
+      </div>
       <input
         type="text"
         class="iconfont rxs--search"
         :placeholder="icon"
         v-model="keyword"
         @keyup.enter="onRefresh">
-    </div>
-    <div slot="center" class="pt-l-30">
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          @load="onLoad">
-          <div
-          class="rxs--item"
-          v-for="item in list"
-          :key="item.id"
-          @click="$router.push({path:'/rxs/view',query:{rxId:item.id}})"
-          >
-            <img class="rxs--mark" v-lazy="item.state ==='ENABLED'? require('../../assets/image/rxs/rx-true.png') : require('../../assets/image/rxs/rx-false.png')" >
-            <div>
-            <van-icon name="yiyuan" color="#13C1FE" size="3em"></van-icon>
-            <span>医院</span>
-            <span>
+    </template>
+    <template slot="center">
+      <div class="pt-l-30">
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            @load="onLoad">
+            <div
+              class="rxs--item"
+              v-for="item in list"
+              :key="item.id"
+              @click="$router.push({path:'/rxs/view',query:{rxId:item.id}})"
+            >
+              <img class="rxs--mark" v-lazy="item.state ==='ENABLED'? require('../../assets/image/rxs/rx-true.png') : require('../../assets/image/rxs/rx-false.png')" >
+              <div>
+                <van-icon name="yiyuan" color="#13C1FE" size="3em"></van-icon>
+                <span>医院</span>
+                <span>
               {{item.hospital||'未注明'}}
             </span>
-            <span>
+                <span>
               {{item.number}}
             </span>
-          </div>
-          <div>
-            <van-icon name="riqi" color="#13C1FE" size="3em"></van-icon>
-            <span>日期</span>
-            <span>
+              </div>
+              <div>
+                <van-icon name="riqi" color="#13C1FE" size="3em"></van-icon>
+                <span>日期</span>
+                <span>
               {{timeConvert(item.rxDate)}}
             </span>
-          </div>
-          <div>
-            <van-icon name="222" color="#13C1FE" size="3em"></van-icon>
-            <span>症状</span>
-            <span>
+              </div>
+              <div>
+                <van-icon name="222" color="#13C1FE" size="3em"></van-icon>
+                <span>症状</span>
+                <span>
               {{item.illness}}
             </span>
-          </div>
-            <div>
-              <van-icon name="shijian2" color="#13C1FE" size="3em"></van-icon>
-              <span>倒计时</span>
-              <new-count-down :endTime="item.rxDate" durationDay="3"></new-count-down>
+              </div>
+              <div>
+                <van-icon name="shijian2" color="#13C1FE" size="3em"></van-icon>
+                <span>倒计时</span>
+                <new-count-down :endTime="item.rxDate" durationDay="3"></new-count-down>
+              </div>
             </div>
-          </div>
-          <new-no-data v-show="finished === true"></new-no-data>
-        </van-list>
-      </van-pull-refresh>
-    </div>
-    <van-tabbar
-      :value="1"
-      slot="bottom"
-      :fixed="Boolean(false)"
-    >
-      <van-tabbar-item icon="icon"
-                       to="/">首页
-      </van-tabbar-item>
-      <van-tabbar-item icon="chufang"
-                       to="/rxs">处方单
-      </van-tabbar-item>
-      <van-tabbar-item icon="fenlei"
-                       to="/drugTypes">分类
-      </van-tabbar-item>
-      <van-tabbar-item icon="gouwuche2"
-                       to="/carts">购物车
-      </van-tabbar-item>
-      <van-tabbar-item icon="wo"
-                       to="/accounts">我
-      </van-tabbar-item>
-    </van-tabbar>
+            <new-no-data v-show="finished === true"></new-no-data>
+          </van-list>
+        </van-pull-refresh>
+      </div>
+    </template>
+    <template slot="bottom">
+      <van-tabbar
+        :value="1"
+        :fixed="Boolean(false)"
+      >
+        <van-tabbar-item icon="icon"
+                         to="/">首页
+        </van-tabbar-item>
+        <van-tabbar-item icon="chufang"
+                         to="/rxs">处方单
+        </van-tabbar-item>
+        <van-tabbar-item icon="fenlei"
+                         to="/drugTypes">分类
+        </van-tabbar-item>
+        <van-tabbar-item icon="gouwuche2"
+                         to="/carts">购物车
+        </van-tabbar-item>
+        <van-tabbar-item icon="wo"
+                         to="/accounts">我
+        </van-tabbar-item>
+      </van-tabbar>
+    </template>
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
@@ -219,26 +221,21 @@
         this.pageNum = 0;
         this.onLoad();
       },
-      onLoad() {
+      async onLoad() {
         this.pageNum++;
-        this.$axios.get('/rxs/', {
-          params: {
-            'pageNum': this.pageNum,
-            'pageSize': this.pageSize,
-            'keyword': this.keyword
-          }
-        })
-          .then(res => {
-            this.isLoading = false;
-            this.loading = false;
-            this.list = this.list.concat(res.data.list);
-            console.log(this.list);
-            if (res.data.list.length === 0) {
-              this.finished = true;
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
+        const params = {
+          'pageNum': this.pageNum,
+          'pageSize': this.pageSize,
+          'keyword': this.keyword
+        };
+        const data = await this.$http.get('/rxs', params);
+        this.isLoading = false;
+        this.loading = false;
+        this.list = this.list.concat(data.list);
+        console.log(this.list);
+        if (data.list.length === 0) {
+          this.finished = true;
+        }
       }
     }
   };

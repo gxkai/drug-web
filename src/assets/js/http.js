@@ -1,9 +1,13 @@
 import axios from './axios';
+const qs = require('qs');
 const http = {
   get(url, params) {
     return new Promise((resolve, reject) => {
       axios.get(url, {
-        params: params
+        params: params,
+        paramsSerializer: (params) => {
+          return qs.stringify(params, { arrayFormat: 'repeat' });
+        }
       })
         .then(res => {
           resolve(res.data);
@@ -27,7 +31,10 @@ const http = {
   delete(url, params) {
     return new Promise((resolve, reject) => {
       axios.delete(url, {
-        params: params
+        params: params,
+        paramsSerializer: (params) => {
+          return qs.stringify(params, { arrayFormat: 'repeat' });
+        }
       })
         .then(res => {
           resolve(res.data);

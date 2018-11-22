@@ -85,19 +85,23 @@
 </template>
 
 <script>
+  import { getReceivedPosition } from '../../../assets/js/auth';
+
   export default {
     data() {
       return {
         rxId: this.$route.query.rxId,
         rxShops: [],
-        position: this.$store.getters.position,
         hospitalId: this.$route.query.hospitalId,
         hospital: {},
         searchIcon: '\ue64c 药品名',
         sort: 'ID_DESC'
       };
     },
-    mounted() {
+    computed: {
+      position() {
+        return getReceivedPosition().position;
+      }
     },
     created() {
       this.getRxShops();

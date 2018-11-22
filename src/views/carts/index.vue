@@ -1,125 +1,126 @@
 <template>
-  <div class="cart">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      right-text="删除"
-      @click-left="$router.go(-1)"
-      @click-right="onRemoveBatch()"
-      ref="header"
-    />
-    <div class="cart-list" ref="content">
-      <new-no-data v-if="cartShops.length === 0"></new-no-data>
-      <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
-        <div class="cart-list-shop"
-             @click="linkToShopView(cartShop.id)">
-          <div class="cart-list-shop_radio"
-               @click.stop="onRadio(SHOP,cartShop)">
-            <input type="checkbox" v-model="cartShop.radio">
-            <label></label>
-          </div>
-          <div>
-            <i class="iconfont ic-yaodian"></i>
-          </div>
-          <div class="cart-list-shop_name" v-text="cartShop.shopName"></div>
-        </div>
-        <div v-for="(cartRx, cartRxIndex) in cartShop.rxs" :key="cartRxIndex">
-          <div class="cart-list-rx"
-               v-if="isRx(cartRx.rxId)">
-            <div class="cart-list-rx-left">
-              <div class="cart-list-rx-left_radio"
-                   @click.stop="onRadio(RX,cartShop,cartRx)">
-                <input type="checkbox" v-model="cartRx.radio">
+  <new-layout class="cart" centerColor="white">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        right-text="删除"
+        @click-left="$router.go(-1)"
+        @click-right="onRemoveBatch()"
+      />
+    </template>
+    <template slot="center">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <div class="cart-list">
+          <new-no-data v-if="cartShops.length === 0"></new-no-data>
+          <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
+            <div class="cart-list-shop"
+                 @click="linkToShopView(cartShop.id)">
+              <div class="cart-list-shop_radio"
+                   @click.stop="onRadio(SHOP,cartShop)">
+                <input type="checkbox" v-model="cartShop.radio">
                 <label></label>
               </div>
-              <div>
-                <i class="iconfont ic-chufangdanluru"></i>
-              </div>
-              <div class="cart-list-rx-left_name">
-                处方单
-              </div>
+              <van-icon name="yaodian" size="3em"></van-icon>
+              <div class="cart-list-shop_name" v-text="cartShop.shopName"></div>
             </div>
-            <div class="cart-list-rx-right"
-                 @click="linkToRxView(cartRx.rxId)">
-              查看处方&gt;
-            </div>
-          </div>
-          <div class="cart-list-rx"
-               v-else>
-            <div class="cart-list-rx-left">
-              <div class="cart-list-rx-left_radio"
-                   @click.stop="onRadio(RX,cartShop,cartRx)">
-                <input type="checkbox" v-model="cartRx.radio">
-                <label></label>
-              </div>
-              <div>
-                <i class="iconfont ic-jisongchufangdan"></i>
-              </div>
-              <div class="cart-list-rx-left_name">
-                非处方单
-              </div>
-            </div>
-          </div>
-          <div class="cart-list-drugs">
-            <van-swipe-cell v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
-                            :right-width="65"
-                            :key="cartDrugIndex">
-              <div class="cart-list-drugs-item">
-                <div class="cart-list-drugs-item-left">
-                  <div class="cart-list-drugs-item-left_radio"
-                       @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
-                    <input type="checkbox" v-model="cartDrug.radio">
+            <div v-for="(cartRx, cartRxIndex) in cartShop.rxs" :key="cartRxIndex">
+              <div class="cart-list-rx"
+                   v-if="isRx(cartRx.rxId)">
+                <div class="cart-list-rx-left">
+                  <div class="cart-list-rx-left_radio"
+                       @click.stop="onRadio(RX,cartShop,cartRx)">
+                    <input type="checkbox" v-model="cartRx.radio">
                     <label></label>
                   </div>
-                  <div class="cart-list-drugs-item-left_logo"
-                       @click="linkToShopDrugSpec(cartDrug.id)">
-                    <div class="rx_mark"
-                         v-if="!cartDrug.otc">
-                      处
-                    </div>
-                    <img v-lazy="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
+                  <van-icon name="chufangdanluru" size="3em"></van-icon>
+                  <div class="cart-list-rx-left_name">
+                    处方单
                   </div>
                 </div>
-                <div class="cart-list-drugs-item-right">
-                  <div>
-                    <div class="cart-list-drugs-item-right_name">
-                      {{cartDrug.name}}
-                    </div>
-                    <div class="cart-list-drugs-item-right_spec">
-                      规格：{{cartDrug.spec}}
-                    </div>
+                <div class="cart-list-rx-right"
+                     @click="linkToRxView(cartRx.rxId)">
+                  查看处方&gt;
+                </div>
+              </div>
+              <div class="cart-list-rx"
+                   v-else>
+                <div class="cart-list-rx-left">
+                  <div class="cart-list-rx-left_radio"
+                       @click.stop="onRadio(RX,cartShop,cartRx)">
+                    <input type="checkbox" v-model="cartRx.radio">
+                    <label></label>
                   </div>
                   <div>
-                    <div class="cart-list-drugs-item-right_price">
-                      &yen;{{cartDrug.price}}
-                    </div>
-                    <div>
-                      <span class="cart-list-drugs-item-right_quantity"
-                            v-if="isRx(cartRx.rxId)">x{{cartDrug.quantity}}</span>
-                      <new-stepper
-                        v-model="cartDrug.quantity"
-                        v-else
-                      />
-                    </div>
+                    <i class="iconfont ic-jisongchufangdan"></i>
+                  </div>
+                  <div class="cart-list-rx-left_name">
+                    非处方单
                   </div>
                 </div>
               </div>
-              <span slot="right"
-                    class="cart-list-drugs-item-delete"
-                    @click="onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">删除</span>
-            </van-swipe-cell>
+              <div class="cart-list-drugs">
+                <van-swipe-cell v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
+                                :right-width="65"
+                                :key="cartDrugIndex">
+                  <div class="cart-list-drugs-item">
+                    <div class="cart-list-drugs-item-left">
+                      <div class="cart-list-drugs-item-left_radio"
+                           @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
+                        <input type="checkbox" v-model="cartDrug.radio">
+                        <label></label>
+                      </div>
+                      <div class="cart-list-drugs-item-left_logo"
+                           @click="linkToShopDrugSpec(cartDrug.id)">
+                        <div class="rx_mark"
+                             v-if="!cartDrug.otc">
+                          处
+                        </div>
+                        <img v-lazy="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
+                      </div>
+                    </div>
+                    <div class="cart-list-drugs-item-right">
+                      <div>
+                        <div class="cart-list-drugs-item-right_name">
+                          {{cartDrug.name}}
+                        </div>
+                        <div class="cart-list-drugs-item-right_spec">
+                          规格：{{cartDrug.spec}}
+                        </div>
+                      </div>
+                      <div>
+                        <div class="cart-list-drugs-item-right_price">
+                          &yen;{{cartDrug.price}}
+                        </div>
+                        <div>
+                      <span class="cart-list-drugs-item-right_quantity"
+                            v-if="isRx(cartRx.rxId)">x{{cartDrug.quantity}}</span>
+                          <new-stepper
+                            v-model="cartDrug.quantity"
+                            v-else
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span slot="right"
+                        class="cart-list-drugs-item-delete"
+                        @click="onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">删除</span>
+                </van-swipe-cell>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div ref="footer">
+      </van-pull-refresh>
+    </template>
+    <template slot="bottom">
       <van-submit-bar
         :price="allPrice*100"
         :button-text="'结算('+allQuantity+')'"
         @submit="onOrder"
         :loading="loading"
-        :style="{'opacity': cartShops.length === 0 ? 0:1}"
-        ref="submit"
+        :style="{'display': cartShops.length === 0 ? 'none':''}"
+        style="position: sticky"
       >
         <div @click.stop="onRadio(All)">
           <input type="checkbox" v-model="chooseAll">
@@ -129,7 +130,7 @@
       </van-submit-bar>
       <van-tabbar
         :value="3"
-        ref="footer"
+        :fixed="Boolean(false)"
       >
         <van-tabbar-item icon="icon"
                          to="/">首页
@@ -147,24 +148,20 @@
                          to="/accounts">我
         </van-tabbar-item>
       </van-tabbar>
-    </div>
-  </div>
+    </template>
+  </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
   .cart {
-    width: 720px;
-    height: 100vh;
-    .iconfont {
-      font-size: 50px;
-    }
     &-list {
+      margin-top: 20px;
       &-shop {
         padding: 20px 20px;
         display: flex;
-        align-items: center;
         background-color: white;
         &_radio {
           position: relative;
+          margin-right: 10px;
           label {
             position: absolute;
             left: 5px;
@@ -208,9 +205,9 @@
         justify-content: space-between;
         &-left {
           display: flex;
-          align-items: center;
           &_radio {
             position: relative;
+            margin-right: 10px;
             label {
               position: absolute;
               left: 5px;
@@ -261,7 +258,7 @@
           &-delete {
             font-size: 30px;
             color: white;
-            padding: 105px 40px;
+            padding: 120px 40px;
             line-height: 250px;
             font-weight: 200;
             background-color: #1AB6FD;
@@ -389,7 +386,6 @@
 </style>
 <script>
   // import { mapGetters, mapMutations } from 'vuex';
-  const qs = require('qs');
   export default {
     name: 'carts',
     data() {
@@ -400,8 +396,10 @@
         RX: 'RX',
         DRUG: 'DRUG',
         cartShops: [],
-        loading: false
-      };
+        loading: false,
+        isLoading: false
+      }
+      ;
     },
     components: {},
     computed: {
@@ -434,30 +432,28 @@
       }
     },
     created() {
-      this.getData();
+      this.initData();
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight -
-        this.$refs.footer.offsetTop) + 'px';
-      this.$refs.content.style.overflow = 'auto';
     },
     methods: {
-      getData() {
-        this.$axios.get('/carts').then(res => {
-          res.data.cartShops.forEach(e => {
+      async onRefresh() {
+        await this.initData();
+        this.isLoading = false;
+      },
+      async initData() {
+        const data = await this.$http.get('/carts');
+        data.cartShops.forEach(e => {
+          e.radio = false;
+          e.rxs.forEach(e => {
             e.radio = false;
-            e.rxs.forEach(e => {
+            e.drugs.forEach(e => {
               e.radio = false;
-              e.drugs.forEach(e => {
-                e.radio = false;
-              });
             });
           });
-          this.cartShops = res.data.cartShops;
-          console.log(this.cartShops);
-        }).catch(error => {
-          this.exception(error);
         });
+        this.cartShops = data.cartShops;
+        console.log(this.cartShops);
       },
       /**
        * 减少数量
@@ -478,33 +474,27 @@
        */
       onRemove(cartShop, cartShopIndex, cartRx, cartRxIndex, cartDrug, cartDrugIndex) {
         if (cartRx.rxId !== '0') {
-          this.$dialog.confirm({ message: '改处方单中药品会一起删除' }).then(action => {
+          this.$dialog.confirm({ message: '改处方单中药品会一起删除' }).then(async () => {
             let cartIds = [];
             cartRx.drugs.forEach(e => {
               cartIds.push(e.cartId);
             });
-            this.$axios.delete('carts?cartIds=' + cartIds).then(res => {
+            await this.$http.delete('carts?cartIds=' + cartIds);
+            cartShop.rxs.splice(cartRxIndex, 1);
+            if (cartShop.rxs.length === 0) {
+              this.cartShops.splice(cartShopIndex, 1);
+            }
+          });
+        } else {
+          this.$dialog.confirm({ message: '确定删除？' }).then(async () => {
+            await this.$http.delete('carts/' + cartDrug.cartId);
+            cartRx.drugs.splice(cartDrugIndex, 1);
+            if (cartRx.drugs.length === 0) {
               cartShop.rxs.splice(cartRxIndex, 1);
               if (cartShop.rxs.length === 0) {
                 this.cartShops.splice(cartShopIndex, 1);
               }
-            }).catch(error => {
-              this.exception(error);
-            });
-          });
-        } else {
-          this.$dialog.confirm({ message: '确定删除？' }).then(action => {
-            this.$axios.delete('carts/' + cartDrug.cartId).then(res => {
-              cartRx.drugs.splice(cartDrugIndex, 1);
-              if (cartRx.drugs.length === 0) {
-                cartShop.rxs.splice(cartRxIndex, 1);
-                if (cartShop.rxs.length === 0) {
-                  this.cartShops.splice(cartShopIndex, 1);
-                }
-              }
-            }).catch(error => {
-              this.exception(error);
-            });
+            }
           });
         }
       },
@@ -517,26 +507,12 @@
           this.$toast('请选择药品');
           return;
         }
-        this.$dialog.confirm({ message: '确定删除?' }).then(action => {
-          this.$axios.delete('carts', {
-            params: {
-              cartIds: cartIds
-            },
-            paramsSerializer: (params) => {
-              return qs.stringify(params, { arrayFormat: 'repeat' });
-            }
-          }).then(res => {
-            this.remove();
-          }).catch(error => {
-            this.exception(error);
-          });
-        });
-      },
-      onRemoveBatchWithOutTip() {
-        this.$axios.delete('carts?cartIds=' + this.getCartIds()).then(res => {
+        this.$dialog.confirm({ message: '确定删除?' }).then(async () => {
+          const params = {
+            cartIds: cartIds
+          };
+          await this.$http.delete('/carts', params);
           this.remove();
-        }).catch(error => {
-          this.exception(error);
         });
       },
       /**
@@ -579,20 +555,16 @@
       /**
        * 订单结算
        */
-      onOrder() {
+      async onOrder() {
         let cartIds = this.getCartIds();
         if (cartIds.length === 0) {
           this.$toast('请选择药品');
           return;
         }
         this.loading = true;
-        this.$axios.get('/orders/cart?cartIds=' + cartIds).then(res => {
-          console.log(res.data);
-          this.$router.push({ path: '/orders/create/fromCart', query: { cart: JSON.stringify(res.data) } });
-        }).catch(error => {
-          this.loading = false;
-          this.exception(error);
-        });
+        const data = await this.$http.get('/orders/cart?cartIds=' + cartIds);
+        this.$router.push({ path: '/orders/create/fromCart', query: { cart: JSON.stringify(data) } });
+        this.loading = false;
       },
       /**
        * 选中raido
