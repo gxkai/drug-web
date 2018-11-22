@@ -139,7 +139,7 @@
                 <img
                   class="home__content__discount__content__item--logo"
                   v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')"
-                  @click="linkToShopDrugSpec(discount.id)"
+                  @click="linkToShopDrugSpec(discount.shopDrugId)"
                 >
                 <div
                   class="home__content__discount__content__item--name"
@@ -186,7 +186,7 @@
               :key="recommend.id"
             >
               <div class="home__content__recommend__content__item"
-                   @click="linkToShopDrugSpec(recommend.id)"
+                   @click="linkToShopDrugSpec(recommend.shopDrugId)"
               >
                 <img
                   class="home__content__recommend__content__item--logo"

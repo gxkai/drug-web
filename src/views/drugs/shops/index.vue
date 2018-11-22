@@ -53,8 +53,8 @@
           <div class="drugs-shops__part-1__front">
             <div class="drugs-shops__part-1__front-name">{{drugInfo.name}}</div>
             <div class="drugs-shops__part-1__front-introduce">{{drugInfo.introduce}}</div>
-            <div class="drugs-shops__part-1__front-sfda">国药准字{{drugInfo.sfda}}</div>
-            <div class="drugs-shops__part-1__front-originName">厂商{{drugInfo.originName}}</div>
+            <div class="drugs-shops__part-1__front-sfda">国药准字：{{drugInfo.sfda}}</div>
+            <div class="drugs-shops__part-1__front-originName">厂商：{{drugInfo.originName}}</div>
           </div>
           <div class="drugs-shops__part-1__behind">
 
@@ -113,7 +113,7 @@
         <div class="drugs-shops__part-4">
           <div class="drugs-shops__part-4__item"
                v-for="(shop,index) in shops" :key="index"
-               @click="linkToShopDrugSpec(shop.shopDrugSpecId)">
+               @click="linkToShopDrugSpec(shop.shopDrugId)">
             <div class="drugs-shops__part-4__item__name">
               {{shop.name}}
             </div>
@@ -402,7 +402,6 @@
         drugSpecs: [],
         drugSpec: {},
         drugId: this.$route.query.drugId,
-        drugSpecId: this.$route.query.drugSpecId,
         show: false,
         total: 0,
         sort: 'SYNTHESIZE',

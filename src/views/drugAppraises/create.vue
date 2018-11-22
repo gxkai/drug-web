@@ -158,7 +158,7 @@
           let data = {
             'orderItemId': e.orderItemId,
             'drugSpecId': e.drugSpecId,
-            'shopDrugSpecId': e.shopDrugSpecId,
+            'shopDrugId': e.shopDrugId,
             'score': e.score,
             'content': e.content
           };

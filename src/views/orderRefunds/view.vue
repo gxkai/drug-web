@@ -29,7 +29,7 @@
           <!--<i class="iconfont ic-arrowdown"></i>-->
         <!--</div>-->
       </div>
-      <router-link tag="div" class="refunds-info-detail" v-for="drug in list.drugs" :key="drug.id" :to="{path:'/shopDrugSpecs',query:{shopDrugSpecId:drug.id}}">
+      <router-link tag="div" class="refunds-info-detail" v-for="drug in list.drugs" :key="drug.id" :to="{path:'/shopDrugSpecs',query:{shopDrugId:drug.id}}">
         <div class="refunds-info-detail-img">
           <div class="refunds-info-detail-chufeiImg" v-if="drug.otc === false">
             <img src="../../assets/image/chu.png"/>

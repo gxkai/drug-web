@@ -187,7 +187,7 @@
         });
       },
       onDrug(item) {
-        this.$router.push({ path: '/shopDrugSpecs', query: { shopDrugSpecId: item.shopDrugSpecId } });
+        this.$router.push({ path: '/shopDrugSpecs', query: { shopDrugId: item.shopDrugId } });
       },
       onRx() {
         this.$router.push({ path: '/rxs/view', query: { rxId: this.order.rxId } });

@@ -34,7 +34,7 @@
       <div class="close_shop_item-content-item"
       v-for="(item,key) in shopInfo.shopDrugSpecOrderInfoDTOList"
       :key="key"
-      @click="linkToShopDrugSpec(item.shopDrugSpecId)">
+      @click="linkToShopDrugSpec(item.shopDrugId)">
         <div class="close_shop_item-content-item_left">
           <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
         </div>

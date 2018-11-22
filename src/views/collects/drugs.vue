@@ -8,8 +8,8 @@
         <div
         class="collect-drugs--item"
         v-for="item in list"
-        :key="item.shopDrugSpecId"
-        @click="linkToShopDrugSpec(item.shopDrugSpecId)"
+        :key="item.shopDrugId"
+        @click="linkToShopDrugSpec(item.shopDrugId)"
         >
         <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')"
         class="collect-drugs--item--logo"

@@ -57,7 +57,7 @@
         const params = {
           'pageNum': this.pageNum,
           'pageSize': this.pageSize,
-          'shopDrugSpecId': this.shopDrugSpec.id
+          'shopDrugId': this.shopDrugSpec.id
         };
         const data = await this.$http.get('/drugAppraises', params);
         this.isLoading = false;

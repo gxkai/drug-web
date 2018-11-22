@@ -507,7 +507,7 @@
         number: 1,
         collected: false,
         loading: false,
-        shopDrugSpecId: this.$route.query.shopDrugSpecId
+        shopDrugId: this.$route.query.shopDrugId
       };
     },
     created() {
@@ -517,14 +517,14 @@
     },
     methods: {
       async initData() {
-        this.shopDrugSpec = await this.$http.get(`/shopDrugSpecs/${this.shopDrugSpecId}`);
-        this.collected = await this.$http.get(`/collects/drug/one?shopDrugSpecId=${this.shopDrugSpec.id}`);
+        this.shopDrugSpec = await this.$http.get(`/shopDrugSpecs/${this.shopDrugId}`);
+        this.collected = await this.$http.get(`/collects/drug/one?shopDrugId=${this.shopDrugSpec.id}`);
       },
       async onCollect() {
         let data = {
           'shopId': this.shopDrugSpec.shopId,
-          'drugSpecId': this.shopDrugSpec.drugSpecId,
-          'shopDrugSpecId': this.shopDrugSpec.id,
+          'drugId': this.shopDrugSpec.drugId,
+          'shopDrugId': this.shopDrugSpec.id,
           'collected': !this.collected
         };
         await this.$http.post('/collects/drug', data);
@@ -540,8 +540,8 @@
         if (this.type === 0) {
           const data = [{
             shopId: this.shopDrugSpec.shopId,
-            drugSpecId: this.shopDrugSpec.drugSpecId,
-            shopDrugSpecId: this.shopDrugSpec.id,
+            drugId: this.shopDrugSpec.drugId,
+            shopDrugId: this.shopDrugSpec.id,
             quantity: this.number
           }];
           await this.$http.post('/carts', data);
@@ -551,7 +551,7 @@
         } else {
           let drugInfoList = [];
           drugInfoList.push({
-            shopDrugSpecId: this.shopDrugSpec.id,
+            shopDrugId: this.shopDrugSpec.id,
             quantity: this.number
           });
           let data = {

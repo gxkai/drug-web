@@ -156,7 +156,7 @@
             shopId: this.shopId,
             rxId: this.rxId,
             drugSpecId: drug.drugs[0].drugSpecId,
-            shopDrugSpecId: drug.drugs[0].shopDrugSpecId,
+            shopDrugId: drug.drugs[0].shopDrugId,
             name: drug.name,
             spec: drug.spec,
             price: drug.drugs[0].price,
@@ -175,7 +175,7 @@
       choose(index) {
         let cart = this.carts[this.index];
         cart.drugSpecId = this.origins[index].drugSpecId;
-        cart.shopDrugSpecId = this.origins[index].shopDrugSpecId;
+        cart.shopDrugId = this.origins[index].shopDrugId;
         cart.price = this.origins[index].price;
         cart.fileId = this.origins[index].fileId;
         cart.originName = this.origins[index].originName;
