@@ -147,7 +147,7 @@
       </template>
       <template slot="bottom">
         <van-goods-action style="position: sticky">
-          <!--<van-goods-action-mini-btn icon="chat" text="咨询" :to="{path:'/chats/view',query:{shopId:shopDrugSpec.shopId}}"/>-->
+          <van-goods-action-mini-btn icon="chat" text="咨询" @click="onChat"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
           <van-goods-action-mini-btn icon="shoucang" text="收藏" :style="{color: collected === true? 'red': ''}"
                                      @click="onCollect"/>
@@ -516,6 +516,11 @@
     mounted() {
     },
     methods: {
+      onChat() {
+        this.$dialog.alert({message: '打电话给110'}).then(() => {
+          window.location.href = 'tel:110';
+        });
+      },
       async initData() {
         this.shopDrugSpec = await this.$http.get(`/shopDrugSpecs/${this.shopDrugSpecId}`);
         this.collected = await this.$http.get(`/collects/drug/one?shopDrugSpecId=${this.shopDrugSpec.id}`);
