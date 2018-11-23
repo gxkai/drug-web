@@ -1,170 +1,175 @@
 <template>
-  <div class="pay_shop">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
-    <div class="pay_shop-content"
-    ref="content">
-      <div class="pay_shop-content-delivery"
-           v-if="deliveryType === 'DELIVERY'"
-           @click="linkToOrderAddress">
-        <div class="pay_shop-content-delivery-address"
-             v-if="isNotBlank(receiveAddress)">
-          <div class="pay_shop-content-delivery-address-left">
-            <i class="iconfont ic-dizhi"></i>
+  <new-layout class="pay_shop">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
+      <div class="pay_shop-content">
+        <div class="pay_shop-content-delivery"
+             v-if="deliveryType === 'DELIVERY'"
+             @click="linkToOrderAddress(orderShopDrugSpecDTO.shopId)">
+          <div class="pay_shop-content-delivery-no_address"
+               v-if="address.id === undefined">
+            请选择收货地址&gt;
           </div>
-          <div class="pay_shop-content-delivery-address-center">
-            <div class="elps">
-              <span>收货人&#58;{{receiveAddress.consignee}}</span>
-              <span class="ml-l-10">{{receiveAddress.phone}}</span>
+          <div class="pay_shop-content-delivery-address"
+               v-else
+          >
+            <div class="pay_shop-content-delivery-address-left">
+              <i class="iconfont ic-dizhi"></i>
             </div>
-            <div class="elps">
-              收货地址&#58;{{receiveAddress.address}}
+            <div class="pay_shop-content-delivery-address-center">
+              <div class="elps">
+                <span>收货人&#58;{{address.consignee}}</span>
+                <span class="ml-l-10">{{address.phone}}</span>
+              </div>
+              <div class="elps">
+                收货地址&#58;{{`${address.address} ${address.room}`}}
+              </div>
+            </div>
+            <div class="pay_shop-content-delivery-address-right">
+              <i class="iconfont ic-youjiantou"></i>
             </div>
           </div>
-          <div class="pay_shop-content-delivery-address-right">
-            <i class="iconfont ic-youjiantou"></i>
+          <div class="pay_shop-content-delivery-bar">
+            <img src="../../../assets/image/colorbackground.png">
           </div>
         </div>
-        <div class="pay_shop-content-delivery-no_address"
-             v-else>
-          请维护地址&gt;
-        </div>
-        <div class="pay_shop-content-delivery-bar">
-          <img src="../../../assets/image/colorbackground.png">
-        </div>
-      </div>
-      <new-close-shop :shopInfo="shopDrugSpecOrderDTO"></new-close-shop>
-      <div class="pay_shop-content-delivery_type">
-        <div class="pay_shop-content-delivery_type-header">
-          <div>
-            <i class="iconfont ic-peisongfangshi"></i>
+        <new-close-shop :shopInfo="shopDrugSpecOrderDTO"></new-close-shop>
+        <div class="pay_shop-content-delivery_type">
+          <div class="pay_shop-content-delivery_type-header">
+            <div>
+              <i class="iconfont ic-peisongfangshi"></i>
+            </div>
+            <div>配送方式</div>
           </div>
-          <div>配送方式</div>
+          <div class="pay_shop-content-delivery_type-content">
+            <span :class="{active:deliveryType=='DELIVERY'}"
+            @click.stop="onDeliveryType('DELIVERY')"
+            v-if="shopDrugSpecOrderDTO.type === 'SIMPLE'">
+            送货
+            </span>
+            <span :class="{active:deliveryType=='SELF'}"
+                  @click.stop="onDeliveryType('SELF')">上门自提</span>
+          </div>
         </div>
-        <div class="pay_shop-content-delivery_type-content">
-          <!--<span :class="{active:deliveryType=='DELIVERY'}"-->
-                <!--@click.stop="onDeliveryType('DELIVERY')"-->
-                <!--v-if="shopDrugSpecOrderDTO.type === 'SIMPLE'">-->
-            <!--送货-->
-          <!--</span>-->
-          <span :class="{active:deliveryType=='SELF'}"
-                @click.stop="onDeliveryType('SELF')">上门自提</span>
-        </div>
-      </div>
-      <!--<div class="pay_shop-content-pay_type">-->
+        <!--<div class="pay_shop-content-pay_type">-->
         <!--<div class="pay_shop-content-pay_type-header">-->
-          <!--<div>-->
-            <!--<i class="iconfont ic-dingdanzhifufangshi"></i>-->
-          <!--</div>-->
-          <!--<div>支付方式</div>-->
+        <!--<div>-->
+        <!--<i class="iconfont ic-dingdanzhifufangshi"></i>-->
+        <!--</div>-->
+        <!--<div>支付方式</div>-->
         <!--</div>-->
         <!--<div class="pay_shop-content-pay_type-content">-->
-            <!--<span class="iconfont ic-weixin"-->
-                  <!--:class="{active:payType=='WECHAT_PAY'}"-->
-                  <!--@click.stop="onPayType('WECHAT_PAY')"></span>-->
-          <!--<span class="iconfont ic-alipay"-->
-                <!--:class="{active:payType=='ALIPAY'}"-->
-                <!--@click.stop="onPayType('ALIPAY')"></span>-->
+        <!--<span class="iconfont ic-weixin"-->
+        <!--:class="{active:payType=='WECHAT_PAY'}"-->
+        <!--@click.stop="onPayType('WECHAT_PAY')"></span>-->
+        <!--<span class="iconfont ic-alipay"-->
+        <!--:class="{active:payType=='ALIPAY'}"-->
+        <!--@click.stop="onPayType('ALIPAY')"></span>-->
         <!--</div>-->
-      <!--</div>-->
-      <div class="pay_shop-content-pay_amount">
-        <div>
-          <span>商品总额：</span>
-          <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.amount)}}</span>
-        </div>
-        <div>
-          <span>医保扣除：</span>
-          <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.medicaidAmount)}}</span>
-        </div>
-        <div>
-          <span>实际支付：</span>
-          <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.payAmount)}}</span>
-        </div>
-      </div>
-      <div class="dividing"></div>
-      <div class="pay_shop-content-medicaid">
-        <div class="pay_shop-content-medicaid-header">
-          医保信息
-        </div>
-        <div class="pay_shop-content-medicaid-content">
-          <div class="pay_shop-content-medicaid-content-card"
-               v-if="isNotBlank(account.medicaidNumber)">
-            <div>
-              <span>会员姓名&#58;</span>
-              <span>{{account.name}}</span>
-            </div>
-            <div>
-              <span>医保卡号&#58;</span>
-              <span>{{account.medicaidNumber}}</span>
-            </div>
-            <div>
-              <span>卡内余额&#58;</span>
-              <span>&yen;0</span>
-            </div>
+        <!--</div>-->
+        <div class="pay_shop-content-pay_amount">
+          <div>
+            <span>商品总额：</span>
+            <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.amount)}}</span>
           </div>
-          <div class="pay_shop-content-medicaid-content-no_card"
-               v-else>
-            <span class="iconfont ic-qianbao"></span>
-            <a @click="linkToCardBind">去绑定医保卡</a>
+          <div>
+            <span>医保扣除：</span>
+            <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.medicaidAmount)}}</span>
+          </div>
+          <div>
+            <span>实际支付：</span>
+            <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.payAmount)}}</span>
           </div>
         </div>
-      </div>
-      <!--<div class="pay_shop-content-coupon">-->
+        <div class="dividing"></div>
+        <div class="pay_shop-content-medicaid">
+          <div class="pay_shop-content-medicaid-header">
+            医保信息
+          </div>
+          <div class="pay_shop-content-medicaid-content">
+            <div class="pay_shop-content-medicaid-content-card"
+                 v-if="isNotBlank(account.medicaidNumber)">
+              <div>
+                <span>会员姓名&#58;</span>
+                <span>{{account.name}}</span>
+              </div>
+              <div>
+                <span>医保卡号&#58;</span>
+                <span>{{account.medicaidNumber}}</span>
+              </div>
+              <div>
+                <span>卡内余额&#58;</span>
+                <span>&yen;0</span>
+              </div>
+            </div>
+            <div class="pay_shop-content-medicaid-content-no_card"
+                 v-else>
+              <span class="iconfont ic-qianbao"></span>
+              <a @click="linkToCardBind">去绑定医保卡</a>
+            </div>
+          </div>
+        </div>
+        <!--<div class="pay_shop-content-coupon">-->
         <!--<div class="pay_shop-content-coupon_link">-->
-          <!--<div class="pay_shop-content-coupon_link_left">优惠券</div>-->
-          <!--<div class="pay_shop-content-coupon_link_right">-->
-            <!--<div v-if="isNotBlank(couponRecord)">-->
-              <!--满{{couponRecord.amount}}减{{couponRecord.minus}}-->
-            <!--</div>-->
-            <!--<div @click="show = true">-->
-              <!--<i class="iconfont ic-youjiantou"></i>-->
-            <!--</div>-->
-          <!--</div>-->
+        <!--<div class="pay_shop-content-coupon_link_left">优惠券</div>-->
+        <!--<div class="pay_shop-content-coupon_link_right">-->
+        <!--<div v-if="isNotBlank(couponRecord)">-->
+        <!--满{{couponRecord.amount}}减{{couponRecord.minus}}-->
+        <!--</div>-->
+        <!--<div @click="show = true">-->
+        <!--<i class="iconfont ic-youjiantou"></i>-->
+        <!--</div>-->
+        <!--</div>-->
         <!--</div>-->
         <!--<div class="pay_shop-content-coupon_popup">-->
-          <!--<van-popup v-model="show" position="bottom">-->
-            <!--<div class="pay_shop-content-coupon_popup-container">-->
-              <!--<div class="pay_shop-content-coupon_popup-container-title text-l-30">-->
-                <!--使用优惠券-->
-              <!--</div>-->
-              <!--<div class="pay_shop-content-coupon_popup-container-list">-->
-                <!--<div class="pay_shop-content-coupon_popup-container-list-item van-hairline&#45;&#45;bottom"-->
-                     <!--v-for="(item,key) in coupons"-->
-                     <!--:key="key"-->
-                     <!--@click="couponRecord = item;show = false;payAmount = shopDrugSpecOrderDTO.payAmount - item.minus">-->
-                  <!--<div class="text-l-28">-->
-                    <!--满{{item.amount}}减{{item.minus}}-->
-                  <!--</div>-->
-                  <!--<div>-->
-                    <!--<input :id="item" type="radio"  :value="item"   v-model="couponRecord">-->
-                    <!--<label :for="item"></label>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div v-if="coupons.length === 0" class="pay_shop-content-coupon_popup-container-list-none text-l-28">-->
-                  <!--没有可用优惠券-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</van-popup>-->
+        <!--<van-popup v-model="show" position="bottom">-->
+        <!--<div class="pay_shop-content-coupon_popup-container">-->
+        <!--<div class="pay_shop-content-coupon_popup-container-title text-l-30">-->
+        <!--使用优惠券-->
         <!--</div>-->
-      <!--</div>-->
-      <!--<div class="dividing"></div>-->
-    </div>
-    <van-submit-bar
-      :price="payAmount*100"
-      button-text="提交订单"
-      @submit="onOrder"
-      :loading="loading"
-      ref="footer"
-    />
-  </div>
+        <!--<div class="pay_shop-content-coupon_popup-container-list">-->
+        <!--<div class="pay_shop-content-coupon_popup-container-list-item van-hairline&#45;&#45;bottom"-->
+        <!--v-for="(item,key) in coupons"-->
+        <!--:key="key"-->
+        <!--@click="couponRecord = item;show = false;payAmount = shopDrugSpecOrderDTO.payAmount - item.minus">-->
+        <!--<div class="text-l-28">-->
+        <!--满{{item.amount}}减{{item.minus}}-->
+        <!--</div>-->
+        <!--<div>-->
+        <!--<input :id="item" type="radio"  :value="item"   v-model="couponRecord">-->
+        <!--<label :for="item"></label>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div v-if="coupons.length === 0" class="pay_shop-content-coupon_popup-container-list-none text-l-28">-->
+        <!--没有可用优惠券-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</van-popup>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="dividing"></div>-->
+      </div>
+    </template>
+    <template slot="bottom">
+      <van-submit-bar
+        :price="payAmount*100"
+        button-text="立即支付"
+        @submit="onOrder"
+        :loading="loading"
+      />
+    </template>
+  </new-layout>
 </template>
 <script>
-  import { mapGetters, mapMutations } from 'vuex';
+  import { getReceivedAddress } from '../../../assets/js/auth';
+
   export default {
     name: 'createFromCart',
     data() {
@@ -173,92 +178,66 @@
         account: this.$store.getters.account,
         orderShopDrugSpecDTO: JSON.parse(this.$route.query.orderShopDrugSpecDTO),
         shopDrugSpecOrderDTO: {},
-        deliveryType: this.$storage.get('deliveryType') || 'SELF',
+        deliveryType: 'DELIVERY',
         payType: 'KRCB',
         couponRecord: '',
         coupons: [],
         show: false,
         payAmount: 0,
-        loading: false
+        loading: false,
+        address: {}
       };
     },
     components: {},
     computed: {
-      ...mapGetters(['receiveAddress'])
     },
     created() {
-      console.log(this.orderShopDrugSpecDTO);
-      this.getData();
+      this.initData();
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.$el.clientHeight
-      ) + 'px';
-      this.$refs.content.style.overflow = 'auto';
+    },
+    activated() {
+      const address = getReceivedAddress();
+      if (address !== undefined) {
+        this.address = address;
+      }
+    },
+    beforeRouteLeave(to, from, next) {
+      this.$route.meta.keepAlive = false;
+      next();
     },
     methods: {
-      getData() {
-        if (this.isBlank(this.receiveAddress)) {
-          this.$axios.get('addresses/default').then(res => {
-            if (this.isNotBlank(res.data)) {
-              this.setReceiveAddress(res.data);
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
-        }
-        this.$axios.post('orders/shop/get', this.orderShopDrugSpecDTO)
-          .then(res => {
-            this.shopDrugSpecOrderDTO = res.data;
-            console.log(res.data);
-            this.payAmount = res.data.payAmount;
-            this.$axios.get('couponRecords/order')
-              .then(res2 => {
-                this.coupons = res2.data.filter(e => res.data.payAmount >= e.amount);
-              })
-              .catch(err => {
-                this.exception(err);
-              });
-          })
-          .catch(err => {
-            this.exception(err);
-          });
+      async initData() {
+        const data1 = await this.$http.post('orders/shop/pre-close', this.orderShopDrugSpecDTO);
+        this.payAmount = data1.payAmount;
+        this.shopDrugSpecOrderDTO = data1;
+        const data2 = await this.$http.get('couponRecords/order');
+        this.coupons = data2.filter(e => data1.payAmount >= e.amount);
       },
-      onOrder() {
+      async onOrder() {
+        if (this.deliveryType === 'DELIVERY' && this.address.id === undefined) {
+          this.$toast('地址还没维护呢');
+          return;
+        }
         this.loading = true;
         let json = {};
-        switch (this.deliveryType) {
-          case 'DELIVERY':
-            if (this.isBlank(this.receiveAddress)) {
-              this.$toast('请维护收货地址');
-              return;
-            } else {
-              json.addressId = this.receiveAddress.id;
-            }
-        }
+        json.addressId = this.address.id;
         json.orderShopDrugSpecDTO = this.orderShopDrugSpecDTO;
         json.deliveryType = this.deliveryType;
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
-        this.$axios.post('/orders/shop', json).then(res => {
-          console.log(res.data);
-          this.$router.replace({
-            path: '/orders/pay?orderIds=' + res.data + '&deliveryType=' + this.deliveryType
-          });
-        }).catch(error => {
-          this.loading = false;
-          this.exception(error);
-        });
+        await this.$http.post('/orders/shop', json);
+        // this.$router.replace({
+        //   path: `/orders/pay?orderIds=${data}&deliveryType=${this.deliveryType}`
+        // });
+        this.$router.push('/orders');
       },
       onDeliveryType(item) {
         this.deliveryType = item;
-        this.$storage.set('deliveryType', item);
       },
       onPayType(item) {
         this.payType = item;
-      },
-      ...mapMutations({
-        setReceiveAddress: 'SET_RECEIVE_ADDRESS'
-      })
+      }
     }
   };
 </script>
@@ -276,8 +255,6 @@
   }
 
   .pay_shop {
-    background-color: #f5f5f5;
-    width: 720px;
     &-content {
       &-delivery {
         margin-bottom: 20px;
@@ -546,9 +523,6 @@
   }
   .ic-alipay.active{
     color: #009fe8!important;
-  }
-  .pay_shop-content-pay_amount{
-   padding: 0px 0px 0px 20px;
   }
 
 </style>

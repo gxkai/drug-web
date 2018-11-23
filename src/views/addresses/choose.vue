@@ -204,6 +204,7 @@
       },
       setPosition(address) {
         const position = {
+          id: address.id,
           name: address.address,
           position: {
             lat: address.lat,

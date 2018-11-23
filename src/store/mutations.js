@@ -16,7 +16,7 @@ export default {
   [types.SET_ADDRESSES](state, addresses) {
     state.addresses = addresses;
   },
-  [types.SET_RECEIVE_ADDRESS](state, receiveAddress) {
+  [types.SET_RECEIVED_ADDRESS](state, receiveAddress) {
     state.receiveAddress = receiveAddress;
   },
   [types.SET_FIRST_OPEN](state, firstOpen) {

@@ -152,7 +152,7 @@
     </div>
     <van-submit-bar
       :price="payAmount*100"
-      button-text="提交订单"
+      button-text="立即支付"
       @submit="onOrder"
       :loading="loading"
       ref="footer"

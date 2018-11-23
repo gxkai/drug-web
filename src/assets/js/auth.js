@@ -3,6 +3,7 @@ const TokenKey = 'drug-app-token';
 const AccountKey = 'drug-app-account';
 const LoginKey = 'drug-app-login';
 const ReceivedPositionKey = 'drug-app-received-position';
+const ReceivedAddressKey = 'drug-app-received-address';
 
 export function getToken() {
   return storage.get(TokenKey);
@@ -50,4 +51,16 @@ export function setReceivedPosition(position) {
 
 export function removeReceivedPosition() {
   storage.remove(ReceivedPositionKey);
+};
+
+export function getReceivedAddress() {
+  return storage.get(ReceivedAddressKey);
+}
+
+export function setReceivedAddress(address) {
+  storage.set(ReceivedAddressKey, address);
+}
+
+export function removeReceivedAddress() {
+  storage.remove(ReceivedAddressKey);
 };

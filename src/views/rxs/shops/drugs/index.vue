@@ -19,8 +19,7 @@
                :key="key"
                @click="choose(key)">
             <div class="rx__popup__content__item__left">
-              <input :id="origin.drugSpecId" type="radio" :value="origin.drugSpecId" v-model="carts[index].drugSpecId" disabled>
-              <label :for="origin.drugSpecId"></label>
+              <new-radio v-model="carts[index].drugSpecId" disabled></new-radio>
               <span :style="{color: origin.drugSpecId===carts[index].drugSpecId?'#12C1FF':'black'}">
               {{origin.originName}}
             </span>
@@ -200,7 +199,7 @@
           'type': this.type,
           'orderShopDrugSpecInfoDTOList': this.carts
         };
-        await this.$http.post('orders/shop/get', json);
+        // await this.$http.post('orders/shop/pre-close', json);
         this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(json));
       }
     }
@@ -353,37 +352,10 @@
           justify-content: space-between;
           padding: 10px 0;
           &__left {
-            position: relative;
-            label {
-              font-size: 28px;
-              position: absolute;
-              left: 0;
-              top: 4px;
-              width: 30px;
-              height: 30px;
-              border-radius: 50%;
-              border: 1px solid #999;
-            }
-            input {
-              width: 30px;
-              height: 30px;
-              opacity: 0;
-            }
-            input:checked + label {
-              background-color: #13C1FE;
-              border: 1PX solid #13C1FE;
-            }
-            input:checked + label::after {
-              position: absolute;
-              content: "";
-              width: 7px;
-              height: 12px;
-              top: 4px;
-              left: 8px;
-              border: 1PX solid #fff;
-              border-top: none;
-              border-left: none;
-              transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            span {
+              margin-left: 10px;
             }
           }
           span {

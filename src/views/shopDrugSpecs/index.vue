@@ -565,7 +565,6 @@
             'orderShopDrugSpecInfoDTOList': drugInfoList,
             'type': 'SIMPLE'
           };
-          await this.$http.post('orders/shop/get', data);
           this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(data));
         }
       }

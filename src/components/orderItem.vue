@@ -13,17 +13,17 @@
       </div>
     </div>
     <div class="order_item-content">
-      <div class="order_item-content-title"
-      v-if="isRx(order.rxId)">
-        <div class="order_item-content-title-left">
-          <div>
-          <i class="iconfont ic-chufangdanluru"></i>
-          </div>
-          <div class="order_item-content-title-left_name">处方单</div>
-        </div>
-        <div class="order_item-content-title-right"
-             @click="onRx()">查看处方&gt;</div>
-      </div>
+      <!--<div class="order_item-content-title"-->
+      <!--v-if="order.rxId ">-->
+        <!--<div class="order_item-content-title-left">-->
+          <!--<div>-->
+          <!--<i class="iconfont ic-chufangdanluru"></i>-->
+          <!--</div>-->
+          <!--<div class="order_item-content-title-left_name">处方单</div>-->
+        <!--</div>-->
+        <!--<div class="order_item-content-title-right"-->
+             <!--@click="onRx()">查看处方&gt;</div>-->
+      <!--</div>-->
       <div class="order_item-content-info"
            v-for="item in order.list">
         <div class="order_item-content-info-left">
@@ -315,7 +315,8 @@
         this.$router.push({ path: '/orders/view', query: { orderId: this.order.id } });
       },
       onPay() {
-        this.$router.push({ path: '/orders/pay', query: { orderIds: this.order.id } });
+        // this.$router.push({ path: '/orders/pay', query: { orderIds: this.order.id } });
+        this.$toast('待开发');
       },
       onRefund() {
         this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });

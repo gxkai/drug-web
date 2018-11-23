@@ -1,108 +1,109 @@
 <template>
-  <div class="main">
-    <!--<new-header title="选择收货地址">-->
-      <!--<router-link tag="span" to="/addresses" slot="right" class="text-l-25">管理</router-link>-->
-    <!--</new-header>-->
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      right-text="管理"
-      @click-right="$router.push('/addresses')"
-      ref="header"
-    />
-    <div class="body1">
-      <div class="content1" v-for="(address,index) in list" :key="index" @click.stop="onAddress(address)">
-        <div class="line1">
-          <div>
-            <new-radio v-if="address.defaulted" disabled class="mr-l-10"></new-radio>
+  <new-layout class="order-addr">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        right-text="管理"
+        @click-left="$router.go(-1)"
+        @click-right="$router.push('/addresses')"
+      />
+    </template>
+    <template slot="center">
+      <div class="order-addr__item"
+           v-for="(address,index) in list"
+           :key="index"
+           @click.stop="onAddress(address)"
+      >
+        <div class="order-addr__item__first">
+          <div class="order-addr__item__first__left">
+            <new-radio v-if="address.defaulted" disabled></new-radio>
+            <span class="order-addr__item__first__left__consignee">{{address.consignee}}</span>
           </div>
-          <div>
-            <span class="text-l-25">{{address.consignee}}</span>
-            <span class="text-l-25">{{address.phone}}</span>
+          <div class="order-addr__item__first__right">
+            {{address.phone}}
           </div>
         </div>
-        <div class="line2">
-          <div></div>
-          <div>
-            <span v-if="address.defaulted" class="default-address">[默认地址]</span>
-            <span class="text-l-22">{{address.address}}</span>
-          </div>
+        <div class="order-addr__item__second">
+        <span class="order-addr__item__second__text order-addr__item__second__text--blue">
+          [默认地址]
+        </span>
+          <span class="order-addr__item__second__text">
+          {{`${address.address}  ${address.room}`}}
+        </span>
         </div>
       </div>
-    </div>
-  </div>
+      <div v-if="list.length === 0" class="order-addr__no-data">没有符合条件的收货地址</div>
+    </template>
+  </new-layout>
 </template>
-
+<style scoped type="text/less" lang="less">
+  .order-addr {
+    &__no-data {
+      text-align: center;
+      margin-top: 20px;
+      font-size:25px;
+      font-family:HiraginoSansGB-W3;
+      color:rgba(51,51,51,1);
+    }
+    &__item {
+      padding: 20px;
+      background-color: white;
+      margin-top: 20px;
+      &__first {
+        display: flex;
+        justify-content: space-between;
+        &__left {
+          display: flex;
+          &__consignee {
+            margin-left: 10px;
+          }
+        }
+      }
+      &__second {
+        margin-top: 10px;
+        padding-left: 20px;
+        &__text {
+          font-size:22px;
+          font-family:HiraginoSansGB-W3;
+          color:rgba(51,51,51,1);
+          &--blue {
+            color:rgba(19,193,254,1);
+          }
+        }
+      }
+    }
+  }
+</style>
 <script>
-  import { mapGetters, mapMutations } from 'vuex';
+  import { setReceivedAddress } from '../../../assets/js/auth';
+
   export default {
     name: 'addresses',
     data() {
       return {
         list: [],
-        account: this.$store.getters.account
+        account: this.$store.getters.account,
+        shopId: this.$route.query.shopId
       };
     },
     created() {
       this.initData();
     },
     computed: {
-      ...mapGetters(['receiveAddress'])
+    },
+    beforeRouteLeave(to, from, next) {
+      to.meta.keepAlive = true;
+      next();
     },
     methods: {
       async initData() {
-        this.list = await this.$http.get('/addresses');
+        this.list = await this.$http.get(`/addresses/order?shopId=${this.shopId}`);
       },
       onAddress(address) {
-        this.setReceiveAddress(address);
+        setReceivedAddress(address);
         this.$router.go(-1);
-      },
-      ...mapMutations({
-        setReceiveAddress: 'SET_RECEIVE_ADDRESS'
-      })
+      }
     }
   };
 </script>
-
-<style scoped>
-  .main {
-    background-color: rgba(241, 239, 240, 1);
-    width: 720px;
-    height: 100vh;
-  }
-  .content1 {
-    background-color: white;
-    padding: 10px;
-    margin-top: 10px;
-  }
-  .content1 .line1,.content1 .line2 {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    font-size:22px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(51,51,51,1);
-  }
-  .content1 .line1>div:nth-child(1) {
-    width: 40px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  .content1 .line1>div:nth-child(2) {
-    width: 680px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .content1 .line2>div:nth-child(1) {
-    width: 40px;
-  }
-  .content1 .line2>div:nth-child(2) {
-    width: 680px;
-  }
-  .content1 .line2 .default-address {
-    font-size:22px;
-    font-family:HiraginoSansGB-W3;
-    color:rgba(19,193,254,1);
-  }
-</style>
