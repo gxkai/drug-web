@@ -51,9 +51,7 @@
                     <input type="checkbox" v-model="cartRx.radio">
                     <label></label>
                   </div>
-                  <div>
-                    <i class="iconfont ic-jisongchufangdan"></i>
-                  </div>
+                  <van-icon name="jisongchufangdan" size="3em"></van-icon>
                   <div class="cart-list-rx-left_name">
                     非处方单
                   </div>
@@ -109,25 +107,20 @@
                 </van-swipe-cell>
               </div>
             </div>
+            <van-submit-bar
+              :price="cartShop.allPrice*100"
+              :button-text="'结算('+cartShop.allQuantity+')'"
+              @submit="onOrder(cartShop)"
+              :loading="loading"
+              :style="{'display': cartShop.rxs.length === 0 ? 'none':''}"
+              style="position: static"
+            >
+            </van-submit-bar>
           </div>
         </div>
       </van-pull-refresh>
     </template>
     <template slot="bottom">
-      <van-submit-bar
-        :price="allPrice*100"
-        :button-text="'结算('+allQuantity+')'"
-        @submit="onOrder"
-        :loading="loading"
-        :style="{'display': cartShops.length === 0 ? 'none':''}"
-        style="position: sticky"
-      >
-        <div @click.stop="onRadio(All)">
-          <input type="checkbox" v-model="chooseAll">
-          <label></label>
-          <span>全选</span>
-        </div>
-      </van-submit-bar>
       <van-tabbar
         :value="3"
         :fixed="Boolean(false)"
@@ -258,7 +251,7 @@
           &-delete {
             font-size: 30px;
             color: white;
-            padding: 120px 40px;
+            padding: 105px 40px;
             line-height: 250px;
             font-weight: 200;
             background-color: #1AB6FD;
@@ -444,6 +437,8 @@
       async initData() {
         const data = await this.$http.get('/carts');
         data.cartShops.forEach(e => {
+          e.allPrice = 0;
+          e.allQuantity = 0;
           e.radio = false;
           e.rxs.forEach(e => {
             e.radio = false;
@@ -553,10 +548,24 @@
         return cartIds;
       },
       /**
+       * 获取已选药店购物车ID
+       */
+      getShopCartIds(cartShop) {
+        let cartIds = [];
+        cartShop.rxs.forEach(e => {
+          e.drugs.forEach(e => {
+            if (e.radio) {
+              cartIds.push(e.cartId);
+            }
+          });
+        });
+        return cartIds;
+      },
+      /**
        * 订单结算
        */
-      async onOrder() {
-        let cartIds = this.getCartIds();
+      async onOrder(cartShop) {
+        let cartIds = this.getShopCartIds(cartShop);
         if (cartIds.length === 0) {
           this.$toast('请选择药品');
           return;
@@ -567,6 +576,23 @@
         this.loading = false;
       },
       /**
+       * 计算总价和总数
+       */
+      calculate(cartShop) {
+        let allPrice = 0;
+        let allQuantity = 0;
+        cartShop.rxs.forEach(e => {
+          e.drugs.forEach(e => {
+            if (e.radio === true) {
+              allPrice += e.price * e.quantity;
+              allQuantity += e.quantity;
+            }
+          });
+        });
+        cartShop.allPrice = allPrice;
+        cartShop.allQuantity = allQuantity;
+      },
+      /**
        * 选中raido
        * @param type
        * @param cartShop
@@ -575,18 +601,6 @@
        */
       onRadio(type, cartShop, cartRx, cartDrug) {
         switch (type) {
-          case 'ALL':
-            this.chooseAll = !this.chooseAll;
-            this.cartShops.forEach(e => {
-              e.radio = this.chooseAll;
-              e.rxs.forEach(e => {
-                e.radio = this.chooseAll;
-                e.drugs.forEach(e => {
-                  e.radio = this.chooseAll;
-                });
-              });
-            });
-            break;
           case 'SHOP':
             cartShop.radio = !cartShop.radio;
             cartShop.rxs.forEach(e => {
@@ -595,11 +609,6 @@
                 e.radio = cartShop.radio;
               });
             });
-            if ((cartShop.radio && this.cartShops.filter(e => {
-              return e.radio === !cartShop.radio;
-            }).length === 0) || !cartShop.radio) {
-              this.chooseAll = cartShop.radio;
-            }
             break;
           case 'RX':
             cartRx.radio = !cartRx.radio;
@@ -610,11 +619,6 @@
               return e.radio === !cartRx.radio;
             }).length === 0) {
               cartShop.radio = cartRx.radio;
-              if ((cartRx.radio && this.cartShops.filter(e => {
-                return e.radio === !cartShop.radio;
-              }).length === 0) || !cartRx.radio) {
-                this.chooseAll = cartShop.radio;
-              }
             }
             break;
           case 'DRUG':
@@ -628,11 +632,6 @@
                 return e.radio === !cartDrug.radio;
               }).length === 0) {
                 cartShop.radio = cartDrug.radio;
-                if ((cartDrug.radio && this.cartShops.filter(e => {
-                  return e.radio === !cartDrug.radio;
-                }).length === 0) || !cartDrug.radio) {
-                  this.chooseAll = cartDrug.radio;
-                }
               }
             } else {
               if (cartRx.drugs.filter(e => {
@@ -643,15 +642,11 @@
                   return e.radio === !cartDrug.radio;
                 }).length === 0) {
                   cartShop.radio = cartDrug.radio;
-                  if ((cartDrug.radio && this.cartShops.filter(e => {
-                    return e.radio === !cartDrug.radio;
-                  }).length === 0) || !cartDrug.radio) {
-                    this.chooseAll = cartDrug.radio;
-                  }
                 }
               }
             }
         }
+        this.calculate(cartShop);
       }
       // ...mapMutations({
       //   setCartShops: 'SET_CART_SHOPS'
