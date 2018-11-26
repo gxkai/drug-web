@@ -1,6 +1,6 @@
 <template>
   <div class="close_list">
-    <div v-for="cartShop in cartShops">
+    <div>
       <div class="close_list-shop"
       @click="linkToShopView(cartShop.id)">
         <div>
@@ -9,32 +9,6 @@
         <div class="close_list-shop_name" v-text="cartShop.shopName"></div>
       </div>
       <div v-for="cartRx in cartShop.rxs">
-        <div class="close_list-rx"
-             v-if="isRx(cartRx.rxId)">
-          <div class="close_list-rx-left">
-            <div>
-              <i class="iconfont ic-chufangdanluru"></i>
-            </div>
-            <div class="close_list-rx-left_name">
-              处方单
-            </div>
-          </div>
-          <div class="close_list-rx-right"
-          @click="linkToRxView(cartRx.rxId)">
-            查看处方&gt;
-          </div>
-        </div>
-        <div class="close_list-rx"
-             v-else>
-          <div class="close_list-rx-left">
-            <div>
-              <i class="iconfont ic-jisongchufangdan"></i>
-            </div>
-            <div class="close_list-rx-left_name">
-              非处方单
-            </div>
-          </div>
-        </div>
         <div class="close_list-drugs">
           <div class="close_list-drugs-item"
                v-for="cartDrug in cartRx.drugs"
@@ -162,9 +136,7 @@
   export default {
     name: 'closeList',
     props: {
-      cartShops: {
-        type: Array,
-        default: []
+      cartShop: {
       }
     }
   };

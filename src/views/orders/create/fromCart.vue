@@ -1,216 +1,226 @@
 <template>
-  <div class="pay_cart">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      ref="header"
-    />
-    <div class="pay_cart-content"
-    ref="content">
-      <div class="pay_cart-content-delivery"
-           v-if="deliveryType === 'DELIVERY'"
-           @click="linkToOrderAddress">
-        <div class="pay_cart-content-delivery-address"
-             v-if="isNotBlank(receiveAddress)">
-          <div class="pay_cart-content-delivery-address-left">
-            <i class="iconfont ic-dizhi"></i>
-          </div>
-          <div class="pay_cart-content-delivery-address-center">
-            <div class="elps">
-              <span>收货人&#58;{{receiveAddress.consignee}}</span>
-              <span class="ml-l-10">{{receiveAddress.phone}}</span>
-            </div>
-            <div class="elps">
-              收货地址&#58;{{receiveAddress.address}}
-            </div>
-          </div>
-          <div class="pay_cart-content-delivery-address-right">
-            <i class="iconfont ic-youjiantou"></i>
-          </div>
-        </div>
-        <div class="pay_cart-content-delivery-no_address"
-             v-else>
-          请维护地址&gt;
-        </div>
-        <div class="pay_cart-content-delivery-bar">
-          <img src="../../../assets/image/colorbackground.png">
-        </div>
-      </div>
-      <new-close-list :cartShops="cart.cartShops" class="new-close-list"></new-close-list>
-      <div class="pay_cart-content-delivery_type">
-        <div class="pay_cart-content-delivery_type-header">
-          <div>
-            <i class="iconfont ic-peisongfangshi"></i>
-          </div>
-          <div>配送方式</div>
-        </div>
-        <div class="pay_cart-content-delivery_type-content">
-          <!--<span :class="{active:deliveryType=='DELIVERY'}"-->
-                <!--@click.stop="onDeliveryType('DELIVERY')">送货上门</span>-->
-          <span :class="{active:deliveryType=='SELF'}"
-                @click.stop="onDeliveryType('SELF')">上门自提</span>
-        </div>
-      </div>
-      <!--<div class="pay_cart-content-pay_type">-->
-        <!--<div class="pay_cart-content-pay_type-header">-->
-          <!--<div>-->
-            <!--<i class="iconfont ic-dingdanzhifufangshi"></i>-->
-          <!--</div>-->
-          <!--<div>支付方式</div>-->
-        <!--</div>-->
-        <!--<div class="pay_cart-content-pay_type-content">-->
-            <!--<span class="iconfont ic-weixin"-->
-                  <!--:class="{active:payType=='WECHAT_PAY'}"-->
-                  <!--@click.stop="onPayType('WECHAT_PAY')"></span>-->
-          <!--<span class="iconfont ic-alipay"-->
-                <!--:class="{active:payType=='ALIPAY'}"-->
-                <!--@click.stop="onPayType('ALIPAY')"></span>-->
-        <!--</div>-->
-      <!--</div>-->
-      <div class="pay_cart-content-pay_amount">
-        <div>
-          <span>商品总额：</span>
-          <span>&yen;{{toFixedTwo(cart.amount)}}</span>
-        </div>
-        <div>
-          <span>医保扣除：</span>
-          <span>&yen;{{toFixedTwo(cart.medicaidAmount)}}</span>
-        </div>
-        <div>
-          <span>实际支付：</span>
-          <span>&yen;{{toFixedTwo(cart.payAmount)}}</span>
-        </div>
-      </div>
-      <div class="pay_cart-content-medicaid">
-        <div class="pay_cart-content-medicaid-header">
-          医保信息
-        </div>
-        <div class="pay_cart-content-medicaid-content">
-          <div class="pay_cart-content-medicaid-content-card"
-          v-if="isNotBlank(account.medicaidNumber)">
-            <div>
-              <span>会员姓名&#58;</span>
-              <span>{{account.name}}</span>
-            </div>
-            <div>
-              <span>医保卡号&#58;</span>
-              <span>{{account.medicaidNumber}}</span>
-            </div>
-            <div>
-              <span>卡内余额&#58;</span>
-              <span>&yen;0</span>
-            </div>
-          </div>
-          <div class="pay_cart-content-medicaid-content-no_card"
-          v-else>
-            <span class="iconfont ic-qianbao"></span>
-            <a @click="linkToCardBind">去绑定医保卡</a>
-          </div>
-        </div>
-      </div>
-      <!--<div class="pay_cart-content-coupon">-->
-        <!--<div class="pay_cart-content-coupon_link">-->
-          <!--<div class="pay_cart-content-coupon_link_left">优惠券</div>-->
-          <!--<div class="pay_cart-content-coupon_link_right">-->
-            <!--<div v-if="isNotBlank(couponRecord)">-->
-              <!--满{{couponRecord.amount}}减{{couponRecord.minus}}-->
-            <!--</div>-->
-            <!--<div @click="show = true">-->
-              <!--<i class="iconfont ic-youjiantou"></i>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="pay_cart-content-coupon_popup">-->
-          <!--<van-popup v-model="show" position="bottom">-->
-            <!--<div class="pay_cart-content-coupon_popup-container">-->
-              <!--<div class="pay_cart-content-coupon_popup-container-title text-l-30">-->
-                <!--使用优惠券-->
-              <!--</div>-->
-              <!--<div class="pay_cart-content-coupon_popup-container-list">-->
-                <!--<div class="pay_cart-content-coupon_popup-container-list-item"-->
-                     <!--v-for="(item,key) in coupons"-->
-                     <!--:key="key"-->
-                     <!--@click="couponRecord = item;show = false;payAmount = cart.payAmount - item.minus">-->
-                  <!--<div class="text-l-28">-->
-                    <!--满{{item.amount}}减{{item.minus}}-->
-                  <!--</div>-->
-                  <!--<div>-->
-                    <!--<input :id="item" type="radio"  :value="item"   v-model="couponRecord">-->
-                    <!--<label :for="item"></label>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div v-if="coupons.length === 0" class="pay_cart-content-coupon_popup-container-list-none text-l-28">-->
-                  <!--没有可用优惠券-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</van-popup>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="dividing"></div>-->
-    </div>
-    <van-submit-bar
-      :price="payAmount*100"
-      button-text="立即支付"
-      @submit="onOrder"
-      :loading="loading"
-      ref="footer"
-    />
-  </div>
+  <new-layout class="pay_cart">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+   <template slot="center">
+     <div class="pay_cart-content">
+       <div class="pay_cart-content-delivery"
+            v-if="deliveryType === 'DELIVERY'"
+            @click="linkToOrderAddress(cartShop.id)">
+         <div class="pay_cart-content-delivery-address"
+              v-if="address.id !== undefined">
+           <van-icon name="dizhi" size="4em" color="#a6a6a6"></van-icon>
+           <div class="pay_cart-content-delivery-address-center">
+             <div class="elps">
+               <span>收货人&#58;{{address.consignee}}</span>
+               <span class="ml-l-10">{{address.phone}}</span>
+             </div>
+             <div class="elps">
+               收货地址&#58;{{address.address}}
+             </div>
+           </div>
+           <van-icon name="arrow" size="2em"></van-icon>
+         </div>
+         <div class="pay_cart-content-delivery-no_address"
+              v-else>
+           请维护地址&gt;
+         </div>
+         <div class="pay_cart-content-delivery-bar">
+           <img src="../../../assets/image/colorbackground.png">
+         </div>
+       </div>
+       <new-close-list :cartShop="cartShop" class="new-close-list"></new-close-list>
+       <div class="pay_cart-content-delivery_type">
+         <div class="pay_cart-content-delivery_type-header">
+           <!--<div>-->
+             <!--<i class="iconfont ic-peisongfangshi"></i>-->
+           <!--</div>-->
+           <van-icon name="peisongfangshi" size="5em"></van-icon>
+           <div>配送方式</div>
+         </div>
+         <div class="pay_cart-content-delivery_type-content">
+           <span :class="{active:deliveryType=='DELIVERY'}"
+           @click.stop="onDeliveryType('DELIVERY')">送货上门</span>
+           <span :class="{active:deliveryType=='SELF'}"
+                 @click.stop="onDeliveryType('SELF')">上门自提</span>
+         </div>
+       </div>
+
+       <div class="pay_cart-content-delivery_type" v-if="isRx === true">
+         <div class="pay_cart-content-delivery_type-header">
+           <van-icon name="qian" size="4em"></van-icon>
+           <div>付费方式</div>
+         </div>
+         <div class="pay_cart-content-delivery_type-content">
+           <span :class="{active:isMedicaidPay==false}"
+                 @click.stop="isMedicaidPay = false">自费</span>
+           <span :class="{active:isMedicaidPay==true}"
+                 @click.stop="isMedicaidPay = true">医保</span>
+         </div>
+       </div>
+       <!--<div class="pay_cart-content-pay_type">-->
+       <!--<div class="pay_cart-content-pay_type-header">-->
+       <!--<div>-->
+       <!--<i class="iconfont ic-dingdanzhifufangshi"></i>-->
+       <!--</div>-->
+       <!--<div>支付方式</div>-->
+       <!--</div>-->
+       <!--<div class="pay_cart-content-pay_type-content">-->
+       <!--<span class="iconfont ic-weixin"-->
+       <!--:class="{active:payType=='WECHAT_PAY'}"-->
+       <!--@click.stop="onPayType('WECHAT_PAY')"></span>-->
+       <!--<span class="iconfont ic-alipay"-->
+       <!--:class="{active:payType=='ALIPAY'}"-->
+       <!--@click.stop="onPayType('ALIPAY')"></span>-->
+       <!--</div>-->
+       <!--</div>-->
+       <div class="pay_cart-content-pay_amount">
+         <div>
+           <span>商品总额：</span>
+           <span>&yen;{{toFixedTwo(cartShop.amount)}}</span>
+         </div>
+         <div>
+           <span>医保扣除：</span>
+           <span>&yen;{{toFixedTwo(cartShop.medicaidAmount)}}</span>
+         </div>
+         <div>
+           <span>实际支付：</span>
+           <span>&yen;{{toFixedTwo(cartShop.payAmount)}}</span>
+         </div>
+       </div>
+       <!--<div class="pay_cart-content-medicaid">-->
+         <!--<div class="pay_cart-content-medicaid-header">-->
+           <!--医保信息-->
+         <!--</div>-->
+         <!--<div class="pay_cart-content-medicaid-content">-->
+           <!--<div class="pay_cart-content-medicaid-content-card"-->
+                <!--v-if="isNotBlank(account.medicaidNumber)">-->
+             <!--<div>-->
+               <!--<span>会员姓名&#58;</span>-->
+               <!--<span>{{account.name}}</span>-->
+             <!--</div>-->
+             <!--<div>-->
+               <!--<span>医保卡号&#58;</span>-->
+               <!--<span>{{account.medicaidNumber}}</span>-->
+             <!--</div>-->
+             <!--<div>-->
+               <!--<span>卡内余额&#58;</span>-->
+               <!--<span>&yen;0</span>-->
+             <!--</div>-->
+           <!--</div>-->
+           <!--<div class="pay_cart-content-medicaid-content-no_card"-->
+                <!--v-else>-->
+             <!--<span class="iconfont ic-qianbao"></span>-->
+             <!--<a @click="linkToCardBind">去绑定医保卡</a>-->
+           <!--</div>-->
+         <!--</div>-->
+       <!--</div>-->
+       <!--<div class="pay_cart-content-coupon">-->
+       <!--<div class="pay_cart-content-coupon_link">-->
+       <!--<div class="pay_cart-content-coupon_link_left">优惠券</div>-->
+       <!--<div class="pay_cart-content-coupon_link_right">-->
+       <!--<div v-if="isNotBlank(couponRecord)">-->
+       <!--满{{couponRecord.amount}}减{{couponRecord.minus}}-->
+       <!--</div>-->
+       <!--<div @click="show = true">-->
+       <!--<i class="iconfont ic-youjiantou"></i>-->
+       <!--</div>-->
+       <!--</div>-->
+       <!--</div>-->
+       <!--<div class="pay_cart-content-coupon_popup">-->
+       <!--<van-popup v-model="show" position="bottom">-->
+       <!--<div class="pay_cart-content-coupon_popup-container">-->
+       <!--<div class="pay_cart-content-coupon_popup-container-title text-l-30">-->
+       <!--使用优惠券-->
+       <!--</div>-->
+       <!--<div class="pay_cart-content-coupon_popup-container-list">-->
+       <!--<div class="pay_cart-content-coupon_popup-container-list-item"-->
+       <!--v-for="(item,key) in coupons"-->
+       <!--:key="key"-->
+       <!--@click="couponRecord = item;show = false;payAmount = cart.payAmount - item.minus">-->
+       <!--<div class="text-l-28">-->
+       <!--满{{item.amount}}减{{item.minus}}-->
+       <!--</div>-->
+       <!--<div>-->
+       <!--<input :id="item" type="radio"  :value="item"   v-model="couponRecord">-->
+       <!--<label :for="item"></label>-->
+       <!--</div>-->
+       <!--</div>-->
+       <!--<div v-if="coupons.length === 0" class="pay_cart-content-coupon_popup-container-list-none text-l-28">-->
+       <!--没有可用优惠券-->
+       <!--</div>-->
+       <!--</div>-->
+       <!--</div>-->
+       <!--</van-popup>-->
+       <!--</div>-->
+       <!--</div>-->
+       <!--<div class="dividing"></div>-->
+     </div>
+   </template>
+    <template slot="bottom">
+      <van-submit-bar
+        :price="payAmount*100"
+        button-text="立即支付"
+        @submit="onOrder"
+        :loading="loading"
+      />
+    </template>
+  </new-layout>
 
 
 </template>
 <script>
-  import { mapGetters, mapMutations } from 'vuex';
+  import { getReceivedAddress } from '../../../assets/js/auth';
   export default {
     name: 'createFromCart',
     data() {
       return {
         name: '订单结算',
         account: this.$store.getters.account,
-        cart: JSON.parse(this.$route.query.cart),
-        deliveryType: this.$storage.get('deliveryType') || 'SELF',
+        cartShop: JSON.parse(this.$route.query.cartShop),
+        isRx: this.$route.query.isRx,
+        deliveryType: 'DELIVERY',
         payType: 'KRCB',
         couponRecord: '',
         coupons: [],
         show: false,
         payAmount: 0,
-        loading: false
+        loading: false,
+        address: {},
+        medicaidInfo: {},
+        isMedicaidPay: false
       };
     },
     components: {},
     created() {
-      this.getData();
+      this.initData();
     },
     mounted() {
-      this.$refs.content.style.height = (document.documentElement.clientHeight - this.$refs.header.$el.clientHeight - this.$refs.footer.$el.clientHeight
-      ) + 'px';
-      this.$refs.content.style.overflow = 'auto';
     },
     computed: {
-      ...mapGetters(['receiveAddress'])
+    },
+    activated() {
+      const address = getReceivedAddress();
+      if (address !== undefined) {
+        this.address = address;
+      }
+    },
+    beforeRouteLeave(to, from, next) {
+      this.$route.meta.keepAlive = false;
+      next();
     },
     methods: {
-      getData() {
-        this.payAmount = this.cart.payAmount;
-        if (this.isBlank(this.receiveAddress)) {
-          this.$axios.get('addresses/default').then(res => {
-            if (res.data) {
-              this.setReceiveAddress(res.data);
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
-        }
-        this.$axios.get('couponRecords/order')
-          .then(res => {
-            this.coupons = res.data.filter(e => this.cart.payAmount >= e.amount);
-            console.log(this.coupons);
-          })
-          .catch(err => {
-            this.exception(err);
-          });
+      async initData() {
+        console.log(this.cartShop);
+        this.payAmount = this.cartShop.payAmount;
+        const data = await this.$http.get('couponRecords/order');
+        this.coupons = data.filter(e => this.cartShop.payAmount >= e.amount);
+        // this.medicaidInfo = await this.$http.get('/medicaid-info');
       },
       /**
        * 获取购物车ID数组
@@ -218,53 +228,36 @@
        */
       getCartIds() {
         let cartIds = [];
-        this.cart.cartShops.forEach(e => {
-          e.rxs.forEach(e => {
-            e.drugs.forEach(e => {
-              cartIds.push(e.cartId);
-            });
+        this.cartShop.rxs.forEach(e => {
+          e.drugs.forEach(e => {
+            cartIds.push(e.cartId);
           });
         });
         return cartIds;
       },
-      onOrder() {
-        this.loading = true;
-        let json = {};
-        switch (this.deliveryType) {
-          case 'DELIVERY':
-            if (this.isBlank(this.receiveAddress)) {
-              this.$toast('请维护收货地址');
-            } else {
-              json.addressId = this.receiveAddress.id;
-            }
+      async onOrder() {
+        if (this.deliveryType === 'DELIVERY' && this.address.id === undefined) {
+          this.$toast('地址还没维护呢');
+          return;
         }
+        let json = {};
         json.cartIds = this.getCartIds();
         json.deliveryType = this.deliveryType;
+        if (this.deliveryType === 'DELIVERY') {
+          json.addressId = this.address.id;
+        }
         json.payType = this.payType;
-        this.$axios.post('/orders', json).then(res => {
-          let str = '';
-          res.data.forEach(e => {
-            str += 'orderIds=' + e + '&';
-          });
-          str = str.substring(0, str.length - 1);
-          this.$router.replace({
-            path: '/orders/pay?' + str + '&deliveryType=' + this.deliveryType
-          });
-        }).catch(error => {
-          this.loading = false;
-          this.exception(error);
-        });
+        json.isMedicaidPay = this.isMedicaidPay;
+        json.isRx = this.isRx;
+        await this.$http.post('/orders', json);
+        this.$router.push('/orders');
       },
       onDeliveryType(item) {
-        this.$storage.set('deliveryType', item);
         this.deliveryType = item;
       },
       onPayType(item) {
         this.payType = item;
-      },
-      ...mapMutations({
-        setReceiveAddress: 'SET_RECEIVE_ADDRESS'
-      })
+      }
     }
   };
 </script>
@@ -282,8 +275,6 @@
   }
 
   .pay_cart {
-    background-color: #f5f5f5;
-    width: 720px;
     &-content {
       &-delivery {
         &-bar {
@@ -298,10 +289,6 @@
           justify-content: space-between;
           padding: 20px 20px;
           background-color: white;
-          i {
-            font-size: 50px;
-            color: #a6a6a6;
-          }
           div, span {
             font-size: 28px;
           }
@@ -322,11 +309,8 @@
         &-header {
           background-color: white;
           display: flex;
-          align-items: center;
+          align-items: flex-end;
           padding: 20px;
-          i {
-            font-size: 50px;
-          }
           div {
             font-size: 30px;
           }
@@ -536,9 +520,6 @@
   }
   .ic-alipay.active{
     color: #009fe8!important;
-  }
-  .pay_cart-content-pay_amount{
-    padding: 0px 0px 0px 20px;
   }
   .pay_shop-content-pay_type-content span{
     background: grey;

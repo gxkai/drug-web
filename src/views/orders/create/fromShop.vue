@@ -57,6 +57,19 @@
                   @click.stop="onDeliveryType('SELF')">上门自提</span>
           </div>
         </div>
+
+        <div class="pay_cart-content-delivery_type">
+          <div class="pay_cart-content-delivery_type-header">
+            <van-icon name="qian" size="4em"></van-icon>
+            <div>付费方式</div>
+          </div>
+          <div class="pay_cart-content-delivery_type-content">
+           <span :class="{active:isMedicaidPay==true}"
+                 @click.stop="isMedicaidPay = true">医保</span>
+            <span :class="{active:isMedicaidPay==false}"
+                  @click.stop="isMedicaidPay = false">自费</span>
+          </div>
+        </div>
         <!--<div class="pay_shop-content-pay_type">-->
         <!--<div class="pay_shop-content-pay_type-header">-->
         <!--<div>-->
@@ -185,7 +198,8 @@
         show: false,
         payAmount: 0,
         loading: false,
-        address: {}
+        address: {},
+        isMedicaidPay: false
       };
     },
     components: {},
@@ -226,6 +240,7 @@
         json.deliveryType = this.deliveryType;
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
+        json.isMedicaidPay = this.isMedicaidPay;
         await this.$http.post('/orders/shop', json);
         // this.$router.replace({
         //   path: `/orders/pay?orderIds=${data}&deliveryType=${this.deliveryType}`

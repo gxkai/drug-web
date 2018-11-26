@@ -2,7 +2,7 @@
   <new-layout class="shops"
   centerColor="white"
   >
-    <div slot="top">
+    <template slot="top">
       <div class="shops-header">
         <new-header>
           <div slot="left" @click="$router.go(-1)">
@@ -66,7 +66,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </template>
     <div class="shops-container"
          slot="center">
       <!--<div @click="linkToRxShopDrug(rxId, hospital.id, hospital.name, 'HOSPITAL')">-->
@@ -104,27 +104,18 @@
       }
     },
     created() {
-      this.getRxShops();
+      this.initData();
     },
     methods: {
-      getRxShops() {
-        this.$axios.get('/rxs/' + this.rxId + '/shops?lng=' + this.position.lng + '&lat=' + this.position.lat)
-          .then(res => {
-            this.rxShops = res.data;
-            console.log(res.data);
-          }).catch(error => {
-            this.exception(error);
-          });
+      initData() {
+        this.getRxShops();
+        // this.getHospital();
       },
-      getHospital() {
-        this.$axios.get('/rxs/' + this.rxId + '/hospital')
-          .then(res => {
-            this.hospital = res.data;
-            console.log(res.data);
-          }).catch(error => {
-            this.exception(error);
-          })
-        ;
+      async getRxShops() {
+        this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
+      },
+      async getHospital() {
+        this.hospital = await this.$http.get(`/rxs/${this.rxId}/hospital`);
       },
       orderById() {
         this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);

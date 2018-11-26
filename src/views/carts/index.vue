@@ -16,11 +16,6 @@
           <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
             <div class="cart-list-shop"
                  @click="linkToShopView(cartShop.id)">
-              <div class="cart-list-shop_radio"
-                   @click.stop="onRadio(SHOP,cartShop)">
-                <input type="checkbox" v-model="cartShop.radio">
-                <label></label>
-              </div>
               <van-icon name="yaodian" size="3em"></van-icon>
               <div class="cart-list-shop_name" v-text="cartShop.shopName"></div>
             </div>
@@ -378,7 +373,6 @@
   }
 </style>
 <script>
-  // import { mapGetters, mapMutations } from 'vuex';
   export default {
     name: 'carts',
     data() {
@@ -396,7 +390,6 @@
     },
     components: {},
     computed: {
-      // ...mapGetters(['cartShops']),
       allPrice() {
         let sum = 0;
         this.cartShops.forEach(e => {
@@ -552,13 +545,24 @@
        */
       getShopCartIds(cartShop) {
         let cartIds = [];
-        cartShop.rxs.forEach(e => {
-          e.drugs.forEach(e => {
-            if (e.radio) {
-              cartIds.push(e.cartId);
+        let rxDrugNum = 0;
+        let nRxDrugNum = 0;
+        cartShop.rxs.forEach(rx => {
+          rx.drugs.forEach(drug => {
+            if (drug.radio) {
+              cartIds.push(drug.cartId);
+              if (rx.rxId === '0') {
+                rxDrugNum++;
+              } else {
+                nRxDrugNum++;
+              }
             }
           });
         });
+        if (rxDrugNum > 0 && nRxDrugNum > 0) {
+          this.$toast('处方单药品和非处方单药品不能同时结算');
+          return;
+        }
         return cartIds;
       },
       /**
@@ -570,9 +574,13 @@
           this.$toast('请选择药品');
           return;
         }
+        let isRx = cartShop.rxs.some(rx => {
+          return rx.rxId !== '0' && rx.radio === true;
+        });
+        isRx = false;
         this.loading = true;
-        const data = await this.$http.get('/orders/cart?cartIds=' + cartIds);
-        this.$router.push({ path: '/orders/create/fromCart', query: { cart: JSON.stringify(data) } });
+        const data = await this.$http.get(`/orders/cart?cartIds=${cartIds}&isRx=${isRx}`);
+        this.$router.push({ path: '/orders/create/fromCart', query: { cartShop: JSON.stringify(data), isRx: isRx } });
         this.loading = false;
       },
       /**
@@ -601,15 +609,6 @@
        */
       onRadio(type, cartShop, cartRx, cartDrug) {
         switch (type) {
-          case 'SHOP':
-            cartShop.radio = !cartShop.radio;
-            cartShop.rxs.forEach(e => {
-              e.radio = cartShop.radio;
-              e.drugs.forEach(e => {
-                e.radio = cartShop.radio;
-              });
-            });
-            break;
           case 'RX':
             cartRx.radio = !cartRx.radio;
             cartRx.drugs.forEach(e => {
@@ -648,9 +647,6 @@
         }
         this.calculate(cartShop);
       }
-      // ...mapMutations({
-      //   setCartShops: 'SET_CART_SHOPS'
-      // })
     }
   };
 </script>
