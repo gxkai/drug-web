@@ -18,7 +18,7 @@ import './assets/font/vanIcon.css';
 // import './assets/js/vconsole';
 import '../src/assets/plugin/vue-event-calendar/dist/style.css';
 import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
-import 'vant/lib/vant-css/icon-local.css';
+// import 'vant/lib/vant-css/icon-local.css';
 import {Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
@@ -58,6 +58,8 @@ import {Actionsheet,
   Uploader,
   Picker} from 'vant';
 import router from './router';
+import BasicVueChat from 'basic-vue-chat';
+Vue.use(BasicVueChat);
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)
@@ -99,8 +101,7 @@ Vue.use(Actionsheet).use(GoodsAction)
     error: require('./assets/image/lazyLoad/default.png'),
     loading: require('./assets/image/lazyLoad/loading.gif'),
     attempt: 3
-  })
-;
+  });
 Vue.use(vueEventCalendar, {locale: 'zh', className: ''});
 Vue.prototype.$axios = axios;
 Vue.prototype.$http = http;

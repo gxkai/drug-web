@@ -67,6 +67,18 @@ const errorRouter = {
   name: '错误页面',
   component: () => import('@/components/error')
 };
+const pharmacistRouter = [
+  {
+    path: '/pharmacists/chat',
+    name: '药师聊天',
+    component: () => import('@/views/pharmacists/chat')
+  },
+  {
+    path: '/pharmacists',
+    name: '药师咨询',
+    component: () => import('@/views/pharmacists/index')
+  }
+];
 
 const accountRouter = [
   {
@@ -420,7 +432,8 @@ const Router = new VueRouter({
     ...shopRouter,
     ...drugRouter,
     ...settingRouter,
-    ...otherRouter
+    ...otherRouter,
+    ...pharmacistRouter
   ]
 });
 export default Router;

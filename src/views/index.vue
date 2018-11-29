@@ -1,236 +1,245 @@
 <template>
-  <new-layout
-    centerColor="white"
-    class="home">
-    <div slot="top" class="home__header">
-      <div class="home__header__first">
-        <div class="home__header__first__left"
-             @click="$router.push('/addresses/choose')"
-        >
-          <van-icon name="weizhi" color="white" size="3em"></van-icon>
-          <span class="home__header__first__left--name">{{position.name}}</span>
-          <van-icon name="arrowdown" color="white" size="3em"></van-icon>
+  <div>
+    <new-layout
+      centerColor="white"
+      class="home">
+      <div slot="top" class="home__header">
+        <div class="home__header__first">
+          <div class="home__header__first__left"
+               @click="$router.push('/addresses/choose')"
+          >
+            <van-icon name="weizhi" color="white" size="3em"></van-icon>
+            <span class="home__header__first__left--name">{{position.name}}</span>
+            <van-icon name="arrowdown" color="white" size="3em"></van-icon>
+          </div>
+          <div class="home__header__first__right">
+            <van-icon name="lingdang" color="white" size="4em" @click="$router.push('/messageTypes')"></van-icon>
+          </div>
         </div>
-        <div class="home__header__first__right">
-          <van-icon name="lingdang" color="white" size="4em" @click="$router.push('/messageTypes')"></van-icon>
+        <div class="home__header__second">
+          <input class="home__header__second__input iconfont"
+                 :placeholder="searchIcon"
+                 @click="$router.push('/drugs')"
+          >
         </div>
       </div>
-      <div class="home__header__second">
-        <input class="home__header__second__input iconfont"
-               :placeholder="searchIcon"
-               @click="$router.push('/drugs')"
-        >
-      </div>
-    </div>
-    <div slot="center"
-         class="home__content"
-    >
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <div slot="center"
+           class="home__content"
+      >
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
 
-        <van-swipe
-          :auto="3000"
-          class="home__content__swipe"
-        >
-          <van-swipe-item
-            v-for="(advert,index) in adverts" :key="index"
-            class="home__content__swipe__item"
-          >
-            <img v-lazy="getImgURL(advert.fileId, 'ADVERT')"
-                 class="home__content__swipe__item--advert"
-                 @click="$router.push(advert.url)"
-            />
-          </van-swipe-item>
-        </van-swipe>
-
-        <div
-          class="home__content__entry van-hairline--bottom"
-        >
-          <div class="home__content__entry__item"
-               @click="$router.push('/rxs')"
-          >
-            <div class="home__content__entry__item--icon">
-              <van-icon name="chufang-" color="#f72250" size="5em"
-                        class="home__content__entry__item--icon--chufang"></van-icon>
-            </div>
-            <div
-              class="home__content__entry__item--name"
-            >我的处方
-            </div>
-          </div>
-          <div class="home__content__entry__item"
-               @click="$router.push('/repositoryTypes')">
-            <div class="home__content__entry__item--icon">
-              <van-icon name="zhishiku-" color="#11c6fe" size="5em"
-                        class="home__content__entry__item--icon--chufang"></van-icon>
-            </div>
-            <div
-              class="home__content__entry__item--name"
-            >知识库
-            </div>
-          </div>
-          <div class="home__content__entry__item"
-               @click="$router.push('/shops')"
-          >
-            <div class="home__content__entry__item--icon">
-              <van-icon name="yaofang-" color="#2bb292" size="5em"
-                        class="home__content__entry__item--icon--chufang"></van-icon>
-            </div>
-            <div
-              class="home__content__entry__item--name"
-            >药房
-            </div>
-          </div>
-          <div class="home__content__entry__item"
-               @click="$router.push('/accounts/insurance')"
-          >
-            <div class="home__content__entry__item--icon">
-              <van-icon name="yibao-" color="#ff8400" size="5em"
-                        class="home__content__entry__item--icon--chufang"></van-icon>
-            </div>
-            <div
-              class="home__content__entry__item--name"
-            >我的医保
-            </div>
-          </div>
-        </div>
-
-        <div class="home__content__repository">
-          <div class="home__content__repository__left">
-            <div
-              class="home__content__repository__left-top"
-            >健康
-            </div>
-            <div
-              class="home__content__repository__left-bottom"
-            >咨询
-            </div>
-          </div>
-          <div class="home__content__repository__right">
-            <transition class="home__content__repository__right__item"
-                        name="slide" mode="out-in"
-
-            >
-              <p class="home__content__repository__right__item--title"
-                 :key="text.id"
-                 @click="$router.push({path:'/repositories/view',query:{id:text.val.id,title:text.val.title}})"
-              >{{text.val.title}}</p>
-            </transition>
-          </div>
-        </div>
-        <div class="home__content__discount">
-          <new-header-sec>
-            <div>让利惠民</div>
-          </new-header-sec>
-          <div class="home__content__discount--time">
-            <van-icon name="shijian2" color="#FF9800" size="3em" class="home__content__discount--time--icon"></van-icon>
-            <new-time-down class="home__content__discount--time--down"></new-time-down>
-          </div>
-          <van-swipe :loop="false"
-                     :width="100"
-                     :show-indicators="false"
-                     class="home__content__discount__content"
+          <van-swipe
+            :auto="3000"
+            class="home__content__swipe"
           >
             <van-swipe-item
-              v-for="discount in discounts"
-              :key="discount.id"
+              v-for="(advert,index) in adverts" :key="index"
+              class="home__content__swipe__item"
             >
-              <div class="home__content__discount__content__item"
-              >
-                <img
-                  class="home__content__discount__content__item--logo"
-                  v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')"
-                  @click="linkToShopDrugSpec(discount.shopDrugId)"
-                >
-                <div
-                  class="home__content__discount__content__item--name"
-                >
-                  {{discount.name}}
-                </div>
-                <div
-                  class="home__content__discount__content__item--spec"
-                >
-                  ￥{{discount.price}}
-                </div>
-              </div>
+              <img v-lazy="getImgURL(advert.fileId, 'ADVERT')"
+                   class="home__content__swipe__item--advert"
+                   @click="$router.push(advert.url)"
+              />
             </van-swipe-item>
           </van-swipe>
-        </div>
-        <div class="home__content__show">
-          <new-header-sec>
-            <div>医保定点</div>
-          </new-header-sec>
-          <carousel-3d :count="shows.length" width="250" height="160" display="3">
-            <slide v-for="(slide, i) in shows" :index="i" :key="i">
-              <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
-                <img :data-index="index"
-                     :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
-                     v-lazy="getImgURL(slide.fileId, 'LARGE_LOGO')"
-                     @click="$router.push({path:'/shops/view',query:{shopId:slide.id}})">
-              </template>
-            </slide>
-          </carousel-3d>
-        </div>
-        <div class="home__content__recommend">
-          <new-header-sec>
-            <div>
-              <van-icon name="aixin" color="red"/>
-              好货推荐
-            </div>
-          </new-header-sec>
-          <van-row
+
+          <div
+            class="home__content__entry van-hairline--bottom"
           >
-            <van-col
-              span="12"
-              class="van-hairline--bottom van-hairline--right home__content__recommend__content"
-              v-for="recommend in recommends"
-              :key="recommend.id"
+            <div class="home__content__entry__item"
+                 @click="$router.push('/rxs')"
             >
-              <div class="home__content__recommend__content__item"
-                   @click="linkToShopDrugSpec(recommend.shopDrugId)"
-              >
-                <img
-                  class="home__content__recommend__content__item--logo"
-                  v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')">
-                <div
-                  class="home__content__recommend__content__item--name"
-                >{{recommend.name}}
-                </div>
-                <div
-                  class="home__content__recommend__content__item--spec"
-                >{{recommend.spec}}
-                </div>
-                <div
-                  class="home__content__recommend__content__item--price"
-                >{{`￥${recommend.price}`}}
-                </div>
+              <div class="home__content__entry__item--icon">
+                <van-icon name="chufang-" color="#f72250" size="5em"
+                          class="home__content__entry__item--icon--chufang"></van-icon>
               </div>
-            </van-col>
-          </van-row>
-        </div>
-      </van-pull-refresh>
-    </div>
-    <van-tabbar
-      :value="0"
-      :fixed="Boolean(false)"
-      slot="bottom"
+              <div
+                class="home__content__entry__item--name"
+              >我的处方
+              </div>
+            </div>
+            <div class="home__content__entry__item"
+                 @click="$router.push('/repositoryTypes')">
+              <div class="home__content__entry__item--icon">
+                <van-icon name="zhishiku-" color="#11c6fe" size="5em"
+                          class="home__content__entry__item--icon--chufang"></van-icon>
+              </div>
+              <div
+                class="home__content__entry__item--name"
+              >知识库
+              </div>
+            </div>
+            <div class="home__content__entry__item"
+                 @click="$router.push('/shops')"
+            >
+              <div class="home__content__entry__item--icon">
+                <van-icon name="yaofang-" color="#2bb292" size="5em"
+                          class="home__content__entry__item--icon--chufang"></van-icon>
+              </div>
+              <div
+                class="home__content__entry__item--name"
+              >药房
+              </div>
+            </div>
+            <div class="home__content__entry__item"
+                 @click="$router.push('/accounts/insurance')"
+            >
+              <div class="home__content__entry__item--icon">
+                <van-icon name="yibao-" color="#ff8400" size="5em"
+                          class="home__content__entry__item--icon--chufang"></van-icon>
+              </div>
+              <div
+                class="home__content__entry__item--name"
+              >我的医保
+              </div>
+            </div>
+          </div>
+
+          <div class="home__content__repository">
+            <div class="home__content__repository__left">
+              <div
+                class="home__content__repository__left-top"
+              >健康
+              </div>
+              <div
+                class="home__content__repository__left-bottom"
+              >咨询
+              </div>
+            </div>
+            <div class="home__content__repository__right">
+              <transition class="home__content__repository__right__item"
+                          name="slide" mode="out-in"
+
+              >
+                <p class="home__content__repository__right__item--title"
+                   :key="text.id"
+                   @click="$router.push({path:'/repositories/view',query:{id:text.val.id,title:text.val.title}})"
+                >{{text.val.title}}</p>
+              </transition>
+            </div>
+          </div>
+          <div class="home__content__discount">
+            <new-header-sec>
+              <div>让利惠民</div>
+            </new-header-sec>
+            <div class="home__content__discount--time">
+              <van-icon name="shijian2" color="#FF9800" size="3em" class="home__content__discount--time--icon"></van-icon>
+              <new-time-down class="home__content__discount--time--down"></new-time-down>
+            </div>
+            <van-swipe :loop="false"
+                       :width="100"
+                       :show-indicators="false"
+                       class="home__content__discount__content"
+            >
+              <van-swipe-item
+                v-for="discount in discounts"
+                :key="discount.id"
+              >
+                <div class="home__content__discount__content__item"
+                >
+                  <img
+                    class="home__content__discount__content__item--logo"
+                    v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')"
+                    @click="linkToShopDrugSpec(discount.shopDrugId)"
+                  >
+                  <div
+                    class="home__content__discount__content__item--name"
+                  >
+                    {{discount.name}}
+                  </div>
+                  <div
+                    class="home__content__discount__content__item--spec"
+                  >
+                    ￥{{discount.price}}
+                  </div>
+                </div>
+              </van-swipe-item>
+            </van-swipe>
+          </div>
+          <div class="home__content__show">
+            <new-header-sec>
+              <div>医保定点</div>
+            </new-header-sec>
+            <carousel-3d :count="shows.length" width="250" height="160" display="3">
+              <slide v-for="(slide, i) in shows" :index="i" :key="i">
+                <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
+                  <img :data-index="index"
+                       :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
+                       v-lazy="getImgURL(slide.fileId, 'LARGE_LOGO')"
+                       @click="$router.push({path:'/shops/view',query:{shopId:slide.id}})">
+                </template>
+              </slide>
+            </carousel-3d>
+          </div>
+          <div class="home__content__recommend">
+            <new-header-sec>
+              <div>
+                <van-icon name="aixin" color="red"/>
+                好货推荐
+              </div>
+            </new-header-sec>
+            <van-row
+            >
+              <van-col
+                span="12"
+                class="van-hairline--bottom van-hairline--right home__content__recommend__content"
+                v-for="recommend in recommends"
+                :key="recommend.id"
+              >
+                <div class="home__content__recommend__content__item"
+                     @click="linkToShopDrugSpec(recommend.shopDrugId)"
+                >
+                  <img
+                    class="home__content__recommend__content__item--logo"
+                    v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')">
+                  <div
+                    class="home__content__recommend__content__item--name"
+                  >{{recommend.name}}
+                  </div>
+                  <div
+                    class="home__content__recommend__content__item--spec"
+                  >{{recommend.spec}}
+                  </div>
+                  <div
+                    class="home__content__recommend__content__item--price"
+                  >{{`￥${recommend.price}`}}
+                  </div>
+                </div>
+              </van-col>
+            </van-row>
+          </div>
+        </van-pull-refresh>
+      </div>
+      <van-tabbar
+        :value="0"
+        :fixed="Boolean(false)"
+        slot="bottom"
+      >
+        <van-tabbar-item icon="icon"
+                         to="/">首页
+        </van-tabbar-item>
+        <van-tabbar-item icon="chufang"
+                         to="/rxs">处方单
+        </van-tabbar-item>
+        <van-tabbar-item icon="fenlei"
+                         to="/drugTypes">分类
+        </van-tabbar-item>
+        <van-tabbar-item icon="gouwuche2"
+                         to="/carts">购物车
+        </van-tabbar-item>
+        <van-tabbar-item icon="wo"
+                         to="/accounts">我
+        </van-tabbar-item>
+      </van-tabbar>
+    </new-layout>
+    <img src="../assets/image/chat.png" class="home__chat"
+         @mousedown="down" @touchstart="down"
+         @mousemove="move" @touchmove="move"
+         @mouseup="end" @touchend="end"
+         id="moveDiv"
+         @click="$router.push('/pharmacists')"
     >
-      <van-tabbar-item icon="icon"
-                       to="/">首页
-      </van-tabbar-item>
-      <van-tabbar-item icon="chufang"
-                       to="/rxs">处方单
-      </van-tabbar-item>
-      <van-tabbar-item icon="fenlei"
-                       to="/drugTypes">分类
-      </van-tabbar-item>
-      <van-tabbar-item icon="gouwuche2"
-                       to="/carts">购物车
-      </van-tabbar-item>
-      <van-tabbar-item icon="wo"
-                       to="/accounts">我
-      </van-tabbar-item>
-    </van-tabbar>
-  </new-layout>
+  </div>
 </template>
 <style scoped type="text/less" lang="less">
   @keyframes myMove {
@@ -282,7 +291,12 @@
   }
 
   .home {
-    background-color: #f5f5f5;
+    &__chat {
+      position: fixed;
+      bottom: 100px;
+      right: 0;
+      z-index: 999;
+    }
     &__content {
       &__recommend {
         &__content {
@@ -497,7 +511,16 @@
         number: 0,
         repositoryTypes: [],
         isLoading: false,
-        timer: ''
+        timer: '',
+
+        flags: false,
+        pos: { x: 0, y: 0 },
+        nx: '',
+        ny: '',
+        dx: '',
+        dy: '',
+        xPum: '',
+        yPum: ''
       };
     },
     components: {
@@ -523,7 +546,7 @@
       }
     },
     created() {
-      this.getData();
+      this.initData();
     },
     mounted() {
       this.startMove();
@@ -532,7 +555,46 @@
       clearTimeout(this.timer);
     },
     methods: {
-      async getData() {
+      // 实现移动端拖拽
+      down() {
+        let moveDiv = document.getElementById('moveDiv');
+        this.flags = true;
+        var touch;
+        if (event.touches) {
+          touch = event.touches[0];
+        } else {
+          touch = event;
+        }
+        this.pos.x = touch.clientX;
+        this.pos.y = touch.clientY;
+        this.dx = moveDiv.offsetLeft;
+        this.dy = moveDiv.offsetTop;
+      },
+      move() {
+        let moveDiv = document.getElementById('moveDiv');
+        if (this.flags) {
+          var touch;
+          if (event.touches) {
+            touch = event.touches[0];
+          } else {
+            touch = event;
+          }
+          this.nx = touch.clientX - this.pos.x;
+          this.ny = touch.clientY - this.pos.y;
+          this.xPum = this.dx + this.nx;
+          this.yPum = this.dy + this.ny;
+          moveDiv.style.left = this.xPum + 'px';
+          moveDiv.style.top = this.yPum + 'px';
+          document.addEventListener('touchmove', function () {
+            event.preventDefault();
+          }, false);
+        }
+      },
+      end() {
+        this.flags = false;
+      },
+
+      async initData() {
         // 让利惠民
         this.discounts = await this.$http.get('/drugs/discount');
         // 医保定点
