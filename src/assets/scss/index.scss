@@ -1,6 +1,5 @@
 @import "./variables";
 @import "./init";
-@import "./mint-ui";
 @import "./vant";
 
 .elps {
@@ -23,9 +22,6 @@
   box-sizing: border-box;
   cursor:pointer;
 }
-//input::placeholder {
-//  text-align: center;
-//}
 a {
   text-decoration: none;
 }

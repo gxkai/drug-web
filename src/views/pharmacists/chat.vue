@@ -32,7 +32,7 @@
       </template>
       <template slot="bottom">
         <div class="chat__text">
-          <textarea class="chat__text__textarea" v-model="text" @keyup.enter="onMessage"/>
+          <textarea class="chat__text__textarea" v-model="text" @keyup.enter="onMessage" id="text"/>
           <van-uploader :after-read="onRead">
           <van-icon name="jia03" size="5em" color="#13C1FE" class="mb-l-20"></van-icon>
           </van-uploader>
@@ -76,9 +76,10 @@
       margin-top: 20px;
       &__time {
         text-align: center;
-        font-size:20px;
+        font-size:inherit;
         font-family:HiraginoSansGB-W3;
         font-weight:normal;
+        font-size: 20px;
         color:rgba(102,102,102,1);
       }
       &__content {
@@ -98,7 +99,7 @@
           border-radius:5px;
           border: none;
           &__text {
-            font-size:20px;
+            font-size:25px;
             font-family:HiraginoSansGB-W3;
             font-weight:normal;
             color:rgba(102,102,102,1);
