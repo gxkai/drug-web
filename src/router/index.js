@@ -31,18 +31,6 @@ Vue.use(VueRouter);
 //     component: () => import('@/views/points/view')
 //   }
 // ];
-// const chatRouter = [
-//   {
-//     path: '/chats',
-//     name: '聊天列表',
-//     component: () => import('@/views/chats/index.vue')
-//   },
-//   {
-//     path: '/chats/view',
-//     name: '聊天详情',
-//     component: () => import('@/views/chats/view.vue')
-//   }
-// ];
 //
 // const orderRefundRouter = [
 //   {
@@ -67,16 +55,16 @@ const errorRouter = {
   name: '错误页面',
   component: () => import('@/components/error')
 };
-const pharmacistRouter = [
+const chatRouter = [
   {
-    path: '/pharmacists/chat',
+    path: '/chats/view',
     name: '药师聊天',
-    component: () => import('@/views/pharmacists/chat')
+    component: () => import('@/views/chats/view')
   },
   {
-    path: '/pharmacists',
+    path: '/chats',
     name: '药师咨询',
-    component: () => import('@/views/pharmacists/index')
+    component: () => import('@/views/chats/index')
   }
 ];
 
@@ -433,7 +421,7 @@ const Router = new VueRouter({
     ...drugRouter,
     ...settingRouter,
     ...otherRouter,
-    ...pharmacistRouter
+    ...chatRouter
   ]
 });
 export default Router;

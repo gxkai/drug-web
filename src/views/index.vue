@@ -237,7 +237,7 @@
          @mousemove="move" @touchmove="move"
          @mouseup="end" @touchend="end"
          id="moveDiv"
-         @click="$router.push('/pharmacists')"
+         @click="$router.push('/chats')"
     >
   </div>
 </template>

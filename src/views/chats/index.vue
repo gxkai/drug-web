@@ -1,51 +1,134 @@
 <template>
-  <new-layout class="chats">
-    <van-nav-bar
-      :title="$route.name"
-      left-arrow
-      @click-left="$router.go(-1)"
-      slot="top"
-    />
-    <div slot="center" class="pt-l-20">
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <van-list
-          class="chats-list"
-          v-model="loading"
-          :finished="finished"
-          @load="onLoad"
+  <new-layout class="pharmacist">
+    <template slot="top">
+      <van-nav-bar
+        :title="$route.name"
+        left-arrow
+        @click-left="$router.go(-1)"
+      />
+    </template>
+    <template slot="center">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        @load="onLoad">
+        <div class="pharmacist__item"
+             v-for="(item, key) in list"
+             :key="key"
         >
-          <div class="chats-list-item"
-               v-for="(item,index) in list"
-               :key="index"
-               @click="$router.push({path:'/chats/view',query:{chatId:item.id,shopId:item.shopId}})">
-            <div class="chats-list-item-left">
-              <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
-              <div class="chats-list-item-left-text">
-                <div>
-                  {{item.shopName}}
-                </div>
-                <div>
-                  {{timeConvert(item.lastModifiedDate)}}
-                </div>
-                <div>
-                  {{item.message||'暂无'}}
-                </div>
+          <div class="pharmacist__item__first">
+            <div class="pharmacist__item__first__left">
+              <img v-lazy="">
+            </div>
+            <div class="pharmacist__item__first__right">
+              <div class="pharmacist__item__first__right__first">
+                <span class="pharmacist__item__first__right__first__name">{{item.name}}</span>
+              </div>
+              <div class="pharmacist__item__first__right__second">
+                多年执教经验
               </div>
             </div>
-            <div class="chats-list-item-left-right">
-              <i class="iconfont ic-youjiantou"></i>
-            </div>
           </div>
-          <new-no-data v-if="finished"></new-no-data>
-        </van-list>
-      </van-pull-refresh>
-    </div>
+          <div class="pharmacist__item__third">
+            <span class="pharmacist__item__third__button"
+            @click="$router.push({path:'/chats/view', query: {user: JSON.stringify(item)}})"
+            >咨询药师</span>
+          </div>
+        </div>
+        <new-no-data v-show="finished === true"></new-no-data>
+      </van-list>
+    </template>
   </new-layout>
 </template>
+<style scoped type="text/less" lang="less">
+  .pharmacist {
+    &__item {
+      background-color: white;
+      padding: 20px;
+      margin-top: 20px;
+      &__third {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        &__button {
+          background-color: #1AB6FD;
+          color: white;
+          font-size: 30px;
+          font-weight: 200;
+          width: 200px;
+          height: 40px;
+          text-align: center;
+          line-height: 40px;
+          border-radius: 5PX;
+        }
+      }
+      &__second {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        &__item {
+          border: #1AB6FD 1PX solid;
+          color: #1AB6FD;
+          font-size: 20px;
+          padding: 0 20px;
+          border-radius: 10PX;
+        }
+      }
+      &__first {
+        display: flex;
+        &__left {
+          img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+          }
+        }
+        &__right {
+          display: flex;
+          flex-flow: column;
+          justify-content: center;
+          margin-left: 20px;
+          flex: 1;
+          overflow: hidden;
+          &__first {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            &__name {
+              font-size: 35px;
+              font-weight: 500;
+            }
+            &__tag {
+              border: #1AB6FD 1PX solid;
+              color: #1AB6FD;
+              font-size: 20px;
+              padding: 0 20px;
+              margin-left: 20px;
+            }
+          }
+          &__second {
+            margin-top: 10px;
+            font-size: 25px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+          }
 
+        }
+      }
+    }
+  }
+</style>
 <script>
   export default {
-    name: 'index',
+    name: '',
+    mixins: [],
+    watch: {},
+    computed: {},
     data() {
       return {
         loading: false,
@@ -61,83 +144,20 @@
     mounted() {
     },
     methods: {
-      onRefresh() {
-        this.finished = false;
-        this.list = [];
-        this.pageNum = 0;
-        this.onLoad();
-      },
-      onLoad() {
+      async onLoad() {
         this.pageNum++;
-        this.$axios.get('/chats/', {
-          params: {
-            'pageNum': this.pageNum,
-            'pageSize': this.pageSize
-          }
-        })
-          .then(res => {
-            this.isLoading = false;
-            this.loading = false;
-            this.list = this.list.concat(res.data.list);
-            console.log(this.list);
-            if (res.data.list.length === 0) {
-              this.finished = true;
-            }
-          }).catch(error => {
-            this.exception(error);
-          });
+        const params = {
+          'pageNum': this.pageNum,
+          'pageSize': this.pageSize
+        };
+        const data = await this.$http.get('/adminPharmacists', params);
+        this.isLoading = false;
+        this.loading = false;
+        this.list = this.list.concat(data.list);
+        if (data.list.length === 0) {
+          this.finished = true;
+        }
       }
     }
   };
 </script>
-
-<style scoped type="text/less" lang="less">
-  .chats {
-    background-color: #f8f8f8;
-    &-list {
-      &-item {
-        background-color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 20px;
-        margin-bottom: 20px;
-        &-left {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          img {
-            width: 200px;
-            height: 200px;
-          }
-          &-text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            & > div {
-              width: 400px;
-              padding: 10px 0 10px 30px;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              &:nth-child(1) {
-                font-size: 30px;
-              }
-              &:nth-child(2) {
-                font-size: 28px;
-              }
-              &:nth-child(3) {
-                font-size: 25px;
-              }
-            }
-          }
-        }
-        &-right {
-          .iconfont {
-            font-size: 50px;
-          }
-        }
-      }
-    }
-  }
-</style>

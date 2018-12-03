@@ -1,268 +1,281 @@
 <template>
-  <div class="chats-view">
-    <div class="chats-view--header">
-      <van-nav-bar
-        :title="$route.name"
-        left-arrow
-        @click-left="$router.go(-1)"
-      />
-      <div class="header-state">
-        <div>{{shopInfo.shopName}}</div>
-        <div v-if="shopInfo.isOnline">
-          在线
-        </div>
-        <div v-else>
-          离线
-        </div>
-      </div>
-      <new-edit-line :name="getCurrentTime()"></new-edit-line>
-    </div>
-    <div class="chats-view--content">
-      <div>
-        <ul>
-          <li v-for="(item,index) in list" :key="index">
-            <div class="content1" v-if="item.type === 'SHOP'">
-              <img v-lazy="shopInfo.headImg">
-              <div class="bubble">{{item.message}}</div>
+  <div>
+    <new-layout>
+      <template slot="top">
+        <van-nav-bar
+          :title="user.name"
+          left-arrow
+          @click-left="$router.go(-1)"
+        />
+      </template>
+      <template slot="center" >
+        <div class="chat" id="chat">
+          <van-pull-refresh v-model="isLoading" @refresh="onRefresh" loosing-text="释放加载更多">
+
+          <div class="chat__item"
+          v-for="(item,key) in list"
+               :key="key"
+          >
+            <div class="chat__item__time">
+              {{item.createdDate | time}}
             </div>
-            <div class="content2" v-else>
-              <div class="bubble2">{{item.message}}</div>
-              <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')">
+            <div class="chat__item__content">
+              <img class="chat__item__content__avatar" v-lazy="" :style="{visibility: item.type=== 'ACCOUNT'? 'visible' : 'hidden'}">
+              <div class="chat__item__content__message">
+                <div class="chat__item__content__message__text" v-if="item.chatMessageType === 'TEXT'">
+                  {{item.message}}
+                </div>
+                <img v-lazy="" class="chat__item__content__message__image" @click="onImage($event)" v-if="item.chatMessageType === 'PIC'">
+              </div>
+              <img class="chat__item__content__avatar" v-lazy="" :style="{visibility: item.type=== 'PHARMACIST'? 'visible' : 'hidden'}">
             </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <footer class="chats-view--footer">
-      <div class="center">
-        <input v-model="value" @keyup.enter="send()">
-        <div @click="send()">发送</div>
-      </div>
-    </footer>
+          </div>
+          </van-pull-refresh>
+        </div>
+      </template>
+      <template slot="bottom">
+        <div class="chat__text">
+          <textarea class="chat__text__textarea" v-model="text" @keyup.enter="onMessage" id="text"/>
+          <van-uploader :after-read="onRead">
+          <van-icon name="jia03" size="5em" color="#13C1FE" class="mb-l-20"></van-icon>
+          </van-uploader>
+        </div>
+      </template>
+    </new-layout>
+    <van-popup v-model="show" >
+        <img :src="popupSrc" class="chat__popup__image">
+    </van-popup>
   </div>
-
 </template>
-
+<style scoped lang="less" type="text/less">
+  .chat {
+    &__popup{
+      &__image {
+        width: 720px;
+      }
+    }
+    height: 100%;
+    overflow: scroll;
+    &__text {
+      height: 100px;
+      background-color: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &__textarea {
+        width: 500px;
+        height: 60px;
+        margin-right: 20px;
+        font-size:20px;
+        font-family:HiraginoSansGB-W3;
+        font-weight:normal;
+        color:rgba(102,102,102,1);
+        padding: 0 5px;
+        outline: none;
+        border: none;
+      }
+    }
+    &__item {
+      margin-top: 20px;
+      &__time {
+        text-align: center;
+        font-size:inherit;
+        font-family:HiraginoSansGB-W3;
+        font-weight:normal;
+        font-size: 20px;
+        color:rgba(102,102,102,1);
+      }
+      &__content {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px 0;
+        background-color: white;
+        &__avatar {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+        }
+        &__message {
+          width: 450px;
+          background:rgba(255,255,255,1);
+          box-shadow:0px 1px 1px 0px rgba(0, 0, 0, 0.18);
+          border-radius:5px;
+          border: none;
+          &__text {
+            font-size:25px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color:rgba(102,102,102,1);
+            word-break: break-all;
+            word-wrap: break-word;
+            padding: 10px;
+          }
+          &__image {
+            width: 200px;
+            height: 200px;
+            float: right;
+          }
+        }
+      }
+    }
+  }
+</style>
 <script>
+  import SockJS from 'sockjs-client';
+  import Stomp from 'stompjs';
+  import { getToken } from '../../assets/js/auth';
+
   export default {
     data() {
       return {
-        shopInfo: {},
-        time: '',
-        pageNum: 1,
-        pageSize: 15,
-        list: [],
-        value: '',
-        shopId: this.$route.query.shopId,
-        chatId: this.$route.query.chatId,
-        account: this.$store.getters.account
+        stompClient: '',
+        timer: '',
+        account: this.$store.getters.account,
+        user: JSON.parse(this.$route.query.user),
+        show: false,
+        popupSrc: '',
+        text: '',
+        message: '',
+        chatId: '',
+        isLoading: false,
+        pageNum: 0,
+        pageSize: 5,
+        list: [
+          // {
+          //   type: 'ACCOUNT',
+          //   chatMessageType: 'TEXT',
+          //   message: '1111',
+          //   time: '12:12'
+          // },
+          // {
+          //   type: 'PHARMACIST',
+          //   chatMessageType: 'PIC',
+          //   message: '1',
+          //   time: '12:12'
+          // }
+        ]
       };
     },
-    created() {
-      /**
-       * 获取chatId
-       */
-      if (!this.chatId) {
-        this.$axios.get('/chats/id?shopId=' + this.shopId).then(res => {
-          this.chatId = res.data;
-          this.getChatInfo();
-        }).catch(error => {
-          this.exception(error);
-        });
-      } else {
-        this.getChatInfo();
-      }
+    async created() {
+      await this.initData();
+      console.log('chatId', this.chatId);
     },
     mounted() {
+      this.initWebSocket();
+    },
+    beforeDestroy() {
+      this.disconnect();
+    },
+    filters: {
+      // 将日期过滤为 hour:minutes
+      time(date) {
+        date = new Date(date);
+        return date.getHours() + ':' + date.getMinutes();
+      }
     },
     methods: {
-      getChatInfo() {
-        /**
-         * 获取聊天列表信息
-         * @type {string}
-         */
-        let url = '/chats/' + this.chatId + '?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize;
-        this.$axios.get(url).then(res => {
-          this.shopInfo = {
-            'shopName': res.data.shopName,
-            'headImg': this.getImgURL(res.data.shopFileId),
-            'isOnline': res.data.isOnline
-          };
-          this.list = res.data.records.list;
-        }).catch(error => {
-          this.exception(error);
+      loadToBottom() {
+        let container = this.$el.querySelector('#chat');
+        this.$nextTick(() => {
+          container.scrollTop = container.scrollHeight;
         });
       },
-      send() {
-        if (this.isBlank(this.value)) {
-          this.$toast('消息不能为空');
-        } else {
-          this.$axios.post('/chats', {
-            'type': 'ACCOUNT',
-            'message': this.value,
-            'shopId': this.shopId
-          }).then(res => {
-            var chat = {
-              message: this.value,
-              type: 'ACCOUNT'
-            };
-            this.list.push(chat);
-            this.value = '';
+      async onRefresh() {
+        await this.onLoad();
+        this.isLoading = false;
+      },
+      async initData() {
+        let data = {
+          accountId: this.account.id,
+          userId: this.user.id
+        };
+        let chatPharmacist = await this.$http.post('/chatPharmacists', data);
+        this.chatId = chatPharmacist.id;
+        await this.onLoad();
+        this.loadToBottom();
+      },
+      async onLoad() {
+        this.pageNum++;
+        const params = {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          chatId: this.chatId
+        };
+        const data = await this.$http.get('/chatPharmacistRecords', params);
+        this.isLoading = false;
+        this.list = this.list.concat(data.list);
+        this.list = this.list.sort((a, b) => a.createdDate - b.createdDate);
+      },
+      initWebSocket() {
+        this.connection();
+      },
+      connection() {
+        let socket = new SockJS(`${process.env.SUPERVISE_ROOT}/hello`);
+        this.stompClient = Stomp.over(socket);
+        this.stompClient.connect({}, () => {
+          this.stompClient.subscribe('/topic/greetings', (res) => {
+            if (JSON.parse(res.body) === false) {
+              this.$toast('非法用户');
+            }
           });
+          this.stompClient.subscribe(`/user/${this.account.id}/message`, (res) => {
+            this.list.push(JSON.parse(res.body));
+            this.loadToBottom();
+          });
+        }, (err) => {
+          console.log(err);
+        });
+      },
+      disconnect() {
+        if (this.stompClient != null) {
+          this.stompClient.disconnect();
+          console.log('Disconnected');
         }
+      },
+      send(id) {
+        this.stompClient.send('/hello', { 'Authorization': getToken() }, id);
+      },
+      onImage(e) {
+        this.show = true;
+        this.popupSrc = e.currentTarget.src;
+      },
+      async onMessage() {
+        let json = {
+          type: 'ACCOUNT',
+          chatMessageType: 'TEXT',
+          message: this.text,
+          chatId: this.chatId
+        };
+        let data = await this.$http.post('/chatPharmacistRecords', json);
+        this.list.push(data);
+        this.loadToBottom();
+        this.send(data.id);
+        this.text = '';
+      },
+      onRead(file) {
+        let param = new FormData();
+        param.append('fileType', 'PIC');
+        param.append('file', file.content);
+        let config = {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        };
+        this.$axios.post('/files/image', param, config).then(async res => {
+          let json = {
+            type: 'ACCOUNT',
+            chatMessageType: 'PIC',
+            message: res.data,
+            chatId: this.chatId
+          };
+          let data = await this.$http.post('/chatPharmacistRecords', json);
+          this.send(data.id);
+        });
       }
     }
   };
 </script>
 
 <style scoped>
-  .chats-view {
-    background: rgba(241, 239, 240, 1);
-    width: 720px;
-    height: 100vh;
-    display: flex;
-    flex-flow: column;
-  }
-  .chats-view--content {
-    flex: 1;
-    overflow: auto;
-  }
 
-  .header-state {
-    padding: 20px;
-    background-color: white;
-    height: 117px;
-  }
-
-  .header-state div:nth-child(1) {
-    font-size: 34px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(51, 51, 51, 1);
-    line-height: 40px;
-    text-align: center;
-  }
-
-  .header-state div:nth-child(2) {
-    margin-top: 10px;
-    font-size: 24px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-    line-height: 40px;
-    text-align: center;
-  }
-
-  ul li .content1 {
-    display: inline-flex;
-    margin-top: 30px;
-  }
-
-  ul li .content1 img {
-    height: 85px;
-    border-radius: 50px;
-    margin-left: 20px;
-  }
-
-  .bubble {
-    position: relative;
-    width: 455px;
-    min-height: 100px;
-    margin-left: 25px;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 1);
-    display: block;
-    word-break: break-all;
-    word-wrap: break-word;
-    font-size: 20px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-    line-height: 22px;
-    padding: 20px;
-  }
-
-  .bubble:before {
-    position: absolute;
-    content: "";
-    width: 0;
-    height: 0;
-    right: 100%;
-    top: 38px;
-    border-top: 13px solid transparent;
-    border-right: 26px solid rgba(255, 255, 255, 1);
-    border-bottom: 13px solid transparent;
-  }
-
-  ul li .content2 {
-    display: flex;
-    padding: 20px;
-    flex-direction: row;
-    justify-content: space-around;
-  }
-
-  ul li .content2 img {
-    height: 85px;
-    border-radius: 50px;
-  }
-
-  .bubble2 {
-    position: relative;
-    width: 455px;
-    min-height: 100px;
-    margin-left: 95px;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 1);
-    display: block;
-    word-break: break-all;
-    word-wrap: break-word;
-    font-size: 20px;
-    font-family: HiraginoSansGB-W3;
-    color: rgba(102, 102, 102, 1);
-    line-height: 22px;
-    padding: 20px;
-  }
-
-  .bubble2:after {
-    position: absolute;
-    content: "";
-    width: 0;
-    height: 0;
-    right: 0;
-    left: 100%;
-    top: 38px;
-    border-top: 13px solid transparent;
-    border-left: 26px solid rgba(255, 255, 255, 1);
-    border-bottom: 13px solid transparent;
-  }
-
-  footer {
-    width: 720px;
-    height: 140px;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  footer .center {
-    display: flex;
-  }
-
-  footer .center input {
-    width: 472px;
-    height: 60px;
-    background: rgba(220, 220, 220, 1);
-    border-radius: 3px;
-    border: 0;
-    outline: none;
-    padding: 0 0 0 10px;
-  }
-
-  footer .center div {
-    background: rgba(19, 193, 254, 1);
-    border-radius: 3px;
-    padding: 10px 30px;
-    margin: 0 0 0 10px;
-    font-size: 25px;
-    color: white;
-    font-weight: 100;
-  }
 </style>
