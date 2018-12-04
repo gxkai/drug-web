@@ -21,11 +21,17 @@
             </div>
             <div class="chat__item__content">
               <img class="chat__item__content__avatar" v-lazy="" :style="{visibility: item.type=== 'ACCOUNT'? 'visible' : 'hidden'}">
-              <div class="chat__item__content__message">
-                <div class="chat__item__content__message__text" v-if="item.chatMessageType === 'TEXT'">
+              <div class="chat__item__content__message"
+                   :style="{justifyContent:item.type=== 'ACCOUNT'? 'flex-start' : 'flex-end'}"
+              >
+                <div class="chat__item__content__message__text" v-if="item.chatMessageType === 'TEXT'"
+                     :class="[item.type=== 'ACCOUNT'? 'chat__item__content__message__text--before' : 'chat__item__content__message__text--after']"
+                     :style="{backgroundColor:item.type=== 'ACCOUNT'? 'white' : '#13C1FE',color:item.type=== 'ACCOUNT'? 'black' : 'white'}"
+                >
                   {{item.message}}
                 </div>
-                <img v-lazy="" class="chat__item__content__message__image" @click="onImage($event)" v-if="item.chatMessageType === 'PIC'">
+                <img v-lazy="getImgURL(item.message)" class="chat__item__content__message__image"
+                     @click="onImage($event)" v-if="item.chatMessageType === 'PIC'">
               </div>
               <img class="chat__item__content__avatar" v-lazy="" :style="{visibility: item.type=== 'PHARMACIST'? 'visible' : 'hidden'}">
             </div>
@@ -37,7 +43,7 @@
         <div class="chat__text">
           <textarea class="chat__text__textarea" v-model="text" @keyup.enter="onMessage" id="text"/>
           <van-uploader :after-read="onRead">
-          <van-icon name="jia03" size="5em" color="#13C1FE" class="mb-l-20"></van-icon>
+          <van-icon name="jia03" size="4em" color="#13C1FE"></van-icon>
           </van-uploader>
         </div>
       </template>
@@ -89,7 +95,6 @@
         display: flex;
         justify-content: space-around;
         padding: 20px 0;
-        background-color: white;
         &__avatar {
           width: 100px;
           height: 100px;
@@ -97,23 +102,53 @@
         }
         &__message {
           width: 450px;
-          background:rgba(255,255,255,1);
-          box-shadow:0px 1px 1px 0px rgba(0, 0, 0, 0.18);
-          border-radius:5px;
-          border: none;
+          display: flex;
+          align-items: center;
           &__text {
-            font-size:25px;
-            font-family:HiraginoSansGB-W3;
-            font-weight:normal;
+            max-width: 450px;
+            font-size:24px;
+            font-family:MicrosoftYaHei;
+            font-weight:400;
             color:rgba(102,102,102,1);
             word-break: break-all;
             word-wrap: break-word;
-            padding: 10px;
+            padding: 20px 30px;
+            background:rgba(255,255,255,1);
+            box-shadow:0px 1px 1px 0px rgba(0, 0, 0, 0.18);
+            border-radius:20px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            &--after {
+              &:after{
+                position: absolute;
+                content: "";
+                width: 0;
+                height: 0;
+                left: 100%;
+                top:15px;
+                border-top: 0px solid transparent;
+                border-left: 15px solid #13C1FE;
+                border-bottom: 16px solid transparent;
+              }
+            }
+            &--before {
+              &:before{
+                position: absolute;
+                content: "";
+                width: 0;
+                height: 0;
+                right: 100%;
+                top:15px;
+                border-top: 0px solid transparent;
+                border-right: 15px solid white;
+                border-bottom: 16px solid transparent;
+              }
+            }
           }
           &__image {
             width: 200px;
             height: 200px;
-            float: right;
           }
         }
       }
@@ -170,7 +205,9 @@
       // 将日期过滤为 hour:minutes
       time(date) {
         date = new Date(date);
-        return date.getHours() + ':' + date.getMinutes();
+        let hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+        let min = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+        return `${hour}:${min}`;
       }
     },
     methods: {
@@ -189,7 +226,7 @@
           accountId: this.account.id,
           userId: this.user.id
         };
-        let chatPharmacist = await this.$http.post('/chatPharmacists', data);
+        let chatPharmacist = await this.$http.post(`/chatPharmacists`, data);
         this.chatId = chatPharmacist.id;
         await this.onLoad();
         this.loadToBottom();
@@ -201,7 +238,7 @@
           pageSize: this.pageSize,
           chatId: this.chatId
         };
-        const data = await this.$http.get('/chatPharmacistRecords', params);
+        const data = await this.$http.get(`/chatPharmacistRecords`, params);
         this.isLoading = false;
         this.list = this.list.concat(data.list);
         this.list = this.list.sort((a, b) => a.createdDate - b.createdDate);
@@ -214,8 +251,13 @@
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, () => {
           this.stompClient.subscribe('/topic/greetings', (res) => {
-            if (JSON.parse(res.body) === false) {
-              this.$toast('非法用户');
+            let data = JSON.parse(res.body);
+            if (data !== null) {
+              this.text = '';
+              this.list.push(data);
+              this.loadToBottom();
+            } else {
+              this.$toast('网络异常');
             }
           });
           this.stompClient.subscribe(`/user/${this.account.id}/message`, (res) => {
@@ -246,29 +288,26 @@
           message: this.text,
           chatId: this.chatId
         };
-        let data = await this.$http.post('/chatPharmacistRecords', json);
-        this.list.push(data);
-        this.loadToBottom();
+        let data = await this.$http.post(`/chatPharmacistRecords`, json);
         this.send(data.id);
-        this.text = '';
       },
       onRead(file) {
         let param = new FormData();
         param.append('fileType', 'PIC');
-        param.append('file', file.content);
+        param.append('file', file.file);
         let config = {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         };
-        this.$axios.post('/files/image', param, config).then(async res => {
+        this.$http.post('/files', param, config).then(async res => {
           let json = {
             type: 'ACCOUNT',
             chatMessageType: 'PIC',
             message: res.data,
             chatId: this.chatId
           };
-          let data = await this.$http.post('/chatPharmacistRecords', json);
+          let data = await this.$http.post(`/chatPharmacistRecords`, json);
           this.send(data.id);
         });
       }

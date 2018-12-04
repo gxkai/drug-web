@@ -17,9 +17,9 @@ const http = {
         });
     });
   },
-  put(url, data) {
+  put(url, data, config) {
     return new Promise((resolve, reject) => {
-      axios.put(url, data)
+      axios.put(url, data, config)
         .then(res => {
           resolve(res.data);
         })
@@ -44,9 +44,9 @@ const http = {
         });
     });
   },
-  post(url, data) {
+  post(url, data, config) {
     return new Promise((resolve, reject) => {
-      axios.post(url, data)
+      axios.post(url, data, config)
         .then(res => {
           resolve(res.data);
         })
