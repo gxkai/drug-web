@@ -518,14 +518,15 @@
     },
     methods: {
       onChat() {
-        this.$dialog.alert({ message: `打电话给${this.pharmacist.phone}` }).then(() => {
+        this.$dialog.confirm({ message: `打电话给${this.pharmacist.phone}` }).then(() => {
           window.location.href = `tel:${this.pharmacist.phone}`;
+        }).catch(() => {
         });
       },
       async initData() {
         this.shopDrugSpec = await this.$http.get(`/shopDrugSpecs/${this.shopDrugId}`);
         this.collected = await this.$http.get(`/collects/drug/one?shopDrugId=${this.shopDrugSpec.id}`);
-        this.pharmacist = await this.$http.get(`/pharmacists?shopId=${this.shopDrugSpec.shopId}`);
+        this.pharmacist = await this.$http.get(`/pharmacists/shop?shopId=${this.shopDrugSpec.shopId}`);
       },
       async onCollect() {
         let data = {

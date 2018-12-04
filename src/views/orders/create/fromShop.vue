@@ -50,7 +50,7 @@
           <div class="pay_shop-content-delivery_type-content">
             <span :class="{active:deliveryType=='DELIVERY'}"
             @click.stop="onDeliveryType('DELIVERY')"
-            v-if="shopDrugSpecOrderDTO.type === 'SIMPLE'">
+            v-if="shopDrugSpecOrderDTO.distribution === true">
             送货
             </span>
             <span :class="{active:deliveryType=='SELF'}"
@@ -58,34 +58,23 @@
           </div>
         </div>
 
-        <div class="pay_cart-content-delivery_type">
-          <div class="pay_cart-content-delivery_type-header">
-            <van-icon name="qian" size="4em"></van-icon>
+        <div class="pay_shop-content-delivery_type">
+          <div class="pay_shop-content-delivery_type-header">
+            <div>
+              <i class="iconfont ic-qian"></i>
+            </div>
             <div>付费方式</div>
           </div>
-          <div class="pay_cart-content-delivery_type-content">
-           <span :class="{active:isMedicaidPay==true}"
-                 @click.stop="isMedicaidPay = true">医保</span>
+          <div class="pay_shop-content-delivery_type-content">
+            <span :class="{active:isMedicaidPay==true}"
+                  v-if="shopDrugSpecOrderDTO.rxId !== null"
+                  @click.stop="isMedicaidPay = true">
+            医保
+            </span>
             <span :class="{active:isMedicaidPay==false}"
                   @click.stop="isMedicaidPay = false">自费</span>
           </div>
         </div>
-        <!--<div class="pay_shop-content-pay_type">-->
-        <!--<div class="pay_shop-content-pay_type-header">-->
-        <!--<div>-->
-        <!--<i class="iconfont ic-dingdanzhifufangshi"></i>-->
-        <!--</div>-->
-        <!--<div>支付方式</div>-->
-        <!--</div>-->
-        <!--<div class="pay_shop-content-pay_type-content">-->
-        <!--<span class="iconfont ic-weixin"-->
-        <!--:class="{active:payType=='WECHAT_PAY'}"-->
-        <!--@click.stop="onPayType('WECHAT_PAY')"></span>-->
-        <!--<span class="iconfont ic-alipay"-->
-        <!--:class="{active:payType=='ALIPAY'}"-->
-        <!--@click.stop="onPayType('ALIPAY')"></span>-->
-        <!--</div>-->
-        <!--</div>-->
         <div class="pay_shop-content-pay_amount">
           <div>
             <span>商品总额：</span>
@@ -101,33 +90,33 @@
           </div>
         </div>
         <div class="dividing"></div>
-        <div class="pay_shop-content-medicaid">
-          <div class="pay_shop-content-medicaid-header">
-            医保信息
-          </div>
-          <div class="pay_shop-content-medicaid-content">
-            <div class="pay_shop-content-medicaid-content-card"
-                 v-if="isNotBlank(account.medicaidNumber)">
-              <div>
-                <span>会员姓名&#58;</span>
-                <span>{{account.name}}</span>
-              </div>
-              <div>
-                <span>医保卡号&#58;</span>
-                <span>{{account.medicaidNumber}}</span>
-              </div>
-              <div>
-                <span>卡内余额&#58;</span>
-                <span>&yen;0</span>
-              </div>
-            </div>
-            <div class="pay_shop-content-medicaid-content-no_card"
-                 v-else>
-              <span class="iconfont ic-qianbao"></span>
-              <a @click="linkToCardBind">去绑定医保卡</a>
-            </div>
-          </div>
-        </div>
+        <!--<div class="pay_shop-content-medicaid">-->
+          <!--<div class="pay_shop-content-medicaid-header">-->
+            <!--医保信息-->
+          <!--</div>-->
+          <!--<div class="pay_shop-content-medicaid-content">-->
+            <!--<div class="pay_shop-content-medicaid-content-card"-->
+                 <!--v-if="isNotBlank(account.medicaidNumber)">-->
+              <!--<div>-->
+                <!--<span>会员姓名&#58;</span>-->
+                <!--<span>{{account.name}}</span>-->
+              <!--</div>-->
+              <!--<div>-->
+                <!--<span>医保卡号&#58;</span>-->
+                <!--<span>{{account.medicaidNumber}}</span>-->
+              <!--</div>-->
+              <!--<div>-->
+                <!--<span>卡内余额&#58;</span>-->
+                <!--<span>&yen;0</span>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="pay_shop-content-medicaid-content-no_card"-->
+                 <!--v-else>-->
+              <!--<span class="iconfont ic-qianbao"></span>-->
+              <!--<a @click="linkToCardBind">去绑定医保卡</a>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
         <!--<div class="pay_shop-content-coupon">-->
         <!--<div class="pay_shop-content-coupon_link">-->
         <!--<div class="pay_shop-content-coupon_link_left">优惠券</div>-->
@@ -241,11 +230,11 @@
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
         json.isMedicaidPay = this.isMedicaidPay;
-        await this.$http.post('/orders/shop', json);
-        // this.$router.replace({
-        //   path: `/orders/pay?orderIds=${data}&deliveryType=${this.deliveryType}`
-        // });
-        this.$router.push('/orders');
+        this.$http.post('/orders/shop', json).then(() => {
+          this.$router.push('/orders');
+        }).catch(() => {
+          this.loading = false;
+        });
       },
       onDeliveryType(item) {
         this.deliveryType = item;

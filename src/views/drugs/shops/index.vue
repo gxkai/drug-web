@@ -139,7 +139,6 @@
 </template>
 <style type="text/less" lang="less">
   .drugs-shops {
-    background-color: #f5f5f5;
     .van-swipe {
       width: 100%;
       height: 400px;
