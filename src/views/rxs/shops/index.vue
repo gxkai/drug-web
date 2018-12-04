@@ -69,9 +69,9 @@
     </template>
     <div class="shops-container"
          slot="center">
-      <!--<div @click="linkToRxShopDrug(rxId, hospital.id, hospital.name, 'HOSPITAL')">-->
-        <!--<new-rx-hospital-item :item="hospital"/>-->
-      <!--</div>-->
+      <div @click="toQyPayUrl()" v-if="hospital !== null">
+        <new-rx-hospital-item :item="hospital"/>
+      </div>
       <div
         v-for="(rxShop,index) in rxShops"
         :key="index"
@@ -93,7 +93,7 @@
         rxId: this.$route.query.rxId,
         rxShops: [],
         hospitalId: this.$route.query.hospitalId,
-        hospital: {},
+        hospital: null,
         searchIcon: '\ue64c 药品名',
         sort: 'ID_DESC'
       };
@@ -107,15 +107,19 @@
       this.initData();
     },
     methods: {
+      async toQyPayUrl() {
+        let url = await this.$http.get(`/hospitals/${this.hospitalId}/url`);
+        window.location.href = url;
+      },
       initData() {
         this.getRxShops();
-        // this.getHospital();
+        this.getHospital();
       },
       async getRxShops() {
         this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
       },
       async getHospital() {
-        this.hospital = await this.$http.get(`/rxs/${this.rxId}/hospital`);
+        this.hospital = await this.$http.get(`/hospitals/${this.hospitalId}`);
       },
       orderById() {
         this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);

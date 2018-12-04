@@ -9,23 +9,12 @@
     <div class="rx_shop_item-right">
       <div class="elps">
         <div>{{item.name}}</div>
-        <div class="text-red" v-if="item.amount !== null">&yen;{{toFixedTwo(item.amount)}}</div>
       </div>
       <div class="elps">
         电话：{{item.phone}}
       </div>
       <div class="elps">
         地址：{{item.address}}
-      </div>
-      <div class="elpsTwo" v-if="item.drugs !== null">
-        <span class="text-blue">可购买</span>
-        <span v-for="(drug,key) in item.drugs" :key="key">
-            {{drug}}
-            <i v-if="key<item.drugs.length-1"></i>
-          </span>
-      </div>
-      <div class="elpsTwo"v-else>
-        <span class="text-red">不可购买</span>
       </div>
     </div>
     <div class="rx_shop_item-cart_icon">
