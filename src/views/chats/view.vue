@@ -282,6 +282,9 @@
         this.popupSrc = e.currentTarget.src;
       },
       async onMessage() {
+        if (this.text === '') {
+          return;
+        }
         let json = {
           type: 'ACCOUNT',
           chatMessageType: 'TEXT',
