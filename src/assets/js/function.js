@@ -440,5 +440,14 @@ export default {
     Vue.prototype.delHtmlTag = (str) => {
       return str.replace(/<[^>]+>|&[^>]+;/g, '').trim();
     };
+    Vue.prototype.getUrlKey = (name) => {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) {
+        return unescape(r[2]);
+      }
+      return null;
+      // return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href))[1].replace(/\+/g, '%20')) || null;
+    };
   }
 };

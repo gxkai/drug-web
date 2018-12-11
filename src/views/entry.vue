@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import { getReceivedPosition } from '../assets/js/auth';
+  import { setToken, setAccount } from '../assets/js/auth';
 
   export default {
     name: '',
@@ -11,18 +11,46 @@
     watch: {},
     computed: {},
     data() {
-      return {};
+      return {
+        toPath: this.getUrlKey('toPath'),
+        data: this.getUrlKey('data')
+      };
     },
-    created() {
-      if (getReceivedPosition() === undefined) {
-        this.$router.push('/addresses/choose');
-      } else {
-        this.$router.push('/index');
-      }
+    async created() {
+      console.log(this.toPath);
+      console.log(this.data);
+      this.fetchUrlToPush();
     },
     mounted() {
     },
-    methods: {}
+    methods: {
+      async fetchUrlToPush() {
+        switch (this.toPath) {
+          case 'home':
+            this.login();
+        }
+      },
+      async login() {
+        this.$toast.loading({
+          duration: 0,
+          forbidClick: true,
+          loadingType: 'spinner',
+          message: '登陆中...'
+        });
+        try {
+          const token = await this.$http.post('/accounts/login', this.data);
+          setToken(token);
+          this.$store.commit('SET_TOKEN', token);
+          const account = await this.$http.get('/accounts');
+          setAccount(account);
+          this.$store.commit('SET_ACCOUNT', account);
+          this.$toast.clear();
+          this.$router.push(`/${this.toPath}`);
+        } catch (e) {
+          this.$toast('登陆失败');
+        }
+      }
+    }
   };
 </script>
 

@@ -16,6 +16,7 @@
     display: flex;
     flex-flow: column;
     height: 100vh;
+    width: 720px;
     &--center {
       flex: 1;
       overflow: auto;

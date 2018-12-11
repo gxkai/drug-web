@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chat__content">
     <new-layout>
       <template slot="top">
         <van-nav-bar
@@ -41,10 +41,13 @@
       </template>
       <template slot="bottom">
         <div class="chat__text">
-          <textarea class="chat__text__textarea" v-model="text" @keyup.enter="onMessage" id="text"/>
           <van-uploader :after-read="onRead">
-          <van-icon name="jia03" size="4em" color="#13C1FE"></van-icon>
+            <van-icon name="jia03" size="4em" color="#13C1FE"></van-icon>
           </van-uploader>
+          <textarea class="chat__text__textarea" v-model="text"/>
+          <van-icon name="paper-airplane" size="4em"
+                    @click="onMessage"
+          ></van-icon>
         </div>
       </template>
     </new-layout>
@@ -54,7 +57,11 @@
   </div>
 </template>
 <style scoped lang="less" type="text/less">
+  .chat__content {
+    width: 720px;
+  }
   .chat {
+    width: 720px;
     &__popup{
       &__image {
         width: 720px;
@@ -63,15 +70,16 @@
     height: 100%;
     overflow: scroll;
     &__text {
+      width: 720px;
       height: 100px;
       background-color: #f8f8f8;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: normal;
       &__textarea {
         width: 500px;
         height: 60px;
-        margin-right: 20px;
+        margin: 0 20px;
         font-size:20px;
         font-family:HiraginoSansGB-W3;
         font-weight:normal;
@@ -83,7 +91,9 @@
     }
     &__item {
       margin-top: 20px;
+      width: 720px;
       &__time {
+        width: 720px;
         text-align: center;
         font-size:inherit;
         font-family:HiraginoSansGB-W3;
@@ -92,6 +102,7 @@
         color:rgba(102,102,102,1);
       }
       &__content {
+        width: 720px;
         display: flex;
         justify-content: space-around;
         padding: 20px 0;
@@ -163,7 +174,7 @@
   export default {
     data() {
       return {
-        stompClient: '',
+        stompClient: null,
         timer: '',
         account: this.$store.getters.account,
         user: JSON.parse(this.$route.query.user),
@@ -191,6 +202,14 @@
         ]
       };
     },
+    watch: {
+      stompClient() {
+        if (this.stompClient === null) {
+          this.connection();
+          console.log('connected');
+        }
+      }
+    },
     async created() {
       await this.initData();
       console.log('chatId', this.chatId);
@@ -214,6 +233,7 @@
       loadToBottom() {
         let container = this.$el.querySelector('#chat');
         this.$nextTick(() => {
+          console.log(container.scrollTop, container.scrollHeight, container.offsetHeight, container.clientTop);
           container.scrollTop = container.scrollHeight;
         });
       },
@@ -247,7 +267,7 @@
         this.connection();
       },
       connection() {
-        let socket = new SockJS(`${process.env.SUPERVISE_ROOT}/hello`);
+        let socket = new SockJS(`${process.env.WEBSOCKET_ROOT}/hello`);
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, () => {
           this.stompClient.subscribe('/topic/greetings', (res) => {

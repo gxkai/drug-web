@@ -125,7 +125,7 @@
       id="footer"
     >
       <van-tabbar-item icon="icon"
-                       to="/">首页
+                       to="/home">首页
       </van-tabbar-item>
       <van-tabbar-item icon="chufang"
                        to="/rxs">处方单

@@ -46,6 +46,7 @@
       background-color: white;
       padding: 20px;
       margin-top: 20px;
+      width: 720px;
       &__third {
         display: flex;
         justify-content: center;

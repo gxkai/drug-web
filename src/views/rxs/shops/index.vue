@@ -119,6 +119,7 @@
         this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
       },
       async getHospital() {
+        console.log(this.hospitalId);
         this.hospital = await this.$http.get(`/hospitals/${this.hospitalId}`);
       },
       orderById() {

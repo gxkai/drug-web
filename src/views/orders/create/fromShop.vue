@@ -9,6 +9,23 @@
     </template>
     <template slot="center">
       <div class="pay_shop-content">
+        <div class="pay_shop-content-delivery_type">
+          <!--<div class="pay_shop-content-delivery_type-header">-->
+            <!--<div>-->
+              <!--<i class="iconfont ic-peisongfangshi"></i>-->
+            <!--</div>-->
+            <!--<div>配送方式</div>-->
+          <!--</div>-->
+          <div class="pay_shop-content-delivery_type-content">
+            <span :class="{active:deliveryType=='DELIVERY'}"
+                  @click.stop="onDeliveryType('DELIVERY')"
+                  v-if="shopDrugSpecOrderDTO.distribution === true">
+            送货
+            </span>
+            <span :class="{active:deliveryType=='SELF'}"
+                  @click.stop="onDeliveryType('SELF')">上门自提</span>
+          </div>
+        </div>
         <div class="pay_shop-content-delivery"
              v-if="deliveryType === 'DELIVERY'"
              @click="linkToOrderAddress(orderShopDrugSpecDTO.shopId)">
@@ -40,23 +57,6 @@
           </div>
         </div>
         <new-close-shop :shopInfo="shopDrugSpecOrderDTO"></new-close-shop>
-        <div class="pay_shop-content-delivery_type">
-          <div class="pay_shop-content-delivery_type-header">
-            <div>
-              <i class="iconfont ic-peisongfangshi"></i>
-            </div>
-            <div>配送方式</div>
-          </div>
-          <div class="pay_shop-content-delivery_type-content">
-            <span :class="{active:deliveryType=='DELIVERY'}"
-            @click.stop="onDeliveryType('DELIVERY')"
-            v-if="shopDrugSpecOrderDTO.distribution === true">
-            送货
-            </span>
-            <span :class="{active:deliveryType=='SELF'}"
-                  @click.stop="onDeliveryType('SELF')">上门自提</span>
-          </div>
-        </div>
 
         <div class="pay_shop-content-delivery_type">
           <div class="pay_shop-content-delivery_type-header">
@@ -309,7 +309,6 @@
         }
         &-content {
           background-color: white;
-          padding: 10px 0 30px 70px;
           span {
             border: 1PX solid #f5f5f5;
             font-size: 30px;
@@ -502,15 +501,6 @@
         }
       }
     }
-  }
-
-  .pay_shop-content-delivery_type-content span{
-   width: 146px;
-    height: 55px;
-    display: inline-block;
-    line-height: 55px;
-    text-align: center;
-    border-radius:4px;
   }
   .opacity-0{
     opacity: 0;

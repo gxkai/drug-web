@@ -19,7 +19,7 @@
         </div>
         <div class="address-choose--current--content">
           <div class="address-choose--current--content__left">
-            <van-icon name="paper-airplane" color="blue"></van-icon>
+            <van-icon name="paper-airplane" color="blue" size="3em"></van-icon>
             <span>{{position.name}}</span>
           </div>
           <div class="address-choose--current--content__right"
@@ -212,7 +212,7 @@
           }
         };
         setReceivedPosition(position);
-        this.$router.push('/index');
+        this.$router.push('/home');
       },
       getLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {

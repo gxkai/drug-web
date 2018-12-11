@@ -371,7 +371,7 @@ const appRouter = [
     component: () => import('@/views/entry')
   },
   {
-    path: '/index',
+    path: '/home',
     name: '首页',
     component: () => import('@/views/index')
   },
@@ -403,7 +403,6 @@ const appRouter = [
 ];
 
 const Router = new VueRouter({
-  mode: 'history',
   routes: [
     errorRouter,
     collectRouter,

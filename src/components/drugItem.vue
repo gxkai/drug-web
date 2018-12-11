@@ -2,7 +2,7 @@
   <div class="drug_item"
   @click="linkToDrugShop(item.id)">
       <div class="drug_item-left">
-        <div class="rx_mark">处</div>
+        <div class="rx_mark" v-if="item.otc === false">处</div>
         <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
       </div>
       <div class="drug_item-right">
@@ -36,6 +36,7 @@
     display: flex;
     margin-top: 20px;
     background-color: white;
+    width: 720px;
     &-left {
       padding: 20px;
       img {

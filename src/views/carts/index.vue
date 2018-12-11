@@ -121,7 +121,7 @@
         :fixed="Boolean(false)"
       >
         <van-tabbar-item icon="icon"
-                         to="/">首页
+                         to="/home">首页
         </van-tabbar-item>
         <van-tabbar-item icon="chufang"
                          to="/rxs">处方单
@@ -142,8 +142,10 @@
 <style scoped type="text/less" lang="less">
   .cart {
     &-list {
+      width: 720px;
       margin-top: 20px;
       &-shop {
+        width: 720px;
         padding: 20px 20px;
         display: flex;
         background-color: white;
@@ -186,6 +188,7 @@
         }
       }
       &-rx {
+        width: 720px;
         padding: 20px 20px;
         display: flex;
         align-items: center;
@@ -238,7 +241,9 @@
         }
       }
       &-drugs {
+        width: 720px;
         &-item {
+          width: 720px;
           display: flex;
           background-color: #f5f5f5;
           margin-bottom: 10px;
@@ -577,11 +582,14 @@
         let isRx = cartShop.rxs.some(rx => {
           return rx.rxId !== '0' && rx.radio === true;
         });
-        isRx = false;
-        this.loading = true;
-        const data = await this.$http.get(`/orders/cart?cartIds=${cartIds}&isRx=${isRx}`);
-        this.$router.push({ path: '/orders/create/fromCart', query: { cartShop: JSON.stringify(data), isRx: isRx } });
-        this.loading = false;
+        try {
+          this.loading = true;
+          const data = await this.$http.get(`/orders/cart?cartIds=${cartIds}&isRx=${isRx}`);
+          this.$router.push({ path: '/orders/create/fromCart', query: { cartShop: JSON.stringify(data), isRx: isRx } });
+        } catch (e) {
+          this.loading = false;
+          this.$toast.fail('结算失败');
+        }
       },
       /**
        * 计算总价和总数

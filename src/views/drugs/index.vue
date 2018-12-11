@@ -311,6 +311,7 @@
         this.isLoading = false;
         this.loading = false;
         this.list = this.list.concat(data.list);
+        console.log(this.list);
         if (data.list.length === 0) {
           this.finished = true;
         }
@@ -396,9 +397,6 @@
         font-weight: bold !important;
         font-size: 25px;
       }
-    }
-    &-container {
-      position: relative;
     }
     &-header {
       display: flex;

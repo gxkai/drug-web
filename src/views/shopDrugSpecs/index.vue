@@ -527,6 +527,7 @@
         this.shopDrugSpec = await this.$http.get(`/shopDrugSpecs/${this.shopDrugId}`);
         this.collected = await this.$http.get(`/collects/drug/one?shopDrugId=${this.shopDrugSpec.id}`);
         this.pharmacist = await this.$http.get(`/pharmacists/shop?shopId=${this.shopDrugSpec.shopId}`);
+        console.log(this.shopDrugSpec);
       },
       async onCollect() {
         let data = {
