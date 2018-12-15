@@ -51,16 +51,17 @@
         </div>
         <new-close-list :cartShop="cartShop" class="new-close-list"></new-close-list>
 
-        <div class="pay_cart-content-delivery_type" v-if="isRx === true">
-          <div class="pay_cart-content-delivery_type-header">
-            <van-icon name="qian" size="4em"></van-icon>
-            <div>付费方式</div>
-          </div>
-          <div class="pay_cart-content-delivery_type-content">
+        <div class="pay_cart-content-pay_type">
+          <!--<div class="pay_cart-content-pay_type-header">-->
+            <!--<van-icon name="qian" size="4em"></van-icon>-->
+            <!--<div>付费方式</div>-->
+          <!--</div>-->
+          <div class="pay_cart-content-pay_type-content">
            <span :class="{active:isMedicarePay==false}"
                  @click.stop="isMedicarePay = false">自费</span>
             <span :class="{active:isMedicarePay==true}"
-                  @click.stop="isMedicarePay = true">医保</span>
+                  @click.stop="$toast('暂未开放')"
+                  v-if="isRx === true">医保</span>
           </div>
         </div>
         <!--<div class="pay_cart-content-pay_type">-->
@@ -168,6 +169,7 @@
         button-text="立即支付"
         @submit="onOrder"
         :loading="loading"
+        style="position: static"
       />
     </template>
   </new-layout>
@@ -220,7 +222,8 @@
         this.payAmount = this.cartShop.payAmount;
         const data = await this.$http.get('couponRecords/order');
         this.coupons = data.filter(e => this.cartShop.payAmount >= e.amount);
-        // this.medicaidInfo = await this.$http.get('/medicaid-info');
+        // this.medicaidInfo = await this.$http.get('/medicaidInfo');
+        // console.log(this.medicaidInfo);
       },
       /**
        * 获取购物车ID数组
@@ -250,10 +253,12 @@
         json.isMedicarePay = this.isMedicarePay;
         json.isRx = this.isRx;
         json.payOrigin = 'APP';
+        this.loading = true;
         try {
           let url = await this.$http.post('/orders', json);
           window.location.href = url;
         } catch (e) {
+          this.loading = false;
           this.$toast.fail('支付失败');
         }
       },
@@ -316,29 +321,6 @@
         &-header {
           background-color: white;
           display: flex;
-          align-items: flex-end;
-          padding: 20px;
-          div {
-            font-size: 30px;
-          }
-        }
-        &-content {
-          background-color: white;
-          padding: 10px 0 30px 70px;
-          span {
-            border: 1PX solid #f5f5f5;
-            font-size: 30px;
-            &:not(:first-child) {
-              margin-left: 10px;
-            }
-          }
-        }
-      }
-      &-pay_type {
-        margin-bottom: 20px;
-        &-header {
-          background-color: white;
-          display: flex;
           align-items: center;
           padding: 20px;
           i {
@@ -350,16 +332,38 @@
         }
         &-content {
           background-color: white;
-          padding: 10px 0 30px 50px;
+          padding: 20px 0 20px 40px;
           span {
-            font-size: 70px;
+            border: 1PX solid #f5f5f5;
+            font-size: 30px;
+            padding: 5px 10px;
+            display: inline-block;
+            &:not(:first-child) {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+      &-pay_type {
+        margin-top: 20px;
+        &-content {
+          background-color: white;
+          padding: 20px 0 20px 40px;
+          span {
+            border: 1PX solid #f5f5f5;
+            font-size: 30px;
+            padding: 5px 10px;
+            display: inline-block;
+            &:not(:first-child) {
+              margin-left: 10px;
+            }
           }
         }
       }
       &-pay_amount {
-        margin-bottom: 20px;
+        margin-top: 20px;
         background-color: white;
-        padding: 20px 0 20px 70px;
+        padding: 20px 0 20px 40px;
         span {
           font-size: 28px;
         }

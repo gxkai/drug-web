@@ -20,7 +20,7 @@
               {{item.createdDate | time}}
             </div>
             <div class="chat__item__content">
-              <img class="chat__item__content__avatar" v-lazy="" :style="{visibility: item.type=== 'ACCOUNT'? 'visible' : 'hidden'}">
+              <img class="chat__item__content__avatar" v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" :style="{visibility: item.type=== 'ACCOUNT'? 'visible' : 'hidden'}">
               <div class="chat__item__content__message"
                    :style="{justifyContent:item.type=== 'ACCOUNT'? 'flex-start' : 'flex-end'}"
               >
@@ -30,10 +30,10 @@
                 >
                   {{item.message}}
                 </div>
-                <img v-lazy="getImgURL(item.message)" class="chat__item__content__message__image"
+                <img v-lazy="getImgURL(item.message,'LARGE_PIC')" class="chat__item__content__message__image"
                      @click="onImage($event)" v-if="item.chatMessageType === 'PIC'">
               </div>
-              <img class="chat__item__content__avatar" v-lazy="" :style="{visibility: item.type=== 'PHARMACIST'? 'visible' : 'hidden'}">
+              <img class="chat__item__content__avatar" v-lazy="getImgURL(user.fileId,'LARGE_LOGO')" :style="{visibility: item.type=== 'PHARMACIST'? 'visible' : 'hidden'}">
             </div>
           </div>
           </van-pull-refresh>
@@ -273,7 +273,9 @@
           this.stompClient.subscribe('/topic/greetings', (res) => {
             let data = JSON.parse(res.body);
             if (data !== null) {
-              this.text = '';
+              if (data.chatMessageType === 'TEXT') {
+                this.text = '';
+              }
               this.list.push(data);
               this.loadToBottom();
             } else {
@@ -314,7 +316,7 @@
         let data = await this.$http.post(`/chatPharmacistRecords`, json);
         this.send(data.id);
       },
-      onRead(file) {
+      async onRead(file) {
         let param = new FormData();
         param.append('fileType', 'PIC');
         param.append('file', file.file);
@@ -323,16 +325,17 @@
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         };
-        this.$http.post('/files', param, config).then(async res => {
-          let json = {
-            type: 'ACCOUNT',
-            chatMessageType: 'PIC',
-            message: res.data,
-            chatId: this.chatId
-          };
-          let data = await this.$http.post(`/chatPharmacistRecords`, json);
-          this.send(data.id);
-        });
+        let fileId = await this.$http.post(`/files`, param, config);
+        console.log(fileId);
+        let json = {
+          type: 'ACCOUNT',
+          chatMessageType: 'PIC',
+          message: fileId,
+          chatId: this.chatId
+        };
+        let data = await this.$http.post('/chatPharmacistRecords', json);
+        console.log(data);
+        this.send(data.id);
       }
     }
   };

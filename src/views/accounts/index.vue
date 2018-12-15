@@ -260,6 +260,8 @@
 </style>
 
 <script>
+  import { setAccount } from '../../assets/js/auth';
+
   export default {
     data() {
       return {
@@ -284,20 +286,21 @@
         this.count = await this.$http.get('/orders/count');
         this.signIn = await this.$http.get('pointRecords/signIn/validateDailySignIn');
       },
-      onRead(file) {
+      async onRead(file) {
         let param = new FormData();
         param.append('fileType', 'LOGO');
-        param.append('file', file.content);
+        param.append('file', file.file);
         let config = {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
         };
-        this.$axios.post('/files/image', param, config).then(async res => {
-          this.account.fileId = res.data;
-          await this.$http.put('/accounts', this.account);
-          this.$store.commit('SET_ACCOUNT', this.account);
-        });
+        let fileId = await this.$http.post('/files', param, config);
+        console.log(fileId);
+        this.account.fileId = fileId;
+        await this.$http.put('/accounts', this.account);
+        this.$store.commit('SET_ACCOUNT', this.account);
+        setAccount(this.accountId);
       }
     }
   }

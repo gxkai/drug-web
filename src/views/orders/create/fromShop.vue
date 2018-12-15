@@ -58,17 +58,11 @@
         </div>
         <new-close-shop :shopInfo="shopDrugSpecOrderDTO"></new-close-shop>
 
-        <div class="pay_shop-content-delivery_type">
-          <div class="pay_shop-content-delivery_type-header">
-            <div>
-              <i class="iconfont ic-qian"></i>
-            </div>
-            <div>付费方式</div>
-          </div>
-          <div class="pay_shop-content-delivery_type-content">
+        <div class="pay_shop-content-pay_type">
+          <div class="pay_shop-content-pay_type-content">
             <span :class="{active:isMedicaidPay==true}"
                   v-if="shopDrugSpecOrderDTO.rxId !== null"
-                  @click.stop="isMedicaidPay = true">
+                  @click.stop="$toast('暂未开放')">
             医保
             </span>
             <span :class="{active:isMedicaidPay==false}"
@@ -89,7 +83,6 @@
             <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.payAmount)}}</span>
           </div>
         </div>
-        <div class="dividing"></div>
         <!--<div class="pay_shop-content-medicaid">-->
           <!--<div class="pay_shop-content-medicaid-header">-->
             <!--医保信息-->
@@ -165,6 +158,7 @@
         button-text="立即支付"
         @submit="onOrder"
         :loading="loading"
+        style="position: static"
       />
     </template>
   </new-layout>
@@ -212,6 +206,8 @@
     methods: {
       async initData() {
         const data1 = await this.$http.post('orders/shop/pre-close', this.orderShopDrugSpecDTO);
+        console.log(this.orderShopDrugSpecDTO);
+        console.log(data1);
         this.payAmount = data1.payAmount;
         this.shopDrugSpecOrderDTO = data1;
         const data2 = await this.$http.get('couponRecords/order');
@@ -230,11 +226,14 @@
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
         json.isMedicaidPay = this.isMedicaidPay;
-        this.$http.post('/orders/shop', json).then(() => {
-          this.$router.push('/orders');
-        }).catch(() => {
+        json.orderType = 'SIMPLE';
+        try {
+          let url = await this.$http.post('/orders/shop', json);
+          window.location.href = url;
+        } catch (e) {
           this.loading = false;
-        });
+          this.$toast('跳转失败');
+        }
       },
       onDeliveryType(item) {
         this.deliveryType = item;
@@ -252,12 +251,6 @@
   .text-red {
     color: #ef4f4f;
   }
-  .dividing {
-    width: 100%;
-    height: 10px;
-    background-color: #f5f5f5;
-  }
-
   .pay_shop {
     &-content {
       &-delivery {
@@ -309,9 +302,12 @@
         }
         &-content {
           background-color: white;
+          padding: 20px 0 20px 40px;
           span {
             border: 1PX solid #f5f5f5;
             font-size: 30px;
+            padding: 5px 10px;
+            display: inline-block;
             &:not(:first-child) {
               margin-left: 10px;
             }
@@ -319,29 +315,25 @@
         }
       }
       &-pay_type {
-        &-header {
-          background-color: white;
-          display: flex;
-          align-items: center;
-          padding: 20px;
-          i {
-            font-size: 50px;
-          }
-          div {
-            font-size: 30px;
-          }
-        }
+        margin-top: 20px;
         &-content {
           background-color: white;
-          padding: 10px 0 30px 50px;
+          padding: 20px 0 20px 40px;
           span {
-            font-size: 70px;
+            border: 1PX solid #f5f5f5;
+            font-size: 30px;
+            padding: 5px 10px;
+            display: inline-block;
+            &:not(:first-child) {
+              margin-left: 10px;
+            }
           }
         }
       }
       &-pay_amount {
+        margin-top: 20px;
         background-color: white;
-        padding: 20px 0 20px 70px;
+        padding: 20px 0 20px 40px;
         span {
           font-size: 28px;
         }
@@ -505,19 +497,5 @@
   .opacity-0{
     opacity: 0;
   }
-  .ic-weixin{
-    color: gray;
-  }
-  .ic-alipay{
-    color: gray;
-  }
-
-  .ic-weixin.active{
-    color: #72bd63!important;
-  }
-  .ic-alipay.active{
-    color: #009fe8!important;
-  }
-
 </style>
 

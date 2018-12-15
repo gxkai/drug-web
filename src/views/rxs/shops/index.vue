@@ -110,6 +110,7 @@
       async toQyPayUrl() {
         let url = await this.$http.get(`/hospitals/${this.hospitalId}/url`);
         window.location.href = url;
+        // this.$toast('暂未开放');
       },
       initData() {
         this.getRxShops();

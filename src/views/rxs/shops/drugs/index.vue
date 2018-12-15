@@ -154,7 +154,7 @@
             accountId: this.account.id,
             shopId: this.shopId,
             rxId: this.rxId,
-            drugSpecId: drug.drugs[0].drugSpecId,
+            drugId: drug.drugs[0].drugId,
             shopDrugId: drug.drugs[0].shopDrugId,
             name: drug.name,
             spec: drug.spec,
@@ -173,7 +173,7 @@
       },
       choose(index) {
         let cart = this.carts[this.index];
-        cart.drugSpecId = this.origins[index].drugSpecId;
+        cart.drugId = this.origins[index].drugId;
         cart.shopDrugId = this.origins[index].shopDrugId;
         cart.price = this.origins[index].price;
         cart.fileId = this.origins[index].fileId;
@@ -189,7 +189,7 @@
       },
       async createCart() {
         await this.$http.post('/carts', this.carts);
-        this.$toast.success('成功');
+        this.$toast('加入成功');
       },
       async onBuy() {
         let json = {

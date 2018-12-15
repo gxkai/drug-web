@@ -56,8 +56,12 @@
         &__left {
           display: flex;
           &__consignee {
+            font-size: 25px;
             margin-left: 10px;
           }
+        }
+        &__right {
+          font-size: 25px;
         }
       }
       &__second {

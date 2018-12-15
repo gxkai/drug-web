@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { getToken, removeLogin } from './auth';
 import { Toast } from 'vant';
-import router from '../../router';
 axios.defaults.baseURL = process.env.API_ROOT;
-axios.defaults.timeout = 50000;
+axios.defaults.timeout = 500000;
 axios.interceptors.request.use(
   config => {
     config.headers = {
@@ -30,11 +29,13 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           removeLogin();
-          router.push('/login');
+          window.location.href = 'https://ebank.96079.com.cn/quyiyuan_zhks/';
           break;
         case 400:
-          if (error.response.data.fieldErrors !== undefined) {
+          if (error.response.data.fieldErrors === true) {
             Toast(error.response.data.fieldErrors[0].message);
+          } else {
+            Toast(error.response.data.message);
           }
           break;
         default:

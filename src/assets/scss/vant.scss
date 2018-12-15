@@ -17,8 +17,8 @@
 }
 .van-nav-bar {
   background-color: #13C1FE;
-  height: 130px!important;
-  line-height: 130px!important;
+  height: 100px!important;
+  line-height: 100px!important;
   &:after {
     border-bottom: none!important;
   }
@@ -138,6 +138,12 @@
     font-size: 25px;
   }
   &__loading {
+    font-size: 25px;
+  }
+}
+
+.van-toast {
+  &>div {
     font-size: 25px;
   }
 }

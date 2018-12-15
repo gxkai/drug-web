@@ -76,7 +76,6 @@
       flex-flow: row wrap;
       &--item {
         background-color: white;
-        height: 180px;
         padding: 20px;
         flex: 0 0 25%;
         display: flex;

@@ -42,7 +42,8 @@
 
         <div class="shop_view-drug_type">
           <div v-for="item in drugTypes"
-               @click="linkToShopDrugs(shopId, item.id)">
+               @click="linkToShopDrugs(shopId, item.id)"
+              class="van-hairline--surround">
             {{item.type}}
           </div>
         </div>
@@ -133,21 +134,20 @@
 
     &-drug_type {
       display: flex;
-      flex-wrap: wrap;
+      flex-flow: row wrap;
       background-color: white;
-      margin-bottom: 20px;
       & > div {
-        width: 240px;
+        flex: 0 0 33%;
         height: 80px;
         line-height: 80px;
         text-align: center;
         font-size: 25px;
-        &:not(:nth-child(3n)) {
-          border-right: 1PX solid #cccccc;
-        }
-        &:nth-child(-n + 3) {
-          border-bottom: 1PX solid #cccccc;
-        }
+        /*&:not(:nth-child(3n)) {*/
+          /*border-right: 1PX solid #cccccc;*/
+        /*}*/
+        /*&:nth-child(-n + 3) {*/
+          /*border-bottom: 1PX solid #cccccc;*/
+        /*}*/
       }
     }
     &-recommend_title {

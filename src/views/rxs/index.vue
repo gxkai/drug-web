@@ -33,7 +33,7 @@
         @keyup.enter="onRefresh">
     </template>
     <template slot="center">
-      <div class="pt-l-30">
+      <div>
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list
             v-model="loading"
@@ -125,6 +125,9 @@
       background-color: white;
       padding: 30px;
       position: relative;
+      &:first-child {
+        margin-top: 70px!important;
+      }
       &>div {
         margin-top: 10px;
         &>span {

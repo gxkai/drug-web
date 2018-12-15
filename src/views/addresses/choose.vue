@@ -216,7 +216,7 @@
       },
       getLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
-          const data = await this.$http.get(this.$outside + '/baidu/maps.json?lat=' + r.latitude + '&lng=' + r.longitude + '&coordType=bd09ll' + '&poi=true');
+          const data = await this.$http.get(`${this.$outside}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
           this.position = data.pois[0];
         });
       }

@@ -75,8 +75,7 @@
           <div class="order_item-content-button-receiveType-list"
                v-show="showData">
             <div class="order_item-content-button-receiveType-list-item"
-                 @click="$emit('onQrcode', order)"
-                 v-if="order.deliveryType == 'SELF'">
+                 @click="$emit('onQrcode', order)">
               收货二维码
             </div>
             <div class="order_item-content-button-receiveType-list-item"
@@ -151,7 +150,6 @@
       &-info {
         display: flex;
         background-color: white;
-        margin-top: 20px;
         &-left {
           position: relative;
           padding: 20px;
@@ -199,7 +197,6 @@
       }
       &-sum {
         background-color: white;
-        margin-top: 20px;
         width: 100%;
         padding: 20px;
         display: flex;

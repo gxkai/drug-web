@@ -181,35 +181,31 @@
                   好货推荐
                 </div>
               </new-header-sec>
-              <van-row
+              <div
+                class="home__content__recommend__content"
               >
-                <van-col
-                  span="12"
-                  class="van-hairline--bottom van-hairline--right home__content__recommend__content"
-                  v-for="recommend in recommends"
-                  :key="recommend.id"
+                <div class="home__content__recommend__content__item van-hairline--surround"
+                     v-for="recommend in recommends"
+                     :key="recommend.id"
+                     @click="linkToShopDrugSpec(recommend.shopDrugId)"
                 >
-                  <div class="home__content__recommend__content__item"
-                       @click="linkToShopDrugSpec(recommend.shopDrugId)"
-                  >
-                    <img
-                      class="home__content__recommend__content__item--logo"
-                      v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')">
-                    <div
-                      class="home__content__recommend__content__item--name"
-                    >{{recommend.name}}
-                    </div>
-                    <div
-                      class="home__content__recommend__content__item--spec"
-                    >{{recommend.spec}}
-                    </div>
-                    <div
-                      class="home__content__recommend__content__item--price"
-                    >{{`￥${recommend.price}`}}
-                    </div>
+                  <img
+                    class="home__content__recommend__content__item--logo"
+                    v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')">
+                  <div
+                    class="home__content__recommend__content__item--name"
+                  >{{recommend.name}}
                   </div>
-                </van-col>
-              </van-row>
+                  <div
+                    class="home__content__recommend__content__item--spec"
+                  >{{recommend.spec}}
+                  </div>
+                  <div
+                    class="home__content__recommend__content__item--price"
+                  >{{`￥${recommend.price}`}}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -306,7 +302,11 @@
     &__content {
       &__recommend {
         &__content {
+          width: 720px;
+          display: flex;
+          flex-flow: row wrap;
           &__item {
+            width: 360px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -611,6 +611,7 @@
         this.adverts = await this.$http.get('/adverts');
         // 好货推荐
         this.recommends = await this.$http.get('/drugs/recommend');
+        console.log(this.recommends);
         // 知识库
         this.repositories = await this.$http.get('/repositories/home');
         setInterval(this.scroll, 2000);

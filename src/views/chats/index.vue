@@ -18,7 +18,7 @@
         >
           <div class="pharmacist__item__first">
             <div class="pharmacist__item__first__left">
-              <img v-lazy="getImgURL(item.fileId, 'LOGO')">
+              <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
             </div>
             <div class="pharmacist__item__first__right">
               <div class="pharmacist__item__first__right__first">
