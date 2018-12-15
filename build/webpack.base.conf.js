@@ -87,10 +87,6 @@ module.exports = {
         loader:"vue-style-loader!css-loader!sass-loader"
       },
       {
-        test:/\.less/,
-        loader:"style-loader!css-loader!less-loader"
-      },
-      {
         test: /.exec.js$/,
         use: [ 'script-loader' ]
       }, {

@@ -56,7 +56,7 @@
     </van-popup>
   </div>
 </template>
-<style scoped lang="less" type="text/less">
+<style scoped lang="scss" type="text/scss">
   .chat__content {
     width: 720px;
   }
