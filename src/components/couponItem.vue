@@ -35,7 +35,7 @@
   };
 </script>
 
-<style scope type="text/less" lang="less">
+<style scope type="text/scss" lang="scss">
   .coupon_item {
     display: flex;
     flex-direction: column;

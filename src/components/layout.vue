@@ -11,7 +11,7 @@
     </div>
   </div>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .layout {
     display: flex;
     flex-flow: column;

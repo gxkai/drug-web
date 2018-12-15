@@ -195,7 +195,7 @@
     }
   };
 </script>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .swiper-container {
     position: relative;
     background-color: transparent;

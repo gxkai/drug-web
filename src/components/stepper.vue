@@ -53,7 +53,7 @@
   };
 </script>
 
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .new-stepper {
     display: flex;
     &__minus, &__plus {

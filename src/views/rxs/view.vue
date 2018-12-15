@@ -119,15 +119,7 @@
   };
 </script>
 
-<style type="text/less" lang="less" scoped>
-  .border-bottom {
-    border-bottom: 1PX solid #555555;
-  }
-
-  .border {
-    border: 2PX solid #cccccc;
-  }
-
+<style type="text/scss" lang="scss" scoped>
   .to_use {
     background-color: #ef4f4f;
     border-radius: 20px;
@@ -152,7 +144,7 @@
         font-size: 40px;
         font-weight: normal;
         font-weight: 300;
-        .border-bottom();
+        border-bottom: 1PX solid #555555;
       }
       &-list {
         &-item {
@@ -161,7 +153,7 @@
           justify-content: space-between;
           &>div {
             font-size: 25px;
-            .border-bottom();
+            border-bottom: 1PX solid #555555;
           }
         }
       }
@@ -172,7 +164,7 @@
           color: red;
         }
         &-content {
-          .border();
+          border: 2PX solid #cccccc;
           min-height: 600px;
           padding: 30px;
           &-item {

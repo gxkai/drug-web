@@ -33,7 +33,7 @@
     </template>
   </new-layout>
 </template>
-<style type="text/less" lang="less">
+<style type="text/scss" lang="scss">
   .repositories-view {
     &--title {
       padding: 20px;

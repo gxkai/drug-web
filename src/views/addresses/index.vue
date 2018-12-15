@@ -41,7 +41,7 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .address {
     &__content {
       flex: 1;

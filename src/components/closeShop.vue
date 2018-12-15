@@ -76,7 +76,7 @@
   };
 </script>
 
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .text-red {
     color: #ef4f4f;
   }

@@ -379,7 +379,7 @@
     }
   };
 </script>
-<style scope type="text/less" lang="less">
+<style scope type="text/scss" lang="scss">
   .van-icon-success:before {
     content: ""!important;
   }

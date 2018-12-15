@@ -31,7 +31,7 @@
   </div>
 
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .drug_item {
     display: flex;
     margin-top: 20px;

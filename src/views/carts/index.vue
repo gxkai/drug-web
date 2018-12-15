@@ -139,7 +139,7 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .cart {
     &-list {
       width: 720px;

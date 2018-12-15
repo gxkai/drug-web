@@ -45,7 +45,7 @@
   </div>
 </template>
 
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .close_list {
     &-shop {
       padding: 20px;

@@ -34,7 +34,7 @@
     </van-pull-refresh>
   </div>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .collect-drugs {
     &--item {
       display: flex;

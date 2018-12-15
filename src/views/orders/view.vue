@@ -105,7 +105,7 @@
   </new-layout>
 </template>
 
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .order_view {
     &-state {
       position: relative;

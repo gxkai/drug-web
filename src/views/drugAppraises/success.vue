@@ -57,7 +57,7 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .appraise-success {
     &--first {
       height: 162px;

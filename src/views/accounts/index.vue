@@ -143,7 +143,7 @@
   </div>
 </template>
 
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   /deep/ .van-icon {
     font-size: 40px;
     &-dizhi1 {

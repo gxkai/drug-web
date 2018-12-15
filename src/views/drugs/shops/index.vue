@@ -137,7 +137,7 @@
     </new-layout>
   </div>
 </template>
-<style type="text/less" lang="less">
+<style type="text/scss" lang="scss">
   .drugs-shops {
     .van-swipe {
       width: 100%;

@@ -244,7 +244,7 @@
     }
   };
 </script>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .active {
     color: #ef4f4f;
   }

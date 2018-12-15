@@ -157,7 +157,7 @@
   };
 </script>
 
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .shops {
     width: 720px;
     &-header {

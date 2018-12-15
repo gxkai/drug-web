@@ -51,7 +51,7 @@
     </div>
   </div>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .order_item {
     background-color: white;
     margin-top: 20px;

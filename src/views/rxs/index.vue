@@ -105,7 +105,7 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   /deep/.van-nav-bar:after {
     border-bottom: none!important;
   }

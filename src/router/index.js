@@ -330,11 +330,6 @@ const otherRouter = [
     path: '/faqs',
     name: '常见问题',
     component: () => import('@/views/faqs/index.vue')
-  },
-  {
-    path: '/qrCode',
-    name: '扫码页面',
-    component: () => import('@/views/qrCode.vue')
   }
 ];
 const appRouter = [

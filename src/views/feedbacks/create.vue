@@ -15,7 +15,7 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .feedback-create {
     textarea {
       width:720px;

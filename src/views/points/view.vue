@@ -167,7 +167,7 @@
   };
 </script>
 
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .points_view {
     background-color: #f5f5f5;
     &-popup {

@@ -37,7 +37,7 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   .order-addr {
     &__no-data {
       text-align: center;

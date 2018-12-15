@@ -242,7 +242,7 @@
     >
   </div>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   @keyframes myMove {
     0% {
       transform: translateY(0);

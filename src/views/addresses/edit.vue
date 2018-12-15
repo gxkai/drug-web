@@ -56,7 +56,7 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   /deep/.van-checkbox {
     &__label {
       font-size: 25px!important;

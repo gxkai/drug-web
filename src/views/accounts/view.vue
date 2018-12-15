@@ -172,7 +172,7 @@
   };
 </script>
 
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
 
   .account {
     width: 720px;
