@@ -260,7 +260,7 @@
 </style>
 
 <script>
-  import { setAccount } from '../../assets/js/auth';
+  import { setAccount } from '../../storage';
 
   export default {
     data() {

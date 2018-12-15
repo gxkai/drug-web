@@ -177,7 +177,7 @@
 
 </template>
 <script>
-  import { getReceivedAddress } from '../../../assets/js/auth';
+  import { getReceivedAddress } from '../../../storage';
 
   export default {
     name: 'createFromCart',

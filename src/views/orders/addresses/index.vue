@@ -80,7 +80,7 @@
   }
 </style>
 <script>
-  import { setReceivedAddress } from '../../../assets/js/auth';
+  import { setReceivedAddress } from '../../../storage';
 
   export default {
     name: 'addresses',

@@ -1,5 +1,4 @@
 'use strict'
-
 import vueEventCalendar from './vue-event-calendar.vue'
 
 function install (Vue, options = {}) {

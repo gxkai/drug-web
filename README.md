@@ -26,15 +26,23 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ``` javascript
 this.pageList.forEach(e => { e.imgUrl = this.$axios.get(this.getImgURL(e.fileId, 'LOGO')); });
 ```
-baidumap
+```
+# baidumap
 ios Uat07M7GFSHS26TWT7iZwBQdTw3DL3GM
 android Z4oRX7Rk2q1eYPSLGvayGy2qz1mAqABx
 
-AppID： 
+# AppID： 
 vbWoZSftLj6YPopBJDwsZ9
-AppSecret： 
+# AppSecret： 
 iDyCXOCl7v9NYclxoUuOR9
-AppKey： 
+# AppKey： 
 ldkjgGNKhp8wCwvB5XYde
-MasterSecret： 
+# MasterSecret： 
 amYWrFmlaL70UbfqKArW3
+```
+## TIPs
+1. 图标统一使用有赞图标组件
+[有赞图标使用文档](https://youzan.github.io/vant/#/zh-CN/icon)
+
+
+

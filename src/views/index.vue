@@ -502,7 +502,7 @@
 </style>
 <script>
   import { Carousel3d, Slide } from 'vue-carousel-3d';
-  import { getReceivedPosition } from '../assets/js/auth';
+  import { getReceivedPosition } from '../storage';
 
   export default {
     name: 'home',

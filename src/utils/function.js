@@ -1,5 +1,5 @@
 import { Toast } from 'vant';
-import router from '../../router';
+import router from '../router';
 import storage from 'good-storage';
 
 const SEARCH_KEY = 'orderHis';

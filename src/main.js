@@ -3,23 +3,22 @@
 import Vue from 'vue';
 import App from './App';
 import store from './store';
-import base from './assets/js/function';
-import component from './assets/js/component';
-import axios from './assets/js/axios';
-import http from './assets/js/http';
+import base from './utils/function';
+import component from './components';
+import http from './http/http';
 import storage from 'good-storage';
-import '../src/assets/js/flex';
-import VueAwesomeSwiper from '../src/assets/plugin/vue-awesome-swiper';
+import './plugins/flex';
+import VueAwesomeSwiper from './plugins/vue-awesome-swiper';
 import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
-import filters from './assets/js/filters';
-import './assets/font/iconfont.css';
-import './assets/font/vanIcon.css';
-import './assets/js/vconsole';
-import '../src/assets/plugin/vue-event-calendar/dist/style.css';
-import vueEventCalendar from '../src/assets/plugin/vue-event-calendar';
+import filters from './filters';
+import './icons/iconfont.css';
+import './icons/vanIcon.css';
+import './plugins/vconsole';
+import './plugins/vue-event-calendar/dist/style.css';
+import vueEventCalendar from './plugins/vue-event-calendar';
 // import 'vant/lib/vant-css/icon-local.css';
-import {Actionsheet,
+import { Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
   GoodsActionMiniBtn,
@@ -56,7 +55,7 @@ import {Actionsheet,
   Collapse,
   CollapseItem,
   Uploader,
-  Picker} from 'vant';
+  Picker } from 'vant';
 import router from './router';
 import BasicVueChat from 'basic-vue-chat';
 Vue.use(BasicVueChat);
@@ -102,8 +101,7 @@ Vue.use(Actionsheet).use(GoodsAction)
     loading: require('./assets/image/lazyLoad/loading.gif'),
     attempt: 3
   });
-Vue.use(vueEventCalendar, {locale: 'zh', className: ''});
-Vue.prototype.$axios = axios;
+Vue.use(vueEventCalendar, { locale: 'zh', className: '' });
 Vue.prototype.$http = http;
 Vue.prototype.$env = process.env.NODE_ENV;
 Vue.prototype.$outside = process.env.OUTSIDE_ROOT;

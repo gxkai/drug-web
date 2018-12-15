@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import { setToken, setAccount } from '../assets/js/auth';
+  import { setToken, setAccount } from '../storage';
 
   export default {
     name: '',
@@ -17,6 +17,9 @@
       };
     },
     async created() {
+      if (this.data === null) {
+        this.$router.push('/login');
+      }
       console.log(this.toPath);
       console.log(this.data);
       this.fetchUrlToPush();

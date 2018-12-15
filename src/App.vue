@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { setAccount, setToken, getAccount, getToken } from './assets/js/auth';
+import { setAccount, setToken, getAccount, getToken } from './storage';
 
 export default {
   name: 'App',

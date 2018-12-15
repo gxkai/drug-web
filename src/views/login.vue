@@ -76,6 +76,8 @@
 </template>
 
 <script>
+  import { setToken, setAccount } from '../storage';
+
   export default {
     name: 'login',
     data() {
@@ -99,7 +101,7 @@
         showCode: true,
         count: '',
         time: null,
-        username: '15995611111',
+        username: '18896781023',
         password: '123456',
         clientId: '1',
         registerUsername: '',
@@ -117,28 +119,20 @@
     mounted() {
     },
     methods: {
-      getCaptcha() {
-        this.$axios.post('/captchas', {
+      async getCaptcha() {
+        let captcha = await this.$http.post('/captchas', {
           'username': this.registerUsername,
           'captchaType': 'ACCOUNT_REGISTER'
-        })
-          .then((res) => {
-            console.log(res.data);
-            this.setInt();
-          })
-          .catch((error) => {
-            this.exception(error);
-          });
+        });
+        alert(captcha);
+        this.setInt();
       },
-      checkCaptcha() {
-        this.$axios.post('/captchas/check', {
+      async checkCaptcha() {
+        await this.$http.post('/captchas/check', {
           'username': this.registerUsername,
           'captcha': this.captcha
-        }).then(res => {
-          this.register();
-        }).catch(error => {
-          this.exception(error);
         });
+        this.register();
       },
       setInt() {
         const TIME_COUNT = 60;
@@ -159,43 +153,44 @@
         clearInterval(this.timer);
         this.timer = null;
       },
-      login() {
-        // var info = plus.push.getClientInfo();// eslint-disable-line no-undef
-        // this.clientId = info.clientid;
-        // console.log(info);
-        // console.log(this.clientId);
-        const userInfo = {
+      async login() {
+        const data = {
           'username': this.username,
           'password': this.password,
           'clientId': this.clientId
         };
-        this.$store.dispatch('LOGIN', userInfo)
-          .then((res) => {
-            this.account = res;
-            this.$router.push({ path: '/' });
-          })
-          .catch((error) => {
-            this.exception(error);
-          });
+        this.$toast.loading({
+          duration: 0,
+          forbidClick: true,
+          loadingType: 'spinner',
+          message: '登陆中...'
+        });
+        try {
+          const token = await this.$http.post('/accounts/login1', data);
+          setToken(token);
+          this.$store.commit('SET_TOKEN', token);
+          const account = await this.$http.get('/accounts');
+          setAccount(account);
+          this.$store.commit('SET_ACCOUNT', account);
+          this.$toast.clear();
+          this.$router.push(`/home`);
+        } catch (e) {
+          this.$toast('登陆失败');
+        }
       },
-      register() {
+      async register() {
         const userInfo = {
           'username': this.registerUsername,
           'password': this.registerPassword,
           'captcha': this.captcha
         };
-        this.$store.dispatch('REGISTER', userInfo)
-          .then((res) => {
-            this.username = this.registerUsername;
-            this.password = this.registerPassword;
-            this.$dialog.confirm({message: '去登陆?'}).then(action => {
-              this.clearInt();
-              this.swiper.slideTo(0, 1000, false);
-            });
-          })
-          .catch((error) => {
-            this.exception(error);
-          });
+        await this.$http.post('/accounts', userInfo);
+        this.username = this.registerUsername;
+        this.password = this.registerPassword;
+        this.$dialog.confirm({ message: '去登陆?' }).then(() => {
+          this.clearInt();
+          this.swiper.slideTo(0, 1000, false);
+        });
       }
     }
   };

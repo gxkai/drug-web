@@ -32,23 +32,6 @@ Vue.use(VueRouter);
 //   }
 // ];
 //
-// const orderRefundRouter = [
-//   {
-//     path: '/orderRefunds',
-//     name: '退款列表',
-//     component: () => import('@/views/orderRefunds/index.vue')
-//   },
-//   {
-//     path: '/orderRefunds/create',
-//     name: '退款创建',
-//     component: () => import('@/views/orderRefunds/create.vue')
-//   },
-//   {
-//     path: '/orderRefunds/view',
-//     name: '退款详情',
-//     component: () => import('@/views/orderRefunds/view.vue')
-//   }
-// ];
 
 const errorRouter = {
   path: '/error',
@@ -271,11 +254,6 @@ const orderRouter = [
     component: () => import('@/views/orders/addresses/index.vue')
   },
   {
-    path: '/orders/pay',
-    name: '支付页面',
-    component: () => import('@/views/orders/pay/index.vue')
-  },
-  {
     path: '/orders/pay/success',
     name: '支付成功',
     component: () => import('@/views/orders/pay/success.vue')
@@ -284,11 +262,6 @@ const orderRouter = [
     path: '/orders',
     name: '全部订单',
     component: () => import('@/views/orders/index.vue')
-  },
-  {
-    path: '/orders/takeDrug',
-    name: '医院取药',
-    component: () => import('@/views/orders/takeDrug.vue')
   }
 ];
 

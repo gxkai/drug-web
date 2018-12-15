@@ -169,7 +169,7 @@
 <script>
   import SockJS from 'sockjs-client';
   import Stomp from 'stompjs';
-  import { getToken } from '../../assets/js/auth';
+  import { getToken } from '../../storage';
 
   export default {
     data() {

@@ -85,7 +85,7 @@
 </template>
 
 <script>
-  import { getReceivedPosition } from '../../../assets/js/auth';
+  import { getReceivedPosition } from '../../../storage';
 
   export default {
     data() {

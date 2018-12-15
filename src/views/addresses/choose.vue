@@ -172,7 +172,7 @@
 
 <script>
   import BMap from 'BMap';
-  import { setReceivedPosition } from '../../assets/js/auth';
+  import { setReceivedPosition } from '../../storage';
 
   export default {
     name: '',

@@ -207,8 +207,6 @@
 </script>
 
 <style scope type="text/less" lang="less">
-  @import "../../../../assets/less/index";
-
   .bg-red {
     background-color: red;
   }
