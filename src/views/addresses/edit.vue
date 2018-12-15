@@ -44,20 +44,20 @@
           disabled/>
         <van-field
           v-model="address.room"
-          label="门牌号"
+          label="详细地址"
           type="text"
           placeholder="例：8号楼404室"
         />
       </van-cell-group>
 
       <van-cell-group class="mt-l-20 address-edit__checkbox">
-        <van-checkbox v-model="address.defaulted">设为默认地址</van-checkbox>
+        <van-checkbox v-model="address.defaulted" >设为默认地址</van-checkbox>
       </van-cell-group>
     </template>
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
-  /deep/.van-checkbox {
+  #{'/deep/'}.van-checkbox {
     &__label {
       font-size: 25px!important;
     }

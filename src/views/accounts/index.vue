@@ -144,7 +144,7 @@
 </template>
 
 <style scoped type="text/scss" lang="scss">
-  /deep/ .van-icon {
+  #{'/deep/'} .van-icon {
     font-size: 40px;
     &-dizhi1 {
       color: #FF3BAE;

@@ -106,7 +106,7 @@
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
-  /deep/.van-nav-bar:after {
+  #{'/deep/'}.van-nav-bar:after {
     border-bottom: none!important;
   }
   .rxs {

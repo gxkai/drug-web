@@ -56,7 +56,7 @@
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
-  /deep/.van-tabs {
+  #{'/deep/'}.van-tabs {
     &__wrap {
       height: 100px!important;
     }
