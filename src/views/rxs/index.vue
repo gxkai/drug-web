@@ -65,7 +65,7 @@
               </div>
               <div>
                 <van-icon name="222" color="#13C1FE" size="3em"></van-icon>
-                <span>症状</span>
+                <span>诊断</span>
                 <span>
               {{item.illness}}
             </span>
@@ -203,7 +203,7 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        icon: '\ue64c 请输入症状搜索'
+        icon: '\ue64c 请输入诊断搜索'
       };
     },
     computed: {
