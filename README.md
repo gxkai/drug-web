@@ -43,6 +43,14 @@ amYWrFmlaL70UbfqKArW3
 ## TIPs
 1. 图标统一使用有赞图标组件
 [有赞图标使用文档](https://youzan.github.io/vant/#/zh-CN/icon)
+2. node 版本
+```
+node -v
+v10.5.0
 
+npm -v
+6.1.0
+
+```
 
 
