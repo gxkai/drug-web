@@ -94,19 +94,23 @@
               <van-row gutter="20">
                 <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
                   <div>客户服务</div>
-                  <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.serviceScore)}}分</div>
+                  <!--<div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.serviceScore)}}分</div>-->
+                  <div>--</div>
                 </van-col>
                 <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
                   <div>发货速度</div>
-                  <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.deliveryScore)}}分</div>
+                  <!--<div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.deliveryScore)}}分</div>-->
+                  <div>--</div>
                 </van-col>
                 <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
                   <div>商品包装</div>
-                  <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.packageScore)}}分</div>
+                  <!--<div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.packageScore)}}分</div>-->
+                  <div>--</div>
                 </van-col>
                 <van-col span="6" class="shopDrugSpec__content__part-4__content__item">
                   <div>商品描述</div>
-                  <div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.describeScore)}}分</div>
+                  <!--<div>{{toFixedOne(shopDrugSpec.shopTotalAppraise.describeScore)}}分</div>-->
+                  <div>--</div>
                 </van-col>
               </van-row>
             </div>

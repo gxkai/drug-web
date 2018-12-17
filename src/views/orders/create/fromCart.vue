@@ -60,7 +60,7 @@
            <span :class="{active:isMedicarePay==false}"
                  @click.stop="isMedicarePay = false">自费</span>
             <span :class="{active:isMedicarePay==true}"
-                  @click.stop="$toast('暂未开放')"
+                  @click.stop="isMedicarePay = true"
                   v-if="isRx === true">医保</span>
           </div>
         </div>
