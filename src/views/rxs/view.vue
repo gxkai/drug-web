@@ -4,7 +4,7 @@
   >
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="rx.hospital"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -44,7 +44,7 @@
           </div>
           <div class="rxs_view-content-list-item">
             <div>
-              地址：{{rx.hospital}}
+              地址：{{rx.place}}
             </div>
             <div>
               电话：{{rx.phone}}
