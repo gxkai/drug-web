@@ -56,12 +56,17 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/scss" lang="scss">
-  #{'/deep/'}.van-checkbox {
+<style scoped type="text/less" lang="less">
+  /deep/.van-checkbox {
     &__label {
       font-size: 25px!important;
     }
+    &__icon, &__label {
+      line-height: normal;
+    }
   }
+</style>
+<style scoped type="text/scss" lang="scss">
   .address-edit {
     &__checkbox {
       padding: 20px;

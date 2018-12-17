@@ -142,9 +142,8 @@
     </van-tabbar>
   </div>
 </template>
-
-<style scoped type="text/scss" lang="scss">
-  #{'/deep/'} .van-icon {
+<style scoped type="text/less" lang="less">
+  /deep/ .van-icon {
     font-size: 40px;
     &-dizhi1 {
       color: #FF3BAE;
@@ -180,7 +179,8 @@
       color: #FF0000;
     }
   }
-
+</style>
+<style scoped type="text/scss" lang="scss">
   .account {
     background-color: #f5f5f5;
     display: flex;

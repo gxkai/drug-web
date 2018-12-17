@@ -105,10 +105,12 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/scss" lang="scss">
-  #{'/deep/'}.van-nav-bar:after {
+<style scoped type="text/less" lang="less">
+  /deep/.van-nav-bar:after {
     border-bottom: none!important;
   }
+</style>
+<style scoped type="text/scss" lang="scss">
   .rxs {
     background-color: #f5f5f5;
     position: relative;

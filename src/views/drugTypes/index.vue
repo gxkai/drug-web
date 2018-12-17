@@ -1,6 +1,6 @@
 <template>
   <new-layout class="drugTypes"
-  centerColor="white"
+              centerColor="white"
   >
     <template slot="top">
       <van-nav-bar
@@ -9,7 +9,7 @@
         @click-left="$router.go(-1)"
       />
     </template>
-    <template  slot="center">
+    <template slot="center">
       <van-tabs v-model="active"
                 swipeable
                 color="#13C1FE"
@@ -31,7 +31,7 @@
         </van-tab>
       </van-tabs>
     </template>
-    <template  slot="bottom">
+    <template slot="bottom">
       <van-tabbar
         :value="2"
         :fixed="Boolean(false)"
@@ -55,21 +55,23 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/scss" lang="scss">
-  #{'/deep/'}.van-tabs {
+<style scoped type="text/less" lang="less">
+  /deep/ .van-tabs {
     &__wrap {
-      height: 100px!important;
+      height: 100px !important;
     }
     &--line {
       padding-top: 100px;
     }
     .van-tab {
       span {
-        line-height: 100px!important;
-        font-size: 25px!important;
+        line-height: 100px !important;
+        font-size: 25px !important;
       }
     }
   }
+</style>
+<style scoped type="text/scss" lang="scss">
   .drugTypes {
     &--drug {
       display: flex;
@@ -112,8 +114,7 @@
         }
       }
     },
-    components: {
-    },
+    components: {},
     created() {
       this.initData();
     },
