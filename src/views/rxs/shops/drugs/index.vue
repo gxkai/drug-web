@@ -1,36 +1,6 @@
 <template>
   <div class="rx">
-    <van-popup v-model="show" position="bottom">
-      <div class="rx__popup">
-        <div class="rx__popup__header">
-          <div class="rx__popup__header__left">
-            <van-icon name="changfang" color="#13C1FE" size="3em"/>
-            <span>选择厂商</span>
-          </div>
-          <div class="rx__popup__header__right"
-          @click="show=!show"
-          >
-            <van-icon name="guanbi2"  size="3em"/>
-          </div>
-        </div>
-        <div class="rx__popup__content">
-          <div class="rx__popup__content__item van-hairline--bottom"
-               v-for="(origin,key) in origins"
-               :key="key"
-               @click="choose(key)">
-            <div class="rx__popup__content__item__left">
-              <new-radio v-model="carts[index].drugSpecId" disabled></new-radio>
-              <span :style="{color: origin.drugSpecId===carts[index].drugSpecId?'#12C1FF':'black'}">
-              {{origin.originName}}
-            </span>
-            </div>
-            <span>
-              &yen;{{origin.price}}
-            </span>
-          </div>
-        </div>
-      </div>
-    </van-popup>
+
     <new-layout>
       <template slot="top">
         <van-nav-bar
@@ -40,25 +10,16 @@
         />
       </template>
       <template slot="center">
+
         <div class="rx__content">
           <div class="rx__content__item"
                v-for="(drug,index) in drugs" :key="index">
-            <div class="rx__content__item--title">
-              <div class="rx__content__item--title__left">
-                <van-icon name="yao" color="#13C1FE" size="3em"></van-icon>
-                <span>{{carts[index].name}}</span>
-              </div>
-              <div class="rx__content__item--title__right"
-              @click="lookMore(index)"
-              >
-                选择厂商
-              </div>
-            </div>
+
             <div class="rx__content__item--content">
               <div class="rx__content__item--content__left">
-                <div class="rx_mark"
-                     v-if="!carts[index].otc">处
-                </div>
+                <!--<div class="rx_mark"-->
+                     <!--v-if="!carts[index].otc">处-->
+                <!--</div>-->
                 <img v-lazy="getImgURL(carts[index].fileId, 'LARGE_LOGO')"
                      class="rx__content__item--content__left-logo">
               </div>
@@ -66,39 +27,96 @@
                 <div class="rx__content__item--content__right-originName"
                      @click="lookMore(index)"
                 >
-                  <van-icon name="changfang" color="#13C1FE" size="3em"></van-icon>
-                  <span>厂商</span>
-                  <span>{{carts[index].originName}}</span>
+                  <!--<van-icon name="changfang" color="#13C1FE" size="3em"></van-icon>-->
+                  <span>名称 : </span>
+                  <!--<span>{{carts[index].originName}}</span>-->
+                  <span>抗骨质增生丸-({{carts[index].spec}})</span>
                 </div>
                 <div class="rx__content__item--content__right-spec">
-                  <van-icon name="yaopinshuju" color="#13C1FE" size="3em"></van-icon>
-                  <span>规格</span>
-                  <span>{{carts[index].spec}}</span>
+                  <!--<van-icon name="yaopinshuju" color="#13C1FE" size="3em"></van-icon>-->
+                  <span>用量 : </span>
+                  <span>一次一颗/一日三次</span>
                 </div>
+
+                <div class="rx__content__item--content__right-originName"
+                     @click="lookMore(index)"
+                >
+                  <!--<van-icon name="changfang" color="#13C1FE" size="3em"></van-icon>-->
+                  <span>厂商 : </span>
+                  <span>{{carts[index].originName}}</span>
+                </div>
+
                 <div class="rx__content__item--content__right-price">
-                  <van-icon name="qian" color="#13C1FE" size="3em"></van-icon>
-                  <span>最低价</span>
-                  <span>&yen;{{carts[index].price}}</span>
-                  <span>X{{carts[index].quantity}}</span>
+                  <!--<van-icon name="qian" color="#13C1FE" size="3em"></van-icon>-->
+                  <!--<span>最低价</span>-->
+                  <span>&yen;{{ carts[index].price }}</span>
+                  <span>( 医保报销金额&yen;10.2 )</span>
+                  <!--<span>X{{carts[index].quantity}}</span>-->
                 </div>
               </div>
             </div>
+            <van-collapse v-model="activeNames" class="rx__content__item--companies">
+              <van-collapse-item
+                title = "4个厂商报价"
+                :name = index
+                icon = "dianpu-copy"
+              >
+                <div class="rx__popup">
+                  <div class="rx__popup__content">
+                    <div class="rx__popup__content__item van-hairline--bottom"
+                       v-for="(origin,key) in origins"
+                       :key="key"
+                       @click="choose(key)">
+                      <div class="rx__popup__content__item__left">
+                        <new-radio v-model="carts[index].drugSpecId" disabled></new-radio>
+                        <span :style="{color: origin.drugSpecId === carts[index].drugSpecId ? '#12C1FF' : 'black'}">
+                          {{origin.originName}}
+                        </span>
+                      </div>
+                      <span>
+                        &yen;{{origin.price}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+              </van-collapse-item>
+            </van-collapse>
+            <!--<div class="rx__content__item&#45;&#45;title">-->
+              <!--<div class="rx__content__item&#45;&#45;title__left">-->
+                <!--<van-icon name="yao" color="#13C1FE" size="3em"></van-icon>-->
+                <!--<span>{{carts[index].name}}</span>-->
+              <!--</div>-->
+              <!--<div class="rx__content__item&#45;&#45;title__right"-->
+                   <!--@click="lookMore(index)"-->
+              <!--&gt;-->
+                <!--选择厂商-->
+              <!--</div>-->
+            <!--</div>-->
           </div>
+
+
         </div>
         <div class="rx__content__total">
-          <van-icon name="qian" color="#13C1FE" size="3em"></van-icon>
-          <span class="ml-l-20">总计{{quantity}}件商品</span>
-          <span class="ml-l-20">合计</span>
-          <span class="ml-l-20">&yen;{{toFixedTwo(amount)}}</span>
+          <van-icon name="qian" color="#F60032" size="4em"></van-icon>
+          <div class="total--prices">
+            <span class="ml-l-10">总计{{quantity}}件商品：</span>
+            <span>共计</span>
+            <span class="price ml-l-5">&yen;{{toFixedTwo(amount)}}</span>
+            <span class="ml-l-20">医保扣除</span>
+            <span class="price ml-l-5">&yen;0</span>
+            <p class="remark">（ 实际医保报销金额, 请以提交订单显示为准。）</p>
+          </div>
+
         </div>
       </template>
       <template slot="bottom">
         <van-goods-action>
+          <van-goods-action-mini-btn icon="shop" text="药店" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
-          <van-goods-action-mini-btn icon="shop" text="店铺" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
-          <van-goods-action-big-btn text="加入购物车" @click="type==='HOSPITAL'? '' : createCart()"
-                                    :style="{backgroundColor:type==='HOSPITAL'?'gray':'#f85'}"/>
-          <van-goods-action-big-btn text="立即购买" primary @click="onBuy"/>
+          <van-goods-action-big-btn class="add-to-cart" text="加入购物车" @click="type==='HOSPITAL'? '' : createCart()"
+                                    :style="{backgroundColor:type==='HOSPITAL'?'gray':'#13C1FE'}"/>
+          <van-goods-action-big-btn class="buy-now" text="立即购买" primary @click="onBuy"/>
         </van-goods-action>
       </template>
     </new-layout>
@@ -120,7 +138,8 @@
         carts: [],
         isActive: true,
         amount: 0,
-        quantity: 0
+        quantity: 0,
+        activeNames: []
       };
     },
     computed: {
@@ -207,9 +226,32 @@
 </script>
 
 <style scope type="text/scss" lang="scss">
-  .bg-red {
-    background-color: red;
+
+  .van-cell__left-icon{
+    color: #F60032;
+    font-size: 32px !important;
   }
+  .van-cell__right-icon{
+    font-size: 30px !important;
+  }
+
+  .van-cell__title span{
+    padding-left: 15px;
+    font-size: 28px !important;
+  }
+  .van-goods-action-mini-btn__icon{
+    font-size: 35px;
+    color: #000;
+    padding-bottom: 3px;
+  }
+  .buy-now{
+    background: #F02B2B;
+    border-color: #F02B2B;
+  }
+  .add-to-cart{
+    border-color: #13C1FE;
+  }
+
 
   .text-a6a6a6 {
     color: #a6a6a6;
@@ -245,28 +287,30 @@
             font-family:MicrosoftYaHei;
             font-weight:400;
             color:rgba(255,255,255,1);
+            text-align: center;
             width:130px;
             height:40px;
+            line-height: 40px;
             background:rgba(18,193,255,1);
             box-shadow:0px 3px 2px 0px rgba(22,157,204,1);
             border-radius:17px;
-            text-align: center;
-            line-height: 40px;
           }
         }
         &--content {
-          margin-top: 20px;
           display: flex;
+          padding: 20px 0;
+          margin: 20px 20px 0 20px;
+          border-bottom: 1px solid #EEE;
           &__left {
             position: relative;
-            padding: 20px;
+            padding-right: 20px;
             &-logo {
               width: 200px;
               height: 200px;
             }
           }
           &__right {
-            padding: 20px;
+            padding-left: 20px;
             display: flex;
             flex-flow: column;
             justify-content: space-around;
@@ -282,10 +326,10 @@
                 display: inline-block;
                 padding-left: 10px;
                 &:nth-of-type(1) {
-                  width: 100px;
+                  width: 80px;
                 }
                 &:nth-of-type(2) {
-                  width: 250px;
+                  width: 300px;
                   overflow: hidden;
                   text-overflow: ellipsis;
                   white-space: nowrap;
@@ -294,8 +338,14 @@
             }
             &-price {
               & > span {
-                &:last-of-type {
-                  color: #FF0000;
+                &:first-child {
+                  width: auto !important;
+                  color: #F00;
+                  font-size: 30px;
+                }
+                &:nth-child(2) {
+                  color: #777;
+                  font-size: 25px;
                 }
               }
             }
@@ -303,16 +353,27 @@
         }
       }
       &__total {
-        padding: 20px;
+        padding: 0 20px 20px;
+        margin-top: 20px;
         display: flex;
         align-items: baseline;
-        span {
-          &:not(:last-child) {
-            font-size: 25px;
+        background: #FFF;
+        .total--prices{
+          span {
+            font-size: 28px;
+            &.ml-l-10 {
+              font-size: 30px;
+            }
+            &.price {
+              font-size: 30px;
+              color: #F00;
+            }
           }
-          &:last-child {
-            font-size: 30px;
-            color: #FF0000;
+
+          p.remark{
+            font-size: 25px;
+            color: #777;
+            padding-top: 5px;
           }
         }
       }

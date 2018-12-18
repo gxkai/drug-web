@@ -1,16 +1,19 @@
 <template>
   <div class="account">
     <div class="account-header">
+      <div class="account--name">用户名</div>
       <van-uploader :after-read="onRead">
-        <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"/>
+        <div class="logo-bg">
+          <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"/>
+        </div>
       </van-uploader>
 
       <van-icon name="lingdang"
                 class="lingdang"
                 @click="linkToMessageType"></van-icon>
-      <van-icon name="setting"
-                class="setting"
-                @click="$router.push('/setting')"></van-icon>
+      <!--<van-icon name="setting"-->
+                <!--class="setting"-->
+                <!--@click="$router.push('/setting')"></van-icon>-->
       <!--<div class="account-header-sign_in"-->
            <!--v-text="signIn === true ? '已签到' : '每日签到'"-->
            <!--:style="{backgroundColor: signIn === true ? 'Pink': ''}"-->
@@ -19,34 +22,138 @@
     </div>
 
     <div class="account-content">
-      <van-cell-group>
-        <van-cell title="全部订单" value="我的订单" to="/orders" is-link/>
-      </van-cell-group>
+      <div class="account-fixed-order">
+        <div class="order__header">
+          <router-link to="/orders">
+            <div class="left__all-order">
+              <span>全部订单</span>
+            </div>
+            <div class="right__my-order">
+              <span>我的订单</span>
+              <van-icon name="youjiantou" />
+            </div>
+          </router-link>
+        </div>
 
-      <van-tabbar :fixed="Boolean(false)">
-        <van-tabbar-item icon="icon-test" :info="count.toPayCount === 0 ? '':count.toPayCount"
-                         :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
-        </van-tabbar-item>
-        <van-tabbar-item icon="icon-test1" :info="count.toDeliveryCount === 0 ? '':count.toDeliveryCount "
-                         :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
-        </van-tabbar-item>
-        <van-tabbar-item icon="daishouhuo" :info="count.toReceivedCount === 0 ? '' : count.toReceivedCount"
-                         :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
-        </van-tabbar-item>
-        <van-tabbar-item icon="daipingjia01" :info="count.toAppraiseCount === 0 ? '' : count.toAppraiseCount"
-                         :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
-        </van-tabbar-item>
-      </van-tabbar>
+        <van-tabbar :fixed="Boolean(false)">
+          <van-tabbar-item icon="daifukuan" :info="count.toPayCount === 0 ? '':count.toPayCount"
+                           :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
+          </van-tabbar-item>
+          <van-tabbar-item icon="yaopin" :info="count.toDeliveryCount === 0 ? '':count.toDeliveryCount "
+                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
+          </van-tabbar-item>
+          <van-tabbar-item icon="daishouhuo" :info="count.toReceivedCount === 0 ? '' : count.toReceivedCount"
+                           :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
+          </van-tabbar-item>
+          <van-tabbar-item icon="daipingjia01" :info="count.toAppraiseCount === 0 ? '' : count.toAppraiseCount"
+                           :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
+          </van-tabbar-item>
+        </van-tabbar>
+      </div>
 
       <div class="account--grid">
-        <router-link
-          class="account--grid--item"
-          tag="div"
-          to="/orders"
-        >
-          <van-icon name="dingdan"></van-icon>
-          <div>我的订单</div>
-        </router-link>
+        <ul>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/accounts/info"
+            >
+              <div class="left-icon-title">
+                <van-icon name="wode"></van-icon>
+                <span>我的账号</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <!--医保账单---待改-->
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/accounts/insurance"
+            >
+              <div class="left-icon-title">
+                <van-icon name="tiyanjin"></van-icon>
+                <span>医保账单</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/addresses"
+            >
+              <div class="left-icon-title">
+                <van-icon name="wodedizhi"></van-icon>
+                <span>我的地址</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/collects"
+            >
+              <div class="left-icon-title">
+                <van-icon name="shoucang2"></van-icon>
+                <span>我的收藏</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/drugAppraises"
+            >
+              <div class="left-icon-title">
+                <van-icon name="pingjia1"></van-icon>
+                <span>我的评价</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/faqs"
+            >
+              <div class="left-icon-title">
+                <van-icon name="xiaoxi1"></van-icon>
+                <span>常见问题</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/feedbacks/create"
+            >
+              <div class="left-icon-title">
+                <van-icon name="tishi"></van-icon>
+                <span>意见反馈</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+        </ul>
+        <!--<router-link-->
+          <!--class="account&#45;&#45;grid&#45;&#45;item"-->
+          <!--tag="div"-->
+          <!--to="/orders"-->
+        <!--&gt;-->
+          <!--<van-icon name="dingdan"></van-icon>-->
+          <!--<div>我的订单</div>-->
+        <!--</router-link>-->
         <!--<router-link-->
           <!--class="account&#45;&#45;grid&#45;&#45;item"-->
           <!--to="/chats"-->
@@ -54,30 +161,16 @@
           <!--<van-icon name="kefu-tianchong"></van-icon>-->
           <!--<div>我的咨询</div>-->
         <!--</router-link>-->
-        <router-link
-          class="account--grid--item"
-          tag="div"
-          to="/addresses"
-        >
-          <van-icon name="dizhi1"></van-icon>
-          <div>我的地址</div>
-        </router-link>
-        <router-link
-          class="account--grid--item"
-          tag="div"
-          to="/collects"
-        >
-          <van-icon name="xingxing2"></van-icon>
-          <div>我的收藏</div>
-        </router-link>
-        <router-link
-          class="account--grid--item"
-          tag="div"
-          to="/accounts/info"
-        >
-          <van-icon name="wo"></van-icon>
-          <div>我的账号</div>
-        </router-link>
+        <!--<router-link-->
+          <!--class="account&#45;&#45;grid&#45;&#45;item"-->
+          <!--tag="div"-->
+          <!--to="/accounts/insurance"-->
+        <!--&gt;-->
+          <!--<van-icon name="yibao-" color="#ff8400"></van-icon>-->
+          <!--<div>我的医保</div>-->
+        <!--</router-link>-->
+
+
         <!--<router-link-->
           <!--class="account&#45;&#45;grid&#45;&#45;item"-->
           <!--to="/points"-->
@@ -85,38 +178,6 @@
           <!--<van-icon name="jifen1"></van-icon>-->
           <!--<div>我的积分</div>-->
         <!--</router-link>-->
-        <router-link
-          class="account--grid--item"
-          tag="div"
-          to="/accounts/insurance"
-        >
-          <van-icon name="yibao-" color="#ff8400"></van-icon>
-          <div>我的医保</div>
-        </router-link>
-        <router-link
-          class="account--grid--item"
-          tag="div"
-          to="/drugAppraises"
-        >
-          <van-icon name="pingjia"></van-icon>
-          <div>我的评价</div>
-        </router-link>
-        <router-link
-          class="account--grid--item"
-          tag="div"
-          to="/faqs"
-        >
-          <van-icon name="changjianwenti1"></van-icon>
-          <div>常见问题</div>
-        </router-link>
-        <router-link
-          class="account--grid--item"
-          tag="div"
-          to="/feedbacks/create"
-        >
-          <van-icon name="yijianfankui"></van-icon>
-          <div>意见反馈</div>
-        </router-link>
       </div>
     </div>
     <van-tabbar
@@ -167,7 +228,7 @@
       color: #9850DB;
     }
     &-yibaoqia {
-      color: red;
+      color: #F00;
     }
     &-changjianwenti1 {
       color: #72bd63;
@@ -178,50 +239,166 @@
     &-pingjia {
       color: #FF0000;
     }
+    &-youjiantou {
+      color: #000;
+      font-size: 33px;
+      line-height: initial;
+    }
+    &-daifukuan {
+      color: #9CA2F9;
+    }
+    &-yaopin {
+      color: #88C79A;
+    }
   }
+
+  /deep/.account-fixed-order .van-tabbar-item__icon i{
+    font-size: 50px !important;
+    padding-bottom: 10px;
+  }
+
 </style>
 <style scoped type="text/scss" lang="scss">
+
+  $mainColor:#e74a45;
+
+  .van-uploader{
+    z-index: 2;
+  }
+
+  .account-fixed-order {
+    .van-tabbar{
+      margin: 30px auto;
+      border-radius: 50px;
+      &-item--active{
+        color: #5F5F5F;
+      }
+    }
+  }
+
+  [class*=van-hairline]::after{
+    border: none;
+  }
+
   .account {
     background-color: #f5f5f5;
     display: flex;
     flex-flow: column;
     height: 100vh;
-    &--grid {
-      margin-top: 20px;
-      display: flex;
-      flex-flow: row wrap;
-      &--item {
-        flex: 0 0 25%;
-        height: 120px;
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        justify-content: center;
-        background-color: white;
-        border-top: 1PX solid #EBEBEB;
-        border-right: 1PX solid #EBEBEB;
-        &>div {
-          font-size: 25px;
-          margin-top: 10px;
-        }
-      }
-    }
-    &-content {
-      flex: 1;
-    }
-    &-header {
-      width: 720px;
-      height: 369px;
-      background: linear-gradient(0deg, rgba(0, 173, 179, 1), rgba(19, 193, 254, 1), rgba(134, 219, 249, 1));
+
+    .logo-bg{
+      width: 180px;
+      height: 180px;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
+      padding:8px;
+      border-radius: 50%;
+      background: #FFF;
+      box-shadow: 0 3px 13px -3px $mainColor;
+
       img {
-        width: 150px;
-        height: 150px;
+        width: 100%;
+        height: 100%;
         border-radius: 50%;
       }
+    }
+
+    .order__header{
+      a{
+        height:60px;
+        line-height: 60px;
+        display: flex;
+        color: #000;
+        div{
+          display: flex;
+          align-items: center;
+          span{
+            font-size: 25px;
+          }
+        }
+      }
+      .left__all-order{
+        flex: 1;
+        padding-left: 20px;
+      }
+      .right__my-order{
+        flex: 1;
+        justify-content: flex-end;
+        text-align: right;
+      }
+    }
+
+    &--name{
+      text-align: center;
+      font-size: 35px;
+      color: #FFF;
+      padding: 50px 0 30px;
+    }
+
+    &--grid {
+      background: #FFF;
+      margin-top: 150px;
+
+      ul{
+        padding: 15px 0;
+      }
+
+      &--item {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        padding: 15px 0 15px 30px;
+        .left-icon-title{
+          flex: 1.5;
+          .van-icon{
+            font-size: 42px;
+            color: $mainColor;
+          }
+          span{
+            font-size: 30px;
+            color: #5F5F5F;
+            display: inline-block;
+            vertical-align: sub;
+            padding-left: 20px;
+          }
+        }
+        .van-icon{
+          flex: .2;
+          font-size: 40px;
+          color: #5F5F5F;
+          text-align: center;
+          vertical-align: bottom;
+          display: inline-block;
+        }
+      }
+    }
+
+    &-content {
+      flex: 1;
+    }
+
+    &-fixed-order{
+      width: 690px;
+      position: fixed;
+      top: 280px;
+      z-index: 1;
+      left: 15px;
+      background: #FFF;
+      border-radius: 20px;
+      box-shadow: 0 0 20px -2px $mainColor;
+    }
+    &-header {
+      width: 720px;
+      height: 395px;
+      background: url('../../../src/assets/image/accounts/banner.jpg') no-repeat;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+
       &-login {
         &_text {
           text-align: center;
@@ -242,7 +419,7 @@
         font-size: 25px;
       }
       .lingdang {
-        font-size: 50px;
+        font-size: 40px;
         color: white;
         position: absolute;
         right: 20px;
@@ -277,7 +454,7 @@
       };
     },
     created() {
-      this.initData();
+      // this.initData();
     },
     mounted() {
     },
