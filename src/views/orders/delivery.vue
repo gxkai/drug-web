@@ -118,7 +118,7 @@
       };
     },
     created() {
-      this.initData();
+      // this.initData();
     },
     methods: {
       async initData() {
