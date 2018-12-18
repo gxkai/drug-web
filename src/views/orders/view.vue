@@ -1,108 +1,118 @@
 <template>
-  <new-layout
-    class="order_view"
-    center-color="white"
-  >
-    <template slot="top">
-      <van-nav-bar
-        :title="$route.name"
-        left-arrow
-        @click-left="$router.go(-1)"
-      />
-    </template>
-    <template slot="center">
-      <div class="order_view-state"
-           :style="stateStyle">
-        <div class="order_view-state_name" v-text="transformOrderStateSec(order.state, order.refundState, this)">
-        </div>
-        <new-count-down :endTime="order.lastModifiedDate" durationMin='15'
-                        class="order_view-state_time"
-                        v-show="order.state === 'TO_CHECK' || order.state === 'TO_PAY'"/>
-      </div>
-      <div class="order_view-address"
-           v-if="order.deliveryType === 'DELIVERY'">
-        <div class="order_view-address-left">
-          <i class="iconfont ic-address"></i>
-        </div>
-        <div class="order_view-address-right">
-          <div class="order_view-address-right_consignee">
-            收货人：{{order.consignee}} {{order.phone}}
+
+  <div>
+    <new-layout
+      class="order_view"
+      center-color="white"
+    >
+      <template slot="top">
+        <van-nav-bar
+          :title="$route.name"
+          left-arrow
+          @click-left="$router.go(-1)"
+        />
+      </template>
+      <template slot="center">
+        <div class="order_view-state"
+             :style="stateStyle">
+          <div class="order_view-state_name" v-text="transformOrderStateSec(order.state, order.refundState, this)">
           </div>
-          <div class="order_view-address-right_address">
-            收货地址：{{order.address}}
+          <new-count-down :endTime="order.lastModifiedDate" durationMin='15'
+                          class="order_view-state_time"
+                          v-show="order.state === 'TO_CHECK' || order.state === 'TO_PAY'"/>
+        </div>
+        <div class="order_view-address"
+             v-if="order.deliveryType === 'DELIVERY'">
+          <div class="order_view-address-left">
+            <i class="iconfont ic-address"></i>
+          </div>
+          <div class="order_view-address-right">
+            <div class="order_view-address-right_consignee">
+              收货人：{{order.consignee}} {{order.phone}}
+            </div>
+            <div class="order_view-address-right_address">
+              收货地址：{{order.address}}
+            </div>
           </div>
         </div>
-      </div>
-      <new-order-view-item :order.sync="order"></new-order-view-item>
-      <div class="order_view-amount">
-        <div>
-          <span>商品总价</span>
-          <span>&yen;{{order.totalAmount||'0.0'}}</span>
+        <new-order-view-item :order.sync="order"></new-order-view-item>
+        <div class="order_view-amount">
+          <div>
+            <span>商品总价</span>
+            <span>&yen;{{order.totalAmount||'0.0'}}</span>
+          </div>
+          <div>
+            <span>医保扣除</span>
+            <span>&yen;{{order.medicaidAmount||'0.0'}}</span>
+          </div>
+          <div>
+            <span>优惠券扣除</span>
+            <span>&yen;{{order.couponAmount||'0.0'}}</span>
+          </div>
+          <div>
+            <span>需付款</span>
+            <span class="text-red">&yen;{{order.payAmount||'0.0'}}</span>
+          </div>
         </div>
-        <div>
-          <span>医保扣除</span>
-          <span>&yen;{{order.medicaidAmount||'0.0'}}</span>
+        <div class="order_view-deal">
+          <div class="order_view-deal-number">
+            订单编号：{{order.number}}
+          </div>
+          <div class="order_view-deal-pay_number">
+            支付流水号：{{order.payNumber||'无'}}
+          </div>
+          <div class="order_view-deal-created_date">
+            创建时间：{{timeConvert(order.createdDate)}}
+          </div>
         </div>
-        <div>
-          <span>优惠券扣除</span>
-          <span>&yen;{{order.couponAmount||'0.0'}}</span>
+        <div class="order_view-buttons">
+          <div class="order_view-button"
+               @click="onCancel()"
+               v-if="order.state == 'TO_PAY'">
+            取消订单
+          </div>
+          <div class="order_view-button"
+               @click="onPay()"
+               v-if="order.state == 'TO_PAY'"
+               :style="activeButton">
+            我要付款
+          </div>
+          <div class="order_view-button"
+               @click="onConfirm()"
+               v-if="order.state == 'TO_RECEIVED'"
+               :style="activeButton">
+            确认收货
+          </div>
+          <div class="order_view-button"
+               @click="onDelivery()"
+               v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
+            查看配送
+          </div>
+          <div class="order_view-button"
+               @click="onAppraise()"
+               v-if="order.state == 'TO_APPRAISE'">
+            我要评价
+          </div>
+          <div @click="linkToTakeDrug(order.id)"
+               v-if="order.state == 'TO_RECEIVED' && order.type === 'HOSPITAL'">取药地址
+          </div>
         </div>
-        <div>
-          <span>需付款</span>
-          <span class="text-red">&yen;{{order.payAmount||'0.0'}}</span>
-        </div>
-      </div>
-      <div class="order_view-deal">
-        <div class="order_view-deal-number">
-          订单编号：{{order.number}}
-        </div>
-        <div class="order_view-deal-pay_number">
-          支付流水号：{{order.payNumber||'无'}}
-        </div>
-        <div class="order_view-deal-created_date">
-          创建时间：{{timeConvert(order.createdDate)}}
-        </div>
-      </div>
-      <div class="order_view-buttons">
-        <div class="order_view-button"
-             @click="onCancel()"
-             v-if="order.state == 'TO_PAY'">
-          取消订单
-        </div>
-        <div class="order_view-button"
-             @click="onPay()"
-             v-if="order.state == 'TO_PAY'"
-             :style="activeButton">
-          我要付款
-        </div>
-        <div class="order_view-button"
-             @click="onConfirm()"
-             v-if="order.state == 'TO_RECEIVED'"
-             :style="activeButton">
-          确认收货
-        </div>
-        <div class="order_view-button"
-             @click="onDelivery()"
-             v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
-          查看配送
-        </div>
-        <div class="order_view-button"
-             @click="onAppraise()"
-             v-if="order.state == 'TO_APPRAISE'">
-          我要评价
-        </div>
-        <div @click="linkToTakeDrug(order.id)"
-             v-if="order.state == 'TO_RECEIVED' && order.type === 'HOSPITAL'">取药地址
-        </div>
-      </div>
-      <!--<van-popup-->
-      <!--v-model="popupVisible"-->
-      <!--position="top"-->
-      <!--&gt;-->
-      <!--<img v-lazy="getQrCodeURL(order.id)" class="order_view-qr_code">-->
-      <!--</van-popup>-->
-    </template>
-  </new-layout>
+        <!--<van-popup-->
+        <!--v-model="popupVisible"-->
+        <!--position="top"-->
+        <!--&gt;-->
+        <!--<img v-lazy="getQrCodeURL(order.id)" class="order_view-qr_code">-->
+        <!--</van-popup>-->
+      </template>
+    </new-layout>
+
+    <van-popup
+      v-model="popup"
+      position="center">
+
+    </van-popup>
+  </div>
+
 </template>
 
 <style scoped type="text/scss" lang="scss">
@@ -198,6 +208,7 @@
   export default {
     data() {
       return {
+        popup: true,
         title: '订单详情',
         orderId: this.$route.query.orderId,
         popupVisible: false,
