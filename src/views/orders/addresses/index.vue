@@ -80,15 +80,14 @@
   }
 </style>
 <script>
-  import { setReceivedAddress } from '../../../storage';
-
   export default {
     name: 'addresses',
     data() {
       return {
         list: [],
         account: this.$store.getters.account,
-        shopId: this.$route.query.shopId
+        shopId: this.$route.query.shopId,
+        address: undefined
       };
     },
     created() {
@@ -97,16 +96,15 @@
     computed: {
     },
     beforeRouteLeave(to, from, next) {
-      to.meta.keepAlive = true;
-      next();
+      to.query.address = this.address;
     },
     methods: {
       async initData() {
         this.list = await this.$http.get(`/addresses/order?shopId=${this.shopId}`);
       },
       onAddress(address) {
-        setReceivedAddress(address);
-        this.$router.go(-1);
+        this.address = address;
+        this.$router.back();
       }
     }
   };
