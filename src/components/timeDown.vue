@@ -66,9 +66,8 @@
 </script>
 <style>
   .d_Downtime{
-    background:rgba(0,0,0,1);
+    color:rgba(38,38,38,1);
     border-radius:10%;
-    color: white;
     font-size: 25px;
   }
   /*#times{*/
