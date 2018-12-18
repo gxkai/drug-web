@@ -59,7 +59,8 @@ import { Actionsheet,
 import router from './router';
 import BasicVueChat from 'basic-vue-chat';
 Vue.use(BasicVueChat);
-Vue.use(Actionsheet).use(GoodsAction)
+Vue.use(Actionsheet)
+  .use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)
   .use(Popup)

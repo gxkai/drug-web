@@ -16,10 +16,10 @@
             v-show="show"
             class="orders__header__search"
           >
-        <span
-          class="orders__header__search--left"
-          @click="onCancel"
-        >取消</span>
+            <span
+              class="orders__header__search--left"
+              @click="onCancel"
+            >取消</span>
             <input
               class="orders__header__search-input"
               placeholder="输入药品名称"
