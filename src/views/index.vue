@@ -1,508 +1,649 @@
 <template>
-  <div>
-    <new-layout
-      centerColor="white"
-      class="home">
-      <template slot="top">
-        <div class="home__header">
-          <div class="home__header__first">
-            <div class="home__header__first__left"
-                 @click="$router.push('/addresses/choose')"
-            >
-              <van-icon name="weizhi" color="white" size="4em"></van-icon>
-              <span class="home__header__first__left--name">{{position.name}}</span>
-              <van-icon name="arrowdown" color="white" size="3em"></van-icon>
-            </div>
-            <div class="home__header__first__right">
-              <van-icon name="lingdang" color="white" size="4em" @click="$router.push('/messageTypes')"></van-icon>
-            </div>
-          </div>
-          <div class="home__header__second">
-            <input class="home__header__second__input iconfont"
-                   :placeholder="searchIcon"
-                   @click="$router.push('/drugs')"
-            >
-          </div>
+  <div class="home">
+    <div class="home__banner">
+      <div class="home__banner__top">
+        <span class="home__banner__address">
+           <i class="fz22" @click="$router.push('/addresses/choose')"> {{position.name}}</i>
+           <van-icon name="arrowdown" color="white" size="3em" class="arrow"></van-icon>
+        </span>
+        <div>
+          <span class="home__banner__search">
+
+          </span>
+          <span>
+            <van-icon name="sousuo" color="white" size="0.7rem" class="sousuo"></van-icon> <input type="text"
+                                                                                                  placeholder="输入您当前要搜索的商品"
+                                                                                                  @click="$router.push('/drugs')"/>
+        </span>
         </div>
-      </template>
-      <template slot="center">
-        <div class="home__content"
-        >
-          <div>
+      </div>
+      <div class="banner_img">
+        <img src="../assets/image/home/home_banner.jpg"/>
+      </div>
+    </div>
+    <div class="home__four">
+      <ul class="home__four__ul">
+        <li class="home__four__ul__li" @click="$router.push('/rxs')">
+          <span><img src="../assets/image/home/home_cf.png"/> </span>
+          <span class="home__four__ul__li__span">我的处方</span>
+        </li>
+        <li class="home__four__ul__li" @click="$router.push('/accounts/insurance')">
+          <span><img src="../assets/image/home/home_yb.png"/> </span>
+          <span class="home__four__ul__li__span">我的医保</span>
+        </li>
+        <li class="home__four__ul__li" @click="$router.push('/repositoryTypes')">
+          <span><img src="../assets/image/home/home_knew.png"/> </span>
+          <span class="home__four__ul__li__span">知识库</span>
+        </li>
+        <li class="home__four__ul__li" @click="$router.push('/shops')">
+          <span><img src="../assets/image/home/home_drug.png"/> </span>
+          <span class="home__four__ul__li__span">药房</span>
+        </li>
+      </ul>
+    </div>
 
-            <!--<van-swipe-->
-            <!--:auto="3000"-->
-            <!--class="home__content__swipe"-->
-            <!--&gt;-->
-            <!--<van-swipe-item-->
-            <!--v-for="(advert,index) in adverts" :key="index"-->
-            <!--class="home__content__swipe__item"-->
-            <!--&gt;-->
-            <!--<img v-lazy="getImgURL(advert.fileId, 'ADVERT')"-->
-            <!--class="home__content__swipe__item&#45;&#45;advert"-->
-            <!--@click="$router.push(advert.url)"-->
-            <!--/>-->
-            <!--</van-swipe-item>-->
-            <!--</van-swipe>-->
+    <div class="home__news">
+      <span><img src="../assets/image/home/home_hot.png" class="home__news__img"/> </span>
+      <span><van-icon name="laba" color="#F63016" size="4em"></van-icon></span>
+      <span>
+            <transition name="slide" mode="out-in">
+             <p class="home__content__repository__right__item--title"
+                :key="text.id"
+                @click="$router.push({path:'/repositories/view',query:{id:text.val.id,title:text.val.title}})"
+             >{{text.val.title}}</p>
+           </transition>
 
-            <div
-              class="home__content__entry van-hairline--bottom"
+       </span>
+    </div>
+    <div class="home__content__discount">
+      <div class="home__content__discounttime">
+        <span class="text-F6003F">限时</span>
+        <span class="text-262626">抢购</span>
+        <van-icon name="shizhong" color="#F63016" size="2em" class="timecount"></van-icon>
+        <new-time-down class="home__content__discount&#45;&#45;time&#45;&#45;down"></new-time-down>
+        <span class="home__more" style="display: none;">更多</span>
+      </div>
+    </div>
+
+    <div class="home__rush">
+      <div class="home__rush__div">
+        <ul class="home__rush__div__ul">
+          <van-swipe :loop="false"
+                     :width="300"
+                     :show-indicators="false"
+                     class="home__content__discount__content"
+          >
+            <van-swipe-item
+              v-for="discount in discounts"
+              :key="discount.id"
             >
-              <div class="home__content__entry__item"
-                   @click="$router.push('/rxs')"
-              >
-                <div class="home__content__entry__item--icon">
-                  <van-icon name="chufang-" color="#f72250" size="5em"
-                            class="home__content__entry__item--icon--chufang"></van-icon>
-                </div>
-                <div
-                  class="home__content__entry__item--name"
-                >我的处方
-                </div>
-              </div>
-              <div class="home__content__entry__item"
-                   @click="$router.push('/repositoryTypes')">
-                <div class="home__content__entry__item--icon">
-                  <van-icon name="zhishiku-" color="#11c6fe" size="5em"
-                            class="home__content__entry__item--icon--chufang"></van-icon>
-                </div>
-                <div
-                  class="home__content__entry__item--name"
-                >知识库
-                </div>
-              </div>
-              <div class="home__content__entry__item"
-                   @click="$router.push('/shops')"
-              >
-                <div class="home__content__entry__item--icon">
-                  <van-icon name="yaofang-" color="#2bb292" size="5em"
-                            class="home__content__entry__item--icon--chufang"></van-icon>
-                </div>
-                <div
-                  class="home__content__entry__item--name"
-                >药房
-                </div>
-              </div>
-              <div class="home__content__entry__item"
-                   @click="$router.push('/accounts/insurance')"
-              >
-                <div class="home__content__entry__item--icon">
-                  <van-icon name="yibao-" color="#ff8400" size="5em"
-                            class="home__content__entry__item--icon--chufang"></van-icon>
-                </div>
-                <div
-                  class="home__content__entry__item--name"
-                >我的医保
-                </div>
-              </div>
-            </div>
+              <li class="home__rush__div__ul__li">
+            <span class="home__rush__div__ul__li__img">
+              <img v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')" @click="linkToShopDrugSpec(discount.shopDrugId)"
+                   class="home__rush__div__ul__li__imgs"/> </span>
+                <span class="home__rush__div__ul__li__vc"> {{discount.name}}</span>
+                <span class="home__rush__div__ul__li__header">
+                 <van-icon name="xinxinicon" color="red" size="1rem" class="home__rush_div__header__icon"/>
+                 <span class="price">超值</span>
+                 <span class="value">{{discount.price}}元</span>
+             </span>
+              </li>
+            </van-swipe-item>
+          </van-swipe>
 
-            <div class="home__content__repository">
-              <div class="home__content__repository__left">
-                <div
-                  class="home__content__repository__left-top"
-                >健康
-                </div>
-                <div
-                  class="home__content__repository__left-bottom"
-                >咨询
-                </div>
-              </div>
-              <div class="home__content__repository__right">
-                <transition class="home__content__repository__right__item"
-                            name="slide" mode="out-in"
-
-                >
-                  <p class="home__content__repository__right__item--title"
-                     :key="text.id"
-                     @click="$router.push({path:'/repositories/view',query:{id:text.val.id,title:text.val.title}})"
-                  >{{text.val.title}}</p>
-                </transition>
-              </div>
-            </div>
-            <div class="home__content__discount">
-              <new-header-sec>
-                <div>让利惠民</div>
-              </new-header-sec>
-              <div class="home__content__discount--time">
-                <van-icon name="shijian2" color="#FF9800" size="3em"
-                          class="home__content__discount--time--icon"></van-icon>
-                <new-time-down class="home__content__discount--time--down"></new-time-down>
-              </div>
-              <van-swipe :loop="false"
-                         :width="100"
-                         :show-indicators="false"
-                         class="home__content__discount__content"
-              >
-                <van-swipe-item
-                  v-for="discount in discounts"
-                  :key="discount.id"
-                >
-                  <div class="home__content__discount__content__item"
-                  >
-                    <img
-                      class="home__content__discount__content__item--logo"
-                      v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')"
-                      @click="linkToShopDrugSpec(discount.shopDrugId)"
-                    >
-                    <div
-                      class="home__content__discount__content__item--name"
-                    >
-                      {{discount.name}}
-                    </div>
-                    <div
-                      class="home__content__discount__content__item--spec"
-                    >
-                      ￥{{discount.price}}
-                    </div>
-                  </div>
-                </van-swipe-item>
-              </van-swipe>
-            </div>
-            <div class="home__content__show">
-              <new-header-sec>
-                <div>医保定点</div>
-              </new-header-sec>
-              <carousel-3d :count="shows.length" width="250" height="160" display="3">
-                <slide v-for="(slide, i) in shows" :index="i" :key="i">
-                  <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
-                    <img :data-index="index"
-                         :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }"
-                         v-lazy="getImgURL(slide.fileId, 'LARGE_LOGO')"
-                         @click="$router.push({path:'/shops/view',query:{shopId:slide.id}})">
-                  </template>
-                </slide>
-              </carousel-3d>
-            </div>
-            <div class="home__content__recommend">
-              <new-header-sec>
-                <div>
-                  <van-icon name="aixin" color="red"/>
-                  好货推荐
-                </div>
-              </new-header-sec>
-              <div
-                class="home__content__recommend__content"
-              >
-                <div class="home__content__recommend__content__item van-hairline--surround"
-                     v-for="recommend in recommends"
-                     :key="recommend.id"
-                     @click="linkToShopDrugSpec(recommend.shopDrugId)"
-                >
-                  <img
-                    class="home__content__recommend__content__item--logo"
-                    v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')">
-                  <div
-                    class="home__content__recommend__content__item--name"
-                  >{{recommend.name}}
-                  </div>
-                  <div
-                    class="home__content__recommend__content__item--spec"
-                  >{{recommend.spec}}
-                  </div>
-                  <div
-                    class="home__content__recommend__content__item--price"
-                  >{{`￥${recommend.price}`}}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="home__kindpink bg-ffc8bf">
+      <img src="../assets/image/home/home_dot.png"/>家庭常用
+      <img src="../assets/image/home/home_dot.png"/>
+    </div>
+    <div class="home__family">
+      <div class="home__family__div home__family__used">
+        <p class="home__family__div__p">感冒</p>
+        <p class="home__family__div__p1">清热解毒</p>
+        <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+      </div>
+      <div class="home__family__div home__family__used">
+        <p class="home__family__div__p">抗过敏</p>
+        <p class="home__family__div__p1">皮炎湿疹</p>
+        <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+      </div>
+      <div class="home__family__div home__family__used">
+        <p class="home__family__div__p">止咳化痰</p>
+        <p class="home__family__div__p1">肺热咳嗽</p>
+        <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+      </div>
+    </div>
+    <div class="home__kindpink bg-0090E6 text-1988CA">
+      <img src="../assets/image/home/home_dot.png"/>风湿骨科
+      <img src="../assets/image/home/home_dot.png"/>
+    </div>
+    <div class="home__family">
+      <div class="home__family__div home__family__used">
+        <p class="home__family__div__p">跌打损伤</p>
+        <p class="home__family__div__p1 text-1988CA">关节炎</p>
+        <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+      </div>
+      <div class="home__family__div home__family__used">
+        <p class="home__family__div__p">骨质疏松</p>
+        <p class="home__family__div__p1 text-1988CA">肩周炎</p>
+        <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+      </div>
+      <div class="home__family__div home__family__used">
+        <p class="home__family__div__p">腰肌劳损</p>
+        <p class="home__family__div__p1 text-1988CA">骨质增生</p>
+        <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+      </div>
+    </div>
+    <div class="home__kindpink bg-BFD6FF text-1988CA">
+      <img src="../assets/image/home/home_dot.png"/>肠胃用药
+      <img src="../assets/image/home/home_dot.png"/>
+    </div>
+    <div class="home__family">
+      <div class="home__family__div home__family__used">
+        <p class="home__family__div__p">胃炎</p>
+        <p class="home__family__div__p1 text-1D63CE">清热解毒</p>
+        <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+      </div>
+      <div class="home__family__div home__family__used">
+        <p class="home__family__div__p">消化不良</p>
+        <p class="home__family__div__p1 text-1D63CE">胃肠解痉</p>
+        <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+      </div>
+      <div class="home__family__div home__family__used">
+        <p class="home__family__div__p">腹泻</p>
+        <p class="home__family__div__p1 text-1D63CE">肺热咳嗽</p>
+        <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+      </div>
+    </div>
+    <div class="home__content__recommend">
+      <new-header-sec>
+        <div>
+          <van-icon name="aixin" color="red"/>
+          好货推荐
         </div>
-      </template>
-      <template slot="bottom">
-        <van-tabbar
-          :value="0"
-          :fixed="Boolean(false)"
-        >
-          <van-tabbar-item icon="icon"
-                           to="/home">首页
-          </van-tabbar-item>
-          <van-tabbar-item icon="chufang"
-                           to="/rxs">处方单
-          </van-tabbar-item>
-          <van-tabbar-item icon="fenlei"
-                           to="/drugTypes">分类
-          </van-tabbar-item>
-          <van-tabbar-item icon="gouwuche2"
-                           to="/carts">购物车
-          </van-tabbar-item>
-          <van-tabbar-item icon="wo"
-                           to="/accounts">我
-          </van-tabbar-item>
-        </van-tabbar>
-      </template>
-    </new-layout>
-    <img src="../assets/image/chat.png" class="home__chat"
-         @mousedown="down" @touchstart="down"
-         @mousemove="move" @touchmove="move"
-         @mouseup="end" @touchend="end"
-         id="moveDiv"
-         @click="$router.push('/chats')"
+      </new-header-sec>
+    </div>
+    <div class="home__recomd__goods">
+      <div class="home__recomd__goods__div" v-for="recommend in recommends"
+           :key="recommend.id"
+           @click="linkToShopDrugSpec(recommend.shopDrugId)">
+        <!--<div class="home__recomd__goods__div__rx">非处</div>-->
+        <div class="home__recomd__goods__div__img">
+
+          <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')">
+        </div>
+        <div class="home__recomd__goods__div__title">{{recommend.name}}{{recommend.spec}}</div>
+        <div class="home__recomd__goods__div__price">¥{{`${recommend.price}`}}</div>
+      </div>
+    </div>
+   <van-tabbar
+      :value="0"
+      :fixed="Boolean(false)"
     >
+      <van-tabbar-item icon="icon"
+                       to="/home">首页
+      </van-tabbar-item>
+      <van-tabbar-item icon="chufang"
+                       to="/rxs">处方单
+      </van-tabbar-item>
+      <van-tabbar-item icon="fenlei"
+                       to="/drugTypes">分类
+      </van-tabbar-item>
+      <van-tabbar-item icon="gouwuche2"
+                       to="/carts">购物车
+      </van-tabbar-item>
+      <van-tabbar-item icon="wo"
+                       to="/accounts">我
+      </van-tabbar-item>
+    </van-tabbar>
+
   </div>
 </template>
 <style scoped type="text/less" lang="less">
-  @keyframes myMove {
-    0% {
-      transform: translateY(0);
-    }
-    10% {
-      transform: translateY(-30px);
-    }
-    20% {
-      transform: translateY(-30px);
-    }
-    30% {
-      transform: translateY(-60px);
-    }
-    40% {
-      transform: translateY(-60px);
-    }
-    50% {
-      transform: translateY(-90px);
-    }
-    60% {
-      transform: translateY(-90px);
-    }
-    70% {
-      transform: translateY(-120px);
-    }
-    80% {
-      transform: translateY(-120px);
-    }
-    90% {
-      transform: translateY(-150px);
-    }
-    100% {
-      transform: translateY(-150px);
+  .van-tabbar {
+    position: fixed;
+    bottom: 0px;
+  }
+
+  .van-tabbar-item__icon i {
+    font-size: 22px;
+  }
+
+  .van-tabbar-item--active {
+    color: #F60032;
+  }
+
+  .text-F6003F {
+    color: #F6003F;
+    font-size: 27px;
+    margin-left: 14px;
+  }
+
+  .text-262626 {
+    color: #262626;
+    font-size: 27px;
+  }
+
+  .text-1988CA {
+    color: #1988CA !important;
+  }
+
+  .bg-BFD6FF {
+    background: #BFD6FF;
+  }
+
+  .text-1D63CE {
+    color: #1D63CE !important;
+  }
+
+  i {
+    font-style: normal;
+  }
+
+  .home__news__img {
+    margin-left: 12px;
+  }
+
+  .arrow {
+    font-size: 18px !important;
+  }
+
+  .fz22 {
+    font-size: 22px;
+  }
+
+  body {
+    font-family: MicrosoftYaHei !important;
+  }
+
+  input {
+    border: none;
+  }
+
+  .home__banner__top {
+    color: white;
+  }
+
+  .home__banner__address {
+    height: 22px;
+    margin-left: 13px;
+  }
+
+  input {
+    display: inline-block;
+    width: 350px;
+    border-radius: 10px;
+    height: 50px;
+    color: white;
+    position: absolute;
+    top: 5px;
+    left: 290px;
+    background: none;
+    font-size: 25px;
+  }
+
+  .bg-0090E6 {
+    background: #8dd4ff;
+  }
+
+  .text-0090E6 {
+    color: #0090E6;
+  }
+
+  .text-ffc8bf {
+    color: #ffc8bf;
+  }
+
+  .bg-ffc8bf {
+    background: #ffc8bf;
+  }
+
+  .sousuo {
+    position: absolute;
+    top: 0px;
+    left: 230px;
+  }
+
+  ::placeholder {
+    color: white;
+    opacity: 1;
+  }
+
+  .banner_img {
+    width: 720px;
+    height: 404px;
+    img {
+
+      height: 404px;
     }
   }
 
-  .slide-enter-active, .slide-leave-active {
-    transition: all .5s linear;
+  #times {
+    display: inline-block;
+
   }
 
-  .slide-leave-to {
-    transform: translateY(-50px);
+  .home__rush li {
+
+    border-right: 1px solid #f3f3f3;
+    width: 200px !important;
+
   }
 
-  .slide-enter {
-    transform: translateY(50px);
+  .van-swipe-item {
+    width: 200px;
   }
 
   .home {
-    &__chat {
-      position: fixed;
-      bottom: 100px;
-      right: 0;
-      z-index: 999;
-      width: 100px;
+    max-width: 720px;
+    overflow-x: hidden;
+    &__family__used {
+      height: 351px;
     }
-    &__content {
-      &__recommend {
-        &__content {
-          width: 720px;
-          display: flex;
-          flex-flow: row wrap;
-          &__item {
-            width: 360px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: white;
-            padding: 20px;
-            &--logo {
-              width: 200px;
-              height: 200px;
-            }
-            &--name, &--spec {
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              font-size: 22px;
-              font-family: HiraginoSansGB-W3;
-              font-weight: normal;
-              color: rgba(69, 69, 69, 1);
-            }
-            &--price {
-              font-size: 24px;
-              font-family: HiraginoSansGB-W3;
-              font-weight: normal;
-              color: rgba(255, 0, 0, 1);
-            }
-          }
+    &__recomd__goods__div {
+      border-right: 1px solid #f3f3f3;
+      border-bottom: 1px solid #f3f3f3;
+    }
+    &__content__discounttime {
+      height: 67px;
+      line-height: 67px;
+      margin-top: 17px;
+      border-bottom: 1px solid #f3f3f3;
+      border-top: 10px solid #efebeb;
+    }
+    &__rush__div {
+      height: 205px;
+    }
+    &__rush__div__ul__li {
+      height: 205px;
+    }
+    &__rush__div__ul__li__imgs {
+      width: 127px;
+      height: 127px;
+    }
+    &__rush__div__ul__li__vc {
+      margin: auto;
+      width: 140px;
+      text-align: center;
+      top: 145px;
+      position: absolute;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      left: 50px;
+    }
+    &__news {
+      height: 68px;
+      width: 720px;
+
+      span:first-child {
+        img {
+          width: 121px;
+          height: 28px;
         }
       }
-      &__discount {
-        &--time {
-          height: 50px;
-          display: flex;
-          background-color: white;
-          padding: 0 20px;
-          align-items: center;
-          &--down {
-            margin-left: 20px;
-            margin-top: 10px;
-          }
-        }
-        &__content {
-          margin-top: 20px;
-          &__item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: white;
-            width: 180px;
-            &--logo {
-              width: 160px;
-              height: 160px;
-              border: 1PX solid rgba(19, 193, 254, 1);
-              border-radius: 7px;
-            }
-            &--name, &--spec {
-              width: 100px;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-            }
-            &--name {
-              font-size: 22px;
-              font-family: HiraginoSansGB-W3;
-              font-weight: normal;
-              color: rgba(69, 69, 69, 1);
-            }
-            &--spec {
-              font-size: 24px;
-              font-family: HiraginoSansGB-W3;
-              font-weight: normal;
-              color: rgba(255, 0, 0, 1);
-            }
-          }
-        }
+      span:nth-child(3) {
+        font-size: 26px;
       }
-      &__repository {
-        height: 100px;
-        display: flex;
-        padding: 20px;
-        background-color: white;
-        align-items: center;
-        &__left {
-          width: 100px;
-          div {
-            font-size: 28px;
-            font-family: FZZZHONGJW--GB1-0;
-            font-weight: bold;
-            color: rgba(255, 152, 0, 1);
-            text-align: center;
-          }
-        }
-        &__right {
-          width: 500px;
-          height: 100%;
-          overflow: hidden;
-          &__item {
-            animation: myMove 5s linear infinite;
-            animation-fill-mode: forwards;
-            display: flex;
-            &--title {
-              margin-top: 10px;
-              font-family: HiraginoSansGB-W3;
-              font-weight: normal;
-              color: rgba(119, 119, 119, 1);
-              font-size: 25px;
-            }
-          }
-        }
+    }
+    &__banner {
+      width: 720px;
+      height: 404px;
+
+      &__top {
+        height: 50px;
+        position: absolute;
+        margin-top: 49px;
+        width: 720px;
       }
-      &__swipe {
-        margin-bottom: 20px;
-        background-color: white;
-        &__item {
-          &--advert {
-            width: 700px;
-            height: 300px;
-            margin: 10px;
-            border-radius: 20px;
-          }
-        }
+      &__address {
+        width: 200px;
+        height: 21px;
+        font-size: 22px;
+        display: inline-block;
+        float: left;
+        line-height: 21px;
+        position: absolute;
+        top: 15px;
+        font-size: 22px;
+        font-weight: normal;
+        color: rgba(255, 255, 255, 1);
       }
-      &__entry {
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        background-color: white;
-        &__item {
-          display: flex;
+      &__search {
+        width: 500px;
+        height: 60px;
+        background: rgba(255, 255, 255, 1);
+        opacity: 0.46;
+        border-radius: 10px;
+        display: inline-block;
+        font-size: 25px;
+        position: absolute;
+        left: 200px;
+
+      }
+    }
+    &__content__discount--time--icon {
+      float: left;
+    }
+    &__home__content__discount--time--icon {
+      float: left;
+    }
+    &__content__discount--time--down {
+      float: left;
+    }
+    &__more {
+      float: right;
+      font-size: 24px;
+      font-weight: bold;
+      color: rgba(246, 0, 63, 1);
+      width: 81px;
+      height: 33px;
+      background: rgba(246, 0, 63, 0);
+      border: 1px solid #F6003F;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 33px;
+      margin-right: 22px;
+      margin-top: 10px;
+    }
+    &__four {
+      height: 172px;
+      &__ul {
+        &__li {
+          float: left;
+          font-size: 20px;
+          width: 25%;
+          text-align: center;
           flex-direction: column;
-          align-items: center;
-          &--image {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-          }
-          &--icon {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: rgba(245, 245, 245, 1);
-            box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            .van-icon {
-              line-height: 80px;
+          span {
+            font-size: 20px;
+            display: block;
+            img {
+              width: 124px;
+              height: 124px;
             }
           }
-          &--name {
-            font-size: 25px;
-            margin-top: 10px;
+        }
+      }
+    }
+    &__rush {
+
+      &__div {
+
+        &__ul {
+
+          &__li {
+            width: 200px;
+            height: 200px;
+            float: left;
+
+            &__img {
+              display: block;
+              margin-top: 20px;
+              text-align: center;
+              margin-bottom: 20px;
+              padding-top: 20px;
+            }
+            &__vc {
+              display: block;
+              font-size: 20px;
+              font-weight: 500;
+              color: rgba(51, 51, 51, 1);
+              margin-top: 20px;
+              text-align: center;
+            }
+            &__header {
+              height: 150px;
+              position: relative;
+              top: -30px;
+              .van-icon-xinxinicon {
+                left: 75px;
+                top: -1rem;
+              }
+              .price {
+                position: absolute;
+                color: white;
+                top: -80px;
+                width: 50px;
+                display: inline-block;
+                z-index: 99;
+              }
+              .value {
+                position: absolute;
+                color: white;
+                width: 50px;
+                display: inline-block;
+                z-index: 99;
+                top: -100px;
+              }
+            }
+
+          }
+        }
+      }
+
+      &__buy {
+        display: inline-block;
+      }
+
+      li {
+        width: 187.5px;
+      }
+      &__drug {
+        width: 187.5px;
+        height: 205px;
+        &__header {
+          width: 63px;
+          height: 59px;
+          background: rgba(246, 0, 63, 1);
+          color: white;
+          position: absolute;
+        }
+      }
+    }
+    &__kindpink {
+      clear: both;
+      width: 720px;
+      height: 76px;
+      line-height: 76px;
+
+      color: #FF2B00;
+      text-align: center;
+      font-size: 28px;
+      margin-top: 18px;
+      border-top: 10px solid #efebeb;
+      img {
+
+        margin-right: 15px;
+        line-height: 76px;
+      }
+    }
+    &__family {
+      width: 720px;
+      height: 352px;
+      &__div {
+        border-right: 1px solid #f3f3f3;
+        float: left;
+        width: 240px;
+        display: inline-block;
+        &__p {
+          font-size: 28px;
+          font-weight: bold;
+          color: rgba(1, 0, 0, 1);
+
+          text-align: center;
+          margin-top: 33px;
+        }
+        &__p1 {
+          font-size: 24px;
+          font-weight: 400;
+          color: rgba(255, 0, 0, 1);
+          text-align: center;
+          margin-top: 8px;
+        }
+        &__p3 {
+          margin-top: 49px;
+          width: 230px;
+          text-align: center;
+          img {
+            width: 181px;
+
           }
         }
       }
     }
-    &__header {
-      background-color: #1AB6FD;
-      padding: 20px;
-      &__first {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        &__left {
-          display: flex;
-          align-items: center;
-          &--name {
-            display: inline-block;
-            max-width: 400px;
-            font-size: 30px;
-            color: white;
-            font-weight: normal;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            margin: 0 10px;
+    &__recomd__goods {
+      &__div {
+        width: 360px;
+        float: left;
+        text-align: center;
+        &__rx {
+          width: 42px;
+          height: 25px;
+          background: rgba(246, 0, 0, 1);
+          border-radius: 50%;
+          font-size: 15px;
+          font-weight: bold;
+          color: rgba(255, 255, 255, 1);
+          height: (25-12)/2;
+          text-align: center;
+          line-height: 25px;
+          margin: 16px 0px 0px 52px;
+        }
+        &__img {
+          width: 157px;
+          height: 157px;
+          margin: auto;
+          img {
+            width: 100%;
           }
         }
-      }
-      &__second {
-        &__input {
-          font-size: 30px;
-          padding: 0 20px;
-          -webkit-appearance: none;
-          border: none;
-          outline: none;
-          width: 100%;
-          height: 50px;
-          margin-top: 20px;
-          &::placeholder {
-            text-align: center;
-          }
+        &__title {
+          font-size: 22px;
+          font-weight: normal;
+          color: rgba(53, 53, 53, 1);
         }
+        &__price {
+          font-size: 24px;
+          font-weight: normal;
+          color: rgba(246, 0, 0, 1);
+          line-height: 43px;
+        }
+
       }
     }
+
   }
+
+
 </style>
+
+
 <script>
-  import { Carousel3d, Slide } from 'vue-carousel-3d';
-  import { getReceivedPosition } from '../storage';
+  import {Carousel3d, Slide} from 'vue-carousel-3d';
+  import {getReceivedPosition} from '../storage';
 
   export default {
     name: 'home',
@@ -510,7 +651,7 @@
       return {
         searchIcon: '\ue64c 药品名',
         discounts: [],
-        shows: [{ id: 'x' }, { id: 'y' }, { id: 'y' }],
+        shows: [{id: 'x'}, {id: 'y'}, {id: 'y'}],
         recommends: [],
         adverts: [],
         repositories: [],
@@ -520,7 +661,7 @@
         timer: '',
 
         flags: false,
-        pos: { x: 0, y: 0 },
+        pos: {x: 0, y: 0},
         nx: '',
         ny: '',
         dx: '',
@@ -611,7 +752,7 @@
         this.adverts = await this.$http.get('/adverts');
         // 好货推荐
         this.recommends = await this.$http.get('/drugs/recommend');
-        console.log(this.recommends);
+
         // 知识库
         this.repositories = await this.$http.get('/repositories/home');
         setInterval(this.scroll, 2000);

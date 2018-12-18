@@ -252,7 +252,7 @@
     components: {},
     computed: {},
     created() {
-      this.initData();
+      // this.initData();
     },
     mounted() {
     },
