@@ -15,22 +15,22 @@
         <van-field
           v-model="address.consignee"
           label="姓名"
-          placeholder="请输入姓名" />
+          placeholder="请输入姓名"/>
         <van-field
           v-model="address.phone"
           label="手机号码"
           type="tel"
-          placeholder="请输入手机号码" />
+          placeholder="请输入手机号码"/>
         <van-field
           value="昆山市"
           label="地区"
           disabled/>
         <van-field
-        v-model="address.address"
-        label="地址"
-        type="text"
-        placeholder="选择收货地址"
-        @click="setPosition()"
+          v-model="address.address"
+          label="地址"
+          type="text"
+          placeholder="选择收货地址"
+          @click="setPosition()"
         />
         <van-field
           v-model="address.lat"
@@ -51,15 +51,15 @@
       </van-cell-group>
 
       <van-cell-group class="mt-l-20 address-edit__checkbox">
-        <van-checkbox v-model="address.defaulted" >设为默认地址</van-checkbox>
+        <van-checkbox v-model="address.defaulted">设为默认地址</van-checkbox>
       </van-cell-group>
     </template>
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
-  /deep/.van-checkbox {
+  /deep/ .van-checkbox {
     &__label {
-      font-size: 25px!important;
+      font-size: 25px !important;
     }
     &__icon, &__label {
       line-height: normal;
@@ -94,18 +94,17 @@
       if (this.id !== undefined) {
         this.getList();
       }
+      this.$navigation.on('back', (to, from) => {
+        console.log('back to', to, 'from ', from);
+        let position = to.route.query.position;
+        if (position !== undefined) {
+          this.address.lat = position.location.lat;
+          this.address.lng = position.location.lng;
+          this.address.address = position.name;
+        }
+      });
     },
-    beforeRouteLeave(to, from, next) {
-      this.$route.meta.keepAlive = false;
-      next();
-    },
-    activated() {
-      if (this.$route.query.position !== undefined) {
-        const position = JSON.parse(this.$route.query.position);
-        this.address.lat = position.location.lat;
-        this.address.lng = position.location.lng;
-        this.address.address = position.name;
-      }
+    mounted() {
     },
     methods: {
       setPosition() {

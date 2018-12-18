@@ -14,7 +14,7 @@ import fastclick from 'fastclick';
 import filters from './filters';
 import './icons/iconfont.css';
 import './icons/vanIcon.css';
-import './plugins/vconsole';
+// import './plugins/vconsole';
 import './plugins/vue-event-calendar/dist/style.css';
 import vueEventCalendar from './plugins/vue-event-calendar';
 // import 'vant/lib/vant-css/icon-local.css';
@@ -57,8 +57,8 @@ import { Actionsheet,
   Uploader,
   Picker } from 'vant';
 import router from './router';
-import BasicVueChat from 'basic-vue-chat';
-Vue.use(BasicVueChat);
+import Navigation from 'vue-navigation';
+Vue.use(Navigation, {router});
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)
@@ -103,8 +103,6 @@ Vue.use(Actionsheet).use(GoodsAction)
   });
 Vue.use(vueEventCalendar, { locale: 'zh', className: '' });
 Vue.prototype.$http = http;
-Vue.prototype.$env = process.env.NODE_ENV;
-Vue.prototype.$outside = process.env.OUTSIDE_ROOT;
 Vue.prototype.$storage = storage;
 Vue.config.productionTip = false;
 Vue.use(VueAwesomeSwiper);

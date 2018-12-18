@@ -164,8 +164,6 @@
   </new-layout>
 </template>
 <script>
-  import { getReceivedAddress } from '../../../storage';
-
   export default {
     name: 'createFromCart',
     data() {
@@ -192,16 +190,10 @@
       this.initData();
     },
     mounted() {
-    },
-    activated() {
-      const address = getReceivedAddress();
+      const address = this.$route.query.address;
       if (address !== undefined) {
         this.address = address;
       }
-    },
-    beforeRouteLeave(to, from, next) {
-      this.$route.meta.keepAlive = false;
-      next();
     },
     methods: {
       async initData() {

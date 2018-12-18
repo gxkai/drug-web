@@ -177,8 +177,6 @@
 
 </template>
 <script>
-  import { getReceivedAddress } from '../../../storage';
-
   export default {
     name: 'createFromCart',
     data() {
@@ -202,20 +200,17 @@
     components: {},
     created() {
       this.initData();
+      this.$navigation.on('back', (to, from) => {
+        console.log('back to', to, 'from ', from);
+        let address = to.route.query.address;
+        if (address !== undefined) {
+          this.address = address;
+        }
+      });
     },
     mounted() {
     },
     computed: {},
-    activated() {
-      const address = getReceivedAddress();
-      if (address !== undefined) {
-        this.address = address;
-      }
-    },
-    beforeRouteLeave(to, from, next) {
-      this.$route.meta.keepAlive = false;
-      next();
-    },
     methods: {
       async initData() {
         console.log(this.cartShop);

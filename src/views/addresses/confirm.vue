@@ -25,7 +25,7 @@
         </baidu-map>
         <div class="address-confirm--nearby--content">
           <div class="address-confirm--nearby--content--item"
-          @click="setPosition(position)"
+               @click="setPosition(position)"
           >
             <div class="address-confirm--nearby--content--item__left">
               <van-icon name="location" size="3em" color="#098AFF"></van-icon>
@@ -74,7 +74,7 @@
         </div>
         <div class="address-confirm--filter--content">
           <div class="address-confirm--filter--content--item van-hairline--top"
-          v-for="keyPosition in keyPositions"
+               v-for="keyPosition in keyPositions"
                :key="keyPosition.uid"
                @click="setPosition(keyPosition)"
           >
@@ -240,7 +240,8 @@
         isNearby: true,
         nearbyPositions: [],
         key: '',
-        keyPositions: []
+        keyPositions: [],
+        choosePosition: undefined
       };
     },
     created() {
@@ -249,17 +250,18 @@
       this.getLocation();
     },
     beforeRouteLeave(to, from, next) {
-      to.meta.keepAlive = true;
+      to.query.position = this.choosePosition;
       next();
     },
     methods: {
       setPosition(position) {
-        this.$router.push({ path: '/addresses/edit', query: { position: JSON.stringify(position) } });
+        this.choosePosition = position;
+        this.$router.back();
       },
       async getLocation() {
         if (this.$route.query.location === undefined) {
           new BMap.Geolocation().getCurrentPosition(async (r) => {
-            const data = await this.$http.get(`${this.$outside}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
+            const data = await this.$http.get(`${this.process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
             console.log(data);
             this.position = data.pois[0];
             data.pois.splice(0, 1);
@@ -267,7 +269,7 @@
           });
         } else {
           const location = JSON.parse(this.$route.query.location);
-          const data = await this.$http.get(`${this.$outside}/baidu/maps.json?lat=${location.lat}&lng=${location.lng}&coordType=bd09ll&poi=true`);
+          const data = await this.$http.get(`${this.process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${location.lat}&lng=${location.lng}&coordType=bd09ll&poi=true`);
           console.log(data);
           this.position = data.pois[0];
           data.pois.splice(0, 1);
@@ -276,7 +278,7 @@
       },
       getKeyLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
-          const data = await this.$http.get(`${this.$outside}/baidu/places.json?query=${this.key}&lng=${r.longitude}&lat=${r.latitude}`);
+          const data = await this.$http.get(`${this.process.env.OUTSIDE_ROOT}/baidu/places.json?query=${this.key}&lng=${r.longitude}&lat=${r.latitude}`);
           this.keyPositions = data.result;
         });
       }
