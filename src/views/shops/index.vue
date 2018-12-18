@@ -81,7 +81,7 @@
                   {{item.name}}
                 </div>
                 <div>
-                  <new-star :score="item.score" disabled></new-star>
+                  <!--<new-star :score="item.score" disabled></new-star>-->
                 </div>
                 <div>
                   电话：{{item.phone}}

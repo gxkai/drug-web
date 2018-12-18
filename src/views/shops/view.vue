@@ -20,22 +20,26 @@
         </div>
         <div class="shop_view-score">
           <div class="shop_view-score-info">
-            <div>{{shopInfo.describeScore}}分</div>
+            <!--<div>{{shopInfo.describeScore}}分</div>-->
+            <div>--</div>
             <div>客户服务</div>
           </div>
           <div class="shop_view-score-cut_line"></div>
           <div class="shop_view-score-info">
-            <div>{{toFixedOne(shopInfo.deliveryScore)}}分</div>
+            <!--<div>{{toFixedOne(shopInfo.deliveryScore)}}分</div>-->
+            <div>--</div>
             <div>发货速度</div>
           </div>
           <div class="shop_view-score-cut_line"></div>
           <div class="shop_view-score-info">
-            <div>{{toFixedOne(shopInfo.serviceScore)}}分</div>
+            <!--<div>{{toFixedOne(shopInfo.serviceScore)}}分</div>-->
+            <div>--</div>
             <div>物流速度</div>
           </div>
           <div class="shop_view-score-cut_line"></div>
           <div class="shop_view-score-info">
-            <div>{{toFixedOne(shopInfo.packageScore)}}分</div>
+            <!--<div>{{toFixedOne(shopInfo.packageScore)}}分</div>-->
+            <div>--</div>
             <div>商品包装</div>
           </div>
         </div>

@@ -33,7 +33,7 @@ axios.interceptors.response.use(
           window.location.href = 'https://ebank.96079.com.cn/quyiyuan_zhks/';
           break;
         case 400:
-          if (error.response.data.fieldErrors === true) {
+          if (error.response.data.fieldErrors !== undefined) {
             Toast(error.response.data.fieldErrors[0].message);
           } else {
             Toast(error.response.data.message);

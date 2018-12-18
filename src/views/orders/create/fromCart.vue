@@ -60,7 +60,7 @@
            <span :class="{active:isMedicarePay==false}"
                  @click.stop="isMedicarePay = false">自费</span>
             <span :class="{active:isMedicarePay==true}"
-                  @click.stop="$toast('暂未开放')"
+                  @click.stop="isMedicarePay = true"
                   v-if="isRx === true">医保</span>
           </div>
         </div>
@@ -177,8 +177,6 @@
 
 </template>
 <script>
-  import { getReceivedAddress } from '../../../storage';
-
   export default {
     name: 'createFromCart',
     data() {
@@ -202,20 +200,17 @@
     components: {},
     created() {
       this.initData();
+      this.$navigation.on('back', (to, from) => {
+        console.log('back to', to, 'from ', from);
+        let address = to.route.query.address;
+        if (address !== undefined) {
+          this.address = address;
+        }
+      });
     },
     mounted() {
     },
     computed: {},
-    activated() {
-      const address = getReceivedAddress();
-      if (address !== undefined) {
-        this.address = address;
-      }
-    },
-    beforeRouteLeave(to, from, next) {
-      this.$route.meta.keepAlive = false;
-      next();
-    },
     methods: {
       async initData() {
         console.log(this.cartShop);

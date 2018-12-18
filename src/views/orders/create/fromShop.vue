@@ -60,13 +60,13 @@
 
         <div class="pay_shop-content-pay_type">
           <div class="pay_shop-content-pay_type-content">
-            <span :class="{active:isMedicaidPay==true}"
+            <span :class="{active:isMedicarePay==true}"
                   v-if="shopDrugSpecOrderDTO.rxId !== null"
-                  @click.stop="$toast('暂未开放')">
+                  @click.stop="isMedicarePay = true">
             医保
             </span>
-            <span :class="{active:isMedicaidPay==false}"
-                  @click.stop="isMedicaidPay = false">自费</span>
+            <span :class="{active:isMedicarePay==false}"
+                  @click.stop="isMedicarePay = false">自费</span>
           </div>
         </div>
         <div class="pay_shop-content-pay_amount">
@@ -164,8 +164,6 @@
   </new-layout>
 </template>
 <script>
-  import { getReceivedAddress } from '../../../storage';
-
   export default {
     name: 'createFromCart',
     data() {
@@ -182,7 +180,7 @@
         payAmount: 0,
         loading: false,
         address: {},
-        isMedicaidPay: false
+        isMedicarePay: false
       };
     },
     components: {},
@@ -192,16 +190,10 @@
       this.initData();
     },
     mounted() {
-    },
-    activated() {
-      const address = getReceivedAddress();
+      const address = this.$route.query.address;
       if (address !== undefined) {
         this.address = address;
       }
-    },
-    beforeRouteLeave(to, from, next) {
-      this.$route.meta.keepAlive = false;
-      next();
     },
     methods: {
       async initData() {
@@ -225,7 +217,7 @@
         json.deliveryType = this.deliveryType;
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
-        json.isMedicaidPay = this.isMedicaidPay;
+        json.isMedicarePay = this.isMedicarePay;
         json.orderType = 'SIMPLE';
         try {
           let url = await this.$http.post('/orders/shop', json);
