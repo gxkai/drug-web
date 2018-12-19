@@ -101,20 +101,20 @@
           <img src="../assets/image/home/home_dot.png"/>
         </div>
         <div class="home__family">
-          <div class="home__family__div home__family__used">
+          <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=cMLo_cCMRyKrd46oISOJRQ')">
             <p class="home__family__div__p">感冒</p>
             <p class="home__family__div__p1">清热解毒</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+            <p class="home__family__div__p3"><img src="../assets/image/home/catch.jpg"/></p>
           </div>
-          <div class="home__family__div home__family__used">
+          <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=Nc10FphRTviCxz7vGiVr6A')">
             <p class="home__family__div__p">抗过敏</p>
             <p class="home__family__div__p1">皮炎湿疹</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+            <p class="home__family__div__p3"><img src="../assets/image/home/allergy.jpg"/></p>
           </div>
-          <div class="home__family__div home__family__used">
+          <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=74exCUknTDe0qnag36LRCQ')">
             <p class="home__family__div__p">止咳化痰</p>
             <p class="home__family__div__p1">肺热咳嗽</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+            <p class="home__family__div__p3"><img src="../assets/image/home/cough.jpg"/></p>
           </div>
         </div>
         <div class="home__kindpink bg-0090E6 text-1988CA">
@@ -122,20 +122,20 @@
           <img src="../assets/image/home/home_dot.png"/>
         </div>
         <div class="home__family">
-          <div class="home__family__div home__family__used">
+          <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=S2BIwR09QN6MNstlWcTrvQ')">
             <p class="home__family__div__p">跌打损伤</p>
             <p class="home__family__div__p1 text-1988CA">关节炎</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+            <p class="home__family__div__p3"><img src="../assets/image/home/arthritis.jpg"/></p>
           </div>
-          <div class="home__family__div home__family__used">
+          <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=C1Rlu40JRlS7VuxopGxA-A')">
             <p class="home__family__div__p">骨质疏松</p>
             <p class="home__family__div__p1 text-1988CA">肩周炎</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+            <p class="home__family__div__p3"><img src="../assets/image/home/shoulder.jpg"/></p>
           </div>
-          <div class="home__family__div home__family__used">
+          <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=xsE5-eyYTfC3RXEoLjCxgg')">
             <p class="home__family__div__p">腰肌劳损</p>
             <p class="home__family__div__p1 text-1988CA">骨质增生</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+            <p class="home__family__div__p3"><img src="../assets/image/home/hyperplasia.jpg"/></p>
           </div>
         </div>
         <div class="home__kindpink bg-BFD6FF text-1988CA">
@@ -143,20 +143,20 @@
           <img src="../assets/image/home/home_dot.png"/>
         </div>
         <div class="home__family">
-          <div class="home__family__div home__family__used">
+          <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=apqD-f6ESl25k5bJG7qIeQ')">
             <p class="home__family__div__p">胃炎</p>
             <p class="home__family__div__p1 text-1D63CE">清热解毒</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+            <p class="home__family__div__p3"><img src="../assets/image/home/detoxification.jpg"/></p>
           </div>
-          <div class="home__family__div home__family__used">
+          <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=lks1M2u5SVa216t6x35E3w')">
             <p class="home__family__div__p">消化不良</p>
             <p class="home__family__div__p1 text-1D63CE">胃肠解痉</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+            <p class="home__family__div__p3"><img src="../assets/image/home/detoxify.jpg"/></p>
           </div>
-          <div class="home__family__div home__family__used">
+          <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=6NOZUuyVTT6dzMaogWGXOg\n')">
             <p class="home__family__div__p">腹泻</p>
             <p class="home__family__div__p1 text-1D63CE">肺热咳嗽</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/home_vc.png"/></p>
+            <p class="home__family__div__p3"><img src="../assets/image/home/coughs.jpg"/></p>
           </div>
         </div>
         <div class="home__content__recommend">
@@ -211,6 +211,9 @@
 
 </template>
 <style scoped type="text/less" lang="less">
+  .van-tabbar{
+    position: static!important;
+  }
   .over-height{
     height: 500px;
     width: 720px;
@@ -273,6 +276,9 @@
 
   input {
     border: none;
+  }
+  .home__banner{
+    position: relative;
   }
 
   .home__banner__top {
@@ -407,8 +413,6 @@
       width: 720px;
       line-height: 68px;
       border-top: 1px solid #f3f3f3;
-      background: red;
-
       span:first-child {
         img {
           width: 121px;
