@@ -13,9 +13,9 @@
         />
       </template>
       <template slot="center">
-        <div class="order_view-state"
-             :style="stateStyle">
-          <div class="order_view-state_name" v-text="transformOrderStateSec(order.state, order.refundState, this)">
+        <div class="order_view-state">
+          <div class="order_view-state_name" v-text="transformOrderState(order.state, order.refundState, this)"
+               @click="popupModel(order.state)">
           </div>
           <new-count-down :endTime="order.lastModifiedDate" durationMin='15'
                           class="order_view-state_time"
@@ -36,6 +36,39 @@
           </div>
         </div>
         <new-order-view-item :order.sync="order"></new-order-view-item>
+
+        <div class="order_view-money">
+          <ul>
+            <li>实付金额：<span class="order-view-money_red">¥68.00</span></li>
+            <li>商品金额：<span class="order-view-money_red">¥68.00</span>（包含运费：0.00）</li>
+            <li>医保扣除：<span class="order-view-money_red">¥68.00</span></li>
+          </ul>
+        </div>
+
+
+        <div class="order_view-address">
+          <ul>
+            <li>配送信息</li>
+            <li>收货地址：<span class="order_view-address-detail">海创大厦C座22楼</span></li>
+            <li>收货电话：<span class="order_view-address-detail">1324568710</span></li>
+            <li>配送方式：<span class="order_view-address-detail">商家配送</span></li>
+         </ul>
+        </div>
+
+
+        <div class="order_view-address">
+          <ul>
+            <li>订单信息</li>
+            <li>订单编号：<span class="order_view-address-detail">{{order.number}}</span></li>
+            <li>下单时间：<span class="order_view-address-detail">{{timeConvert(order.createdDate)}}</span></li>
+            <li>备注信息</li>
+          </ul>
+        </div>
+
+
+
+
+
         <div class="order_view-amount">
           <div>
             <span>商品总价</span>
@@ -109,24 +142,55 @@
     <van-popup
       v-model="popup"
       position="center">
+      <van-steps :active="actives" direction="vertical" active-color="#FF0000">
+        <van-step>订单提交成功<span class="fr">2018-13 12：32</span></van-step>
+        <van-step>订单已支付<span class="fr">2018-13 12：32</span></van-step>
+        <van-step>商家已接单<span class="fr">2018-13 12：32</span></van-step>
+        <van-step>骑手已取货<span class="fr">2018-13 12：32</span></van-step>
+        <van-step>订单已送达<span class="fr">2018-13 12：32</span></van-step>
+      </van-steps>
+      <div class="order_close">
+        <van-icon name="guanbi2" size="3em" @click="popup=!popup"/>
+      </div>
+   </van-popup>
 
-    </van-popup>
+
   </div>
 
 </template>
 
 <style scoped type="text/scss" lang="scss">
+  .van-steps {
+    width: 616px;
+    height: 704px;
+    font-size: 24px;
+    padding: 58px;
+  }
+
+  .van-hairline {
+    height: 153px;
+  }
+
+  .fr {
+    float: right
+  }
+
+  .order_close {
+    text-align: center;
+    padding-bottom: 20px;
+  }
+
   .order_view {
     &-state {
       position: relative;
       width: 100%;
-      height: 200px;
+      height: 76px;
       &_name {
         position: absolute;
-        left: 150px;
-        top: 50px;
+        left: 53px;
+        top: 45px;
         font-size: 30px;
-        color: white;
+        color: #000000;
         font-weight: 200;
       }
       &_time {
@@ -200,6 +264,53 @@
       height: 500px;
       margin: 0 110px;
     }
+    &-money{
+      background: white;
+
+      border-top: 10px solid #f3f3f3;
+      ul{
+        li{
+          font-size: 24px;
+          text-indent: 22px;
+          height: 35px;
+          line-height: 35px;
+          span{
+            font-size: 24px;
+            color: #FF0000;
+          }
+        }
+      }
+    }
+    &-money_red{
+      color:#FF0000;
+    }
+    &-address{
+      background: white;
+      margin-top: 16px;
+      text-indent: 20px;
+      ul{
+        width: 720px;
+        border-top:10px solid #f3f3f3;
+        li{
+          font-size: 24px;
+          height: 35px;
+          line-height: 35px;
+          color: #666666;
+         }
+        li:first-child{
+          height: 55px;
+          line-height: 55px;
+          font-weight: bold;
+          color: #333333;
+        }
+      }
+      &-detail{
+        float: right;
+        font-size: 24px;
+        margin-right: 14px;
+        color: #666666;
+      }
+    }
   }
 
 </style>
@@ -208,11 +319,15 @@
   export default {
     data() {
       return {
-        popup: true,
+        actives: 0,
+        popup: false,
         title: '订单详情',
         orderId: this.$route.query.orderId,
         popupVisible: false,
         order: {},
+        popupModel(orderState) {
+          this.popup = true;
+        },
         activeButton: {
           color: '#00ADB3',
           borderColor: '#00ADB3'
@@ -263,21 +378,14 @@
     components: {},
     computed: {},
     created() {
-      // this.initData();
+      this.initData();
     },
     mounted() {
     },
     methods: {
-      initData() {
-        this.$axios.get('/orders/' + this.orderId)
-          .then(res => {
-            this.order = res.data;
-            this.stateStyle = this.getStateStyle();
-            console.log(this.stateStyle);
-          })
-          .catch(err => {
-            this.exception(err);
-          });
+      async initData() {
+        this.order = await this.$http.get('/orders/' + this.orderId);
+        this.stateStyle = this.getStateStyle();
       },
       getStateStyle() {
         if (this.order.refundState === 'REFUNDING') {

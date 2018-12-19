@@ -25,12 +25,18 @@
              <!--@click="onRx()">查看处方&gt;-->
         <!--</div>-->
       <!--</div>-->
+      <div class="order_item-content-header">
+        <span class="order_item-content-header-left"><i class="iconfont ic-chufangdanluru"></i>处方单</span>
+        <span class="order_item-content-header-right">查看处方></span>
+      </div>
       <div class="order_item-content-info"
            v-for="item in order.list">
+
         <div class="order_item-content-info-left">
-          <div class="rx_mark" v-if="!item.otc">处</div>
+          <div class="rx_mark" >处v-if="!item.otc"</div>
           <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
         </div>
+
         <div class="order_item-content-info-right">
           <div>
             <div class="order_item-content-info-right_name"
@@ -39,11 +45,11 @@
                  v-text="item.spec"></div>
           </div>
           <div>
+            <div class=" order_item-content-info-right_quantity">
+             共{{item.quantity}}件
+            </div>
             <div class="order_item-content-info-right_price">
               &yen;{{item.price}}
-            </div>
-            <div class="order_item-content-info-right_quantity">
-              x{{item.quantity}}
             </div>
           </div>
         </div>
@@ -52,12 +58,46 @@
   </div>
 </template>
 <style scoped type="text/scss" lang="scss">
+  .rx_mark{
+    width:35px;
+    height: 21px;
+    border-radius: 17.5px/10.5px;
+    text-align: center;
+    line-height: 21px;
+    padding: 0px;
+    margin-left: 48px;
+  }
   .order_item {
     background-color: white;
     margin-top: 20px;
     .iconfont {
       font-size: 50px;
     }
+    &-content-header{
+      width: 720px;
+      font-size: 24px;
+      height: 70px;
+      margin-top: 7px;
+      &-left{
+        float: left;
+        font-size: 24px;
+        line-height: 50px;
+        color: #13C1FE;
+        .iconfont{
+          vertical-align: middle!important;
+          color: #000000;
+          margin-left: 24px;
+        }
+      }
+      &-right{
+        float: right;
+        font-size: 20px;
+        color: #13C1FE;
+        margin-right: 16px;
+        line-height: 50px;
+      }
+    }
+
     &-title {
       padding: 20px;
       display: flex;
@@ -75,7 +115,8 @@
       }
     }
     &-content {
-      background-color: #f5f5f5;
+      background-color: #ffffff;
+      border-top: 1px solid #f5f5f5;
       &-title {
         padding: 20px;
         display: flex;
@@ -97,10 +138,11 @@
         display: flex;
         &-left {
           position: relative;
-          padding: 20px;
+          padding: 5px;
           img {
             width: 200px;
             height: 200px;
+            margin-left: 48px;
           }
         }
         &-right {
@@ -110,6 +152,7 @@
           justify-content: space-between;
           & > div {
             width: 450px;
+            margin-bottom: 50px;
             &:nth-child(2) {
               display: flex;
               justify-content: space-between;
@@ -132,11 +175,11 @@
           }
           &_price {
             color: #FF0000;
-            font-size: 30px;
+            font-size: 20px;
           }
           &_quantity {
             color: #999999;
-            font-size: 30px;
+            font-size: 20px;
           }
         }
       }
