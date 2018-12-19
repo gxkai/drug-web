@@ -22,7 +22,7 @@
     methods: {
       onRadio() {
         if (this.disabled !== '') {
-          this.radio = true;
+          this.radio = !this.radio;
           this.$emit('update:radio', this.radio);
         }
       }
