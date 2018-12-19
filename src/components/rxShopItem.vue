@@ -36,15 +36,15 @@
           <div>{{item.name}}</div>
           <div class="text-red">&yen;{{toFixedTwo(item.amount)}}</div>
         </div>
-        <div class="elps">
-          <van-rate
-            v-model="item.score"
-            :size="15"
-            :count="5"
-            disabled
-            disabled-color="red"
-          />
-        </div>
+        <!--<div class="elps">-->
+          <!--<van-rate-->
+            <!--v-model="item.score"-->
+            <!--:size="15"-->
+            <!--:count="5"-->
+            <!--disabled-->
+            <!--disabled-color="red"-->
+          <!--/>-->
+        <!--</div>-->
         <div class="elps">
           电话：{{item.phone}}
         </div>
