@@ -21,52 +21,8 @@
   </div>
 
 
-
-
-<!--
-
-    <div class="rx_shop_item-left">
-        <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
-      <div class="rx_shop_item-left-icon" v-if="item.type === 'HOSPITAL'">
-        医院
-      </div>
     </div>
-    <div class="rx_shop_item-right">
-        <div class="elps">
-          <div>{{item.name}}</div>
-          <div class="text-red">&yen;{{toFixedTwo(item.amount)}}</div>
-        </div>
-        <!--<div class="elps">-->
-          <!--<van-rate-->
-            <!--v-model="item.score"-->
-            <!--:size="15"-->
-            <!--:count="5"-->
-            <!--disabled-->
-            <!--disabled-color="red"-->
-          <!--/>-->
-        <!--</div>-->
-        <div class="elps">
-          电话：{{item.phone}}
-        </div>
-        <div class="elps">
-          地址：{{item.address}}
-        </div>
-        <div class="elpsTwo">
-          <span class="text-blue">可购买</span>
-          <span v-for="(drug,key) in item.drugs" :key="key">
-            {{drug}}
-            <i v-if="key<item.drugs.length-1"></i>
-          </span>
-        </div>
-    </div>
-    <div class="rx_shop_item-cart_icon">
-        <i class="iconfont ic-gouwuche1"></i>
-    </div>
-    <div class="rx_shop_item-peisong_icon"
-    v-show="item.distribution === true">
-      <i class="iconfont ic-peisong-"></i>
-    </div>-->
-  </div>
+
 </template>
 
 <script>
