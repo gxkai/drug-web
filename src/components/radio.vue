@@ -13,7 +13,7 @@
     props: {
       radio: {
         type: Boolean,
-        default: false
+        default: true
       },
       disabled: {
         default: true
