@@ -4,7 +4,7 @@
   >
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="rx.hospital"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -36,10 +36,18 @@
           </div>
           <div class="rxs_view-content-list-item">
             <div>
-              医院：{{rx.hospital}}
+              门诊病历号：{{rx.clinicNo}}
             </div>
             <div>
-              科室：{{rx.office}}
+              科别：{{rx.office}}
+            </div>
+          </div>
+          <div class="rxs_view-content-list-item">
+            <div>
+              地址：{{rx.place}}
+            </div>
+            <div>
+              电话：{{rx.phone}}
             </div>
           </div>
           <div class="rxs_view-content-list-item">

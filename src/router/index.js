@@ -121,7 +121,7 @@ const rxRouter = [
   },
   {
     path: '/rxs/shops/drugs',
-    name: '处方药店药品列表',
+    name: '选择厂商',
     component: () => import('@/views/rxs/shops/drugs/index.vue')
   },
   {
