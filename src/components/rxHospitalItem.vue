@@ -2,6 +2,20 @@
   <div class="rx_shop_item">
     <div class="rx_shop_item-left">
       <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
+    </div>
+    <div  class="rx_shop_item-right">
+       <div>
+          <span class="elps rx_shop_name">{{item.name}}</span>
+          <img src="../assets/image/rxs/hospital.png" class="rx_shop_hospital"/>
+       </div>
+       <div  class="elps rx_shop_tel">电话：{{item.phone}}</div>
+       <div  class="elps rx_shop_tel">价格：{{item.price}}</div>
+       <div  class="elps rx_shop_tel">距当前位置：{{item.distance}} {{meter(item.distance)}}{{item.distance | meter }}
+          <span class="rx_shop_address"> <van-icon name="dizhi" size="4em" color="#a6a6a6"></van-icon></span>
+       </div>
+    </div>
+   <!-- <div class="rx_shop_item-left">
+      <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
       <div class="rx_shop_item-left-icon">
         医院
       </div>
@@ -19,7 +33,7 @@
     </div>
     <div class="rx_shop_item-cart_icon">
       <i class="iconfont ic-gouwuche1"></i>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -37,71 +51,64 @@
     },
     mounted() {
     },
-    methods: {}
+    methods: {},
+    filters: {
+      meter(aa) {
+        alert(aa);
+      }
+    }
   };
 </script>
 
 <style scoped type="text/scss" lang="scss">
-  .text-red {
-    color: red;
-  }
-  .text-blue {
-    color: #1AB6FD;
-  }
-  .rx_shop_item {
-    width: 700px;
-    margin: 0 auto;
-    display: flex;
-    padding: 20px 0;
-    position: relative;
-    border: 1PX solid #1AB6FD;
-    &-left {
-      padding: 0 20px;
-      img {
-        width: 245px;
-        height: 245px;
-      }
-      &-icon {
-        position: absolute;
-        left: 20px;
-        top: 20px;
-        background-color: #2BB292;
-        font-size: 25px;
-        padding: 5px 5px;
-        color: white;
-        font-weight: 100;
-      }
-    }
-    &-right {
-      width: 380px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      div,span{
-        font-size:25px;
-      }
-      &>div{
-        &:nth-child(1) {
-          width: 220px;
-          &>div:nth-child(2) {
-            position: absolute;
-            right: 50px;
-            font-size: 34px!important;
-            line-height: 40px;
-            top: 35px;
-          }
-        }
-      }
-    }
-    &-cart_icon {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      i {
-        font-size: 50px;
-        color: red;
-      }
-    }
-  }
 
+.rx_shop_item{
+  width: 720px;
+  height: 289px;
+  background: #ffffff;
+  position: relative;
+  border-top: 10px solid #f3f3f3;
+  border-bottom: 10px solid #f3f3f3;
+  .rx_shop_item-left{
+    display: inline-block;
+    float: left;
+    margin-top: 24px;
+    img{
+      width: 228px;
+      height: 228px;
+      margin-left: 13px;
+    }
+  }
+  .rx_shop_item-right{
+    width: 440px;
+    display: inline-block;
+    float: left;
+    margin-left: 32px;
+    margin-top: 24px;
+    img{
+      float: right;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
+    .rx_shop_name{
+      font-size:28px;
+      font-weight:bold;
+      color:rgba(102,102,102,1);
+
+    }
+    .rx_shop_hospital{
+      width: 86px;
+    }
+    .rx_shop_tel{
+      font-size:20px;
+      font-weight:400;
+      color:rgba(102,102,102,1);
+      margin-top: 30px;
+    }
+    .rx_shop_address{
+     float: right;
+}
+}
+}
 </style>

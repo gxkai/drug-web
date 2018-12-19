@@ -18,7 +18,9 @@ import './icons/vanIcon.css';
 import './plugins/vue-event-calendar/dist/style.css';
 import vueEventCalendar from './plugins/vue-event-calendar';
 // import 'vant/lib/vant-css/icon-local.css';
-import { Actionsheet,
+import { Step,
+  Steps,
+  Actionsheet,
   GoodsAction,
   GoodsActionBigBtn,
   GoodsActionMiniBtn,
@@ -95,6 +97,8 @@ Vue.use(Actionsheet).use(GoodsAction)
   .use(CollapseItem)
   .use(Uploader)
   .use(Picker)
+  .use(Step)
+  .use(Steps)
   .use(Lazyload, {
     preLoad: 1,
     error: require('./assets/image/lazyLoad/default.png'),

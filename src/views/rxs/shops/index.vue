@@ -14,7 +14,7 @@
         </new-header>
       </div>
       <div class="shops-filter">
-        <div class="shops-filter-item" @click="orderById()">
+     <!--   <div class="shops-filter-item" @click="orderById()">
           <div class="shops-filter-item-text">
             综合
           </div>
@@ -25,33 +25,7 @@
                  :style="{borderTopColor:sort === 'ID_DESC'? '#13C1FE': 'gray'} ">
             </div>
           </div>
-        </div>
-        <div class="shops-filter-item" @click="orderByDistance()">
-          <div class="shops-filter-item-text">
-            距离
-          </div>
-          <div class="shops-filter-item-arrow">
-            <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:sort === 'DISTANCE_ASC'? '#13C1FE': 'gray'} ">
-            </div>
-            <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:sort === 'DISTANCE_DESC'? '#13C1FE': 'gray'} ">
-            </div>
-          </div>
-        </div>
-        <div class="shops-filter-item" @click="orderByScore()">
-          <div class="shops-filter-item-text">
-            评价
-          </div>
-          <div class="shops-filter-item-arrow">
-            <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:sort === 'SCORE_ASC'? '#13C1FE': 'gray'} ">
-            </div>
-            <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:sort === 'SCORE_DESC'? '#13C1FE': 'gray'} ">
-            </div>
-          </div>
-        </div>
+        </div>-->
         <div class="shops-filter-item" @click="orderByPrice()">
           <div class="shops-filter-item-text">
             价格
@@ -65,6 +39,33 @@
             </div>
           </div>
         </div>
+        <div class="shops-filter-item" @click="orderByDistance()">
+          <div class="shops-filter-item-text">
+            距离最近
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:sort === 'DISTANCE_ASC'? '#13C1FE': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'DISTANCE_DESC'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
+        </div>
+        <div class="shops-filter-item" @click="orderByScore()">
+          <div class="shops-filter-item-text">
+            好评优先
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:sort === 'SCORE_ASC'? '#13C1FE': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'SCORE_DESC'? '#13C1FE': 'gray'} ">
+            </div>
+          </div>
+        </div>
+
       </div>
     </template>
     <div class="shops-container"
@@ -120,8 +121,9 @@
         this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
       },
       async getHospital() {
-        console.log(this.hospitalId);
         this.hospital = await this.$http.get(`/hospitals/${this.hospitalId}`);
+        console.log(11111);
+        console.log(this.hospital);
       },
       orderById() {
         this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);
