@@ -42,10 +42,10 @@
           <van-tabbar-item icon="yaopin" :info="count.toDeliveryCount === 0 ? '':count.toDeliveryCount "
                            :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
           </van-tabbar-item>
-          <van-tabbar-item icon="daishouhuo" :info="count.toReceivedCount === 0 ? '' : count.toReceivedCount"
+          <van-tabbar-item icon="daishouhuo1" :info="count.toReceivedCount === 0 ? '' : count.toReceivedCount"
                            :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
           </van-tabbar-item>
-          <van-tabbar-item icon="daipingjia01" :info="count.toAppraiseCount === 0 ? '' : count.toAppraiseCount"
+          <van-tabbar-item icon="wenjianjia" :info="count.toAppraiseCount === 0 ? '' : count.toAppraiseCount"
                            :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
           </van-tabbar-item>
         </van-tabbar>
@@ -249,6 +249,12 @@
     }
     &-yaopin {
       color: #88C79A;
+    }
+    &-daishouhuo1{
+      color: #FDBB59;
+    }
+    &-wenjianjia{
+      color: #7DCAF7;
     }
   }
 

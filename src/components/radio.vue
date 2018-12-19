@@ -13,7 +13,7 @@
     props: {
       radio: {
         type: Boolean,
-        default: true
+        default: false
       },
       disabled: {
         default: true
@@ -22,7 +22,7 @@
     methods: {
       onRadio() {
         if (this.disabled !== '') {
-          this.radio = !this.radio;
+          this.radio = true;
           this.$emit('update:radio', this.radio);
         }
       }
@@ -31,8 +31,10 @@
 </script>
 
 <style scoped>
+  .iconfont{
+    font-size: 28px;
+  }
   .ic-radiochecked:before {
     color: rgba(19, 193, 254, 1);
-    font-size: 30px;
   }
 </style>
