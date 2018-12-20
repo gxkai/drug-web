@@ -84,6 +84,78 @@
               </van-collapse-item>
             </van-collapse>
           </div>
+          <div class="rx__content__item"
+               v-for="(drug,index) in drugs" :key="index">
+
+            <div class="rx__content__item--content">
+              <div class="rx__content__item--content__left">
+                <!--<div class="rx_mark"-->
+                <!--v-if="!carts[index].otc">处-->
+                <!--</div>-->
+                <img v-lazy="getImgURL(carts[index].fileId, 'LARGE_LOGO')"
+                     class="rx__content__item--content__left-logo">
+              </div>
+              <div class="rx__content__item--content__right">
+                <div class="rx__content__item--content__right-medicine-Name">
+                  <!--<van-icon name="changfang" color="#F60000" size="3em"></van-icon>-->
+                  <span>名称 : </span>
+                  <!--<span>{{carts[index].originName}}</span>-->
+                  <span class="ml-l-10">{{carts[index].name}}-({{carts[index].spec}})</span>
+                  <span class="num">X{{carts[index].quantity}}</span>
+                </div>
+                <div class="rx__content__item--content__right-spec">
+                  <!--<van-icon name="yaopinshuju" color="#F60000" size="3em"></van-icon>-->
+                  <span>用量 : </span>
+                  <span class="ml-l-10">{{ carts[index].usage }}</span>
+                </div>
+
+                <div class="rx__content__item--content__right-originName">
+                  <!--<van-icon name="changfang" color="#F60000" size="3em"></van-icon>-->
+                  <span>厂商 : </span>
+                  <span class="ml-l-10">{{carts[index].originName}}</span>
+                </div>
+
+                <div class="rx__content__item--content__right-price">
+                  <!--<van-icon name="qian" color="#F60000" size="3em"></van-icon>-->
+                  <!--<span>最低价</span>-->
+                  <span>&yen;{{ carts[index].price }}</span>
+                  <span class="ml-l-10">( 医保报销金额 <span style="font-size: 1em">&yen;{{ carts[index].medicaidPrice }}</span> )</span>
+                </div>
+              </div>
+            </div>
+            <van-collapse v-model="activeNames" class="rx__content__item--companies">
+              <van-collapse-item
+                :name = index
+                icon = "dianpu-copy"
+              >
+                <div slot="title" class="slot__title">
+                  <span class="vendor__count">{{ drugs[index].drugs.length }}个</span>
+                  厂商报价
+                </div>
+                <ul class="vendor__list">
+                  <li
+                    v-for="(origin,key) in drugs[index].drugs"
+                    :key="key"
+                    @click="choose(key,index)">
+
+                    <div :class="{vendor__checked: key === origin.selectedKey}" @click="changeVendor(index, key)">
+                      <!--<span :style="{color: origin.drugSpecId === carts[index].drugSpecId ? '#12C1FF' : 'black'}">-->
+                      <!--{{origin.originName}}-->
+                      <!--</span>-->
+
+                      <van-icon class="ml-l-10" name="radiobox" v-show="!(key === origin.selectedKey)"/>
+                      <van-icon class="ml-l-10" name="radiochecked" v-show="key === origin.selectedKey"/>
+                      <span class="ml-l-20">{{origin.originName}}</span>
+                      <span>&yen;{{origin.price}}</span>
+                    </div>
+                    <p class="remark vendor__remark">
+                      ( 医保报销金额 &yen;{{ origin.medicaidPrice }} )
+                    </p>
+                  </li>
+                </ul>
+              </van-collapse-item>
+            </van-collapse>
+          </div>
         </div>
 
       </template>
@@ -99,7 +171,7 @@
             <p class="remark">（ 实际医保报销金额, 请以提交订单显示为准。）</p>
           </div>
         </div>
-        <van-goods-action>
+        <van-goods-action style="position: static">
           <van-goods-action-mini-btn icon="shop" text="药店" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
           <van-goods-action-big-btn class="add-to-cart" text="加入购物车" @click="type==='HOSPITAL'? '' : createCart()"
@@ -414,8 +486,6 @@
         }
       }
       &__total {
-        position: fixed;
-        bottom: 90px;
         width: 100%;
         padding: 0 20px 20px;
         margin-top: 20px;
