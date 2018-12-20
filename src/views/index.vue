@@ -225,7 +225,7 @@
   }
 
   .van-tabbar-item__icon i {
-    font-size: 22px;
+    font-size: 16px;
   }
 
   .van-tabbar-item--active {
