@@ -213,8 +213,7 @@
           backgroundImage: 'url(' + require('../../assets/image/rxs/rx-bg.png') + ')',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
-          width: '100%',
-          height: '520px'
+          width: '100%'
         },
         icon: '\ue64c 请输入诊断搜索'
       };
