@@ -82,7 +82,7 @@
                   {{shopDrugSpec.shopName}}
                 </div>
                 <div>
-                  <van-rate v-model="shopDrugSpec.shopTotalAppraise.score" disabled disabled-color="red" :size="15"/>
+                  <!--<van-rate v-model="shopDrugSpec.shopTotalAppraise.score" disabled disabled-color="red" :size="15"/>-->
                 </div>
               </div>
               <div class="shopDrugSpec__content__part-4__header__right">
