@@ -4,15 +4,31 @@
   >
     <template slot="top">
       <div class="shops-header">
-        <new-header>
+
+<!--
+     <new-header>
           <div slot="left" @click="$router.go(-1)">
             <i class="iconfont ic-arrow-right"></i>
           </div>
           <div slot="center">
             <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/drugs')">
           </div>
-        </new-header>
-      </div>
+    </new-header>
+-->
+
+
+        <div class="drugs-header">
+          <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
+          <input v-model="keyword" class="iconfont drugs-header__input" :placeholder="searchIcon"  @focus="search()">
+          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="onRefresh()"></van-icon>
+        </div>
+
+
+
+
+
+
+  </div>
       <div class="shops-filter">
      <!--   <div class="shops-filter-item" @click="orderById()">
           <div class="shops-filter-item-text">
