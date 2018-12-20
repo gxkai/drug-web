@@ -10,7 +10,7 @@
           </div>
           <div class="drugs-shops-popup-header-center">
             <div class="elpsTwo">{{drugInfo.name}} {{drugSpec.name}} -{{drugInfo.originName}}</div>
-            <div style="color: #1AB6FD">{{drugInfo.sfda}}</div>
+            <div style="color: #F60000">{{drugInfo.sfda}}</div>
           </div>
           <div class="drugs-shops-popup-header-right" @click="show = false">
             <i class="iconfont ic-guanbi2"></i>
@@ -80,9 +80,9 @@
             </div>
             <div class="drugs-shops__part-3__item__arrow">
               <div class="drugs-shops__part-3__item__arrow-up"
-                   :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
+                   :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>
               <div class="drugs-shops__part-3__item__arrow-down"
-                   :style="{borderTopColor: sort === 'SYNTHESIZE'?'#13C1FE':'gray'}"></div>
+                   :style="{borderTopColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>
             </div>
           </div>
           <div class="drugs-shops__part-3__item"
@@ -92,9 +92,9 @@
             </div>
             <div class="drugs-shops__part-3__item__arrow">
               <div class="drugs-shops__part-3__item__arrow-up"
-                   :style="{borderBottomColor: sort === 'DISTANCE'?'#13C1FE':'gray'}"></div>
+                   :style="{borderBottomColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>
               <div class="drugs-shops__part-3__item__arrow-down"
-                   :style="{borderTopColor: sort === 'DISTANCE'?'#13C1FE':'gray'}"></div>
+                   :style="{borderTopColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>
             </div>
           </div>
           <div class="drugs-shops__part-3__item"
@@ -104,9 +104,9 @@
             </div>
             <div class="drugs-shops__part-3__item__arrow">
               <div class="drugs-shops__part-3__item__arrow-up"
-                   :style="{borderBottomColor: sort === 'PRICE_ASC'?'#13C1FE':'gray'}"></div>
+                   :style="{borderBottomColor: sort === 'PRICE_ASC'?'#F60000':'gray'}"></div>
               <div class="drugs-shops__part-3__item__arrow-down"
-                   :style="{borderTopColor: sort === 'PRICE_DESC'?'#13C1FE':'gray'}"></div>
+                   :style="{borderTopColor: sort === 'PRICE_DESC'?'#F60000':'gray'}"></div>
             </div>
           </div>
         </div>
@@ -121,14 +121,14 @@
               &yen;{{shop.price}}
             </div>
             <div class="drugs-shops__part-4__item__icon">
-              <van-icon name="gouwuche3" color="#13C1FE" size="4em"></van-icon>
+              <van-icon name="gouwuche3" color="#F60000" size="4em"></van-icon>
             </div>
             <div class="drugs-shops__part-4__item__info">
-              <van-icon name="ditu" color="#13C1FE" size="2em"></van-icon>
+              <van-icon name="ditu" color="#F60000" size="2em"></van-icon>
               <span>{{shop.address}}</span>
-              <van-icon name="aixin" color="#13C1FE" size="2em"></van-icon>
+              <van-icon name="aixin" color="#F60000" size="2em"></van-icon>
               <span>{{shop.score}}</span>
-              <van-icon name="kucun" color="#13C1FE" size="2em"></van-icon>
+              <van-icon name="kucun" color="#F60000" size="2em"></van-icon>
               <span>{{shop.stock}}</span>
             </div>
           </div>
@@ -226,7 +226,7 @@
         width: 660px;
         height: 250px;
         left: 30px;
-        border: 1PX solid #13C1FE;
+        border: 1PX solid #F60000;
         border-bottom: none;
         z-index: 1;
         padding: 20px;
@@ -267,7 +267,7 @@
         height: 220px;
         left: 20px;
         top: 40px;
-        border: 1PX solid #13C1FE;
+        border: 1PX solid #F60000;
         border-bottom: none;
         z-index: 0;
       }
@@ -327,7 +327,7 @@
           top: 10px;
           i {
             font-size: 40px;
-            color: #1AB6FD;
+            color: #F60000;
           }
         }
       }
@@ -339,7 +339,7 @@
         &-list {
           padding: 0 20px;
           &-active {
-            border: 1PX solid #1AB6FD;
+            border: 1PX solid #F60000;
           }
           &-item {
             padding: 5px 10px;
@@ -369,8 +369,8 @@
               opacity: 0;
             }
             input:checked + label {
-              background-color: #13C1FE;
-              border: 1PX solid #13C1FE;
+              background-color: #F60000;
+              border: 1PX solid #F60000;
             }
             input:checked + label::after {
               position: absolute;

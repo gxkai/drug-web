@@ -46,7 +46,7 @@
       }
       &--bg {
         position: relative;
-        background-color: #13C1FE;
+        background-color: #F60000;
         height: 400px;
         border-bottom-left-radius: 300px ;
         border-bottom-right-radius: 300px ;

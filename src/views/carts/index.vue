@@ -140,6 +140,9 @@
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
+  .van-tabbar-item--active{
+    color: #F60032!important;
+  }
   .cart {
     &-list {
       width: 720px;
@@ -159,7 +162,7 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            border: 1px solid #13C1FE;
+            border: 1px solid #F60000;
           }
           input {
             width: 30px;
@@ -167,8 +170,8 @@
             opacity: 0;
           }
           input:checked + label {
-            background-color: #13C1FE;
-            border: 1PX solid #13C1FE;
+            background-color: #F60000;
+            border: 1PX solid #F60000;
           }
           input:checked + label::after {
             position: absolute;
@@ -206,7 +209,7 @@
               width: 30px;
               height: 30px;
               border-radius: 50%;
-              border: 1px solid #13C1FE;
+              border: 1px solid #F60000;
             }
             input {
               width: 30px;
@@ -214,8 +217,8 @@
               opacity: 0;
             }
             input:checked + label {
-              background-color: #13C1FE;
-              border: 1PX solid #13C1FE;
+              background-color: #F60000;
+              border: 1PX solid #F60000;
             }
             input:checked + label::after {
               position: absolute;
@@ -232,7 +235,7 @@
           }
           &_name {
             font-size: 30px;
-            color: #1AB6FD;
+            color: #F60000;
           }
         }
         &-right {
@@ -254,7 +257,7 @@
             padding: 105px 40px;
             line-height: 250px;
             font-weight: 200;
-            background-color: #1AB6FD;
+            background-color: #F60000;
           }
           &-left {
             display: flex;
@@ -267,7 +270,7 @@
                 width: 30px;
                 height: 30px;
                 border-radius: 50%;
-                border: 1px solid #13C1FE;
+                border: 1px solid #F60000;
               }
               input {
                 width: 30px;
@@ -275,8 +278,8 @@
                 opacity: 0;
               }
               input:checked + label {
-                background-color: #13C1FE;
-                border: 1PX solid #13C1FE;
+                background-color: #F60000;
+                border: 1PX solid #F60000;
               }
               input:checked + label::after {
                 position: absolute;
@@ -351,7 +354,7 @@
         width: 30px;
         height: 30px;
         border-radius: 50%;
-        border: 1px solid #13C1FE;
+        border: 1px solid #F60000;
       }
       input {
         width: 30px;
@@ -359,8 +362,8 @@
         opacity: 0;
       }
       input:checked + label {
-        background-color: #13C1FE;
-        border: 1PX solid #13C1FE;
+        background-color: #F60000;
+        border: 1PX solid #F60000;
       }
       input:checked + label::after {
         position: absolute;

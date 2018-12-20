@@ -86,8 +86,8 @@
                 </div>
               </div>
               <div class="shopDrugSpec__content__part-4__header__right">
-                <van-icon name="peisong-" color="#13C1FE" size="5em"/>
-                <van-icon name="anquan" color="#13C1FE" size="5em"/>
+                <van-icon name="peisong-" color="#F60000" size="5em"/>
+                <van-icon name="anquan" color="#F60000" size="5em"/>
               </div>
             </div>
             <div class="shopDrugSpec__content__part-4__content">
@@ -168,7 +168,7 @@
       <div class="shopDrugSpec__popup">
         <div class="shopDrugSpec__popup__part-1 van-hairline--bottom">
           <div class="shopDrugSpec__popup__part-1__close-icon">
-            <van-icon name="close" size="3em" color="#13C1FE"
+            <van-icon name="close" size="3em" color="#F60000"
                       @click="show = false"/>
           </div>
           <div class="shopDrugSpec__popup__part-1__left">
@@ -257,7 +257,7 @@
         .van-button {
           width:690px;
           height:90px;
-          background:#13C1FE;
+          background:#F60000;
           border-radius:8px;
           font-size:36px;
           font-family:HiraginoSansGB-W3;
@@ -284,7 +284,7 @@
           z-index: 1;
           width: 670px;
           height: 160px;
-          background-color: #13C1FE;
+          background-color: #F60000;
           left: 25px;
           padding: 20px;
           & > div {
@@ -340,7 +340,7 @@
             font-weight: normal;
           }
           span:first-child {
-            color: #13C1FE;
+            color: #F60000;
           }
         }
         &__dividing {
@@ -374,7 +374,7 @@
           }
           &__left {
             .van-icon {
-              color: #13C1FE;
+              color: #F60000;
               font-size: 30px;
             }
           }
@@ -437,7 +437,7 @@
           &-button {
             width: 450px;
             height: 50px;
-            background-color: #13C1FE;
+            background-color: #F60000;
             border-radius: 25px;
             margin: 0 auto;
             font-size: 24px;

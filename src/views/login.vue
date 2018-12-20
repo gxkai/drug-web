@@ -225,7 +225,7 @@
         padding: 20px;
         i {
           font-size: 50px;
-          color: #1AB6FD;
+          color: #F60000;
         }
         input {
           width: 350px;
@@ -243,7 +243,7 @@
       }
       &_commit {
         font-size: 30px;
-        background-color: #1AB6FD;
+        background-color: #F60000;
         padding: 5px 50px;
         border-radius: 30px;
         color: white;
@@ -252,7 +252,7 @@
       &_bullets {
         display: flex;
         &-empty {
-          width: 20px;height: 20px;background-color: #1AB6FD;border-radius: 50%;
+          width: 20px;height: 20px;background-color: #F60000;border-radius: 50%;
         }
         &-full {
           width: 20px;height: 20px;background-color: gray;border-radius: 50%;margin-left: 10px;
@@ -267,7 +267,7 @@
         border-radius: 5px;
         &-captcha {
           font-size: 20px;
-          background-color: #1AB6FD;
+          background-color: #F60000;
           color: white;
           width: 130px;
           height: 90px;
@@ -280,7 +280,7 @@
           align-items: center;
           i {
             font-size: 50px;
-            color: #1AB6FD;
+            color: #F60000;
           }
           input {
             width: 220px;
@@ -305,7 +305,7 @@
         padding: 20px;
         i {
           font-size: 50px;
-          color: #1AB6FD;
+          color: #F60000;
         }
         input {
           width: 350px;
@@ -329,7 +329,7 @@
         padding: 20px;
         i {
           font-size: 50px;
-          color: #1AB6FD;
+          color: #F60000;
         }
         input {
           width: 350px;
@@ -347,7 +347,7 @@
       }
       &_commit {
         font-size: 30px;
-        background-color: #1AB6FD;
+        background-color: #F60000;
         padding: 5px 50px;
         border-radius: 30px;
         margin-bottom: 20px;
@@ -357,7 +357,7 @@
       &_bullets {
         display: flex;
         &-empty {
-          width: 20px;height: 20px;background-color: #1AB6FD;border-radius: 50%;margin-left: 10px;
+          width: 20px;height: 20px;background-color: #F60000;border-radius: 50%;margin-left: 10px;
         }
         &-full {
           width: 20px;height: 20px;background-color: gray;border-radius: 50%;

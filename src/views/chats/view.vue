@@ -26,7 +26,7 @@
               >
                 <div class="chat__item__content__message__text" v-if="item.chatMessageType === 'TEXT'"
                      :class="[item.type=== 'ACCOUNT'? 'chat__item__content__message__text--before' : 'chat__item__content__message__text--after']"
-                     :style="{backgroundColor:item.type=== 'ACCOUNT'? 'white' : '#13C1FE',color:item.type=== 'ACCOUNT'? 'black' : 'white'}"
+                     :style="{backgroundColor:item.type=== 'ACCOUNT'? 'white' : '#F60000',color:item.type=== 'ACCOUNT'? 'black' : 'white'}"
                 >
                   {{item.message}}
                 </div>
@@ -42,7 +42,7 @@
       <template slot="bottom">
         <div class="chat__text">
           <van-uploader :after-read="onRead">
-            <van-icon name="jia03" size="4em" color="#13C1FE"></van-icon>
+            <van-icon name="jia03" size="4em" color="#F60000"></van-icon>
           </van-uploader>
           <textarea class="chat__text__textarea" v-model="text"/>
           <van-icon name="paper-airplane" size="4em"
@@ -139,7 +139,7 @@
                 left: 100%;
                 top:15px;
                 border-top: 0px solid transparent;
-                border-left: 15px solid #13C1FE;
+                border-left: 15px solid #F60000;
                 border-bottom: 16px solid transparent;
               }
             }

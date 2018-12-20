@@ -70,7 +70,7 @@
         align-items: center;
         &_name {
           font-size: 30px;
-          color: #1AB6FD;
+          color: #F60000;
         }
         .iconfont {
           font-size: 50px;
