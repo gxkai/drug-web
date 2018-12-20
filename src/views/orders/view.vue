@@ -143,23 +143,57 @@
       v-model="popup"
       position="center">
       <van-steps :active="actives" direction="vertical" active-color="#FF0000">
-        <van-step>订单提交成功<span class="fr">2018-13 12：32</span></van-step>
-        <van-step>订单已支付<span class="fr">2018-13 12：32</span></van-step>
-        <van-step>商家已接单<span class="fr">2018-13 12：32</span></van-step>
-        <van-step>骑手已取货<span class="fr">2018-13 12：32</span></van-step>
-        <van-step>订单已送达<span class="fr">2018-13 12：32</span></van-step>
+        <van-step><span class="step__title step__title_order">订单提交成功</span><span class="fr step__title step__title_fr">2018-12-10 12:32</span></van-step>
+        <van-step class="step__title"><span class="step__title step__title_order">订单已支付</span><span class="fr step__title step__title_fr">2018-12-10 12:52</span></van-step>
+        <van-step class="step__title"><span class="step__title step__title_order">商家已接单</span><span class="fr step__title step__title_fr">2018-12-10 12:32</span></van-step>
+        <van-step class="step__title"><span class="step__title step__title_order">骑手已取货</span><span class="fr step__title step__title_fr">2018-13-09 12:32</span></van-step>
+        <van-step class="step__title"><span class="step__title step__title_order">订单已送达</span><span class="fr step__title step__title_fr">2018-12-10 12:32</span></van-step>
       </van-steps>
-      <div class="order_close">
-        <van-icon name="guanbi2" size="3em" @click="popup=!popup"/>
-      </div>
+
+
    </van-popup>
-
-
-  </div>
+    <div class="closed"  v-model="popup">
+      <van-icon name="guanbi2" size="3em" @click="popup=!popup" class="guanbi2"/>
+    </div>
+ </div>
 
 </template>
 
 <style scoped type="text/scss" lang="scss">
+  .step__title_order{
+    width: 240px;
+    display: inline-block;
+  }
+  [class*=van-hairline]::after{
+    border:none!important;
+  }
+  .step__title_fr{
+    display: inline-block;
+    float: left;
+
+  }
+  .closed{
+    text-align: center;
+  }
+  .guanbi2{
+    position: absolute;
+    color: white;
+    z-index: 99999;
+    top:1100px;
+    text-align: center;
+    margin: auto;
+  }
+  .van-step__circle-container  .van-icon{
+    font-size: 35px!important;
+  }
+ .van-step--vertical.van-step--process .van-icon-checked{
+    font-size: 26px!important;
+    margin-right: 4px;
+  }
+
+  .step__title{
+    font-size: 30px!important;
+  }
   .van-steps {
     width: 616px;
     height: 704px;
@@ -168,7 +202,7 @@
   }
 
   .van-hairline {
-    height: 153px;
+    height: 103px;
   }
 
   .fr {
@@ -181,10 +215,14 @@
   }
 
   .order_view {
+
     &-state {
       position: relative;
       width: 100%;
-      height: 76px;
+      height:120px;
+      background: #f3f3f3;
+      font-weight: bold;
+      font-size: 35px;
       &_name {
         position: absolute;
         left: 53px;
@@ -311,6 +349,14 @@
         color: #666666;
       }
     }
+  }
+
+
+  .van-step__title{
+    font-size:50px!important;
+  }
+  .van-steps .van-icon{
+    font-size: 35px!important;
   }
 
 </style>
