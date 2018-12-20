@@ -50,9 +50,9 @@
         />
       </van-cell-group>
 
-      <van-cell-group class="mt-l-20 address-edit__checkbox">
-        <van-checkbox v-model="address.defaulted">设为默认地址</van-checkbox>
-      </van-cell-group>
+      <!--<van-cell-group class="mt-l-20 address-edit__checkbox">-->
+        <!--<van-checkbox v-model="address.defaulted">设为默认地址</van-checkbox>-->
+      <!--</van-cell-group>-->
     </template>
   </new-layout>
 </template>

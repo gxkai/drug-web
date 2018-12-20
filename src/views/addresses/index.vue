@@ -21,9 +21,9 @@
           </span>
           </div>
           <div class="address__content__item__bottom">
-            <div class="address__content__item__bottom-default">
-              <van-icon name="moren" size="4em" color="#FF0000" v-show="address.defaulted"></van-icon>
-            </div>
+            <!--<div class="address__content__item__bottom-default">-->
+              <!--<van-icon name="moren" size="4em" color="#FF0000" v-show="address.defaulted"></van-icon>-->
+            <!--</div>-->
             <span class="address__content__item__bottom-address">{{`${address.address}  ${address.room}`}}</span>
             <van-icon name="edit" size="3em"
                       @click="$router.push({path:'/addresses/edit',query:{id:address.id}})"></van-icon>
@@ -98,7 +98,7 @@
     &__footer {
       width:720px;
       height:100px;
-      background:rgba(19,193,254,1);
+      background:#F5453E;
       line-height: 100px;
       font-size:32px;
       font-family:HiraginoSansGB-W3;
