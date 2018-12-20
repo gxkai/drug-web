@@ -8,44 +8,98 @@
       />
     </template>
     <template slot="center">
-      <van-cell title="手机号"
-                class="mt-l-20"
-                :value="account.username">
-      </van-cell>
+      <div class="account__info">
+        <van-cell title="手机号"
+                  :value="account.username">
+        </van-cell>
 
-      <van-cell title="姓名"
-                class="mt-l-20"
-                :value="account.name">
-      </van-cell>
+        <van-cell title="姓名"
+                  :value="account.name">
+        </van-cell>
 
-      <van-cell title="性别"
-                class="mt-l-20"
-                :value="getGender(account.gender)">
-      </van-cell>
+        <van-cell title="性别"
+                  :value="getGender(account.gender)">
+        </van-cell>
 
-      <van-cell title="年龄"
-                class="mt-l-20"
-                :value="account.age">
-      </van-cell>
+        <van-cell title="年龄"
+                  :value="account.age">
+        </van-cell>
 
-      <van-cell title="身份证号"
-                class="mt-l-20"
-                :value="account.identityNumber">
-      </van-cell>
+        <van-cell title="身份证号"
+                  :value="account.identityNumber">
+        </van-cell>
 
-      <van-cell title="医保卡号"
-                class="mt-l-20"
-                :value="account.medicaidNumber">
-      </van-cell>
+        <van-cell title="社保编号"
+                  :value="account.medicaidNumber">
+        </van-cell>
+      </div>
+      <div class="medicare__info">
+        <van-cell title="账户年度"
+                  class="mt-l-20"
+                  :value="medicaid.account">
+        </van-cell>
+
+        <van-cell title="上年度账户余额"
+                  class="mt-l-20"
+                  value-class="amount"
+                  :value="medicaid.allBalance">
+        </van-cell>
+
+        <van-cell title="本年度账户预划金额"
+                  class="mt-l-20"
+                  value-class="amount"
+                  :value="medicaid.limit">
+        </van-cell>
+
+        <van-cell title="账户支付金额"
+                  class="mt-l-20"
+                  value-class="amount"
+                  :value="medicaid.consume">
+        </van-cell>
+
+        <van-cell title="当前账户余额"
+                  class="mt-l-20"
+                  value-class="amount"
+                  :value="medicaid.balance">
+        </van-cell>
+
+        <van-cell title="本年医保住院累计"
+                  class="mt-l-20"
+                  value-class="amount"
+                  :value="medicaid.hospital">
+        </van-cell>
+
+        <van-cell title="本年医保门诊累计"
+                  class="mt-l-20"
+                  value-class="amount"
+                  :value="medicaid.outpatient">
+        </van-cell>
+      </div>
     </template>
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
+
+  .account{
+    &__info{
+      .van-cell{
+        padding: 0;
+        &:not(:last-child)::after{
+          /*border-bottom: 4px solid #323232;*/
+        }
+      }
+    }
+  }
+  .medicare__info{
+    margin-bottom: 40px;
+  }
+
 </style>
 <script>
   export default {
     data() {
       return {
+        medicaid: ''
       };
     },
     computed: {
@@ -54,8 +108,12 @@
       }
     },
     created() {
+      this.initData();
     },
     methods: {
+      async initData() {
+        this.medicaid = await this.$http.get('/medicaid');
+      }
     }
   };
 </script>
