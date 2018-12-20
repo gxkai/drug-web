@@ -1,8 +1,9 @@
 <template>
   <div class="account">
     <div class="account-header">
-      <div class="account--name">{{ account.name }}</div>
+
       <van-uploader :after-read="onRead">
+        <div class="account--name">{{ account.name }}</div>
         <div class="logo-bg">
           <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"/>
         </div>
@@ -20,7 +21,7 @@
            <!--@click="$router.push('/points/signIn')">-->
       <!--</div>-->
 
-      <div class="account-fixed-order">
+      <div class="account-fixed-order" style="position: static">
         <div class="order__header">
           <router-link to="/orders">
             <div class="left__all-order">
@@ -313,6 +314,8 @@
 
   .van-uploader{
     z-index: 2;
+    position: relative;
+    top: 70px;
   }
 
   [class*=van-hairline]::after{
@@ -377,7 +380,7 @@
 
     &--grid {
       background: #FFF;
-      margin-top: 150px;
+      margin-top: 100px;
 
       ul{
         padding: 15px 0;
@@ -419,10 +422,10 @@
 
     &-fixed-order{
       width: 690px;
-      position: fixed;
-      top: 280px;
-      z-index: 1;
-      left: 15px;
+      /*position: fixed;*/
+      /*top: 280px;*/
+      /*z-index: 1;*/
+      /*left: 15px;*/
       background: #FFF;
       border-radius: 20px;
       box-shadow: 0 0 20px -2px $mainColor;
