@@ -315,16 +315,6 @@
     z-index: 2;
   }
 
-  .account-fixed-order {
-    .van-tabbar{
-      margin: 30px auto;
-      border-radius: 50px;
-      &-item--active{
-        color: #5F5F5F;
-      }
-    }
-  }
-
   [class*=van-hairline]::after{
     border: none;
   }
@@ -436,6 +426,14 @@
       background: #FFF;
       border-radius: 20px;
       box-shadow: 0 0 20px -2px $mainColor;
+
+      .van-tabbar{
+        margin: 30px auto;
+        border-radius: 50px;
+        &-item--active{
+          color: #5F5F5F;
+        }
+      }
     }
     &-header {
       width: 720px;
