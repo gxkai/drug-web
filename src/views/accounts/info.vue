@@ -30,10 +30,11 @@
         </van-cell>
 
         <van-cell title="社保编号"
-                  :value="account.medicaidNumber">
+                  :value="account.medicaidNumber === null ? '请到农商行签约' : account.medicaidNumber">
         </van-cell>
       </div>
-      <div class="medicare__info">
+      <div class="medicare__info" v-if="account.medicaidNumber">
+
         <van-cell title="账户年度"
                   class="mt-l-20"
                   :value="medicaid.account">
@@ -80,16 +81,6 @@
 </template>
 <style scoped type="text/scss" lang="scss">
 
-  .account{
-    &__info{
-      .van-cell{
-        padding: 0;
-        &:not(:last-child)::after{
-          /*border-bottom: 4px solid #323232;*/
-        }
-      }
-    }
-  }
   .medicare__info{
     margin-bottom: 40px;
   }
