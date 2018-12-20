@@ -30,7 +30,7 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           removeLogin();
-          window.location.href = 'https://ebank.96079.com.cn/quyiyuan_zhks/';
+          Toast('不好意思，您被踢了');
           break;
         case 400:
           if (error.response.data.fieldErrors !== undefined) {
