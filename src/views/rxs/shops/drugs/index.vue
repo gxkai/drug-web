@@ -81,13 +81,9 @@
                     </p>
                   </li>
                 </ul>
-
               </van-collapse-item>
             </van-collapse>
-
           </div>
-
-
         </div>
 
       </template>
