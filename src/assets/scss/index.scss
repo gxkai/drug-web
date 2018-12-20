@@ -63,3 +63,11 @@ table {
   border-radius: 20px;
   font-weight: 200;
 }
+
+
+#footer .van-tabbar-item--active{
+  color: $bottomColor;
+  .van-icon{
+    color: $bottomColor;
+  }
+}

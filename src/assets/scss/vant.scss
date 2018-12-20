@@ -69,6 +69,15 @@
     font-size: 50px!important;
     color: #13C1FE;
   }
+
+  &__value.amount {
+    span{
+      color: #F00 !important;
+    }
+  }
+  .consume__item &__right-icon{
+    font-size: 28px !important;
+  }
 }
 
 .van-tabbar {

@@ -1,7 +1,7 @@
 <template>
   <div class="account">
     <div class="account-header">
-      <div class="account--name">用户名</div>
+      <div class="account--name">{{ account.name }}</div>
       <van-uploader :after-read="onRead">
         <div class="logo-bg">
           <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"/>
@@ -36,16 +36,50 @@
         </div>
 
         <van-tabbar :fixed="Boolean(false)">
-          <van-tabbar-item icon="daifukuan" :info="count.toPayCount === 0 ? '':count.toPayCount"
+
+          <van-tabbar-item v-if="count.toPayCount === 0"
+                           icon="daifukuan"
                            :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
           </van-tabbar-item>
-          <van-tabbar-item icon="yaopin" :info="count.toDeliveryCount === 0 ? '':count.toDeliveryCount "
+
+          <van-tabbar-item v-else
+                           icon="daifukuan"
+                           :info="count.toPayCount"
+                           :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
+          </van-tabbar-item>
+
+          <van-tabbar-item v-if="count.toDeliveryCount === 0"
+                           icon="yaopin"
                            :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
           </van-tabbar-item>
-          <van-tabbar-item icon="daishouhuo1" :info="count.toReceivedCount === 0 ? '' : count.toReceivedCount"
-                           :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
+
+          <van-tabbar-item v-else
+                           icon="yaopin"
+                           :info="count.toDeliveryCount "
+                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
           </van-tabbar-item>
-          <van-tabbar-item icon="wenjianjia" :info="count.toAppraiseCount === 0 ? '' : count.toAppraiseCount"
+
+
+          <van-tabbar-item  v-if="count.toReceivedCount === 0"
+                            icon="daishouhuo1"
+                            :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
+          </van-tabbar-item>
+
+          <van-tabbar-item  v-else
+                            icon="daishouhuo1"
+                            :info="count.toReceivedCount"
+                            :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
+          </van-tabbar-item>
+
+          <van-tabbar-item
+                           v-if="count.toAppraiseCount === 0"
+                           icon="wenjianjia"
+                           :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
+          </van-tabbar-item>
+
+          <van-tabbar-item v-else
+                           icon="wenjianjia"
+                           :info="count.toAppraiseCount"
                            :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
           </van-tabbar-item>
         </van-tabbar>
@@ -71,7 +105,7 @@
             <router-link
               class="account--grid--item"
               tag="div"
-              to="/accounts/insurance"
+              to="/accounts/insurance/consume"
             >
               <div class="left-icon-title">
                 <van-icon name="tiyanjin"></van-icon>
@@ -258,9 +292,16 @@
     }
   }
 
-  /deep/.account-fixed-order .van-tabbar-item__icon i{
-    font-size: 50px !important;
-    padding-bottom: 10px;
+  /deep/.account-fixed-order .van-tabbar-item__icon{
+
+    i{
+      font-size: 50px !important;
+      padding-bottom: 10px;
+    }
+    .van-info {
+      line-height: 38px;
+      padding: 0 8px;
+    }
   }
 
 </style>
@@ -279,6 +320,7 @@
       &-item--active{
         color: #5F5F5F;
       }
+
     }
   }
 
@@ -362,7 +404,7 @@
             color: $mainColor;
           }
           span{
-            font-size: 30px;
+            font-size: 28px;
             color: #5F5F5F;
             display: inline-block;
             vertical-align: sub;
@@ -371,7 +413,7 @@
         }
         .van-icon{
           flex: .2;
-          font-size: 40px;
+          font-size: 35px;
           color: #5F5F5F;
           text-align: center;
           vertical-align: bottom;
@@ -460,7 +502,7 @@
       };
     },
     created() {
-      // this.initData();
+      this.initData();
     },
     mounted() {
     },
@@ -486,6 +528,5 @@
         setAccount(this.accountId);
       }
     }
-  }
-  ;
+  };
 </script>

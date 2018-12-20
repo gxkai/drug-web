@@ -93,7 +93,7 @@ const accountRouter = [
   },
   {
     path: '/accounts/insurance/consume',
-    name: '年度消费信息',
+    name: '消费信息',
     component: () => import('@/views/accounts/insurance/consume')
   },
   {
