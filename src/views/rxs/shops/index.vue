@@ -160,6 +160,13 @@
 </script>
 
 <style scoped type="text/scss" lang="scss">
+  .middle{
+    background: #F5453E!important;
+    input{
+      width: 670px!important;
+      display: inline-block;
+    }
+  }
   .shops {
     width: 720px;
     &-header {

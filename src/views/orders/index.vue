@@ -91,7 +91,7 @@
           case 'TO_APPRAISE':
             return '待评价';
           case 'TO_DELIVERY':
-            return '待发货';
+            return '调剂中';
           case 'TO_RECEIVED':
             return '待收货';
           default:

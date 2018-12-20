@@ -43,7 +43,7 @@ export default {
       case 'TO_CHECK':
         return '待审核';
       case 'TO_DELIVERY':
-        return '待发货';
+        return '调剂中';
       case 'TO_RECEIVED':
         return '待收货';
       case 'TO_APPRAISE':

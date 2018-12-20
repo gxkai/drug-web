@@ -40,7 +40,7 @@
                            :to="{path:'/orders', query:{state: 'TO_PAY'}}" class="van-tabbar-item__text">待付款
           </van-tabbar-item>
           <van-tabbar-item icon="yaopin" :info="count.toDeliveryCount === 0 ? '':count.toDeliveryCount "
-                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
+                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">调剂中
           </van-tabbar-item>
           <van-tabbar-item icon="daishouhuo1" :info="count.toReceivedCount === 0 ? '' : count.toReceivedCount"
                            :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
@@ -207,6 +207,9 @@
  .van-tabbar-item--active{
     color: #F60032!important;
   }
+ .van-tabbar-item--active i{
+   color: #F60032!important;
+ }
   /deep/ .van-icon {
     font-size: 40px;
     &-dizhi1 {
@@ -225,7 +228,7 @@
       color: #F6C500;
     }
     &-wo {
-      color: #1AC3FE;
+
     }
     &-jifen1 {
       color: #9850DB;

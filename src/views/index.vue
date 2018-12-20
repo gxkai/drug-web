@@ -407,7 +407,10 @@
       width: 720px;
       line-height: 68px;
       border-top: 1px solid #f3f3f3;
+
       span:first-child {
+        display: inline-block;
+        margin-top: 20px;
         img {
           width: 121px;
           height: 28px;
