@@ -273,6 +273,7 @@ export default {
      * @param str
      */
     Vue.prototype.linkToShopDrugSpec = (str) => {
+      alert(str);
       router.push({ path: '/shopDrugSpecs', query: { shopDrugId: str } });
     };
     /**
