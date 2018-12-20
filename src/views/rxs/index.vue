@@ -6,7 +6,7 @@
         left-arrow
         @click-left="$router.go(-1)"
       />
-      <div class="rxs--header">
+      <div class="rxs--header"  :style="note">
         <div class="rxs--header__left">
           <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"
                class="rxs--header__left--logo"
@@ -47,7 +47,7 @@
             >
               <img class="rxs--mark" v-lazy="item.state ==='ENABLED'? require('../../assets/image/rxs/rx-true.png') : require('../../assets/image/rxs/rx-false.png')" >
               <div>
-                <van-icon name="yiyuan" color="#13C1FE" size="3em"></van-icon>
+                <van-icon name="yiyuan" color="#F60000" size="3em"></van-icon>
                 <span>医院</span>
                 <span>
               {{item.hospital||'未注明'}}
@@ -57,21 +57,21 @@
             </span>
               </div>
               <div>
-                <van-icon name="riqi" color="#13C1FE" size="3em"></van-icon>
+                <van-icon name="riqi" color="#F60000" size="3em"></van-icon>
                 <span>日期</span>
                 <span>
               {{timeConvert(item.rxDate)}}
             </span>
               </div>
               <div>
-                <van-icon name="222" color="#13C1FE" size="3em"></van-icon>
+                <van-icon name="222" color="#F60000" size="3em"></van-icon>
                 <span>诊断</span>
                 <span>
               {{item.illness}}
             </span>
               </div>
               <div>
-                <van-icon name="shijian2" color="#13C1FE" size="3em"></van-icon>
+                <van-icon name="shijian2" color="#F60000" size="3em"></van-icon>
                 <span>倒计时</span>
                 <new-count-down :endTime="item.rxDate" durationDay="3"></new-count-down>
               </div>
@@ -106,6 +106,9 @@
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
+  .van-tabbar-item--active{
+    color: #F60032!important;
+  }
   /deep/.van-nav-bar:after {
     border-bottom: none!important;
   }
@@ -148,7 +151,7 @@
             width: 150px;
             font-size: 25px;
             font-weight: normal;
-            color: #1AB6FD;
+            color: #F60000;
           }
         }
       }
@@ -157,6 +160,7 @@
       width: 680px;
       height: 50px;
       margin: 0 20px;
+      margin-top: 50px;
       background-color: white;
       position: absolute;
       top: 310px;
@@ -172,8 +176,8 @@
       }
     }
     &--header {
-      height: 200px;
-      background-color: #13C1FE;
+      height: 300px;
+     /* background-color: #F60000;*/
       padding: 0 80px;
       display: flex;
       align-items: center;
@@ -205,6 +209,13 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
+        note: {
+          backgroundImage: 'url(' + require('../../assets/image/rxs/rx-bg.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          width: '100%',
+          height: '520px'
+        },
         icon: '\ue64c 请输入诊断搜索'
       };
     },

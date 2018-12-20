@@ -51,7 +51,7 @@
 
 <style scoped>
   .mint-button--primary {
-    background: #1AB6FD;
+    background: #F60000;
     color: #e2e2e2;
   }
 

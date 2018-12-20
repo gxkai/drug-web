@@ -12,7 +12,7 @@
     <template slot="center">
       <van-tabs v-model="active"
                 swipeable
-                color="#13C1FE"
+                color="#F60000"
       >
         <van-tab :title="item.type"
                  v-for="(item,index) in list"
@@ -56,6 +56,9 @@
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
+  .van-tabbar-item--active{
+    color: #F60032!important;
+  }
   /deep/ .van-tabs {
     &__wrap {
       height: 100px !important;

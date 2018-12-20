@@ -13,10 +13,10 @@
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'SYNTHESIZE'? '#13C1FE': 'gray'} ">
+                 :style="{borderBottomColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:shopSort === 'SYNTHESIZE'? '#13C1FE': 'gray'} ">
+                 :style="{borderTopColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>
@@ -26,10 +26,10 @@
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'DISTANCE'? '#13C1FE': 'gray'} ">
+                 :style="{borderBottomColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:shopSort === 'DISTANCE'? '#13C1FE': 'gray'} ">
+                 :style="{borderTopColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>
@@ -39,10 +39,10 @@
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'APPRAISE'? '#13C1FE': 'gray'} ">
+                 :style="{borderBottomColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:shopSort === 'APPRAISE'? '#13C1FE': 'gray'} ">
+                 :style="{borderTopColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>
@@ -52,9 +52,9 @@
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
+                 :style="{borderBottomColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
             </div>
-            <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#13C1FE': 'gray'} ">
+            <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>
@@ -205,13 +205,13 @@
           justify-content: center;
           &-up {
             border: 7px solid white;
-            border-bottom-color: #13C1FE;
+            border-bottom-color: #F60000;
             width: 0;
             height: 0;
           }
           &-down {
             border: 7px solid white;
-            border-top-color: #13C1FE;
+            border-top-color: #F60000;
             width: 0;
             height: 0;
             margin-top: 2px;
@@ -257,7 +257,7 @@
           top: 10px;
           i {
             font-size: 80px;
-            color: #1AB6FD;
+            color: #F60000;
           }
         }
       }

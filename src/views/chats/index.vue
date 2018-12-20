@@ -52,7 +52,7 @@
         justify-content: center;
         margin-top: 20px;
         &__button {
-          background-color: #1AB6FD;
+          background-color: #F60000;
           color: white;
           font-size: 30px;
           font-weight: 200;
@@ -69,8 +69,8 @@
         flex-wrap: wrap;
         margin-top: 20px;
         &__item {
-          border: #1AB6FD 1PX solid;
-          color: #1AB6FD;
+          border: #F60000 1PX solid;
+          color: #F60000;
           font-size: 20px;
           padding: 0 20px;
           border-radius: 10PX;
@@ -103,8 +103,8 @@
               font-weight: 500;
             }
             &__tag {
-              border: #1AB6FD 1PX solid;
-              color: #1AB6FD;
+              border: #F60000 1PX solid;
+              color: #F60000;
               font-size: 20px;
               padding: 0 20px;
               margin-left: 20px;

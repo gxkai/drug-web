@@ -82,7 +82,7 @@
         float: left;
         font-size: 24px;
         line-height: 50px;
-        color: #13C1FE;
+        color: #F60000;
         .iconfont{
           vertical-align: middle!important;
           color: #000000;
@@ -92,7 +92,7 @@
       &-right{
         float: right;
         font-size: 20px;
-        color: #13C1FE;
+        color: #F60000;
         margin-right: 16px;
         line-height: 50px;
       }
@@ -126,12 +126,12 @@
           align-items: center;
           &_name {
             font-size: 30px;
-            color: #13C1FE;
+            color: #F60000;
           }
         }
         &-right {
           font-size: 30px;
-          color: #13C1FE;
+          color: #F60000;
         }
       }
       &-info {

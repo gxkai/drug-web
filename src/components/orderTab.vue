@@ -9,7 +9,7 @@
       <div class="order_tab-bar" v-show="state === 'TO_PAY'"></div>
     </div>
     <div :class="{active:state == '/orders/toDeliver'}" @click.stop="$emit('update:state','TO_DELIVERY')">
-      <p class="text-l-30">待发货</p>
+      <p class="text-l-30">调剂中</p>
       <div class="order_tab-bar" v-show="state === 'TO_DELIVERY'"></div>
     </div>
     <div :class="{active:state == '/orders/toReceive'}" @click.stop="$emit('update:state','TO_RECEIVED')">
@@ -48,7 +48,7 @@
     &-bar {
       width: 66px;
       height: 6px;
-      background: rgba(19, 193, 254, 1);
+      background: #F5453E;
     }
   }
 </style>

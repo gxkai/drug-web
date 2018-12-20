@@ -149,11 +149,11 @@
           width:82px;
           height:33px;
           background:rgba(255,255,255,1);
-          border:1px solid #13C1FE;
+          border:1px solid #F60000;
           border-radius:7px;
           display:inline-block;
           float: left;
-          color: #13C1FE;
+          color: #F60000;
           text-align: center;
           line-height: 33px;
 

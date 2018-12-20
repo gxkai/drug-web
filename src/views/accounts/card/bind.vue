@@ -107,7 +107,7 @@
         }
         &-left {
           .iconfont {
-            color: #1AB6FD;
+            color: #F60000;
             font-size: 60px;
           }
         }

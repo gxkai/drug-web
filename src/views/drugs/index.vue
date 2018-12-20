@@ -14,10 +14,10 @@
             </div>
             <div class="drugs-filter-item-arrow">
               <div class="drugs-filter-item-arrow-up"
-                   :style="{borderBottomColor:drugSort === 'SYNTHESIZE_DESC'? '#13C1FE': 'gray'} ">
+                   :style="{borderBottomColor:drugSort === 'SYNTHESIZE_DESC'? '#F60000': 'gray'} ">
               </div>
               <div class="drugs-filter-item-arrow-down"
-                   :style="{borderTopColor:drugSort === 'SYNTHESIZE_DESC'? '#13C1FE': 'gray'} ">
+                   :style="{borderTopColor:drugSort === 'SYNTHESIZE_DESC'? '#F60000': 'gray'} ">
               </div>
             </div>
           </div>
@@ -27,10 +27,10 @@
             </div>
             <div class="drugs-filter-item-arrow">
               <div class="drugs-filter-item-arrow-up"
-                   :style="{borderBottomColor:drugSort === 'PRICE_ASC'? '#13C1FE': 'gray'} ">
+                   :style="{borderBottomColor:drugSort === 'PRICE_ASC'? '#F60000': 'gray'} ">
               </div>
               <div class="drugs-filter-item-arrow-down"
-                   :style="{borderTopColor:drugSort === 'PRICE_DESC'? '#13C1FE': 'gray'} ">
+                   :style="{borderTopColor:drugSort === 'PRICE_DESC'? '#F60000': 'gray'} ">
               </div>
             </div>
           </div>
@@ -40,10 +40,10 @@
             </div>
             <div class="drugs-filter-item-arrow">
               <div class="drugs-filter-item-arrow-up"
-                   :style="{borderBottomColor:drugSort === 'SALE_ASC'? '#13C1FE': 'gray'} ">
+                   :style="{borderBottomColor:drugSort === 'SALE_ASC'? '#F60000': 'gray'} ">
               </div>
               <div class="drugs-filter-item-arrow-down"
-                   :style="{borderTopColor:drugSort === 'SALE_DESC'? '#13C1FE': 'gray'} ">
+                   :style="{borderTopColor:drugSort === 'SALE_DESC'? '#F60000': 'gray'} ">
               </div>
             </div>
           </div>
@@ -403,7 +403,7 @@
       justify-content: space-between;
       align-items: center;
       height: 100px;
-      background-color: #1AB6FD;
+      background-color: #F60000;
       padding: 0 20px;
       &__left {
 

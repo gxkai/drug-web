@@ -88,7 +88,7 @@
 <style scoped type="text/scss" lang="scss">
   .shop_view {
     &-info {
-      background-color: rgb(19, 193, 254);
+      background-color: #F60000;
       padding: 40px 80px;
       margin-bottom: 20px;
       display: flex;

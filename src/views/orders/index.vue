@@ -91,7 +91,7 @@
           case 'TO_APPRAISE':
             return '待评价';
           case 'TO_DELIVERY':
-            return '待发货';
+            return '调剂中';
           case 'TO_RECEIVED':
             return '待收货';
           default:
@@ -151,7 +151,7 @@
     &__header {
       &__search {
         height: 130px;
-        background-color: #13C1FE;
+        background-color: #F60000;
         display: flex;
         align-items: center;justify-content: space-between;
         padding: 0 20px;

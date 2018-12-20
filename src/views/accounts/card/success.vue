@@ -88,6 +88,6 @@
   }
 
   .btn-1AB6FD {
-    background: #1AB6FD;
+    background: #F60000;
   }
 </style>

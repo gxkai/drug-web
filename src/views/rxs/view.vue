@@ -87,7 +87,7 @@
     <template slot="bottom">
       <div class="rxs_view-footer"
            @click="submit"
-           :style="{backgroundColor: rx.state === 'ENABLED'? '#1AB6FD' : 'gray'}">
+           :style="{backgroundColor: rx.state === 'ENABLED'? '#F60000' : 'gray'}">
         购药
       </div>
     </template>

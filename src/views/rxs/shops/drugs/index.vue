@@ -25,26 +25,26 @@
               </div>
               <div class="rx__content__item--content__right">
                 <div class="rx__content__item--content__right-medicine-Name">
-                  <!--<van-icon name="changfang" color="#13C1FE" size="3em"></van-icon>-->
+                  <!--<van-icon name="changfang" color="#F60000" size="3em"></van-icon>-->
                   <span>名称 : </span>
                   <!--<span>{{carts[index].originName}}</span>-->
                   <span class="ml-l-10">{{carts[index].name}}-({{carts[index].spec}})</span>
                   <span class="num">X{{carts[index].quantity}}</span>
                 </div>
                 <div class="rx__content__item--content__right-spec">
-                  <!--<van-icon name="yaopinshuju" color="#13C1FE" size="3em"></van-icon>-->
+                  <!--<van-icon name="yaopinshuju" color="#F60000" size="3em"></van-icon>-->
                   <span>用量 : </span>
                   <span class="ml-l-10">{{ carts[index].usage }}</span>
                 </div>
 
                 <div class="rx__content__item--content__right-originName">
-                  <!--<van-icon name="changfang" color="#13C1FE" size="3em"></van-icon>-->
+                  <!--<van-icon name="changfang" color="#F60000" size="3em"></van-icon>-->
                   <span>厂商 : </span>
                   <span class="ml-l-10">{{carts[index].originName}}</span>
                 </div>
 
                 <div class="rx__content__item--content__right-price">
-                  <!--<van-icon name="qian" color="#13C1FE" size="3em"></van-icon>-->
+                  <!--<van-icon name="qian" color="#F60000" size="3em"></van-icon>-->
                   <!--<span>最低价</span>-->
                   <span>&yen;{{ carts[index].price }}</span>
                   <span class="ml-l-10">( 医保报销金额 <span style="font-size: 1em">&yen;{{ carts[index].medicaidPrice }}</span> )</span>
@@ -107,7 +107,7 @@
           <van-goods-action-mini-btn icon="shop" text="药店" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
           <van-goods-action-big-btn class="add-to-cart" text="加入购物车" @click="type==='HOSPITAL'? '' : createCart()"
-                                    :style="{backgroundColor:type==='HOSPITAL'?'gray':'#13C1FE'}"/>
+                                    :style="{backgroundColor:type==='HOSPITAL'?'gray':'#F60000'}"/>
           <van-goods-action-big-btn class="buy-now" text="立即购买" primary @click="onBuy"/>
         </van-goods-action>
       </template>
@@ -309,7 +309,7 @@
     border-color: #F02B2B;
   }
   .add-to-cart{
-    border-color: #13C1FE;
+    border-color: #F60000;
   }
 
   .text-a6a6a6 {

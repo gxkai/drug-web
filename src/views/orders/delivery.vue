@@ -12,7 +12,7 @@
       <div class="delivery-schedule">
         <div>
           <div><img src="../../assets/image/delivery/ordersure.png"/></div>
-          <div class="delivery-schedule-message text-#13C1FE">订单已确认</div>
+          <div class="delivery-schedule-message text-#F60000">订单已确认</div>
         </div>
 
         <div style="z-index: 999">
@@ -22,7 +22,7 @@
           </div>
           <div v-else>
             <img src="../../assets/image/delivery/distributioning.png"/>
-            <div class="delivery-schedule-message text-#13C1FE">配送中</div>
+            <div class="delivery-schedule-message text-#F60000">配送中</div>
           </div>
         </div>
 
@@ -33,7 +33,7 @@
           </div>
           <div v-else>
             <img src="../../assets/image/delivery/receiveing.png"/>
-            <div class="delivery-schedule-message text-#13C1FE">已收货</div>
+            <div class="delivery-schedule-message text-#F60000">已收货</div>
           </div>
 
         </div>

@@ -87,7 +87,7 @@
         &_count {
           &>span {
             &:nth-child(1) {
-              color: #13C1FE;
+              color: #F60000;
               font-size: 30px;
             }
             &:nth-child(2) {
