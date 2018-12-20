@@ -261,7 +261,7 @@
       async getLocation() {
         if (this.$route.query.location === undefined) {
           new BMap.Geolocation().getCurrentPosition(async (r) => {
-            const data = await this.$http.get(`${this.process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
+            const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
             console.log(data);
             this.position = data.pois[0];
             data.pois.splice(0, 1);
@@ -269,7 +269,7 @@
           });
         } else {
           const location = JSON.parse(this.$route.query.location);
-          const data = await this.$http.get(`${this.process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${location.lat}&lng=${location.lng}&coordType=bd09ll&poi=true`);
+          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${location.lat}&lng=${location.lng}&coordType=bd09ll&poi=true`);
           console.log(data);
           this.position = data.pois[0];
           data.pois.splice(0, 1);
@@ -278,7 +278,7 @@
       },
       getKeyLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
-          const data = await this.$http.get(`${this.process.env.OUTSIDE_ROOT}/baidu/places.json?query=${this.key}&lng=${r.longitude}&lat=${r.latitude}`);
+          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/places.json?query=${this.key}&lng=${r.longitude}&lat=${r.latitude}`);
           this.keyPositions = data.result;
         });
       }
