@@ -1,12 +1,12 @@
 <template>
   <div class="appraise">
     <div class="appraise-title">
-      <div class="appraise-title-left">
-        <div class="text-l-25">总评分&nbsp;{{shopDrugSpec.shopTotalAppraise.score}}分</div>
-        <div>
-          <van-rate v-model="shopDrugSpec.shopTotalAppraise.score" disabled disabled-color="red" :size="15"></van-rate>
-        </div>
-      </div>
+      <!--<div class="appraise-title-left">-->
+        <!--<div class="text-l-25">总评分&nbsp;{{shopDrugSpec.shopTotalAppraise.score}}分</div>-->
+        <!--<div>-->
+          <!--<van-rate v-model="shopDrugSpec.shopTotalAppraise.score" disabled disabled-color="red" :size="15"></van-rate>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="appraise-title-right">
         <div class="text-l-25">
           共有{{list.length}}位网友评论
