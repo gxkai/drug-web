@@ -126,10 +126,10 @@
             <div class="drugs-shops__part-4__item__info">
               <van-icon name="ditu" color="#F60000" size="2em"></van-icon>
               <span>{{shop.address}}</span>
-              <van-icon name="aixin" color="#F60000" size="2em"></van-icon>
-              <span>{{shop.score}}</span>
-              <van-icon name="kucun" color="#F60000" size="2em"></van-icon>
-              <span>{{shop.stock}}</span>
+              <!--<van-icon name="aixin" color="#F60000" size="2em"></van-icon>-->
+              <!--<span>{{shop.score}}</span>-->
+              <!--<van-icon name="kucun" color="#F60000" size="2em"></van-icon>-->
+              <!--<span>{{shop.stock}}</span>-->
             </div>
           </div>
         </div>
