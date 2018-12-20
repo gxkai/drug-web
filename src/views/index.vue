@@ -79,10 +79,10 @@
                   v-for="discount in discounts"
                   :key="discount.id"
                 >
-                  <li class="home__rush__div__ul__li">
-            <span class="home__rush__div__ul__li__img">
-              <img v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')" @click="linkToShopDrugSpec(discount.shopDrugId)"
-                   class="home__rush__div__ul__li__imgs"/> </span>
+                  <li class="home__rush__div__ul__li"  @click="linkToShopDrugSpec(discount.shopDrugId)">
+                    <span class="home__rush__div__ul__li__img">
+                        <img v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')"  class="home__rush__div__ul__li__imgs"/>
+                    </span>
                     <span class="home__rush__div__ul__li__vc"> {{discount.name}}</span>
                     <span class="home__rush__div__ul__li__header">
                  <van-icon name="xinxinicon" color="red" size="1.2rem" class="home__rush_div__header__icon"/>
