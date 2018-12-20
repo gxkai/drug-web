@@ -180,8 +180,6 @@
             <div class="home__recomd__goods__div__price">¥{{`${recommend.price}`}}</div>
           </div>
         </div>
-
-
       </div>
     </template>
     <div class="over-height"></div>
