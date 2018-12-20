@@ -160,7 +160,7 @@
     &__part-1 {
       width: 720px;
       height: 134px;
-      background: #13C1FE;
+      background: #F60000;
       display: flex;
       padding: 20px 30px;
       align-items: center;

@@ -37,7 +37,7 @@
 
         <van-tabbar :fixed="Boolean(false)">
           <van-tabbar-item icon="daifukuan" :info="count.toPayCount === 0 ? '':count.toPayCount"
-                           :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
+                           :to="{path:'/orders', query:{state: 'TO_PAY'}}" class="van-tabbar-item__text">待付款
           </van-tabbar-item>
           <van-tabbar-item icon="yaopin" :info="count.toDeliveryCount === 0 ? '':count.toDeliveryCount "
                            :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
@@ -204,7 +204,7 @@
   </div>
 </template>
 <style scoped type="text/less" lang="less">
-  .van-tabbar-item--active{
+ .van-tabbar-item--active{
     color: #F60032!important;
   }
   /deep/ .van-icon {
@@ -419,7 +419,7 @@
         position: absolute;
         right: 0;
         top: 150px;
-        border: 1PX solid #1AB6FD;
+        border: 1PX solid #F60000;
         background-color: white;
         padding: 0 5px 0 10px;
         border-top-left-radius: 20px;
@@ -442,6 +442,9 @@
         top: 20px;
       }
     }
+  }
+  .van-tabbar-item__text{
+    color: #7d7e80!important;
   }
 </style>
 

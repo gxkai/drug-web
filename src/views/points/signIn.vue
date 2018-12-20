@@ -18,7 +18,7 @@
     <div class="bg-white">
       <div class="width-percent-96 m-auto">
         <div class="change-point">
-          <van-icon name="liwu-copy" color="#13C1FE" size="3em"></van-icon>
+          <van-icon name="liwu-copy" color="#F60000" size="3em"></van-icon>
           <span class="fz28">积分兑换</span>
           <span class="fz20 fr"
           @click="$router.push('/points')">查看更多 <i class="iconfont ic-youjiantou"></i></span>
@@ -198,7 +198,7 @@
     font-size: 36px;
     text-align: center;
     font-weight: bold;
-    color: #13C1FE;
+    color: #F60000;
     margin-top: 30px;
   }
 

@@ -180,7 +180,7 @@
         &-close_icon {
           position: absolute;
           right: 10px;
-          color: #1AB6FD;
+          color: #F60000;
         }
       }
       &_item {
@@ -205,7 +205,7 @@
         line-height: 80px;
         width: 100%;
         text-align: center;
-        background-color: #1AB6FD;
+        background-color: #F60000;
         color: white;
         font-size: 30px;
         font-family:HiraginoSansGB-W3;

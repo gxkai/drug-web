@@ -22,7 +22,7 @@
             <div class="shops-filter-item-arrow-up">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:sort === 'ID_DESC'? '#13C1FE': 'gray'} ">
+                 :style="{borderTopColor:sort === 'ID_DESC'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>-->
@@ -32,10 +32,10 @@
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:sort === 'PRICE_ASC'? '#13C1FE': 'gray'} ">
+                 :style="{borderBottomColor:sort === 'PRICE_ASC'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:sort === 'PRICE_DESC'? '#13C1FE': 'gray'} ">
+                 :style="{borderTopColor:sort === 'PRICE_DESC'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>
@@ -45,10 +45,10 @@
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:sort === 'DISTANCE_ASC'? '#13C1FE': 'gray'} ">
+                 :style="{borderBottomColor:sort === 'DISTANCE_ASC'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:sort === 'DISTANCE_DESC'? '#13C1FE': 'gray'} ">
+                 :style="{borderTopColor:sort === 'DISTANCE_DESC'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>
@@ -58,10 +58,10 @@
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:sort === 'SCORE_ASC'? '#13C1FE': 'gray'} ">
+                 :style="{borderBottomColor:sort === 'SCORE_ASC'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:sort === 'SCORE_DESC'? '#13C1FE': 'gray'} ">
+                 :style="{borderTopColor:sort === 'SCORE_DESC'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>

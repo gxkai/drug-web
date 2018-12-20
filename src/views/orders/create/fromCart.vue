@@ -399,8 +399,8 @@
             }
             a {
               font-size: 30px;
-              border-bottom: 1PX solid #1AB6FD;
-              color: #1AB6FD;
+              border-bottom: 1PX solid #F60000;
+              color: #F60000;
             }
           }
         }
@@ -464,8 +464,8 @@
                   opacity: 0;
                 }
                 input:checked + label {
-                  background-color: #13C1FE;
-                  border: 1PX solid #13C1FE;
+                  background-color: #F60000;
+                  border: 1PX solid #F60000;
                 }
                 input:checked + label::after {
                   position: absolute;

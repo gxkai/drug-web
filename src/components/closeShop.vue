@@ -81,7 +81,7 @@
     color: #ef4f4f;
   }
   .text-blue {
-    color: #1AB6FD;
+    color: #F60000;
   }
   .text-999999 {
     color: #999999;

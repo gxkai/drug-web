@@ -139,12 +139,12 @@
           align-items: center;
           &_name {
             font-size: 30px;
-            color: #13C1FE;
+            color: #F60000;
           }
         }
         &-right {
           font-size: 30px;
-          color: #13C1FE;
+          color: #F60000;
         }
       }
       &-info {

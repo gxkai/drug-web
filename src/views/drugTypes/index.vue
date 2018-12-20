@@ -12,7 +12,7 @@
     <template slot="center">
       <van-tabs v-model="active"
                 swipeable
-                color="#13C1FE"
+                color="#F60000"
       >
         <van-tab :title="item.type"
                  v-for="(item,index) in list"

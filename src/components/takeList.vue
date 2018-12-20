@@ -38,7 +38,7 @@
 
 <style scoped type="text/scss" lang="scss">
   .text-blue {
-    color: #1AB6FD;
+    color: #F60000;
   }
   .take_drug {
     background-color: white;

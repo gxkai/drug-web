@@ -151,7 +151,7 @@
     &__header {
       &__search {
         height: 130px;
-        background-color: #13C1FE;
+        background-color: #F60000;
         display: flex;
         align-items: center;justify-content: space-between;
         padding: 0 20px;
