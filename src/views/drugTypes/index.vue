@@ -56,6 +56,9 @@
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
+  .van-tabbar-item--active{
+    color: #F60032!important;
+  }
   /deep/ .van-tabs {
     &__wrap {
       height: 100px !important;

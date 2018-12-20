@@ -140,6 +140,9 @@
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
+  .van-tabbar-item--active{
+    color: #F60032!important;
+  }
   .cart {
     &-list {
       width: 720px;

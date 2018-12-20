@@ -26,10 +26,10 @@
         <div class="order__header">
           <router-link to="/orders">
             <div class="left__all-order">
-              <span>全部订单</span>
+              <span>我的订单</span>
             </div>
             <div class="right__my-order">
-              <span>我的订单</span>
+              <span>全部订单</span>
               <van-icon name="youjiantou" />
             </div>
           </router-link>
@@ -204,6 +204,9 @@
   </div>
 </template>
 <style scoped type="text/less" lang="less">
+  .van-tabbar-item--active{
+    color: #F60032!important;
+  }
   /deep/ .van-icon {
     font-size: 40px;
     &-dizhi1 {

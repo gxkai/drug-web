@@ -61,7 +61,7 @@
         <div class="home__content__discount">
           <div class="home__content__discounttime">
             <span class="text-F6003F">限时</span><span class="text-262626">抢购</span>
-            <van-icon name="shizhong" color="#F63016" size="2em" class="timecount"></van-icon>
+            <van-icon name="shizhong" color="#F63016" size="2.3em" class="timecount"></van-icon>
             <new-time-down class="home__content__discount&#45;&#45;time&#45;&#45;down"></new-time-down>
             <span class="home__more" style="display: none;">更多</span>
           </div>
@@ -85,7 +85,7 @@
                    class="home__rush__div__ul__li__imgs"/> </span>
                     <span class="home__rush__div__ul__li__vc"> {{discount.name}}</span>
                     <span class="home__rush__div__ul__li__header">
-                 <van-icon name="xinxinicon" color="red" size="1rem" class="home__rush_div__header__icon"/>
+                 <van-icon name="xinxinicon" color="red" size="1.2rem" class="home__rush_div__header__icon"/>
                  <span class="price">超值</span>
                  <span class="value">{{discount.price}}元</span>
              </span>
@@ -211,6 +211,9 @@
 
 </template>
 <style scoped type="text/less" lang="less">
+  .van-tabbar-item--active{
+    color: #F60032!important;
+  }
   .van-tabbar{
     position: static!important;
   }
@@ -291,6 +294,7 @@
   }
   .home__recomd__goods__div{
     background: white;
+    height: 270px;
   }
 
   input {
@@ -365,11 +369,6 @@
     max-width: 720px;
     background: white;
 
-    &__recomd__goods__div__title{
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-    }
     &__family__used {
       height: 351px;
     }
@@ -403,10 +402,7 @@
       text-align: center;
       top: 145px;
       position: absolute;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      left: 50px;
+      left: 40px;
     }
     &__news {
       height: 68px;
@@ -511,12 +507,12 @@
 
           &__li {
             width: 200px;
-            height: 200px;
+            height: 230px;
             float: left;
 
             &__img {
               display: block;
-              margin-top: 20px;
+              margin-top: 0px;
               text-align: center;
               margin-bottom: 20px;
               padding-top: 20px;
@@ -535,15 +531,17 @@
               top: -30px;
               .van-icon-xinxinicon {
                 left: 75px;
-                top: -1rem;
+                top: -1.2rem;
               }
               .price {
                 position: absolute;
                 color: white;
-                top: -80px;
+                top: -105px;
                 width: 50px;
                 display: inline-block;
                 z-index: 99;
+                font-size:20px;
+                left: 130px;
               }
               .value {
                 position: absolute;
@@ -551,7 +549,9 @@
                 width: 50px;
                 display: inline-block;
                 z-index: 99;
-                top: -100px;
+                top: -125px;
+                font-size:16px;
+                left: 130px;
               }
             }
 
@@ -619,7 +619,7 @@
           margin-top: 8px;
         }
         &__p3 {
-          margin-top: 49px;
+          margin-top: 30px;
           width: 230px;
           text-align: center;
           img {
@@ -659,6 +659,7 @@
           font-size: 22px;
           font-weight: normal;
           color: rgba(53, 53, 53, 1);
+          background: white;
         }
         &__price {
           font-size: 24px;

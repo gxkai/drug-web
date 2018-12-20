@@ -106,6 +106,9 @@
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
+  .van-tabbar-item--active{
+    color: #F60032!important;
+  }
   /deep/.van-nav-bar:after {
     border-bottom: none!important;
   }
