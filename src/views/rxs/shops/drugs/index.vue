@@ -89,6 +89,9 @@
 
 
         </div>
+
+      </template>
+      <template slot="bottom">
         <div class="rx__content__total">
           <van-icon name="qian" color="#F60032" size="4em"></van-icon>
           <div class="total--prices">
@@ -99,10 +102,7 @@
             <span class="price">&yen;{{toFixedTwo(totalMedicaidPrice)}}</span>
             <p class="remark">（ 实际医保报销金额, 请以提交订单显示为准。）</p>
           </div>
-
         </div>
-      </template>
-      <template slot="bottom">
         <van-goods-action>
           <van-goods-action-mini-btn icon="shop" text="药店" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
@@ -265,7 +265,7 @@
         }
         .van-icon{
           font-size: 20px;
-          vertical-align: middle;
+          /*vertical-align: middle;*/
 
           &-radiochecked{
             color: $iconColor;
@@ -418,6 +418,9 @@
         }
       }
       &__total {
+        position: fixed;
+        bottom: 90px;
+        width: 100%;
         padding: 0 20px 20px;
         margin-top: 20px;
         display: flex;

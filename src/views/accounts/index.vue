@@ -19,9 +19,7 @@
            <!--:style="{backgroundColor: signIn === true ? 'Pink': ''}"-->
            <!--@click="$router.push('/points/signIn')">-->
       <!--</div>-->
-    </div>
 
-    <div class="account-content">
       <div class="account-fixed-order">
         <div class="order__header">
           <router-link to="/orders">
@@ -50,13 +48,13 @@
 
           <van-tabbar-item v-if="count.toDeliveryCount === 0"
                            icon="yaopin"
-                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
+                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">调剂中
           </van-tabbar-item>
 
           <van-tabbar-item v-else
                            icon="yaopin"
                            :info="count.toDeliveryCount "
-                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">待发货
+                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">调剂中
           </van-tabbar-item>
 
 
@@ -72,9 +70,9 @@
           </van-tabbar-item>
 
           <van-tabbar-item
-                           v-if="count.toAppraiseCount === 0"
-                           icon="wenjianjia"
-                           :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
+            v-if="count.toAppraiseCount === 0"
+            icon="wenjianjia"
+            :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
           </van-tabbar-item>
 
           <van-tabbar-item v-else
@@ -84,6 +82,10 @@
           </van-tabbar-item>
         </van-tabbar>
       </div>
+    </div>
+
+    <div class="account-content">
+
 
       <div class="account--grid">
         <ul>
@@ -320,7 +322,6 @@
       &-item--active{
         color: #5F5F5F;
       }
-
     }
   }
 
