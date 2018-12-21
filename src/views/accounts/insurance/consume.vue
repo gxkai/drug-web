@@ -36,7 +36,7 @@
     },
     methods: {
       async initData() {
-        this.items = await this.$http.get('/medicaid/consume.json');
+        this.items = await this.$http.get('/accounts/medicaid/consumes');
       }
     }
   };
