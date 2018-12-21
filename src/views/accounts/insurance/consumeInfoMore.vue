@@ -56,6 +56,7 @@
       };
     },
     created() {
+      console.log(this.consumeInfoMore);
     },
     mounted() {
     }

@@ -25,7 +25,7 @@
              <!--@click="onRx()">查看处方&gt;</div>-->
       <!--</div>-->
       <div class="order_item-content-info"
-           v-for="item in order.list">
+           v-for="item in order.list" @click="onDetail()">
         <div class="order_item-content-info-left">
           <div class="rx_mark" v-if="!item.otc">处</div>
           <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
@@ -67,22 +67,19 @@
         <!--&gt;-->
           <!--确认收货-->
         <!--</div>-->
-        <div class="order_item-content-button order_item-content-button-receiveType"
+        <div class=""
              v-if="order.state == 'TO_RECEIVED'"
-             :style="activeButton"
-             @click="showData = !showData">
-          收货方式
-          <div class="order_item-content-button-receiveType-list"
-               v-show="showData">
+             :style="activeButton">
+
             <div class="order_item-content-button-receiveType-list-item"
                  @click="$emit('onQrcode', order)">
-              收货二维码
+              扫码收货
             </div>
             <div class="order_item-content-button-receiveType-list-item"
                  @click="onConfirm()">
-              手动确认
+              确认收货
             </div>
-          </div>
+
         </div>
         <div class="order_item-content-button"
           @click="onDelivery()"
@@ -94,10 +91,10 @@
              v-if="order.state == 'TO_APPRAISE'">
           我要评价
         </div>
-        <div class="order_item-content-button"
+      <!--  <div class="order_item-content-button"
              @click="onDetail()">
           订单详情
-        </div>
+        </div>-->
         <div @click="linkToTakeDrug(order.id)"
              v-if="order.state == 'TO_RECEIVED' && order.type === 'HOSPITAL'">取药地址</div>
 
@@ -247,6 +244,7 @@
               line-height: 50px;
               margin: 5px;
               font-size: 25px;
+              display: inline-block;
             }
           }
         }
@@ -325,7 +323,7 @@
         this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
       onConfirm() {
-        this.$axios.put('/orders/' + this.order.id + '/complete').then(res => {
+        this.$http.put('/orders/' + this.order.id + '/complete').then(res => {
           if (this.order.type === 'HOSPITAL') {
             this.order.state = 'COMPLETED';
           } else {

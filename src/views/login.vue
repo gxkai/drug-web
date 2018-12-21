@@ -83,7 +83,9 @@
     data() {
       return {
         note: {
-          backgroundImage: 'url(' + require('../assets/image/blue-login.png') + ')'
+          backgroundImage: 'url(' + require('../assets/image/blue-login.png') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
         },
         swiperOption: {
           effect: 'cube',

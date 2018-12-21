@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <div class="account-header">
+    <div class="account-header" :style="headerBg">
 
       <van-uploader :after-read="onRead">
         <div class="account--name">{{ account.name }}</div>
@@ -21,7 +21,7 @@
            <!--@click="$router.push('/points/signIn')">-->
       <!--</div>-->
 
-      <div class="account-fixed-order" style="position: static">
+      <div class="account-fixed-order">
         <div class="order__header">
           <router-link to="/orders">
             <div class="left__all-order">
@@ -295,15 +295,18 @@
     }
   }
 
-  /deep/.account-fixed-order .van-tabbar-item__icon{
-
-    i{
-      font-size: 50px !important;
-      padding-bottom: 10px;
-    }
-    .van-info {
-      line-height: 38px;
-      padding: 0 8px;
+  /deep/.account-fixed-order {
+    position: static;
+    margin-top: 60px;
+    .van-tabbar-item__icon{
+      i{
+        font-size: 50px !important;
+        padding-bottom: 10px;
+      }
+      .van-info {
+        line-height: 38px;
+        padding: 0 8px;
+      }
     }
   }
 
@@ -315,7 +318,7 @@
   .van-uploader{
     z-index: 2;
     position: relative;
-    top: 70px;
+    top: 150px;
   }
 
   [class*=van-hairline]::after{
@@ -380,7 +383,7 @@
 
     &--grid {
       background: #FFF;
-      margin-top: 100px;
+      margin-top: 140px;
 
       ul{
         padding: 15px 0;
@@ -422,10 +425,6 @@
 
     &-fixed-order{
       width: 690px;
-      /*position: fixed;*/
-      /*top: 280px;*/
-      /*z-index: 1;*/
-      /*left: 15px;*/
       background: #FFF;
       border-radius: 20px;
       box-shadow: 0 0 20px -2px $mainColor;
@@ -441,8 +440,6 @@
     &-header {
       width: 720px;
       height: 395px;
-      background: url('../../../src/assets/image/accounts/banner.jpg') no-repeat;
-      background-size: cover;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -492,6 +489,11 @@
   export default {
     data() {
       return {
+        headerBg: {
+          background: 'url(' + require('../../../src/assets/image/accounts/banner.jpg') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
+        },
         count: {
           toAppraiseCount: 0,
           toDeliveryCount: 0,
