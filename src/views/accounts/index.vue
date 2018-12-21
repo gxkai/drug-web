@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <div class="account-header">
+    <div class="account-header" :style="{ background: headerBg}">
 
       <van-uploader :after-read="onRead">
         <div class="account--name">{{ account.name }}</div>
@@ -441,7 +441,8 @@
     &-header {
       width: 720px;
       height: 395px;
-      background: url('../../../src/assets/image/accounts/banner.jpg') no-repeat;
+      /*background: url('../../../src/assets/image/accounts/banner.jpg') no-repeat;*/
+      background-repeat: no-repeat;
       background-size: cover;
       display: flex;
       align-items: center;
@@ -492,6 +493,7 @@
   export default {
     data() {
       return {
+        headerBg: 'url(' + require('../../../src/assets/image/accounts/banner.jpg') + ')',
         count: {
           toAppraiseCount: 0,
           toDeliveryCount: 0,
