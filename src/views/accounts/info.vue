@@ -103,7 +103,7 @@
     },
     methods: {
       async initData() {
-        this.medicaid = await this.$http.get('/medicaid');
+        this.medicaid = await this.$http.get('/accounts/medicaid');
       }
     }
   };
