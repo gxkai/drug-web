@@ -96,9 +96,9 @@
             </ul>
           </div>
         </div>
-        <div class="home__kindpink bg-ffc8bf">
-          <img src="../assets/image/home/home_dot.png"/>家庭常用
-          <img src="../assets/image/home/home_dot.png"/>
+        <div class="home__kindpink bg-ffc8bf" :style="backgroundDivpink">
+          家庭常用
+
         </div>
         <div class="home__family">
           <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=cMLo_cCMRyKrd46oISOJRQ')">
@@ -117,9 +117,9 @@
             <p class="home__family__div__p3"><img src="../assets/image/home/cough.jpg"/></p>
           </div>
         </div>
-        <div class="home__kindpink bg-0090E6 text-1988CA">
-          <img src="../assets/image/home/home_dot.png"/>风湿骨科
-          <img src="../assets/image/home/home_dot.png"/>
+        <div class="home__kindpink bg-0090E6 text-1988CA" :style="backgroundDivblue">
+          <!--<img src="../assets/image/home/home_dot.png"/>-->风湿骨科
+          <!--<img src="../assets/image/home/home_dot.png"/>-->
         </div>
         <div class="home__family">
           <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=S2BIwR09QN6MNstlWcTrvQ')">
@@ -138,10 +138,7 @@
             <p class="home__family__div__p3"><img src="../assets/image/home/hyperplasia.jpg"/></p>
           </div>
         </div>
-        <div class="home__kindpink bg-BFD6FF text-1988CA">
-          <img src="../assets/image/home/home_dot.png"/>肠胃用药
-          <img src="../assets/image/home/home_dot.png"/>
-        </div>
+        <div class="home__kindpink bg-BFD6FF text-1988CA" :style="backgroundDivpurple">肠胃用药</div>
         <div class="home__family">
           <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=apqD-f6ESl25k5bJG7qIeQ')">
             <p class="home__family__div__p">胃炎</p>
@@ -350,15 +347,10 @@
   }
 
   .home__rush li {
+     border-right: 1px solid #f3f3f3;
+   }
 
-    border-right: 1px solid #f3f3f3;
-    width: 200px !important;
 
-  }
-
-  .van-swipe-item {
-    width: 200px;
-  }
 .home__recomd__goods{
   height: auto;
   background: white;
@@ -661,6 +653,7 @@
           font-weight: normal;
           color: rgba(53, 53, 53, 1);
           background: white;
+          border-right: 1px solid #f3f3f3;
         }
         &__price {
           font-size: 24px;
@@ -686,6 +679,21 @@
     name: 'home',
     data() {
       return {
+        backgroundDivpink: {
+          backgroundImage: 'url(' + require('../assets/image/home/home_pink.jpg') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
+        },
+        backgroundDivblue: {
+          backgroundImage: 'url(' + require('../assets/image/home/home_blue.jpg') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
+        },
+        backgroundDivpurple: {
+          backgroundImage: 'url(' + require('../assets/image/home/home_purple.jpg') + ')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover'
+        },
         searchIcon: '\ue64c 药品名',
         discounts: [],
         shows: [{id: 'x'}, {id: 'y'}, {id: 'y'}],
