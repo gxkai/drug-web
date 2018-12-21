@@ -98,7 +98,7 @@
             >
               <div class="left-icon-title">
                 <van-icon name="wode"></van-icon>
-                <span>我的账号</span>
+                <span>我的医保</span>
               </div>
               <van-icon name="youjiantou"></van-icon>
             </router-link>

@@ -23,13 +23,19 @@
           <img src="../assets/image/home/home_banner.jpg"/>
         </div>
       </div>
+
+
+
+
+
+
   <div class="home__four" >
         <ul class="home__four__ul">
           <li class="home__four__ul__li" @click="$router.push('/rxs')">
             <span><img src="../assets/image/home/home_cf.png"/> </span>
             <span class="home__four__ul__li__span">我的处方</span>
           </li>
-          <li class="home__four__ul__li" @click="$router.push('/accounts/insurance')">
+          <li class="home__four__ul__li" @click="$router.push('/accounts/info')">
             <span><img src="../assets/image/home/home_yb.png"/> </span>
             <span class="home__four__ul__li__span">我的医保</span>
           </li>
@@ -68,8 +74,42 @@
 
   <div class="home__rush">
     <div class="home__rush__div">
+
+
+
+
+
       <ul class="home__rush__div__ul">
-        <van-swipe :loop="false"
+
+
+
+        <div class="newdiv">
+          <div class="warp">
+            <div class="item"   v-for="discount in discounts"
+                 :key="discount.id"   @click="linkToShopDrugSpec(discount.shopDrugId)">
+
+
+              <span class="home__rush__div__ul__li__img">
+                  <img v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')"  class="home__rush__div__ul__li__imgs"/>
+              </span>
+                    <span class="home__rush__div__ul__li__vc"> {{discount.name}}</span>
+                    <span class="home__rush__div__ul__li__header">
+                       <van-icon name="xinxinicon" color="red" size="1.2rem" class="home__rush_div__header__icon"/>
+                       <span class="price">超值</span>
+                       <span class="value">{{discount.price}}元</span>
+                   </span>
+
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+
+ <!--       <van-swipe :loop="false"
 
                    :show-indicators="false"
                    class="home__content__discount__content"
@@ -78,19 +118,14 @@
             v-for="discount in discounts"
             :key="discount.id"
           >
-            <li class="home__rush__div__ul__li"  @click="linkToShopDrugSpec(discount.shopDrugId)">
-              <span class="home__rush__div__ul__li__img">
-                  <img v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')"  class="home__rush__div__ul__li__imgs"/>
-              </span>
-              <span class="home__rush__div__ul__li__vc"> {{discount.name}}</span>
-              <span class="home__rush__div__ul__li__header">
-           <van-icon name="xinxinicon" color="red" size="1.2rem" class="home__rush_div__header__icon"/>
-           <span class="price">超值</span>
-           <span class="value">{{discount.price}}元</span>
-       </span>
-            </li>
+
           </van-swipe-item>
         </van-swipe>
+-->
+
+
+
+
 
       </ul>
     </div>
@@ -201,6 +236,29 @@
 
 </template>
 <style scoped type="text/less" lang="less">
+  .newdiv{
+    width: 720px;
+    height: 100%;
+  }
+
+  .warp {
+    font-size: 0;
+    white-space: nowrap;
+    overflow: scroll;
+  }
+  .item {
+    display: inline-block;
+    font-size: 14px;
+    width: 25%;
+    height: 205px;
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    position: relative;
+  }
+
+
+
   .layout--center{
     max-width: 720px;
   }
@@ -527,7 +585,7 @@
               .price {
                 position: absolute;
                 color: white;
-                top: -105px;
+                top: -115px;
                 width: 50px;
                 display: inline-block;
                 z-index: 99;
@@ -540,7 +598,7 @@
                 width: 50px;
                 display: inline-block;
                 z-index: 99;
-                top: -125px;
+                top: -135px;
                 font-size:16px;
                 left: 130px;
               }
@@ -670,8 +728,10 @@
     width: 1900px!important;
   }
   .home__banner__address_i{
-    width: 126px;
+    width: 160px;
     display: inline-block;
+    position: absolute;
+    top: 10px;
   }
   .van-icon-arrowdown{
    position: absolute;
