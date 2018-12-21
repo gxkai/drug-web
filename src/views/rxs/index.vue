@@ -128,7 +128,7 @@
       width: 680px;
       margin: 20px 20px 0;
       background-color: white;
-      padding: 30px;
+      padding:30px 30px 60px 30px;
       position: relative;
       &:first-child {
         margin-top: 70px!important;
@@ -152,6 +152,8 @@
             font-size: 25px;
             font-weight: normal;
             color: #F60000;
+            float: right;
+            margin-top: 12px;
           }
         }
       }
