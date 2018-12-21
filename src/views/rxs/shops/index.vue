@@ -57,7 +57,7 @@
         </div>
         <div class="shops-filter-item" @click="orderByDistance()">
           <div class="shops-filter-item-text">
-            距离最近
+            调剂中最近
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
