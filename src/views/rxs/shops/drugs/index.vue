@@ -188,7 +188,7 @@
             otc: drug.otc,
             originName: drug.drugs[0].originName,
             rxItemId: drug.rxItemId,
-            medicaidPrice: drug.drugs[0].medicaidPrice,
+            medicaidPrice: drug.drugs[0].medicaidPrice
           });
           this.totalMedicaidPrice += drug.drugs[0].medicaidPrice;
         });
