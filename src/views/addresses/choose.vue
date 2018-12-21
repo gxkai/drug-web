@@ -215,8 +215,11 @@
         this.$router.push('/home');
       },
       getLocation() {
+        console.log('located');
         new BMap.Geolocation().getCurrentPosition(async (r) => {
-          const data = await this.$http.get(`${this.process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
+          console.log('located ok');
+          console.log(r.latitude, r.longitude);
+          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
           this.position = data.pois[0];
         });
       }

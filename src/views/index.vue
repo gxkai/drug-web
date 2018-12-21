@@ -71,7 +71,6 @@
           <div class="home__rush__div">
             <ul class="home__rush__div__ul">
               <van-swipe :loop="false"
-                         :width="300"
                          :show-indicators="false"
                          class="home__content__discount__content"
               >
@@ -97,8 +96,9 @@
           </div>
         </div>
         <div class="home__kindpink bg-ffc8bf">
-          <img src="../assets/image/home/home_dot.png"/>家庭常用
-          <img src="../assets/image/home/home_dot.png"/>
+          <!--<img src="../assets/image/home/home_dot.png"/>-->
+          家庭常用
+          <!--<img src="../assets/image/home/home_dot.png"/>-->
         </div>
         <div class="home__family">
           <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=cMLo_cCMRyKrd46oISOJRQ')">
@@ -118,8 +118,9 @@
           </div>
         </div>
         <div class="home__kindpink bg-0090E6 text-1988CA">
-          <img src="../assets/image/home/home_dot.png"/>风湿骨科
-          <img src="../assets/image/home/home_dot.png"/>
+          <!--<img src="../assets/image/home/home_dot.png"/>-->
+          风湿骨科
+          <!--<img src="../assets/image/home/home_dot.png"/>-->
         </div>
         <div class="home__family">
           <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=S2BIwR09QN6MNstlWcTrvQ')">
@@ -139,8 +140,9 @@
           </div>
         </div>
         <div class="home__kindpink bg-BFD6FF text-1988CA">
-          <img src="../assets/image/home/home_dot.png"/>肠胃用药
-          <img src="../assets/image/home/home_dot.png"/>
+          <!--<img src="../assets/image/home/home_dot.png"/>-->
+          肠胃用药
+          <!--<img src="../assets/image/home/home_dot.png"/>-->
         </div>
         <div class="home__family">
           <div class="home__family__div home__family__used" @click="$router.push('drugs?typeId=apqD-f6ESl25k5bJG7qIeQ')">
@@ -209,6 +211,9 @@
 
 </template>
 <style scoped type="text/less" lang="less">
+  .van-swipe-item {
+    width: 200px!important;
+  }
   .van-tabbar-item--active{
     color: #F60032!important;
   }
