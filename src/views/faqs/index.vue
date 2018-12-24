@@ -39,12 +39,12 @@
         margin-bottom: 20px;
         &__question {
           font-size: 30px;
-          padding: 20px;
+          padding: 20px 20px 10px;
         }
         &__answer {
-          padding: 20px;
+          padding: 10px 20px 20px;
           font-size: 25px;
-          color: #999999;
+          color: #999;
         }
       }
     }
