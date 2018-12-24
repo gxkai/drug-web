@@ -6,23 +6,5 @@ export default {
   },
   [types.SET_ACCOUNT](state, account) {
     state.account = account;
-  },
-  [types.SET_POSITION](state, position) {
-    state.position = position;
-  },
-  [types.SET_CART_SHOPS](state, cart) {
-    state.cart = cart;
-  },
-  [types.SET_ADDRESSES](state, addresses) {
-    state.addresses = addresses;
-  },
-  [types.SET_RECEIVED_ADDRESS](state, receiveAddress) {
-    state.receiveAddress = receiveAddress;
-  },
-  [types.SET_FIRST_OPEN](state, firstOpen) {
-    state.firstOpen = firstOpen;
-  },
-  [types.SET_RECEIVED_POSITION](state, receivedPosition) {
-    state.receivedPosition = receivedPosition;
   }
 };

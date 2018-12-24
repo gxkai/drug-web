@@ -1,9 +1,8 @@
 import storage from 'good-storage';
-const TokenKey = 'drug-app-token';
-const AccountKey = 'drug-app-account';
-const LoginKey = 'drug-app-login';
-const ReceivedPositionKey = 'drug-app-received-position';
-const ReceivedAddressKey = 'drug-app-received-address';
+const TokenKey = 'drug-web-token';
+const AccountKey = 'drug-web-account';
+const CurrentAddressKey = 'drug-web-current-address';
+const ReceivedAddressKey = 'drug-web-received-address';
 
 export function getToken() {
   return storage.get(TokenKey);
@@ -29,28 +28,16 @@ export function removeAccount() {
   storage.remove(AccountKey);
 }
 
-export function getLogin() {
-  return storage.get(LoginKey);
+export function getCurrentAddress() {
+  return storage.get(CurrentAddressKey);
 }
 
-export function setLogin() {
-  storage.set(LoginKey, true);
+export function setCurrentAddress(position) {
+  storage.set(CurrentAddressKey, position);
 }
 
-export function removeLogin() {
-  storage.remove(LoginKey);
-};
-
-export function getReceivedPosition() {
-  return storage.get(ReceivedPositionKey);
-}
-
-export function setReceivedPosition(position) {
-  storage.set(ReceivedPositionKey, position);
-}
-
-export function removeReceivedPosition() {
-  storage.remove(ReceivedPositionKey);
+export function removeCurrentAddress() {
+  storage.remove(CurrentAddressKey);
 };
 
 export function getReceivedAddress() {

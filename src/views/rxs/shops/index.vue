@@ -102,7 +102,7 @@
 </template>
 
 <script>
-  import { getReceivedPosition } from '../../../storage';
+  import { getCurrentAddress } from '../../../storage';
 
   export default {
     data() {
@@ -112,13 +112,11 @@
         hospitalId: this.$route.query.hospitalId,
         hospital: null,
         searchIcon: '\ue64c 药品名',
-        sort: 'ID_DESC'
+        sort: 'ID_DESC',
+        currentAddress: getCurrentAddress()
       };
     },
     computed: {
-      position() {
-        return getReceivedPosition().position;
-      }
     },
     created() {
       this.initData();
@@ -127,14 +125,13 @@
       async toQyPayUrl() {
         let url = await this.$http.get(`/hospitals/${this.hospitalId}/url`);
         window.location.href = url;
-        // this.$toast('暂未开放');
       },
       initData() {
         this.getRxShops();
         this.getHospital();
       },
       async getRxShops() {
-        this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
+        this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.currentAddress.lng}&lat=${this.currentAddress.lat}`);
       },
       async getHospital() {
         this.hospital = await this.$http.get(`/hospitals/${this.hospitalId}`);

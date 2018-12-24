@@ -20,7 +20,7 @@
         <div class="address-choose--current--content">
           <div class="address-choose--current--content__left">
             <van-icon name="paper-airplane" color="blue" size="3em"></van-icon>
-            <span>{{position.name}}</span>
+            <span>{{name}}</span>
           </div>
           <div class="address-choose--current--content__right"
           @click="getLocation"
@@ -29,10 +29,32 @@
           </div>
         </div>
       </div>
-      <baidu-map class="address-choose--map" :center="position.location" :zoom="15">
-        <bm-marker :position="position.location" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+      <baidu-map class="address-choose--map"
+                 :center="center"
+                 :zoom="zoom"
+                 :scroll-wheel-zoom="true"
+                 @click="getClickInfo"
+                 @moving="syncCenterAndZoom"
+                 @moveend="syncCenterAndZoom"
+                 @zoomend="syncCenterAndZoom"
+      >
+        <bm-marker :position="{lng: center.lng, lat: center.lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
         </bm-marker>
       </baidu-map>
+      <div class="address-choose--receive">
+        <div class="address-choose--receive--title">
+          附近地址
+        </div>
+        <div class="address-choose--receive--item van-hairline--bottom"
+             v-for="(address,index) in nearbyAddresses"
+             :key="index"
+             @click="setPosition2(address)"
+        >
+          <div class="address-choose--receive--item--address">
+            {{address.name}}
+          </div>
+        </div>
+      </div>
       <div class="address-choose--receive">
         <div class="address-choose--receive--title">
           收货地址
@@ -172,7 +194,7 @@
 
 <script>
   import BMap from 'BMap';
-  import { setReceivedPosition } from '../../storage';
+  import { setCurrentAddress } from '../../storage';
 
   export default {
     name: '',
@@ -183,13 +205,13 @@
       return {
         searchIcon: '\ue64c搜索小区/写字楼',
         addresses: [],
-        position: {
-          location: {
-            lat: 31,
-            lng: 130
-          },
-          name: '定位中...'
-        }
+        nearbyAddresses: [],
+        center: {
+          lat: 31,
+          lng: 120
+        },
+        name: '定位中',
+        zoom: 15
       };
     },
     created() {
@@ -199,28 +221,55 @@
       this.getLocation();
     },
     methods: {
+      async getClickInfo(e) {
+        const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${e.point.lat}&lng=${e.point.lng}&coordType=bd09ll&poi=true`);
+        this.center = data.pois[0].location;
+        this.name = data.pois[0].name;
+        this.nearbyAddresses = data.pois;
+      },
+      async syncCenterAndZoom(e) {
+        const { lng, lat } = e.target.getCenter();
+        this.zoom = e.target.getZoom();
+        const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${lat}&lng=${lng}&coordType=bd09ll&poi=true`);
+        this.center = data.pois[0].location;
+        this.name = data.pois[0].name;
+        this.nearbyAddresses = data.pois;
+      },
       async getAddresses() {
         this.addresses = await this.$http.get('/addresses');
       },
       setPosition(address) {
         const position = {
-          id: address.id,
           name: address.address,
-          position: {
-            lat: address.lat,
-            lng: address.lng
-          }
+          lat: address.lat,
+          lng: address.lng
         };
-        setReceivedPosition(position);
+        setCurrentAddress(position);
         this.$router.push('/home');
       },
-      getLocation() {
-        console.log('located');
-        new BMap.Geolocation().getCurrentPosition(async (r) => {
+      setPosition2(address) {
+        const position = {
+          name: address.name,
+          lat: address.location.lat,
+          lng: address.location.lng
+        };
+        setCurrentAddress(position);
+        this.$router.push('/home');
+      },
+      async getLocation() {
+        new BMap.Geolocation().getCurrentAddress(async (r) => {
           console.log('located ok');
           console.log(r.latitude, r.longitude);
           const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
-          this.position = data.pois[0];
+          this.center = data.pois[0].location;
+          this.name = data.pois[0].name;
+          const position = {
+            name: this.name,
+            lat: this.center.lat,
+            lng: this.center.lng
+          };
+          setCurrentAddress(position);
+          this.nearbyAddresses = data.pois;
         });
       }
     }
