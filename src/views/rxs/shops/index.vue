@@ -3,10 +3,11 @@
   centerColor="white"
   >
     <template slot="top">
-      <div class="shops-header">
+      <div class="shops-header drugs">
+
 
 <!--
-     <new-header>
+ <new-header>
           <div slot="left" @click="$router.go(-1)">
             <i class="iconfont ic-arrow-right"></i>
           </div>
@@ -19,9 +20,10 @@
 
         <div class="drugs-header">
           <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
-          <input v-model="keyword" class="iconfont drugs-header__input" :placeholder="searchIcon"  @focus="search()">
-          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="onRefresh()"></van-icon>
+          <input class="iconfont drugs-header__input" v-model="drugName" :placeholder="searchIcon">
+          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="search(drugName)"></van-icon>
         </div>
+
 
 
 
@@ -89,7 +91,7 @@
       <div @click="toQyPayUrl()" v-if="hospital !== null">
         <new-rx-hospital-item :item="hospital"/>
       </div>
-      <div
+      <div v-show="rxShopsOneshow"
         v-for="(rxShop,index) in rxShops"
         :key="index"
         @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
@@ -97,6 +99,19 @@
           :item="rxShop">
         </new-rx-shop-item>
       </div>
+
+
+      <div v-show="rxShopsTwoshow"
+        v-for="(rxShop,index) in rxShopsTwo"
+        :key="index"
+        @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
+        <new-rx-shop-item
+          :item="rxShop">
+        </new-rx-shop-item>
+      </div>
+
+
+
     </div>
   </new-layout>
 </template>
@@ -109,10 +124,14 @@
       return {
         rxId: this.$route.query.rxId,
         rxShops: [],
+        rxShopsTwo: [],
+        rxShopsOneshow: true,
+        rxShopsTwoshow: false,
         hospitalId: this.$route.query.hospitalId,
         hospital: null,
-        searchIcon: '\ue64c 药品名',
-        sort: 'ID_DESC'
+        searchIcon: '药品名',
+        sort: 'ID_DESC',
+        drugName: ''
       };
     },
     computed: {
@@ -133,13 +152,16 @@
         this.getRxShops();
         this.getHospital();
       },
+      search(drugName) {
+        this.rxShopsTwoshow = true;
+        this.rxShopsOneshow = false;
+        this.rxShopsTwo = this.rxShops.filter(s => s.name.includes(drugName));
+      },
       async getRxShops() {
         this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
       },
       async getHospital() {
-        this.hospital = await this.$http.get(`/hospitals/${this.hospitalId}`);
-        console.log(11111);
-        console.log(this.hospital);
+        this.hospital = await this.$http.get(`/rxs/${this.rxId}/hospital?lng=${this.position.lng}&lat=${this.position.lat}`);
       },
       orderById() {
         this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);
@@ -176,11 +198,31 @@
 </script>
 
 <style scoped type="text/scss" lang="scss">
-  .middle{
-    background: #F5453E!important;
-    input{
-      width: 670px!important;
-      display: inline-block;
+  .drugs{
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100px;
+      background-color: #F60000;
+      padding: 0 20px;
+      &__left {
+
+      }
+      &__input {
+        width: 500px;
+        height: 45px;
+        outline: none;
+        border-width: 0;
+        font-size: 30px;
+        color: black;
+        border-radius: 10PX;
+        padding: 0 20px;
+        &::placeholder {
+          text-align: center;
+        }
+      }
+
     }
   }
   .shops {

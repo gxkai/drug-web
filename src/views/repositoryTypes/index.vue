@@ -16,7 +16,7 @@
            @click="$router.push({path:'/repositories',query:{repositoryTypeId:item.id,title:item.name}})"
       >
         <div class="repository-types--item__left">
-          <img v-lazy="require('../../assets/image/' + item.icon + '.png')"/>
+       <img v-lazy="require('../../assets/image/' + item.icon + '.png')"/>
           <div>{{ item.name }}</div>
         </div>
         <div class="repository-types--item__right">

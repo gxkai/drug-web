@@ -46,7 +46,7 @@
     filters: {
       meter(meter) {
         if (meter < 500) {
-          return '<500米';
+          return meter + '米';
         } else {
           let kilometers = meter / 1000;
           return kilometers + '公里';
