@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken, removeLogin } from '../storage';
+import { getToken, removeToken } from '../storage';
 import { Toast } from 'vant';
 const qs = require('qs');
 axios.defaults.baseURL = process.env.API_ROOT;
@@ -29,7 +29,7 @@ axios.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          removeLogin();
+          removeToken();
           Toast('不好意思，您被踢了');
           break;
         case 400:

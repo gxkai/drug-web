@@ -19,23 +19,27 @@
             @focus="isNearby = !isNearby"
           >
         </div>
-        <baidu-map class="address-confirm--nearby--map" :center="position.location" :zoom="15">
-          <bm-marker :position="position.location" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+        <baidu-map class="address-confirm--nearby--map"
+                   :center="center"
+                   :zoom="zoom"
+                   :scroll-wheel-zoom="true"
+                   @click="getClickInfo"
+                   @moving="syncCenterAndZoom"
+                   @moveend="syncCenterAndZoom"
+                   @zoomend="syncCenterAndZoom">
+          <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
           </bm-marker>
         </baidu-map>
         <div class="address-confirm--nearby--content">
           <div class="address-confirm--nearby--content--item"
-               @click="setPosition(position)"
+               @click="setPosition2()"
           >
             <div class="address-confirm--nearby--content--item__left">
               <van-icon name="location" size="3em" color="#098AFF"></van-icon>
             </div>
             <div class="address-confirm--nearby--content--item__right">
-              <div class="address-confirm--nearby--content--item__right--first" style="color:rgba(35,149,255,1);">
-                {{position.name}}
-              </div>
-              <div class="address-confirm--nearby--content--item__right--second">
-                {{position.address}}
+              <div class="address-confirm--nearby--content--item__right--first" style="color:#F5453E;">
+                {{name}}
               </div>
             </div>
           </div>
@@ -48,11 +52,8 @@
               <van-icon name="radiobox" size="2em"></van-icon>
             </div>
             <div class="address-confirm--nearby--content--item__right">
-              <div class="address-confirm--nearby--content--item__right--first" style="color:rgba(0,0,0,1);">
+              <div class="address-confirm--nearby--content--item__right--first" style="color:#F5453E;">
                 {{nearbyPosition.name}}
-              </div>
-              <div class="address-confirm--nearby--content--item__right--second">
-                {{nearbyPosition.address}}
               </div>
             </div>
           </div>
@@ -229,14 +230,13 @@
     data() {
       return {
         searchIcon: '\ue64c搜索小区/写字楼',
-        position: {
-          name: '',
-          address: '',
-          location: {
-            lat: '',
-            lng: ''
-          }
+        center: {
+          lat: 31,
+          lng: 120
         },
+        name: '',
+        address: '',
+        zoom: 15,
         isNearby: true,
         nearbyPositions: [],
         key: '',
@@ -254,30 +254,58 @@
       next();
     },
     methods: {
+      async getClickInfo(e) {
+        const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${e.point.lat}&lng=${e.point.lng}&coordType=bd09ll&poi=true`);
+        this.center = data.pois[0].location;
+        this.name = data.pois[0].name;
+        this.nearbyPositions = data.pois;
+      },
+      async syncCenterAndZoom(e) {
+        const { lng, lat } = e.target.getCenter();
+        this.zoom = e.target.getZoom();
+        const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${lat}&lng=${lng}&coordType=bd09ll&poi=true`);
+        this.center = data.pois[0].location;
+        this.name = data.pois[0].name;
+        this.nearbyPositions = data.pois;
+      },
       setPosition(position) {
-        this.choosePosition = position;
+        const data = {
+          name: position.name,
+          lat: position.location.lat,
+          lng: position.location.lng
+        };
+        this.choosePosition = data;
+        this.$router.back();
+      },
+      setPosition2() {
+        const data = {
+          name: this.name,
+          lat: this.center.lat,
+          lng: this.center.lng
+        };
+        this.choosePosition = data;
         this.$router.back();
       },
       async getLocation() {
         if (this.$route.query.location === undefined) {
-          new BMap.Geolocation().getCurrentPosition(async (r) => {
+          new BMap.Geolocation().getCurrentAddress(async (r) => {
             const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
-            console.log(data);
-            this.position = data.pois[0];
+            this.center = data.pois[0].location;
+            this.name = data.pois[0].name;
             data.pois.splice(0, 1);
             this.nearbyPositions = data.pois;
           });
         } else {
           const location = JSON.parse(this.$route.query.location);
           const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${location.lat}&lng=${location.lng}&coordType=bd09ll&poi=true`);
-          console.log(data);
-          this.position = data.pois[0];
+          this.center = data.pois[0].location;
+          this.name = data.pois[0].name;
           data.pois.splice(0, 1);
           this.nearbyPositions = data.pois;
         }
       },
       getKeyLocation() {
-        new BMap.Geolocation().getCurrentPosition(async (r) => {
+        new BMap.Geolocation().getCurrentAddress(async (r) => {
           const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/places.json?query=${this.key}&lng=${r.longitude}&lat=${r.latitude}`);
           this.keyPositions = data.result;
         });
@@ -285,7 +313,3 @@
     }
   };
 </script>
-
-<style scoped>
-
-</style>

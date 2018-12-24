@@ -85,6 +85,12 @@
     margin-bottom: 40px;
   }
 
+  .account__info{
+    .van-cell{
+      border-bottom: 3px solid #F5F5F5;
+    }
+  }
+
 </style>
 <script>
   export default {

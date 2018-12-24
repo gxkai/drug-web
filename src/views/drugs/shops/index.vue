@@ -391,7 +391,7 @@
   }
 </style>
 <script>
-  import { getReceivedPosition } from '../../../storage';
+  import { getCurrentAddress } from '../../../storage';
 
   export default {
     data() {
@@ -404,7 +404,8 @@
         show: false,
         total: 0,
         sort: 'SYNTHESIZE',
-        val: -1
+        val: -1,
+        currentAddress: getCurrentAddress()
       };
     },
     watch: {
@@ -413,9 +414,6 @@
       }
     },
     computed: {
-      position() {
-        return getReceivedPosition().position;
-      }
     },
     created() {
       this.initData();
@@ -435,7 +433,7 @@
         this.getShops();
       },
       async getShops() {
-        const data = await this.$http.get(`/drugs/${this.drugId}/drugSpecs/${this.drugSpec.id}/shops?sort=${this.sort}&lat=${this.position.lat}&lng=${this.position.lng}`);
+        const data = await this.$http.get(`/drugs/${this.drugId}/drugSpecs/${this.drugSpec.id}/shops?sort=${this.sort}&lat=${this.currentAddress.lat}&lng=${this.currentAddress.lng}`);
         this.total = data.total;
         this.shops = data.list;
         console.log(this.shops);
