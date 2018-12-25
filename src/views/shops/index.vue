@@ -117,13 +117,9 @@
         pageSize: 15,
         list: [],
         shopSort: 'SYNTHESIZE',
-        searchIcon: '\ue64c 药品名'
+        searchIcon: '\ue64c 药品名',
+        position: getCurrentAddress()
       };
-    },
-    computed: {
-      position() {
-        return getCurrentAddress().position;
-      }
     },
     created() {
     },
