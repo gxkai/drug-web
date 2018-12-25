@@ -117,7 +117,7 @@
 </template>
 
 <script>
-  import { getReceivedPosition } from '../../../storage';
+  import { getCurrentAddress } from '@/storage';
 
   export default {
     data() {
@@ -131,13 +131,11 @@
         hospital: null,
         searchIcon: '药品名',
         sort: 'ID_DESC',
-        drugName: ''
+        drugName: '',
+        position: getCurrentAddress
       };
     },
     computed: {
-      position() {
-        return getReceivedPosition().position;
-      }
     },
     created() {
       this.initData();
