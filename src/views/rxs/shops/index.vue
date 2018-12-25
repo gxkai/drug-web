@@ -103,7 +103,7 @@
   </new-layout>
 </template>
 <script>
-  import {getCurrentAddress} from '../../../storage';
+  import {getCurrentAddress} from '@/storage';
 
   export default {
     name: 'shopInfo',
