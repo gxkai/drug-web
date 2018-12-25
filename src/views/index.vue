@@ -722,7 +722,7 @@
 
 <script>
   import {Carousel3d, Slide} from 'vue-carousel-3d';
-  import {getCurrentAddress} from '../storage';
+  import {getCurrentAddress} from '@/storage';
 
   export default {
     name: 'home',

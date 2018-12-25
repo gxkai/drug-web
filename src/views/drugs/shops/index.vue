@@ -391,7 +391,7 @@
   }
 </style>
 <script>
-  import { getCurrentAddress } from '../../../storage';
+  import { getCurrentAddress } from '@/storage';
 
   export default {
     data() {

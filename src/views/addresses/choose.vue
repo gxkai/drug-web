@@ -193,7 +193,7 @@
 
 <script>
   import BMap from 'BMap';
-  import { setCurrentAddress } from '../../storage';
+  import { setCurrentAddress } from '@/storage';
 
   export default {
     name: '',
