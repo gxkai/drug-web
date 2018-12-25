@@ -310,8 +310,7 @@
         this.$router.push({ path: '/orders/view', query: { orderId: this.order.id } });
       },
       onPay() {
-        // this.$router.push({ path: '/orders/pay', query: { orderIds: this.order.id } });
-        this.$toast('待开发');
+        window.location.href = this.order.payUrl;
       },
       onRefund() {
         this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });

@@ -18,7 +18,9 @@
           当前定位
         </div>
         <div class="address-choose--current--content">
-          <div class="address-choose--current--content__left">
+          <div class="address-choose--current--content__left"
+          @click="setPosition3"
+          >
             <van-icon name="paper-airplane" color="blue" size="3em"></van-icon>
             <span>{{name}}</span>
           </div>
@@ -241,8 +243,8 @@
       setPosition(address) {
         const position = {
           name: address.address,
-          lat: address.lat,
-          lng: address.lng
+          lat: address.location.lat,
+          lng: address.location.lng
         };
         setCurrentAddress(position);
         this.$router.push('/home');
@@ -256,19 +258,22 @@
         setCurrentAddress(position);
         this.$router.push('/home');
       },
-      async getLocation() {
+      setPosition3() {
+        const position = {
+          name: this.name,
+          lat: this.center.lat,
+          lng: this.center.lng
+        };
+        setCurrentAddress(position);
+        this.$router.push('/home');
+      },
+      getLocation() {
         new BMap.Geolocation().getCurrentAddress(async (r) => {
           console.log('located ok');
           console.log(r.latitude, r.longitude);
           const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
           this.center = data.pois[0].location;
           this.name = data.pois[0].name;
-          const position = {
-            name: this.name,
-            lat: this.center.lat,
-            lng: this.center.lng
-          };
-          setCurrentAddress(position);
           this.nearbyAddresses = data.pois;
         });
       }

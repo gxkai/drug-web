@@ -6,7 +6,7 @@
         <div class="home__banner">
           <div class="home__banner__top">
       <span class="home__banner__address">
-         <i class="fz22 home__banner__address_i" @click="$router.push('/addresses/choose')"> {{position.name}}</i>
+         <i class="fz22 home__banner__address_i" @click="$router.push('/addresses/choose')"> {{currentAddress.name}}</i>
          <van-icon name="arrowdown" color="white" size="3em" class="arrow"></van-icon>
       </span>
             <div>

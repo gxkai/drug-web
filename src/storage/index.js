@@ -1,8 +1,8 @@
 import storage from 'good-storage';
-const TokenKey = 'drug-web-token';
-const AccountKey = 'drug-web-account';
-const CurrentAddressKey = 'drug-web-current-address';
-const ReceivedAddressKey = 'drug-web-received-address';
+const TokenKey = 'drug-token';
+const AccountKey = 'drug-account';
+const CurrentAddressKey = 'drug-current-address';
+const ReceivedAddressKey = 'drug-received-address';
 
 export function getToken() {
   return storage.get(TokenKey);
