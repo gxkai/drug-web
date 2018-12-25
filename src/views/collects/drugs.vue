@@ -38,12 +38,13 @@
   .collect-drugs {
     &--item {
       display: flex;
-      padding: 20px;
+      padding: 10px 20px;
       background-color: white;
       margin-top: 20px;
       &--logo {
-        width: 200px;
-        height: 200px;
+        width: 100%;
+        height: 100%;
+        flex: .6;
       }
       &__right {
         margin-left: 20px;
@@ -56,6 +57,7 @@
             -webkit-line-clamp: 2;
             line-clamp: 2;
             -webkit-box-orient: vertical;
+            padding-top: 15px;
             span {
               font-size:28px;
               font-family:HiraginoSansGB-W3;
@@ -65,7 +67,8 @@
           }
           &:nth-child(2) {
             span {
-              font-size:18px;
+              font-size:25px;
+              line-height: 50px;
               font-family:HiraginoSansGB-W3;
               font-weight:normal;
               color:rgba(153,153,153,1);
