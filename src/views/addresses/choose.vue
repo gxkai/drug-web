@@ -34,7 +34,6 @@
       <baidu-map class="address-choose--map"
                  :center="center"
                  :zoom="zoom"
-                 :scroll-wheel-zoom="true"
                  @click="getClickInfo"
       >
         <bm-marker :position="{lng: center.lng, lat: center.lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
@@ -194,7 +193,6 @@
 <script>
   import BMap from 'BMap';
   import { setCurrentAddress } from '@/storage';
-
   export default {
     name: '',
     mixins: [],
@@ -266,10 +264,9 @@
         this.$router.push('/home');
       },
       getLocation() {
-        new BMap.Geolocation().getCurrentAddress(async (r) => {
-          console.log('located ok');
-          console.log(r.latitude, r.longitude);
-          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
+        new BMap.Geolocation().getCurrentPosition(async (r) => {
+          console.log(r.point);
+          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.point.lat}&lng=${r.point.lng}&coordType=bd09ll&poi=true`);
           this.center = data.pois[0].location;
           this.name = data.pois[0].name;
           this.nearbyAddresses = data.pois;
