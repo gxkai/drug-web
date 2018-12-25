@@ -13,10 +13,22 @@
         <div class="shop_view-info">
           <img v-lazy="getImgURL(shopInfo.logo, 'SMALL_LOGO')">
           <div class="shop_view-info-name">{{shopInfo.name}}</div>
-          <div class="shop_view-info-collect"
+
+
+          <div @click="onCollect" class="noCollect" v-show="noCollect">
+            <van-icon name="shoucang1" color="#ffffff"></van-icon>
+            未收藏
+          </div>
+
+          <div @click="onCollect" class="hasCollect" v-show="hasCollect">
+            <van-icon name="shoucang1" color="#ffffff"></van-icon>
+            已收藏
+          </div>
+
+         <!-- <div class="shop_view-info-collect"
                v-text="collect ? '已收藏':'未收藏'"
                :style="{backgroundColor: collect ? '#FF9800' : '#BFBFBF'}"
-               @click="onCollect"></div>
+               @click="onCollect"></div>-->
         </div>
         <div class="shop_view-score">
           <div class="shop_view-score-info">
@@ -87,6 +99,28 @@
 </template>
 <style scoped type="text/scss" lang="scss">
   .shop_view {
+    .noCollect{
+        width: 130px;
+      height: 50px;
+      border-radius: 10px;
+      color: white;
+      color: white;
+      background: #999999;
+      line-height: 50px;
+      text-align: center;
+      font-size: 24px;
+    }
+    .hasCollect{
+      width: 130px;
+      height: 50px;
+      border-radius: 10px;
+      color: white;
+      color: white;
+      background: #FF9800;
+      line-height: 50px;
+      text-align: center;
+      font-size: 24px;
+    }
     &-info {
       background-color: #F60000;
       padding: 40px 80px;
@@ -242,6 +276,8 @@
         shopInfo: [],
         shopId: this.$route.query.shopId,
         collect: false,
+        noCollect: true,
+        hasCollect: false,
         drugTypes: []
       };
     },
@@ -266,8 +302,12 @@
         await this.$http.post('/collects/shop', data);
         if (this.collect) {
           this.$toast('收藏成功');
+          this.hasCollect = true;
+          this.noCollect = false;
         } else {
           this.$toast('取消收藏成功');
+          this.hasCollect = false;
+          this.noCollect = true;
         }
       }
     }

@@ -38,6 +38,12 @@ const errorRouter = {
   name: '错误页面',
   component: () => import('@/components/error')
 };
+
+const searchRouter = {
+  path: '/search',
+  name: '搜索',
+  component: () => import('@/views/search.vue')
+};
 const chatRouter = [
   {
     path: '/chats/view',
@@ -388,7 +394,8 @@ const Router = new VueRouter({
     ...drugRouter,
     ...settingRouter,
     ...otherRouter,
-    ...chatRouter
+    ...chatRouter,
+    searchRouter
   ]
 });
 export default Router;

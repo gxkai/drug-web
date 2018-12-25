@@ -153,8 +153,10 @@
         <van-goods-action style="position: sticky">
           <van-goods-action-mini-btn icon="chat" text="咨询" @click="onChat"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
-          <van-goods-action-mini-btn icon="shoucang" text="收藏" :style="{color: collected === true? 'red': ''}"
-                                     @click="onCollect"/>
+          <van-goods-action-mini-btn icon="shoucang"  text="收藏"  style="color: #7d7e80"
+                                     @click="onCollect" v-show="collectShow"/>
+          <van-goods-action-mini-btn icon="shoucang1" text="收藏" style="color: red"
+                                     @click="onCollect" v-show="collectHide"/>
           <van-goods-action-big-btn text="加入购物车"
                                     :style="{backgroundColor:shopDrugSpec.otc===false?'gray':'#f85'}"
                                     @click="shopDrugSpec.otc===false? '' : show=true;type=0"/>
@@ -497,6 +499,11 @@
       }
     }
   }
+  #shoucang1 {
+    .van-icon-shoucang1 {
+      color: green!important;
+    }
+  }
 </style>
 <script>
   export default {
@@ -511,6 +518,8 @@
         number: 1,
         collected: false,
         loading: false,
+        collectShow: true,
+        collectHide: false,
         shopDrugId: this.$route.query.shopDrugId,
         pharmacist: ''
       };
@@ -544,8 +553,12 @@
         this.collected = !this.collected;
         if (this.collected) {
           this.$toast('收藏成功');
+          this.collectHide = true;
+          this.collectShow = false;
         } else {
           this.$toast('取消收藏成功');
+          this.collectHide = false;
+          this.collectShow = true;
         }
       },
       async onConfirm() {
