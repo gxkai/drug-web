@@ -36,9 +36,6 @@
                  :zoom="zoom"
                  :scroll-wheel-zoom="true"
                  @click="getClickInfo"
-                 @moving="syncCenterAndZoom"
-                 @moveend="syncCenterAndZoom"
-                 @zoomend="syncCenterAndZoom"
       >
         <bm-marker :position="{lng: center.lng, lat: center.lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
         </bm-marker>
@@ -230,6 +227,7 @@
         this.nearbyAddresses = data.pois;
       },
       async syncCenterAndZoom(e) {
+        console.log(e);
         const { lng, lat } = e.target.getCenter();
         this.zoom = e.target.getZoom();
         const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${lat}&lng=${lng}&coordType=bd09ll&poi=true`);
