@@ -1,177 +1,241 @@
 <template>
-  <new-layout class="shops">
+  <new-layout class="shops"
+              centerColor="white"
+  >
     <template slot="top">
-      <van-nav-bar
-        :title="$route.name"
-        left-arrow
-        @click-left="$router.go(-1)"
-      />
+      <div class="shops-header drugs">
+
+
+        <!--
+         <new-header>
+                  <div slot="left" @click="$router.go(-1)">
+                    <i class="iconfont ic-arrow-right"></i>
+                  </div>
+                  <div slot="center">
+                    <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/drugs')">
+                  </div>
+            </new-header>
+        -->
+
+
+        <div class="drugs-header">
+          <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
+          <input class="iconfont drugs-header__input" v-model="drugName" :placeholder="searchIcon">
+          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="search(drugName)"></van-icon>
+        </div>
+
+
+
+
+
+
+
+      </div>
       <div class="shops-filter">
-        <div class="shops-filter-item" @click="orderBy('SYNTHESIZE')">
+        <!--   <div class="shops-filter-item" @click="orderById()">
+             <div class="shops-filter-item-text">
+               综合
+             </div>
+             <div class="shops-filter-item-arrow">
+               <div class="shops-filter-item-arrow-up">
+               </div>
+               <div class="shops-filter-item-arrow-down"
+                    :style="{borderTopColor:sort === 'ID_DESC'? '#F60000': 'gray'} ">
+               </div>
+             </div>
+           </div>-->
+        <div class="shops-filter-item" @click="orderByPrice()">
           <div class="shops-filter-item-text">
-            综合
+            价格
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
+                 :style="{borderBottomColor:sort === 'PRICE_ASC'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
+                 :style="{borderTopColor:sort === 'PRICE_DESC'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>
-        <div class="shops-filter-item" @click="orderBy('DISTANCE')">
+        <div class="shops-filter-item" @click="orderByDistance()">
           <div class="shops-filter-item-text">
-            距离最近
+            调剂中最近
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
+                 :style="{borderBottomColor:sort === 'DISTANCE_ASC'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
+                 :style="{borderTopColor:sort === 'DISTANCE_DESC'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>
-        <div class="shops-filter-item" @click="orderBy('APPRAISE')">
+        <div class="shops-filter-item" @click="orderByScore()">
           <div class="shops-filter-item-text">
             好评优先
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
+                 :style="{borderBottomColor:sort === 'SCORE_ASC'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
+                 :style="{borderTopColor:sort === 'SCORE_DESC'? '#F60000': 'gray'} ">
             </div>
           </div>
         </div>
-        <div class="shops-filter-item" @click="orderBy('SALE')">
-          <div class="shops-filter-item-text">
-            销量最多
-          </div>
-          <div class="shops-filter-item-arrow">
-            <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
-            </div>
-            <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
-            </div>
-          </div>
-        </div>
+
       </div>
     </template>
-    <template slot="center">
-      <div class="shops-container"
-      >
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-          <van-list
-            v-model="loading"
-            :finished="finished"
-            @load="onLoad">
-            <div class="shops-container-item"
-                 :item="item"
-                 v-for="(item,index) in list"
-                 :key="index"
-                 @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
-              <div class="shops-container-item-left">
-                <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')"/>
-              </div>
-              <div class="shops-container-item-right">
-                <div>
-                  {{item.name}}
-                </div>
-                <div>
-                  <!--<new-star :score="item.score" disabled></new-star>-->
-                </div>
-                <div>
-                  电话：{{item.phone}}
-                </div>
-                <div>
-                  地址：{{item.address}}
-                </div>
-              </div>
-              <div class="shops-container-item-peisong"
-                   v-show="item.distribution === true">
-                <i class="iconfont ic-peisong-"></i>
-              </div>
-            </div>
-            <new-no-data v-if="finished"></new-no-data>
-          </van-list>
-        </van-pull-refresh>
+    <div class="shops-container"
+         slot="center">
+      <div @click="toQyPayUrl()" v-if="hospital !== null">
+        <new-rx-hospital-item :item="hospital"/>
       </div>
-    </template>
+      <div v-show="rxShopsOneshow"
+           v-for="(rxShop,index) in rxShops"
+           :key="index"
+           @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
+        <new-rx-shop-item
+          :item="rxShop">
+        </new-rx-shop-item>
+      </div>
+
+
+      <div v-show="rxShopsTwoshow"
+           v-for="(rxShop,index) in rxShopsTwo"
+           :key="index"
+           @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
+        <new-rx-shop-item
+          :item="rxShop">
+        </new-rx-shop-item>
+      </div>
+
+
+
+    </div>
   </new-layout>
 </template>
+
 <script>
-  import {getCurrentAddress} from '../../../storage';
+  import { getReceivedPosition } from '../../../storage';
 
   export default {
-    name: 'shopInfo',
-    props: {},
     data() {
       return {
-        loading: false,
-        finished: false,
-        isLoading: false,
-        pageNum: 0,
-        pageSize: 15,
-        list: [],
-        shopSort: 'SYNTHESIZE',
-        searchIcon: '\ue64c 药品名',
-        position: getCurrentAddress()
+        rxId: this.$route.query.rxId,
+        rxShops: [],
+        rxShopsTwo: [],
+        rxShopsOneshow: true,
+        rxShopsTwoshow: false,
+        hospitalId: this.$route.query.hospitalId,
+        hospital: null,
+        searchIcon: '药品名',
+        sort: 'ID_DESC',
+        drugName: ''
       };
     },
-    created() {
+    computed: {
+      position() {
+        return getReceivedPosition().position;
+      }
     },
-    mounted() {
+    created() {
+      this.initData();
     },
     methods: {
-      onRefresh() {
-        this.finished = false;
-        this.list = [];
-        this.pageNum = 0;
-        this.onLoad();
+      async toQyPayUrl() {
+        let url = await this.$http.get(`/hospitals/${this.hospitalId}/url`);
+        window.location.href = url;
+        // this.$toast('暂未开放');
       },
-      async onLoad() {
-        this.pageNum++;
-        const params = {
-          lat: this.position.lat,
-          lng: this.position.lng,
-          sort: this.shopSort,
-          pageNum: this.pageNum,
-          pageSize: this.pageSize
-        };
-        const data = await this.$http.get('/shops', params);
-        this.isLoading = false;
-        this.loading = false;
-        this.list = this.list.concat(data.list);
-        console.log(this.list);
-        if (data.list.length === 0) {
-          this.finished = true;
+      initData() {
+        this.getRxShops();
+        this.getHospital();
+      },
+      search(drugName) {
+        this.rxShopsTwoshow = true;
+        this.rxShopsOneshow = false;
+        this.rxShopsTwo = this.rxShops.filter(s => s.name.includes(drugName));
+      },
+      async getRxShops() {
+        this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
+      },
+      async getHospital() {
+        this.hospital = await this.$http.get(`/rxs/${this.rxId}/hospital`);
+      },
+      orderById() {
+        this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);
+      },
+      orderByDistance() {
+        if (this.sort === 'DISTANCE_DESC') {
+          this.sort = 'DISTANCE_ASC';
+          this.rxShops = this.rxShops.sort((a, b) => a.distance - b.distance);
+        } else {
+          this.sort = 'DISTANCE_DESC';
+          this.rxShops = this.rxShops.sort((a, b) => b.distance - a.distance);
         }
       },
-      orderBy(shopSort) {
-        this.shopSort = shopSort;
-        this.onRefresh();
+      orderByScore() {
+        if (this.sort === 'SCORE_DESC') {
+          this.sort = 'SCORE_ASC';
+          this.rxShops = this.rxShops.sort((a, b) => a.score - b.score);
+        } else {
+          this.sort = 'SCORE_DESC';
+          this.rxShops = this.rxShops.sort((a, b) => b.score - a.score);
+        }
+      },
+      orderByPrice() {
+        if (this.sort === 'PRICE_DESC') {
+          this.sort = 'PRICE_ASC';
+          this.rxShops = this.rxShops.sort((a, b) => a.amount - b.amount);
+        } else {
+          this.sort = 'PRICE_DESC';
+          this.rxShops = this.rxShops.sort((a, b) => b.amount - a.amount);
+        }
       }
     }
-  }
-  ;
+  };
 </script>
+
 <style scoped type="text/scss" lang="scss">
+  .drugs{
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100px;
+      background-color: #F60000;
+      padding: 0 20px;
+      &__left {
+
+      }
+      &__input {
+        width: 500px;
+        height: 45px;
+        outline: none;
+        border-width: 0;
+        font-size: 30px;
+        color: black;
+        border-radius: 10PX;
+        padding: 0 20px;
+        &::placeholder {
+          text-align: center;
+        }
+      }
+
+    }
+  }
   .shops {
+    width: 720px;
     &-header {
       header {
         & > div:nth-child(2) {
           input {
             width: 500px;
-            height: 55px;
+            height: 70px;
             outline: none;
             border-width: 0;
-            font-size: 30px;
-            color: black;
-            border-radius: 10PX;
-            padding: 0 20px;
+            font-size: 20px;
             &::placeholder {
               text-align: center;
             }
@@ -188,7 +252,6 @@
       font-size: 24px;
       font-family: HiraginoSansGB-W3;
       color: rgba(69, 69, 69, 1);
-      background-color: white;
       &-item {
         display: flex;
         align-items: center;
@@ -201,13 +264,13 @@
           justify-content: center;
           &-up {
             border: 7px solid white;
-            border-bottom-color: #F60000;
+            border-bottom-color: gray;
             width: 0;
             height: 0;
           }
           &-down {
             border: 7px solid white;
-            border-top-color: #F60000;
+            border-top-color: gray;
             width: 0;
             height: 0;
             margin-top: 2px;
@@ -215,49 +278,5 @@
         }
       }
     }
-    &-container {
-      &-item {
-        width: 100%;
-        background-color: white;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin-bottom: 10px;
-        position: relative;
-        &:first-child {
-          margin-top: 10px;
-        }
-        padding: 20px;
-        &-left {
-          padding: 20px;
-          img {
-            width: 250px;
-            height: 250px;
-          }
-        }
-        &-right {
-          padding: 20px;
-          div {
-            font-size: 25px;
-            &:nth-child(1) {
-              font-size: 30px;
-            }
-            &:nth-child(2) {
-              margin-top: 10px;
-            }
-          }
-        }
-        &-peisong {
-          position: absolute;
-          right: 10px;
-          top: 10px;
-          i {
-            font-size: 80px;
-            color: #F60000;
-          }
-        }
-      }
-    }
   }
 </style>
-
