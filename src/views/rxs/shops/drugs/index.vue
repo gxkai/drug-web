@@ -64,9 +64,12 @@
                   <li
                     v-for="(origin,key) in drugs[index].drugs"
                     :key="key"
-                    @click="choose(key,index)">
+                    @click="origin.flag && choose(key,index)">
 
-                    <div :class="{vendor__checked: key === origin.selectedKey}" @click="changeVendor(index, key)">
+                    <div
+                        :class="{vendor__checked: key === origin.selectedKey}"
+                        @click="changeVendor(index, key)"
+                      >
                       <!--<span :style="{color: origin.drugSpecId === carts[index].drugSpecId ? '#12C1FF' : 'black'}">-->
                         <!--{{origin.originName}}-->
                       <!--</span>-->
@@ -84,9 +87,7 @@
               </van-collapse-item>
             </van-collapse>
           </div>
-
         </div>
-
       </template>
       <template slot="bottom">
         <div class="rx__content__total">
@@ -143,11 +144,13 @@
     mounted() {
     },
     methods: {
+
       changeVendor(index, key) {
         this.drugs[index].drugs.forEach(item => {
           item.selectedKey = '';
         });
         this.drugs[index].drugs[key].selectedKey = key;
+        this.drugs[index].drugs[key].flag = true;
       },
       async getDrugs() {
         this.drugs = await this.$http.get('/rxs/' + this.rxId + '/shops/' + this.shopId + '/drugs');
@@ -167,6 +170,8 @@
         this.drugs.forEach(drug => {
           drug.drugs.forEach(origin => {
             origin.selectedKey = 0;
+            origin.flag = false;
+            console.log(origin);
           });
           this.carts.push({
             accountId: this.account.id,
@@ -271,6 +276,7 @@
       }
     }
     &__checked{
+      pointer-events: none;
       span{
         color: #F00;
       }
@@ -356,7 +362,7 @@
           display: flex;
           padding: 20px 0;
           margin: 20px 20px 0 20px;
-          border-bottom: 1px solid #EEE;
+          /*border-bottom: 1px solid #EEE;*/
           position: relative;
 
           &__left {

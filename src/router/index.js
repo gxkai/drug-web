@@ -323,7 +323,7 @@ const settingRouter = [
 const otherRouter = [
   {
     path: '/feedbacks/create',
-    name: '反馈创建',
+    name: '意见反馈',
     component: () => import('@/views/feedbacks/create.vue')
   },
   {

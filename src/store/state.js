@@ -1,7 +1,4 @@
 export default {
-  cartShops: [],
-  addresses: [],
-  firstOpen: true,
   projectInfo: {
     copyright: '2017-2018 药品服务平台版权所有',
     company: '江苏网进科技股份有限公司',

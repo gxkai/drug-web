@@ -1,21 +1,21 @@
 <template>
   <new-layout class="shops"
-  centerColor="white"
+              centerColor="white"
   >
     <template slot="top">
       <div class="shops-header drugs">
 
 
-<!--
- <new-header>
-          <div slot="left" @click="$router.go(-1)">
-            <i class="iconfont ic-arrow-right"></i>
-          </div>
-          <div slot="center">
-            <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/drugs')">
-          </div>
-    </new-header>
--->
+        <!--
+         <new-header>
+                  <div slot="left" @click="$router.go(-1)">
+                    <i class="iconfont ic-arrow-right"></i>
+                  </div>
+                  <div slot="center">
+                    <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/drugs')">
+                  </div>
+            </new-header>
+        -->
 
 
         <div class="drugs-header">
@@ -30,20 +30,20 @@
 
 
 
-  </div>
+      </div>
       <div class="shops-filter">
-     <!--   <div class="shops-filter-item" @click="orderById()">
-          <div class="shops-filter-item-text">
-            综合
-          </div>
-          <div class="shops-filter-item-arrow">
-            <div class="shops-filter-item-arrow-up">
-            </div>
-            <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:sort === 'ID_DESC'? '#F60000': 'gray'} ">
-            </div>
-          </div>
-        </div>-->
+        <!--   <div class="shops-filter-item" @click="orderById()">
+             <div class="shops-filter-item-text">
+               综合
+             </div>
+             <div class="shops-filter-item-arrow">
+               <div class="shops-filter-item-arrow-up">
+               </div>
+               <div class="shops-filter-item-arrow-down"
+                    :style="{borderTopColor:sort === 'ID_DESC'? '#F60000': 'gray'} ">
+               </div>
+             </div>
+           </div>-->
         <div class="shops-filter-item" @click="orderByPrice()">
           <div class="shops-filter-item-text">
             价格
@@ -92,9 +92,9 @@
         <new-rx-hospital-item :item="hospital"/>
       </div>
       <div v-show="rxShopsOneshow"
-        v-for="(rxShop,index) in rxShops"
-        :key="index"
-        @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
+           v-for="(rxShop,index) in rxShops"
+           :key="index"
+           @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
         <new-rx-shop-item
           :item="rxShop">
         </new-rx-shop-item>
@@ -102,9 +102,9 @@
 
 
       <div v-show="rxShopsTwoshow"
-        v-for="(rxShop,index) in rxShopsTwo"
-        :key="index"
-        @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
+           v-for="(rxShop,index) in rxShopsTwo"
+           :key="index"
+           @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
         <new-rx-shop-item
           :item="rxShop">
         </new-rx-shop-item>
@@ -161,7 +161,7 @@
         this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
       },
       async getHospital() {
-        this.hospital = await this.$http.get(`/rxs/${this.rxId}/hospital?lng=${this.position.lng}&lat=${this.position.lat}`);
+        this.hospital = await this.$http.get(`/rxs/${this.rxId}/hospital`);
       },
       orderById() {
         this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);

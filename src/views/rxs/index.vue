@@ -131,7 +131,7 @@
       padding:30px 30px 60px 30px;
       position: relative;
       &:first-child {
-        margin-top: 70px!important;
+        margin-top: 50px!important;
       }
       &>div {
         margin-top: 10px;

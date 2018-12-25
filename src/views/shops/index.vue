@@ -103,7 +103,7 @@
   </new-layout>
 </template>
 <script>
-  import { getReceivedPosition } from '../../storage';
+  import { getCurrentAddress } from '../../storage';
 
   export default {
     name: 'shopInfo',
@@ -122,7 +122,7 @@
     },
     computed: {
       position() {
-        return getReceivedPosition().position;
+        return getCurrentAddress().position;
       }
     },
     created() {

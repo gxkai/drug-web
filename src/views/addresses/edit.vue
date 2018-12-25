@@ -49,10 +49,6 @@
           placeholder="例：8号楼404室"
         />
       </van-cell-group>
-
-      <!--<van-cell-group class="mt-l-20 address-edit__checkbox">-->
-        <!--<van-checkbox v-model="address.defaulted">设为默认地址</van-checkbox>-->
-      <!--</van-cell-group>-->
     </template>
   </new-layout>
 </template>
@@ -64,6 +60,9 @@
     &__icon, &__label {
       line-height: normal;
     }
+  }
+  /deep/.van-field .van-cell__title {
+    max-width: 120px;
   }
 </style>
 <style scoped type="text/scss" lang="scss">
@@ -98,8 +97,8 @@
         console.log('back to', to, 'from ', from);
         let position = to.route.query.position;
         if (position !== undefined) {
-          this.address.lat = position.location.lat;
-          this.address.lng = position.location.lng;
+          this.address.lat = position.lat;
+          this.address.lng = position.lng;
           this.address.address = position.name;
         }
       });
