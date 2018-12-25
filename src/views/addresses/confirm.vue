@@ -24,9 +24,7 @@
                    :zoom="zoom"
                    :scroll-wheel-zoom="true"
                    @click="getClickInfo"
-                   @moving="syncCenterAndZoom"
-                   @moveend="syncCenterAndZoom"
-                   @zoomend="syncCenterAndZoom">
+                  >
           <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
           </bm-marker>
         </baidu-map>
