@@ -722,7 +722,7 @@
 
 <script>
   import {Carousel3d, Slide} from 'vue-carousel-3d';
-  import {getReceivedPosition} from '../storage';
+  import {getCurrentAddress} from '../storage';
 
   export default {
     name: 'home',
@@ -762,7 +762,7 @@
         dy: '',
         xPum: '',
         yPum: '',
-        position: getReceivedPosition()
+        currentAddress: getCurrentAddress()
       };
     },
     components: {
@@ -785,7 +785,7 @@
       }
     },
     created() {
-      if (this.position === undefined) {
+      if (this.currentAddress === undefined) {
         this.$router.push('/addresses/choose');
         return;
       }
@@ -846,7 +846,6 @@
         this.adverts = await this.$http.get('/adverts');
         // 好货推荐
         this.recommends = await this.$http.get('/drugs/recommend');
-
         // 知识库
         this.repositories = await this.$http.get('/repositories/home');
         setInterval(this.scroll, 2000);
