@@ -1,260 +1,237 @@
 <template>
-  <new-layout class="rxs">
+  <new-layout class="shops"
+  centerColor="white"
+  >
     <template slot="top">
-      <van-nav-bar
-        :title="$route.name"
-        left-arrow
-        @click-left="$router.go(-1)"
-      />
-      <div class="rxs--header"  :style="note">
-        <div class="rxs--header__left">
-          <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"
-               class="rxs--header__left--logo"
-          />
-        </div>
-        <div class="rxs--header__right">
-          <div>
-            <van-icon name="wo" color="white" size="3em"></van-icon>
-            <span class="ml-l-20">{{account.name || '无'}}</span>
-            <span class="ml-l-50">{{getGender()|| '未填写'}}</span>
-            <span class="ml-l-40">{{account.age + '岁'|| '未填写'}}</span>
+      <div class="shops-header">
+
+<!--
+     <new-header>
+          <div slot="left" @click="$router.go(-1)">
+            <i class="iconfont ic-arrow-right"></i>
           </div>
-          <div class="mt-l-20">
-            <van-icon name="Id" color="white" size="3em"></van-icon>
-            <span class="ml-l-20">{{account.identityNumber|| '未填写'}}</span>
+          <div slot="center">
+            <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/drugs')">
           </div>
+    </new-header>
+-->
+
+
+        <div class="drugs-header">
+          <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
+          <input v-model="keyword" class="iconfont drugs-header__input" :placeholder="searchIcon"  @focus="search()">
+          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="onRefresh()"></van-icon>
         </div>
-      </div>
-      <input
-        type="text"
-        class="iconfont rxs--search"
-        :placeholder="icon"
-        v-model="keyword"
-        @keyup.enter="onRefresh">
-    </template>
-    <template slot="center">
-      <div>
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-          <van-list
-            v-model="loading"
-            :finished="finished"
-            @load="onLoad">
-            <div
-              class="rxs--item"
-              v-for="item in list"
-              :key="item.id"
-              @click="$router.push({path:'/rxs/view',query:{rxId:item.id}})"
-            >
-              <img class="rxs--mark" v-lazy="item.state ==='ENABLED'? require('../../assets/image/rxs/rx-true.png') : require('../../assets/image/rxs/rx-false.png')" >
-              <div>
-                <van-icon name="yiyuan" color="#F60000" size="3em"></van-icon>
-                <span>医院</span>
-                <span>
-              {{item.hospital||'未注明'}}
-            </span>
-                <span>
-              {{item.number}}
-            </span>
-              </div>
-              <div>
-                <van-icon name="riqi" color="#F60000" size="3em"></van-icon>
-                <span>日期</span>
-                <span>
-              {{timeConvert(item.rxDate)}}
-            </span>
-              </div>
-              <div>
-                <van-icon name="222" color="#F60000" size="3em"></van-icon>
-                <span>诊断</span>
-                <span>
-              {{item.illness}}
-            </span>
-              </div>
-              <div>
-                <van-icon name="shijian2" color="#F60000" size="3em"></van-icon>
-                <span>倒计时</span>
-                <new-count-down :endTime="item.rxDate" durationDay="3"></new-count-down>
-              </div>
+
+
+
+
+
+
+  </div>
+      <div class="shops-filter">
+     <!--   <div class="shops-filter-item" @click="orderById()">
+          <div class="shops-filter-item-text">
+            综合
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up">
             </div>
-            <new-no-data v-show="finished === true"></new-no-data>
-          </van-list>
-        </van-pull-refresh>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'ID_DESC'? '#F60000': 'gray'} ">
+            </div>
+          </div>
+        </div>-->
+        <div class="shops-filter-item" @click="orderByPrice()">
+          <div class="shops-filter-item-text">
+            价格
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:sort === 'PRICE_ASC'? '#F60000': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'PRICE_DESC'? '#F60000': 'gray'} ">
+            </div>
+          </div>
+        </div>
+        <div class="shops-filter-item" @click="orderByDistance()">
+          <div class="shops-filter-item-text">
+            调剂中最近
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:sort === 'DISTANCE_ASC'? '#F60000': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'DISTANCE_DESC'? '#F60000': 'gray'} ">
+            </div>
+          </div>
+        </div>
+        <div class="shops-filter-item" @click="orderByScore()">
+          <div class="shops-filter-item-text">
+            好评优先
+          </div>
+          <div class="shops-filter-item-arrow">
+            <div class="shops-filter-item-arrow-up"
+                 :style="{borderBottomColor:sort === 'SCORE_ASC'? '#F60000': 'gray'} ">
+            </div>
+            <div class="shops-filter-item-arrow-down"
+                 :style="{borderTopColor:sort === 'SCORE_DESC'? '#F60000': 'gray'} ">
+            </div>
+          </div>
+        </div>
+
       </div>
     </template>
-    <template slot="bottom">
-      <van-tabbar
-        :value="1"
-        :fixed="Boolean(false)"
-      >
-        <van-tabbar-item icon="icon"
-                         to="/home">首页
-        </van-tabbar-item>
-        <van-tabbar-item icon="chufang"
-                         to="/rxs">处方单
-        </van-tabbar-item>
-        <van-tabbar-item icon="fenlei"
-                         to="/drugTypes">分类
-        </van-tabbar-item>
-        <van-tabbar-item icon="gouwuche2"
-                         to="/carts">购物车
-        </van-tabbar-item>
-        <van-tabbar-item icon="wo"
-                         to="/accounts">我
-        </van-tabbar-item>
-      </van-tabbar>
-    </template>
+    <div class="shops-container"
+         slot="center">
+      <div @click="toQyPayUrl()" v-if="hospital !== null">
+        <new-rx-hospital-item :item="hospital"/>
+      </div>
+      <div
+        v-for="(rxShop,index) in rxShops"
+        :key="index"
+        @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
+        <new-rx-shop-item
+          :item="rxShop">
+        </new-rx-shop-item>
+      </div>
+    </div>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
-  .van-tabbar-item--active{
-    color: #F60032!important;
-  }
-  /deep/.van-nav-bar:after {
-    border-bottom: none!important;
-  }
-</style>
-<style scoped type="text/scss" lang="scss">
-  .rxs {
-    background-color: #f5f5f5;
-    position: relative;
-    &--mark {
-      position: absolute;
-      right: 0;
-      top: 80px;
-      width: 200px;
-      height: 200px;
-    }
-    &--item {
-      width: 680px;
-      margin: 20px 20px 0;
-      background-color: white;
-      padding:30px 30px 60px 30px;
-      position: relative;
-      &:first-child {
-        margin-top: 50px!important;
-      }
-      &>div {
-        margin-top: 10px;
-        &>span {
-          display: inline-block;
-          &:nth-child(2) {
-            width: 100px;
-            color: #999999;
-            font-size: 25px;
-          }
-          &:nth-child(3) {
-            width: 300px;
-            font-size: 25px;
-            font-weight: normal;
-          }
-          &:nth-child(4) {
-            width: 150px;
-            font-size: 25px;
-            font-weight: normal;
-            color: #F60000;
-            float: right;
-            margin-top: 12px;
-          }
-        }
-      }
-    }
-    &--search {
-      width: 680px;
-      height: 50px;
-      margin: 0 20px;
-      margin-top: 50px;
-      background-color: white;
-      position: absolute;
-      top: 310px;
-      z-index: 1;
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.27);
-      border: none;
-      outline: none;
-      -webkit-appearance: none;
-      padding: 0 40px;
-      font-size: 30px;
-      &::placeholder {
-        text-align: center;
-      }
-    }
-    &--header {
-      height: 300px;
-     /* background-color: #F60000;*/
-      padding: 0 80px;
-      display: flex;
-      align-items: center;
-      &__left {
-        &--logo {
-          width: 110px;
-          height: 110px;
-          border-radius: 50%;
-        }
-      }
-      &__right {
-        margin-left: 20px;
-        span {
-          color: white;
-          font-size: 30px;
-        }
-      }
-    }
-  }
-</style>
+
 <script>
+  import { getCurrentAddress } from '../../storage';
+
   export default {
     data() {
       return {
-        keyword: '',
-        loading: false,
-        finished: false,
-        isLoading: false,
-        pageNum: 0,
-        pageSize: 15,
-        list: [],
-        note: {
-          backgroundImage: 'url(' + require('../../assets/image/rxs/rx-bg.png') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          width: '100%'
-        },
-        icon: '\ue64c 请输入诊断搜索'
+        rxId: this.$route.query.rxId,
+        rxShops: [],
+        hospitalId: this.$route.query.hospitalId,
+        hospital: null,
+        searchIcon: '\ue64c 药品名',
+        sort: 'ID_DESC',
+        currentAddress: getCurrentAddress()
       };
     },
     computed: {
-      account() {
-        return this.$store.getters.account || {
-          fileId: ''
-        };
-      }
     },
     created() {
-    },
-    mounted() {
+      this.initData();
     },
     methods: {
-      onRefresh() {
-        this.finished = false;
-        this.list = [];
-        this.pageNum = 0;
-        this.onLoad();
+      async toQyPayUrl() {
+        let url = await this.$http.get(`/hospitals/${this.hospitalId}/url`);
+        window.location.href = url;
       },
-      async onLoad() {
-        this.pageNum++;
-        const params = {
-          'pageNum': this.pageNum,
-          'pageSize': this.pageSize,
-          'keyword': this.keyword
-        };
-        const data = await this.$http.get('/rxs', params);
-        this.isLoading = false;
-        this.loading = false;
-        this.list = this.list.concat(data.list);
-        console.log(this.list);
-        if (data.list.length === 0) {
-          this.finished = true;
+      initData() {
+        this.getRxShops();
+        this.getHospital();
+      },
+      async getRxShops() {
+        this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.currentAddress.lng}&lat=${this.currentAddress.lat}`);
+      },
+      async getHospital() {
+        this.hospital = await this.$http.get(`/hospitals/${this.hospitalId}`);
+        console.log(11111);
+        console.log(this.hospital);
+      },
+      orderById() {
+        this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);
+      },
+      orderByDistance() {
+        if (this.sort === 'DISTANCE_DESC') {
+          this.sort = 'DISTANCE_ASC';
+          this.rxShops = this.rxShops.sort((a, b) => a.distance - b.distance);
+        } else {
+          this.sort = 'DISTANCE_DESC';
+          this.rxShops = this.rxShops.sort((a, b) => b.distance - a.distance);
+        }
+      },
+      orderByScore() {
+        if (this.sort === 'SCORE_DESC') {
+          this.sort = 'SCORE_ASC';
+          this.rxShops = this.rxShops.sort((a, b) => a.score - b.score);
+        } else {
+          this.sort = 'SCORE_DESC';
+          this.rxShops = this.rxShops.sort((a, b) => b.score - a.score);
+        }
+      },
+      orderByPrice() {
+        if (this.sort === 'PRICE_DESC') {
+          this.sort = 'PRICE_ASC';
+          this.rxShops = this.rxShops.sort((a, b) => a.amount - b.amount);
+        } else {
+          this.sort = 'PRICE_DESC';
+          this.rxShops = this.rxShops.sort((a, b) => b.amount - a.amount);
         }
       }
     }
   };
 </script>
 
+<style scoped type="text/scss" lang="scss">
+  .middle{
+    background: #F5453E!important;
+    input{
+      width: 670px!important;
+      display: inline-block;
+    }
+  }
+  .shops {
+    width: 720px;
+    &-header {
+      header {
+        & > div:nth-child(2) {
+          input {
+            width: 500px;
+            height: 70px;
+            outline: none;
+            border-width: 0;
+            font-size: 20px;
+            &::placeholder {
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+    &-filter {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 24px;
+      font-family: HiraginoSansGB-W3;
+      color: rgba(69, 69, 69, 1);
+      &-item {
+        display: flex;
+        align-items: center;
+        &-text {
+          font-size: 30px;
+        }
+        &-arrow {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          &-up {
+            border: 7px solid white;
+            border-bottom-color: gray;
+            width: 0;
+            height: 0;
+          }
+          &-down {
+            border: 7px solid white;
+            border-top-color: gray;
+            width: 0;
+            height: 0;
+            margin-top: 2px;
+          }
+        }
+      }
+    }
+  }
+</style>

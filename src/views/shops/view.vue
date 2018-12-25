@@ -15,7 +15,7 @@
           <div class="shop_view-info-name">{{shopInfo.name}}</div>
           <div class="shop_view-info-collect"
                v-text="collect ? '已收藏':'未收藏'"
-               :style="{backgroundColor: collect ? 'red' : '#BFBFBF'}"
+               :style="{backgroundColor: collect ? '#FF9800' : '#BFBFBF'}"
                @click="onCollect"></div>
         </div>
         <div class="shop_view-score">
@@ -105,10 +105,13 @@
         font-weight: 200;
       }
       &-collect {
-        padding: 5px 20px;
+        width:150px;
+        height: 30px;
+        line-height: 30px;
         color: white;
         font-size: 25px;
         font-weight: 200;
+        text-align: center;
       }
     }
 

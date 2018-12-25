@@ -1,244 +1,243 @@
 <template>
   <div class="account">
-    <new-layout class="faqs">
-      <template slot="center">
-        <div class="account-header" :style="headerBg">
-          <van-uploader :after-read="onRead">
-            <div class="account--name">{{ account.name }}</div>
-            <div class="logo-bg">
-              <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"/>
-            </div>
-          </van-uploader>
+    <div class="account-header">
 
-          <van-icon name="lingdang"
-                    class="lingdang"
-                    @click="linkToMessageType"></van-icon>
-          <!--<van-icon name="setting"-->
-          <!--class="setting"-->
-          <!--@click="$router.push('/setting')"></van-icon>-->
-          <!--<div class="account-header-sign_in"-->
-          <!--v-text="signIn === true ? '已签到' : '每日签到'"-->
-          <!--:style="{backgroundColor: signIn === true ? 'Pink': ''}"-->
-          <!--@click="$router.push('/points/signIn')">-->
-          <!--</div>-->
-          <div class="account-fixed-order">
-            <div class="order__header">
-              <router-link to="/orders">
-                <div class="left__all-order">
-                  <span>全部订单</span>
-                </div>
-                <div class="right__my-order">
-                  <span>我的订单</span>
-                  <van-icon name="youjiantou" />
-                </div>
-              </router-link>
-            </div>
-
-            <van-tabbar :fixed="Boolean(false)">
-
-              <van-tabbar-item v-if="count.toPayCount === 0"
-                               icon="daifukuan"
-                               :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
-              </van-tabbar-item>
-
-              <van-tabbar-item v-else
-                               icon="daifukuan"
-                               :info="count.toPayCount"
-                               :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
-              </van-tabbar-item>
-
-              <van-tabbar-item v-if="count.toDeliveryCount === 0"
-                               icon="yaopin"
-                               :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">调剂中
-              </van-tabbar-item>
-
-              <van-tabbar-item v-else
-                               icon="yaopin"
-                               :info="count.toDeliveryCount "
-                               :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">调剂中
-              </van-tabbar-item>
-
-
-              <van-tabbar-item  v-if="count.toReceivedCount === 0"
-                                icon="daishouhuo1"
-                                :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
-              </van-tabbar-item>
-
-              <van-tabbar-item  v-else
-                                icon="daishouhuo1"
-                                :info="count.toReceivedCount"
-                                :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
-              </van-tabbar-item>
-
-              <van-tabbar-item
-                v-if="count.toAppraiseCount === 0"
-                icon="wenjianjia"
-                :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
-              </van-tabbar-item>
-
-              <van-tabbar-item v-else
-                               icon="wenjianjia"
-                               :info="count.toAppraiseCount"
-                               :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
-              </van-tabbar-item>
-            </van-tabbar>
-          </div>
+      <van-uploader :after-read="onRead">
+        <div class="account--name">{{ account.name }}</div>
+        <div class="logo-bg">
+          <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"/>
         </div>
-        <div class="account-content">
-          <div class="account--grid">
-            <ul>
-              <li>
-                <router-link
-                  class="account--grid--item"
-                  tag="div"
-                  to="/accounts/info"
-                >
-                  <div class="left-icon-title">
-                    <van-icon name="wode"></van-icon>
-                    <span>我的账号</span>
-                  </div>
-                  <van-icon name="youjiantou"></van-icon>
-                </router-link>
-              </li>
-              <li>
-                <!--医保账单---待改-->
-                <div
-                  class="account--grid--item"
-                  @click="routerToConsume"
-                >
-                  <div class="left-icon-title">
-                    <van-icon name="tiyanjin"></van-icon>
-                    <span>医保账单</span>
-                  </div>
-                  <van-icon name="youjiantou"></van-icon>
-                </div>
-              </li>
-              <li>
-                <router-link
-                  class="account--grid--item"
-                  tag="div"
-                  to="/addresses"
-                >
-                  <div class="left-icon-title">
-                    <van-icon name="wodedizhi"></van-icon>
-                    <span>我的地址</span>
-                  </div>
-                  <van-icon name="youjiantou"></van-icon>
-                </router-link>
-              </li>
-              <li>
-                <router-link
-                  class="account--grid--item"
-                  tag="div"
-                  to="/collects"
-                >
-                  <div class="left-icon-title">
-                    <van-icon name="shoucang2"></van-icon>
-                    <span>我的收藏</span>
-                  </div>
-                  <van-icon name="youjiantou"></van-icon>
-                </router-link>
-              </li>
-              <li>
-                <router-link
-                  class="account--grid--item"
-                  tag="div"
-                  to="/drugAppraises"
-                >
-                  <div class="left-icon-title">
-                    <van-icon name="pingjia1"></van-icon>
-                    <span>我的评价</span>
-                  </div>
-                  <van-icon name="youjiantou"></van-icon>
-                </router-link>
-              </li>
-              <li>
-                <router-link
-                  class="account--grid--item"
-                  tag="div"
-                  to="/faqs"
-                >
-                  <div class="left-icon-title">
-                    <van-icon name="xiaoxi1"></van-icon>
-                    <span>常见问题</span>
-                  </div>
-                  <van-icon name="youjiantou"></van-icon>
-                </router-link>
-              </li>
-              <li>
-                <router-link
-                  class="account--grid--item"
-                  tag="div"
-                  to="/feedbacks/create"
-                >
-                  <div class="left-icon-title">
-                    <van-icon name="tishi"></van-icon>
-                    <span>意见反馈</span>
-                  </div>
-                  <van-icon name="youjiantou"></van-icon>
-                </router-link>
-              </li>
-            </ul>
-            <!--<router-link-->
-            <!--class="account&#45;&#45;grid&#45;&#45;item"-->
-            <!--tag="div"-->
-            <!--to="/orders"-->
-            <!--&gt;-->
-            <!--<van-icon name="dingdan"></van-icon>-->
-            <!--<div>我的订单</div>-->
-            <!--</router-link>-->
-            <!--<router-link-->
-            <!--class="account&#45;&#45;grid&#45;&#45;item"-->
-            <!--to="/chats"-->
-            <!--&gt;-->
-            <!--<van-icon name="kefu-tianchong"></van-icon>-->
-            <!--<div>我的咨询</div>-->
-            <!--</router-link>-->
-            <!--<router-link-->
-            <!--class="account&#45;&#45;grid&#45;&#45;item"-->
-            <!--tag="div"-->
-            <!--to="/accounts/insurance"-->
-            <!--&gt;-->
-            <!--<van-icon name="yibao-" color="#ff8400"></van-icon>-->
-            <!--<div>我的医保</div>-->
-            <!--</router-link>-->
+      </van-uploader>
 
+      <van-icon name="lingdang"
+                class="lingdang"
+                @click="linkToMessageType"></van-icon>
+      <!--<van-icon name="setting"-->
+                <!--class="setting"-->
+                <!--@click="$router.push('/setting')"></van-icon>-->
+      <!--<div class="account-header-sign_in"-->
+           <!--v-text="signIn === true ? '已签到' : '每日签到'"-->
+           <!--:style="{backgroundColor: signIn === true ? 'Pink': ''}"-->
+           <!--@click="$router.push('/points/signIn')">-->
+      <!--</div>-->
 
-            <!--<router-link-->
-            <!--class="account&#45;&#45;grid&#45;&#45;item"-->
-            <!--to="/points"-->
-            <!--&gt;-->
-            <!--<van-icon name="jifen1"></van-icon>-->
-            <!--<div>我的积分</div>-->
-            <!--</router-link>-->
-          </div>
+      <div class="account-fixed-order" style="position: static">
+        <div class="order__header">
+          <router-link to="/orders">
+            <div class="left__all-order">
+              <span>全部订单</span>
+            </div>
+            <div class="right__my-order">
+              <span>我的订单</span>
+              <van-icon name="youjiantou" />
+            </div>
+          </router-link>
         </div>
-      </template>
 
-      <template slot="bottom">
-      <van-tabbar
-        :fixed="Boolean(false)"
-        :value="4"
-        id="footer"
-      >
-        <van-tabbar-item icon="icon"
-                         to="/home">首页
-        </van-tabbar-item>
-        <van-tabbar-item icon="chufang"
-                         to="/rxs">处方单
-        </van-tabbar-item>
-        <van-tabbar-item icon="fenlei"
-                         to="/drugTypes">分类
-        </van-tabbar-item>
-        <van-tabbar-item icon="gouwuche2"
-                         to="/carts">购物车
-        </van-tabbar-item>
-        <van-tabbar-item icon="wo"
-                         to="/accounts">我
-        </van-tabbar-item>
-      </van-tabbar>
-    </template>
-    </new-layout>
+        <van-tabbar :fixed="Boolean(false)">
+
+          <van-tabbar-item v-if="count.toPayCount === 0"
+                           icon="daifukuan"
+                           :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
+          </van-tabbar-item>
+
+          <van-tabbar-item v-else
+                           icon="daifukuan"
+                           :info="count.toPayCount"
+                           :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
+          </van-tabbar-item>
+
+          <van-tabbar-item v-if="count.toDeliveryCount === 0"
+                           icon="yaopin"
+                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">调剂中
+          </van-tabbar-item>
+
+          <van-tabbar-item v-else
+                           icon="yaopin"
+                           :info="count.toDeliveryCount "
+                           :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">调剂中
+          </van-tabbar-item>
+
+
+          <van-tabbar-item  v-if="count.toReceivedCount === 0"
+                            icon="daishouhuo1"
+                            :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
+          </van-tabbar-item>
+
+          <van-tabbar-item  v-else
+                            icon="daishouhuo1"
+                            :info="count.toReceivedCount"
+                            :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
+          </van-tabbar-item>
+
+          <van-tabbar-item
+            v-if="count.toAppraiseCount === 0"
+            icon="wenjianjia"
+            :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
+          </van-tabbar-item>
+
+          <van-tabbar-item v-else
+                           icon="wenjianjia"
+                           :info="count.toAppraiseCount"
+                           :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
+          </van-tabbar-item>
+        </van-tabbar>
+      </div>
+    </div>
+
+    <div class="account-content">
+
+
+      <div class="account--grid">
+        <ul>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/accounts/info"
+            >
+              <div class="left-icon-title">
+                <van-icon name="wode"></van-icon>
+                <span>我的医保</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <!--医保账单---待改-->
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/accounts/insurance/consume"
+            >
+              <div class="left-icon-title">
+                <van-icon name="tiyanjin"></van-icon>
+                <span>医保账单</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/addresses"
+            >
+              <div class="left-icon-title">
+                <van-icon name="wodedizhi"></van-icon>
+                <span>我的地址</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/collects"
+            >
+              <div class="left-icon-title">
+                <van-icon name="shoucang2"></van-icon>
+                <span>我的收藏</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/drugAppraises"
+            >
+              <div class="left-icon-title">
+                <van-icon name="pingjia1"></van-icon>
+                <span>我的评价</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/faqs"
+            >
+              <div class="left-icon-title">
+                <van-icon name="xiaoxi1"></van-icon>
+                <span>常见问题</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              class="account--grid--item"
+              tag="div"
+              to="/feedbacks/create"
+            >
+              <div class="left-icon-title">
+                <van-icon name="tishi"></van-icon>
+                <span>意见反馈</span>
+              </div>
+              <van-icon name="youjiantou"></van-icon>
+            </router-link>
+          </li>
+        </ul>
+        <!--<router-link-->
+          <!--class="account&#45;&#45;grid&#45;&#45;item"-->
+          <!--tag="div"-->
+          <!--to="/orders"-->
+        <!--&gt;-->
+          <!--<van-icon name="dingdan"></van-icon>-->
+          <!--<div>我的订单</div>-->
+        <!--</router-link>-->
+        <!--<router-link-->
+          <!--class="account&#45;&#45;grid&#45;&#45;item"-->
+          <!--to="/chats"-->
+        <!--&gt;-->
+          <!--<van-icon name="kefu-tianchong"></van-icon>-->
+          <!--<div>我的咨询</div>-->
+        <!--</router-link>-->
+        <!--<router-link-->
+          <!--class="account&#45;&#45;grid&#45;&#45;item"-->
+          <!--tag="div"-->
+          <!--to="/accounts/insurance"-->
+        <!--&gt;-->
+          <!--<van-icon name="yibao-" color="#ff8400"></van-icon>-->
+          <!--<div>我的医保</div>-->
+        <!--</router-link>-->
+
+
+        <!--<router-link-->
+          <!--class="account&#45;&#45;grid&#45;&#45;item"-->
+          <!--to="/points"-->
+        <!--&gt;-->
+          <!--<van-icon name="jifen1"></van-icon>-->
+          <!--<div>我的积分</div>-->
+        <!--</router-link>-->
+      </div>
+    </div>
+    <van-tabbar
+      :fixed="Boolean(false)"
+      :value="4"
+      id="footer"
+    >
+      <van-tabbar-item icon="icon"
+                       to="/home">首页
+      </van-tabbar-item>
+      <van-tabbar-item icon="chufang"
+                       to="/rxs">处方单
+      </van-tabbar-item>
+      <van-tabbar-item icon="fenlei"
+                       to="/drugTypes">分类
+      </van-tabbar-item>
+      <van-tabbar-item icon="gouwuche2"
+                       to="/carts">购物车
+      </van-tabbar-item>
+      <van-tabbar-item icon="wo"
+                       to="/accounts">我
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 <style scoped type="text/less" lang="less">
@@ -279,7 +278,7 @@
     }
     &-youjiantou {
       color: #000;
-      font-size: 30px;
+      font-size: 33px;
       line-height: initial;
     }
     &-daifukuan {
@@ -296,18 +295,15 @@
     }
   }
 
-  /deep/.account-fixed-order {
-    position: static;
-    margin-top: 60px;
-    .van-tabbar-item__icon{
-      i{
-        font-size: 50px !important;
-        padding-bottom: 10px;
-      }
-      .van-info {
-        line-height: 38px;
-        padding: 0 8px;
-      }
+  /deep/.account-fixed-order .van-tabbar-item__icon{
+
+    i{
+      font-size: 50px !important;
+      padding-bottom: 10px;
+    }
+    .van-info {
+      line-height: 38px;
+      padding: 0 8px;
     }
   }
 
@@ -319,7 +315,7 @@
   .van-uploader{
     z-index: 2;
     position: relative;
-    top: 150px;
+    top: 70px;
   }
 
   [class*=van-hairline]::after{
@@ -360,7 +356,7 @@
           display: flex;
           align-items: center;
           span{
-            font-size: 28px;
+            font-size: 25px;
           }
         }
       }
@@ -384,7 +380,7 @@
 
     &--grid {
       background: #FFF;
-      margin-top: 140px;
+      margin-top: 100px;
 
       ul{
         padding: 15px 0;
@@ -426,6 +422,10 @@
 
     &-fixed-order{
       width: 690px;
+      /*position: fixed;*/
+      /*top: 280px;*/
+      /*z-index: 1;*/
+      /*left: 15px;*/
       background: #FFF;
       border-radius: 20px;
       box-shadow: 0 0 20px -2px $mainColor;
@@ -441,6 +441,8 @@
     &-header {
       width: 720px;
       height: 395px;
+      background: url('../../../src/assets/image/accounts/banner.jpg') no-repeat;
+      background-size: cover;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -486,16 +488,10 @@
 
 <script>
   import { setAccount } from '../../storage';
-  import { Toast } from 'vant';
 
   export default {
     data() {
       return {
-        headerBg: {
-          background: 'url(' + require('../../../src/assets/image/accounts/banner.jpg') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        },
         count: {
           toAppraiseCount: 0,
           toDeliveryCount: 0,
@@ -504,24 +500,15 @@
         },
         account: this.$store.getters.account,
         show: true,
-        signIn: false,
-        accountInfo: ''
+        signIn: false
       };
     },
     created() {
       this.initData();
-      this.accountInfo = this.$store.getters.account;
     },
     mounted() {
     },
     methods: {
-      routerToConsume() {
-        if (this.accountInfo.medicaidNumber) {
-          this.$router.push('/accounts/insurance/consume');
-        } else {
-          Toast('请到农商行签约');
-        }
-      },
       async initData() {
         this.count = await this.$http.get('/orders/count');
         this.signIn = await this.$http.get('pointRecords/signIn/validateDailySignIn');
@@ -536,6 +523,7 @@
           }
         };
         let fileId = await this.$http.post('/files', param, config);
+        console.log(fileId);
         this.account.fileId = fileId;
         await this.$http.put('/accounts', this.account);
         this.$store.commit('SET_ACCOUNT', this.account);
