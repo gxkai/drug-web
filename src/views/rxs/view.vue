@@ -65,7 +65,7 @@
                  class="rxs_view-content-rp-content-item">
               <div>
                 {{index}}、{{item.name}} {{item.spec}} {{item.quantity}}件
-                <span
+            <!--    <span
                   v-if="item.state ==='ENABLED'"
                   class="to_use">
                 可使用
@@ -74,7 +74,7 @@
                   v-else
                   class="used">
                 不可用
-              </span>
+              </span>-->
               </div>
               <div>
                 用法：{{item.usage}} {{item.frequency}} {{item.dosage}}
