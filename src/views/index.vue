@@ -1,4 +1,4 @@
-﻿<template>
+﻿﻿<template>
   <new-layout>
     <template slot="center">
       <div class="home">
@@ -719,7 +719,6 @@
 
 
 <script>
-  import {Carousel3d, Slide} from 'vue-carousel-3d';
   import {getCurrentAddress} from '@/storage';
 
   export default {
@@ -762,10 +761,6 @@
         yPum: '',
         currentAddress: getCurrentAddress()
       };
-    },
-    components: {
-      Carousel3d,
-      Slide
     },
     computed: {
       text() {
