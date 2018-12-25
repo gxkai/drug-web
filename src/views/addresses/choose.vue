@@ -243,8 +243,8 @@
       setPosition(address) {
         const position = {
           name: address.address,
-          lat: address.location.lat,
-          lng: address.location.lng
+          lat: address.lat,
+          lng: address.lng
         };
         setCurrentAddress(position);
         this.$router.push('/home');
