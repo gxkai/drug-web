@@ -18,7 +18,7 @@
           <span class="shop-info__part-2__span-name">门店地址:</span>
           <span class="shop-info__part-2__span-adress">{{shopInfo.address}}</span>
         </div>
-        <div class="shop-info__part-3">
+        <div class="shop-info__part-3" style="display: none;">
           <div class="shop-info__part-3__header van-hairline--bottom">
             <span class="shop-info__part-3__header__span-name">服务总评</span>
             <span class="shop-info__part-3__header__span-score">{{toFixedOne(shopInfo.score)}}</span>
