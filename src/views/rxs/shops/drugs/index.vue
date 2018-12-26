@@ -105,7 +105,7 @@
           <van-goods-action-mini-btn icon="shop" text="药店" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
           <van-goods-action-big-btn class="add-to-cart" text="加入购物车" @click="type==='HOSPITAL'? '' : createCart()"
-                                    :style="{backgroundColor:type==='HOSPITAL'?'gray':'#13C1F1'}"/>
+                                    :style="{backgroundColor:type==='HOSPITAL'?'gray':'#ff976a'}"/>
           <van-goods-action-big-btn class="buy-now" text="立即购买" primary @click="onBuy"/>
         </van-goods-action>
       </template>
@@ -312,7 +312,8 @@
     border-color: #F02B2B;
   }
   .add-to-cart{
-    border-color: #13C1F1;
+    border-color: #ff976a;
+    background: #ff976a;
   }
 
   .text-a6a6a6 {

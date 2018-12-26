@@ -23,8 +23,8 @@
                 <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')">
               </div>
               <div class="shop_drugs-list-item-right">
-                <div class="shop_drugs-list-item-right_name">{{drug.name}}</div>
-                <div class="shop_drugs-list-item-right_sfda">国药准字{{drug.sfda}}</div>
+                <div class="shop_drugs-list-item-right_name">{{drug.name}}    {{drug.spec}}</div>
+                 <div class="shop_drugs-list-item-right_sfda">国药准字{{drug.sfda}}</div>
                 <div class="shop_drugs-list-item-right_price">&yen;{{drug.price}}</div>
               </div>
             </div>
