@@ -68,18 +68,15 @@
           <!--确认收货-->
         <!--</div>-->
         <div class=""
-             v-if="order.state == 'TO_RECEIVED'"
-             :style="activeButton">
-
-            <div class="order_item-content-button-receiveType-list-item"
-                 @click="$emit('onQrcode', order)">
-              扫码收货
-            </div>
+             v-if="order.state == 'TO_RECEIVED'">
             <div class="order_item-content-button-receiveType-list-item"
                  @click="onConfirm()">
               确认收货
             </div>
-
+            <div class="order_item-content-button-receiveType-list-item"
+                 @click="$emit('onQrcode', order)" :style="activeButton">
+              扫码收货
+            </div>
         </div>
         <div class="order_item-content-button"
           @click="onDelivery()"
@@ -88,8 +85,8 @@
         </div>
         <div class="order_item-content-button"
              @click="onAppraise()"
-             v-if="order.state == 'TO_APPRAISE'">
-          我要评价
+             v-if="order.state == 'TO_APPRAISE'" :style="activeButton">
+          评价
         </div>
       <!--  <div class="order_item-content-button"
              @click="onDetail()">
@@ -236,7 +233,7 @@
             z-index: 9999;
             background: white;
             &-item {
-              border: 1PX solid #F60000;
+              border: 1PX solid #BFBFBF;
               border-radius: 20PX;
               width:150px;
               height: 50px;

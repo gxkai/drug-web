@@ -33,7 +33,7 @@ axios.interceptors.response.use(
           Toast('不好意思，您被踢了');
           break;
         case 400:
-          if (error.response.data.fieldErrors !== undefined) {
+          if (error.response.data.fieldErrors !== undefined && error.response.data.fieldErrors !== null) {
             Toast(error.response.data.fieldErrors[0].message);
           } else {
             Toast(error.response.data.message);

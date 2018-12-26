@@ -7,7 +7,7 @@
         :title="$route.name"
         left-arrow
         @click-left="$router.go(-1)"
-        @click-right="$router.push('/')"
+        @click-right="$router.push('/home')"
         right-text="继续下单"
       />
       <div
