@@ -719,7 +719,8 @@
 
 
 <script>
-  import {getCurrentAddress} from '@/storage';
+  import BMap from 'BMap';
+  import {getCurrentAddress, setCurrentAddress} from '@/storage';
 
   export default {
     name: 'home',
@@ -779,8 +780,17 @@
     },
     created() {
       if (this.currentAddress === undefined) {
-        this.$router.push('/addresses/choose');
-        return;
+        new BMap.Geolocation().getCurrentPosition(async (r) => {
+          console.log(r.point);
+          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.point.lat}&lng=${r.point.lng}&coordType=bd09ll&poi=true`);
+          console.log(data);
+          const position = {
+            name: data.pois[0].name,
+            lat: data.pois[0].location.lat,
+            lng: data.pois[0].location.lng
+          };
+          setCurrentAddress(position);
+        });
       }
       this.initData();
     },
