@@ -202,6 +202,11 @@
 
 </template>
 <style scoped type="text/less" lang="less">
+  .home__content__repository__right__item--title{
+    font-size: 20px;
+    display: inline-block;
+    line-height: 5px;
+  }
   .newdiv {
     width: 720px;
     height: 100%;
@@ -431,7 +436,7 @@
       width: 720px;
       line-height: 68px;
       border-top: 1px solid #f3f3f3;
-
+      position: relative;
       span:first-child {
         display: inline-block;
         margin-top: 20px;
@@ -441,7 +446,10 @@
         }
       }
       span:nth-child(3) {
-        font-size: 26px;
+         line-height: 30px;
+        position: absolute;
+        top: 33px;
+        left:185px;
       }
     }
     &__banner {

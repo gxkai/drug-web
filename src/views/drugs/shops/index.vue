@@ -5,8 +5,9 @@
       position="bottom">
       <div class="drugs-shops-popup">
         <div class="drugs-shops-popup-header">
+
           <div class="drugs-shops-popup-header-left">
-            <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
+            <img v-lazy="getImgURL(drugSpec,'LARGE_LOGO')"/>
           </div>
           <div class="drugs-shops-popup-header-center">
             <div class="elpsTwo">{{drugInfo.name}} {{drugSpec.name}} -{{drugInfo.originName}}</div>
@@ -42,18 +43,32 @@
           left-arrow
           @click-left="$router.go(-1)"
         />
+
       </template>
       <template slot="center">
         <van-swipe :autoplay="3000">
-          <van-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
+          <van-swipe-item v-for="(pic,index) in drugSpecs" :key="index">
+
             <img v-lazy="getImgURL(pic, 'MIDDLE_PIC')"/>
           </van-swipe-item>
+
+
+
+
+       <!-- <van-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
+            <img v-lazy="getImgURL(fileId,'LARGE_PIC')"/>
+          </van-swipe-item>-->
+
+
+
+
+
         </van-swipe>
         <div class="drugs-shops__part-1">
           <div class="drugs-shops__part-1__front">
             <div class="drugs-shops__part-1__front-name">{{drugInfo.name}}</div>
             <div class="drugs-shops__part-1__front-introduce">{{drugInfo.introduce}}</div>
-            <div class="drugs-shops__part-1__front-sfda">国药准字：{{drugInfo.sfda}}</div>
+            <div class="drugs-shops__part-1__front-sfda">国药准字 {{drugSpec}}：{{drugInfo.sfda}}</div>
             <div class="drugs-shops__part-1__front-originName">厂商：{{drugInfo.originName}}</div>
           </div>
           <div class="drugs-shops__part-1__behind">
@@ -424,11 +439,9 @@
       async initData() {
         const data = await this.$http.get('/drugs/' + this.drugId);
         this.drugInfo = data;
-        this.drugSpecs = data.drugSpecs;
+        this.drugSpecs = data.drugSpecs[0]['pics'];
         this.drugSpecs.forEach(e => {
-          if (e.id === this.drugSpecId) {
-            this.drugSpec = e;
-          }
+          this.drugSpec = e;
         });
         this.getShops();
       },
@@ -436,7 +449,6 @@
         const data = await this.$http.get(`/drugs/${this.drugId}/drugSpecs/${this.drugSpec.id}/shops?sort=${this.sort}&lat=${this.currentAddress.lat}&lng=${this.currentAddress.lng}`);
         this.total = data.total;
         this.shops = data.list;
-        console.log(this.shops);
       },
 
       orderById() {

@@ -11,7 +11,7 @@
       </van-nav-bar>
     </template>
     <template slot="center">
-      <div class="repositories-view--title"
+      <div class="repositories-view--title bgwhite"
       >
       <span>
         来源
@@ -28,12 +28,15 @@
         {{dateConvert(info.createdDate)}}
       </span>
       </div>
-      <div class="repositories-view--content" v-html="info.content">
+      <div class="repositories-view--content bgwhite" v-html="info.content">
       </div>
     </template>
   </new-layout>
 </template>
 <style type="text/scss" lang="scss">
+  .bgwhite{
+    background: white!important;
+  }
   .repositories-view {
     &--title {
       padding: 20px;
