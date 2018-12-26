@@ -167,17 +167,13 @@
           loadingType: 'spinner',
           message: '登陆中...'
         });
-        try {
-          const token = await this.$http.post('/accounts/login1', data);
-          setToken(token);
-          const account = await this.$http.get('/accounts');
-          console.log(account);
-          setAccount(account);
-          this.$toast.clear();
-          this.$router.push(`/home`);
-        } catch (e) {
-          this.$toast('登陆失败');
-        }
+        const token = await this.$http.post('/accounts/login1', data);
+        setToken(token);
+        const account = await this.$http.get('/accounts');
+        console.log(account);
+        setAccount(account);
+        this.$toast.clear();
+        this.$router.push(`/home`);
       },
       async register() {
         const userInfo = {

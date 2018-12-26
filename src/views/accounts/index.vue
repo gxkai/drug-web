@@ -526,18 +526,52 @@
         this.signIn = await this.$http.get('pointRecords/signIn/validateDailySignIn');
       },
       async onRead(file) {
-        let param = new FormData();
-        param.append('fileType', 'LOGO');
-        param.append('file', file.file);
-        let config = {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
+        let self = this;
+        let reader = new FileReader();
+        // 将图片转成base64格式
+        reader.readAsDataURL(file.file);
+        // 读取成功后的回调
+        reader.onloadend = function () {
+          let result = this.result;
+          let img = new Image();
+          img.src = result;
+          console.log('********未压缩前的图片大小********');
+          console.log(result.length);
+          img.onload = async function () {
+            let data = self.compress(img);
+            console.log('*******压缩后的图片大小*******');
+            console.log(data);
+            console.log(data.length);
+            let param = new FormData();
+            param.append('fileType', 'LOGO');
+            param.append('file', data);
+            let config = {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              }
+            };
+            let fileId = await self.$http.post('/files/image', param, config);
+            self.account.fileId = fileId;
+            await self.$http.put('/accounts', self.account);
+            setAccount(self.account);
+          };
         };
-        let fileId = await this.$http.post('/files', param, config);
-        this.account.fileId = fileId;
-        await this.$http.put('/accounts', this.account);
-        setAccount(this.account);
+      },
+      // 压缩图片
+      compress(img) {
+        let canvas = document.createElement('canvas');
+        let ctx = canvas.getContext('2d');
+        let width = img.width;
+        let height = img.height;
+        canvas.width = width;
+        canvas.height = height;
+        // 铺底色
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, width, height);
+        // 进行最小压缩
+        let data = canvas.toDataURL('image/jpeg', 0.08);
+        return data;
       }
     }
   };
