@@ -56,17 +56,18 @@
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          font-size:26px;
+          font-size:28px;
           font-family:HiraginoSansGB-W3;
           font-weight:normal;
           color:rgba(0,0,0,1);
+          margin-bottom: 10px;
         }
       }
       &__bottom {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-size:18px;
+        font-size:24px;
         font-family:HiraginoSansGB-W3;
         font-weight:normal;
         color:rgba(102,102,102,1);

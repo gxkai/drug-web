@@ -12,7 +12,7 @@
               <span class="home__banner__search"></span>
               <span>
           <van-icon name="sousuo" color="white" size="0.7rem" class="sousuo"></van-icon>
-              <input type="text" placeholder="输入您当前要搜索的商品" @click="$router.push('/drugs')"/>
+              <input type="text" placeholder="输入您当前要搜索的商品" @click="$router.push('/search')"/>
       </span>
             </div>
           </div>

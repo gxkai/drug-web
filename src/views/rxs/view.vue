@@ -47,7 +47,7 @@
               地址：{{rx.place}}
             </div>
             <div>
-              电话：{{rx.phone}}
+              电话：{{rx.mobilePhone}}
             </div>
           </div>
           <div class="rxs_view-content-list-item">
