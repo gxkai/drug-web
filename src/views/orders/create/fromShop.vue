@@ -164,12 +164,14 @@
   </new-layout>
 </template>
 <script>
+  import {getAccount} from '@/storage';
+
   export default {
     name: 'createFromCart',
     data() {
       return {
         name: '订单结算',
-        account: this.$store.getters.account,
+        account: getAccount(),
         orderShopDrugSpecDTO: JSON.parse(this.$route.query.orderShopDrugSpecDTO),
         shopDrugSpecOrderDTO: {},
         deliveryType: 'DELIVERY',
@@ -221,10 +223,11 @@
         json.orderType = 'SIMPLE';
         try {
           let url = await this.$http.post('/orders/shop', json);
+          console.log(url);
           window.location.href = url;
         } catch (e) {
           this.loading = false;
-          this.$toast('跳转失败');
+          this.$toast('支付地址获取失败');
         }
       },
       onDeliveryType(item) {

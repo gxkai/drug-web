@@ -485,7 +485,7 @@
 </style>
 
 <script>
-  import { setAccount } from '../../storage';
+  import { setAccount, getAccount } from '../../storage';
   import { Toast } from 'vant';
 
   export default {
@@ -502,7 +502,7 @@
           toPayCount: 0,
           toReceivedCount: 0
         },
-        account: this.$store.getters.account,
+        account: getAccount(),
         show: true,
         signIn: false,
         accountInfo: ''
@@ -510,13 +510,12 @@
     },
     created() {
       this.initData();
-      this.accountInfo = this.$store.getters.account;
     },
     mounted() {
     },
     methods: {
       routerToConsume() {
-        if (this.accountInfo.medicaidNumber) {
+        if (this.account.medicaidNumber) {
           this.$router.push('/accounts/insurance/consume');
         } else {
           Toast('请到农商行签约');
@@ -538,7 +537,6 @@
         let fileId = await this.$http.post('/files', param, config);
         this.account.fileId = fileId;
         await this.$http.put('/accounts', this.account);
-        this.$store.commit('SET_ACCOUNT', this.account);
         setAccount(this.accountId);
       }
     }

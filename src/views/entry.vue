@@ -43,10 +43,8 @@
         try {
           const token = await this.$http.post('/accounts/login', this.data);
           setToken(token);
-          this.$store.commit('SET_TOKEN', token);
           const account = await this.$http.get('/accounts');
           setAccount(account);
-          this.$store.commit('SET_ACCOUNT', account);
           this.$toast.clear();
           this.$router.push(`/${this.toPath}`);
         } catch (e) {

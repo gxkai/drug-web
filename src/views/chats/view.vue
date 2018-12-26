@@ -169,14 +169,14 @@
 <script>
   import SockJS from 'sockjs-client';
   import Stomp from 'stompjs';
-  import { getToken } from '../../storage';
+  import { getToken, getAccount } from '../../storage';
 
   export default {
     data() {
       return {
         stompClient: null,
         timer: '',
-        account: this.$store.getters.account,
+        account: getAccount(),
         user: JSON.parse(this.$route.query.user),
         show: false,
         popupSrc: '',

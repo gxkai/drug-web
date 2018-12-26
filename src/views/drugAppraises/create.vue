@@ -122,6 +122,8 @@
   }
 </style>
 <script>
+  import {getAccount} from '@/storage';
+
   export default {
     name: 'myAppraise',
     data() {
@@ -132,7 +134,7 @@
         serviceScore: 5,
         describeScore: 5,
         packageScore: 5,
-        account: this.$store.getters.account,
+        account: getAccount(),
         shopId: '',
         drugs: []
       };
@@ -157,7 +159,7 @@
         this.list.forEach(e => {
           let data = {
             'orderItemId': e.orderItemId,
-            'drugSpecId': e.drugSpecId,
+            'drugId': e.drugId,
             'shopDrugId': e.shopDrugId,
             'score': e.score,
             'content': e.content

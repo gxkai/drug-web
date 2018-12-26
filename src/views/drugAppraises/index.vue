@@ -129,6 +129,8 @@
   }
 </style>
 <script>
+  import {getAccount} from '@/storage';
+
   export default {
     name: 'myAppraise',
     data() {
@@ -138,13 +140,11 @@
         isLoading: false,
         pageNum: 0,
         pageSize: 15,
-        list: []
+        list: [],
+        account: getAccount()
       };
     },
     computed: {
-      account() {
-        return this.$store.getters.account;
-      }
     },
     created() {
     },

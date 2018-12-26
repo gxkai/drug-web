@@ -80,12 +80,14 @@
   }
 </style>
 <script>
+  import {getAccount} from '@/storage';
+
   export default {
     name: 'addresses',
     data() {
       return {
         list: [],
-        account: this.$store.getters.account,
+        account: getAccount(),
         shopId: this.$route.query.shopId,
         address: undefined
       };

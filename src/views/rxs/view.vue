@@ -95,18 +95,18 @@
 </template>
 
 <script>
+  import {getAccount} from '@/storage';
+
   export default {
     data() {
       return {
         rxId: this.$route.query.rxId,
         state: '',
-        rx: []
+        rx: [],
+        account: getAccount()
       };
     },
     computed: {
-      account() {
-        return this.$store.getters.account;
-      }
     },
     created() {
       this.initData();
@@ -117,7 +117,6 @@
       async initData() {
         this.rx = await this.$http.get('/rxs/' + this.rxId);
         console.log(this.rx);
-        alert(555);
       },
       submit() {
         if (this.rx.state === 'ENABLED') {

@@ -147,17 +147,17 @@
   }
 </style>
 <script>
+  import {getAccount} from '@/storage';
+
   export default {
     name: 'myAppraise',
     data() {
       return {
-        list: []
+        list: [],
+        account: getAccount()
       };
     },
     computed: {
-      account() {
-        return this.$store.getters.account;
-      }
     },
     created() {
       this.initData();

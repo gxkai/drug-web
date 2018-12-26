@@ -93,16 +93,16 @@
 
 </style>
 <script>
+  import {getAccount} from '../../storage';
+
   export default {
     data() {
       return {
-        medicaid: ''
+        medicaid: '',
+        account: getAccount()
       };
     },
     computed: {
-      account() {
-        return this.$store.getters.account;
-      }
     },
     created() {
       this.initData();
