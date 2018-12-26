@@ -537,7 +537,7 @@
         let fileId = await this.$http.post('/files', param, config);
         this.account.fileId = fileId;
         await this.$http.put('/accounts', this.account);
-        setAccount(this.accountId);
+        setAccount(this.account);
       }
     }
   };
