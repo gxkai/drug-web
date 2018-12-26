@@ -116,8 +116,6 @@
     methods: {
       async initData() {
         this.rx = await this.$http.get('/rxs/' + this.rxId);
-        console.log(this.rx);
-        alert(555);
       },
       submit() {
         if (this.rx.state === 'ENABLED') {

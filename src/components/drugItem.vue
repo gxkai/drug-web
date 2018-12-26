@@ -8,7 +8,7 @@
       <div class="drug_item-right">
         <div class="drug_item-right-info">
         <div class="drug_item-right-info_name">
-          {{ item.name }}({{item.spec}})
+          {{ item.name }}&nbsp;&nbsp;{{item.spec}}
         </div>
         <div class="drug_item-right-info_sfda">
           国药准字：{{ item.sfda }}
