@@ -9,8 +9,8 @@
           <img src="../assets/image/rxs/hospital.png" class="rx_shop_hospital"/>
        </div>
        <div  class="elps rx_shop_tel">电话：{{item.phone}}</div>
-       <div  class="elps rx_shop_tel">价格：{{item.amount}}</div>
-       <div  class="elps rx_shop_tel">距当前位置：{{item.distance}} {{item.distance | meter }}
+       <div  class="elps rx_shop_tel">价格：¥{{item.amount}}</div>
+       <div  class="elps rx_shop_tel">距当前位置：{{item.distance | meter }}
           <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span>
        </div>
     </div>

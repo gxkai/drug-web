@@ -295,7 +295,6 @@
       },
       async onLoad() {
         this.pageNum++;
-        console.log(this.commonName, this.originId, this.specId, this.formId);
         const params = {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
@@ -311,7 +310,6 @@
         this.isLoading = false;
         this.loading = false;
         this.list = this.list.concat(data.list);
-        console.log(this.list);
         if (data.list.length === 0) {
           this.finished = true;
         }
