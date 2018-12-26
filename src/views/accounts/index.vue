@@ -570,7 +570,7 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0, width, height);
         // 进行最小压缩
-        let data = canvas.toDataURL('image/jpeg', 0.1);
+        let data = canvas.toDataURL('image/jpeg', 0.08);
         return data;
       }
     }
