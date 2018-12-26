@@ -132,7 +132,7 @@
         searchIcon: '药品名',
         sort: 'ID_DESC',
         drugName: '',
-        position: getCurrentAddress
+        position: getCurrentAddress()
       };
     },
     computed: {
