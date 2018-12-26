@@ -224,7 +224,7 @@
             transform: translateY(-50%);
             content: '';
             width: 0;
-            border-top: 10px solid #00ADB3;
+            border-top: 10px solid #F60000;
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
             height: 0;
@@ -236,7 +236,7 @@
             z-index: 9999;
             background: white;
             &-item {
-              border: 1PX solid #00ADB3;
+              border: 1PX solid #F60000;
               border-radius: 20PX;
               width:150px;
               height: 50px;
@@ -261,8 +261,8 @@
       return {
         popupVisible: false,
         activeButton: {
-          color: '#00ADB3',
-          borderColor: '#00ADB3'
+          color: '#F60000',
+          borderColor: '#F60000'
         },
         showData: false
       };

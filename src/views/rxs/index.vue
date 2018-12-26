@@ -201,6 +201,8 @@
   }
 </style>
 <script>
+  import {getAccount} from '@/storage';
+
   export default {
     data() {
       return {
@@ -217,15 +219,11 @@
           backgroundSize: 'cover',
           width: '100%'
         },
-        icon: '\ue64c 请输入诊断搜索'
+        icon: '\ue64c 请输入诊断搜索',
+        account: getAccount()
       };
     },
     computed: {
-      account() {
-        return this.$store.getters['account'] || {
-          fileId: ''
-        };
-      }
     },
     created() {
     },

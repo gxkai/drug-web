@@ -114,6 +114,8 @@
 </template>
 
 <script>
+  import {getAccount} from '@/storage';
+
   export default {
     data() {
       return {
@@ -130,13 +132,11 @@
         amount: 0,
         quantity: 0,
         totalMedicaidPrice: 0,
-        activeNames: ['0']
+        activeNames: ['0'],
+        account: getAccount()
       };
     },
     computed: {
-      account() {
-        return this.$store.getters.account;
-      }
     },
     created() {
       this.getDrugs();

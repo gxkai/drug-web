@@ -53,10 +53,12 @@
 </template>
 
 <script>
+  import {getAccount, setAccount} from '@/storage';
+
   export default {
     data() {
       return {
-        account: this.$store.getters.account,
+        account: getAccount(),
         fromPath: ''
       };
     },
@@ -70,7 +72,7 @@
     methods: {
       async bind() {
         await this.$http.put('/accounts', this.account);
-        this.$store.commit('SET_ACCOUNT', this.account);
+        setAccount(this.account);
         if (this.fromPath.includes('/orders/create')) {
           this.$router.go(-1);
         } else {

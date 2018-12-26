@@ -170,10 +170,9 @@
         try {
           const token = await this.$http.post('/accounts/login1', data);
           setToken(token);
-          this.$store.commit('SET_TOKEN', token);
           const account = await this.$http.get('/accounts');
+          console.log(account);
           setAccount(account);
-          this.$store.commit('SET_ACCOUNT', account);
           this.$toast.clear();
           this.$router.push(`/home`);
         } catch (e) {

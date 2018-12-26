@@ -177,12 +177,14 @@
 
 </template>
 <script>
+  import {getAccount} from '@/storage';
+
   export default {
     name: 'createFromCart',
     data() {
       return {
         name: '订单结算',
-        account: this.$store.getters.account,
+        account: getAccount(),
         cartShop: JSON.parse(this.$route.query.cartShop),
         isRx: this.$route.query.isRx,
         deliveryType: 'DELIVERY',
