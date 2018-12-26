@@ -286,7 +286,7 @@
       },
       async getLocation() {
         if (this.$route.query.location === undefined) {
-          new BMap.Geolocation().getCurrentAddress(async (r) => {
+          new BMap.Geolocation().getCurrentPosition(async (r) => {
             const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
             this.center = data.pois[0].location;
             this.name = data.pois[0].name;
@@ -303,7 +303,7 @@
         }
       },
       getKeyLocation() {
-        new BMap.Geolocation().getCurrentAddress(async (r) => {
+        new BMap.Geolocation().getCurrentPosition(async (r) => {
           const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/places.json?query=${this.key}&lng=${r.longitude}&lat=${r.latitude}`);
           this.keyPositions = data.result;
         });

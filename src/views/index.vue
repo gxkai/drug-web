@@ -1,4 +1,4 @@
-<template>
+﻿﻿<template>
   <new-layout>
     <template slot="center">
       <div class="home">
@@ -9,10 +9,10 @@
          <van-icon name="arrowdown" color="white" size="3em" class="arrow"></van-icon>
       </span>
             <div>
-        <span class="home__banner__search"></span>
-       <span>
+              <span class="home__banner__search"></span>
+              <span>
           <van-icon name="sousuo" color="white" size="0.7rem" class="sousuo"></van-icon>
-              <input type="text" placeholder="输入您当前要搜索的商品" @click="$router.push('/search')"/>
+              <input type="text" placeholder="输入您当前要搜索的商品" @click="$router.push('/drugs')"/>
       </span>
             </div>
           </div>
@@ -68,7 +68,7 @@
         <div class="home__rush">
           <div class="home__rush__div">
             <ul class="home__rush__div__ul">
-               <div class="newdiv">
+              <div class="newdiv">
                 <div class="warp">
                   <div class="item" v-for="discount in discounts"
                        :key="discount.id" @click="linkToShopDrugSpec(discount.shopDrugId)">
@@ -420,7 +420,7 @@
       text-align: center;
       top: 145px;
       position: absolute;
-      left: 20px;
+      left: 40px;
     }
     &__news {
       height: 68px;
@@ -551,8 +551,8 @@
               position: relative;
               top: -30px;
               .van-icon-xinxinicon {
-                left: 35px;
-                top: -1.4rem;
+                left: 75px;
+                top: -1.2rem;
               }
               .price {
                 position: absolute;
@@ -562,7 +562,7 @@
                 display: inline-block;
                 z-index: 99;
                 font-size: 20px;
-                left: 50px;
+                left: 130px;
               }
               .value {
                 position: absolute;
@@ -570,9 +570,9 @@
                 width: 50px;
                 display: inline-block;
                 z-index: 99;
-                top: -140px;
+                top: -125px;
                 font-size: 19px;
-                left: 90px;
+                left: 130px;
               }
             }
 
@@ -719,8 +719,8 @@
 
 
 <script>
-  import {Carousel3d, Slide} from 'vue-carousel-3d';
-  import {getCurrentAddress} from '@/storage';
+  import BMap from 'BMap';
+  import {getCurrentAddress, setCurrentAddress} from '@/storage';
 
   export default {
     name: 'home',
@@ -763,10 +763,6 @@
         currentAddress: getCurrentAddress()
       };
     },
-    components: {
-      Carousel3d,
-      Slide
-    },
     computed: {
       text() {
         if (this.repositories.length > 0) {
@@ -784,8 +780,17 @@
     },
     created() {
       if (this.currentAddress === undefined) {
-        this.$router.push('/addresses/choose');
-        return;
+        new BMap.Geolocation().getCurrentPosition(async (r) => {
+          console.log(r.point);
+          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.point.lat}&lng=${r.point.lng}&coordType=bd09ll&poi=true`);
+          console.log(data);
+          const position = {
+            name: data.pois[0].name,
+            lat: data.pois[0].location.lat,
+            lng: data.pois[0].location.lng
+          };
+          setCurrentAddress(position);
+        });
       }
       this.initData();
     },
