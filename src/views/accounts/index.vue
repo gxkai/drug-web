@@ -540,17 +540,22 @@
           img.onload = async function () {
             let data = self.compress(img);
             console.log('*******压缩后的图片大小*******');
-            console.log(data);
             console.log(data.length);
+            let blob = new File([self.dataURItoBlob(data)], file.file.name);
+            console.log('*******base64转blob对象******');
+            console.log(file.file);
+            console.log(blob);
             let param = new FormData();
             param.append('fileType', 'LOGO');
-            param.append('file', data);
+            param.append('file', blob);
             let config = {
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
               }
             };
-            let fileId = await self.$http.post('/files/image', param, config);
+            let fileId = await self.$http.post('/files', param, config);
+            console.log('*******图片上传成功******');
+            console.log(fileId);
             self.account.fileId = fileId;
             await self.$http.put('/accounts', self.account);
             setAccount(self.account);
@@ -572,6 +577,16 @@
         // 进行最小压缩
         let data = canvas.toDataURL('image/jpeg', 0.08);
         return data;
+      },
+      // base64转成bolb对象
+      dataURItoBlob(base64Data) {
+        var bytes = window.atob(base64Data.split(',')[1]);
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+          ia[i] = bytes.charCodeAt(i);
+        }
+        return new Blob([ab], { type: 'image/png' });
       }
     }
   };
