@@ -16,7 +16,7 @@
           <div>
             <van-icon name="wo" color="white" size="3em"></van-icon>
             <span class="ml-l-20">{{account.name || '无'}}</span>
-            <span class="ml-l-50">{{getGender()|| '未填写'}}</span>
+            <span class="ml-l-50">{{getGender(account.gender)|| '未填写'}}</span>
             <span class="ml-l-40">{{account.age + '岁'|| '未填写'}}</span>
           </div>
           <div class="mt-l-20">
@@ -222,7 +222,7 @@
     },
     computed: {
       account() {
-        return this.$store.getters.account || {
+        return this.$store.getters['account'] || {
           fileId: ''
         };
       }

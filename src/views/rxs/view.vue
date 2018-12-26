@@ -64,7 +64,7 @@
             <div v-for="(item,index) in rx.list" :key="index"
                  class="rxs_view-content-rp-content-item">
               <div>
-                {{index}}、{{item.name}} {{item.spec}} {{item.quantity}}件
+                {{index+1}}、{{item.name}} {{item.spec}} {{item.quantity}}件
             <!--    <span
                   v-if="item.state ==='ENABLED'"
                   class="to_use">
@@ -117,6 +117,7 @@
       async initData() {
         this.rx = await this.$http.get('/rxs/' + this.rxId);
         console.log(this.rx);
+        alert(555);
       },
       submit() {
         if (this.rx.state === 'ENABLED') {

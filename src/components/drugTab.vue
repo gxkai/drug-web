@@ -36,7 +36,7 @@
     &-bar {
       width: 66px;
       height: 6px;
-      background: rgba(19, 193, 254, 1);
+      background: #F5453E;
     }
   }
 </style>

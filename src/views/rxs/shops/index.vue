@@ -59,7 +59,7 @@
         </div>
         <div class="shops-filter-item" @click="orderByDistance()">
           <div class="shops-filter-item-text">
-            调剂中最近
+            距离最近
           </div>
           <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
@@ -159,7 +159,7 @@
         this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
       },
       async getHospital() {
-        this.hospital = await this.$http.get(`/rxs/${this.rxId}/hospital`);
+        this.hospital = await this.$http.get(`/rxs/${this.rxId}/hospital?lng=${this.position.lng}&lat=${this.position.lat}`);
       },
       orderById() {
         this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);

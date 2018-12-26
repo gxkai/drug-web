@@ -418,9 +418,13 @@
       margin: auto;
       width: 140px;
       text-align: center;
-      top: 145px;
+      top: 125px;
       position: absolute;
-      left: 40px;
+      left: 30px;
+      display: block;
+      height: 50px;
+      white-space:normal;
+      line-height: 25px;
     }
     &__news {
       height: 68px;
@@ -551,8 +555,8 @@
               position: relative;
               top: -30px;
               .van-icon-xinxinicon {
-                left: 75px;
-                top: -1.2rem;
+                left: 35px;
+                top: -1.5rem;
               }
               .price {
                 position: absolute;
@@ -562,7 +566,7 @@
                 display: inline-block;
                 z-index: 99;
                 font-size: 20px;
-                left: 130px;
+                left: 110px;
               }
               .value {
                 position: absolute;
@@ -570,9 +574,9 @@
                 width: 50px;
                 display: inline-block;
                 z-index: 99;
-                top: -125px;
+                top: -145px;
                 font-size: 19px;
-                left: 130px;
+                left: 90px;
               }
             }
 
