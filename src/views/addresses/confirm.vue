@@ -36,7 +36,7 @@
               <van-icon name="location" size="3em" color="#098AFF"></van-icon>
             </div>
             <div class="address-confirm--nearby--content--item__right">
-              <div class="address-confirm--nearby--content--item__right--first" style="color:#F5453E;">
+              <div class="address-confirm--nearby--content--item__right--first">
                 {{name}}
               </div>
             </div>
@@ -50,7 +50,7 @@
               <van-icon name="radiobox" size="2em"></van-icon>
             </div>
             <div class="address-confirm--nearby--content--item__right">
-              <div class="address-confirm--nearby--content--item__right--first" style="color:#F5453E;">
+              <div class="address-confirm--nearby--content--item__right--first" style="color:rgb(88, 88, 88);">
                 {{nearbyPosition.name}}
               </div>
             </div>
@@ -100,6 +100,9 @@
           display: flex;
           align-items: center;
           padding: 20px 20px;
+          width: 700px;
+          margin: auto;
+          border-bottom: 1px solid #f5f5f5;
           &__left {
             padding: 0 20px;
           }
@@ -108,7 +111,6 @@
             &--first {
               font-size: 27px;
               font-family: MicrosoftYaHei;
-              font-weight: bold;
               text-overflow: ellipsis;
               overflow: hidden;
               white-space: nowrap;

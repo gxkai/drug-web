@@ -7,16 +7,10 @@
       <span class="searchBtn" @click="$router.push('/drugs?keyword='+drugName)">搜索</span>
     </header>
     <div class="searchDiv">
-      <!--<span class="hot">热门</span>
-    <span class="fz24">感冒止粒</span>
-     <span class="fz24">感冒止咳颗粒</span>
-     <span class="fz24">感冒止咳颗粒</span>
-     <span class="fz24">感冒止咳颗粒</span>
-     <span class="fz24">感冒止咳颗粒</span>-->
-
+     <span class="hot">热门</span>
+    <span class="fz24" v-for="item in drugInfo"  @click="$router.push('/drugs?keyword='+item)">{{item}}</span>
     </div>
   </div>
-
 </template>
 <style scoped type="text/less" lang="less">
   header {
@@ -61,7 +55,7 @@
     display: inline-block;
     margin-top: 27px;
     line-height: 69px;
-    margin-left: 7px;
+    margin-left: 27px;
   }
 
   .fz24 {
@@ -97,7 +91,6 @@
       async initData() {
         const data = await this.$http.get('/drugs/keywords');
         this.drugInfo = data;
-        debugger;
       }
     }
   };
