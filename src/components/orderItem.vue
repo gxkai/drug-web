@@ -306,8 +306,8 @@
       onDetail() {
         this.$router.push({ path: '/orders/view', query: { orderId: this.order.id } });
       },
-      onPay() {
-        window.location.href = this.order.payUrl;
+      async onPay() {
+        window.location.href = this.order.payUrl === null ? await this.$http.get(`/orders/${this.order.id}/pay`) : this.order.payUrl;
       },
       onRefund() {
         this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });
