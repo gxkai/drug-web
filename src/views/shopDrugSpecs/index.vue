@@ -438,16 +438,15 @@
           padding: 30px 0;
           &-button {
             width: 450px;
-            height: 50px;
+            height: 70px;
+            line-height: 70px;
             background-color: #F60000;
             border-radius: 25px;
             margin: 0 auto;
             font-size: 24px;
-            font-family: HiraginoSansGB-W3;
             font-weight: normal;
             color: #FFFFFF;
             text-align: center;
-            line-height: 50px;
           }
         }
       }

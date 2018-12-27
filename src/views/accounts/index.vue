@@ -7,7 +7,7 @@
             <div class="account--name">{{ account.name }}</div>
             <div class="logo-bg">
               <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo" v-if="headPic"/>
-              <img src="/assets/image/accounts/defaultPic.png" class="account-header-logo" v-if="picDefault"/>
+              <img src="../../assets/image/accounts/defaultPic.png" class="account-header-logo" v-if="picDefault"/>
             </div>
           </van-uploader>
 
@@ -29,7 +29,7 @@
                   <span>全部订单</span>
                 </div>
                 <div class="right__my-order">
-                  <span>我的订单的</span>
+                  <span>我的订单</span>
                   <van-icon name="youjiantou" />
                 </div>
               </router-link>
@@ -497,6 +497,9 @@
         if (this.account.fileId) {
           this.headPic = true;
           this.picDefault = false;
+        } else {
+          this.headPic = false;
+          this.picDefault = true;
         };
         this.signIn = await this.$http.get('pointRecords/signIn/validateDailySignIn');
       },

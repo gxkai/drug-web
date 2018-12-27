@@ -8,9 +8,14 @@
       />
       <div class="rxs--header"  :style="note">
         <div class="rxs--header__left">
-          <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"
-               class="rxs--header__left--logo"
-          />
+        <!--  <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"
+               class="rxs&#45;&#45;header__left&#45;&#45;logo"
+          />-->
+
+          <!--<img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="rxs&#45;&#45;header__left&#45;&#45;logo" v-if="headPic"/>-->
+          <img src="../../assets/image/accounts/defaultPic.png" class="rxs--header__left--logo" v-if="picDefault"/>
+
+
         </div>
         <div class="rxs--header__right">
           <div>
@@ -76,8 +81,9 @@
                 <new-count-down :endTime="item.rxDate" durationDay="3"></new-count-down>
               </div>
             </div>
-            <new-no-data v-show="finished === true"></new-no-data>
+
           </van-list>
+          <new-no-data v-show="finished === true"></new-no-data>
         </van-pull-refresh>
       </div>
     </template>
@@ -109,11 +115,14 @@
   .van-tabbar-item--active{
     color: #F60032!important;
   }
+  .no-data{
+    margin-top: 50px!important;
+  }
   /deep/.van-nav-bar:after {
     border-bottom: none!important;
   }
   /deep/.van-pull-refresh{
-    margin-top: 100px!important;
+    margin-top: 10px!important;
   }
 </style>
 <style scoped type="text/scss" lang="scss">
@@ -210,6 +219,8 @@
   export default {
     data() {
       return {
+        headPic: false,
+        picDefault: true,
         keyword: '',
         loading: false,
         finished: false,
@@ -230,6 +241,13 @@
     computed: {
     },
     created() {
+      if (this.account.fileId) {
+        this.headPic = true;
+        this.picDefault = false;
+      } else {
+        this.headPic = false;
+        this.picDefault = true;
+      }
     },
     mounted() {
     },
