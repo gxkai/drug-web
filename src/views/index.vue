@@ -865,7 +865,7 @@
         // 让利惠民
         this.discounts = await this.$http.get('/drugs/discount');
         // 医保定点
-        this.shows = await this.$http.get('/shops/show');
+        // this.shows = await this.$http.get('/shops/show');
         // 广告
         this.adverts = await this.$http.get('/adverts');
         // 好货推荐
