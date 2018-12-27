@@ -36,6 +36,7 @@
       }
     }
   }
+
 </style>
 <script>
   export default {
@@ -54,6 +55,7 @@
         };
         await this.$http.post('/feedbacks', params);
         this.$toast.success('成功');
+        this.$router.push('/accounts');
       }
     }
   };

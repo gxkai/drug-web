@@ -10,6 +10,7 @@
             <img v-lazy="getImgURL(drugSpec,'LARGE_LOGO')"/>
           </div>
           <div class="drugs-shops-popup-header-center">
+            <div class="elpsTwo">{{drugInfo.introduce}}</div>
             <div class="elpsTwo">{{drugInfo.name}} {{drugSpec.name}} -{{drugInfo.originName}}</div>
             <div style="color: #F60000">{{drugInfo.sfda}}</div>
           </div>
@@ -91,9 +92,9 @@
           <div class="drugs-shops__part-3__item"
                @click="orderById">
             <div class="drugs-shops__part-3__item__name">
-              综合
+              默认
             </div>
-            <div class="drugs-shops__part-3__item__arrow">
+           <div class="drugs-shops__part-3__item__arrow">
               <div class="drugs-shops__part-3__item__arrow-up"
                    :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>
               <div class="drugs-shops__part-3__item__arrow-down"
@@ -107,7 +108,7 @@
             </div>
             <div class="drugs-shops__part-3__item__arrow">
               <div class="drugs-shops__part-3__item__arrow-up"
-                   :style="{borderBottomColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>
+                   :style="{borderBottomColor: sort === 'DISTANCE_ASC'?'#F60000':'gray'}"></div>
               <div class="drugs-shops__part-3__item__arrow-down"
                    :style="{borderTopColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>
             </div>
@@ -242,7 +243,6 @@
         height: 250px;
         left: 30px;
         border: 1PX solid #F60000;
-        border-bottom: none;
         z-index: 1;
         padding: 20px;
         &-name {
@@ -283,7 +283,6 @@
         left: 20px;
         top: 40px;
         border: 1PX solid #F60000;
-        border-bottom: none;
         z-index: 0;
       }
     }
@@ -456,7 +455,11 @@
         this.getShops();
       },
       orderByDistance() {
-        this.sort = 'DISTANCE';
+        if (this.sort === 'DISTANCE') {
+          this.sort = 'DISTANCE_ASC';
+        } else {
+          this.sort = 'DISTANCE';
+        }
         this.getShops();
       },
       orderByPrice() {

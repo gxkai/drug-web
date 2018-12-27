@@ -174,6 +174,7 @@
         }
       },
       orderByScore() {
+        this.$toast('加载中');
         if (this.sort === 'SCORE_DESC') {
           this.sort = 'SCORE_ASC';
           this.rxShops = this.rxShops.sort((a, b) => a.score - b.score);
@@ -181,6 +182,7 @@
           this.sort = 'SCORE_DESC';
           this.rxShops = this.rxShops.sort((a, b) => b.score - a.score);
         }
+        this.$toast.clear();
       },
       orderByPrice() {
         if (this.sort === 'PRICE_DESC') {

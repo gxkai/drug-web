@@ -22,7 +22,7 @@ export default {
     Vue.component('new-order-item', () => import('./orderItem'));
     // 订单详情标签
     Vue.component('new-order-view-item', () => import('./orderViewItem'));
-    // 药店预结算标签
+    // 药房预结算标签
     Vue.component('new-close-shop', () => import('./closeShop'));
     // 让利惠民倒计时组件
     Vue.component('new-time-down', () => import('./timeDown'));
@@ -36,7 +36,7 @@ export default {
     Vue.component('new-coupon-item', () => import('./couponItem'));
     // 优惠券详情标签
     Vue.component('new-coupon-record-item', () => import('./couponRecordItem'));
-    // 处方药店标签
+    // 处方药房标签
     Vue.component('new-rx-shop-item', () => import('./rxShopItem'));
     // 处方医院标签
     Vue.component('new-rx-hospital-item', () => import('./rxHospitalItem'));

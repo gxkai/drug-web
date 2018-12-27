@@ -122,7 +122,7 @@ const rxRouter = [
   },
   {
     path: '/rxs/shops',
-    name: '处方药店列表',
+    name: '处方药房列表',
     component: () => import('@/views/rxs/shops/index.vue')
   },
   {
@@ -251,7 +251,7 @@ const orderRouter = [
   },
   {
     path: '/orders/create/fromShop',
-    name: '药店结算',
+    name: '订单结算',
     component: () => import('@/views/orders/create/fromShop.vue')
   },
   {
@@ -274,7 +274,7 @@ const orderRouter = [
 const shopRouter = [
   {
     path: '/shops/view',
-    name: '药店详情',
+    name: '药房详情',
     component: () => import('@/views/shops/view.vue')
   },
   {
@@ -285,12 +285,12 @@ const shopRouter = [
   {
     path: '/shops',
     alias: '/shops/index',
-    name: '药店列表',
+    name: '药房列表',
     component: () => import('@/views/shops/index.vue')
   },
   {
     path: '/shops/drugs',
-    name: '药店药品列表',
+    name: '药房药品列表',
     component: () => import('@/views/shops/drugs/index.vue')
   }
 ];
@@ -303,7 +303,7 @@ const drugRouter = [
   },
   {
     path: '/drugs/shops',
-    name: '药品药店',
+    name: '药品药房',
     component: () => import('@/views/drugs/shops/index.vue')
   }
 ];

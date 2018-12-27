@@ -6,7 +6,8 @@
           <van-uploader :after-read="onRead">
             <div class="account--name">{{ account.name }}</div>
             <div class="logo-bg">
-              <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"/>
+              <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo" v-if="headPic"/>
+              <img src="../../assets/image/accounts/defaultPic.png" class="account-header-logo" v-if="picDefault"/>
             </div>
           </van-uploader>
 
@@ -179,38 +180,6 @@
                 </router-link>
               </li>
             </ul>
-            <!--<router-link-->
-            <!--class="account&#45;&#45;grid&#45;&#45;item"-->
-            <!--tag="div"-->
-            <!--to="/orders"-->
-            <!--&gt;-->
-            <!--<van-icon name="dingdan"></van-icon>-->
-            <!--<div>我的订单</div>-->
-            <!--</router-link>-->
-            <!--<router-link-->
-            <!--class="account&#45;&#45;grid&#45;&#45;item"-->
-            <!--to="/chats"-->
-            <!--&gt;-->
-            <!--<van-icon name="kefu-tianchong"></van-icon>-->
-            <!--<div>我的咨询</div>-->
-            <!--</router-link>-->
-            <!--<router-link-->
-            <!--class="account&#45;&#45;grid&#45;&#45;item"-->
-            <!--tag="div"-->
-            <!--to="/accounts/insurance"-->
-            <!--&gt;-->
-            <!--<van-icon name="yibao-" color="#ff8400"></van-icon>-->
-            <!--<div>我的医保</div>-->
-            <!--</router-link>-->
-
-
-            <!--<router-link-->
-            <!--class="account&#45;&#45;grid&#45;&#45;item"-->
-            <!--to="/points"-->
-            <!--&gt;-->
-            <!--<van-icon name="jifen1"></van-icon>-->
-            <!--<div>我的积分</div>-->
-            <!--</router-link>-->
           </div>
         </div>
       </template>
@@ -491,6 +460,8 @@
   export default {
     data() {
       return {
+        headPic: false,
+        picDefault: true,
         headerBg: {
           background: 'url(' + require('../../../src/assets/image/accounts/banner.jpg') + ')',
           backgroundRepeat: 'no-repeat',
@@ -523,6 +494,13 @@
       },
       async initData() {
         this.count = await this.$http.get('/orders/count');
+        if (this.account.fileId) {
+          this.headPic = true;
+          this.picDefault = false;
+        } else {
+          this.headPic = false;
+          this.picDefault = true;
+        };
         this.signIn = await this.$http.get('pointRecords/signIn/validateDailySignIn');
       },
       async onRead(file) {

@@ -316,7 +316,7 @@
   }
 
   .home__banner__address {
-    height: 22px;
+    height: 50px;
     margin-left: 13px;
   }
 
@@ -464,7 +464,7 @@
       }
       &__address {
         width: 200px;
-        height: 21px;
+        height: 25px;
         font-size: 22px;
         display: inline-block;
         float: left;
@@ -474,6 +474,9 @@
         font-size: 22px;
         font-weight: normal;
         color: rgba(255, 255, 255, 1);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
       &__search {
         width: 500px;
@@ -718,7 +721,13 @@
     width: 160px;
     display: inline-block;
     position: absolute;
-    top: 10px;
+    height: 30px;
+    line-height:30px;
+    z-index: 9999;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .van-icon-arrowdown {

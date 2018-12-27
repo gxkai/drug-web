@@ -549,7 +549,7 @@
         return cartIds;
       },
       /**
-       * 获取已选药店购物车ID
+       * 获取已选药房购物车ID
        */
       getShopCartIds(cartShop) {
         let cartIds = [];

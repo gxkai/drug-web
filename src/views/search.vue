@@ -25,9 +25,13 @@
       margin-right: 20px;
       margin-left: 20px;
       font-size: 30px;
+      vertical-align: center;
+      position: absolute;
+      top: 55px;
+      left: 0px;
     }
     input {
-      height: 65px;
+      height: 80px;
       width: 556px;
       background: rgba(255, 255, 255, 0.18);
       border: 1px solid rgba(220, 220, 220, 1);
@@ -36,6 +40,7 @@
       margin-top: 30px;
       margin-right: 5px;
       text-indent: 30px;
+      margin-left: 80px;
     }
   }
 
@@ -78,15 +83,22 @@
 
 <script>
   export default {
-    name: 'search',
     data() {
       return {
-        drugName: ''
-      }
+        drugInfo: []
+      };
     },
     created() {
-
+      this.initData();
     },
-    methods: {}
+    mounted() {
+    },
+    methods: {
+      async initData() {
+        const data = await this.$http.get('/drugs/keywords');
+        this.drugInfo = data;
+        debugger;
+      }
+    }
   };
 </script>
