@@ -27,7 +27,7 @@
       font-size: 30px;
       vertical-align: center;
       position: absolute;
-      top:55px;
+      top: 55px;
       left: 0px;
     }
     input {
@@ -82,5 +82,23 @@
 
 
 <script>
-
+  export default {
+    data() {
+      return {
+        drugInfo: []
+      };
+    },
+    created() {
+      this.initData();
+    },
+    mounted() {
+    },
+    methods: {
+      async initData() {
+        const data = await this.$http.get('/drugs/keywords');
+        this.drugInfo = data;
+        debugger;
+      }
+    }
+  };
 </script>
