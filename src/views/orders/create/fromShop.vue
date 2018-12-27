@@ -20,7 +20,7 @@
             <span :class="{active:deliveryType=='DELIVERY'}"
                   @click.stop="onDeliveryType('DELIVERY')"
                   v-if="shopDrugSpecOrderDTO.distribution === true">
-            送货
+            药房配送
             </span>
             <span :class="{active:deliveryType=='SELF'}"
                   @click.stop="onDeliveryType('SELF')">上门自提</span>

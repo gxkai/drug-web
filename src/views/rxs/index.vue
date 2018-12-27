@@ -112,6 +112,9 @@
   /deep/.van-nav-bar:after {
     border-bottom: none!important;
   }
+  /deep/.van-pull-refresh{
+    margin-top: 100px!important;
+  }
 </style>
 <style scoped type="text/scss" lang="scss">
   .rxs {
@@ -160,7 +163,7 @@
     }
     &--search {
       width: 680px;
-      height: 50px;
+      height: 80px;
       margin: 0 20px;
       margin-top: 50px;
       background-color: white;
@@ -173,6 +176,7 @@
       -webkit-appearance: none;
       padding: 0 40px;
       font-size: 30px;
+      border-radius: 10px;
       &::placeholder {
         text-align: center;
       }

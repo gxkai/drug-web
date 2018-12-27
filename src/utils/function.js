@@ -269,14 +269,14 @@ export default {
       router.push({ path: '/rxs/view', query: { rxId: str } });
     };
     /**
-     * 跳转到药店药品规格页
+     * 跳转到药房药品规格页
      * @param str
      */
     Vue.prototype.linkToShopDrugSpec = (str) => {
       router.push({ path: '/shopDrugSpecs', query: { shopDrugId: str } });
     };
     /**
-     * 跳转到药店详情页
+     * 跳转到药房详情页
      * @param str
      */
     Vue.prototype.linkToShopView = (str) => {
@@ -301,7 +301,7 @@ export default {
       router.push('/qrCode');
     };
     /**
-     * 跳转到处方药店药品页
+     * 跳转到处方药房药品页
      * @param rxId
      * @param shopId
      * @param name
@@ -327,7 +327,7 @@ export default {
     };
 
     /**
-     * 跳转到药品药店页面
+     * 跳转到药品药房页面
      * @param drugSpecId
      * @param drugId
      */
@@ -336,7 +336,7 @@ export default {
     };
 
     /**
-     * 跳转到药店详情页面
+     * 跳转到药房详情页面
      * @param shopId
      */
     Vue.prototype.linkToShopInfo = (shopId) => {
@@ -344,7 +344,7 @@ export default {
     };
 
     /**
-     * 跳转到药店药品页面
+     * 跳转到药房药品页面
      * @param shopId
      */
     Vue.prototype.linkToShopDrugs = (shopId, typeId) => {

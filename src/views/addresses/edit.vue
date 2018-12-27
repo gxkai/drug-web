@@ -27,7 +27,7 @@
           disabled/>
         <van-field
           v-model="address.address"
-          label="地址"
+          label="定位"
           type="text"
           placeholder="选择收货地址"
           @click="setPosition()"

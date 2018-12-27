@@ -117,7 +117,7 @@
         &--address {
           font-size: 25px;
           font-family: MicrosoftYaHei;
-          font-weight: bold;
+          font-weight:500;
           color: rgba(0, 0, 0, 1);
         }
         &__contact {
@@ -272,11 +272,13 @@
       },
       async resetLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
+          this.$toast.loading();
           console.log(r.point);
           const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.point.lat}&lng=${r.point.lng}&coordType=bd09ll&poi=true`);
           this.center = data.pois[0].location;
           this.name = data.pois[0].name;
           this.nearbyAddresses = data.pois;
+          this.$toast.clear();
         });
       }
     }

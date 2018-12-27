@@ -5,7 +5,7 @@
       <div class="collect_tab-bar" v-show="state === 0"></div>
     </div>
     <div :class="{active:state == 1}" @click.stop="$emit('update:state',1);">
-      <p class="text-l-30">药店</p>
+      <p class="text-l-30">药房</p>
       <div class="collect_tab-bar" v-show="state === 1"></div>
     </div>
   </div>
