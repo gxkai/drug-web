@@ -248,16 +248,11 @@
         }
         json.payType = this.payType;
         json.isMedicarePay = this.isMedicarePay;
-        json.isRx = this.isRx;
-        json.payOrigin = 'APP';
-        this.loading = true;
-        try {
-          let url = await this.$http.post('/orders', json);
-          window.location.href = url;
-        } catch (e) {
-          this.loading = false;
-          this.$toast.fail('支付失败');
-        }
+        json.orderType = this.isRx === true ? 'RX' : 'SIMPLE';
+        json.origin = 'APP';
+        let order = await this.$http.post('/orders', json);
+        let url = await this.$http.post(`/orders/${order.id}/pay`);
+        window.location.href = url;
       },
       onDeliveryType(item) {
         this.deliveryType = item;

@@ -220,15 +220,11 @@
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
         json.isMedicarePay = this.isMedicarePay;
-        json.orderType = 'SIMPLE';
-        try {
-          let url = await this.$http.post('/orders/shop', json);
-          console.log(url);
-          window.location.href = url;
-        } catch (e) {
-          this.loading = false;
-          this.$toast('支付地址获取失败');
-        }
+        json.orderType = this.orderShopDrugSpecDTO.rxId === null ? 'SIMPLE' : 'RX';
+        json.origin = 'APP';
+        let order = await this.$http.post('/orders/shop', json);
+        let url = await this.$http.post(`/orders/${order.id}/pay`);
+        window.location.href = url;
       },
       onDeliveryType(item) {
         this.deliveryType = item;
