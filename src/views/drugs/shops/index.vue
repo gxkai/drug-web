@@ -456,7 +456,7 @@
       },
       orderByDistance() {
         if (this.sort === 'DISTANCE') {
-          this.sort = 'DISTANCE_ASC';
+          this.sort = 'SYNTHESIZE';
         } else {
           this.sort = 'DISTANCE';
         }
