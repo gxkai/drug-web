@@ -54,8 +54,7 @@
           'content': this.content
         };
         await this.$http.post('/feedbacks', params);
-        this.$toast.success('成功');
-        this.$router.push('/accounts');
+        this.$toast('成功');
       }
     }
   };
