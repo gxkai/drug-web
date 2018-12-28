@@ -1,52 +1,53 @@
 ﻿﻿<template>
-  <new-layout>
-    <template slot="center">
-      <div class="home">
-        <div class="home__banner">
-          <div class="home__banner__top">
+  <div>
+    <new-layout>
+      <template slot="center">
+        <div class="home">
+          <div class="home__banner">
+            <div class="home__banner__top">
       <span class="home__banner__address">
-         <i class="fz22 home__banner__address_i" @click="$router.push('/addresses/choose')"> {{currentAddress.name}}</i>
+         <i class="fz22 home__banner__address_i" @click="$router.push('/addresses/choose')"> </i>
          <van-icon name="arrowdown" color="white" size="3em" class="arrow"></van-icon>
       </span>
-            <div>
-              <span class="home__banner__search"></span>
-              <span>
+              <div>
+                <span class="home__banner__search"></span>
+                <span>
           <van-icon name="sousuo" color="white" size="0.7rem" class="sousuo"></van-icon>
               <input type="text" placeholder="输入您当前要搜索的商品" @click="$router.push('/search')"/>
       </span>
+              </div>
+            </div>
+            <div class="banner_img">
+              <img src="../assets/image/home/home_banner.jpg"/>
             </div>
           </div>
-          <div class="banner_img">
-            <img src="../assets/image/home/home_banner.jpg"/>
+
+
+          <div class="home__four">
+            <ul class="home__four__ul">
+              <li class="home__four__ul__li" @click="$router.push('/rxs')">
+                <span><img src="../assets/image/home/home_cf.png"/> </span>
+                <span class="home__four__ul__li__span">我的处方</span>
+              </li>
+              <li class="home__four__ul__li" @click="$router.push('/accounts/info')">
+                <span><img src="../assets/image/home/home_yb.png"/> </span>
+                <span class="home__four__ul__li__span">我的医保</span>
+              </li>
+              <li class="home__four__ul__li" @click="$router.push('/repositoryTypes')">
+                <span><img src="../assets/image/home/home_knew.png"/> </span>
+                <span class="home__four__ul__li__span">知识库</span>
+              </li>
+              <li class="home__four__ul__li" @click="$router.push('/shops')">
+                <span><img src="../assets/image/home/home_drug.png"/> </span>
+                <span class="home__four__ul__li__span">药房</span>
+              </li>
+            </ul>
           </div>
-        </div>
 
-
-        <div class="home__four">
-          <ul class="home__four__ul">
-            <li class="home__four__ul__li" @click="$router.push('/rxs')">
-              <span><img src="../assets/image/home/home_cf.png"/> </span>
-              <span class="home__four__ul__li__span">我的处方</span>
-            </li>
-            <li class="home__four__ul__li" @click="$router.push('/accounts/info')">
-              <span><img src="../assets/image/home/home_yb.png"/> </span>
-              <span class="home__four__ul__li__span">我的医保</span>
-            </li>
-            <li class="home__four__ul__li" @click="$router.push('/repositoryTypes')">
-              <span><img src="../assets/image/home/home_knew.png"/> </span>
-              <span class="home__four__ul__li__span">知识库</span>
-            </li>
-            <li class="home__four__ul__li" @click="$router.push('/shops')">
-              <span><img src="../assets/image/home/home_drug.png"/> </span>
-              <span class="home__four__ul__li__span">药房</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="home__news">
-          <span><img src="../assets/image/home/home_hot.png" class="home__news__img"/> </span>
-          <span><van-icon name="laba" color="#F63016" size="3em"></van-icon></span>
-          <span>
+          <div class="home__news">
+            <span><img src="../assets/image/home/home_hot.png" class="home__news__img"/> </span>
+            <span><van-icon name="laba" color="#F63016" size="3em"></van-icon></span>
+            <span>
           <transition name="slide" mode="out-in">
            <p class="home__content__repository__right__item--title"
               :key="text.id"
@@ -55,151 +56,158 @@
          </transition>
 
      </span>
-        </div>
-        <div class="home__content__discount">
-          <div class="home__content__discounttime">
-            <span class="text-F6003F">限时</span><span class="text-262626">抢购</span>
-            <van-icon name="shizhong" color="#F63016" size="2.3em" class="timecount"></van-icon>
-            <new-time-down class="home__content__discount&#45;&#45;time&#45;&#45;down"></new-time-down>
-            <span class="home__more" style="display: none;">更多</span>
           </div>
-        </div>
+          <div class="home__content__discount">
+            <div class="home__content__discounttime">
+              <span class="text-F6003F">限时</span><span class="text-262626">抢购</span>
+              <van-icon name="shizhong" color="#F63016" size="2.3em" class="timecount"></van-icon>
+              <new-time-down class="home__content__discount&#45;&#45;time&#45;&#45;down"></new-time-down>
+              <span class="home__more" style="display: none;">更多</span>
+            </div>
+          </div>
 
-        <div class="home__rush">
-          <div class="home__rush__div">
-            <ul class="home__rush__div__ul">
-              <div class="newdiv">
-                <div class="warp">
-                  <div class="item" v-for="discount in discounts"
-                       :key="discount.id" @click="linkToShopDrugSpec(discount.shopDrugId)">
+          <div class="home__rush">
+            <div class="home__rush__div">
+              <ul class="home__rush__div__ul">
+                <div class="newdiv">
+                  <div class="warp">
+                    <div class="item" v-for="discount in discounts"
+                         :key="discount.id" @click="linkToShopDrugSpec(discount.shopDrugId)">
                <span class="home__rush__div__ul__li__img">
                   <img v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')" class="home__rush__div__ul__li__imgs"/>
               </span>
-                    <span class="home__rush__div__ul__li__vc"> {{discount.name}}</span>
-                    <span class="home__rush__div__ul__li__header">
+                      <span class="home__rush__div__ul__li__vc"> {{discount.name}}</span>
+                      <span class="home__rush__div__ul__li__header">
                        <van-icon name="xinxinicon" color="red" size="1.2rem" class="home__rush_div__header__icon"/>
-                      <!-- <span class="price">超值</span>-->
+                        <!-- <span class="price">超值</span>-->
                        <span class="value">{{discount.price}}元</span>
                    </span>
+                    </div>
                   </div>
                 </div>
+              </ul>
+            </div>
+          </div>
+          <div class="home__kindpink bg-ffc8bf" :style="backgroundDivpink">
+            家庭常用
+
+          </div>
+          <div class="home__family">
+            <div class="home__family__div home__family__used"
+                 @click="$router.push('drugs?typeId=cMLo_cCMRyKrd46oISOJRQ')">
+              <p class="home__family__div__p">感冒</p>
+              <p class="home__family__div__p1">清热解毒</p>
+              <p class="home__family__div__p3"><img src="../assets/image/home/catch.jpg"/></p>
+            </div>
+            <div class="home__family__div home__family__used"
+                 @click="$router.push('drugs?typeId=Nc10FphRTviCxz7vGiVr6A')">
+              <p class="home__family__div__p">抗过敏</p>
+              <p class="home__family__div__p1">皮炎湿疹</p>
+              <p class="home__family__div__p3"><img src="../assets/image/home/allergy.jpg"/></p>
+            </div>
+            <div class="home__family__div home__family__used"
+                 @click="$router.push('drugs?typeId=74exCUknTDe0qnag36LRCQ')">
+              <p class="home__family__div__p">止咳化痰</p>
+              <p class="home__family__div__p1">肺热咳嗽</p>
+              <p class="home__family__div__p3"><img src="../assets/image/home/cough.jpg"/></p>
+            </div>
+          </div>
+          <div class="home__kindpink bg-0090E6 text-1988CA" :style="backgroundDivblue">风湿骨科</div>
+          <div class="home__family">
+            <div class="home__family__div home__family__used"
+                 @click="$router.push('drugs?typeId=S2BIwR09QN6MNstlWcTrvQ')">
+              <p class="home__family__div__p">跌打损伤</p>
+              <p class="home__family__div__p1 text-1988CA">关节炎</p>
+              <p class="home__family__div__p3"><img src="../assets/image/home/arthritis.jpg"/></p>
+            </div>
+            <div class="home__family__div home__family__used"
+                 @click="$router.push('drugs?typeId=C1Rlu40JRlS7VuxopGxA-A')">
+              <p class="home__family__div__p">骨质疏松</p>
+              <p class="home__family__div__p1 text-1988CA">肩周炎</p>
+              <p class="home__family__div__p3"><img src="../assets/image/home/shoulder.jpg"/></p>
+            </div>
+            <div class="home__family__div home__family__used"
+                 @click="$router.push('drugs?typeId=xsE5-eyYTfC3RXEoLjCxgg')">
+              <p class="home__family__div__p">腰肌劳损</p>
+              <p class="home__family__div__p1 text-1988CA">骨质增生</p>
+              <p class="home__family__div__p3"><img src="../assets/image/home/hyperplasia.jpg"/></p>
+            </div>
+          </div>
+          <div class="home__kindpink bg-BFD6FF text-1988CA" :style="backgroundDivpurple">肠胃用药</div>
+          <div class="home__family">
+            <div class="home__family__div home__family__used"
+                 @click="$router.push('drugs?typeId=apqD-f6ESl25k5bJG7qIeQ')">
+              <p class="home__family__div__p">胃炎</p>
+              <p class="home__family__div__p1 text-1D63CE">清热解毒</p>
+              <p class="home__family__div__p3"><img src="../assets/image/home/detoxification.jpg"/></p>
+            </div>
+            <div class="home__family__div home__family__used"
+                 @click="$router.push('drugs?typeId=lks1M2u5SVa216t6x35E3w')">
+              <p class="home__family__div__p">消化不良</p>
+              <p class="home__family__div__p1 text-1D63CE">胃肠解痉</p>
+              <p class="home__family__div__p3"><img src="../assets/image/home/detoxify.jpg"/></p>
+            </div>
+            <div class="home__family__div home__family__used"
+                 @click="$router.push('drugs?typeId=6NOZUuyVTT6dzMaogWGXOg\n')">
+              <p class="home__family__div__p">腹泻</p>
+              <p class="home__family__div__p1 text-1D63CE">肺热咳嗽</p>
+              <p class="home__family__div__p3"><img src="../assets/image/home/coughs.jpg"/></p>
+            </div>
+          </div>
+          <div class="home__content__recommend">
+            <new-header-sec>
+              <div>
+                <van-icon name="aixin" color="red"/>
+                好货推荐
               </div>
-            </ul>
+            </new-header-sec>
           </div>
-        </div>
-        <div class="home__kindpink bg-ffc8bf" :style="backgroundDivpink">
-          家庭常用
+          <div class="home__recomd__goods">
+            <div class="home__recomd__goods__div" v-for="recommend in recommends"
+                 :key="recommend.id"
+                 @click="linkToShopDrugSpec(recommend.shopDrugId)">
+              <div class="home__recomd__goods__div__img">
 
-        </div>
-        <div class="home__family">
-          <div class="home__family__div home__family__used"
-               @click="$router.push('drugs?typeId=cMLo_cCMRyKrd46oISOJRQ')">
-            <p class="home__family__div__p">感冒</p>
-            <p class="home__family__div__p1">清热解毒</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/catch.jpg"/></p>
-          </div>
-          <div class="home__family__div home__family__used"
-               @click="$router.push('drugs?typeId=Nc10FphRTviCxz7vGiVr6A')">
-            <p class="home__family__div__p">抗过敏</p>
-            <p class="home__family__div__p1">皮炎湿疹</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/allergy.jpg"/></p>
-          </div>
-          <div class="home__family__div home__family__used"
-               @click="$router.push('drugs?typeId=74exCUknTDe0qnag36LRCQ')">
-            <p class="home__family__div__p">止咳化痰</p>
-            <p class="home__family__div__p1">肺热咳嗽</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/cough.jpg"/></p>
-          </div>
-        </div>
-        <div class="home__kindpink bg-0090E6 text-1988CA" :style="backgroundDivblue">风湿骨科</div>
-        <div class="home__family">
-          <div class="home__family__div home__family__used"
-               @click="$router.push('drugs?typeId=S2BIwR09QN6MNstlWcTrvQ')">
-            <p class="home__family__div__p">跌打损伤</p>
-            <p class="home__family__div__p1 text-1988CA">关节炎</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/arthritis.jpg"/></p>
-          </div>
-          <div class="home__family__div home__family__used"
-               @click="$router.push('drugs?typeId=C1Rlu40JRlS7VuxopGxA-A')">
-            <p class="home__family__div__p">骨质疏松</p>
-            <p class="home__family__div__p1 text-1988CA">肩周炎</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/shoulder.jpg"/></p>
-          </div>
-          <div class="home__family__div home__family__used"
-               @click="$router.push('drugs?typeId=xsE5-eyYTfC3RXEoLjCxgg')">
-            <p class="home__family__div__p">腰肌劳损</p>
-            <p class="home__family__div__p1 text-1988CA">骨质增生</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/hyperplasia.jpg"/></p>
-          </div>
-        </div>
-        <div class="home__kindpink bg-BFD6FF text-1988CA" :style="backgroundDivpurple">肠胃用药</div>
-        <div class="home__family">
-          <div class="home__family__div home__family__used"
-               @click="$router.push('drugs?typeId=apqD-f6ESl25k5bJG7qIeQ')">
-            <p class="home__family__div__p">胃炎</p>
-            <p class="home__family__div__p1 text-1D63CE">清热解毒</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/detoxification.jpg"/></p>
-          </div>
-          <div class="home__family__div home__family__used"
-               @click="$router.push('drugs?typeId=lks1M2u5SVa216t6x35E3w')">
-            <p class="home__family__div__p">消化不良</p>
-            <p class="home__family__div__p1 text-1D63CE">胃肠解痉</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/detoxify.jpg"/></p>
-          </div>
-          <div class="home__family__div home__family__used"
-               @click="$router.push('drugs?typeId=6NOZUuyVTT6dzMaogWGXOg\n')">
-            <p class="home__family__div__p">腹泻</p>
-            <p class="home__family__div__p1 text-1D63CE">肺热咳嗽</p>
-            <p class="home__family__div__p3"><img src="../assets/image/home/coughs.jpg"/></p>
-          </div>
-        </div>
-        <div class="home__content__recommend">
-          <new-header-sec>
-            <div>
-              <van-icon name="aixin" color="red"/>
-              好货推荐
+                <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')">
+              </div>
+              <div class="home__recomd__goods__div__title">{{recommend.name}}{{recommend.spec}}</div>
+              <div class="home__recomd__goods__div__price">¥{{`${recommend.price}`}}</div>
             </div>
-          </new-header-sec>
-        </div>
-        <div class="home__recomd__goods">
-          <div class="home__recomd__goods__div" v-for="recommend in recommends"
-               :key="recommend.id"
-               @click="linkToShopDrugSpec(recommend.shopDrugId)">
-            <div class="home__recomd__goods__div__img">
-
-              <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')">
-            </div>
-            <div class="home__recomd__goods__div__title">{{recommend.name}}{{recommend.spec}}</div>
-            <div class="home__recomd__goods__div__price">¥{{`${recommend.price}`}}</div>
           </div>
         </div>
-      </div>
-    </template>
-    <div class="over-height"></div>
-    <template slot="bottom">
-      <van-tabbar
-        :value="0"
-        :fixed="Boolean(false)"
-      >
-        <van-tabbar-item icon="icon"
-                         to="/home">首页
-        </van-tabbar-item>
-        <van-tabbar-item icon="chufang"
-                         to="/rxs">处方单
-        </van-tabbar-item>
-        <van-tabbar-item icon="fenlei"
-                         to="/drugTypes">分类
-        </van-tabbar-item>
-        <van-tabbar-item icon="gouwuche2"
-                         to="/carts">购物车
-        </van-tabbar-item>
-        <van-tabbar-item icon="wo"
-                         to="/accounts">我
-        </van-tabbar-item>
-      </van-tabbar>
-    </template>
-  </new-layout>
-
+      </template>
+      <div class="over-height"></div>
+      <template slot="bottom">
+        <van-tabbar
+          :value="0"
+          :fixed="Boolean(false)"
+        >
+          <van-tabbar-item icon="icon"
+                           to="/home">首页
+          </van-tabbar-item>
+          <van-tabbar-item icon="chufang"
+                           to="/rxs">处方单
+          </van-tabbar-item>
+          <van-tabbar-item icon="fenlei"
+                           to="/drugTypes">分类
+          </van-tabbar-item>
+          <van-tabbar-item icon="gouwuche2"
+                           to="/carts">购物车
+          </van-tabbar-item>
+          <van-tabbar-item icon="wo"
+                           to="/accounts">我
+          </van-tabbar-item>
+        </van-tabbar>
+      </template>
+    </new-layout>
+    <img src="../assets/image/chat.png" class="home__chat"
+         @mousedown="down" @touchstart="down"
+         @mousemove="move" @touchmove="move"
+         @mouseup="end" @touchend="end"
+         id="moveDiv"
+         @click="$router.push('/pharmacists')"
+    >
+  </div>
 </template>
 <style scoped type="text/less" lang="less">
   .home__content__repository__right__item--title{
@@ -735,7 +743,12 @@
     top: 10px;
     left: 155px;
   }
-
+  .home__chat {
+    position: fixed;
+    bottom: 100px;
+    right: 0;
+    z-index: 999;
+  }
 </style>
 
 
@@ -764,7 +777,6 @@
         },
         searchIcon: '\ue64c 药品名',
         discounts: [],
-        shows: [{id: 'x'}, {id: 'y'}, {id: 'y'}],
         recommends: [],
         adverts: [],
         repositories: [],
@@ -774,7 +786,7 @@
         timer: '',
 
         flags: false,
-        pos: {x: 0, y: 0},
+        pos: { x: 0, y: 0 },
         nx: '',
         ny: '',
         dx: '',
@@ -803,7 +815,11 @@
       if (this.currentAddress === undefined) {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
           console.log(r.point);
-          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.point.lat}&lng=${r.point.lng}&coordType=bd09ll&poi=true`);
+          const params = {
+            lat: r.point.lat,
+            lng: r.point.lng
+          };
+          const data = await this.$api.getPois(params);
           console.log(data);
           const position = {
             name: data.pois[0].name,
@@ -864,8 +880,6 @@
       async initData() {
         // 让利惠民
         this.discounts = await this.$http.get('/drugs/discount');
-        // 医保定点
-        // this.shows = await this.$http.get('/shops/show');
         // 广告
         this.adverts = await this.$http.get('/adverts');
         // 好货推荐

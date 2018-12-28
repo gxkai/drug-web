@@ -61,7 +61,7 @@
         <div class="pay_shop-content-pay_type">
           <div class="pay_shop-content-pay_type-content">
             <span :class="{active:isMedicarePay==true}"
-                  v-if="shopDrugSpecOrderDTO.rxId !== null"
+                  v-if="shopDrugSpecOrderDTO.rxId !== null && account.medicaidNumber !== null"
                   @click.stop="isMedicarePay = true">
             医保
             </span>

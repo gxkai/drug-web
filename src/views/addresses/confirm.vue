@@ -255,7 +255,11 @@
     },
     methods: {
       async getClickInfo(e) {
-        const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${e.point.lat}&lng=${e.point.lng}&coordType=bd09ll&poi=true`);
+        const params = {
+          lat: e.point.lat,
+          lng: e.point.lng
+        };
+        const data = await this.$api.getPois(params);
         this.center = data.pois[0].location;
         this.name = data.pois[0].name;
         this.nearbyPositions = data.pois;
@@ -263,7 +267,11 @@
       async syncCenterAndZoom(e) {
         const { lng, lat } = e.target.getCenter();
         this.zoom = e.target.getZoom();
-        const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${lat}&lng=${lng}&coordType=bd09ll&poi=true`);
+        const params = {
+          lat: lat,
+          lng: lng
+        };
+        const data = await this.$api.getPois(params);
         this.center = data.pois[0].location;
         this.name = data.pois[0].name;
         this.nearbyPositions = data.pois;
@@ -289,7 +297,11 @@
       async getLocation() {
         if (this.$route.query.location === undefined) {
           new BMap.Geolocation().getCurrentPosition(async (r) => {
-            const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.latitude}&lng=${r.longitude}&coordType=bd09ll&poi=true`);
+            const params = {
+              lat: r.latitude,
+              lng: r.longitude
+            };
+            const data = await this.$api.getPois(params);
             this.center = data.pois[0].location;
             this.name = data.pois[0].name;
             data.pois.splice(0, 1);
@@ -297,7 +309,11 @@
           });
         } else {
           const location = JSON.parse(this.$route.query.location);
-          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${location.lat}&lng=${location.lng}&coordType=bd09ll&poi=true`);
+          const params = {
+            lat: location.lat,
+            lng: location.lng
+          };
+          const data = await this.$api.getPois(params);
           this.center = data.pois[0].location;
           this.name = data.pois[0].name;
           data.pois.splice(0, 1);

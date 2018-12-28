@@ -61,7 +61,7 @@
                  @click.stop="isMedicarePay = false">自费</span>
             <span :class="{active:isMedicarePay==true}"
                   @click.stop="isMedicarePay = true"
-                  v-if="isRx === true">医保</span>
+                  v-if="isRx === true && account.medicaidNumber !== undefined">医保</span>
           </div>
         </div>
         <!--<div class="pay_cart-content-pay_type">-->
