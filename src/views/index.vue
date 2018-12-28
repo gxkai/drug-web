@@ -764,7 +764,7 @@
         },
         searchIcon: '\ue64c 药品名',
         discounts: [],
-        shows: [{id: 'x'}, {id: 'y'}, {id: 'y'}],
+        shows: [{ id: 'x' }, { id: 'y' }, { id: 'y' }],
         recommends: [],
         adverts: [],
         repositories: [],
@@ -774,7 +774,7 @@
         timer: '',
 
         flags: false,
-        pos: {x: 0, y: 0},
+        pos: { x: 0, y: 0 },
         nx: '',
         ny: '',
         dx: '',
@@ -803,7 +803,11 @@
       if (this.currentAddress === undefined) {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
           console.log(r.point);
-          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.point.lat}&lng=${r.point.lng}&coordType=bd09ll&poi=true`);
+          const params = {
+            lat: r.point.lat,
+            lng: r.point.lng
+          };
+          const data = await this.$api.getPois(params);
           console.log(data);
           const position = {
             name: data.pois[0].name,
@@ -864,8 +868,6 @@
       async initData() {
         // 让利惠民
         this.discounts = await this.$http.get('/drugs/discount');
-        // 医保定点
-        // this.shows = await this.$http.get('/shops/show');
         // 广告
         this.adverts = await this.$http.get('/adverts');
         // 好货推荐

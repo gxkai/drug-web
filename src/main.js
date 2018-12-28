@@ -5,7 +5,8 @@ import App from './App';
 import store from './store';
 import base from './utils/function';
 import component from './components';
-import http from './http/http';
+import http from './http';
+import api from './api';
 import storage from 'good-storage';
 import './plugins/flex';
 import VueAwesomeSwiper from './plugins/vue-awesome-swiper';
@@ -107,6 +108,7 @@ Vue.use(Actionsheet).use(GoodsAction)
   });
 Vue.use(vueEventCalendar, { locale: 'zh', className: '' });
 Vue.prototype.$http = http;
+Vue.prototype.$api = api;
 Vue.prototype.$storage = storage;
 Vue.config.productionTip = false;
 Vue.use(VueAwesomeSwiper);

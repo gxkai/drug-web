@@ -233,7 +233,11 @@
     },
     methods: {
       async getClickInfo(e) {
-        const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${e.point.lat}&lng=${e.point.lng}&coordType=bd09ll&poi=true`);
+        const params = {
+          lat: e.point.lat,
+          lng: e.point.lng
+        };
+        const data = await this.$api.getPois(params);
         this.center = data.pois[0].location;
         this.name = data.pois[0].name;
         this.nearbyAddresses = data.pois;
@@ -242,7 +246,11 @@
         console.log(e);
         const { lng, lat } = e.target.getCenter();
         this.zoom = e.target.getZoom();
-        const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${lat}&lng=${lng}&coordType=bd09ll&poi=true`);
+        const params = {
+          lat: lat,
+          lng: lng
+        };
+        const data = await this.$api.getPois(params);
         this.center = data.pois[0].location;
         this.name = data.pois[0].name;
         this.nearbyAddresses = data.pois;
@@ -279,7 +287,11 @@
       },
       async getLocation() {
         let currentAddress = getCurrentAddress();
-        const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${currentAddress.lat}&lng=${currentAddress.lng}&coordType=bd09ll&poi=true`);
+        const params = {
+          lat: currentAddress.lat,
+          lng: currentAddress.lng
+        };
+        const data = await this.$api.getPois(params);
         this.center = data.pois[0].location;
         this.name = data.pois[0].name;
         this.nearbyAddresses = data.pois;
@@ -288,7 +300,11 @@
         new BMap.Geolocation().getCurrentPosition(async (r) => {
           this.$toast.loading();
           console.log(r.point);
-          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/maps.json?lat=${r.point.lat}&lng=${r.point.lng}&coordType=bd09ll&poi=true`);
+          const params = {
+            lat: r.point.lat,
+            lng: r.point.lng
+          };
+          const data = await this.$api.getPois(params);
           this.center = data.pois[0].location;
           this.name = data.pois[0].name;
           this.nearbyAddresses = data.pois;

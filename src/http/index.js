@@ -47,7 +47,7 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   });
 
-const http = {
+const index = {
   get(url, params) {
     return new Promise((resolve, reject) => {
       axios.get(url, {
@@ -103,4 +103,4 @@ const http = {
     });
   }
 };
-export default http;
+export default index;
