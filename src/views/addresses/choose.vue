@@ -75,7 +75,7 @@
           <div class="address-choose--receive--title">
             附近地址
           </div>
-          <div class="address-choose--receive--item van-hairline--bottom"
+          <div class="address-choose-new"
                v-for="(address,index) in nearbyAddresses"
                :key="index"
                @click="setPosition2(address)"
@@ -90,13 +90,14 @@
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
-  .address-choose {
+.address-choose {
     &--receive {
       &--add {
         display: flex;
         justify-content: space-between;
         padding: 20px 40px;
         align-items: center;
+        border-bottom: 10px solid #f3f3f3;
         &__left {
           font-size: 23px;
           font-family: MicrosoftYaHei;
@@ -117,7 +118,7 @@
         &--address {
           font-size: 25px;
           font-family: MicrosoftYaHei;
-          font-weight:500;
+          font-weight:400;
           color: rgba(0, 0, 0, 1);
         }
         &__contact {
@@ -187,6 +188,19 @@
         }
       }
     }
+  }
+  .address-choose-new{
+    width: auto;
+    display: inline-block;
+    font-size: 23px;
+    padding: 20px 40px;
+    background: #f2f2f2;
+    color: #323232;
+    margin-left: 17px;
+    margin-right: 7px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
   }
 </style>
 
