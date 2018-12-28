@@ -247,11 +247,12 @@
           json.addressId = this.address.id;
         }
         json.payType = this.payType;
-        json.isMedicarePay = this.isMedicarePay;
-        json.orderType = this.isRx === true ? 'RX' : 'SIMPLE';
+        json.medicaid = this.isMedicarePay;
+        json.type = this.isRx === true ? 'RX' : 'SIMPLE';
         json.origin = 'APP';
         let order = await this.$http.post('/orders', json);
-        let url = await this.$http.post(`/orders/${order.id}/pay`);
+        let url = await this.$http.get(`/orders/${order.id}/pay`);
+        console.log(url);
         window.location.href = url;
       },
       onDeliveryType(item) {

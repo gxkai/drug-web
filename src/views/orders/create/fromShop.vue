@@ -212,18 +212,17 @@
           this.$toast('地址还没维护呢');
           return;
         }
-        this.loading = true;
         let json = {};
         json.addressId = this.address.id;
         json.orderShopDrugSpecDTO = this.orderShopDrugSpecDTO;
         json.deliveryType = this.deliveryType;
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
-        json.isMedicarePay = this.isMedicarePay;
-        json.orderType = this.orderShopDrugSpecDTO.rxId === null ? 'SIMPLE' : 'RX';
+        json.medicaid = this.isMedicarePay;
+        json.type = this.shopDrugSpecOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
         json.origin = 'APP';
         let order = await this.$http.post('/orders/shop', json);
-        let url = await this.$http.post(`/orders/${order.id}/pay`);
+        let url = await this.$http.get(`/orders/${order.id}/pay`);
         window.location.href = url;
       },
       onDeliveryType(item) {
