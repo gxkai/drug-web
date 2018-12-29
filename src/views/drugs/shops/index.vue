@@ -131,7 +131,7 @@
                v-for="(shop,index) in shops" :key="index"
                @click="linkToShopDrugSpec(shop.shopDrugId)">
             <div class="drugs-shops__part-4__item__name">
-              {{shop.name}}   距当前位置：{{shop.distance | meter}}
+              {{shop.name}}
             </div>
             <div class="drugs-shops__part-4__item__price">
               &yen;{{shop.price}}
@@ -143,13 +143,18 @@
             <div class="drugs-shops__part-4__item__info">
               <van-icon name="ditu" color="#F60000" size="2em"></van-icon>
               <span>{{shop.address}}</span>
-              <span class="rx-delivery" v-if="shop.distribution==true && shop.shopDistance < shop.distance">可配送</span>
-              <span class="rx-since">可自提</span>
               <!--<van-icon name="aixin" color="#F60000" size="2em"></van-icon>-->
               <!--<span>{{shop.score}}</span>-->
               <!--<van-icon name="kucun" color="#F60000" size="2em"></van-icon>-->
               <!--<span>{{shop.stock}}</span>-->
             </div>
+
+
+            <div class="drugs-shops__part-4__item__info">
+              <span class="rx-delivery" v-if="shop.distribution==true && shop.shopDistance < shop.distance">可配送</span>
+              <span class="rx-since">可自提</span>
+              <span>距当前位置：{{shop.distance | meter}}</span>
+             </div>
           </div>
         </div>
       </template>

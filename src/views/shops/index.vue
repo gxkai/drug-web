@@ -7,56 +7,56 @@
         @click-left="$router.go(-1)"
       />
       <div class="shops-filter">
-        <div class="shops-filter-item" @click="orderBy('SYNTHESIZE')">
+        <div class="shops-filter-item" @click="orderBy('SYNTHESIZE')" :class="{ red:activeRed == 1}">
           <div class="shops-filter-item-text">
             综合
           </div>
-          <div class="shops-filter-item-arrow">
+        <!--  <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
                  :style="{borderBottomColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
                  :style="{borderTopColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
             </div>
-          </div>
+          </div>-->
         </div>
-        <div class="shops-filter-item" @click="orderBy('DISTANCE')">
+        <div class="shops-filter-item" @click="orderBy('DISTANCE')" :class="{ red:activeRed == 2}">
           <div class="shops-filter-item-text">
             距离最近
           </div>
-          <div class="shops-filter-item-arrow">
+       <!--   <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
                  :style="{borderBottomColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
                  :style="{borderTopColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
             </div>
-          </div>
+          </div>-->
         </div>
-        <div class="shops-filter-item" @click="orderBy('APPRAISE')">
+        <div class="shops-filter-item" @click="orderBy('APPRAISE')" :class="{ red:activeRed == 3}">
           <div class="shops-filter-item-text">
             好评优先
           </div>
-          <div class="shops-filter-item-arrow">
+         <!-- <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
                  :style="{borderBottomColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
                  :style="{borderTopColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
             </div>
-          </div>
+          </div>-->
         </div>
-        <div class="shops-filter-item" @click="orderBy('SALE')">
+        <div class="shops-filter-item" @click="orderBy('SALE')" :class="{ red:activeRed == 4}">
           <div class="shops-filter-item-text">
             销量最多
           </div>
-          <div class="shops-filter-item-arrow">
+      <!--    <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
                  :style="{borderBottomColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
     </template>
@@ -89,13 +89,12 @@
                 <div>
                   地址：{{item.address}}
                 </div>
-                <div>
-                  距当前位置：{{item.distance | meter}}
+                <div class="fz21">
+                  <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span> 距当前位置：{{item.distance | meter}}
                 </div>
                 <div class="mt10">
                   <span class="rx-delivery" v-if="item.distribution==true && item.shopDistance < item.distance">可配送</span>
                   <span class="rx-since">可自提</span>
-                  <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span>
                 </div>
               </div>
            <!--   <div class="shops-container-item-peisong"
@@ -118,6 +117,7 @@
     props: {},
     data() {
       return {
+        activeRed: 1,
         loading: false,
         finished: false,
         isLoading: false,
@@ -170,6 +170,18 @@
         }
       },
       orderBy(shopSort) {
+        if (shopSort === 'SYNTHESIZE') {
+          this.activeRed = 1;
+        }
+        if (shopSort === 'DISTANCE') {
+          this.activeRed = 2;
+        }
+        if (shopSort === 'APPRAISE') {
+          this.activeRed = 3;
+        }
+        if (shopSort === 'SALE') {
+          this.activeRed = 4;
+        }
         this.shopSort = shopSort;
         this.onRefresh();
       }
@@ -178,6 +190,14 @@
   ;
 </script>
 <style scoped type="text/scss" lang="scss">
+  .red{
+    color: #F60000;
+  }
+  .fz21{
+    font-size: 21px!important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
   .mt10{
     margin-top: 10px;
   }
