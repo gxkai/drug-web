@@ -10,7 +10,7 @@
        </div>
        <div  class="elps rx_shop_tel">电话：{{item.phone}}</div>
        <div  class="elps rx_shop_tel">价格：¥{{item.amount}}</div>
-       <div  class="elps rx_shop_tel">距当前位置：{{item.distance | meter }}
+       <div  class="elps rx_shop_tel">距当前位置：{{item.distance | meter}}
           <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span>
        </div>
     </div>
@@ -54,10 +54,11 @@
     methods: {},
     filters: {
       meter(meter) {
-        if (meter < 500) {
-          return meter + '米';
+        if (meter < 1) {
+          let meters = meter * 1000;
+          return meters + '米';
         } else {
-          let kilometers = meter / 1000;
+          let kilometers = meter;
           return kilometers + '公里';
         }
       }

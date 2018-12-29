@@ -89,11 +89,19 @@
                 <div>
                   地址：{{item.address}}
                 </div>
+                <div>
+                  距当前位置：{{item.distance | meter}}
+                </div>
+                <div class="mt10">
+                  <span class="rx-delivery" v-if="item.distribution==true && item.shopDistance < item.distance">可配送</span>
+                  <span class="rx-since">可自提</span>
+                  <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span>
+                </div>
               </div>
-              <div class="shops-container-item-peisong"
-                   v-show="item.distribution === true">
+           <!--   <div class="shops-container-item-peisong"
+                   v-show="item.distribution === true  && item.shopDistance < item.distance">
                 <i class="iconfont ic-peisong-"></i>
-              </div>
+              </div>-->
             </div>
             <new-no-data v-if="finished"></new-no-data>
           </van-list>
@@ -124,6 +132,17 @@
     created() {
     },
     mounted() {
+    },
+    filters: {
+      meter(meter) {
+        if (meter < 1) {
+          let meters = meter * 1000;
+          return meters + '米';
+        } else {
+          let kilometers = meter;
+          return kilometers + '公里';
+        }
+      }
     },
     methods: {
       onRefresh() {
@@ -159,6 +178,38 @@
   ;
 </script>
 <style scoped type="text/scss" lang="scss">
+  .mt10{
+    margin-top: 10px;
+  }
+  .rx-delivery {
+    font-size: 20px;
+    width: 82px;
+    height: 33px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid #F5003F;
+    border-radius: 7px;
+    display: inline-block;
+    float: left;
+    color: #F5003F;
+    text-align: center;
+    line-height: 33px;
+    margin-right: 15px;
+  }
+  .rx-since {
+    font-size: 20px;
+    width: 82px;
+    height: 33px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid #F60000;
+    border-radius: 7px;
+    display: inline-block;
+    float: left;
+    color: #F60000;
+    text-align: center;
+    line-height: 33px;
+    margin-right: 15px;
+  }
+
   .shops {
     &-header {
       header {

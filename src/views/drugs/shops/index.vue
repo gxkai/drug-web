@@ -131,17 +131,20 @@
                v-for="(shop,index) in shops" :key="index"
                @click="linkToShopDrugSpec(shop.shopDrugId)">
             <div class="drugs-shops__part-4__item__name">
-              {{shop.name}}
+              {{shop.name}}   距当前位置：{{shop.distance | meter}}
             </div>
             <div class="drugs-shops__part-4__item__price">
               &yen;{{shop.price}}
             </div>
+
             <div class="drugs-shops__part-4__item__icon">
               <van-icon name="gouwuche3" color="#F60000" size="4em"></van-icon>
             </div>
             <div class="drugs-shops__part-4__item__info">
               <van-icon name="ditu" color="#F60000" size="2em"></van-icon>
               <span>{{shop.address}}</span>
+              <span class="rx-delivery" v-if="shop.distribution==true && shop.shopDistance < shop.distance">可配送</span>
+              <span class="rx-since">可自提</span>
               <!--<van-icon name="aixin" color="#F60000" size="2em"></van-icon>-->
               <!--<span>{{shop.score}}</span>-->
               <!--<van-icon name="kucun" color="#F60000" size="2em"></van-icon>-->
@@ -154,6 +157,34 @@
   </div>
 </template>
 <style type="text/scss" lang="scss">
+  .rx-delivery {
+    font-size: 20px;
+    width: 82px;
+    height: 33px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid #F5003F!important;
+    border-radius: 7px;
+    display: inline-block;
+    color: #F5003F!important;
+    text-align: center;
+    line-height: 33px;
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+  .rx-since {
+    font-size: 20px;
+    width: 82px;
+    height: 33px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid #F60000!important;
+    border-radius: 7px;
+    display: inline-block;
+    color: #F60000!important;
+    text-align: center;
+    line-height: 33px;
+    margin-right: 15px;
+  }
+
   .drugs-shops {
     .van-swipe {
       width: 100%;
@@ -427,7 +458,16 @@
         this.getShops();
       }
     },
-    computed: {
+    filters: {
+      meter(meter) {
+        if (meter < 1) {
+          let meters = meter * 1000;
+          return meters + '米';
+        } else {
+          let kilometers = meter;
+          return kilometers + '公里';
+        }
+      }
     },
     created() {
       this.initData();
@@ -445,7 +485,7 @@
         this.getShops();
       },
       async getShops() {
-        const data = await this.$http.get(`/drugs/${this.drugId}/drugSpecs/${this.drugSpec.id}/shops?sort=${this.sort}&lat=${this.currentAddress.lat}&lng=${this.currentAddress.lng}`);
+        const data = await this.$http.get(`/drugs/${this.drugId}/shops?sort=${this.sort}&lat=${this.currentAddress.lat}&lng=${this.currentAddress.lng}`);
         this.total = data.total;
         this.shops = data.list;
       },
