@@ -4,33 +4,12 @@
   >
     <template slot="top">
       <div class="shops-header drugs">
-
-
-        <!--
-         <new-header>
-                  <div slot="left" @click="$router.go(-1)">
-                    <i class="iconfont ic-arrow-right"></i>
-                  </div>
-                  <div slot="center">
-                    <input class="iconfont" :placeholder="searchIcon" @focus="$router.push('/drugs')">
-                  </div>
-            </new-header>
-        -->
-
-
-        <div class="drugs-header">
+       <div class="drugs-header">
           <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
           <input class="iconfont drugs-header__input" v-model="drugName" :placeholder="searchIcon">
           <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="search(drugName)"></van-icon>
         </div>
-
-
-
-
-
-
-
-      </div>
+   </div>
       <div class="shops-filter">
         <!--   <div class="shops-filter-item" @click="orderById()">
              <div class="shops-filter-item-text">
@@ -45,43 +24,44 @@
              </div>
            </div>-->
         <div class="shops-filter-item" @click="orderByPrice()">
-          <div class="shops-filter-item-text">
+          <div class="shops-filter-item-text" :class="{ red:activeRed == 1}">
             价格
           </div>
-          <div class="shops-filter-item-arrow">
+      <!--    <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
                  :style="{borderBottomColor:sort === 'PRICE_ASC'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
                  :style="{borderTopColor:sort === 'PRICE_DESC'? '#F60000': 'gray'} ">
             </div>
-          </div>
+          </div>-->
         </div>
         <div class="shops-filter-item" @click="orderByDistance()">
-          <div class="shops-filter-item-text">
+          <div class="shops-filter-item-text" :class="{ red:activeRed == 2}">
             距离最近
           </div>
-          <div class="shops-filter-item-arrow">
+        <!--  <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
                  :style="{borderBottomColor:sort === 'DISTANCE_ASC'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
                  :style="{borderTopColor:sort === 'DISTANCE_DESC'? '#F60000': 'gray'} ">
             </div>
-          </div>
+          </div>-->
         </div>
-        <div class="shops-filter-item" @click="orderByScore()">
-          <div class="shops-filter-item-text">
+
+     <div class="shops-filter-item" @click="orderByScore()">
+          <div class="shops-filter-item-text" :class="{ red:activeRed == 3}">
             好评优先
           </div>
-          <div class="shops-filter-item-arrow">
+      <!--    <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
                  :style="{borderBottomColor:sort === 'SCORE_ASC'? '#F60000': 'gray'} ">
             </div>
             <div class="shops-filter-item-arrow-down"
                  :style="{borderTopColor:sort === 'SCORE_DESC'? '#F60000': 'gray'} ">
             </div>
-          </div>
+          </div>-->
         </div>
 
       </div>
@@ -122,6 +102,7 @@
   export default {
     data() {
       return {
+        activeRed: 1,
         rxId: this.$route.query.rxId,
         rxShops: [],
         rxShopsTwo: [],
@@ -165,33 +146,36 @@
         this.rxShops = this.rxShops.sort((a, b) => a.id - b.id);
       },
       orderByDistance() {
-        if (this.sort === 'DISTANCE_DESC') {
-          this.sort = 'DISTANCE_ASC';
-          this.rxShops = this.rxShops.sort((a, b) => a.distance - b.distance);
-        } else {
-          this.sort = 'DISTANCE_DESC';
-          this.rxShops = this.rxShops.sort((a, b) => b.distance - a.distance);
-        }
+        this.activeRed = 2;
+        // if (this.sort === 'DISTANCE_DESC') {
+        //   this.sort = 'DISTANCE_ASC';
+        //   this.rxShops = this.rxShops.sort((a, b) => a.distance - b.distance);
+        // } else {
+        //   this.sort = 'DISTANCE_DESC';
+        //   this.rxShops = this.rxShops.sort((a, b) => b.distance - a.distance);
+        // }
       },
       orderByScore() {
+        this.activeRed = 3;
         this.$toast('加载中');
-        if (this.sort === 'SCORE_DESC') {
-          this.sort = 'SCORE_ASC';
-          this.rxShops = this.rxShops.sort((a, b) => a.score - b.score);
-        } else {
-          this.sort = 'SCORE_DESC';
-          this.rxShops = this.rxShops.sort((a, b) => b.score - a.score);
-        }
+        // if (this.sort === 'SCORE_DESC') {
+        //   this.sort = 'SCORE_ASC';
+        //   this.rxShops = this.rxShops.sort((a, b) => a.score - b.score);
+        // } else {
+        //   this.sort = 'SCORE_DESC';
+        //   this.rxShops = this.rxShops.sort((a, b) => b.score - a.score);
+        // }
         this.$toast.clear();
       },
       orderByPrice() {
-        if (this.sort === 'PRICE_DESC') {
-          this.sort = 'PRICE_ASC';
-          this.rxShops = this.rxShops.sort((a, b) => a.amount - b.amount);
-        } else {
-          this.sort = 'PRICE_DESC';
-          this.rxShops = this.rxShops.sort((a, b) => b.amount - a.amount);
-        }
+        this.activeRed = 1;
+        // if (this.sort === 'PRICE_DESC') {
+        //   this.sort = 'PRICE_ASC';
+        //   this.rxShops = this.rxShops.sort((a, b) => a.amount - b.amount);
+        // } else {
+        //   this.sort = 'PRICE_DESC';
+        //   this.rxShops = this.rxShops.sort((a, b) => b.amount - a.amount);
+        // }
       }
     }
   };
@@ -279,4 +263,8 @@
       }
     }
   }
+  .red{
+    color: #F60000!important;
+  }
+
 </style>

@@ -91,31 +91,31 @@
         <div class="drugs-shops__part-3">
           <div class="drugs-shops__part-3__item"
                @click="orderById">
-            <div class="drugs-shops__part-3__item__name">
+            <div class="drugs-shops__part-3__item__name" :class="{ red:activeRed == 1}">
               默认
             </div>
-           <div class="drugs-shops__part-3__item__arrow">
+          <!-- <div class="drugs-shops__part-3__item__arrow">
               <div class="drugs-shops__part-3__item__arrow-up"
                    :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>
               <div class="drugs-shops__part-3__item__arrow-down"
                    :style="{borderTopColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>
-            </div>
+            </div>-->
           </div>
           <div class="drugs-shops__part-3__item"
                @click="orderByDistance">
-            <div class="drugs-shops__part-3__item__name">
+            <div class="drugs-shops__part-3__item__name" :class="{ red:activeRed == 2}">
               距离
             </div>
-            <div class="drugs-shops__part-3__item__arrow">
+           <!-- <div class="drugs-shops__part-3__item__arrow">
               <div class="drugs-shops__part-3__item__arrow-up"
                    :style="{borderBottomColor: sort === 'DISTANCE_ASC'?'#F60000':'gray'}"></div>
               <div class="drugs-shops__part-3__item__arrow-down"
                    :style="{borderTopColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>
-            </div>
+            </div>-->
           </div>
           <div class="drugs-shops__part-3__item"
                @click="orderByPrice">
-            <div class="drugs-shops__part-3__item__name">
+            <div class="drugs-shops__part-3__item__name" :class="{ red:activeRed == 3}">
               价格
             </div>
             <div class="drugs-shops__part-3__item__arrow">
@@ -439,6 +439,9 @@
       }
     }
   }
+  .red{
+    color: #F60000!important;
+  }
 </style>
 <script>
   import { getCurrentAddress } from '@/storage';
@@ -446,6 +449,7 @@
   export default {
     data() {
       return {
+        activeRed: 1,
         shops: [],
         drugInfo: [],
         drugSpecs: [],
@@ -496,10 +500,12 @@
       },
 
       orderById() {
+        this.activeRed = 1;
         this.sort = 'SYNTHESIZE';
         this.getShops();
       },
       orderByDistance() {
+        this.activeRed = 2;
         if (this.sort === 'DISTANCE') {
           this.sort = 'SYNTHESIZE';
         } else {
@@ -508,6 +514,7 @@
         this.getShops();
       },
       orderByPrice() {
+        this.activeRed = 3;
         if (this.sort === 'PRICE_DESC') {
           this.sort = 'PRICE_ASC';
         } else {
