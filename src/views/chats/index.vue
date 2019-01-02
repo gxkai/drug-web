@@ -155,7 +155,6 @@
         this.isLoading = false;
         this.loading = false;
         this.list = this.list.concat(data.list);
-        debugger;
         if (data.list.length === 0) {
           this.finished = true;
         }
