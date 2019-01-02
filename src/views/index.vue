@@ -6,7 +6,7 @@
           <div class="home__banner">
             <div class="home__banner__top">
       <span class="home__banner__address">
-         <i class="fz22 home__banner__address_i" @click="$router.push('/addresses/choose')"> </i>
+         <i class="fz22 home__banner__address_i" @click="$router.push('/addresses/choose')">{{currentAddress.name}} </i>
          <van-icon name="arrowdown" color="white" size="3em" class="arrow"></van-icon>
       </span>
               <div>
@@ -813,21 +813,27 @@
     },
     created() {
       if (this.currentAddress === undefined) {
-        new BMap.Geolocation().getCurrentPosition(async (r) => {
-          console.log(r.point);
-          const params = {
-            lat: r.point.lat,
-            lng: r.point.lng
-          };
-          const data = await this.$api.getPois(params);
-          console.log(data);
-          const position = {
-            name: data.pois[0].name,
-            lat: data.pois[0].location.lat,
-            lng: data.pois[0].location.lng
-          };
-          setCurrentAddress(position);
-        });
+        // new BMap.Geolocation().getCurrentPosition(async (r) => {
+        //   console.log(r.point);
+        //   const params = {
+        //     lat: r.point.lat,
+        //     lng: r.point.lng
+        //   };
+        //   const data = await this.$api.getPois(params);
+        //   console.log(data);
+        //   const position = {
+        //     name: data.pois[0].name,
+        //     lat: data.pois[0].location.lat,
+        //     lng: data.pois[0].location.lng
+        //   };
+        //   setCurrentAddress(position);
+        // });
+        const position = {
+          name: '测试地址',
+          lat: 31,
+          lng: 120
+        };
+        setCurrentAddress(position);
       }
       this.initData();
     },
