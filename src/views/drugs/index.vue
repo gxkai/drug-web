@@ -8,44 +8,44 @@
           <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="onRefresh()"></van-icon>
         </div>
         <div class="drugs-filter">
-          <div class="drugs-filter-item" @click="OrderById()">
+          <div class="drugs-filter-item" @click="OrderById()" :class="{ red:activeRed == 1}">
             <div class="drugs-filter-item-text">
               默认
             </div>
-            <div class="drugs-filter-item-arrow">
+          <!--  <div class="drugs-filter-item-arrow">
               <div class="drugs-filter-item-arrow-up"
                    :style="{borderBottomColor:drugSort === 'SYNTHESIZE_DESC'? '#F60000': 'gray'} ">
               </div>
               <div class="drugs-filter-item-arrow-down"
                    :style="{borderTopColor:drugSort === 'SYNTHESIZE_DESC'? '#F60000': 'gray'} ">
               </div>
-            </div>
+            </div>-->
           </div>
-          <div class="drugs-filter-item" @click="OrderByPrice()">
+          <div class="drugs-filter-item" @click="OrderByPrice()" :class="{red:activeRed == 2}">
             <div class="drugs-filter-item-text">
               价格
             </div>
-            <div class="drugs-filter-item-arrow">
+           <!-- <div class="drugs-filter-item-arrow">
               <div class="drugs-filter-item-arrow-up"
                    :style="{borderBottomColor:drugSort === 'PRICE_ASC'? '#F60000': 'gray'} ">
               </div>
               <div class="drugs-filter-item-arrow-down"
                    :style="{borderTopColor:drugSort === 'PRICE_DESC'? '#F60000': 'gray'} ">
               </div>
-            </div>
+            </div>-->
           </div>
-          <div class="drugs-filter-item" @click="OrderBySales()">
+          <div class="drugs-filter-item" @click="OrderBySales()" :class="{ red:activeRed == 3}">
             <div class="drugs-filter-item-text">
               销量
             </div>
-            <div class="drugs-filter-item-arrow">
+           <!-- <div class="drugs-filter-item-arrow">
               <div class="drugs-filter-item-arrow-up"
                    :style="{borderBottomColor:drugSort === 'SALE_ASC'? '#F60000': 'gray'} ">
               </div>
               <div class="drugs-filter-item-arrow-down"
                    :style="{borderTopColor:drugSort === 'SALE_DESC'? '#F60000': 'gray'} ">
               </div>
-            </div>
+            </div>-->
           </div>
           <div class="drugs-filter-item" @click="show = true">
             <div class="drugs-filter-item-text">
@@ -220,6 +220,7 @@
     name: 'goodsList',
     data() {
       return {
+        activeRed: 1,
         loading: false,
         finished: false,
         isLoading: false,
@@ -315,23 +316,26 @@
         }
       },
       OrderById() {
+        this.activeRed = 1;
         this.drugSort = 'SYNTHESIZE_DESC';
         this.onRefresh();
       },
       OrderByPrice() {
-        if (this.drugSort === 'PRICE_DESC') {
-          this.drugSort = 'PRICE_ASC';
-        } else {
-          this.drugSort = 'PRICE_DESC';
-        }
+        this.activeRed = 2;
+        // if (this.drugSort === 'PRICE_DESC') {
+        //   this.drugSort = 'PRICE_ASC';
+        // } else {
+        //   this.drugSort = 'PRICE_DESC';
+        // }
         this.onRefresh();
       },
       OrderBySales() {
-        if (this.drugSort === 'SALE_DESC') {
-          this.drugSort = 'SALE_ASC';
-        } else {
-          this.drugSort = 'SALE_DESC';
-        }
+        this.activeRed = 3;
+        // if (this.drugSort === 'SALE_DESC') {
+        //   this.drugSort = 'SALE_ASC';
+        // } else {
+        //   this.drugSort = 'SALE_DESC';
+        // }
         this.onRefresh();
       },
       async filterByName() {
@@ -378,6 +382,9 @@
   };
 </script>
 <style scope type="text/scss" lang="scss">
+  .red{
+    color: #F60000;
+  }
   .van-icon-success:before {
     content: ""!important;
   }

@@ -17,7 +17,7 @@
         <span v-if="showPrice" class="rx_bursement">至</span>
         <span class="rx-indterval-red" v-if="showPrice">¥{{item.maxMedicaidAmount}}</span></div>
       <div class="elps rx_shop_tel">
-        <span class="rx-delivery" v-if="item.distribution==true">可配送</span>
+        <span class="rx-delivery" v-if="item.distribution==true && item.shopDistance < item.distance">可配送</span>
         <span class="rx-since">可自提</span>
         距当前位置：{{item.distance | meter}}
         <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span>
@@ -58,10 +58,11 @@
     methods: {},
     filters: {
       meter(meter) {
-        if (meter < 500) {
-          return meter + '米';
+        if (meter < 1) {
+          let meters = meter * 1000;
+          return meters + '米';
         } else {
-          let kilometers = meter / 1000;
+          let kilometers = meter;
           return kilometers + '公里';
         }
       }
