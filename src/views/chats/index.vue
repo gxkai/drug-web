@@ -8,10 +8,6 @@
       />
     </template>
     <template slot="center">
-      <van-list
-        v-model="loading"
-        :finished="finished"
-        @load="onLoad">
         <div class="pharmacist__item"
              v-for="(item, key) in list"
              :key="key"
@@ -35,8 +31,6 @@
             >咨询药师</span>
           </div>
         </div>
-        <new-no-data v-show="finished === true"></new-no-data>
-      </van-list>
     </template>
   </new-layout>
 </template>
@@ -132,32 +126,17 @@
     computed: {},
     data() {
       return {
-        loading: false,
-        finished: false,
-        isLoading: false,
-        pageNum: 0,
-        pageSize: 15,
         list: []
       };
     },
     created() {
     },
     mounted() {
+      this.onLoad();
     },
     methods: {
       async onLoad() {
-        this.pageNum++;
-        const params = {
-          'pageNum': this.pageNum,
-          'pageSize': this.pageSize
-        };
-        const data = await this.$http.get('/adminPharmacists', params);
-        this.isLoading = false;
-        this.loading = false;
-        this.list = this.list.concat(data.list);
-        if (data.list.length === 0) {
-          this.finished = true;
-        }
+        this.list = await this.$http.get('/adminPharmacists');
       }
     }
   };
