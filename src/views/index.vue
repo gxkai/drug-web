@@ -200,13 +200,31 @@
         </van-tabbar>
       </template>
     </new-layout>
-    <img src="../assets/image/chat.png" class="home__chat"
+    <div class="home__chat"
          @mousedown="down" @touchstart="down"
          @mousemove="move" @touchmove="move"
          @mouseup="end" @touchend="end"
          id="moveDiv"
-         @click="$router.push('/pharmacists')"
     >
+      <div class="tag" v-show="show === true">
+        <div class="arrow">
+          <em></em><span></span>
+        </div>
+        <div class="tag__text tag__text--bottom"
+             @click="$router.push('/chats')"
+        >
+          <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
+          <span class="tag__text--font">药师咨询</span>
+        </div>
+        <div class="tag__text">
+          <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
+          <span class="tag__text--font">客服咨询</span>
+        </div>
+      </div>
+      <img src="../assets/image/chat.png" class="home__chat__image"
+          @click="show = !show"
+      >
+    </div>
   </div>
 </template>
 <style scoped type="text/less" lang="less">
@@ -409,6 +427,7 @@
     }
     &__content__recommend {
       margin: auto;
+      background-color: rgba(245,245,245);
     }
     &__content__discounttime {
       height: 67px;
@@ -748,6 +767,37 @@
     bottom: 100px;
     right: 0;
     z-index: 999;
+    text-align: center;
+    width: 200px;
+    &__image {
+      width: 100px;
+      height: auto;
+    }
+    .tag{
+      width:200px;
+      border:1PX solid rgba(255, 0, 0, 1);
+      position:relative;
+      background-color:#FFF;
+      margin-bottom: 20px;
+      &__text {
+        padding: 5px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &--font {
+          font-size: 25px;
+          color: #F60032;
+          margin-left: 10px;
+        }
+        &--bottom {
+          border-bottom: 1PX solid rgba(255, 0, 0, 1);
+        }
+      }
+    }
+    .arrow{ position:absolute; width:40px; height:40px; bottom:-40px; left:100px; }
+    .arrow *{ display:block; border-width:20px; position:absolute; border-style:solid dashed dashed dashed; font-size:0; line-height:0; }
+    .arrow em{border-color:rgba(255, 0, 0, 1) transparent transparent;}
+    .arrow span{border-color:#FFF transparent transparent; top:-1px;}
   }
 </style>
 
@@ -793,7 +843,8 @@
         dy: '',
         xPum: '',
         yPum: '',
-        currentAddress: getCurrentAddress()
+        currentAddress: getCurrentAddress(),
+        show: false
       };
     },
     computed: {
@@ -813,27 +864,27 @@
     },
     created() {
       if (this.currentAddress === undefined) {
-        // new BMap.Geolocation().getCurrentPosition(async (r) => {
-        //   console.log(r.point);
-        //   const params = {
-        //     lat: r.point.lat,
-        //     lng: r.point.lng
-        //   };
-        //   const data = await this.$api.getPois(params);
-        //   console.log(data);
-        //   const position = {
-        //     name: data.pois[0].name,
-        //     lat: data.pois[0].location.lat,
-        //     lng: data.pois[0].location.lng
-        //   };
-        //   setCurrentAddress(position);
-        // });
-        const position = {
-          name: '测试地址',
-          lat: 31,
-          lng: 120
-        };
-        setCurrentAddress(position);
+        new BMap.Geolocation().getCurrentPosition(async (r) => {
+          console.log(r.point);
+          const params = {
+            lat: r.point.lat,
+            lng: r.point.lng
+          };
+          const data = await this.$api.getPois(params);
+          console.log(data);
+          const position = {
+            name: data.pois[0].name,
+            lat: data.pois[0].location.lat,
+            lng: data.pois[0].location.lng
+          };
+          setCurrentAddress(position);
+        });
+        // const position = {
+        //   name: '测试地址',
+        //   lat: 31,
+        //   lng: 120
+        // };
+        // setCurrentAddress(position);
       }
       this.initData();
     },

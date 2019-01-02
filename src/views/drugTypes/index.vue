@@ -56,9 +56,6 @@
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
-  .van-tabbar-item--active{
-    color: #F60032!important;
-  }
   /deep/ .van-tabs {
     &__wrap {
       height: 100px !important;
@@ -67,6 +64,10 @@
       padding-top: 100px;
     }
     .van-tab {
+      color: black!important;
+      &--active {
+        color: rgb(246, 0, 0) !important;
+      }
       span {
         line-height: 100px !important;
         font-size: 25px !important;
@@ -89,7 +90,6 @@
         img {
           width: 100px;
           height: 100px;
-          border-radius: 50%;
         }
         div {
           margin-top: 10px;
