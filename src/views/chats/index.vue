@@ -140,14 +140,14 @@
     },
     methods: {
       async onLoad() {
-        let url = this.type === '0' ? '/chats/pharmacists' : '/chats/customerServices';
+        let url = this.type === 0 ? '/chats/pharmacists' : '/chats/customerServices';
         this.list = await this.$http.get(url);
       },
       async onConsult(user) {
         let data = {
           accountId: this.account.id,
           userId: user.id,
-          type: this.type === '0' ? 'PHARMACIST' : 'CUSTOMER_SERVICE'
+          type: this.type === 0 ? 'PHARMACIST' : 'CUSTOMER_SERVICE'
         };
         let chat = await this.$http.post(`/chats`, data);
         this.$router.push({ path: '/chats/view', query: { user: JSON.stringify(user), chatId: chat.id } });
