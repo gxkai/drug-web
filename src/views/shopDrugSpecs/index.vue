@@ -33,20 +33,26 @@
           </div>
           <div class="shopDrug__content__part-2">
             <div class="shopDrug__content__part-2__item">
-              <span>国药准字</span>
-              <span>{{shopDrug.sfda}}</span>
+              <div>
+                <span>国药准字</span>
+                <span>{{shopDrug.sfda}}</span>
+              </div>
             </div>
             <div class="shopDrug__content__part-2__dividing">
             </div>
             <div class="shopDrug__content__part-2__item">
-              <span>库存</span>
-              <span>{{shopDrug.stock}}</span>
+              <div>
+                <span>库存</span>
+                <span>{{shopDrug.stock}}</span>
+              </div>
             </div>
             <div class="shopDrug__content__part-2__dividing">
             </div>
             <div class="shopDrug__content__part-2__item">
-              <span>包装规格</span>
-              <span>{{shopDrug.spec}}</span>
+              <div>
+                <span>包装规格</span>
+                <span>{{shopDrug.spec}}</span>
+              </div>
             </div>
           </div>
           <div class="shopDrug__content__part-3">
@@ -85,10 +91,10 @@
                   <!--<van-rate v-model="shopDrug.shopTotalAppraise.score" disabled disabled-color="red" :size="15"/>-->
                 </div>
               </div>
-              <div class="shopDrug__content__part-4__header__right">
-                <van-icon name="peisong-" color="#F60000" size="5em"/>
-                <van-icon name="anquan" color="#F60000" size="5em"/>
-              </div>
+              <!--<div class="shopDrug__content__part-4__header__right">-->
+                <!--<van-icon name="peisong-" color="#F60000" size="5em"/>-->
+                <!--<van-icon name="anquan" color="#F60000" size="5em"/>-->
+              <!--</div>-->
             </div>
             <div class="shopDrug__content__part-4__content">
               <van-row gutter="20">
@@ -153,10 +159,8 @@
         <van-goods-action style="position: sticky">
           <van-goods-action-mini-btn icon="chat" text="咨询" @click="onChat"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
-          <van-goods-action-mini-btn icon="shoucang"  text="收藏"  style="color: #7d7e80"
-                                     @click="onCollect" v-show="collectShow"/>
-          <van-goods-action-mini-btn icon="shoucang1" text="收藏" style="color: red"
-                                     @click="onCollect" v-show="collectHide"/>
+          <van-goods-action-mini-btn icon="shoucang1" text="收藏" :style="{color: collected === true ? 'red': '#7d7e80'}"
+                                     @click="onCollect"/>
           <van-goods-action-big-btn text="加入购物车"
                                     :style="{backgroundColor:shopDrug.otc===false?'gray':'#f85'}"
                                     @click="shopDrug.otc===false? '' : show=true;type=0"/>
@@ -323,18 +327,17 @@
         background-color: white;
         margin-top: 180px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
         &__item {
-          &:last-child {
-            max-width: 300px;
-          }
-          &:first-child {
-            max-width: 300px;
-          }
+          flex-grow: 20;
+          display: flex;
+          justify-content: center;
           overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          &>div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
           span {
             font-size: 20px;
             font-family: HiraginoSansGB-W3;
@@ -342,6 +345,7 @@
           }
           span:first-child {
             color: #F60000;
+            margin-right: 10px;
           }
         }
         &__dividing {
@@ -516,8 +520,6 @@
         number: 1,
         collected: false,
         loading: false,
-        collectShow: true,
-        collectHide: false,
         shopDrugId: this.$route.query.shopDrugId,
         pharmacist: ''
       };
@@ -549,12 +551,8 @@
         this.collected = !this.collected;
         if (this.collected) {
           this.$toast('收藏成功');
-          this.collectHide = true;
-          this.collectShow = false;
         } else {
           this.$toast('取消收藏成功');
-          this.collectHide = false;
-          this.collectShow = true;
         }
       },
       async onConfirm() {
