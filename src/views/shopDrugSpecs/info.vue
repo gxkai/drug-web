@@ -50,8 +50,9 @@
   .drug-info {
     background-color: white;
     &--text {
-      padding: 20px 40px;
+      padding: 60px 40px;
       &>div {
+        margin-top: 20px;
         &>span {
           font-size:24px;
           font-family:HiraginoSansGB-W3;

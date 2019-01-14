@@ -39,7 +39,7 @@
     },
     data() {
       return {
-        shopDrugSpec: JSON.parse(this.$route.query.shopDrugSpec),
+        shopDrugSpec: JSON.parse(this.$route.query.shopDrug),
         state: this.$route.query.state || 0
       };
     },

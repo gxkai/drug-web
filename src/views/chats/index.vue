@@ -38,7 +38,7 @@
   .pharmacist {
     &__item {
       background-color: white;
-      padding: 20px;
+      padding: 30px;
       margin-top: 20px;
       width: 720px;
       &__third {
@@ -50,10 +50,10 @@
           color: white;
           font-size: 30px;
           font-weight: 200;
-          width: 200px;
-          height: 40px;
+          width: 300px;
+          height: 50px;
           text-align: center;
-          line-height: 40px;
+          line-height: 50px;
           border-radius: 5PX;
         }
       }
@@ -83,7 +83,7 @@
           display: flex;
           flex-flow: column;
           justify-content: center;
-          margin-left: 20px;
+          margin-left: 50px;
           flex: 1;
           overflow: hidden;
           &__first {
@@ -105,12 +105,14 @@
             }
           }
           &__second {
-            margin-top: 10px;
+            margin-top: 30px;
             font-size: 25px;
             overflow: hidden;
             text-overflow: ellipsis;
             -webkit-line-clamp: 2;
             line-clamp: 2;
+            text-indent: 50px;
+            color: #999999;
           }
 
         }
