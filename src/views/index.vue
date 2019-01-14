@@ -71,8 +71,8 @@
               <ul class="home__rush__div__ul">
                 <div class="newdiv">
                   <div class="warp">
-                    <div class="item" v-for="discount in discounts"
-                         :key="discount.id" @click="linkToShopDrugSpec(discount.shopDrugId)">
+                    <div class="item" v-for="(discount, index) in discounts"
+                         :key="index" @click="linkToShopDrugSpec(discount.shopDrugId)">
                <span class="home__rush__div__ul__li__img">
                   <img v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')" class="home__rush__div__ul__li__imgs"/>
               </span>
@@ -163,8 +163,8 @@
             </new-header-sec>
           </div>
           <div class="home__recomd__goods">
-            <div class="home__recomd__goods__div" v-for="recommend in recommends"
-                 :key="recommend.id"
+            <div class="home__recomd__goods__div" v-for="(recommend,index) in recommends"
+                 :key="index"
                  @click="linkToShopDrugSpec(recommend.shopDrugId)">
               <div class="home__recomd__goods__div__img">
 
@@ -891,7 +891,7 @@
       this.initData();
     },
     mounted() {
-      // this.startMove();
+      this.startMove();
     },
     beforeDestroy() {
       clearTimeout(this.timer);
@@ -939,15 +939,10 @@
       async initData() {
         // 让利惠民
         this.discounts = await this.$http.get('/drugs/discount');
-        // 广告
-        this.adverts = await this.$http.get('/adverts');
         // 好货推荐
         this.recommends = await this.$http.get('/drugs/recommend');
         // 知识库
         this.repositories = await this.$http.get('/repositories/home');
-        setInterval(this.scroll, 2000);
-        // 咨询类别
-        this.repositoryTypes = await this.$http.get('/repositoryTypes');
       },
       async onRefresh() {
         await this.initData();

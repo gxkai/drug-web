@@ -74,8 +74,7 @@
           title: ''
         },
         title: '',
-        id: this.$route.query.id,
-        repositoryTypeId: this.$route.query.repositoryTypeId
+        id: this.$route.query.id
       };
     },
     created() {
