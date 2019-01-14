@@ -846,7 +846,7 @@
         xPum: '',
         yPum: '',
         currentAddress: getCurrentAddress(),
-        show: true
+        show: false
       };
     },
     computed: {
