@@ -788,17 +788,17 @@
         justify-content: center;
         &--font {
           font-size: 25px;
-          color: #F60032;
+          color: #F5453E;
           margin-left: 10px;
         }
         &--bottom {
-          border-bottom: 1PX solid rgba(255, 0, 0, 1);
+          border-bottom: 1PX solid #F5453E;
         }
       }
     }
     .arrow{ position:absolute; width:40px; height:40px; bottom:-40px; left:100px; }
     .arrow *{ display:block; border-width:20px; position:absolute; border-style:solid dashed dashed dashed; font-size:0; line-height:0; }
-    .arrow em{border-color:rgba(255, 0, 0, 1) transparent transparent;}
+    .arrow em{border-color:#F5453E transparent transparent;}
     .arrow span{border-color:#FFF transparent transparent; top:-1px;}
   }
 </style>
