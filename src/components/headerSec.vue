@@ -29,7 +29,7 @@
       &__center {
         font-family: HiraginoSansGB-W3;
         font-weight: normal;
-        color: rgba(19, 193, 254, 1);
+        color: #F60032;
         margin: 0 20px;
         div {
           font-size: 28px;

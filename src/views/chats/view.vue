@@ -20,20 +20,20 @@
               {{item.createdDate | time}}
             </div>
             <div class="chat__item__content">
-              <img class="chat__item__content__avatar" v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" :style="{visibility: item.type=== 'ACCOUNT'? 'visible' : 'hidden'}">
+              <img class="chat__item__content__avatar" v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" :style="{visibility: item.type=== 'NOT_ACCOUNT'? 'visible' : 'hidden'}">
               <div class="chat__item__content__message"
-                   :style="{justifyContent:item.type=== 'ACCOUNT'? 'flex-start' : 'flex-end'}"
+                   :style="{justifyContent:item.type=== 'NOT_ACCOUNT'? 'flex-start' : 'flex-end'}"
               >
-                <div class="chat__item__content__message__text" v-if="item.chatMessageType === 'TEXT'"
-                     :class="[item.type=== 'ACCOUNT'? 'chat__item__content__message__text--before' : 'chat__item__content__message__text--after']"
-                     :style="{backgroundColor:item.type=== 'ACCOUNT'? 'white' : '#F60000',color:item.type=== 'ACCOUNT'? 'black' : 'white'}"
+                <div class="chat__item__content__message__text" v-if="item.messageType === 'TEXT'"
+                     :class="[item.type=== 'NOT_ACCOUNT'? 'chat__item__content__message__text--before' : 'chat__item__content__message__text--after']"
+                     :style="{backgroundColor:item.type=== 'NOT_ACCOUNT'? 'white' : '#F60000',color:item.type=== 'NOT_ACCOUNT'? 'black' : 'white'}"
                 >
                   {{item.message}}
                 </div>
                 <img v-lazy="getImgURL(item.message,'LARGE_PIC')" class="chat__item__content__message__image"
-                     @click="onImage($event)" v-if="item.chatMessageType === 'PIC'">
+                     @click="onImage($event)" v-if="item.messageType === 'PIC'">
               </div>
-              <img class="chat__item__content__avatar" v-lazy="getImgURL(user.fileId,'LARGE_LOGO')" :style="{visibility: item.type=== 'PHARMACIST'? 'visible' : 'hidden'}">
+              <img class="chat__item__content__avatar" v-lazy="getImgURL(user.fileId,'LARGE_LOGO')" :style="{visibility: item.type=== 'ACCOUNT'? 'visible' : 'hidden'}">
             </div>
           </div>
           </van-pull-refresh>
@@ -169,7 +169,7 @@
 <script>
   import SockJS from 'sockjs-client';
   import Stomp from 'stompjs';
-  import { getToken, getAccount } from '../../storage';
+  import { getToken, getAccount } from '@/storage';
 
   export default {
     data() {
@@ -182,20 +182,20 @@
         popupSrc: '',
         text: '',
         message: '',
-        chatId: '',
+        chatId: this.$route.query.chatId,
         isLoading: false,
         pageNum: 0,
         pageSize: 5,
         list: [
           // {
           //   type: 'ACCOUNT',
-          //   chatMessageType: 'TEXT',
+          //   messageType: 'TEXT',
           //   message: '1111',
           //   time: '12:12'
           // },
           // {
           //   type: 'PHARMACIST',
-          //   chatMessageType: 'PIC',
+          //   messageType: 'PIC',
           //   message: '1',
           //   time: '12:12'
           // }
@@ -242,12 +242,6 @@
         this.isLoading = false;
       },
       async initData() {
-        let data = {
-          accountId: this.account.id,
-          userId: this.user.id
-        };
-        let chatPharmacist = await this.$http.post(`/chatPharmacists`, data);
-        this.chatId = chatPharmacist.id;
         await this.onLoad();
         this.loadToBottom();
       },
@@ -258,7 +252,7 @@
           pageSize: this.pageSize,
           chatId: this.chatId
         };
-        const data = await this.$http.get(`/chatPharmacistRecords`, params);
+        const data = await this.$http.get(`/chatRecords`, params);
         this.isLoading = false;
         this.list = this.list.concat(data.list);
         this.list = this.list.sort((a, b) => a.createdDate - b.createdDate);
@@ -270,19 +264,7 @@
         let socket = new SockJS(`${process.env.WEBSOCKET_ROOT}/hello`);
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, () => {
-          this.stompClient.subscribe('/topic/greetings', (res) => {
-            let data = JSON.parse(res.body);
-            if (data !== null) {
-              if (data.chatMessageType === 'TEXT') {
-                this.text = '';
-              }
-              this.list.push(data);
-              this.loadToBottom();
-            } else {
-              this.$toast('网络异常');
-            }
-          });
-          this.stompClient.subscribe(`/user/${this.account.id}/message`, (res) => {
+          this.stompClient.subscribe(`/user/${this.chatId}/message`, (res) => {
             this.list.push(JSON.parse(res.body));
             this.loadToBottom();
           });
@@ -305,15 +287,17 @@
       },
       async onMessage() {
         if (this.text === '') {
+          this.$toast('请输入内容');
           return;
         }
         let json = {
           type: 'ACCOUNT',
-          chatMessageType: 'TEXT',
+          messageType: 'TEXT',
           message: this.text,
           chatId: this.chatId
         };
-        let data = await this.$http.post(`/chatPharmacistRecords`, json);
+        let data = await this.$http.post(`/chatRecords`, json);
+        this.text = '';
         this.send(data.id);
       },
       async onRead(file) {
@@ -329,11 +313,11 @@
         console.log(fileId);
         let json = {
           type: 'ACCOUNT',
-          chatMessageType: 'PIC',
+          messageType: 'PIC',
           message: fileId,
           chatId: this.chatId
         };
-        let data = await this.$http.post('/chatPharmacistRecords', json);
+        let data = await this.$http.post('/chatRecords', json);
         console.log(data);
         this.send(data.id);
       }

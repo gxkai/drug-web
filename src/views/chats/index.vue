@@ -21,14 +21,14 @@
                 <span class="pharmacist__item__first__right__first__name">{{item.name}}</span>
               </div>
               <div class="pharmacist__item__first__right__second">
-                多年执教经验
+               {{item.introduce}}
               </div>
             </div>
           </div>
           <div class="pharmacist__item__third">
             <span class="pharmacist__item__third__button"
-            @click="$router.push({path:'/chats/view', query: {user: JSON.stringify(item)}})"
-            >咨询药师</span>
+            @click="onConsult(item)"
+            >进行咨询</span>
           </div>
         </div>
     </template>
@@ -119,6 +119,8 @@
   }
 </style>
 <script>
+  import { getAccount } from '@/storage';
+
   export default {
     name: '',
     mixins: [],
@@ -126,7 +128,9 @@
     computed: {},
     data() {
       return {
-        list: []
+        list: [],
+        type: this.$route.query.type,
+        account: getAccount()
       };
     },
     created() {
@@ -136,7 +140,17 @@
     },
     methods: {
       async onLoad() {
-        this.list = await this.$http.get('/adminPharmacists');
+        let url = this.type === 0 ? '/chats/pharmacists' : '/chats/customerServices';
+        this.list = await this.$http.get(url);
+      },
+      async onConsult(user) {
+        let data = {
+          accountId: this.account.id,
+          userId: user.id,
+          type: this.type === 0 ? 'PHARMACIST' : 'CUSTOMER_SERVICE'
+        };
+        let chat = await this.$http.post(`/chats`, data);
+        this.$router.push({ path: '/chats/view', query: { user: JSON.stringify(user), chatId: chat.id } });
       }
     }
   };

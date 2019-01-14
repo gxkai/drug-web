@@ -211,12 +211,14 @@
           <em></em><span></span>
         </div>
         <div class="tag__text tag__text--bottom"
-             @click="$router.push('/chats')"
+             @click="$router.push({path:'/chats', query: {type:0}})"
         >
           <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
           <span class="tag__text--font">药师咨询</span>
         </div>
-        <div class="tag__text">
+        <div class="tag__text"
+             @click="$router.push({path:'/chats', query: {type:1}})"
+        >
           <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
           <span class="tag__text--font">客服咨询</span>
         </div>
@@ -844,7 +846,7 @@
         xPum: '',
         yPum: '',
         currentAddress: getCurrentAddress(),
-        show: false
+        show: true
       };
     },
     computed: {
@@ -889,7 +891,7 @@
       this.initData();
     },
     mounted() {
-      this.startMove();
+      // this.startMove();
     },
     beforeDestroy() {
       clearTimeout(this.timer);
