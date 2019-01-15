@@ -78,10 +78,10 @@
 
 <style scoped type="text/scss" lang="scss">
   .text-red {
-    color: #ef4f4f;
+    color: $themeColor;
   }
   .text-blue {
-    color: #F60000;
+    color: $themeColor;
   }
   .text-999999 {
     color: #999999;

@@ -282,9 +282,6 @@
 
 </style>
 <style scoped type="text/scss" lang="scss">
-
-  $mainColor:#e74a45;
-
   .van-uploader{
     z-index: 2;
     position: relative;
@@ -310,7 +307,7 @@
       padding:8px;
       border-radius: 50%;
       background: #FFF;
-      box-shadow: 0 3px 13px -3px $mainColor;
+      box-shadow: 0 3px 13px -3px $themeColor;
 
       img {
         width: 100%;
@@ -368,7 +365,7 @@
           flex: 1.5;
           .van-icon{
             font-size: 42px;
-            color: $mainColor;
+            color: $themeColor;
           }
           span{
             font-size: 28px;
@@ -397,7 +394,7 @@
       width: 690px;
       background: #FFF;
       border-radius: 20px;
-      box-shadow: 0 0 20px -2px $mainColor;
+      box-shadow: 0 0 20px -2px $themeColor;
 
       .van-tabbar{
         margin: 30px auto;

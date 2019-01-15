@@ -55,7 +55,7 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   /deep/ .van-tabs {
     &__wrap {
       height: 100px !important;
@@ -66,7 +66,7 @@
     .van-tab {
       color: black!important;
       &--active {
-        color: rgb(246, 0, 0) !important;
+        color: $themeColor !important;
       }
       span {
         line-height: 100px !important;
@@ -74,8 +74,6 @@
       }
     }
   }
-</style>
-<style scoped type="text/scss" lang="scss">
   .drugTypes {
     &--drug {
       display: flex;

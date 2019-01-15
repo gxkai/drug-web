@@ -383,7 +383,7 @@
 </script>
 <style scope type="text/scss" lang="scss">
   .red{
-    color: #F60000;
+    color: $themeColor;
   }
   .van-icon-success:before {
     content: ""!important;
@@ -408,7 +408,7 @@
       justify-content: space-between;
       align-items: center;
       height: 100px;
-      background-color: #F60000;
+      background-color: $themeColor;
       padding: 0 20px;
       &__left {
 

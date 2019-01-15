@@ -237,9 +237,6 @@
 </script>
 
 <style scope type="text/scss" lang="scss">
-
-  $iconColor:#F60032;
-
   p.remark{
     font-size: 25px;
     color: #777;
@@ -270,7 +267,7 @@
           /*vertical-align: middle;*/
 
           &-radiochecked{
-            color: $iconColor;
+            color: $themeColor;
           }
         }
       }
@@ -286,12 +283,12 @@
       text-align: right;
     }
     &__count{
-      color: $iconColor !important;
+      color: $themeColor !important;
     }
   }
 
   .van-cell__left-icon{
-    color: $iconColor;
+    color: $themeColor;
     font-size: 32px !important;
   }
   .van-cell__right-icon{
@@ -308,8 +305,8 @@
     padding-bottom: 3px;
   }
   .buy-now{
-    background: #F02B2B;
-    border-color: #F02B2B;
+    background: $themeColor;
+    border-color: $themeColor;
   }
   .add-to-cart{
     border-color: #ff976a;
@@ -399,7 +396,7 @@
                   white-space: nowrap;
                 }
                 &.num{
-                  color: #F00;
+                  color: $themeColor;
                   position: absolute;
                   right: 0;
                 }
@@ -409,7 +406,7 @@
               & > span {
                 &:first-child {
                   width: auto !important;
-                  color: #F00;
+                  color: $themeColor;
                   font-size: 30px;
                 }
                 &:nth-child(2) {
@@ -436,7 +433,7 @@
             }
             &.price {
               font-size: 30px;
-              color: #F00;
+              color: $themeColor;
             }
           }
 

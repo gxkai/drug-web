@@ -30,14 +30,14 @@
   };
 </script>
 
-<style scoped>
+<style scoped type="text/scss" lang="scss">
   .iconfont{
     font-size: 28px;
   }
   .ic-radiochecked:before {
-    color: #F60032;
+    color: $themeColor;
   }
   .ic-radiobox:before {
-    color: #F60032;
+    color: $themeColor;
   }
 </style>

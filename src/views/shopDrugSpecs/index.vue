@@ -262,7 +262,7 @@
         .van-button {
           width:690px;
           height:90px;
-          background:#F60000;
+          background:$themeColor;
           border-radius:8px;
           font-size:36px;
           font-family:HiraginoSansGB-W3;
@@ -289,7 +289,7 @@
           z-index: 1;
           width: 670px;
           height: 160px;
-          background-color: #F60000;
+          background-color: $themeColor;
           left: 25px;
           padding: 20px;
           & > div {
@@ -344,7 +344,7 @@
             font-weight: normal;
           }
           span:first-child {
-            color: #F60000;
+            color: $themeColor;
             margin-right: 10px;
           }
         }
@@ -379,7 +379,7 @@
           }
           &__left {
             .van-icon {
-              color: #F60000;
+              color: $themeColor;
               font-size: 30px;
             }
           }
@@ -432,7 +432,7 @@
                 font-size: 20px;
                 font-family: HiraginoSansGB-W3;
                 font-weight: normal;
-                color: #F02B2B;
+                color: $themeColor;
               }
             }
           }
@@ -443,7 +443,7 @@
             width: 450px;
             height: 70px;
             line-height: 70px;
-            background-color: #F60000;
+            background-color: $themeColor;
             border-radius: 25px;
             margin: 0 auto;
             font-size: 24px;

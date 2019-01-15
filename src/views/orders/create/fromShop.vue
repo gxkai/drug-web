@@ -239,11 +239,11 @@
 </script>
 <style scoped type="text/scss" lang="scss">
   .active {
-    color: #ef4f4f;
-    border: 1PX solid #ef4f4f!important;
+    color: $themeColor;
+    border: 1PX solid $themeColor!important;
   }
   .text-red {
-    color: #ef4f4f;
+    color: $themeColor;
   }
   .pay_shop {
     &-content {
@@ -334,7 +334,7 @@
         div {
           margin-bottom: 10px;
           span:nth-child(2) {
-            color: #ef4f4f;
+            color: $themeColor;
           }
         }
       }
@@ -356,7 +356,7 @@
               margin-bottom: 10px;
               &:last-child {
                 span:nth-child(2) {
-                  color: #ef4f4f;
+                  color: $themeColor;
                 }
               }
             }
@@ -368,8 +368,8 @@
             }
             a {
               font-size: 30px;
-              border-bottom: 1PX solid #F60000;
-              color: #F60000;
+              border-bottom: 1PX solid $themeColor;
+              color: $themeColor;
             }
           }
         }
@@ -433,8 +433,8 @@
                   opacity: 0;
                 }
                 input:checked+label {
-                  background-color: #F60000;
-                  border: 1PX solid #F60000;
+                  background-color: $themeColor;
+                  border: 1PX solid $themeColor;
                 }
                 input:checked+label::after {
                   position: absolute;
@@ -472,14 +472,14 @@
             font-size: 30px;
             i {
               font-style: normal;
-              color: #ef4f4f;
+              color: $themeColor;
               font-size: 30px;
             }
           }
           &:nth-child(2) {
             font-size: 30px;
             border: 1PX solid #f5f5f5;
-            background-color: #ef4f4f;
+            background-color: $themeColor;
             color: white;
             font-weight: 100;
             padding: 25px 20px;

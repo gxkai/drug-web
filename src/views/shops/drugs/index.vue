@@ -73,7 +73,7 @@
             white-space: nowrap;
           }
           &_price {
-            color: #FF0000;
+            color: $themeColor;
             font-size: 25px;
           }
         }

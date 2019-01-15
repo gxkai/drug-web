@@ -70,7 +70,7 @@
         align-items: center;
         &_name {
           font-size: 30px;
-          color: #F60000;
+          color: $themeColor;
         }
         .iconfont {
           font-size: 50px;
@@ -78,7 +78,7 @@
       }
       &-right {
         font-size: 30px;
-        color: #FF0000;
+        color: $themeColor;
       }
     }
     &-drugs {
@@ -121,7 +121,7 @@
           }
           &_price {
             font-size: 30px;
-            color: #FF0000;
+            color: $themeColor;
           }
           &_quantity {
             font-size: 30px;

@@ -119,7 +119,7 @@
       }
       &-right {
         font-size: 30px;
-        color: red;
+        color: $themeColor;
       }
     }
     &-content {
@@ -133,12 +133,12 @@
           align-items: center;
           &_name {
             font-size: 30px;
-            color: #F60000;
+            color: $themeColor;
           }
         }
         &-right {
           font-size: 30px;
-          color: #F60000;
+          color: $themeColor;
         }
       }
       &-info {
@@ -180,7 +180,7 @@
             line-clamp: 2;
           }
           &_price {
-            color: #FF0000;
+            color: $themeColor;
             font-size: 30px;
           }
           &_quantity {
@@ -221,7 +221,7 @@
             transform: translateY(-50%);
             content: '';
             width: 0;
-            border-top: 10px solid #F60000;
+            border-top: 10px solid $themeColor;
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
             height: 0;

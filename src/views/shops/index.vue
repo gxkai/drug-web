@@ -190,7 +190,7 @@
 </script>
 <style scoped type="text/scss" lang="scss">
   .red{
-    color: #F60000;
+    color: $themeColor;
   }
   .fz21{
     font-size: 21px!important;
@@ -205,7 +205,7 @@
     width: 82px;
     height: 33px;
     background: rgba(255, 255, 255, 1);
-    border: 1px solid #F5003F;
+    border: 1px solid $themeColor;
     border-radius: 7px;
     display: inline-block;
     float: left;
@@ -219,11 +219,11 @@
     width: 82px;
     height: 33px;
     background: rgba(255, 255, 255, 1);
-    border: 1px solid #F60000;
+    border: 1px solid $themeColor;
     border-radius: 7px;
     display: inline-block;
     float: left;
-    color: #F60000;
+    color: $themeColor;
     text-align: center;
     line-height: 33px;
     margin-right: 15px;
@@ -271,13 +271,13 @@
           justify-content: center;
           &-up {
             border: 7px solid white;
-            border-bottom-color: #F60000;
+            border-bottom-color: $themeColor;
             width: 0;
             height: 0;
           }
           &-down {
             border: 7px solid white;
-            border-top-color: #F60000;
+            border-top-color: $themeColor;
             width: 0;
             height: 0;
             margin-top: 2px;
@@ -323,7 +323,7 @@
           top: 10px;
           i {
             font-size: 80px;
-            color: #F60000;
+            color: $themeColor;
           }
         }
       }

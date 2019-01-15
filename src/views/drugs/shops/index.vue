@@ -167,10 +167,10 @@
     width: 82px;
     height: 33px;
     background: rgba(255, 255, 255, 1);
-    border: 1px solid #F5003F!important;
+    border: 1px solid $themeColor!important;
     border-radius: 7px;
     display: inline-block;
-    color: #F5003F!important;
+    color: $themeColor!important;
     text-align: center;
     line-height: 33px;
     margin-right: 15px;
@@ -181,10 +181,10 @@
     width: 82px;
     height: 33px;
     background: rgba(255, 255, 255, 1);
-    border: 1px solid #F60000!important;
+    border: 1px solid $themeColor!important;
     border-radius: 7px;
     display: inline-block;
-    color: #F60000!important;
+    color: $themeColor!important;
     text-align: center;
     line-height: 33px;
     margin-right: 15px;
@@ -223,7 +223,7 @@
           font-size: 24px;
           font-family: HiraginoSansGB-W3;
           font-weight: normal;
-          color: rgba(255, 0, 0, 1);
+          color: $themeColor;
         }
         &__icon {
           position: absolute;
@@ -278,7 +278,7 @@
         width: 660px;
         height: 250px;
         left: 30px;
-        border: 1PX solid #F60000;
+        border: 1PX solid $themeColor;
         z-index: 1;
         padding: 20px;
         &-name {
@@ -318,7 +318,7 @@
         height: 220px;
         left: 20px;
         top: 40px;
-        border: 1PX solid #F60000;
+        border: 1PX solid $themeColor;
         z-index: 0;
       }
     }
@@ -332,7 +332,7 @@
           color: rgba(19, 193, 254, 1);
         }
         &-number {
-          color: #FF0000 !important;
+          color: $themeColor !important;
         }
       }
     }
@@ -380,7 +380,7 @@
           top: 10px;
           i {
             font-size: 40px;
-            color: #F60000;
+            color: $themeColor;
           }
         }
       }
@@ -392,7 +392,7 @@
         &-list {
           padding: 0 20px;
           &-active {
-            border: 1PX solid #F60000;
+            border: 1PX solid $themeColor;
           }
           &-item {
             padding: 5px 10px;
@@ -422,8 +422,8 @@
               opacity: 0;
             }
             input:checked + label {
-              background-color: #F60000;
-              border: 1PX solid #F60000;
+              background-color: $themeColor;
+              border: 1PX solid $themeColor;
             }
             input:checked + label::after {
               position: absolute;
@@ -443,7 +443,7 @@
     }
   }
   .red{
-    color: #F60000!important;
+    color: $themeColor!important;
   }
 </style>
 <script>

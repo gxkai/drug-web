@@ -48,7 +48,7 @@
     &-bar {
       width: 66px;
       height: 6px;
-      background: #F5453E;
+      background: $themeColor;
     }
   }
 </style>

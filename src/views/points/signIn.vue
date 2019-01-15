@@ -160,8 +160,8 @@
   };
 </script>
 
-<style scoped>
-  >>>.van-nav-bar:after {
+<style scoped type="text/scss" lang="scss">
+  /deep/.van-nav-bar:after {
     border-bottom: none!important;
   }
   .points-container {
@@ -198,7 +198,7 @@
     font-size: 36px;
     text-align: center;
     font-weight: bold;
-    color: #F60000;
+    color: $themeColor;
     margin-top: 30px;
   }
 
@@ -273,7 +273,7 @@
 
   .five-points {
     font-size: 31px;
-    color: #FF0000;
+    color: $themeColor;
     margin-top: 19px;
   }
 
@@ -300,7 +300,7 @@
   }
 
   .__vev_calendar-wrapper .cal-wrapper .cal-body .dates .item.event {
-    background: red;
+    background: $themeColor;
   }
 
   .__vev_calendar-wrapper .events-wrapper {

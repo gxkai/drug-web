@@ -314,13 +314,13 @@
           line-height: 35px;
           span{
             font-size: 24px;
-            color: #FF0000;
+            color: $themeColor;
           }
         }
       }
     }
     &-money_red{
-      color:#FF0000;
+      color:$themeColor;
     }
     &-address{
       background: white;

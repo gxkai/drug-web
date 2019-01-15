@@ -168,7 +168,7 @@
             width: 150px;
             font-size: 25px;
             font-weight: normal;
-            color: #F60000;
+            color:$themeColor;
             float: right;
             margin-top: 12px;
           }

@@ -3,10 +3,10 @@
   font-size: 80px!important;
 }
 .van-actionsheet__header .van-icon-close {
-  color: #F60000!important;
+  color: $themeColor!important;
 }
 .van-cell-swipe__right {
-  background-color: #F60000!important;
+  background-color: $themeColor!important;
 }
 .van-dialog__message {
   line-height: 3.5!important;
@@ -16,7 +16,7 @@
   font-size: 30px!important;
 }
 .van-nav-bar {
-  background-color: #F5453E;
+  background-color: $themeColor;
   height: 100px!important;
   line-height: 100px!important;
   &:after {
@@ -67,12 +67,12 @@
   &__left-icon {
     line-height: 70px!important;
     font-size: 50px!important;
-    color: #F60000;
+    color: $themeColor;
   }
 
   &__value.amount {
     span{
-      color: #F00 !important;
+      color: $themeColor !important;
     }
   }
   .consume__item &__right-icon{
@@ -98,7 +98,7 @@
       margin-top: 10px!important;
     }
     &--active {
-      color: #F60032!important;
+      color: $themeColor!important;
     }
   }
 }
@@ -128,6 +128,7 @@
   }
   .van-button {
     width: 180px;
+    height: 100px;
   }
 }
 
@@ -159,12 +160,5 @@
     font-size: 25px;
   }
 }
-//
-//.cart, .rxs{
-//  .van-pull-refresh__track,
-//  .van-swipe-cell__wrapper{
-//    transform: none !important;
-//  }
-//}
 
 

@@ -98,7 +98,7 @@
     &__footer {
       width:720px;
       height:100px;
-      background:#F5453E;
+      background:$themeColor;
       line-height: 100px;
       font-size:32px;
       font-family:HiraginoSansGB-W3;

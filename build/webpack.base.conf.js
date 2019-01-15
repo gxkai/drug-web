@@ -85,12 +85,12 @@ module.exports = {
       {
         test:/\.scss$/,
         include: path.resolve(__dirname, './node_modules'),
-        loader:"vue-style-loader!css-loader!sass-loader!postcss-loader"
+        loaders: ["style", "css", "sass", "postcss"]
       },
       {
         test:/\.less/,
         include: path.resolve(__dirname, './node_modules'),
-        loader:"style-loader!css-loader!less-loader!postcss-loader"
+        loaders: ["style", "css", "less", "postcss"]
       },
       {
         test: /.exec.js$/,
@@ -98,7 +98,7 @@ module.exports = {
       }, {
         test: /\.css$/,
         include: path.resolve(__dirname, './node_modules'),
-        loader: 'style-loader!css-loader!postcss-loader'
+        loaders: ["style", "css", "postcss"]
       }
     ]
   },

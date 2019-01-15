@@ -80,7 +80,7 @@
               font-size:28px;
               font-family:HiraginoSansGB-W3;
               font-weight:normal;
-              color:rgba(255,0,0,1);
+              color:$themeColor;
             }
           }
         }

@@ -138,7 +138,7 @@
 </template>
 <style scoped type="text/scss" lang="scss">
   .van-tabbar-item--active{
-    color: #F60032!important;
+    color: $themeColor!important;
   }
   .cart {
     &-list {
@@ -152,7 +152,7 @@
         &_name {
           font-size: 30px;
           align-self: flex-end;
-          color: #F60000;
+          color: $themeColor;
         }
       }
       &-rx {
@@ -167,13 +167,13 @@
           align-items: center;
           &_name {
             font-size: 30px;
-            color: #F60000;
+            color: $themeColor;
             align-self: flex-end;
           }
         }
         &-right {
           font-size: 30px;
-          color: #FF0000;
+          color: $themeColor;
         }
       }
       &-drugs {
@@ -190,7 +190,7 @@
             padding: 105px 40px;
             line-height: 250px;
             font-weight: 200;
-            background-color: #F60000;
+            background-color: $themeColor;
           }
           &-left {
             display: flex;
@@ -231,7 +231,7 @@
             }
             &_price {
               font-size: 30px;
-              color: #FF0000;
+              color: $themeColor;
             }
             &_quantity {
               font-size: 30px;
@@ -243,40 +243,6 @@
     }
     .van-submit-bar {
       bottom: 100px;
-      span {
-        margin-left: 20px;
-        font-size: 30px;
-      }
-      label {
-        position: absolute;
-        left: 20px;
-        top: 34px;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        border: 1px solid #F60000;
-      }
-      input {
-        width: 30px;
-        height: 30px;
-        opacity: 0;
-      }
-      input:checked + label {
-        background-color: #F60000;
-        border: 1PX solid #F60000;
-      }
-      input:checked + label::after {
-        position: absolute;
-        content: "";
-        width: 7px;
-        height: 12px;
-        top: 6px;
-        left: 8px;
-        border: 1PX solid #fff;
-        border-top: none;
-        border-left: none;
-        transform: rotate(45deg);
-      }
     }
   }
 </style>

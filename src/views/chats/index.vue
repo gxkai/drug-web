@@ -46,7 +46,7 @@
         justify-content: center;
         margin-top: 20px;
         &__button {
-          background-color: #F60000;
+          background-color: $themeColor;
           color: white;
           font-size: 30px;
           font-weight: 200;
@@ -63,8 +63,8 @@
         flex-wrap: wrap;
         margin-top: 20px;
         &__item {
-          border: #F60000 1PX solid;
-          color: #F60000;
+          border: $themeColor 1PX solid;
+          color: $themeColor;
           font-size: 20px;
           padding: 0 20px;
           border-radius: 10PX;
@@ -97,8 +97,8 @@
               font-weight: 500;
             }
             &__tag {
-              border: #F60000 1PX solid;
-              color: #F60000;
+              border: $themeColor 1PX solid;
+              color: $themeColor;
               font-size: 20px;
               padding: 0 20px;
               margin-left: 20px;

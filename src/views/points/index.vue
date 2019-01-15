@@ -141,7 +141,7 @@
             font-size: 30px;
           }
           > span:nth-child(2) {
-            color: #EC6941;
+            color: $themeColor;
             font-size: 30px;
           }
         }
@@ -149,7 +149,7 @@
       &-record {
         > div:nth-child(1) {
           .ic-jifen01 {
-            color: #EC6941;
+            color: $themeColor;
             font-size: 50px;
           }
         }

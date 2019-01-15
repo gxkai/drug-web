@@ -139,7 +139,7 @@
                 left: 100%;
                 top:15px;
                 border-top: 0px solid transparent;
-                border-left: 15px solid #F60000;
+                border-left: 15px solid $themeColor;
                 border-bottom: 16px solid transparent;
               }
             }

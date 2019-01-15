@@ -103,7 +103,7 @@
             font-size:20px;
             font-family:HiraginoSansGB-W3;
             font-weight:normal;
-            color:rgba(255,0,0,1);
+            color:$themeColor;
             margin-left: 40px;
           }
           &-count {
@@ -132,7 +132,7 @@
               font-size:20px;
               font-family:HiraginoSansGB-W3;
               font-weight:normal;
-              color:rgba(255,0,0,1);
+              color:$themeColor;
               margin-left: 40px;
             }
           }
@@ -160,7 +160,7 @@
     &__part-1 {
       width: 720px;
       height: 134px;
-      background: #F60000;
+      background: $themeColor;
       display: flex;
       padding: 20px 30px;
       align-items: center;

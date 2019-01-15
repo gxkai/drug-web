@@ -29,7 +29,7 @@
       &__center {
         font-family: HiraginoSansGB-W3;
         font-weight: normal;
-        color: #F60032;
+        color: $themeColor;
         margin: 0 20px;
         div {
           font-size: 28px;

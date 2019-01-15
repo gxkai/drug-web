@@ -12,7 +12,7 @@
     </div>
   </div>
 </template>
-<style scoped type="text/less" lang="less">
+<style scoped type="text/scss" lang="scss">
   header {
     height: 127px;
     .drugs-header__left {
@@ -41,7 +41,7 @@
   .searchBtn {
     font-size: 30px;
     font-weight: normal;
-    color: red;
+    color: $themeColor;
     line-height: 65px;
   }
 

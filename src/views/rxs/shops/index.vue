@@ -189,7 +189,7 @@
       justify-content: space-between;
       align-items: center;
       height: 100px;
-      background-color: #F60000;
+      background-color: $themeColor;
       padding: 0 20px;
       &__left {
 
@@ -265,7 +265,7 @@
     }
   }
   .red{
-    color: #F60000!important;
+    color: $themeColor!important;
   }
 
 </style>

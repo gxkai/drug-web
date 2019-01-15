@@ -61,7 +61,7 @@
   .appraise-success {
     &--first {
       height: 162px;
-      background-color: #F60000;
+      background-color: $themeColor;
       display: flex;
       flex-flow: column;
       justify-content: space-around;

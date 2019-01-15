@@ -75,7 +75,7 @@
           font-size: 30px;
           font-family: MicrosoftYaHei;
           font-weight: 400;
-          color: rgba(255, 0, 0, 1);
+          color: $themeColor;
         }
       }
     }

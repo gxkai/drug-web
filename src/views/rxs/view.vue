@@ -129,7 +129,7 @@
 
 <style type="text/scss" lang="scss" scoped>
   .to_use {
-    background-color: #ef4f4f;
+    background-color: $themeColor;
     border-radius: 20px;
     padding: 1px 10px;
     font-size: 25px;
@@ -169,7 +169,7 @@
         padding: 20px;
         &-header {
           font-size: 40px;
-          color: red;
+          color: $themeColor;
         }
         &-content {
           border: 2PX solid #cccccc;

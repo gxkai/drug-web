@@ -75,7 +75,7 @@
         &_price {
           &>span {
             &:nth-child(1) {
-              color: #FF0000;
+              color: $themeColor;
               font-size: 30px;
             }
             &:nth-child(2) {
@@ -87,7 +87,7 @@
         &_count {
           &>span {
             &:nth-child(1) {
-              color: #F60000;
+              color: $themeColor;
               font-size: 30px;
             }
             &:nth-child(2) {

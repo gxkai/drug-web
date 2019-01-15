@@ -122,7 +122,7 @@
       font-size: 24px;
     }
     &-info {
-      background-color: #F60000;
+      background-color: $themeColor;
       padding: 40px 80px;
       margin-bottom: 20px;
       display: flex;
@@ -242,7 +242,7 @@
         }
         &_price {
           font-size: 25px;
-          color: #FF0000;
+          color: $themeColor;
           padding: 10px;
         }
       }

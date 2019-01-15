@@ -137,11 +137,11 @@
           width: 104px;
           height: 33px;
           background: rgba(255, 255, 255, 1);
-          border: 1px solid #E74A45;
+          border: 1px solid $themeColor;
           border-radius: 1px;
           font-size: 20px;
           font-weight: 400;
-          color: #E74A45;
+          color: $themeColor;
           display: inline-block;
           text-align: center;
           line-height: 33px;
@@ -153,11 +153,11 @@
           width: 82px;
           height: 33px;
           background: rgba(255, 255, 255, 1);
-          border: 1px solid #F5003F;
+          border: 1px solid $themeColor;
           border-radius: 7px;
           display: inline-block;
           float: left;
-          color: #F5003F;
+          color: $themeColor;
           text-align: center;
           line-height: 33px;
           margin-right: 15px;
@@ -167,11 +167,11 @@
           width: 82px;
           height: 33px;
           background: rgba(255, 255, 255, 1);
-          border: 1px solid #F60000;
+          border: 1px solid $themeColor;
           border-radius: 7px;
           display: inline-block;
           float: left;
-          color: #F60000;
+          color: $themeColor;
           text-align: center;
           line-height: 33px;
 

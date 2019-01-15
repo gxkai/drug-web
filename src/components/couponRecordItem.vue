@@ -58,7 +58,7 @@
         &:nth-child(2) {
           font-size: 20px;
           font-family: MicrosoftYaHei;
-          color: rgba(255, 0, 0, 1);
+          color: $themeColor;
         }
         &:nth-child(3) {
           font-size: 22px;

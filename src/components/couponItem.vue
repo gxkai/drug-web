@@ -55,7 +55,7 @@
         font-family:MicrosoftYaHei;
         color:rgba(51,51,51,1);
         &:nth-child(2) {
-          color: #FE0000;
+          color: $themeColor;
           margin-left: 20px;
         }
       }

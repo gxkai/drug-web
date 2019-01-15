@@ -180,7 +180,7 @@
         &-close_icon {
           position: absolute;
           right: 10px;
-          color: #F60000;
+          color: $themeColor;
         }
       }
       &_item {
@@ -205,7 +205,7 @@
         line-height: 80px;
         width: 100%;
         text-align: center;
-        background-color: #F60000;
+        background-color: $themeColor;
         color: white;
         font-size: 30px;
         font-family:HiraginoSansGB-W3;
@@ -249,7 +249,7 @@
           &:nth-child(2) {
             font-size: 20px;
             font-family: MicrosoftYaHei;
-            color: rgba(255, 0, 0, 1);
+            color: $themeColor;
           }
         }
       }
@@ -329,7 +329,7 @@
       div {
         width: 347px;
         height: 53px;
-        background: rgba(250, 94, 56, 1);
+        background: $themeColor;
         border-radius: 27px;
         font-size: 25px;
         font-family: MicrosoftYaHei;

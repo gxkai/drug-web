@@ -35,7 +35,7 @@
         text-align: center;
         div {
           font-size: 30px;
-          color: #F60000;
+          color: $themeColor;
           font-family:MicrosoftYaHei;
           font-weight:400;
           position: relative;

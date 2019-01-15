@@ -80,7 +80,7 @@ export default {
     color: #CCCCCC;
   }
   .active {
-    color: red;
+    color: $themeColor;
   }
   .smaller {
     font-size: 20px;;
