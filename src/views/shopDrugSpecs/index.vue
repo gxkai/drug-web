@@ -574,14 +574,16 @@
             shopDrugId: this.shopDrug.id,
             quantity: this.number
           });
-          let data = {
+          let json = {
             'shopId': this.shopDrug.shopId,
             'shopName': this.shopDrug.shopName,
             'orderShopDrugSpecInfoDTOList': drugInfoList,
             'type': 'SIMPLE'
           };
-          this.loading = false;
-          this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(data));
+          this.$toast.loading('预结算...');
+          const shopDrugSpecOrderDTO = await this.$http.post('orders/shop/preClose', json);
+          this.$toast.clear();
+          this.$router.push({ path: '/orders/create/fromShop', query: { orderShopDrugSpecDTO: JSON.stringify(json), shopDrugSpecOrderDTO: JSON.stringify(shopDrugSpecOrderDTO) } });
         }
       }
     }

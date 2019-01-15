@@ -114,7 +114,7 @@
 </template>
 
 <script>
-  import {getAccount} from '@/storage';
+  import { getAccount } from '@/storage';
 
   export default {
     data() {
@@ -156,16 +156,6 @@
         this.drugs = await this.$http.get('/rxs/' + this.rxId + '/shops/' + this.shopId + '/drugs');
         this.initCart();
       },
-      // lookMore(index) {
-      //   this.origins = this.drugs[index].drugs;
-      //   this.index = index;
-      //   this.show = true;
-      //   this.isActive = !this.isActive;
-      // },
-      // takeUp() {
-      //   this.show = !this.show;
-      //   this.isActive = !this.isActive;
-      // },
       initCart() {
         this.drugs.forEach(drug => {
           drug.drugs.forEach(origin => {
@@ -214,10 +204,9 @@
           this.amount += e.price * e.quantity;
           this.quantity += e.quantity;
         });
-        // this.show = !this.show;
-        // this.isActive = !this.isActive;
       },
       async createCart() {
+        this.$toast.loading();
         await this.$http.post('/carts', this.carts);
         this.$toast('加入成功');
       },
@@ -229,8 +218,10 @@
           'type': this.type,
           'orderShopDrugSpecInfoDTOList': this.carts
         };
-        // await this.$http.post('orders/shop/pre-close', json);
-        this.$router.push('/orders/create/fromShop?orderShopDrugSpecDTO=' + JSON.stringify(json));
+        this.$toast.loading();
+        const shopDrugSpecOrderDTO = await this.$http.post('orders/shop/preClose', json);
+        this.$toast.clear();
+        this.$router.push({ path: '/orders/create/fromShop', query: { orderShopDrugSpecDTO: JSON.stringify(json), shopDrugSpecOrderDTO: JSON.stringify(shopDrugSpecOrderDTO) } });
       }
     }
   };

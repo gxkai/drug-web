@@ -173,8 +173,8 @@
         name: '订单结算',
         account: getAccount(),
         orderShopDrugSpecDTO: JSON.parse(this.$route.query.orderShopDrugSpecDTO),
-        shopDrugSpecOrderDTO: {},
-        deliveryType: 'DELIVERY',
+        shopDrugSpecOrderDTO: JSON.parse(this.$route.query.shopDrugSpecOrderDTO),
+        deliveryType: 'SELF',
         payType: 'KRCB',
         couponRecord: '',
         coupons: [],
@@ -199,13 +199,9 @@
     },
     methods: {
       async initData() {
-        const data1 = await this.$http.post('orders/shop/preClose', this.orderShopDrugSpecDTO);
-        console.log(this.orderShopDrugSpecDTO);
-        console.log(data1);
-        this.payAmount = data1.payAmount;
-        this.shopDrugSpecOrderDTO = data1;
-        const data2 = await this.$http.get('couponRecords/order');
-        this.coupons = data2.filter(e => data1.payAmount >= e.amount);
+        this.payAmount = this.shopDrugSpecOrderDTO.payAmount;
+        const data = await this.$http.get('couponRecords/order');
+        this.coupons = data.filter(e => this.payAmount >= e.amount);
       },
       async onOrder() {
         if (this.deliveryType === 'DELIVERY' && this.address.id === undefined) {

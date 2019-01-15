@@ -32,7 +32,7 @@
     </div>
     <div class="close_shop_item-content">
       <div class="close_shop_item-content-item"
-      v-for="(item,key) in shopInfo.shopDrugSpecOrderInfoDTOList"
+      v-for="(item,key) in shopInfo.drugs"
       :key="key"
       @click="linkToShopDrugSpec(item.shopDrugId)">
         <div class="close_shop_item-content-item_left">
