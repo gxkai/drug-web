@@ -35,6 +35,9 @@
     font-size: 28px;
   }
   .ic-radiochecked:before {
-    color: rgba(19, 193, 254, 1);
+    color: #F60032;
+  }
+  .ic-radiobox:before {
+    color: #F60032;
   }
 </style>

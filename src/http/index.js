@@ -30,14 +30,17 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           removeToken();
-          Toast('不好意思，您被踢了');
+          Toast('登陆失效，请重新从趣医入口进入');
           break;
         case 400:
           if (error.response.data.fieldErrors !== undefined && error.response.data.fieldErrors !== null) {
             Toast(error.response.data.fieldErrors[0].message);
           } else {
-            Toast(error.response.data.message);
+            Toast(`${error.response.data.message}`);
           }
+          break;
+        case 500:
+          Toast(`${error.response.data.message}${error.response.data.exception}`);
           break;
         default:
           Toast('网络异常');

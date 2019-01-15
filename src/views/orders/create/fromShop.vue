@@ -221,8 +221,11 @@
         json.medicaid = this.isMedicarePay;
         json.type = this.shopDrugSpecOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
         json.origin = 'APP';
+        this.$toast.loading('生成订单中...');
         let order = await this.$http.post('/orders/shop', json);
+        this.$toast.loading('生成支付链接中...');
         let url = await this.$http.get(`/orders/${order.id}/pay`);
+        this.$toast.clear();
         window.location.href = url;
       },
       onDeliveryType(item) {
@@ -237,6 +240,7 @@
 <style scoped type="text/scss" lang="scss">
   .active {
     color: #ef4f4f;
+    border: 1PX solid #ef4f4f!important;
   }
   .text-red {
     color: #ef4f4f;

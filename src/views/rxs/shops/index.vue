@@ -7,7 +7,7 @@
        <div class="drugs-header">
           <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
           <input class="iconfont drugs-header__input" v-model="drugName" :placeholder="searchIcon">
-          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="search(drugName)"></van-icon>
+          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="search(shopName)"></van-icon>
         </div>
    </div>
       <div class="shops-filter">
@@ -25,7 +25,7 @@
            </div>-->
         <div class="shops-filter-item" @click="orderByPrice()">
           <div class="shops-filter-item-text" :class="{ red:activeRed == 1}">
-            价格
+            价格最低
           </div>
       <!--    <div class="shops-filter-item-arrow">
             <div class="shops-filter-item-arrow-up"
@@ -110,8 +110,8 @@
         rxShopsTwoshow: false,
         hospitalId: this.$route.query.hospitalId,
         hospital: null,
-        searchIcon: '药品名',
-        sort: 'ID_DESC',
+        searchIcon: '输入药房名称',
+        sort: 'PRICE_DESC',
         drugName: '',
         position: getCurrentAddress()
       };
@@ -125,19 +125,19 @@
       async toQyPayUrl() {
         let url = await this.$http.get(`/hospitals/${this.hospitalId}/url`);
         window.location.href = url;
-        // this.$toast('暂未开放');
       },
       initData() {
         this.getRxShops();
         this.getHospital();
       },
-      search(drugName) {
+      search(shopName) {
         this.rxShopsTwoshow = true;
         this.rxShopsOneshow = false;
-        this.rxShopsTwo = this.rxShops.filter(s => s.name.includes(drugName));
+        this.rxShopsTwo = this.rxShops.filter(s => s.name.includes(shopName));
       },
       async getRxShops() {
         this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
+        this.orderByPrice();
       },
       async getHospital() {
         this.hospital = await this.$http.get(`/rxs/${this.rxId}/hospital?lng=${this.position.lng}&lat=${this.position.lat}`);
@@ -147,6 +147,7 @@
       },
       orderByDistance() {
         this.activeRed = 2;
+        this.rxShops = this.rxShops.sort((a, b) => a.shopDistance - b.shopDistance);
         // if (this.sort === 'DISTANCE_DESC') {
         //   this.sort = 'DISTANCE_ASC';
         //   this.rxShops = this.rxShops.sort((a, b) => a.distance - b.distance);
@@ -157,7 +158,7 @@
       },
       orderByScore() {
         this.activeRed = 3;
-        this.$toast('加载中');
+        this.rxShops = this.rxShops.sort((a, b) => a.score - b.score);
         // if (this.sort === 'SCORE_DESC') {
         //   this.sort = 'SCORE_ASC';
         //   this.rxShops = this.rxShops.sort((a, b) => a.score - b.score);
@@ -165,10 +166,10 @@
         //   this.sort = 'SCORE_DESC';
         //   this.rxShops = this.rxShops.sort((a, b) => b.score - a.score);
         // }
-        this.$toast.clear();
       },
       orderByPrice() {
         this.activeRed = 1;
+        this.rxShops = this.rxShops.sort((a, b) => a.minAmount - b.minAmount);
         // if (this.sort === 'PRICE_DESC') {
         //   this.sort = 'PRICE_ASC';
         //   this.rxShops = this.rxShops.sort((a, b) => a.amount - b.amount);

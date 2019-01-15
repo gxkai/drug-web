@@ -6,11 +6,11 @@
         left-arrow
         @click-left="$router.go(-1)"
       />
-      <div class="rxs--header"  :style="note">
+      <div class="rxs--header" :style="note">
         <div class="rxs--header__left">
-        <!--  <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"
-               class="rxs&#45;&#45;header__left&#45;&#45;logo"
-          />-->
+          <!--  <img v-lazy="getImgURL(account.fileId,'SMALL_LOGO')"
+                 class="rxs&#45;&#45;header__left&#45;&#45;logo"
+            />-->
 
           <!--<img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="rxs&#45;&#45;header__left&#45;&#45;logo" v-if="headPic"/>-->
           <img src="../../assets/image/accounts/defaultPic.png" class="rxs--header__left--logo" v-if="picDefault"/>
@@ -50,35 +50,36 @@
               :key="item.id"
               @click="$router.push({path:'/rxs/view',query:{rxId:item.id}})"
             >
-              <img class="rxs--mark" v-lazy="item.state ==='ENABLED'? require('../../assets/image/rxs/rx-true.png') : require('../../assets/image/rxs/rx-false.png')" >
-              <div>
+              <img class="rxs--mark"
+                   v-lazy="item.state ==='ENABLED'? require('../../assets/image/rxs/rx-true.png') : require('../../assets/image/rxs/rx-false.png')">
+              <div style="display: flex">
                 <van-icon name="yiyuan" color="#F60000" size="3em"></van-icon>
-                <span>医院</span>
+                <span style="align-self: center">医院</span>
+                <span style="align-self: center">
+                  {{item.hospital||'未注明'}}
+                </span>
                 <span>
-              {{item.hospital||'未注明'}}
-            </span>
-                <span>
-              {{item.number}}
-            </span>
+                  {{item.number}}
+                </span>
               </div>
-              <div>
+              <div style="display: flex">
                 <van-icon name="riqi" color="#F60000" size="3em"></van-icon>
-                <span>日期</span>
-                <span>
-              {{timeConvert(item.rxDate)}}
-            </span>
+                <span style="align-self: center">日期</span>
+                <span style="align-self: center">
+                  {{timeConvert(item.rxDate)}}
+                </span>
               </div>
-              <div>
+              <div style="display: flex">
                 <van-icon name="222" color="#F60000" size="3em"></van-icon>
-                <span>诊断</span>
-                <span>
-              {{item.illness}}
-            </span>
+                <span style="align-self: center">诊断</span>
+                <span style="align-self: center">
+                  {{item.illness}}
+                </span>
               </div>
-              <div>
+              <div style="display: flex">
                 <van-icon name="shijian2" color="#F60000" size="3em"></van-icon>
-                <span>倒计时</span>
-                <new-count-down :endTime="item.rxDate" durationDay="3"></new-count-down>
+                <span style="align-self: center">倒计时</span>
+                <new-count-down :endTime="item.rxDate" durationDay="3" style="align-self: center"></new-count-down>
               </div>
             </div>
 
@@ -112,17 +113,20 @@
   </new-layout>
 </template>
 <style scoped type="text/less" lang="less">
-  .van-tabbar-item--active{
-    color: #F60032!important;
+  .van-tabbar-item--active {
+    color: #F60032 !important;
   }
-  .no-data{
-    margin-top: 50px!important;
+
+  .no-data {
+    margin-top: 50px !important;
   }
-  /deep/.van-nav-bar:after {
-    border-bottom: none!important;
+
+  /deep/ .van-nav-bar:after {
+    border-bottom: none !important;
   }
-  /deep/.van-pull-refresh{
-    margin-top: 10px!important;
+
+  /deep/ .van-pull-refresh {
+    margin-top: 10px !important;
   }
 </style>
 <style scoped type="text/scss" lang="scss">
@@ -140,19 +144,20 @@
       width: 680px;
       margin: 20px 20px 0;
       background-color: white;
-      padding:30px 30px 60px 30px;
+      padding: 30px 30px 60px 30px;
       position: relative;
       &:first-child {
-        margin-top: 50px!important;
+        margin-top: 50px !important;
       }
-      &>div {
+      & > div {
         margin-top: 10px;
-        &>span {
+        & > span {
           display: inline-block;
           &:nth-child(2) {
             width: 100px;
             color: #999999;
             font-size: 25px;
+            margin-left: 10px;
           }
           &:nth-child(3) {
             width: 300px;
@@ -217,7 +222,7 @@
   import {getAccount} from '@/storage';
 
   export default {
-    data() {
+    data () {
       return {
         headPic: false,
         picDefault: true,
@@ -238,9 +243,8 @@
         account: getAccount()
       };
     },
-    computed: {
-    },
-    created() {
+    computed: {},
+    created () {
       if (this.account.fileId) {
         this.headPic = true;
         this.picDefault = false;
@@ -249,16 +253,16 @@
         this.picDefault = true;
       }
     },
-    mounted() {
+    mounted () {
     },
     methods: {
-      onRefresh() {
+      onRefresh () {
         this.finished = false;
         this.list = [];
         this.pageNum = 0;
         this.onLoad();
       },
-      async onLoad() {
+      async onLoad () {
         this.pageNum++;
         const params = {
           'pageNum': this.pageNum,

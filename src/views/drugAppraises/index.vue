@@ -21,7 +21,7 @@
               <div class="drugAppraises--item--title__left">
                 <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')">
                 <span>{{account.username|asterisk}}</span>
-                <van-rate  v-model="item.score" color="red" :size="13" readonly/>
+                <van-rate  v-model="item.score" color="red"  readonly/>
               </div>
               <div class="drugAppraises--item--title__right">
                 {{dateConvert(item.createdDate)}}
@@ -57,6 +57,11 @@
     </template>
   </new-layout>
 </template>
+<style scoped type="text/less" lang="less">
+  /deep/.van-rate__item {
+    width: 30px!important;
+  }
+</style>
 <style scoped type="text/scss" lang="scss">
   .drugAppraises {
     &--item {

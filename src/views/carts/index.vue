@@ -16,7 +16,7 @@
           <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
             <div class="cart-list-shop"
                  @click="linkToShopView(cartShop.id)">
-              <van-icon name="yaodian" size="3em"></van-icon>
+              <van-icon name="yaodian" size="4em" color="#F60032"></van-icon>
               <div class="cart-list-shop_name" v-text="cartShop.shopName"></div>
             </div>
             <div v-for="(cartRx, cartRxIndex) in cartShop.rxs" :key="cartRxIndex">
@@ -25,10 +25,9 @@
                 <div class="cart-list-rx-left">
                   <div class="cart-list-rx-left_radio"
                        @click.stop="onRadio(RX,cartShop,cartRx)">
-                    <input type="checkbox" v-model="cartRx.radio">
-                    <label></label>
+                    <new-radio :radio="cartRx.radio"/>
                   </div>
-                  <van-icon name="chufangdanluru" size="3em"></van-icon>
+                  <van-icon name="chufangdanluru" size="4em" color="#F60032"></van-icon>
                   <div class="cart-list-rx-left_name">
                     处方单
                   </div>
@@ -43,10 +42,9 @@
                 <div class="cart-list-rx-left">
                   <div class="cart-list-rx-left_radio"
                        @click.stop="onRadio(RX,cartShop,cartRx)">
-                    <input type="checkbox" v-model="cartRx.radio">
-                    <label></label>
+                    <new-radio :radio="cartRx.radio"/>
                   </div>
-                  <van-icon name="jisongchufangdan" size="3em"></van-icon>
+                  <van-icon name="jisongchufangdan" size="4em" color="#F60032"></van-icon>
                   <div class="cart-list-rx-left_name">
                     非处方单
                   </div>
@@ -60,8 +58,7 @@
                     <div class="cart-list-drugs-item-left">
                       <div class="cart-list-drugs-item-left_radio"
                            @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
-                        <input type="checkbox" v-model="cartDrug.radio">
-                        <label></label>
+                        <new-radio :radio="cartDrug.radio"/>
                       </div>
                       <div class="cart-list-drugs-item-left_logo"
                            @click="linkToShopDrugSpec(cartDrug.id)">
@@ -152,42 +149,10 @@
         padding: 20px 20px;
         display: flex;
         background-color: white;
-        &_radio {
-          position: relative;
-          margin-right: 10px;
-          label {
-            position: absolute;
-            left: 5px;
-            top: 5px;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 1px solid #F60000;
-          }
-          input {
-            width: 30px;
-            height: 30px;
-            opacity: 0;
-          }
-          input:checked + label {
-            background-color: #F60000;
-            border: 1PX solid #F60000;
-          }
-          input:checked + label::after {
-            position: absolute;
-            content: "";
-            width: 7px;
-            height: 12px;
-            top: 6px;
-            left: 8px;
-            border: 1PX solid #fff;
-            border-top: none;
-            border-left: none;
-            transform: rotate(45deg);
-          }
-        }
         &_name {
           font-size: 30px;
+          align-self: flex-end;
+          color: #F60000;
         }
       }
       &-rx {
@@ -199,43 +164,11 @@
         justify-content: space-between;
         &-left {
           display: flex;
-          &_radio {
-            position: relative;
-            margin-right: 10px;
-            label {
-              position: absolute;
-              left: 5px;
-              top: 5px;
-              width: 30px;
-              height: 30px;
-              border-radius: 50%;
-              border: 1px solid #F60000;
-            }
-            input {
-              width: 30px;
-              height: 30px;
-              opacity: 0;
-            }
-            input:checked + label {
-              background-color: #F60000;
-              border: 1PX solid #F60000;
-            }
-            input:checked + label::after {
-              position: absolute;
-              content: "";
-              width: 7px;
-              height: 12px;
-              top: 6px;
-              left: 8px;
-              border: 1PX solid #fff;
-              border-top: none;
-              border-left: none;
-              transform: rotate(45deg);
-            }
-          }
+          align-items: center;
           &_name {
             font-size: 30px;
             color: #F60000;
+            align-self: flex-end;
           }
         }
         &-right {
@@ -261,39 +194,6 @@
           }
           &-left {
             display: flex;
-            &_radio {
-              position: relative;
-              label {
-                position: absolute;
-                left: 5px;
-                top: 20px;
-                width: 30px;
-                height: 30px;
-                border-radius: 50%;
-                border: 1px solid #F60000;
-              }
-              input {
-                width: 30px;
-                height: 30px;
-                opacity: 0;
-              }
-              input:checked + label {
-                background-color: #F60000;
-                border: 1PX solid #F60000;
-              }
-              input:checked + label::after {
-                position: absolute;
-                content: "";
-                width: 7px;
-                height: 12px;
-                top: 6px;
-                left: 8px;
-                border: 1PX solid #fff;
-                border-top: none;
-                border-left: none;
-                transform: rotate(45deg);
-              }
-            }
             &_logo {
               padding: 20px;
               img {
@@ -585,14 +485,10 @@
         let isRx = cartShop.rxs.some(rx => {
           return rx.rxId !== '0' && rx.radio === true;
         });
-        try {
-          this.loading = true;
-          const data = await this.$http.get(`/orders/cart?cartIds=${cartIds}&isRx=${isRx}`);
-          this.$router.push({ path: '/orders/create/fromCart', query: { cartShop: JSON.stringify(data), isRx: isRx } });
-        } catch (e) {
-          this.loading = false;
-          this.$toast.fail('结算失败');
-        }
+        this.$toast.loading('结算中');
+        const data = await this.$http.get(`/orders/cart?cartIds=${cartIds}&isRx=${isRx}`);
+        this.$toast.clear();
+        this.$router.push({ path: '/orders/create/fromCart', query: { cartShop: JSON.stringify(data), isRx: isRx } });
       },
       /**
        * 计算总价和总数

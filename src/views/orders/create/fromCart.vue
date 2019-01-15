@@ -10,13 +10,6 @@
     <template slot="center">
       <div class="pay_cart-content">
         <div class="pay_cart-content-delivery_type">
-          <!--<div class="pay_cart-content-delivery_type-header">-->
-            <!--&lt;!&ndash;<div>&ndash;&gt;-->
-            <!--&lt;!&ndash;<i class="iconfont ic-peisongfangshi"></i>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--<van-icon name="peisongfangshi" size="5em"></van-icon>-->
-            <!--<div>配送方式</div>-->
-          <!--</div>-->
           <div class="pay_cart-content-delivery_type-content">
            <span :class="{active:deliveryType=='DELIVERY'}"
                  @click.stop="onDeliveryType('DELIVERY')">送货上门</span>
@@ -250,8 +243,11 @@
         json.medicaid = this.isMedicarePay;
         json.type = this.isRx === true ? 'RX' : 'SIMPLE';
         json.origin = 'APP';
+        this.$toast.loading('生成订单中...');
         let order = await this.$http.post('/orders', json);
+        this.$toast.loading('生成支付链接中...');
         let url = await this.$http.get(`/orders/${order.id}/pay`);
+        this.$toast.clear();
         console.log(url);
         window.location.href = url;
       },
@@ -267,6 +263,7 @@
 <style scoped type="text/scss" lang="scss">
   .active {
     color: #ef4f4f;
+    border: 1PX solid #ef4f4f!important;
   }
 
   .text-red {

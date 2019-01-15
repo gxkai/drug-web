@@ -32,22 +32,22 @@
         <div class="drug-appraise-create__part-2__content">
           <div class="drug-appraise-create__part-2__content__item">
             <span class="drug-appraise-create__part-2__content__item-name">配送速度</span>
-            <van-rate v-model="deliveryScore" color="red" :size="15"
+            <van-rate v-model="deliveryScore" color="red"
                       class="drug-appraise-create__part-2__content__item-rate"/>
           </div>
           <div class="drug-appraise-create__part-2__content__item">
             <span class="drug-appraise-create__part-2__content__item-name">服务态度</span>
-            <van-rate v-model="serviceScore" color="red" :size="15"
+            <van-rate v-model="serviceScore" color="red"
                       class="drug-appraise-create__part-2__content__item-rate"/>
           </div>
           <div class="drug-appraise-create__part-2__content__item">
             <span class="drug-appraise-create__part-2__content__item-name">描述相符</span>
-            <van-rate v-model="describeScore" color="red" :size="15"
+            <van-rate v-model="describeScore" color="red"
                       class="drug-appraise-create__part-2__content__item-rate"/>
           </div>
           <div class="drug-appraise-create__part-2__content__item">
             <span class="drug-appraise-create__part-2__content__item-name">商品包装</span>
-            <van-rate v-model="packageScore" color="red" :size="15"
+            <van-rate v-model="packageScore" color="red"
                       class="drug-appraise-create__part-2__content__item-rate"/>
           </div>
         </div>
@@ -55,6 +55,11 @@
     </template>
   </new-layout>
 </template>
+<style scoped type="text/less" lang="less">
+  /deep/.van-rate__item {
+    width: 30px!important;
+  }
+</style>
 <style scoped type="text/scss" lang="scss">
   .drug-appraise-create {
     &__part-2 {

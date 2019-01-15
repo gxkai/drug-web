@@ -94,24 +94,24 @@
             <div class="drugs-shops__part-3__item__name" :class="{ red:activeRed == 1}">
               默认
             </div>
-          <!-- <div class="drugs-shops__part-3__item__arrow">
-              <div class="drugs-shops__part-3__item__arrow-up"
-                   :style="{borderBottomColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>
-              <div class="drugs-shops__part-3__item__arrow-down"
-                   :style="{borderTopColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>
-            </div>-->
+           <!--<div class="drugs-shops__part-3__item__arrow">-->
+              <!--<div class="drugs-shops__part-3__item__arrow-up"-->
+                   <!--:style="{borderBottomColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>-->
+              <!--<div class="drugs-shops__part-3__item__arrow-down"-->
+                   <!--:style="{borderTopColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>-->
+            <!--</div>-->
           </div>
           <div class="drugs-shops__part-3__item"
                @click="orderByDistance">
             <div class="drugs-shops__part-3__item__name" :class="{ red:activeRed == 2}">
-              距离
+              距离最近
             </div>
-           <!-- <div class="drugs-shops__part-3__item__arrow">
-              <div class="drugs-shops__part-3__item__arrow-up"
-                   :style="{borderBottomColor: sort === 'DISTANCE_ASC'?'#F60000':'gray'}"></div>
-              <div class="drugs-shops__part-3__item__arrow-down"
-                   :style="{borderTopColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>
-            </div>-->
+            <!--<div class="drugs-shops__part-3__item__arrow">-->
+              <!--<div class="drugs-shops__part-3__item__arrow-up"-->
+                   <!--:style="{borderBottomColor: sort === 'DISTANCE_ASC'?'#F60000':'gray'}"></div>-->
+              <!--<div class="drugs-shops__part-3__item__arrow-down"-->
+                   <!--:style="{borderTopColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>-->
+            <!--</div>-->
           </div>
           <div class="drugs-shops__part-3__item"
                @click="orderByPrice">
@@ -141,7 +141,7 @@
               <van-icon name="gouwuche3" color="#F60000" size="4em"></van-icon>
             </div>
             <div class="drugs-shops__part-4__item__info">
-              <van-icon name="ditu" color="#F60000" size="2em"></van-icon>
+              <van-icon name="ditu" color="#F60000" size="3em"></van-icon>
               <span>{{shop.address}}</span>
               <!--<van-icon name="aixin" color="#F60000" size="2em"></van-icon>-->
               <!--<span>{{shop.score}}</span>-->
@@ -211,7 +211,7 @@
           margin-top: 20px;
         }
         &__name {
-          font-size: 26px;
+          font-size: 22px;
           font-family: HiraginoSansGB-W3;
           font-weight: normal;
           color: rgba(51, 51, 51, 1);
@@ -368,6 +368,9 @@
             &:nth-child(2) {
               font-size: 25px;
               font-weight: 300;
+            }
+            &:nth-child(3) {
+              font-size: 25px;
             }
           }
         }
