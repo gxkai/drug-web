@@ -160,7 +160,7 @@
           <van-goods-action-mini-btn icon="chat" text="咨询" @click="onChat"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
           <van-goods-action-mini-btn icon="shoucang1" text="收藏" :style="{color: collected === true ? 'red': '#7d7e80'}"
-                                     @click="onCollect"/>
+                                     @click="onCollect" icon-class="active"/>
           <van-goods-action-big-btn text="加入购物车"
                                     :style="{backgroundColor:shopDrug.otc===false?'gray':'#f85'}"
                                     @click="shopDrug.otc===false? '' : show=true;type=0"/>
@@ -209,6 +209,9 @@
   </div>
 </template>
 <style scoped type="text/scss" lang="scss">
+  .active {
+    color: $themeColor;
+  }
   .shopDrug {
     &__popup {
       &__part-1 {

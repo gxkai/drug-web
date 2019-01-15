@@ -60,6 +60,8 @@
           <ul>
             <li>订单信息</li>
             <li>订单编号：<span class="order_view-address-detail">{{order.number}}</span></li>
+            <li>支付编号：<span class="order_view-address-detail"></span></li>
+            <li>医保结算编号：<span class="order_view-address-detail"></span></li>
             <li>下单时间：<span class="order_view-address-detail">{{timeConvert(order.createdDate)}}</span></li>
             <li>备注信息</li>
           </ul>
