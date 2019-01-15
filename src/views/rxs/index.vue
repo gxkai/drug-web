@@ -219,10 +219,10 @@
   }
 </style>
 <script>
-  import {getAccount} from '@/storage';
+  import { getAccount } from '@/storage';
 
   export default {
-    data () {
+    data() {
       return {
         headPic: false,
         picDefault: true,
@@ -244,7 +244,7 @@
       };
     },
     computed: {},
-    created () {
+    created() {
       if (this.account.fileId) {
         this.headPic = true;
         this.picDefault = false;
@@ -253,16 +253,16 @@
         this.picDefault = true;
       }
     },
-    mounted () {
+    mounted() {
     },
     methods: {
-      onRefresh () {
+      onRefresh() {
         this.finished = false;
         this.list = [];
         this.pageNum = 0;
         this.onLoad();
       },
-      async onLoad () {
+      async onLoad() {
         this.pageNum++;
         const params = {
           'pageNum': this.pageNum,
