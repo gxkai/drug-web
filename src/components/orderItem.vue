@@ -54,10 +54,10 @@
              v-if="order.state == 'TO_PAY'">
           取消订单
         </div>
-        <div class="order_item-content-button"
+        <div class="order_item-content-button activeButton"
              @click="onPay()"
              v-if="order.state == 'TO_PAY'"
-             :style="activeButton">
+             >
           我要付款
         </div>
         <!--<div class="order_item-content-button"-->
@@ -73,8 +73,8 @@
                  @click="onConfirm()">
               确认收货
             </div>
-            <div class="order_item-content-button-receiveType-list-item"
-                 @click="$emit('onQrcode', order)" :style="activeButton">
+            <div class="order_item-content-button-receiveType-list-item activeButton"
+                 @click="$emit('onQrcode', order)">
               扫码收货
             </div>
         </div>
@@ -83,9 +83,9 @@
         v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
         查看配送
         </div>
-        <div class="order_item-content-button"
+        <div class="order_item-content-button activeButton"
              @click="onAppraise()"
-             v-if="order.state == 'TO_APPRAISE'" :style="activeButton">
+             v-if="order.state == 'TO_APPRAISE'">
           评价
         </div>
       <!--  <div class="order_item-content-button"
@@ -100,6 +100,10 @@
   </div>
 </template>
 <style scoped type="text/scss" lang="scss">
+  .activeButton {
+    color: $themeColor;
+    borderColor: $themeColor
+  }
   .order_item {
     margin-top: 20px;
     .iconfont {
@@ -257,10 +261,6 @@
     data() {
       return {
         popupVisible: false,
-        activeButton: {
-          color: '#F60000',
-          borderColor: '#F60000'
-        },
         showData: false
       };
     },
