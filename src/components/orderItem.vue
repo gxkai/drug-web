@@ -281,12 +281,9 @@
         this.$emit('update:order', this.order);
       },
       onCancel() {
-        this.$axios.put('/orders/' + this.order.id + '/close').then(res => {
-          this.order.state = 'CLOSED';
-          this.emitOrder();
-        }).catch(error => {
-          this.exception(error);
-        });
+        this.$http.put('/orders/' + this.order.id + '/close');
+        this.order.state = 'CLOSED';
+        this.emitOrder();
       },
       onDrug(item) {
         this.$router.push({ path: '/shopDrugs', query: { shopDrugId: item.shopDrugId } });
@@ -319,16 +316,13 @@
         this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
       onConfirm() {
-        this.$http.put('/orders/' + this.order.id + '/complete').then(res => {
-          if (this.order.type === 'HOSPITAL') {
-            this.order.state = 'COMPLETED';
-          } else {
-            this.order.state = 'TO_APPRAISE';
-          }
-          this.emitOrder();
-        }).catch(error => {
-          this.exception(error);
-        });
+        this.$http.put('/orders/' + this.order.id + '/complete');
+        if (this.order.type === 'HOSPITAL') {
+          this.order.state = 'COMPLETED';
+        } else {
+          this.order.state = 'TO_APPRAISE';
+        }
+        this.emitOrder();
       }
     }
   };

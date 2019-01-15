@@ -14,8 +14,8 @@
       </template>
       <template slot="center">
         <div class="order_view-state">
-          <div class="order_view-state_name" v-text="transformOrderState(order.state, order.refundState, this)"
-               @click="popupModel(order.state)">
+          <div class="order_view-state_name" v-text="transformOrderState(order.state, order.refundState, this)+ '>'"
+               @click="popup = !popup ">
           </div>
           <new-count-down :endTime="order.lastModifiedDate" durationMin='15'
                           class="order_view-state_time"
@@ -39,18 +39,18 @@
 
         <div class="order_view-money">
           <ul>
-            <li>实付金额：<span class="order-view-money_red">¥68.00</span></li>
-            <li>商品金额：<span class="order-view-money_red">¥68.00</span>（包含运费：0.00）</li>
-            <li>医保扣除：<span class="order-view-money_red">¥68.00</span></li>
+            <li>实付金额：<span class="order-view-money_red">¥{{order.payAmount}}</span></li>
+            <li>商品金额：<span class="order-view-money_red">¥{{order.totalAmount}}</span></li>
+            <li>医保扣除：<span class="order-view-money_red">¥{{order.medicaidAmount}}</span></li>
           </ul>
         </div>
 
 
-        <div class="order_view-address">
+        <div class="order_view-address" v-if="order.deliveryType === 'DELIVERY'">
           <ul>
             <li>配送信息</li>
-            <li>收货地址：<span class="order_view-address-detail">海创大厦C座22楼</span></li>
-            <li>收货电话：<span class="order_view-address-detail">1324568710</span></li>
+            <li>收货地址：<span class="order_view-address-detail">{{order.consignee}}</span></li>
+            <li>收货电话：<span class="order_view-address-detail">{{order.courierPhone}}</span></li>
             <li>配送方式：<span class="order_view-address-detail">商家配送</span></li>
          </ul>
         </div>
@@ -64,56 +64,22 @@
             <li>备注信息</li>
           </ul>
         </div>
-
-
-
-
-
-        <div class="order_view-amount">
-          <div>
-            <span>商品总价</span>
-            <span>&yen;{{order.totalAmount||'0.0'}}</span>
-          </div>
-          <div>
-            <span>医保扣除</span>
-            <span>&yen;{{order.medicaidAmount||'0.0'}}</span>
-          </div>
-          <div>
-            <span>优惠券扣除</span>
-            <span>&yen;{{order.couponAmount||'0.0'}}</span>
-          </div>
-          <div>
-            <span>需付款</span>
-            <span class="text-red">&yen;{{order.payAmount||'0.0'}}</span>
-          </div>
-        </div>
-        <div class="order_view-deal">
-          <div class="order_view-deal-number">
-            订单编号：{{order.number}}
-          </div>
-          <div class="order_view-deal-pay_number">
-            支付流水号：{{order.payNumber||'无'}}
-          </div>
-          <div class="order_view-deal-created_date">
-            创建时间：{{timeConvert(order.createdDate)}}
-          </div>
-        </div>
         <div class="order_view-buttons">
           <div class="order_view-button"
                @click="onCancel()"
                v-if="order.state == 'TO_PAY'">
             取消订单
           </div>
-          <div class="order_view-button"
+          <div class="order_view-button activeButton"
                @click="onPay()"
                v-if="order.state == 'TO_PAY'"
-               :style="activeButton">
+               >
             我要付款
           </div>
-          <div class="order_view-button"
+          <div class="order_view-button activeButton"
                @click="onConfirm()"
                v-if="order.state == 'TO_RECEIVED'"
-               :style="activeButton">
+               >
             确认收货
           </div>
           <div class="order_view-button"
@@ -160,6 +126,11 @@
 </template>
 
 <style scoped type="text/scss" lang="scss">
+
+  .activeButton {
+    color: $themeColor!important;
+    border-color: $themeColor!important;
+  }
   .step__title_order{
     width: 240px;
     display: inline-block;
@@ -220,15 +191,15 @@
       position: relative;
       width: 100%;
       height:120px;
-      background: #f3f3f3;
+      background: $themeColor;
       font-weight: bold;
       font-size: 35px;
       &_name {
         position: absolute;
         left: 53px;
-        top: 45px;
+        top: 35px;
         font-size: 30px;
-        color: #000000;
+        color: white;
         font-weight: 200;
       }
       &_time {
@@ -304,7 +275,7 @@
     }
     &-money{
       background: white;
-
+      padding-top: 20px;
       border-top: 10px solid #f3f3f3;
       ul{
         li{
@@ -371,13 +342,11 @@
         orderId: this.$route.query.orderId,
         popupVisible: false,
         order: {},
-        popupModel(orderState) {
-          this.popup = true;
-        },
         activeButton: {
           color: '#00ADB3',
           borderColor: '#00ADB3'
         },
+        timeLine: {},
         stateStyle: '',
         deliverStyle: {
           backgroundImage: 'url(' + require('@/assets/image/orderView/toDeliver.png') + ')',
@@ -430,7 +399,8 @@
     },
     methods: {
       async initData() {
-        this.order = await this.$http.get('/orders/' + this.orderId);
+        this.order = await this.$http.get(`/orders/${this.orderId}`);
+        this.timeLine = await this.$http.get(`/orders/${this.orderId}/logs`);
         this.stateStyle = this.getStateStyle();
       },
       getStateStyle() {
@@ -458,17 +428,17 @@
         await this.$http.put(`/orders/${this.order.id}/close`);
         this.order.state = 'CLOSED';
       },
-      onPay() {
-        this.$router.push({path: '/orders/pay', query: {orderIds: this.order.id}});
+      async onPay() {
+        window.location.href = this.order.payUrl === null ? await this.$http.get(`/orders/${this.order.id}/pay`) : this.order.payUrl;
       },
       onRefund() {
-        this.$router.push({path: '/orderRefunds/create', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });
       },
       onDelivery() {
-        this.$router.push({path: '/orders/delivery', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/orders/delivery', query: { orderId: this.order.id } });
       },
       onAppraise() {
-        this.$router.push({path: '/drugAppraises/create', query: {orderId: this.order.id}});
+        this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
       },
       async onConfirm() {
         await this.$http.put(`/orders/${this.order.id}/complete`);

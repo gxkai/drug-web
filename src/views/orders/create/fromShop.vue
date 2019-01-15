@@ -199,7 +199,7 @@
     },
     methods: {
       async initData() {
-        const data1 = await this.$http.post('orders/shop/pre-close', this.orderShopDrugSpecDTO);
+        const data1 = await this.$http.post('orders/shop/preClose', this.orderShopDrugSpecDTO);
         console.log(this.orderShopDrugSpecDTO);
         console.log(data1);
         this.payAmount = data1.payAmount;

@@ -25,15 +25,15 @@
              <!--@click="onRx()">查看处方&gt;-->
         <!--</div>-->
       <!--</div>-->
-      <div class="order_item-content-header">
-        <span class="order_item-content-header-left"><i class="iconfont ic-chufangdanluru"></i>处方单</span>
-        <span class="order_item-content-header-right">查看处方></span>
-      </div>
+      <!--<div class="order_item-content-header">-->
+        <!--<span class="order_item-content-header-left"><i class="iconfont ic-chufangdanluru"></i>处方单</span>-->
+        <!--<span class="order_item-content-header-right">查看处方></span>-->
+      <!--</div>-->
       <div class="order_item-content-info"
            v-for="item in order.list">
 
         <div class="order_item-content-info-left">
-          <div class="rx_mark" >处v-if="!item.otc"</div>
+          <div class="rx_mark" v-if="!item.otc" >处</div>
           <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
         </div>
 
@@ -175,11 +175,11 @@
           }
           &_price {
             color: $themeColor;
-            font-size: 20px;
+            font-size: 30px;
           }
           &_quantity {
             color: #999999;
-            font-size: 20px;
+            font-size: 25px;
           }
         }
       }
@@ -247,8 +247,8 @@
       onDetail() {
         this.$router.push({ path: '/orders/view', query: { orderId: this.order.id } });
       },
-      onPay() {
-        this.$router.push({ path: '/orders/pay', query: { orderIds: this.order.id } });
+      async onPay() {
+        window.location.href = this.order.payUrl === null ? await this.$http.get(`/orders/${this.order.id}/pay`) : this.order.payUrl;
       },
       onRefund() {
         this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });
