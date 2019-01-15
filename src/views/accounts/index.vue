@@ -35,7 +35,9 @@
               </router-link>
             </div>
 
-            <van-tabbar :fixed="Boolean(false)">
+            <van-tabbar :fixed="Boolean(false)"
+                        :value="5"
+            >
 
               <van-tabbar-item v-if="count.toPayCount === 0"
                                icon="daifukuan"
@@ -333,11 +335,13 @@
       .left__all-order{
         flex: 1;
         padding-left: 20px;
+        color: #5F5F5F;
       }
       .right__my-order{
         flex: 1;
         justify-content: flex-end;
         text-align: right;
+        color: #5F5F5F;
       }
     }
 
