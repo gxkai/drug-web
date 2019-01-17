@@ -12,40 +12,40 @@
             <div class="drugs-filter-item-text">
               默认
             </div>
-          <!--  <div class="drugs-filter-item-arrow">
+            <div class="drugs-filter-item-arrow">
               <div class="drugs-filter-item-arrow-up"
                    :style="{borderBottomColor:drugSort === 'SYNTHESIZE_DESC'? '#F60000': 'gray'} ">
               </div>
               <div class="drugs-filter-item-arrow-down"
                    :style="{borderTopColor:drugSort === 'SYNTHESIZE_DESC'? '#F60000': 'gray'} ">
               </div>
-            </div>-->
+            </div>
           </div>
           <div class="drugs-filter-item" @click="OrderByPrice()" :class="{red:activeRed == 2}">
             <div class="drugs-filter-item-text">
               价格
             </div>
-           <!-- <div class="drugs-filter-item-arrow">
+            <div class="drugs-filter-item-arrow">
               <div class="drugs-filter-item-arrow-up"
                    :style="{borderBottomColor:drugSort === 'PRICE_ASC'? '#F60000': 'gray'} ">
               </div>
               <div class="drugs-filter-item-arrow-down"
                    :style="{borderTopColor:drugSort === 'PRICE_DESC'? '#F60000': 'gray'} ">
               </div>
-            </div>-->
+            </div>
           </div>
           <div class="drugs-filter-item" @click="OrderBySales()" :class="{ red:activeRed == 3}">
             <div class="drugs-filter-item-text">
               销量
             </div>
-           <!-- <div class="drugs-filter-item-arrow">
+            <div class="drugs-filter-item-arrow">
               <div class="drugs-filter-item-arrow-up"
                    :style="{borderBottomColor:drugSort === 'SALE_ASC'? '#F60000': 'gray'} ">
               </div>
               <div class="drugs-filter-item-arrow-down"
                    :style="{borderTopColor:drugSort === 'SALE_DESC'? '#F60000': 'gray'} ">
               </div>
-            </div>-->
+            </div>
           </div>
           <div class="drugs-filter-item" @click="show = true">
             <div class="drugs-filter-item-text">
@@ -322,20 +322,20 @@
       },
       OrderByPrice() {
         this.activeRed = 2;
-        // if (this.drugSort === 'PRICE_DESC') {
-        //   this.drugSort = 'PRICE_ASC';
-        // } else {
-        //   this.drugSort = 'PRICE_DESC';
-        // }
+        if (this.drugSort === 'PRICE_DESC') {
+          this.drugSort = 'PRICE_ASC';
+        } else {
+          this.drugSort = 'PRICE_DESC';
+        }
         this.onRefresh();
       },
       OrderBySales() {
         this.activeRed = 3;
-        // if (this.drugSort === 'SALE_DESC') {
-        //   this.drugSort = 'SALE_ASC';
-        // } else {
-        //   this.drugSort = 'SALE_DESC';
-        // }
+        if (this.drugSort === 'SALE_DESC') {
+          this.drugSort = 'SALE_ASC';
+        } else {
+          this.drugSort = 'SALE_DESC';
+        }
         this.onRefresh();
       },
       async filterByName() {

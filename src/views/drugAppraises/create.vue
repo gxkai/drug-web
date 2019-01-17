@@ -79,7 +79,8 @@
           display: flex;
           padding: 5px 0;
           &-rate {
-            margin-left: 10px;
+            margin-left: 20px;
+            margin-top: 10px;
           }
           &-name {
             font-size: 25px;

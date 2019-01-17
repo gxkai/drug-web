@@ -180,7 +180,7 @@
         account: getAccount(),
         cartShop: JSON.parse(this.$route.query.cartShop),
         isRx: this.$route.query.isRx,
-        deliveryType: 'DELIVERY',
+        deliveryType: 'SELF',
         payType: 'KRCB',
         couponRecord: '',
         coupons: [],

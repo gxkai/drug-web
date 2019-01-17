@@ -8,10 +8,16 @@
       <div class="drug_item-right">
         <div class="drug_item-right-info">
         <div class="drug_item-right-info_name">
-          {{ item.name }}&nbsp;&nbsp;{{item.spec}}
+          {{ item.name }}&nbsp;&nbsp;{{item.spec}} {{item.form}}
+        </div>
+        <div class="drug_item-right-info_sfda">
+          {{ item.originName }}
         </div>
         <div class="drug_item-right-info_sfda">
           国药准字：{{ item.sfda }}
+        </div>
+        <div class="drug_item-right-info_sfda">
+          销量：{{ item.sales }}
         </div>
         <!--<div class="drug_item-right-info_sales">-->
           <!--已销售 {{ item.sales || 0}}-->

@@ -5,13 +5,12 @@
       position="bottom">
       <div class="drugs-shops-popup">
         <div class="drugs-shops-popup-header">
-
           <div class="drugs-shops-popup-header-left">
             <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
           </div>
           <div class="drugs-shops-popup-header-center">
             <div class="elpsTwo">{{drugInfo.introduce|| '暂无介绍'}}</div>
-            <div class="elpsTwo">{{drugInfo.name}} {{drugSpec.name}} -{{drugInfo.originName}}</div>
+            <div class="elpsTwo">{{drugInfo.name}}</div>
             <div style="color: #F60000">{{drugInfo.sfda}}</div>
           </div>
           <div class="drugs-shops-popup-header-right" @click="show = false">
@@ -49,21 +48,8 @@
       <template slot="center">
         <van-swipe :autoplay="3000">
           <van-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
-
             <img v-lazy="getImgURL(pic, 'MIDDLE_PIC')"/>
           </van-swipe-item>
-
-
-
-
-       <!-- <van-swipe-item v-for="(fileId,index) in shopDrugSpec.fileIds" :key="index">
-            <img v-lazy="getImgURL(fileId,'LARGE_PIC')"/>
-          </van-swipe-item>-->
-
-
-
-
-
         </van-swipe>
         <div class="drugs-shops__part-1">
           <div class="drugs-shops__part-1__front">
@@ -77,14 +63,14 @@
           </div>
         </div>
         <div class="drugs-shops__part-2 van-hairline--bottom">
-          <van-cell is-link :arrow-direction="show=== true ? 'down' : 'right'" @click="show = true">
+          <van-cell is-link :arrow-direction="show=== true ? 'down' : ''" @click="show = true">
             <template slot="title">
-          <span class="drugs-shops__part-2__left-number">
-            {{total}}个
-          </span>
-              <span class="drugs-shops__part-2__left-name">
-            商家报价
-          </span>
+              <span class="drugs-shops__part-2__left-number">
+                {{total}}个
+              </span>
+                  <span class="drugs-shops__part-2__left-name">
+                商家报价
+              </span>
             </template>
           </van-cell>
         </div>
@@ -94,11 +80,11 @@
             <div class="drugs-shops__part-3__item__name" :class="{ red:activeRed == 1}">
               默认
             </div>
-           <!--<div class="drugs-shops__part-3__item__arrow">-->
-              <!--<div class="drugs-shops__part-3__item__arrow-up"-->
-                   <!--:style="{borderBottomColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>-->
-              <!--<div class="drugs-shops__part-3__item__arrow-down"-->
-                   <!--:style="{borderTopColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>-->
+            <!--<div class="drugs-shops__part-3__item__arrow">-->
+            <!--<div class="drugs-shops__part-3__item__arrow-up"-->
+            <!--:style="{borderBottomColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>-->
+            <!--<div class="drugs-shops__part-3__item__arrow-down"-->
+            <!--:style="{borderTopColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>-->
             <!--</div>-->
           </div>
           <div class="drugs-shops__part-3__item"
@@ -107,10 +93,10 @@
               距离最近
             </div>
             <!--<div class="drugs-shops__part-3__item__arrow">-->
-              <!--<div class="drugs-shops__part-3__item__arrow-up"-->
-                   <!--:style="{borderBottomColor: sort === 'DISTANCE_ASC'?'#F60000':'gray'}"></div>-->
-              <!--<div class="drugs-shops__part-3__item__arrow-down"-->
-                   <!--:style="{borderTopColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>-->
+            <!--<div class="drugs-shops__part-3__item__arrow-up"-->
+            <!--:style="{borderBottomColor: sort === 'DISTANCE_ASC'?'#F60000':'gray'}"></div>-->
+            <!--<div class="drugs-shops__part-3__item__arrow-down"-->
+            <!--:style="{borderTopColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>-->
             <!--</div>-->
           </div>
           <div class="drugs-shops__part-3__item"
@@ -150,11 +136,11 @@
             </div>
 
 
-            <div class="drugs-shops__part-4__item__info">
+            <div class="drugs-shops__part-4__item__distance">
               <span class="rx-delivery" v-if="shop.distribution==true && shop.shopDistance < shop.distance">可配送</span>
               <span class="rx-since">可自提</span>
-              <span>距当前位置：{{shop.distance | meter}}</span>
-             </div>
+              <span class="drugs-shops__part-4__item__distance__meter">距当前位置：{{shop.distance | meter}}</span>
+            </div>
           </div>
         </div>
       </template>
@@ -167,24 +153,25 @@
     width: 82px;
     height: 33px;
     background: rgba(255, 255, 255, 1);
-    border: 1px solid $themeColor!important;
+    border: 1px solid $themeColor !important;
     border-radius: 7px;
     display: inline-block;
-    color: $themeColor!important;
+    color: $themeColor !important;
     text-align: center;
     line-height: 33px;
     margin-right: 15px;
     margin-left: 15px;
   }
+
   .rx-since {
     font-size: 20px;
     width: 82px;
     height: 33px;
     background: rgba(255, 255, 255, 1);
-    border: 1px solid $themeColor!important;
+    border: 1px solid $themeColor !important;
     border-radius: 7px;
     display: inline-block;
-    color: $themeColor!important;
+    color: $themeColor !important;
     text-align: center;
     line-height: 33px;
     margin-right: 15px;
@@ -211,7 +198,7 @@
           margin-top: 20px;
         }
         &__name {
-          font-size: 22px;
+          font-size: 20px;
           font-family: HiraginoSansGB-W3;
           font-weight: normal;
           color: rgba(51, 51, 51, 1);
@@ -220,7 +207,7 @@
           position: absolute;
           right: 20px;
           top: 20px;
-          font-size: 24px;
+          font-size: 20px;
           font-family: HiraginoSansGB-W3;
           font-weight: normal;
           color: $themeColor;
@@ -237,6 +224,12 @@
             font-family: HiraginoSansGB-W3;
             font-weight: normal;
             color: rgba(102, 102, 102, 1);
+          }
+        }
+        &__distance {
+          padding-top: 20px;
+          &__meter {
+            font-size: 15px;
           }
         }
       }
@@ -345,7 +338,6 @@
         position: relative;
         &-left {
           position: absolute;
-          bottom: 0;
           left: 20px;
           z-index: 1;
           img {
@@ -442,8 +434,9 @@
       }
     }
   }
-  .red{
-    color: $themeColor!important;
+
+  .red {
+    color: $themeColor !important;
   }
 </style>
 <script>

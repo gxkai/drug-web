@@ -67,15 +67,17 @@
       justify-content: space-around;
       align-items: center;
       div {
-        font-size: 26px;
-        font-family: HiraginoSansGB-W3;
         font-weight: 100;
         color: rgba(254, 255, 255, 1);
+        &:nth-child(1) {
+          font-size: 26px;
+        }
         &:nth-child(2) {
+          font-size: 22px;
           width: 199px;
           height: 47px;
-          border: 2PX solid rgba(255, 255, 255, 1);
-          border-radius: 20px;
+          line-height: 47px;
+          border: 1PX solid rgba(255, 255, 255, 1);
           text-align: center;
         }
       }

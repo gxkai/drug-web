@@ -16,7 +16,7 @@
         </div>
         <div class="shop-info__part-2">
           <span class="shop-info__part-2__span-name">门店地址:</span>
-          <span class="shop-info__part-2__span-adress">{{shopInfo.address}}</span>
+          <span class="shop-info__part-2__span-address">{{shopInfo.address}}</span>
         </div>
         <div class="shop-info__part-3" style="display: none;">
           <div class="shop-info__part-3__header van-hairline--bottom">
@@ -145,13 +145,13 @@
       margin-bottom: 20px;
       &__span {
         &-name {
-          font-size:18px;
+          font-size:26px;
           font-family:HiraginoSansGB-W3;
           font-weight:normal;
           color:rgba(102,102,102,1);
         }
         &-address {
-          font-size:25px;
+          font-size:24px;
           font-family:HiraginoSansGB-W3;
           font-weight:normal;
         }

@@ -162,10 +162,10 @@
           <van-goods-action-mini-btn icon="shoucang1" text="收藏" :style="{color: collected === true ? 'red': '#7d7e80'}"
                                      @click="onCollect" icon-class="active"/>
           <van-goods-action-big-btn text="加入购物车"
-                                    :style="{backgroundColor:shopDrug.otc===false?'gray':'#f85'}"
+                                    :style="{backgroundColor:shopDrug.otc===false?'gray':'#f85',borderColor:shopDrug.otc===false?'gray':'#ff976a'}"
                                     @click="shopDrug.otc===false? '' : show=true;type=0"/>
           <van-goods-action-big-btn text="立即购买" primary
-                                    :style="{backgroundColor:shopDrug.otc===false?'gray':'#f44'}"
+                                    :style="{backgroundColor:shopDrug.otc===false?'gray':'#f44',borderColor:shopDrug.otc===false?'gray':'#f44'}"
                                     @click="shopDrug.otc===false? '' : show=true;type=1"/>
         </van-goods-action>
       </template>
