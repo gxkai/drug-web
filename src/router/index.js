@@ -59,16 +59,6 @@ const chatRouter = [
 
 const accountRouter = [
   {
-    path: '/accounts/card/bind',
-    name: '医保卡绑定',
-    component: () => import('@/views/accounts/card/bind')
-  },
-  {
-    path: '/accounts/card/bind/success',
-    name: '绑定成功',
-    component: () => import('@/views/accounts/card/success')
-  },
-  {
     path: '/accounts/password',
     name: '密码设置',
     component: () => import('@/views/accounts/password')
@@ -81,11 +71,6 @@ const accountRouter = [
     path: '/accounts/info',
     name: '账户信息',
     component: () => import('@/views/accounts/info')
-  },
-  {
-    path: '/accounts/card/success.vue',
-    name: '医保卡绑定成功',
-    component: () => import('@/views/accounts/card/success.vue')
   },
   {
     path: '/accounts/insurance/account',

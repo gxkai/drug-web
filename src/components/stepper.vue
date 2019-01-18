@@ -26,6 +26,7 @@
     watch: {
       number(newValue) {
         this.$emit('input', newValue);
+        this.$emit('change', newValue);
       }
     },
     computed: {},

@@ -87,6 +87,7 @@
                             v-if="isRx(cartRx.rxId)">x{{cartDrug.quantity}}</span>
                           <new-stepper
                             v-model="cartDrug.quantity"
+                            v-on:change="changeQuantity(cartDrug)"
                             v-else
                           />
                         </div>
@@ -137,9 +138,10 @@
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
-  .van-tabbar-item--active{
-    color: $themeColor!important;
+  .van-tabbar-item--active {
+    color: $themeColor !important;
   }
+
   .cart {
     &-list {
       width: 720px;
@@ -317,19 +319,8 @@
         this.cartShops = data.cartShops;
         console.log(this.cartShops);
       },
-      /**
-       * 减少数量
-       */
-      onAdd(cartDrug) {
-        cartDrug.quantity++;
-      },
-      /**
-       * 增加数量
-       */
-      onCut(cartDrug) {
-        if (cartDrug.quantity > 1) {
-          cartDrug.quantity--;
-        }
+      changeQuantity(cartDrug) {
+        this.$http.put(`/carts/${cartDrug.cartId}?quantity=${cartDrug.quantity}`);
       },
       /**
        * 单个删除

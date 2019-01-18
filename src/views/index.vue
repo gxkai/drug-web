@@ -5,63 +5,106 @@
         <div class="home">
           <div class="home__banner">
             <div class="home__banner__top">
-      <span class="home__banner__address">
-         <i class="fz22 home__banner__address_i" @click="$router.push('/addresses/choose')">{{currentAddress.name}} </i>
-         <van-icon name="arrowdown" color="white" size="3em" class="arrow"></van-icon>
-      </span>
+              <span class="home__banner__address">
+                <i
+                  class="fz22 home__banner__address_i"
+                  @click="$router.push('/addresses/choose')"
+                  >{{ currentAddress.name }}
+                </i>
+                <van-icon
+                  name="arrowdown"
+                  color="white"
+                  size="3em"
+                  class="arrow"
+                ></van-icon>
+              </span>
               <div>
                 <span class="home__banner__search"></span>
                 <span>
-          <van-icon name="sousuo" color="white" size="0.7rem" class="sousuo"></van-icon>
-              <input type="text" placeholder="输入您当前要搜索的商品" @click="$router.push('/search')"/>
-      </span>
+                  <van-icon
+                    name="sousuo"
+                    color="white"
+                    size="0.7rem"
+                    class="sousuo"
+                  ></van-icon>
+                  <input
+                    type="text"
+                    placeholder="输入您当前要搜索的商品"
+                    @click="$router.push('/search')"
+                  />
+                </span>
               </div>
             </div>
-            <div class="banner_img">
-              <img :src="banner"/>
-            </div>
+            <div class="banner_img"><img :src="banner" /></div>
           </div>
-
 
           <div class="home__four">
             <ul class="home__four__ul">
               <li class="home__four__ul__li" @click="$router.push('/rxs')">
-                <span><img src="../assets/image/home/home_cf.png"/> </span>
+                <span><img src="../assets/image/home/home_cf.png" /> </span>
                 <span class="home__four__ul__li__span">我的处方</span>
               </li>
-              <li class="home__four__ul__li" @click="$router.push('/accounts/info')">
-                <span><img src="../assets/image/home/home_yb.png"/> </span>
+              <li
+                class="home__four__ul__li"
+                @click="$router.push('/accounts/info')"
+              >
+                <span><img src="../assets/image/home/home_yb.png" /> </span>
                 <span class="home__four__ul__li__span">我的医保</span>
               </li>
-              <li class="home__four__ul__li" @click="$router.push('/repositoryTypes')">
-                <span><img src="../assets/image/home/home_knew.png"/> </span>
+              <li
+                class="home__four__ul__li"
+                @click="$router.push('/repositoryTypes')"
+              >
+                <span><img src="../assets/image/home/home_knew.png" /> </span>
                 <span class="home__four__ul__li__span">知识库</span>
               </li>
               <li class="home__four__ul__li" @click="$router.push('/shops')">
-                <span><img src="../assets/image/home/home_drug.png"/> </span>
+                <span><img src="../assets/image/home/home_drug.png" /> </span>
                 <span class="home__four__ul__li__span">药房</span>
               </li>
             </ul>
           </div>
 
           <div class="home__news">
-            <span><img src="../assets/image/home/home_hot.png" class="home__news__img"/> </span>
-            <span><van-icon name="laba" color="#F63016" size="3em"></van-icon></span>
+            <span
+              ><img
+                src="../assets/image/home/home_hot.png"
+                class="home__news__img"
+              />
+            </span>
+            <span
+              ><van-icon name="laba" color="#F63016" size="3em"></van-icon
+            ></span>
             <span>
-          <transition name="slide" mode="out-in">
-           <p class="home__content__repository__right__item--title"
-              :key="text.id"
-              @click="$router.push({path:'/repositories/view',query:{id:text.val.id,title:text.val.title}})"
-           >{{text.val.title}}</p>
-         </transition>
-
-     </span>
+              <transition name="slide" mode="out-in">
+                <p
+                  class="home__content__repository__right__item--title"
+                  :key="text.id"
+                  @click="
+                    $router.push({
+                      path: '/repositories/view',
+                      query: { id: text.val.id, title: text.val.title }
+                    })
+                  "
+                >
+                  {{ text.val.title }}
+                </p>
+              </transition>
+            </span>
           </div>
           <div class="home__content__discount">
             <div class="home__content__discounttime">
-              <span class="text-F6003F">限时</span><span class="text-262626">抢购</span>
-              <van-icon name="shizhong" color="#F63016" size="2.3em" class="timecount"></van-icon>
-              <new-time-down class="home__content__discount&#45;&#45;time&#45;&#45;down"></new-time-down>
+              <span class="text-F6003F">限时</span
+              ><span class="text-262626">抢购</span>
+              <van-icon
+                name="shizhong"
+                color="#F63016"
+                size="2.3em"
+                class="timecount"
+              ></van-icon>
+              <new-time-down
+                class="home__content__discount&#45;&#45;time&#45;&#45;down"
+              ></new-time-down>
               <span class="home__more" style="display: none;">更多</span>
             </div>
           </div>
@@ -71,17 +114,31 @@
               <ul class="home__rush__div__ul">
                 <div class="newdiv">
                   <div class="warp">
-                    <div class="item" v-for="(discount, index) in discounts"
-                         :key="index" @click="linkToShopDrugSpec(discount.shopDrugId)">
-               <span class="home__rush__div__ul__li__img">
-                  <img v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')" class="home__rush__div__ul__li__imgs"/>
-              </span>
-                      <span class="home__rush__div__ul__li__vc"> {{discount.name}}</span>
+                    <div
+                      class="item"
+                      v-for="(discount, index) in discounts"
+                      :key="index"
+                      @click="linkToShopDrugSpec(discount.shopDrugId)"
+                    >
+                      <span class="home__rush__div__ul__li__img">
+                        <img
+                          v-lazy="getImgURL(discount.fileId, 'LARGE_LOGO')"
+                          class="home__rush__div__ul__li__imgs"
+                        />
+                      </span>
+                      <span class="home__rush__div__ul__li__vc">
+                        {{ discount.name }}</span
+                      >
                       <span class="home__rush__div__ul__li__header">
-                       <van-icon name="xinxinicon" color="red" size="1.2rem" class="home__rush_div__header__icon"/>
+                        <van-icon
+                          name="xinxinicon"
+                          color="red"
+                          size="1.2rem"
+                          class="home__rush_div__header__icon"
+                        />
                         <!-- <span class="price">超值</span>-->
-                       <span class="value">{{discount.price}}元</span>
-                   </span>
+                        <span class="value">{{ discount.price }}元</span>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -90,875 +147,937 @@
           </div>
           <div class="home__kindpink bg-ffc8bf" :style="backgroundDivpink">
             家庭常用
-
           </div>
           <div class="home__family">
-            <div class="home__family__div home__family__used"
-                 @click="$router.push('drugs?typeId=cMLo_cCMRyKrd46oISOJRQ')">
+            <div
+              class="home__family__div home__family__used"
+              @click="$router.push('drugs?typeId=cMLo_cCMRyKrd46oISOJRQ')"
+            >
               <p class="home__family__div__p">感冒</p>
               <p class="home__family__div__p1">清热解毒</p>
-              <p class="home__family__div__p3"><img src="../assets/image/home/catch.jpg"/></p>
+              <p class="home__family__div__p3">
+                <img src="../assets/image/home/catch.jpg" />
+              </p>
             </div>
-            <div class="home__family__div home__family__used"
-                 @click="$router.push('drugs?typeId=Nc10FphRTviCxz7vGiVr6A')">
+            <div
+              class="home__family__div home__family__used"
+              @click="$router.push('drugs?typeId=Nc10FphRTviCxz7vGiVr6A')"
+            >
               <p class="home__family__div__p">抗过敏</p>
               <p class="home__family__div__p1">皮炎湿疹</p>
-              <p class="home__family__div__p3"><img src="../assets/image/home/allergy.jpg"/></p>
+              <p class="home__family__div__p3">
+                <img src="../assets/image/home/allergy.jpg" />
+              </p>
             </div>
-            <div class="home__family__div home__family__used"
-                 @click="$router.push('drugs?typeId=74exCUknTDe0qnag36LRCQ')">
+            <div
+              class="home__family__div home__family__used"
+              @click="$router.push('drugs?typeId=74exCUknTDe0qnag36LRCQ')"
+            >
               <p class="home__family__div__p">止咳化痰</p>
               <p class="home__family__div__p1">肺热咳嗽</p>
-              <p class="home__family__div__p3"><img src="../assets/image/home/cough.jpg"/></p>
+              <p class="home__family__div__p3">
+                <img src="../assets/image/home/cough.jpg" />
+              </p>
             </div>
           </div>
-          <div class="home__kindpink bg-0090E6 text-1988CA" :style="backgroundDivblue">风湿骨科</div>
+          <div
+            class="home__kindpink bg-0090E6 text-1988CA"
+            :style="backgroundDivblue"
+          >
+            风湿骨科
+          </div>
           <div class="home__family">
-            <div class="home__family__div home__family__used"
-                 @click="$router.push('drugs?typeId=S2BIwR09QN6MNstlWcTrvQ')">
+            <div
+              class="home__family__div home__family__used"
+              @click="$router.push('drugs?typeId=S2BIwR09QN6MNstlWcTrvQ')"
+            >
               <p class="home__family__div__p">跌打损伤</p>
               <p class="home__family__div__p1 text-1988CA">关节炎</p>
-              <p class="home__family__div__p3"><img src="../assets/image/home/arthritis.jpg"/></p>
+              <p class="home__family__div__p3">
+                <img src="../assets/image/home/arthritis.jpg" />
+              </p>
             </div>
-            <div class="home__family__div home__family__used"
-                 @click="$router.push('drugs?typeId=C1Rlu40JRlS7VuxopGxA-A')">
+            <div
+              class="home__family__div home__family__used"
+              @click="$router.push('drugs?typeId=C1Rlu40JRlS7VuxopGxA-A')"
+            >
               <p class="home__family__div__p">骨质疏松</p>
               <p class="home__family__div__p1 text-1988CA">肩周炎</p>
-              <p class="home__family__div__p3"><img src="../assets/image/home/shoulder.jpg"/></p>
+              <p class="home__family__div__p3">
+                <img src="../assets/image/home/shoulder.jpg" />
+              </p>
             </div>
-            <div class="home__family__div home__family__used"
-                 @click="$router.push('drugs?typeId=xsE5-eyYTfC3RXEoLjCxgg')">
+            <div
+              class="home__family__div home__family__used"
+              @click="$router.push('drugs?typeId=xsE5-eyYTfC3RXEoLjCxgg')"
+            >
               <p class="home__family__div__p">腰肌劳损</p>
               <p class="home__family__div__p1 text-1988CA">骨质增生</p>
-              <p class="home__family__div__p3"><img src="../assets/image/home/hyperplasia.jpg"/></p>
+              <p class="home__family__div__p3">
+                <img src="../assets/image/home/hyperplasia.jpg" />
+              </p>
             </div>
           </div>
-          <div class="home__kindpink bg-BFD6FF text-1988CA" :style="backgroundDivpurple">肠胃用药</div>
+          <div
+            class="home__kindpink bg-BFD6FF text-1988CA"
+            :style="backgroundDivpurple"
+          >
+            肠胃用药
+          </div>
           <div class="home__family">
-            <div class="home__family__div home__family__used"
-                 @click="$router.push('drugs?typeId=apqD-f6ESl25k5bJG7qIeQ')">
+            <div
+              class="home__family__div home__family__used"
+              @click="$router.push('drugs?typeId=apqD-f6ESl25k5bJG7qIeQ')"
+            >
               <p class="home__family__div__p">胃炎</p>
               <p class="home__family__div__p1 text-1D63CE">清热解毒</p>
-              <p class="home__family__div__p3"><img src="../assets/image/home/detoxification.jpg"/></p>
+              <p class="home__family__div__p3">
+                <img src="../assets/image/home/detoxification.jpg" />
+              </p>
             </div>
-            <div class="home__family__div home__family__used"
-                 @click="$router.push('drugs?typeId=lks1M2u5SVa216t6x35E3w')">
+            <div
+              class="home__family__div home__family__used"
+              @click="$router.push('drugs?typeId=lks1M2u5SVa216t6x35E3w')"
+            >
               <p class="home__family__div__p">消化不良</p>
               <p class="home__family__div__p1 text-1D63CE">胃肠解痉</p>
-              <p class="home__family__div__p3"><img src="../assets/image/home/detoxify.jpg"/></p>
+              <p class="home__family__div__p3">
+                <img src="../assets/image/home/detoxify.jpg" />
+              </p>
             </div>
-            <div class="home__family__div home__family__used"
-                 @click="$router.push('drugs?typeId=6NOZUuyVTT6dzMaogWGXOg\n')">
+            <div
+              class="home__family__div home__family__used"
+              @click="$router.push('drugs?typeId=6NOZUuyVTT6dzMaogWGXOg\n')"
+            >
               <p class="home__family__div__p">腹泻</p>
               <p class="home__family__div__p1 text-1D63CE">肺热咳嗽</p>
-              <p class="home__family__div__p3"><img src="../assets/image/home/coughs.jpg"/></p>
+              <p class="home__family__div__p3">
+                <img src="../assets/image/home/coughs.jpg" />
+              </p>
             </div>
           </div>
           <div class="home__content__recommend">
             <new-header-sec>
               <div>
-                <van-icon name="aixin" color="red"/>
+                <van-icon name="aixin" color="red" />
                 好货推荐
               </div>
             </new-header-sec>
           </div>
           <div class="home__recomd__goods">
-            <div class="home__recomd__goods__div" v-for="(recommend,index) in recommends"
-                 :key="index"
-                 @click="linkToShopDrugSpec(recommend.shopDrugId)">
+            <div
+              class="home__recomd__goods__div"
+              v-for="(recommend, index) in recommends"
+              :key="index"
+              @click="linkToShopDrugSpec(recommend.shopDrugId)"
+            >
               <div class="home__recomd__goods__div__img">
-
-                <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')">
+                <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')" />
               </div>
-              <div class="home__recomd__goods__div__title">{{recommend.name}}{{recommend.spec}}</div>
-              <div class="home__recomd__goods__div__price">¥{{`${recommend.price}`}}</div>
+              <div class="home__recomd__goods__div__title">
+                {{ recommend.name }}{{ recommend.spec }}
+              </div>
+              <div class="home__recomd__goods__div__price">
+                ¥{{ `${recommend.price}` }}
+              </div>
             </div>
           </div>
         </div>
       </template>
       <div class="over-height"></div>
       <template slot="bottom">
-        <van-tabbar
-          :value="0"
-          :fixed="Boolean(false)"
-        >
-          <van-tabbar-item icon="icon"
-                           to="/home">首页
+        <van-tabbar :value="0" :fixed="Boolean(false)">
+          <van-tabbar-item icon="icon" to="/home">首页 </van-tabbar-item>
+          <van-tabbar-item icon="chufang" to="/rxs">处方单 </van-tabbar-item>
+          <van-tabbar-item icon="fenlei" to="/drugTypes">分类 </van-tabbar-item>
+          <van-tabbar-item icon="gouwuche2" to="/carts"
+            >购物车
           </van-tabbar-item>
-          <van-tabbar-item icon="chufang"
-                           to="/rxs">处方单
-          </van-tabbar-item>
-          <van-tabbar-item icon="fenlei"
-                           to="/drugTypes">分类
-          </van-tabbar-item>
-          <van-tabbar-item icon="gouwuche2"
-                           to="/carts">购物车
-          </van-tabbar-item>
-          <van-tabbar-item icon="wo"
-                           to="/accounts">我
-          </van-tabbar-item>
+          <van-tabbar-item icon="wo" to="/accounts">我 </van-tabbar-item>
         </van-tabbar>
       </template>
     </new-layout>
-    <div class="home__chat"
-         @mousedown="down" @touchstart="down"
-         @mousemove="move" @touchmove="move"
-         @mouseup="end" @touchend="end"
-         id="moveDiv"
+    <div
+      class="home__chat"
+      @mousedown="down"
+      @touchstart="down"
+      @mousemove="move"
+      @touchmove="move"
+      @mouseup="end"
+      @touchend="end"
+      id="moveDiv"
     >
       <div class="tag" v-show="show === true">
-        <div class="arrow">
-          <em></em><span></span>
-        </div>
-        <div class="tag__text tag__text--bottom"
-             @click="$router.push({path:'/chats', query: {type:0}})"
+        <div class="arrow"><em></em><span></span></div>
+        <div
+          class="tag__text tag__text--bottom"
+          @click="$router.push({ path: '/chats', query: { type: 0 } })"
         >
           <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
           <span class="tag__text--font">药师咨询</span>
         </div>
-        <div class="tag__text"
-             @click="$router.push({path:'/chats', query: {type:1}})"
+        <div
+          class="tag__text"
+          @click="$router.push({ path: '/chats', query: { type: 1 } })"
         >
           <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
           <span class="tag__text--font">客服咨询</span>
         </div>
       </div>
-      <img src="../assets/image/chat.png" class="home__chat__image"
-          @click="show = !show"
-      >
+      <img
+        src="../assets/image/chat.png"
+        class="home__chat__image"
+        @click="show = !show"
+      />
     </div>
   </div>
 </template>
 <style scoped type="text/less" lang="less">
-  .home__content__repository__right__item--title{
-    font-size: 20px;
-    display: inline-block;
-    line-height: 5px;
-  }
-  .newdiv {
-    width: 720px;
-    height: 100%;
-  }
+.home__content__repository__right__item--title {
+  font-size: 20px;
+  display: inline-block;
+  line-height: 5px;
+}
+.newdiv {
+  width: 720px;
+  height: 100%;
+}
 
-  .warp {
-    font-size: 0;
-    white-space: nowrap;
-    overflow: scroll;
-    overflow-y: hidden;
-  }
+.warp {
+  font-size: 0;
+  white-space: nowrap;
+  overflow: scroll;
+  overflow-y: hidden;
+}
 
-  .item {
-    display: inline-block;
-    font-size: 14px;
-    width: 25%;
-    height: 205px;
-    text-align: center;
-    line-height: 50px;
-    color: #fff;
-    position: relative;
-  }
+.item {
+  display: inline-block;
+  font-size: 14px;
+  width: 25%;
+  height: 205px;
+  text-align: center;
+  line-height: 50px;
+  color: #fff;
+  position: relative;
+}
 
-  .layout--center {
-    max-width: 720px;
-  }
+.layout--center {
+  max-width: 720px;
+}
 
-  .van-tabbar-item--active {
-    color: #F60032 !important;
-  }
+.van-tabbar-item--active {
+  color: #f60032 !important;
+}
 
-  .van-tabbar {
-    position: static !important;
-  }
+.van-tabbar {
+  position: static !important;
+}
 
-  .over-height {
-    height: 500px;
-    width: 720px;
-  }
+.over-height {
+  height: 500px;
+  width: 720px;
+}
 
-  .van-tabbar {
-    position: fixed;
-    bottom: 0px;
-  }
+.van-tabbar {
+  position: fixed;
+  bottom: 0px;
+}
 
-  .van-tabbar-item__icon i {
-    font-size: 16px;
-  }
+.van-tabbar-item__icon i {
+  font-size: 16px;
+}
 
-  .van-tabbar-item--active {
-    color: #F60032;
-  }
+.van-tabbar-item--active {
+  color: #f60032;
+}
 
-  .text-F6003F {
-    color: #F6003F;
-    font-size: 27px;
-    margin-left: 14px;
-  }
+.text-F6003F {
+  color: #f6003f;
+  font-size: 27px;
+  margin-left: 14px;
+}
 
-  .text-262626 {
-    color: #262626;
-    font-size: 27px;
-  }
+.text-262626 {
+  color: #262626;
+  font-size: 27px;
+}
 
-  .text-1988CA {
-    color: #1988CA !important;
-  }
+.text-1988CA {
+  color: #1988ca !important;
+}
 
-  .bg-BFD6FF {
-    background: #BFD6FF;
-  }
+.bg-BFD6FF {
+  background: #bfd6ff;
+}
 
-  .text-1D63CE {
-    color: #1D63CE !important;
-  }
+.text-1D63CE {
+  color: #1d63ce !important;
+}
 
-  i {
-    font-style: normal;
-  }
+i {
+  font-style: normal;
+}
 
-  .home__news__img {
-    margin-left: 12px;
-  }
+.home__news__img {
+  margin-left: 12px;
+}
 
-  .arrow {
-    font-size: 18px !important;
-  }
+.arrow {
+  font-size: 18px !important;
+}
 
-  .fz22 {
-    font-size: 22px;
-  }
+.fz22 {
+  font-size: 22px;
+}
 
-  body {
-    font-family: MicrosoftYaHei !important;
-  }
+body {
+  font-family: MicrosoftYaHei !important;
+}
 
-  input {
-    border: none;
-  }
+input {
+  border: none;
+}
 
-  .home__banner {
-    position: relative;
-  }
+.home__banner {
+  position: relative;
+}
 
-  .home__banner__top {
-    color: white;
-  }
+.home__banner__top {
+  color: white;
+}
 
-  .home__banner__address {
-    height: 50px;
-    margin-left: 13px;
-  }
+.home__banner__address {
+  height: 50px;
+  margin-left: 13px;
+}
 
-  .home__recomd__goods__div {
-    background: white;
-    height: 270px;
-  }
+.home__recomd__goods__div {
+  background: white;
+  height: 270px;
+}
 
-  input {
-    display: inline-block;
-    width: 350px;
-    border-radius: 10px;
-    height: 50px;
-    color: white;
-    position: absolute;
-    top: 5px;
-    left: 290px;
-    background: none;
-    font-size: 25px;
-  }
+input {
+  display: inline-block;
+  width: 350px;
+  border-radius: 10px;
+  height: 50px;
+  color: white;
+  position: absolute;
+  top: 5px;
+  left: 290px;
+  background: none;
+  font-size: 25px;
+}
 
-  .bg-0090E6 {
-    background: #8dd4ff;
-  }
+.bg-0090E6 {
+  background: #8dd4ff;
+}
 
-  .text-0090E6 {
-    color: #0090E6;
-  }
+.text-0090E6 {
+  color: #0090e6;
+}
 
-  .text-ffc8bf {
-    color: #ffc8bf;
-  }
+.text-ffc8bf {
+  color: #ffc8bf;
+}
 
-  .bg-ffc8bf {
-    background: #ffc8bf;
-  }
+.bg-ffc8bf {
+  background: #ffc8bf;
+}
 
-  .sousuo {
-    position: absolute;
-    top: 0px;
-    left: 230px;
-  }
+.sousuo {
+  position: absolute;
+  top: 0px;
+  left: 230px;
+}
 
-  ::placeholder {
-    color: white;
-    opacity: 1;
-  }
+::placeholder {
+  color: white;
+  opacity: 1;
+}
 
-  .banner_img {
+.banner_img {
+  width: 720px;
+  height: 404px;
+  img {
     width: 720px;
     height: 404px;
-    img {
-      width: 720px;
-      height: 404px;
-    }
   }
+}
 
-  #times {
-    display: inline-block;
+#times {
+  display: inline-block;
+}
 
+.home__rush li {
+  border-right: 1px solid #f3f3f3;
+}
+
+.home__recomd__goods {
+  height: auto;
+  background: white;
+}
+
+.home {
+  max-width: 720px;
+  background: white;
+
+  &__family__used {
+    height: 351px;
   }
-
-  .home__rush li {
+  &__recomd__goods__div {
     border-right: 1px solid #f3f3f3;
+    border-bottom: 1px solid #f3f3f3;
   }
-
-  .home__recomd__goods {
-    height: auto;
-    background: white;
+  &__content__recommend {
+    margin: auto;
+    background-color: rgba(245, 245, 245);
   }
-
-  .home {
-    max-width: 720px;
-    background: white;
-
-    &__family__used {
-      height: 351px;
+  &__content__discounttime {
+    height: 67px;
+    line-height: 67px;
+    margin-top: 17px;
+    border-bottom: 1px solid #f3f3f3;
+    border-top: 10px solid #efebeb;
+  }
+  &__rush__div {
+    height: 205px;
+  }
+  &__rush__div__ul__li {
+    height: 205px;
+  }
+  &__rush__div__ul__li__imgs {
+    width: 127px;
+    height: 127px;
+  }
+  &__rush__div__ul__li__vc {
+    margin: auto;
+    width: 140px;
+    text-align: center;
+    top: 125px;
+    position: absolute;
+    left: 30px;
+    display: block;
+    height: 50px;
+    white-space: normal;
+    line-height: 25px;
+  }
+  &__news {
+    height: 68px;
+    width: 720px;
+    line-height: 68px;
+    border-top: 1px solid #f3f3f3;
+    position: relative;
+    span:first-child {
+      display: inline-block;
+      margin-top: 20px;
+      img {
+        width: 121px;
+        height: 28px;
+      }
     }
-    &__recomd__goods__div {
-      border-right: 1px solid #f3f3f3;
-      border-bottom: 1px solid #f3f3f3;
-    }
-    &__content__recommend {
-      margin: auto;
-      background-color: rgba(245,245,245);
-    }
-    &__content__discounttime {
-      height: 67px;
-      line-height: 67px;
-      margin-top: 17px;
-      border-bottom: 1px solid #f3f3f3;
-      border-top: 10px solid #efebeb;
-    }
-    &__rush__div {
-      height: 205px;
-    }
-    &__rush__div__ul__li {
-      height: 205px;
-    }
-    &__rush__div__ul__li__imgs {
-      width: 127px;
-      height: 127px;
-    }
-    &__rush__div__ul__li__vc {
-      margin: auto;
-      width: 140px;
-      text-align: center;
-      top: 125px;
+    span:nth-child(3) {
+      line-height: 30px;
       position: absolute;
-      left: 30px;
-      display: block;
-      height: 50px;
-      white-space:normal;
-      line-height: 25px;
+      top: 33px;
+      left: 185px;
     }
-    &__news {
-      height: 68px;
+  }
+  &__banner {
+    width: 720px;
+    height: 404px;
+
+    &__top {
+      height: 50px;
+      position: absolute;
+      margin-top: 49px;
       width: 720px;
-      line-height: 68px;
-      border-top: 1px solid #f3f3f3;
-      position: relative;
-      span:first-child {
-        display: inline-block;
-        margin-top: 20px;
-        img {
-          width: 121px;
-          height: 28px;
+    }
+    &__address {
+      width: 200px;
+      height: 25px;
+      font-size: 22px;
+      display: inline-block;
+      float: left;
+      line-height: 21px;
+      position: absolute;
+      top: 15px;
+      font-size: 22px;
+      font-weight: normal;
+      color: rgba(255, 255, 255, 1);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    &__search {
+      width: 500px;
+      height: 60px;
+      background: rgba(255, 255, 255, 1);
+      opacity: 0.46;
+      border-radius: 10px;
+      display: inline-block;
+      font-size: 25px;
+      position: absolute;
+      left: 200px;
+    }
+  }
+  &__content__discount--time--icon {
+    float: left;
+  }
+  &__home__content__discount--time--icon {
+    float: left;
+  }
+  &__content__discount--time--down {
+    float: left;
+  }
+  &__more {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgba(246, 0, 63, 1);
+    width: 81px;
+    height: 33px;
+    background: rgba(246, 0, 63, 0);
+    border: 1px solid #f6003f;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 33px;
+    margin-right: 22px;
+    margin-top: 10px;
+  }
+  &__four {
+    height: 172px;
+    &__ul {
+      &__li {
+        float: left;
+        font-size: 20px;
+        width: 25%;
+        text-align: center;
+        flex-direction: column;
+        span {
+          font-size: 20px;
+          display: block;
+          img {
+            width: 124px;
+            height: 124px;
+          }
         }
       }
-      span:nth-child(3) {
-         line-height: 30px;
-        position: absolute;
-        top: 33px;
-        left:185px;
-      }
     }
-    &__banner {
-      width: 720px;
-      height: 404px;
-
-      &__top {
-        height: 50px;
-        position: absolute;
-        margin-top: 49px;
-        width: 720px;
-      }
-      &__address {
-        width: 200px;
-        height: 25px;
-        font-size: 22px;
-        display: inline-block;
-        float: left;
-        line-height: 21px;
-        position: absolute;
-        top: 15px;
-        font-size: 22px;
-        font-weight: normal;
-        color: rgba(255, 255, 255, 1);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-      }
-      &__search {
-        width: 500px;
-        height: 60px;
-        background: rgba(255, 255, 255, 1);
-        opacity: 0.46;
-        border-radius: 10px;
-        display: inline-block;
-        font-size: 25px;
-        position: absolute;
-        left: 200px;
-
-      }
-    }
-    &__content__discount--time--icon {
-      float: left;
-    }
-    &__home__content__discount--time--icon {
-      float: left;
-    }
-    &__content__discount--time--down {
-      float: left;
-    }
-    &__more {
-      float: right;
-      font-size: 24px;
-      font-weight: bold;
-      color: rgba(246, 0, 63, 1);
-      width: 81px;
-      height: 33px;
-      background: rgba(246, 0, 63, 0);
-      border: 1px solid #F6003F;
-      border-radius: 4px;
-      text-align: center;
-      line-height: 33px;
-      margin-right: 22px;
-      margin-top: 10px;
-    }
-    &__four {
-      height: 172px;
+  }
+  &__rush {
+    &__div {
       &__ul {
         &__li {
+          width: 200px;
+          height: 230px;
           float: left;
-          font-size: 20px;
-          width: 25%;
-          text-align: center;
-          flex-direction: column;
-          span {
-            font-size: 20px;
+
+          &__img {
             display: block;
-            img {
-              width: 124px;
-              height: 124px;
-            }
+            margin-top: 0px;
+            text-align: center;
+            margin-bottom: 20px;
+            padding-top: 20px;
           }
-        }
-      }
-    }
-    &__rush {
-
-      &__div {
-
-        &__ul {
-
-          &__li {
-            width: 200px;
-            height: 230px;
-            float: left;
-
-            &__img {
-              display: block;
-              margin-top: 0px;
-              text-align: center;
-              margin-bottom: 20px;
-              padding-top: 20px;
+          &__vc {
+            display: block;
+            font-size: 20px;
+            font-weight: 500;
+            color: rgba(51, 51, 51, 1);
+            margin-top: 20px;
+            text-align: center;
+          }
+          &__header {
+            height: 150px;
+            position: relative;
+            top: -30px;
+            .van-icon-xinxinicon {
+              left: 35px;
+              top: -1.5rem;
             }
-            &__vc {
-              display: block;
+            .price {
+              position: absolute;
+              color: white;
+              top: -115px;
+              width: 50px;
+              display: inline-block;
+              z-index: 99;
               font-size: 20px;
-              font-weight: 500;
-              color: rgba(51, 51, 51, 1);
-              margin-top: 20px;
-              text-align: center;
+              left: 110px;
             }
-            &__header {
-              height: 150px;
-              position: relative;
-              top: -30px;
-              .van-icon-xinxinicon {
-                left: 35px;
-                top: -1.5rem;
-              }
-              .price {
-                position: absolute;
-                color: white;
-                top: -115px;
-                width: 50px;
-                display: inline-block;
-                z-index: 99;
-                font-size: 20px;
-                left: 110px;
-              }
-              .value {
-                position: absolute;
-                color: white;
-                width: 50px;
-                display: inline-block;
-                z-index: 99;
-                top: -145px;
-                font-size: 19px;
-                left: 90px;
-              }
+            .value {
+              position: absolute;
+              color: white;
+              width: 50px;
+              display: inline-block;
+              z-index: 99;
+              top: -145px;
+              font-size: 19px;
+              left: 90px;
             }
-
           }
         }
       }
+    }
 
-      &__buy {
-        display: inline-block;
-      }
+    &__buy {
+      display: inline-block;
+    }
 
-      li {
-        width: 187.5px;
-      }
-      &__drug {
-        width: 187.5px;
-        height: 205px;
-        &__header {
-          width: 63px;
-          height: 59px;
-          background: rgba(246, 0, 63, 1);
-          color: white;
-          position: absolute;
-        }
+    li {
+      width: 187.5px;
+    }
+    &__drug {
+      width: 187.5px;
+      height: 205px;
+      &__header {
+        width: 63px;
+        height: 59px;
+        background: rgba(246, 0, 63, 1);
+        color: white;
+        position: absolute;
       }
     }
-    &__kindpink {
-      clear: both;
-      width: 720px;
-      height: 76px;
+  }
+  &__kindpink {
+    clear: both;
+    width: 720px;
+    height: 76px;
+    line-height: 76px;
+
+    color: #ff2b00;
+    text-align: center;
+    font-size: 28px;
+    margin-top: 18px;
+    border-top: 10px solid #efebeb;
+    img {
+      vertical-align: sub;
+      margin-right: 15px;
       line-height: 76px;
-
-      color: #FF2B00;
-      text-align: center;
-      font-size: 28px;
-      margin-top: 18px;
-      border-top: 10px solid #efebeb;
-      img {
-        vertical-align: sub;
-        margin-right: 15px;
-        line-height: 76px;
-      }
     }
-    &__family {
-      width: 720px;
-      height: 352px;
-      &__div {
-        border-right: 1px solid #f3f3f3;
-        float: left;
-        width: 240px;
-        display: inline-block;
-        &__p {
-          font-size: 28px;
-          font-weight: bold;
-          color: rgba(1, 0, 0, 1);
+  }
+  &__family {
+    width: 720px;
+    height: 352px;
+    &__div {
+      border-right: 1px solid #f3f3f3;
+      float: left;
+      width: 240px;
+      display: inline-block;
+      &__p {
+        font-size: 28px;
+        font-weight: bold;
+        color: rgba(1, 0, 0, 1);
 
-          text-align: center;
-          margin-top: 33px;
-        }
-        &__p1 {
-          font-size: 24px;
-          font-weight: 400;
-          color: rgba(255, 0, 0, 1);
-          text-align: center;
-          margin-top: 8px;
-        }
-        &__p3 {
-          margin-top: 30px;
-          width: 230px;
-          text-align: center;
-          img {
-            width: 181px;
-
-          }
-        }
-      }
-    }
-    &__recomd__goods {
-      &__div {
-        width: 360px;
-        float: left;
         text-align: center;
-        &__rx {
-          width: 42px;
-          height: 25px;
-          background: rgba(246, 0, 0, 1);
-          border-radius: 50%;
-          font-size: 15px;
-          font-weight: bold;
-          color: rgba(255, 255, 255, 1);
-          height: (25-12)/2;
-          text-align: center;
-          line-height: 25px;
-          margin: 16px 0px 0px 52px;
+        margin-top: 33px;
+      }
+      &__p1 {
+        font-size: 24px;
+        font-weight: 400;
+        color: rgba(255, 0, 0, 1);
+        text-align: center;
+        margin-top: 8px;
+      }
+      &__p3 {
+        margin-top: 30px;
+        width: 230px;
+        text-align: center;
+        img {
+          width: 181px;
         }
-        &__img {
-          width: 157px;
-          height: 157px;
-          margin: auto;
-          img {
-            width: 100%;
-          }
-        }
-        &__title {
-          font-size: 22px;
-          font-weight: normal;
-          color: rgba(53, 53, 53, 1);
-          background: white;
-          border-right: 1px solid #f3f3f3;
-        }
-        &__price {
-          font-size: 24px;
-          font-weight: normal;
-          color: rgba(246, 0, 0, 1);
-          line-height: 43px;
-        }
-
       }
     }
   }
-
-  .van-swipe-item {
-    width: 200px !important;
+  &__recomd__goods {
+    &__div {
+      width: 360px;
+      float: left;
+      text-align: center;
+      &__rx {
+        width: 42px;
+        height: 25px;
+        background: rgba(246, 0, 0, 1);
+        border-radius: 50%;
+        font-size: 15px;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 1);
+        height: (25-12)/2;
+        text-align: center;
+        line-height: 25px;
+        margin: 16px 0px 0px 52px;
+      }
+      &__img {
+        width: 157px;
+        height: 157px;
+        margin: auto;
+        img {
+          width: 100%;
+        }
+      }
+      &__title {
+        font-size: 22px;
+        font-weight: normal;
+        color: rgba(53, 53, 53, 1);
+        background: white;
+        border-right: 1px solid #f3f3f3;
+      }
+      &__price {
+        font-size: 24px;
+        font-weight: normal;
+        color: rgba(246, 0, 0, 1);
+        line-height: 43px;
+      }
+    }
   }
+}
 
-  .van-swipe__track {
-    width: 1900px !important;
-  }
+.van-swipe-item {
+  width: 200px !important;
+}
 
-  .home__banner__address_i {
-    width: 160px;
-    display: inline-block;
-    position: absolute;
-    height: 30px;
-    line-height:30px;
-    z-index: 9999;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+.van-swipe__track {
+  width: 1900px !important;
+}
 
-  .van-icon-arrowdown {
-    position: absolute;
-    top: 10px;
-    left: 155px;
+.home__banner__address_i {
+  width: 160px;
+  display: inline-block;
+  position: absolute;
+  height: 30px;
+  line-height: 30px;
+  z-index: 9999;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.van-icon-arrowdown {
+  position: absolute;
+  top: 10px;
+  left: 155px;
+}
+.home__chat {
+  position: fixed;
+  bottom: 100px;
+  right: 0;
+  z-index: 999;
+  text-align: center;
+  width: 200px;
+  &__image {
+    width: 100px;
+    height: auto;
   }
-  .home__chat {
-    position: fixed;
-    bottom: 100px;
-    right: 0;
-    z-index: 999;
-    text-align: center;
+  .tag {
     width: 200px;
-    &__image {
-      width: 100px;
-      height: auto;
-    }
-    .tag{
-      width:200px;
-      border:1PX solid rgba(255, 0, 0, 1);
-      position:relative;
-      background-color:#FFF;
-      margin-bottom: 20px;
-      &__text {
-        padding: 5px 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &--font {
-          font-size: 25px;
-          color: #F5453E;
-          margin-left: 10px;
-        }
-        &--bottom {
-          border-bottom: 1PX solid #F5453E;
-        }
+    border: 1px solid rgba(255, 0, 0, 1);
+    position: relative;
+    background-color: #fff;
+    margin-bottom: 20px;
+    &__text {
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &--font {
+        font-size: 25px;
+        color: #f5453e;
+        margin-left: 10px;
+      }
+      &--bottom {
+        border-bottom: 1px solid #f5453e;
       }
     }
-    .arrow{ position:absolute; width:40px; height:40px; bottom:-40px; left:100px; }
-    .arrow *{ display:block; border-width:20px; position:absolute; border-style:solid dashed dashed dashed; font-size:0; line-height:0; }
-    .arrow em{border-color:#F5453E transparent transparent;}
-    .arrow span{border-color:#FFF transparent transparent; top:-1px;}
   }
+  .arrow {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: -40px;
+    left: 100px;
+  }
+  .arrow * {
+    display: block;
+    border-width: 20px;
+    position: absolute;
+    border-style: solid dashed dashed dashed;
+    font-size: 0;
+    line-height: 0;
+  }
+  .arrow em {
+    border-color: #f5453e transparent transparent;
+  }
+  .arrow span {
+    border-color: #fff transparent transparent;
+    top: -1px;
+  }
+}
 </style>
 
-
 <script>
-  import BMap from 'BMap';
-  import {getCurrentAddress, setCurrentAddress} from '@/storage';
+import BMap from 'BMap';
+import { getCurrentAddress, setCurrentAddress } from '@/storage';
 
-  export default {
-    name: 'home',
-    data() {
-      return {
-        backgroundDivpink: {
-          backgroundImage: 'url(' + require('../assets/image/home/home_pink.jpg') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        },
-        backgroundDivblue: {
-          backgroundImage: 'url(' + require('../assets/image/home/home_blue.jpg') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        },
-        backgroundDivpurple: {
-          backgroundImage: 'url(' + require('../assets/image/home/home_purple.jpg') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover'
-        },
-        searchIcon: '\ue64c 药品名',
-        discounts: [],
-        recommends: [],
-        adverts: [],
-        repositories: [],
-        number: 0,
-        repositoryTypes: [],
-        isLoading: false,
-        timer: '',
+export default {
+  name: 'home',
+  data() {
+    return {
+      backgroundDivpink: {
+        backgroundImage:
+          'url(' + require('../assets/image/home/home_pink.jpg') + ')',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover'
+      },
+      backgroundDivblue: {
+        backgroundImage:
+          'url(' + require('../assets/image/home/home_blue.jpg') + ')',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover'
+      },
+      backgroundDivpurple: {
+        backgroundImage:
+          'url(' + require('../assets/image/home/home_purple.jpg') + ')',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover'
+      },
+      searchIcon: '\ue64c 药品名',
+      discounts: [],
+      recommends: [],
+      adverts: [],
+      repositories: [],
+      number: 0,
+      repositoryTypes: [],
+      isLoading: false,
+      timer: '',
 
-        flags: false,
-        pos: { x: 0, y: 0 },
-        nx: '',
-        ny: '',
-        dx: '',
-        dy: '',
-        xPum: '',
-        yPum: '',
-        currentAddress: getCurrentAddress(),
-        show: false,
-        banner: require('@/assets/image/home/home_banner.png')
-      };
-    },
-    computed: {
-      text() {
-        if (this.repositories.length > 0) {
-          return {
-            id: this.number,
-            val: this.repositories[this.number]
-          };
-        } else {
-          return {
-            id: 0,
-            val: ''
-          };
-        }
+      flags: false,
+      pos: { x: 0, y: 0 },
+      nx: '',
+      ny: '',
+      dx: '',
+      dy: '',
+      xPum: '',
+      yPum: '',
+      currentAddress: getCurrentAddress(),
+      show: false,
+      banner: require('@/assets/image/home/home_banner.png')
+    };
+  },
+  computed: {
+    text() {
+      if (this.repositories.length > 0) {
+        return {
+          id: this.number,
+          val: this.repositories[this.number]
+        };
+      } else {
+        return {
+          id: 0,
+          val: ''
+        };
       }
-    },
-    created() {
-      if (this.currentAddress === undefined) {
-        new BMap.Geolocation().getCurrentPosition(async (r) => {
-          console.log(r.point);
-          const params = {
-            lat: r.point.lat,
-            lng: r.point.lng
-          };
-          const data = await this.$api.getPois(params);
-          console.log(data);
-          const position = {
-            name: data.pois[0].name,
-            lat: data.pois[0].location.lat,
-            lng: data.pois[0].location.lng
-          };
-          setCurrentAddress(position);
-        });
-        // const position = {
-        //   name: '测试地址',
-        //   lat: 31,
-        //   lng: 120
-        // };
-        // setCurrentAddress(position);
+    }
+  },
+  created() {
+    if (this.currentAddress === undefined) {
+      new BMap.Geolocation().getCurrentPosition(async r => {
+        console.log(r.point);
+        const params = {
+          lat: r.point.lat,
+          lng: r.point.lng
+        };
+        const data = await this.$api.getPois(params);
+        console.log(data);
+        const position = {
+          name: data.pois[0].name,
+          lat: data.pois[0].location.lat,
+          lng: data.pois[0].location.lng
+        };
+        setCurrentAddress(position);
+      });
+      // const position = {
+      //   name: '测试地址',
+      //   lat: 31,
+      //   lng: 120
+      // };
+      // setCurrentAddress(position);
+    }
+    this.initData();
+  },
+  mounted() {
+    this.startMove();
+  },
+  beforeDestroy() {
+    clearTimeout(this.timer);
+  },
+  methods: {
+    // 实现移动端拖拽
+    down() {
+      let moveDiv = document.getElementById('moveDiv');
+      this.flags = true;
+      var touch;
+      if (event.touches) {
+        touch = event.touches[0];
+      } else {
+        touch = event;
       }
-      this.initData();
+      this.pos.x = touch.clientX;
+      this.pos.y = touch.clientY;
+      this.dx = moveDiv.offsetLeft;
+      this.dy = moveDiv.offsetTop;
     },
-    mounted() {
-      this.startMove();
-    },
-    beforeDestroy() {
-      clearTimeout(this.timer);
-    },
-    methods: {
-      // 实现移动端拖拽
-      down() {
-        let moveDiv = document.getElementById('moveDiv');
-        this.flags = true;
+    move() {
+      let moveDiv = document.getElementById('moveDiv');
+      if (this.flags) {
         var touch;
         if (event.touches) {
           touch = event.touches[0];
         } else {
           touch = event;
         }
-        this.pos.x = touch.clientX;
-        this.pos.y = touch.clientY;
-        this.dx = moveDiv.offsetLeft;
-        this.dy = moveDiv.offsetTop;
-      },
-      move() {
-        let moveDiv = document.getElementById('moveDiv');
-        if (this.flags) {
-          var touch;
-          if (event.touches) {
-            touch = event.touches[0];
-          } else {
-            touch = event;
-          }
-          this.nx = touch.clientX - this.pos.x;
-          this.ny = touch.clientY - this.pos.y;
-          this.xPum = this.dx + this.nx;
-          this.yPum = this.dy + this.ny;
-          moveDiv.style.left = this.xPum + 'px';
-          moveDiv.style.top = this.yPum + 'px';
-          document.addEventListener('touchmove', function () {
+        this.nx = touch.clientX - this.pos.x;
+        this.ny = touch.clientY - this.pos.y;
+        this.xPum = this.dx + this.nx;
+        this.yPum = this.dy + this.ny;
+        moveDiv.style.left = this.xPum + 'px';
+        moveDiv.style.top = this.yPum + 'px';
+        document.addEventListener(
+          'touchmove',
+          function () {
             event.preventDefault();
-          }, false);
-        }
-      },
-      end() {
-        this.flags = false;
-      },
-
-      async initData() {
-        // 限时抢购
-        this.discounts = await this.$http.get('/drugs/discount');
-        // 好货推荐
-        this.recommends = await this.$http.get('/drugs/recommend');
-        // 知识库
-        this.repositories = await this.$http.get('/repositories/home');
-      },
-      async onRefresh() {
-        await this.initData();
-        this.isLoading = false;
-      },
-      startMove() {
-        this.timer = setTimeout(() => {
-          if (this.number === this.repositories.length - 1) {
-            this.number = 0;
-          } else {
-            this.number += 1;
-          }
-          this.startMove();
-        }, 3000);
+          },
+          false
+        );
       }
+    },
+    end() {
+      this.flags = false;
+    },
+
+    async initData() {
+      // 限时抢购
+      this.discounts = await this.$http.get('/drugs/discount');
+      // 好货推荐
+      this.recommends = await this.$http.get('/drugs/recommend');
+      // 知识库
+      this.repositories = await this.$http.get('/repositories/home');
+    },
+    async onRefresh() {
+      await this.initData();
+      this.isLoading = false;
+    },
+    startMove() {
+      this.timer = setTimeout(() => {
+        if (this.number === this.repositories.length - 1) {
+          this.number = 0;
+        } else {
+          this.number += 1;
+        }
+        this.startMove();
+      }, 3000);
     }
-  };
+  }
+};
 </script>
