@@ -30,12 +30,14 @@
           </div>
         </div>
       </div>
-      <input
-        type="text"
-        class="iconfont rxs--search"
-        :placeholder="icon"
-        v-model="keyword"
-        @keyup.enter="onRefresh">
+      <form action="" onsubmit="return false;">
+        <input
+          class="iconfont rxs--search"
+          :placeholder="icon"
+          v-model="keyword"
+          type="search"
+          @keypress="search">
+      </form>
     </template>
     <template slot="center">
       <div>
@@ -256,6 +258,11 @@
     mounted() {
     },
     methods: {
+      search(e) {
+        if (e.keyCode === 13) {
+          this.onRefresh();
+        }
+      },
       onRefresh() {
         this.finished = false;
         this.list = [];
