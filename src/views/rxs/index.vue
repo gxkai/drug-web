@@ -114,11 +114,7 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
-  .van-tabbar-item--active {
-    color: #F60032 !important;
-  }
-
+<style scoped type="text/scss" lang="scss">
   .no-data {
     margin-top: 50px !important;
   }
@@ -128,10 +124,8 @@
   }
 
   /deep/ .van-pull-refresh {
-    margin-top: 10px !important;
+    margin-top: 50px !important;
   }
-</style>
-<style scoped type="text/scss" lang="scss">
   .rxs {
     background-color: #f5f5f5;
     position: relative;
