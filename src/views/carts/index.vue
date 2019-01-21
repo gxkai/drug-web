@@ -16,7 +16,7 @@
           <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
             <div class="cart-list-shop"
                  @click="linkToShopView(cartShop.id)">
-              <van-icon name="yaodian" size="4em" color="#F60032"></van-icon>
+              <van-icon name="yaodian" size="4em"></van-icon>
               <div class="cart-list-shop_name" v-text="cartShop.shopName"></div>
             </div>
             <div v-for="(cartRx, cartRxIndex) in cartShop.rxs" :key="cartRxIndex">
@@ -27,7 +27,7 @@
                        @click.stop="onRadio(RX,cartShop,cartRx)">
                     <new-radio :radio="cartRx.radio"/>
                   </div>
-                  <van-icon name="chufangdanluru" size="4em" color="#F60032"></van-icon>
+                  <van-icon name="chufangdanluru" size="4em"></van-icon>
                   <div class="cart-list-rx-left_name">
                     处方单
                   </div>
@@ -44,7 +44,7 @@
                        @click.stop="onRadio(RX,cartShop,cartRx)">
                     <new-radio :radio="cartRx.radio"/>
                   </div>
-                  <van-icon name="jisongchufangdan" size="4em" color="#F60032"></van-icon>
+                  <van-icon name="jisongchufangdan" size="4em"></van-icon>
                   <div class="cart-list-rx-left_name">
                     非处方单
                   </div>
@@ -154,7 +154,6 @@
         &_name {
           font-size: 30px;
           align-self: flex-end;
-          color: $themeColor;
         }
       }
       &-rx {
@@ -169,7 +168,6 @@
           align-items: center;
           &_name {
             font-size: 30px;
-            color: $themeColor;
             align-self: flex-end;
           }
         }

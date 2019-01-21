@@ -335,7 +335,7 @@
           flex-grow: 20;
           display: flex;
           justify-content: center;
-          overflow: hidden;
+          overflow: auto;
           &>div {
             overflow: hidden;
             text-overflow: ellipsis;
