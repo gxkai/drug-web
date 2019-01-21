@@ -60,7 +60,7 @@
                 <span style="align-self: center">
                   {{item.hospital||'未注明'}}
                 </span>
-                <span>
+                <span style="font-size: 2em">
                   {{item.number}}
                 </span>
               </div>
