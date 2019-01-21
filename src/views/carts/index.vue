@@ -51,10 +51,8 @@
                 </div>
               </div>
               <div class="cart-list-drugs">
-                <van-swipe-cell v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
-                                :right-width="65"
-                                :key="cartDrugIndex">
-                  <div class="cart-list-drugs-item">
+                  <new-swipe-cell class="cart-list-drugs-item"  v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
+                       :key="cartDrugIndex" @click-right = "onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">
                     <div class="cart-list-drugs-item-left">
                       <div class="cart-list-drugs-item-left_radio"
                            @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
@@ -93,11 +91,10 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <span slot="right"
-                        class="cart-list-drugs-item-delete"
-                        @click="onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">删除</span>
-                </van-swipe-cell>
+                    <template slot="right">
+                      删除
+                    </template>
+                  </new-swipe-cell>
               </div>
             </div>
             <van-submit-bar
@@ -141,7 +138,6 @@
   .van-tabbar-item--active {
     color: $themeColor !important;
   }
-
   .cart {
     &-list {
       width: 720px;
@@ -183,15 +179,7 @@
           display: flex;
           background-color: #f5f5f5;
           margin-bottom: 10px;
-          padding: 0 20px;
-          &-delete {
-            font-size: 30px;
-            color: white;
-            padding: 105px 40px;
-            line-height: 250px;
-            font-weight: 200;
-            background-color: $themeColor;
-          }
+          padding-left: 20px;
           &-left {
             display: flex;
             &_logo {

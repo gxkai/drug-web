@@ -44,5 +44,7 @@ export default {
     Vue.component('new-stepper', () => import('./stepper'));
     // top center bottom 三块布局
     Vue.component('new-layout', () => import('./layout'));
+    // 左滑删除
+    Vue.component('new-swipe-cell', () => import('./swipeCell'));
   }
 };
