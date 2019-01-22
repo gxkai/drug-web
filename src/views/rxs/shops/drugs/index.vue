@@ -216,7 +216,7 @@
           'shopId': this.shopId,
           'shopName': this.shopName,
           'type': this.type,
-          'orderShopDrugSpecInfoDTOList': this.carts
+          'drugs': this.carts
         };
         this.$toast.loading({duration: 0, forbidClick: true});
         const shopDrugSpecOrderDTO = await this.$http.post('orders/shop/preClose', json);

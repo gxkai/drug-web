@@ -210,13 +210,14 @@
         }
         let json = {};
         json.addressId = this.address.id;
-        json.orderShopDrugSpecDTO = this.orderShopDrugSpecDTO;
+        json.items = this.orderShopDrugSpecDTO.drugs;
         json.deliveryType = this.deliveryType;
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
         json.medicaid = this.isMedicarePay;
+        json.shopId = this.orderShopDrugSpecDTO.shopId;
         json.type = this.shopDrugSpecOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
-        json.origin = 'APP';
+        json.from = 'APP';
         this.$toast.loading({duration: 0, forbidClick: true, message: '生成订单中...'});
         let order = await this.$http.post('/orders/shop', json);
         this.$toast.loading({duration: 0, forbidClick: true, message: '生成支付链接中...'});

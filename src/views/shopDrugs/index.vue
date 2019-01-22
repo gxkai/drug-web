@@ -582,7 +582,7 @@
           let json = {
             'shopId': this.shopDrug.shopId,
             'shopName': this.shopDrug.shopName,
-            'orderShopDrugSpecInfoDTOList': drugInfoList,
+            'drugs': drugInfoList,
             'type': 'SIMPLE'
           };
           this.$toast.loading({duration: 0, forbidClick: true});
