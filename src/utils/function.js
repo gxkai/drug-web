@@ -273,7 +273,7 @@ export default {
      * @param str
      */
     Vue.prototype.linkToShopDrugSpec = (str) => {
-      router.push({ path: '/shopDrugSpecs', query: { shopDrugId: str } });
+      router.push({ path: '/shopDrugs', query: { shopDrugId: str } });
     };
     /**
      * 跳转到药房详情页

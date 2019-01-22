@@ -57,7 +57,7 @@
           </div>
           <div class="shopDrug__content__part-3">
             <div class="shopDrug__content__part-3__item"
-                 @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 0,shopDrug:JSON.stringify(shopDrug)}})">
+                 @click="$router.push({path: '/shopDrugs/view', query: {state: 0,shopDrug:JSON.stringify(shopDrug)}})">
               <div class="shopDrug__content__part-3__item__left">
                 <van-icon name="liwu-copy"></van-icon>
                 <span>商品详情</span>
@@ -67,7 +67,7 @@
               </div>
             </div>
             <div class="shopDrug__content__part-3__item"
-                 @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 1,shopDrug:JSON.stringify(shopDrug)}})">
+                 @click="$router.push({path: '/shopDrugs/view', query: {state: 1,shopDrug:JSON.stringify(shopDrug)}})">
               <div class="shopDrug__content__part-3__item__left">
                 <van-icon name="pingjia"></van-icon>
                 <span>商品评价</span>
@@ -133,7 +133,7 @@
                 顾客评论({{shopDrug.drugAppraises.total}})
               </div>
               <div class="shopDrug__content__part-5__header__right"
-                   @click="$router.push({path: '/shopDrugSpecs/view', query: {state: 1,shopDrug:JSON.stringify(shopDrug)}})">
+                   @click="$router.push({path: '/shopDrugs/view', query: {state: 1,shopDrug:JSON.stringify(shopDrug)}})">
                 全部评价&gt;
               </div>
             </div>
@@ -540,7 +540,7 @@
         });
       },
       async initData() {
-        this.$toast.loading({duration: 0, forbidClick: true});;
+        this.$toast.loading({duration: 0, forbidClick: true});
         this.shopDrug = await this.$http.get(`/shopDrugs/${this.shopDrugId}`);
         this.collected = await this.$http.get(`/collects/drug/one?shopDrugId=${this.shopDrug.id}`);
         this.$toast.clear();
@@ -552,7 +552,7 @@
           'shopDrugId': this.shopDrug.id,
           'collected': !this.collected
         };
-        this.$toast.loading({duration: 0, forbidClick: true});;
+        this.$toast.loading({duration: 0, forbidClick: true});
         await this.$http.post('/collects/drug', data);
         this.collected = !this.collected;
         if (this.collected) {
@@ -585,7 +585,7 @@
             'orderShopDrugSpecInfoDTOList': drugInfoList,
             'type': 'SIMPLE'
           };
-          this.$toast.loading({duration: 0, forbidClick: true});;
+          this.$toast.loading({duration: 0, forbidClick: true});
           const shopDrugSpecOrderDTO = await this.$http.post('orders/shop/preClose', json);
           this.$toast.clear();
           this.$router.push({ path: '/orders/create/fromShop', query: { orderShopDrugSpecDTO: JSON.stringify(json), shopDrugSpecOrderDTO: JSON.stringify(shopDrugSpecOrderDTO) } });

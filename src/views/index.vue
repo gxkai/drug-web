@@ -1057,7 +1057,7 @@ export default {
     },
 
     async initData() {
-      this.$toast.loading({duration: 0, forbidClick: true});;
+      this.$toast.loading({duration: 0, forbidClick: true});
       // 限时抢购
       this.discounts = await this.$http.get('/drugs/discount');
       // 好货推荐

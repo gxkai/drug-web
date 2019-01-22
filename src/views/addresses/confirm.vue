@@ -310,7 +310,7 @@
               lat: r.latitude,
               lng: r.longitude
             };
-            this.$toast.loading({duration: 0, forbidClick: true});;
+            this.$toast.loading({duration: 0, forbidClick: true});
             const data = await this.$api.getPois(params);
             this.$toast.clear();
             this.center = data.pois[0].location;
@@ -333,7 +333,7 @@
       },
       getKeyLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
-          this.$toast.loading({duration: 0, forbidClick: true});;
+          this.$toast.loading({duration: 0, forbidClick: true});
           const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/places.json?query=${this.key}&lng=${r.longitude}&lat=${r.latitude}`);
           this.$toast.clear();
           this.keyPositions = data.result;

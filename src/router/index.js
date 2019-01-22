@@ -194,14 +194,14 @@ const repositoryRouter = [
 
 const shopDrugSpecRouter = [
   {
-    path: '/shopDrugSpecs',
+    path: '/shopDrugs',
     name: '商品首页',
-    component: () => import('@/views/shopDrugSpecs/index.vue')
+    component: () => import('@/views/shopDrugs/index.vue')
   },
   {
-    path: '/shopDrugSpecs/view',
+    path: '/shopDrugs/view',
     name: '商品详情',
-    component: () => import('@/views/shopDrugSpecs/view.vue')
+    component: () => import('@/views/shopDrugs/view.vue')
   }
 ];
 
