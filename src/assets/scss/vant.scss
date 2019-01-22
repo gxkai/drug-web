@@ -158,6 +158,14 @@
 .van-toast {
   &>div {
     font-size: 25px;
+    padding: 10px 0;
+  }
+  &--default {
+    width: 100px;
+    min-height: 100px;
+  }
+  &__text {
+    line-height: 35px;
   }
 }
 

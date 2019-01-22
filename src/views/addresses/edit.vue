@@ -52,24 +52,13 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
-  /deep/ .van-checkbox {
-    &__label {
-      font-size: 25px !important;
-    }
-    &__icon, &__label {
-      line-height: normal;
-    }
-  }
+<style scoped type="text/scss" lang="scss">
   /deep/.van-field .van-cell__title {
     max-width: 120px;
   }
-</style>
-<style scoped type="text/scss" lang="scss">
-  .address-edit {
-    &__checkbox {
-      padding: 20px;
-    }
+  /deep/ input {
+    margin: 20px auto!important;
+    line-height: normal!important;
   }
 </style>
 <script>
@@ -83,8 +72,7 @@
           address: '',
           lat: '',
           lng: '',
-          room: '',
-          defaulted: false
+          room: ''
         },
         id: this.$route.query.id
       };

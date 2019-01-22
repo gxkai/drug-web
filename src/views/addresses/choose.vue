@@ -49,7 +49,7 @@
              @click="setPosition(address)"
         >
           <div class="address-choose--receive--item--address">
-            {{address.address}}
+            {{address.address}} {{address.room}}
           </div>
           <div class="address-choose--receive--item__contact">
               <span class="address-choose--receive--item__contact--name">
@@ -256,7 +256,9 @@
         this.nearbyAddresses = data.pois;
       },
       async getAddresses() {
+        this.$toast.loading({duration: 0, forbidClick: true});;
         this.addresses = await this.$http.get('/addresses');
+        this.$toast.clear();
       },
       setPosition(address) {
         const position = {
@@ -291,14 +293,16 @@
           lat: currentAddress.lat,
           lng: currentAddress.lng
         };
+        this.$toast.loading({duration: 0, forbidClick: true});;
         const data = await this.$api.getPois(params);
+        this.$toast.clear();
         this.center = data.pois[0].location;
         this.name = data.pois[0].name;
         this.nearbyAddresses = data.pois;
       },
       async resetLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
-          this.$toast.loading();
+          this.$toast.loading({duration: 0, forbidClick: true});;
           console.log(r.point);
           const params = {
             lat: r.point.lat,

@@ -428,7 +428,7 @@
         let isRx = cartShop.rxs.some(rx => {
           return rx.rxId !== '0' && rx.radio === true;
         });
-        this.$toast.loading('结算中');
+        this.$toast.loading({duration: 0, forbidClick: true, message: '结算中'});
         const data = await this.$http.get(`/orders/cart?cartIds=${cartIds}&isRx=${isRx}`);
         this.$toast.clear();
         this.$router.push({ path: '/orders/create/fromCart', query: { cartShop: JSON.stringify(data), isRx: isRx } });
@@ -464,9 +464,9 @@
             cartRx.drugs.forEach(e => {
               e.radio = cartRx.radio;
             });
-            if (cartShop.rxs.filter(e => {
+            if (cartShop.rxs.some(e => {
               return e.radio === !cartRx.radio;
-            }).length === 0) {
+            })) {
               cartShop.radio = cartRx.radio;
             }
             break;
@@ -477,19 +477,19 @@
                 e.radio = cartDrug.radio;
               });
               cartRx.radio = cartDrug.radio;
-              if (cartShop.rxs.filter(e => {
+              if (cartShop.rxs.some(e => {
                 return e.radio === !cartDrug.radio;
-              }).length === 0) {
+              }) === false) {
                 cartShop.radio = cartDrug.radio;
               }
             } else {
-              if (cartRx.drugs.filter(e => {
+              if (cartRx.drugs.some(e => {
                 return e.radio === !cartDrug.radio;
-              }).length === 0) {
+              }) === false) {
                 cartRx.radio = cartDrug.radio;
-                if (cartShop.rxs.filter(e => {
+                if (cartShop.rxs.some(e => {
                   return e.radio === !cartDrug.radio;
-                }).length === 0) {
+                }) === false) {
                   cartShop.radio = cartDrug.radio;
                 }
               }

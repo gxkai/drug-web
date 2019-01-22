@@ -1057,16 +1057,14 @@ export default {
     },
 
     async initData() {
+      this.$toast.loading({duration: 0, forbidClick: true});;
       // 限时抢购
       this.discounts = await this.$http.get('/drugs/discount');
       // 好货推荐
       this.recommends = await this.$http.get('/drugs/recommend');
       // 知识库
       this.repositories = await this.$http.get('/repositories/home');
-    },
-    async onRefresh() {
-      await this.initData();
-      this.isLoading = false;
+      this.$toast.clear();
     },
     startMove() {
       this.timer = setTimeout(() => {

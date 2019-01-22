@@ -481,14 +481,18 @@
     },
     methods: {
       async initData() {
+        this.$toast.loading({duration: 0, forbidClick: true});;
         const data = await this.$http.get('/drugs/' + this.drugId);
+        this.$toast.clear();
         this.drugInfo = data;
         this.drugSpecs = data.drugSpecs;
         this.drugSpec = this.drugSpecs[0];
         this.getShops();
       },
       async getShops() {
+        this.$toast.loading({duration: 0, forbidClick: true});;
         const data = await this.$http.get(`/drugs/${this.drugId}/shops?sort=${this.sort}&lat=${this.currentAddress.lat}&lng=${this.currentAddress.lng}`);
+        this.$toast.clear();
         this.total = data.total;
         this.shops = data.list;
       },

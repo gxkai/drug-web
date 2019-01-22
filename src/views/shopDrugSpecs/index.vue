@@ -540,8 +540,10 @@
         });
       },
       async initData() {
+        this.$toast.loading({duration: 0, forbidClick: true});;
         this.shopDrug = await this.$http.get(`/shopDrugs/${this.shopDrugId}`);
         this.collected = await this.$http.get(`/collects/drug/one?shopDrugId=${this.shopDrug.id}`);
+        this.$toast.clear();
       },
       async onCollect() {
         let data = {
@@ -550,6 +552,7 @@
           'shopDrugId': this.shopDrug.id,
           'collected': !this.collected
         };
+        this.$toast.loading({duration: 0, forbidClick: true});;
         await this.$http.post('/collects/drug', data);
         this.collected = !this.collected;
         if (this.collected) {
@@ -559,7 +562,6 @@
         }
       },
       async onConfirm() {
-        this.loading = true;
         if (this.type === 0) {
           const data = [{
             shopId: this.shopDrug.shopId,
@@ -567,8 +569,8 @@
             shopDrugId: this.shopDrug.id,
             quantity: this.number
           }];
+          this.$toast.loading({duration: 0, forbidClick: true});
           await this.$http.post('/carts', data);
-          this.loading = false;
           this.$toast('加入购物车成功');
           this.show = false;
         } else {
@@ -583,7 +585,7 @@
             'orderShopDrugSpecInfoDTOList': drugInfoList,
             'type': 'SIMPLE'
           };
-          this.$toast.loading('预结算...');
+          this.$toast.loading({duration: 0, forbidClick: true});;
           const shopDrugSpecOrderDTO = await this.$http.post('orders/shop/preClose', json);
           this.$toast.clear();
           this.$router.push({ path: '/orders/create/fromShop', query: { orderShopDrugSpecDTO: JSON.stringify(json), shopDrugSpecOrderDTO: JSON.stringify(shopDrugSpecOrderDTO) } });

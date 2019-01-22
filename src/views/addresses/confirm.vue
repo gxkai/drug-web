@@ -11,20 +11,37 @@
       />
     </template>
     <template slot="center">
-      <div class="address-confirm--nearby" v-if="isNearby">
-        <div class="address-confirm--nearby--search">
+      <!--<div class="address-confirm&#45;&#45;nearby&#45;&#45;search">-->
+        <!--<input-->
+          <!--:placeholder="searchIcon"-->
+          <!--class="address-confirm&#45;&#45;nearby&#45;&#45;search__input iconfont"-->
+          <!--@focus="isNearby = !isNearby"-->
+        <!--&gt;-->
+      <!--</div>-->
+      <div class="address-confirm--filter--search">
+        <form action="" onsubmit="return false;">
           <input
             :placeholder="searchIcon"
-            class="address-confirm--nearby--search__input iconfont"
+            class="address-confirm--filter--search__input iconfont"
+            v-model="key"
+            type="search"
+            @keypress="search"
             @focus="isNearby = !isNearby"
           >
-        </div>
+        </form>
+        <!--<div class="address-confirm&#45;&#45;filter&#45;&#45;search__cancel"-->
+             <!--@click="isNearby = !isNearby"-->
+        <!--&gt;-->
+          <!--取消-->
+        <!--</div>-->
+      </div>
+      <div class="address-confirm--nearby" v-if="isNearby">
         <baidu-map class="address-confirm--nearby--map"
                    :center="center"
                    :zoom="zoom"
                    :scroll-wheel-zoom="true"
                    @click="getClickInfo"
-                  >
+        >
           <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
           </bm-marker>
         </baidu-map>
@@ -58,19 +75,6 @@
         </div>
       </div>
       <div class="address-confirm--filter" v-else>
-        <div class="address-confirm--filter--search">
-          <input
-            :placeholder="searchIcon"
-            class="address-confirm--filter--search__input iconfont"
-            v-model="key"
-            @keyup.enter="getKeyLocation"
-          >
-          <div class="address-confirm--filter--search__cancel"
-               @click="isNearby = !isNearby"
-          >
-            取消
-          </div>
-        </div>
         <div class="address-confirm--filter--content">
           <div class="address-confirm--filter--content--item van-hairline--top"
                v-for="keyPosition in keyPositions"
@@ -143,7 +147,7 @@
           border: 1px solid rgba(220, 220, 220, 1);
           border-radius: 30px;
           padding: 0 40px;
-          font-size: 23px;
+          font-size: 25px;
           font-family: MicrosoftYaHei;
           font-weight: 400;
           color: rgba(153, 153, 153, 1);
@@ -200,7 +204,7 @@
           border: 1px solid rgba(220, 220, 220, 1);
           border-radius: 30px;
           padding: 0 40px;
-          font-size: 23px;
+          font-size: 25px;
           font-family: MicrosoftYaHei;
           font-weight: 400;
           color: rgba(153, 153, 153, 1);
@@ -254,6 +258,11 @@
       next();
     },
     methods: {
+      search(e) {
+        if (e.keyCode === 13) {
+          this.getKeyLocation();
+        }
+      },
       async getClickInfo(e) {
         const params = {
           lat: e.point.lat,
@@ -301,7 +310,9 @@
               lat: r.latitude,
               lng: r.longitude
             };
+            this.$toast.loading({duration: 0, forbidClick: true});;
             const data = await this.$api.getPois(params);
+            this.$toast.clear();
             this.center = data.pois[0].location;
             this.name = data.pois[0].name;
             data.pois.splice(0, 1);
@@ -322,7 +333,9 @@
       },
       getKeyLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
+          this.$toast.loading({duration: 0, forbidClick: true});;
           const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/places.json?query=${this.key}&lng=${r.longitude}&lat=${r.latitude}`);
+          this.$toast.clear();
           this.keyPositions = data.result;
         });
       }

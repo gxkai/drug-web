@@ -15,7 +15,7 @@ import fastclick from 'fastclick';
 import filters from './filters';
 import './icons/iconfont.css';
 import './icons/vanIcon.css';
-import './plugins/vconsole';
+// import './plugins/vconsole';
 import './plugins/vue-event-calendar/dist/style.css';
 import vueEventCalendar from './plugins/vue-event-calendar';
 // import 'vant/lib/vant-css/icon-local.css';

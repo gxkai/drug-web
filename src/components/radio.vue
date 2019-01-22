@@ -1,8 +1,8 @@
 <template>
   <div>
     <div @click="onRadio()">
-      <i class="iconfont ic-radiobox" v-show="!radio"></i>
-      <i class="iconfont ic-radiochecked" v-show="radio"></i>
+      <van-icon name="radiobox" v-show="!radio" size="2em"></van-icon>
+      <van-icon name="radiochecked" v-show="radio" size="2em"></van-icon>
     </div>
   </div>
 </template>
@@ -16,14 +16,14 @@
         default: true
       },
       disabled: {
-        default: true
+        type: Boolean,
+        default: false
       }
     },
     methods: {
       onRadio() {
-        if (this.disabled !== '') {
-          this.radio = !this.radio;
-          this.$emit('update:radio', this.radio);
+        if (this.disabled === false) {
+          this.$emit('update:radio', !this.radio);
         }
       }
     }
@@ -31,13 +31,9 @@
 </script>
 
 <style scoped type="text/scss" lang="scss">
-  .iconfont{
-    font-size: 28px;
-  }
-  .ic-radiochecked:before {
-    color: $themeColor;
-  }
-  .ic-radiobox:before {
-    color: $themeColor;
+  .van-icon {
+    &-radiochecked, &-radiobox {
+      color: $themeColor;
+    }
   }
 </style>
