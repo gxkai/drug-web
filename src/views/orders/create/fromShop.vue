@@ -19,7 +19,7 @@
           <div class="pay_shop-content-delivery_type-content">
             <span :class="{active:deliveryType=='DELIVERY'}"
                   @click.stop="onDeliveryType('DELIVERY')"
-                  v-if="shopDrugSpecOrderDTO.distribution === true">
+                  v-if="shopDrugOrderDTO.distribution === true">
             药房配送
             </span>
             <span :class="{active:deliveryType=='SELF'}"
@@ -28,9 +28,9 @@
         </div>
         <div class="pay_shop-content-delivery"
              v-if="deliveryType === 'DELIVERY'"
-             @click="linkToOrderAddress(orderShopDrugSpecDTO.shopId)">
+             @click="linkToOrderAddress(orderShopDrugDTO.shopId)">
           <div class="pay_shop-content-delivery-no_address"
-               v-if="address.id === undefined">
+               v-if="address === undefined">
             请选择收货地址&gt;
           </div>
           <div class="pay_shop-content-delivery-address"
@@ -56,12 +56,12 @@
             <img src="../../../assets/image/colorbackground.png">
           </div>
         </div>
-        <new-close-shop :shopInfo="shopDrugSpecOrderDTO"></new-close-shop>
+        <new-close-shop :shopInfo="shopDrugOrderDTO"></new-close-shop>
 
         <div class="pay_shop-content-pay_type">
           <div class="pay_shop-content-pay_type-content">
             <span :class="{active:isMedicarePay==true}"
-                  v-if="shopDrugSpecOrderDTO.rxId !== null && account.medicaidNumber !== null"
+                  v-if="shopDrugOrderDTO.rxId !== null && account.medicaidNumber !== null"
                   @click.stop="isMedicarePay = true">
             医保
             </span>
@@ -72,15 +72,15 @@
         <div class="pay_shop-content-pay_amount">
           <div>
             <span>商品总额：</span>
-            <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.amount)}}</span>
+            <span>&yen;{{toFixedTwo(shopDrugOrderDTO.amount)}}</span>
           </div>
           <div>
             <span>医保扣除：</span>
-            <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.medicaidAmount)}}</span>
+            <span>&yen;{{toFixedTwo(shopDrugOrderDTO.medicaidAmount)}}</span>
           </div>
           <div>
             <span>实际支付：</span>
-            <span>&yen;{{toFixedTwo(shopDrugSpecOrderDTO.payAmount)}}</span>
+            <span>&yen;{{toFixedTwo(shopDrugOrderDTO.payAmount)}}</span>
           </div>
         </div>
         <!--<div class="pay_shop-content-medicaid">-->
@@ -132,7 +132,7 @@
         <!--<div class="pay_shop-content-coupon_popup-container-list-item van-hairline&#45;&#45;bottom"-->
         <!--v-for="(item,key) in coupons"-->
         <!--:key="key"-->
-        <!--@click="couponRecord = item;show = false;payAmount = shopDrugSpecOrderDTO.payAmount - item.minus">-->
+        <!--@click="couponRecord = item;show = false;payAmount = shopDrugOrderDTO.payAmount - item.minus">-->
         <!--<div class="text-l-28">-->
         <!--满{{item.amount}}减{{item.minus}}-->
         <!--</div>-->
@@ -172,8 +172,8 @@
       return {
         name: '订单结算',
         account: getAccount(),
-        orderShopDrugSpecDTO: JSON.parse(this.$route.query.orderShopDrugSpecDTO),
-        shopDrugSpecOrderDTO: JSON.parse(this.$route.query.shopDrugSpecOrderDTO),
+        orderShopDrugDTO: JSON.parse(this.$route.query.orderShopDrugDTO),
+        shopDrugOrderDTO: JSON.parse(this.$route.query.shopDrugOrderDTO),
         deliveryType: 'SELF',
         payType: 'KRCB',
         couponRecord: '',
@@ -181,7 +181,7 @@
         show: false,
         payAmount: 0,
         loading: false,
-        address: {},
+        address: undefined,
         isMedicarePay: false
       };
     },
@@ -191,32 +191,40 @@
     created() {
       this.initData();
     },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.address = vm.$route.query.address;
+      });
+    },
+    beforeRouteLeave(to, from, next) {
+      to.query.address = this.address;
+      next();
+    },
     mounted() {
-      const address = this.$route.query.address;
-      if (address !== undefined) {
-        this.address = address;
-      }
     },
     methods: {
       async initData() {
-        this.payAmount = this.shopDrugSpecOrderDTO.payAmount;
+        this.payAmount = this.shopDrugOrderDTO.payAmount;
         const data = await this.$http.get('couponRecords/order');
         this.coupons = data.filter(e => this.payAmount >= e.amount);
       },
       async onOrder() {
-        if (this.deliveryType === 'DELIVERY' && this.address.id === undefined) {
-          this.$toast('地址还没维护呢');
-          return;
-        }
         let json = {};
-        json.addressId = this.address.id;
-        json.items = this.orderShopDrugSpecDTO.drugs;
+        if (this.deliveryType === 'DELIVERY') {
+          if (this.address === undefined) {
+            this.$toast('地址还没维护呢');
+            return;
+          } else {
+            json.addressId = this.address.id;
+          }
+        }
+        json.items = this.orderShopDrugDTO.drugs;
         json.deliveryType = this.deliveryType;
         json.payType = this.payType;
         json.couponRecordId = this.couponRecord.id;
         json.medicaid = this.isMedicarePay;
-        json.shopId = this.orderShopDrugSpecDTO.shopId;
-        json.type = this.shopDrugSpecOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
+        json.shopId = this.orderShopDrugDTO.shopId;
+        json.type = this.shopDrugOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
         json.from = 'APP';
         this.$toast.loading({duration: 0, forbidClick: true, message: '生成订单中...'});
         let order = await this.$http.post('/orders/shop', json);
@@ -268,6 +276,9 @@
           &-center {
             padding: 0 10px;
             width: 600px;
+            span {
+              font-size: 30px;
+            }
           }
         }
         &-no_address {

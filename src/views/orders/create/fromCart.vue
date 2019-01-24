@@ -231,16 +231,17 @@
         return cartIds;
       },
       async onOrder() {
-        if (this.deliveryType === 'DELIVERY' && this.address === undefined) {
-          this.$toast('地址还没维护呢');
-          return;
-        }
         let json = {};
+        if (this.deliveryType === 'DELIVERY') {
+          if (this.address === undefined) {
+            this.$toast('地址还没维护呢');
+            return;
+          } else {
+            json.addressId = this.address.id;
+          }
+        }
         json.cartIds = this.getCartIds();
         json.deliveryType = this.deliveryType;
-        if (this.deliveryType === 'DELIVERY') {
-          json.addressId = this.address.id;
-        }
         json.payType = this.payType;
         json.medicaid = this.isMedicarePay;
         json.type = this.isRx === true ? 'RX' : 'SIMPLE';

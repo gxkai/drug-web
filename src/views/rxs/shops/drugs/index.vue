@@ -219,9 +219,9 @@
           'drugs': this.carts
         };
         this.$toast.loading({duration: 0, forbidClick: true});
-        const shopDrugSpecOrderDTO = await this.$http.post('orders/shop/preClose', json);
+        const shopDrugOrderDTO = await this.$http.post('orders/shop/preClose', json);
         this.$toast.clear();
-        this.$router.push({ path: '/orders/create/fromShop', query: { orderShopDrugSpecDTO: JSON.stringify(json), shopDrugSpecOrderDTO: JSON.stringify(shopDrugSpecOrderDTO) } });
+        this.$router.push({ path: '/orders/create/fromShop', query: { orderShopDrugDTO: JSON.stringify(json), shopDrugOrderDTO: JSON.stringify(shopDrugOrderDTO) } });
       }
     }
   };
