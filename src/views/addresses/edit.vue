@@ -2,7 +2,7 @@
   <new-layout class="address-edit">
     <template slot="top">
       <van-nav-bar
-        :title="id === undefined ? '地址创建' : '地址编辑'"
+        :title="address.id === undefined ? '地址创建' : '地址编辑'"
         left-arrow
         right-text="保存"
         @click-left="$router.go(-1)"
@@ -67,52 +67,53 @@
     data() {
       return {
         address: {
-          consignee: '',
-          phone: '',
-          address: '',
-          lat: '',
-          lng: '',
-          room: ''
-        },
-        id: this.$route.query.id
+          id: this.$route.query.id,
+          consignee: undefined,
+          phone: undefined,
+          address: undefined,
+          lat: undefined,
+          lng: undefined,
+          room: undefined
+        }
       };
     },
     created() {
-      if (this.id !== undefined) {
-        this.getList();
+      if (this.address.id !== undefined) {
+        this.initData();
       }
-      this.$navigation.on('back', (to, from) => {
-        console.log('back to', to, 'from ', from);
-        let position = to.route.query.position;
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        let position = vm.$route.query.position;
         if (position !== undefined) {
-          this.address.lat = position.lat;
-          this.address.lng = position.lng;
-          this.address.address = position.name;
+          vm.address.lat = position.lat;
+          vm.address.lng = position.lng;
+          vm.address.address = position.name;
         }
       });
+    },
+    beforeRouteLeave(to, from, next) {
+      if (this.address.lat !== undefined) {
+        let location = { lat: this.address.lat, lng: this.address.lng };
+        to.query.location = location;
+      }
+      next();
     },
     mounted() {
     },
     methods: {
       setPosition() {
-        if (this.address.lat !== '') {
-          const location = {
-            lat: this.address.lat,
-            lng: this.address.lng
-          };
-          this.$router.push({ path: '/addresses/confirm', query: { location: JSON.stringify(location) } });
-        } else {
-          this.$router.push('/addresses/confirm');
-        }
+        this.$router.push('/addresses/confirm');
       },
-      async getList() {
-        this.address = await this.$http.get('/addresses/' + this.id);
+      async initData() {
+        this.address = await this.$http.get('/addresses/' + this.address.id);
       },
       async save() {
-        if (this.id !== undefined) {
-          await this.$http.put('/addresses/' + this.id, this.address);
+        this.$toast.loading();
+        if (this.address.id !== undefined) {
+          await this.$http.put('/addresses/' + this.address.id, this.address);
         } else {
-          await this.$http.post('/addresses/', this.address);
+          this.address = await this.$http.post('/addresses/', this.address);
         }
         this.$toast('保存成功');
       }

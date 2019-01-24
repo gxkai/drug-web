@@ -245,7 +245,7 @@
         nearbyPositions: [],
         key: '',
         keyPositions: [],
-        choosePosition: undefined
+        choosePosition: this.$route.query.location
       };
     },
     created() {
@@ -292,7 +292,7 @@
           lng: position.location.lng
         };
         this.choosePosition = data;
-        this.$router.back();
+        this.$router.go(-1);
       },
       setPosition2() {
         const data = {
@@ -301,10 +301,10 @@
           lng: this.center.lng
         };
         this.choosePosition = data;
-        this.$router.back();
+        this.$router.go(-1);
       },
       async getLocation() {
-        if (this.$route.query.location === undefined) {
+        if (this.choosePosition === undefined) {
           new BMap.Geolocation().getCurrentPosition(async (r) => {
             const params = {
               lat: r.latitude,
@@ -319,12 +319,9 @@
             this.nearbyPositions = data.pois;
           });
         } else {
-          const location = JSON.parse(this.$route.query.location);
-          const params = {
-            lat: location.lat,
-            lng: location.lng
-          };
-          const data = await this.$api.getPois(params);
+          this.$toast.loading({duration: 0, forbidClick: true});
+          const data = await this.$api.getPois(this.choosePosition);
+          this.$toast.clear();
           this.center = data.pois[0].location;
           this.name = data.pois[0].name;
           data.pois.splice(0, 1);
