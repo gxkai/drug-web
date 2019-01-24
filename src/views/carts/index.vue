@@ -290,7 +290,9 @@
         this.isLoading = false;
       },
       async initData() {
+        this.$toast.loading();
         const data = await this.$http.get('/carts');
+        this.$toast.clear();
         data.cartShops.forEach(e => {
           e.allPrice = 0;
           e.allQuantity = 0;
@@ -303,7 +305,6 @@
           });
         });
         this.cartShops = data.cartShops;
-        console.log(this.cartShops);
       },
       changeQuantity(cartDrug) {
         this.$http.put(`/carts/${cartDrug.cartId}?quantity=${cartDrug.quantity}`);
