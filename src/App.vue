@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <navigation>
-      <router-view></router-view>
-    </navigation>
+    <transition
+      :name="transitionName"
+      >
+      <navigation>
+        <router-view class="app-router"/>
+      </navigation>
+    </transition>
   </div>
 </template>
 
@@ -11,16 +15,18 @@ export default {
   name: 'App',
   data() {
     return {
-      loginInfo: {
-        username: '18896781024',
-        password: '123456',
-        clientId: '1'
-      }
+      transitionName: 'fade'
     };
   },
   computed: {
   },
   created() {
+    this.$navigation.on('forward', (to, from) => {
+      this.transitionName = 'slide-left';
+    });
+    this.$navigation.on('back', (to, from) => {
+      this.transitionName = 'slide-right';
+    });
   },
   methods: {
   }
@@ -28,5 +34,17 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/scss/index.scss";
-
+.app-router {
+  position:absolute;
+  width:100%;
+  transition:all.8s cubic-bezier(.55,0,.1,1);
+}
+ 	.slide-left-enter,.slide-right-leave-active {
+   opacity:0;
+   transform: translate(100%, 0);
+}
+ 	.slide-left-leave-active,.slide-right-enter {
+   opacity:0;
+   transform: translate(-100%, 0);
+}
 </style>
