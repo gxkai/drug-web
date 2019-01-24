@@ -93,12 +93,12 @@
 
 </style>
 <script>
-  import {getAccount} from '../../storage';
+  import { getAccount } from '../../storage';
 
   export default {
     data() {
       return {
-        medicaid: '',
+        medicaid: undefined,
         account: getAccount()
       };
     },
@@ -109,7 +109,9 @@
     },
     methods: {
       async initData() {
-        this.medicaid = await this.$http.get('/accounts/medicaid');
+        if (this.account.medicaidNumber !== null) {
+          this.medicaid = await this.$http.get('/accounts/medicaid');
+        }
       }
     }
   };
