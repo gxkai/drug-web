@@ -25,9 +25,6 @@
           </div>
         </div>
         <div class="order-addr__item__second">
-        <span class="order-addr__item__second__text order-addr__item__second__text--blue">
-          [默认地址]
-        </span>
           <span class="order-addr__item__second__text">
           {{`${address.address}  ${address.room}`}}
         </span>
@@ -89,16 +86,21 @@
         list: [],
         account: getAccount(),
         shopId: this.$route.query.shopId,
-        address: undefined
+        address: this.$route.query.address
       };
     },
     created() {
-      this.initData();
     },
     computed: {
     },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.initData();
+      });
+    },
     beforeRouteLeave(to, from, next) {
       to.query.address = this.address;
+      next();
     },
     methods: {
       async initData() {
@@ -106,7 +108,7 @@
       },
       onAddress(address) {
         this.address = address;
-        this.$router.back();
+        this.$router.go(-1);
       }
     }
   };

@@ -206,7 +206,7 @@
 
 <script>
   import BMap from 'BMap';
-  import {getCurrentAddress, setCurrentAddress} from '@/storage';
+  import { getCurrentAddress, setCurrentAddress } from '@/storage';
   export default {
     name: '',
     mixins: [],
@@ -226,7 +226,11 @@
       };
     },
     created() {
-      this.getAddresses();
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.getAddresses();
+      });
     },
     mounted() {
       this.getLocation();
@@ -256,7 +260,7 @@
         this.nearbyAddresses = data.pois;
       },
       async getAddresses() {
-        this.$toast.loading({duration: 0, forbidClick: true});
+        this.$toast.loading({ duration: 0, forbidClick: true });
         this.addresses = await this.$http.get('/addresses');
         this.$toast.clear();
       },
@@ -293,7 +297,7 @@
           lat: currentAddress.lat,
           lng: currentAddress.lng
         };
-        this.$toast.loading({duration: 0, forbidClick: true});
+        this.$toast.loading({ duration: 0, forbidClick: true });
         const data = await this.$api.getPois(params);
         this.$toast.clear();
         this.center = data.pois[0].location;
@@ -302,7 +306,7 @@
       },
       async resetLocation() {
         new BMap.Geolocation().getCurrentPosition(async (r) => {
-          this.$toast.loading({duration: 0, forbidClick: true});
+          this.$toast.loading({ duration: 0, forbidClick: true });
           console.log(r.point);
           const params = {
             lat: r.point.lat,

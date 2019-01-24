@@ -21,7 +21,7 @@
              v-if="deliveryType === 'DELIVERY'"
              @click="linkToOrderAddress(cartShop.id)">
           <div class="pay_cart-content-delivery-address"
-               v-if="address.id !== undefined">
+               v-if="address!== undefined">
             <van-icon name="dizhi" size="4em" color="#a6a6a6"></van-icon>
             <div class="pay_cart-content-delivery-address-center">
               <div class="elps">
@@ -170,7 +170,7 @@
 
 </template>
 <script>
-  import {getAccount} from '@/storage';
+  import { getAccount } from '@/storage';
 
   export default {
     name: 'createFromCart',
@@ -187,7 +187,7 @@
         show: false,
         payAmount: 0,
         loading: false,
-        address: {},
+        address: undefined,
         medicaidInfo: {},
         isMedicarePay: false
       };
@@ -195,13 +195,15 @@
     components: {},
     created() {
       this.initData();
-      this.$navigation.on('back', (to, from) => {
-        console.log('back to', to, 'from ', from);
-        let address = to.route.query.address;
-        if (address !== undefined) {
-          this.address = address;
-        }
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.address = vm.$route.query.address;
       });
+    },
+    beforeRouteLeave(to, from, next) {
+      to.query.address = this.address;
+      next();
     },
     mounted() {
     },
@@ -229,7 +231,7 @@
         return cartIds;
       },
       async onOrder() {
-        if (this.deliveryType === 'DELIVERY' && this.address.id === undefined) {
+        if (this.deliveryType === 'DELIVERY' && this.address === undefined) {
           this.$toast('地址还没维护呢');
           return;
         }
@@ -243,9 +245,9 @@
         json.medicaid = this.isMedicarePay;
         json.type = this.isRx === true ? 'RX' : 'SIMPLE';
         json.origin = 'APP';
-        this.$toast.loading({duration: 0, forbidClick: true, message: '生成订单中...'});
+        this.$toast.loading({ duration: 0, forbidClick: true, message: '生成订单中...' });
         let order = await this.$http.post('/orders', json);
-        this.$toast.loading({duration: 0, forbidClick: true, message: '生成支付链接中...'});
+        this.$toast.loading({ duration: 0, forbidClick: true, message: '生成支付链接中...' });
         let url = await this.$http.get(`/orders/${order.id}/pay`);
         this.$toast.clear();
         console.log(url);
