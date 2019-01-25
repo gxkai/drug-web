@@ -53,6 +53,7 @@
         const params = {
           'content': this.content
         };
+        this.$toast.loading();
         await this.$http.post('/feedbacks', params);
         this.$toast('成功');
       }

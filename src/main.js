@@ -3,7 +3,7 @@
 import Vue from 'vue';
 import App from './App';
 import store from './store';
-import base from './utils/function';
+import base from './utils';
 import component from './components';
 import http from './http';
 import api from './api';
@@ -16,6 +16,7 @@ import filters from './filters';
 import './icons/iconfont.css';
 import './icons/vanIcon.css';
 // import './plugins/vconsole';
+import _ from 'lodash';
 import './plugins/vue-event-calendar/dist/style.css';
 import vueEventCalendar from './plugins/vue-event-calendar';
 // import 'vant/lib/vant-css/icon-local.css';
@@ -61,7 +62,7 @@ import { Step,
   Picker } from 'vant';
 import router from './router';
 import Navigation from 'vue-navigation';
-Vue.use(Navigation, {router});
+Vue.use(Navigation, { router });
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)
@@ -110,6 +111,7 @@ Vue.use(vueEventCalendar, { locale: 'zh', className: '' });
 Vue.prototype.$http = http;
 Vue.prototype.$api = api;
 Vue.prototype.$storage = storage;
+Vue.prototype._ = _;
 Vue.config.productionTip = false;
 Vue.use(VueAwesomeSwiper);
 Vue.use(base);
