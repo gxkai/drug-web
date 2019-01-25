@@ -987,7 +987,6 @@
       this.initData();
     },
     mounted() {
-      this.startMove();
     },
     beforeDestroy() {
       clearTimeout(this.timer);
@@ -1002,6 +1001,9 @@
         // 知识库
         this.repositories = await this.$http.get('/repositories/home');
         this.$toast.clear();
+        if (!this._.isEmpty(this.repositories)) {
+          this.startMove();
+        }
       },
       startMove() {
         this.timer = setTimeout(() => {
