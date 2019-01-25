@@ -46,5 +46,7 @@ export default {
     Vue.component('new-layout', () => import('./layout'));
     // 左滑删除
     Vue.component('new-swipe-cell', () => import('./swipeCell'));
+    // 悬浮窗
+    Vue.component('new-move', () => import('./move'));
   }
 };
