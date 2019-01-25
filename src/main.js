@@ -19,7 +19,6 @@ import './icons/vanIcon.css';
 import _ from 'lodash';
 import './plugins/vue-event-calendar/dist/style.css';
 import vueEventCalendar from './plugins/vue-event-calendar';
-// import 'vant/lib/vant-css/icon-local.css';
 import { Step,
   Steps,
   Actionsheet,
