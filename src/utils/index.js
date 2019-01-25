@@ -1,4 +1,3 @@
-import { Toast } from 'vant';
 import router from '../router';
 import storage from 'good-storage';
 
@@ -21,31 +20,6 @@ function insertArray(arr, val, compare, maxlen) {
 
 export default {
   install(Vue, options) {
-    /**
-     * htpp请求报错
-     * @param error
-     */
-    Vue.prototype.exception = (error) => {
-      if (error.response) {
-        switch (error.response.status) {
-          case 400:
-            if (error.response.data.fieldErrors) {
-              Toast(error.response.data.fieldErrors[0].message);
-              return;
-            }
-            if (error.response.data.message) {
-              Toast(error.response.data.message);
-            }
-            break;
-          case 401:
-            break;
-          default:
-            Toast('网络异常');
-        }
-      } else {
-        Toast('网络异常');
-      }
-    };
     /**
      * yyyy-MM-dd
      * @param timer

@@ -106,7 +106,9 @@
         this.$router.push('/addresses/confirm');
       },
       async initData() {
+        this.$toast.loading();
         this.address = await this.$http.get('/addresses/' + this.address.id);
+        this.$toast.clear();
       },
       async save() {
         this.$toast.loading();
