@@ -1,7 +1,5 @@
 <template>
   <div class="rx_shop_item">
-
-
     <div class="rx_shop_item-left">
       <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')">
     </div>
@@ -16,17 +14,14 @@
         <span class="rx-indterval-red" v-if="showPrice">¥{{item.minMedicaidAmount}}</span>
         <span v-if="showPrice" class="rx_bursement">至</span>
         <span class="rx-indterval-red" v-if="showPrice">¥{{item.maxMedicaidAmount}}</span></div>
-      <div class="elps rx_shop_tel">
+      <div class="rx_shop_tel">
         <span class="rx-delivery" v-if="item.distribution==true && item.shopDistance < item.distance">可配送</span>
         <span class="rx-since">可自提</span>
-        距当前位置：{{item.distance | meter}}
+        <span class="rx-distance van-ellipsis">距当前位置：{{item.distance | meter}}</span>
         <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span>
       </div>
     </div>
-
-
   </div>
-
 </template>
 
 <script>
@@ -118,6 +113,9 @@
         font-weight: 400;
         color: rgba(102, 102, 102, 1);
         margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         .rx-indterval-grey {
           width: 104px;
           height: 33px;
@@ -155,8 +153,6 @@
           background: rgba(255, 255, 255, 1);
           border: 1px solid $themeColor;
           border-radius: 7px;
-          display: inline-block;
-          float: left;
           color: $themeColor;
           text-align: center;
           line-height: 33px;
@@ -169,13 +165,13 @@
           background: rgba(255, 255, 255, 1);
           border: 1px solid $themeColor;
           border-radius: 7px;
-          display: inline-block;
-          float: left;
           color: $themeColor;
           text-align: center;
           line-height: 33px;
-
           margin-right: 15px;
+        }
+        .rx-distance {
+          font-size: 20px;
         }
       }
       .rx_shop_address {

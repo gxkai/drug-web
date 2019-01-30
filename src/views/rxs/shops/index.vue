@@ -6,7 +6,14 @@
       <div class="shops-header drugs">
        <div class="drugs-header">
           <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
-          <input class="iconfont drugs-header__input" v-model="drugName" :placeholder="searchIcon">
+         <form action="" onsubmit="return false;">
+           <input
+             class="iconfont drugs-header__input"
+             :placeholder="searchIcon"
+             v-model="shopName"
+             type="search"
+             @keypress="search">
+         </form>
           <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="search(shopName)"></van-icon>
         </div>
    </div>
@@ -49,7 +56,6 @@
             </div>
           </div>-->
         </div>
-
      <div class="shops-filter-item" @click="orderByScore()">
           <div class="shops-filter-item-text" :class="{ red:activeRed == 3}">
             好评优先
@@ -63,7 +69,6 @@
             </div>
           </div>-->
         </div>
-
       </div>
     </template>
     <div class="shops-container"
@@ -71,7 +76,7 @@
       <div @click="toQyPayUrl()" v-if="hospital !== null">
         <new-rx-hospital-item :item="hospital"/>
       </div>
-      <div v-show="rxShopsOneshow"
+      <div
            v-for="(rxShop,index) in rxShops"
            :key="index"
            @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
@@ -79,19 +84,6 @@
           :item="rxShop">
         </new-rx-shop-item>
       </div>
-
-
-      <div v-show="rxShopsTwoshow"
-           v-for="(rxShop,index) in rxShopsTwo"
-           :key="index"
-           @click="linkToRxShopDrug(rxId,rxShop.id,rxShop.name, rxShop.type)">
-        <new-rx-shop-item
-          :item="rxShop">
-        </new-rx-shop-item>
-      </div>
-
-
-
     </div>
   </new-layout>
 </template>
@@ -105,16 +97,22 @@
         activeRed: 1,
         rxId: this.$route.query.rxId,
         rxShops: [],
-        rxShopsTwo: [],
-        rxShopsOneshow: true,
-        rxShopsTwoshow: false,
+        rxShops_: [],
         hospitalId: this.$route.query.hospitalId,
         hospital: null,
         searchIcon: '输入药房名称',
         sort: 'PRICE_DESC',
-        drugName: '',
+        shopName: '',
         position: getCurrentAddress()
       };
+    },
+    watch: {
+      shopName() {
+        if (this.shopName.trim() === '') {
+          this.activeRed = 1;
+          this.rxShops = this._.cloneDeep(this.rxShops_);
+        }
+      }
     },
     computed: {
     },
@@ -130,13 +128,16 @@
         this.getRxShops();
         this.getHospital();
       },
-      search(shopName) {
-        this.rxShopsTwoshow = true;
-        this.rxShopsOneshow = false;
-        this.rxShopsTwo = this.rxShops.filter(s => s.name.includes(shopName));
+      search() {
+        this.activeRed = 1;
+        this.rxShops = this._.cloneDeep(this.rxShops_);
+        if (this.shopName.trim() !== '') {
+          this.rxShops = this.rxShops.filter(s => s.name.includes(this.shopName));
+        }
       },
       async getRxShops() {
-        this.rxShops = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
+        this.rxShops_ = await this.$http.get(`/rxs/${this.rxId}/shops?lng=${this.position.lng}&lat=${this.position.lat}`);
+        this.rxShops = this._.cloneDeep(this.rxShops_);
         this.orderByPrice();
       },
       async getHospital() {
@@ -147,7 +148,7 @@
       },
       orderByDistance() {
         this.activeRed = 2;
-        this.rxShops = this.rxShops.sort((a, b) => a.shopDistance - b.shopDistance);
+        this.rxShops = this.rxShops.sort((a, b) => a.distance - b.distance);
         // if (this.sort === 'DISTANCE_DESC') {
         //   this.sort = 'DISTANCE_ASC';
         //   this.rxShops = this.rxShops.sort((a, b) => a.distance - b.distance);

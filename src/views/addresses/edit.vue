@@ -52,9 +52,9 @@
     </template>
   </new-layout>
 </template>
-<style scoped type="text/scss" lang="scss">
+<style scoped type="text/less" lang="less">
   /deep/.van-field .van-cell__title {
-    max-width: 120px;
+    max-width: 120px!important;
   }
   /deep/ input {
     margin: 20px auto!important;
