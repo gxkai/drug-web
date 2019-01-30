@@ -54,7 +54,7 @@
 </template>
 <style scoped type="text/less" lang="less">
   /deep/.van-field .van-cell__title {
-    max-width: 120px!important;
+    max-width: 160px!important;
   }
   /deep/ input {
     margin: 20px auto!important;
