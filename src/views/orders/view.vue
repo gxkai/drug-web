@@ -111,11 +111,7 @@
       v-model="popup"
       position="center">
       <van-steps :active="actives" direction="vertical" active-color="#FF0000">
-        <van-step><span class="step__title step__title_order">订单提交成功</span><span class="fr step__title step__title_fr">2018-12-10 12:32</span></van-step>
-        <van-step class="step__title"><span class="step__title step__title_order">订单已支付</span><span class="fr step__title step__title_fr">2018-12-10 12:52</span></van-step>
-        <van-step class="step__title"><span class="step__title step__title_order">商家已接单</span><span class="fr step__title step__title_fr">2018-12-10 12:32</span></van-step>
-        <van-step class="step__title"><span class="step__title step__title_order">骑手已取货</span><span class="fr step__title step__title_fr">2018-13-09 12:32</span></van-step>
-        <van-step class="step__title"><span class="step__title step__title_order">订单已送达</span><span class="fr step__title step__title_fr">2018-12-10 12:32</span></van-step>
+        <van-step v-for="(time, index) in timeLine" :key="index"><span class="step__title" :class="{step__title_order:index===0}">{{time.message}}</span><span class="fr step__title step__title_fr">{{timeConvert(time.createdDate)}}</span></van-step>
       </van-steps>
 
 
@@ -402,7 +398,9 @@
     methods: {
       async initData() {
         this.order = await this.$http.get(`/orders/${this.orderId}`);
+        console.log(this.order);
         this.timeLine = await this.$http.get(`/orders/${this.orderId}/logs`);
+        console.log(this.timeLine);
         this.stateStyle = this.getStateStyle();
       },
       getStateStyle() {
@@ -431,7 +429,10 @@
         this.order.state = 'CLOSED';
       },
       async onPay() {
-        window.location.href = this.order.payUrl === null ? await this.$http.get(`/orders/${this.order.id}/pay`) : this.order.payUrl;
+        if (this._.isEmpty(this.order.payUrl)) {
+          this.order.payUrl = await this.$http.get(`/orders/${this.order.id}/pay`);
+        }
+        window.location.href = this.order.payUrl;
       },
       onRefund() {
         this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });

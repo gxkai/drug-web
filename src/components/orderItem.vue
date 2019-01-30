@@ -101,8 +101,8 @@
 </template>
 <style scoped type="text/scss" lang="scss">
   .activeButton {
-    color: $themeColor;
-    borderColor: $themeColor
+    color: $themeColor!important;
+    border-color: $themeColor!important;
   }
   .order_item {
     margin-top: 20px;
@@ -304,7 +304,7 @@
         this.$router.push({ path: '/orders/view', query: { orderId: this.order.id } });
       },
       async onPay() {
-        window.location.href = this.order.payUrl === null ? await this.$http.get(`/orders/${this.order.id}/pay`) : this.order.payUrl;
+        window.location.href = this._.isEmpty(this.order.payUrl) ? await this.$http.get(`/orders/${this.order.id}/pay`) : this.order.payUrl;
       },
       onRefund() {
         this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });

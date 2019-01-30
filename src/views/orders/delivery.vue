@@ -118,11 +118,14 @@
       };
     },
     created() {
-      // this.initData();
+      this.initData();
     },
     methods: {
       async initData() {
+        this.$toast.loading();
         this.order = await this.$http.get(`/orders/${this.orderId}`);
+        console.log(this.order);
+        this.$toast.clear();
       }
     }
   };

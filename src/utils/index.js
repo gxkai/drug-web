@@ -92,7 +92,7 @@ export default {
      * @returns {string}
      */
     Vue.prototype.getQrCodeURL = (orderId) => {
-      return process.env.API_ROOT + '/qrCode/orders/' + orderId;
+      return process.env.API_ROOT + '/orders/' + orderId + '/qrCode';
     };
     /**
      * 切割字符串

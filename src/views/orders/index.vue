@@ -54,7 +54,7 @@
     <van-popup
       v-model="popupVisible"
       position="top">
-      <img v-lazy="popupUrl" class="orders-qr_code">
+      <img :src="popupUrl" class="orders-qr_code">
     </van-popup>
   </div>
 </template>
@@ -104,9 +104,10 @@
     mounted() {
     },
     methods: {
-      onQrcode(order) {
+      async onQrcode(order) {
         console.log('order', order);
-        this.popupUrl = this.getQrCodeURL(order.id);
+        this.popupUrl = await this.$http.get(this.getQrCodeURL(order.id));
+        console.log(this.popupUrl);
         this.popupVisible = true;
       },
       onCancel() {
