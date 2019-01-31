@@ -8,6 +8,7 @@
       />
     </template>
     <template slot="center">
+        <new-no-data v-if="list.length ===0"></new-no-data>
         <div class="pharmacist__item"
              v-for="(item, key) in list"
              :key="key"
