@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div class="entry">
+    <van-button type="primary" v-if="show" @click="onRetry">点击重试</van-button>
+  </div>
 </template>
 
 <script>
@@ -13,7 +15,8 @@
     data() {
       return {
         toPath: this.getUrlKey('toPath'),
-        data: this.getUrlKey('data')
+        data: this.getUrlKey('data'),
+        show: false
       };
     },
     async created() {
@@ -27,6 +30,10 @@
     mounted() {
     },
     methods: {
+      onRetry() {
+        this.show = false;
+        this.login();
+      },
       async fetchUrlToPush() {
         switch (this.toPath) {
           case 'home':
@@ -49,6 +56,7 @@
           this.$router.push(`/${this.toPath}`);
         } catch (e) {
           this.$toast('登陆失败');
+          this.show = true;
         }
       }
     }
@@ -56,5 +64,10 @@
 </script>
 
 <style scoped>
-
+  .entry {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>

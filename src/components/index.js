@@ -48,5 +48,7 @@ export default {
     Vue.component('new-swipe-cell', () => import('./swipeCell'));
     // 悬浮窗
     Vue.component('new-move', () => import('./move'));
+    // 上下留白
+    Vue.component('new-white-space', () => import('./whiteSpace'));
   }
 };

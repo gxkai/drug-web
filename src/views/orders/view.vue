@@ -3,7 +3,6 @@
   <div>
     <new-layout
       class="order_view"
-      center-color="white"
     >
       <template slot="top">
         <van-nav-bar
@@ -24,7 +23,7 @@
         <div class="order_view-address"
              v-if="order.deliveryType === 'DELIVERY'">
           <div class="order_view-address-left">
-            <i class="iconfont ic-address"></i>
+            <van-icon name="location" size="3em"/>
           </div>
           <div class="order_view-address-right">
             <div class="order_view-address-right_consignee">
@@ -35,6 +34,7 @@
             </div>
           </div>
         </div>
+        <new-white-space/>
         <new-order-view-item :order.sync="order"></new-order-view-item>
 
         <div class="order_view-money">
@@ -111,7 +111,14 @@
       v-model="popup"
       position="center">
       <van-steps :active="actives" direction="vertical" active-color="#FF0000">
-        <van-step v-for="(time, index) in timeLine" :key="index"><span class="step__title" :class="{step__title_order:index===0}">{{time.message}}</span><span class="fr step__title step__title_fr">{{timeConvert(time.createdDate)}}</span></van-step>
+        <van-step v-for="(time, index) in timeLine" :key="index">
+          <!--<span class="step__title" :class="{step__title_order:index===0}">{{time.message}}</span>-->
+          <!--<span class="fr step__title step__title_fr">{{timeConvert(time.createdDate)}}</span>-->
+          <div class="step">
+            <div>{{time.message}}</div>
+            <div>{{timeConvert(time.createdDate)}}</div>
+          </div>
+        </van-step>
       </van-steps>
 
 
@@ -124,22 +131,19 @@
 </template>
 
 <style scoped type="text/scss" lang="scss">
-
+  .step {
+    display: flex;
+    justify-content: space-between;
+    *{
+      font-size: 25px;
+    }
+  }
   .activeButton {
     color: $themeColor!important;
     border-color: $themeColor!important;
   }
-  .step__title_order{
-    width: 240px;
-    display: inline-block;
-  }
   [class*=van-hairline]::after{
     border:none!important;
-  }
-  .step__title_fr{
-    display: inline-block;
-    float: left;
-
   }
   .closed{
     text-align: center;
@@ -155,13 +159,9 @@
   .van-step__circle-container  .van-icon{
     font-size: 35px!important;
   }
- .van-step--vertical.van-step--process .van-icon-checked{
+  .van-step--vertical.van-step--process .van-icon-checked{
     font-size: 26px!important;
     margin-right: 4px;
-  }
-
-  .step__title{
-    font-size: 30px!important;
   }
   .van-steps {
     width: 616px;
@@ -211,6 +211,7 @@
     &-address {
       display: flex;
       align-items: center;
+      padding: 20px 0;
       &-left {
         padding: 20px;
         .iconfont {
@@ -293,7 +294,6 @@
     }
     &-address{
       background: white;
-      margin-top: 16px;
       text-indent: 20px;
       ul{
         width: 720px;

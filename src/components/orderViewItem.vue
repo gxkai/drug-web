@@ -69,7 +69,6 @@
   }
   .order_item {
     background-color: white;
-    margin-top: 20px;
     .iconfont {
       font-size: 50px;
     }

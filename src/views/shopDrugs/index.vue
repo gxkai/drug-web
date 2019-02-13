@@ -159,8 +159,8 @@
         <van-goods-action style="position: sticky">
           <van-goods-action-mini-btn icon="chat" text="咨询" @click="onChat"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
-          <van-goods-action-mini-btn icon="shoucang1" text="收藏" :style="{color: collected === true ? 'red': ''}"
-                                     @click="onCollect" icon-class="active"/>
+          <van-goods-action-mini-btn :icon="collected === true ? 'shoucang1':'shoucang'" text="收藏" :style="{color: collected === true ? 'red': ''}"
+                                     @click="onCollect"/>
           <van-goods-action-big-btn text="加入购物车"
                                     :style="{backgroundColor:shopDrug.otc===false?'gray':'#f85',borderColor:shopDrug.otc===false?'gray':'#ff976a'}"
                                     @click="shopDrug.otc===false? '' : show=true;type=0"/>
@@ -208,10 +208,12 @@
     </van-popup>
   </div>
 </template>
-<style scoped type="text/scss" lang="scss">
-  .active {
-    color: $themeColor;
+<style scoped type="text/less" lang="less">
+  /deep/.van-icon-shoucang1 {
+    color: red!important;
   }
+</style>
+<style scoped type="text/scss" lang="scss">
   .shopDrug {
     &__popup {
       &__part-1 {
