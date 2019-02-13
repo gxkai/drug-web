@@ -52,6 +52,10 @@ axios.interceptors.response.use(
 
 const index = {
   get(url, params) {
+    if (params === undefined) {
+      params = {};
+    }
+    params.date = new Date();
     return new Promise((resolve, reject) => {
       axios.get(url, {
         params: params,

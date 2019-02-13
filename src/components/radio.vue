@@ -1,8 +1,8 @@
 <template>
   <div>
     <div @click="onRadio()">
-      <van-icon name="radiobox" v-show="!radio" size="2em"></van-icon>
-      <van-icon name="radiochecked" v-show="radio" size="2em"></van-icon>
+      <van-icon name="radiobox" v-show="!radio" :size="size"></van-icon>
+      <van-icon name="radiochecked" v-show="radio" :size="size"></van-icon>
     </div>
   </div>
 </template>
@@ -18,6 +18,9 @@
       disabled: {
         type: Boolean,
         default: false
+      },
+      size: {
+        default: '2em'
       }
     },
     methods: {

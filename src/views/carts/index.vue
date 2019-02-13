@@ -25,7 +25,7 @@
                 <div class="cart-list-rx-left">
                   <div class="cart-list-rx-left_radio"
                        @click.stop="onRadio(RX,cartShop,cartRx)">
-                    <new-radio :radio="cartRx.radio"/>
+                    <new-radio :radio="cartRx.radio" size="3em"/>
                   </div>
                   <van-icon name="chufangdanluru" size="4em"></van-icon>
                   <div class="cart-list-rx-left_name">
@@ -42,7 +42,7 @@
                 <div class="cart-list-rx-left">
                   <div class="cart-list-rx-left_radio"
                        @click.stop="onRadio(RX,cartShop,cartRx)">
-                    <new-radio :radio="cartRx.radio"/>
+                    <new-radio :radio="cartRx.radio" size="3em"/>
                   </div>
                   <van-icon name="jisongchufangdan" size="4em"></van-icon>
                   <div class="cart-list-rx-left_name">
@@ -56,7 +56,7 @@
                     <div class="cart-list-drugs-item-left">
                       <div class="cart-list-drugs-item-left_radio"
                            @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
-                        <new-radio :radio="cartDrug.radio"/>
+                        <new-radio :radio="cartDrug.radio" size="3em"/>
                       </div>
                       <div class="cart-list-drugs-item-left_logo"
                            @click="linkToShopDrugSpec(cartDrug.id)">
