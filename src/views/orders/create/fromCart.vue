@@ -12,7 +12,7 @@
         <div class="pay_cart-content-delivery_type">
           <div class="pay_cart-content-delivery_type-content">
            <span :class="{active:deliveryType=='DELIVERY'}"
-                 @click.stop="onDeliveryType('DELIVERY')">送货上门</span>
+                 @click.stop="onDeliveryType('DELIVERY')" v-if="cartShop.distribution">送货上门</span>
             <span :class="{active:deliveryType=='SELF'}"
                   @click.stop="onDeliveryType('SELF')">上门自提</span>
           </div>
@@ -78,13 +78,14 @@
             <span>商品总额：</span>
             <span>&yen;{{toFixedTwo(cartShop.amount)}}</span>
           </div>
-          <div>
+          <div v-if="isMedicarePay">
             <span>医保扣除：</span>
             <span>&yen;{{toFixedTwo(cartShop.medicaidAmount)}}</span>
           </div>
           <div>
             <span>实际支付：</span>
-            <span>&yen;{{toFixedTwo(cartShop.payAmount)}}</span>
+            <span  v-if="isMedicarePay">&yen;{{toFixedTwo(cartShop.payAmount)}}</span>
+            <span  v-else>&yen;{{toFixedTwo(cartShop.amount)}}</span>
           </div>
         </div>
         <!--<div class="pay_cart-content-medicaid">-->

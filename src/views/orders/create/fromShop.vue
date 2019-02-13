@@ -74,13 +74,14 @@
             <span>商品总额：</span>
             <span>&yen;{{toFixedTwo(shopDrugOrderDTO.amount)}}</span>
           </div>
-          <div>
+          <div v-if="isMedicarePay">
             <span>医保扣除：</span>
             <span>&yen;{{toFixedTwo(shopDrugOrderDTO.medicaidAmount)}}</span>
           </div>
           <div>
             <span>实际支付：</span>
-            <span>&yen;{{toFixedTwo(shopDrugOrderDTO.payAmount)}}</span>
+            <span v-if="isMedicarePay">&yen;{{toFixedTwo(shopDrugOrderDTO.payAmount)}}</span>
+            <span v-else>&yen;{{toFixedTwo(shopDrugOrderDTO.amount)}}</span>
           </div>
         </div>
         <!--<div class="pay_shop-content-medicaid">-->

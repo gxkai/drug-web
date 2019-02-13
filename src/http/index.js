@@ -40,7 +40,7 @@ axios.interceptors.response.use(
           }
           break;
         case 500:
-          Toast(`${error.response.data.message}${error.response.data.exception}`);
+          Toast(`网络繁忙`);
           break;
         default:
           Toast('网络异常');
