@@ -5,7 +5,7 @@
         <div class="drugs-header">
           <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
           <form action="" onsubmit="return false;">
-            <input v-model="keyword" class="iconfont drugs-header__input" :placeholder="searchIcon" @keypress="search" type="search">
+            <input v-model.trim="keyword" class="iconfont drugs-header__input" :placeholder="searchIcon" @keypress="search" type="search">
           </form>
           <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="onRefresh()"></van-icon>
         </div>
@@ -109,7 +109,7 @@
         >重置
         </van-button>
         <van-button type="primary"
-                    @click="onRefresh"
+                    @click="onRefresh;show=false"
         >确认
         </van-button>
       </van-row>
@@ -123,7 +123,7 @@
         <span slot="title"
               class="drugs--popup--filter"
               @click="showName = false"
-        >返回</span>
+        >确定</span>
       </van-cell>
       <van-checkbox-group v-model="namesResult">
         <van-cell-group>
@@ -148,7 +148,7 @@
         <span slot="title"
               class="drugs--popup--filter"
               @click="showOrigin = false"
-        >返回</span>
+        >确定</span>
       </van-cell>
       <van-checkbox-group v-model="originsResult">
         <van-cell-group>
@@ -173,7 +173,7 @@
         <span slot="title"
               class="drugs--popup--filter"
               @click="showSpec = false"
-        >返回</span>
+        >确定</span>
       </van-cell>
       <van-checkbox-group v-model="specsResult">
         <van-cell-group>
@@ -198,7 +198,7 @@
         <span slot="title"
               class="drugs--popup--filter"
               @click="showForm = false"
-        >返回</span>
+        >确定</span>
       </van-cell>
       <van-checkbox-group v-model="formsResult">
         <van-cell-group>
@@ -296,6 +296,10 @@
         this.formsResult = [];
       },
       onRefresh() {
+        if (this.keyword === '' && this.drugTypeId === '') {
+          this.$toast('请输入关键字');
+          return;
+        }
         this.finished = false;
         this.list = [];
         this.pageNum = 0;
@@ -350,7 +354,8 @@
           drugTypeId: this.drugTypeId,
           originId: this.originId,
           specId: this.specId,
-          formId: this.formId
+          formId: this.formId,
+          keyword: this.keyword
         };
         this.names = await this.$http.get('/drugs/name', params);
         this.namesResult = [];
@@ -360,7 +365,8 @@
           drugTypeId: this.drugTypeId,
           commonName: this.commonName,
           specId: this.specId,
-          formId: this.formId
+          formId: this.formId,
+          keyword: this.keyword
         };
         this.origins = await this.$http.get('/origins', params);
         this.originsResult = [];
@@ -370,7 +376,8 @@
           drugTypeId: this.drugTypeId,
           commonName: this.commonName,
           originId: this.originId,
-          formId: this.formId
+          formId: this.formId,
+          keyword: this.keyword
         };
         this.specs = await this.$http.get('/specs', params);
         this.specsResult = [];
@@ -380,7 +387,8 @@
           drugTypeId: this.drugTypeId,
           commonName: this.commonName,
           originId: this.originId,
-          specId: this.specId
+          specId: this.specId,
+          keyword: this.keyword
         };
         this.forms = await this.$http.get('/forms', params);
         this.formsResult = [];
@@ -425,12 +433,13 @@
         height: 45px;
         outline: none;
         border-width: 0;
-        font-size: 30px;
+        font-size: 30px!important;
         color: black;
         border-radius: 10PX;
         padding: 0 20px;
         &::placeholder {
-        text-align: center;
+          text-align: center;
+          font-size: 30px;
         }
       }
       &__right {

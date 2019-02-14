@@ -3,8 +3,8 @@
     <header>
       <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="#666666"
                 @click="$router.go(-1)"></van-icon>
-      <input type="text" placeholder="   输入关键词搜索" v-model="drugName">
-      <span class="searchBtn" @click="$router.push('/drugs?keyword='+drugName)">搜索</span>
+      <input type="text" placeholder="   输入关键词搜索" v-model.trim="drugName">
+      <span class="searchBtn" @click="onSearch">搜索</span>
     </header>
     <div class="searchDiv">
      <span class="hot">热门</span>
@@ -92,6 +92,13 @@
       async initData() {
         const data = await this.$http.get('/drugs/keywords');
         this.drugInfo = data;
+      },
+      onSearch() {
+        if (this.drugName === '') {
+          this.$toast('请输入关键字');
+          return;
+        }
+        this.$router.push('/drugs?keyword=' + this.drugName);
       }
     }
   };

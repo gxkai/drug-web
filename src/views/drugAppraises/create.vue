@@ -58,6 +58,7 @@
 <style scoped type="text/less" lang="less">
   /deep/.van-rate__item {
     width: 30px!important;
+    margin-left: 10px;
   }
 </style>
 <style scoped type="text/scss" lang="scss">
@@ -77,12 +78,12 @@
         margin-top: 20px;
         &__item {
           display: flex;
-          padding: 5px 0;
           &-rate {
-            margin-left: 20px;
-            margin-top: 10px;
+            margin-left: 30px;
+            align-self: center;
           }
           &-name {
+            align-self: flex-end;
             font-size: 25px;
             font-family: HiraginoSansGB-W3;
             font-weight: normal;

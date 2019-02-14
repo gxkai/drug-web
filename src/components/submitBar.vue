@@ -3,7 +3,7 @@
     <div class="submit-bar-left">
       <div class="submit-bar__text">
         <span>合计:</span>
-        <span class="submit-bar__price">￥ {{price}}</span>
+        <span class="submit-bar__price">￥ {{toFixedTwo(price)}}</span>
       </div>
     </div>
     <div class="submit-bar-right" @click="$emit('submit')">
