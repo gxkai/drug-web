@@ -93,7 +93,7 @@
                   <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span> 距当前位置：{{item.distance | meter}}
                 </div>
                 <div class="mt10">
-                  <span class="rx-delivery" v-if="item.distribution==true && item.shopDistance < item.distance">可配送</span>
+                  <span class="rx-delivery" v-if="item.distribution==true && item.shopDistance >= item.distance">可配送</span>
                   <span class="rx-since">可自提</span>
                 </div>
               </div>
@@ -219,11 +219,11 @@
     width: 82px;
     height: 33px;
     background: rgba(255, 255, 255, 1);
-    border: 1px solid $themeColor;
+    border: 1px solid deepskyblue;
     border-radius: 7px;
     display: inline-block;
     float: left;
-    color: $themeColor;
+    color: deepskyblue;
     text-align: center;
     line-height: 33px;
     margin-right: 15px;
