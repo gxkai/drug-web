@@ -158,17 +158,9 @@
       </div>
     </template>
     <template slot="bottom">
-      <van-submit-bar
-        :price="payAmount*100"
-        button-text="立即支付"
-        @submit="onOrder"
-        :loading="loading"
-        style="position: static"
-      />
+      <new-submit-bar :price="payAmount" @submit="onOrder"/>
     </template>
   </new-layout>
-
-
 </template>
 <script>
   import { getAccount } from '@/storage';

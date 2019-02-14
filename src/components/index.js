@@ -50,5 +50,7 @@ export default {
     Vue.component('new-move', () => import('./move'));
     // 上下留白
     Vue.component('new-white-space', () => import('./whiteSpace'));
+    // 提交栏
+    Vue.component('new-submit-bar', () => import('./submitBar'));
   }
 };

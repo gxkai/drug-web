@@ -59,6 +59,7 @@
   /deep/ input {
     margin: 20px auto!important;
     line-height: normal!important;
+    color: black!important;
   }
 </style>
 <script>
@@ -118,6 +119,9 @@
           this.address = await this.$http.post('/addresses/', this.address);
         }
         this.$toast('保存成功');
+        setTimeout(() => {
+          this.$router.go(-1);
+        }, 3000);
       }
     }
   };
