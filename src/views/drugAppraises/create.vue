@@ -78,12 +78,12 @@
         margin-top: 20px;
         &__item {
           display: flex;
+          align-items: center;
+          margin-top: 20px;
           &-rate {
             margin-left: 30px;
-            align-self: center;
           }
           &-name {
-            align-self: flex-end;
             font-size: 25px;
             font-family: HiraginoSansGB-W3;
             font-weight: normal;
