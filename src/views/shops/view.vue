@@ -237,8 +237,8 @@
       display: grid;
       grid-template-columns: 360px 360px;
       grid-template-rows: 100px;
-      grid-row-gap: 2PX;
-      background-color: $themeColor;
+      grid-column-gap: 2PX;
+      background-color: #f5f5f5;
       &>div {
         line-height: 100px;
         background-color: white;
