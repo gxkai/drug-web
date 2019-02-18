@@ -52,12 +52,11 @@
 
         <div class="shop_view-drug_type">
           <div v-for="item in drugTypes"
-               @click="linkToShopDrugs(shopId, item.id)"
-              class="van-hairline--surround">
+               @click="linkToShopDrugs(shopId, item.id)">
             {{item.type}}
           </div>
         </div>
-
+        <new-white-space/>
         <div class="shop_view-recommend_title">
           <div></div>
           <div>商家推荐</div>
@@ -98,7 +97,6 @@
       height: 50px;
       border-radius: 10px;
       color: white;
-      color: white;
       background: #999999;
       line-height: 50px;
       text-align: center;
@@ -108,7 +106,6 @@
       width: 130px;
       height: 50px;
       border-radius: 10px;
-      color: white;
       color: white;
       background: #FF9800;
       line-height: 50px;
@@ -168,21 +165,16 @@
     }
 
     &-drug_type {
-      display: flex;
-      flex-flow: row wrap;
-      background-color: white;
-      & > div {
-        flex: 0 0 33%;
+      display: grid;
+      grid-template-columns: 240px 240px 240px;
+      grid-column-gap: 2PX;
+      grid-row-gap: 2PX;
+      &>div {
         height: 80px;
         line-height: 80px;
         text-align: center;
         font-size: 25px;
-        /*&:not(:nth-child(3n)) {*/
-          /*border-right: 1PX solid #cccccc;*/
-        /*}*/
-        /*&:nth-child(-n + 3) {*/
-          /*border-bottom: 1PX solid #cccccc;*/
-        /*}*/
+        background-color: white;
       }
     }
     &-recommend_title {
@@ -242,20 +234,17 @@
       }
     }
     &-footer {
-      background-color: white;
-      display: flex;
+      display: grid;
+      grid-template-columns: 360px 360px;
+      grid-template-rows: 100px;
+      grid-row-gap: 2PX;
+      background-color: $themeColor;
       &>div {
-        flex: 0 0 50%;
-        height: 100px;
         line-height: 100px;
+        background-color: white;
         text-align: center;
         font-size: 30px;
         color: #666666;
-        border-top: 1PX solid #cccccc;
-        border-bottom: 1PX solid #cccccc;
-        &:nth-child(-n + 2) {
-          border-right: 1PX solid #cccccc;
-        }
       }
     }
   }

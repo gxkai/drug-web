@@ -13,6 +13,7 @@
     "build:prod": "cross-env NODE_ENV=production env_config=prod node build/build.js"
   },
   "dependencies": {
+    "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "fastclick": "^1.0.6",
     "good-storage": "^1.0.1",

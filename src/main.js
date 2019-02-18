@@ -19,6 +19,8 @@ import './plugins/vconsole';
 import _ from 'lodash';
 import './plugins/vue-event-calendar/dist/style.css';
 import vueEventCalendar from './plugins/vue-event-calendar';
+import animate from 'animate.css';
+import directive from './directives';
 import { Step,
   Steps,
   Actionsheet,
@@ -61,6 +63,8 @@ import { Step,
   Picker } from 'vant';
 import router from './router';
 import Navigation from 'vue-navigation';
+Vue.use(directive);
+Vue.use(animate);
 Vue.use(Navigation, { router });
 Vue.use(Actionsheet).use(GoodsAction)
   .use(GoodsActionBigBtn)

@@ -14,9 +14,10 @@
           <span>{{shopInfo.name}}</span>
           <van-icon name="anquan" color="#FFFFFF" size="5em"></van-icon>
         </div>
-        <div class="shop-info__part-2">
+        <div class="shop-info__part-2" @click="onLocation">
           <span class="shop-info__part-2__span-name">门店地址:</span>
           <span class="shop-info__part-2__span-address">{{shopInfo.address}}</span>
+          <van-icon name="location" size="2em" class="shop-info__part-2__location" color="blue" v-bounce-column/>
         </div>
         <div class="shop-info__part-3" style="display: none;">
           <div class="shop-info__part-3__header van-hairline--bottom">
@@ -143,6 +144,11 @@
       background-color: white;
       padding: 20px;
       margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      &__location {
+        margin-left: 10px;
+      }
       &__span {
         &-name {
           font-size:26px;
@@ -154,6 +160,7 @@
           font-size:24px;
           font-family:HiraginoSansGB-W3;
           font-weight:normal;
+          margin-left: 10px;
         }
       }
     }
@@ -203,7 +210,7 @@
         this.shopInfo = await this.$http.get(`/shops/${this.shopId}`);
       },
       onLocation() {
-        window.location.href = `http://api.map.baidu.com/marker?location=31.381,120.987&title=${this.shopInfo.name}&content=${this.shopInfo.address}&output=html&src=webapp.baidu.openAPIdemo  `;
+        window.location.href = `https://api.map.baidu.com/marker?location=31.381,120.987&title=${this.shopInfo.name}&content=${this.shopInfo.address}&output=html&src=webapp.baidu.openAPIdemo  `;
       }
     }
   };
