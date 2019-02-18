@@ -88,12 +88,12 @@
     .title {
       font-size: 30px;
       color: rgba(51, 51, 51, 1);
-      margin-top: 10px;
+      margin-top: 20px;
     }
     .content {
-      font-size: 30px;
+      font-size: 25px;
       color: rgba(102, 102, 102, 1);
-      margin-top: 10px;
+      margin-top: 15px;
     }
   }
 </style>
