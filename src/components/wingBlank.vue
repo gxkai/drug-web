@@ -1,5 +1,6 @@
 <template>
   <div class="wing-blank" :style="styleObject">
+    <slot/>
   </div>
 </template>
 
@@ -11,14 +12,17 @@
     computed: {
     },
     props: {
-      size: {
-        default: 1
+      row: {
+        default: '2em'
+      },
+      column: {
+        default: '1em'
       }
     },
     data() {
       return {
         styleObject: {
-          margin: `0 ${this.size}em`
+          padding: `${this.column} ${this.row}`
         }
       };
     },
@@ -31,4 +35,7 @@
 </script>
 
 <style scoped>
+  .wing-blank {
+    width: 100%;
+  }
 </style>

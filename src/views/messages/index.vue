@@ -1,6 +1,5 @@
 <template>
   <new-layout
-    centerColor="white"
   >
     <template slot="top">
       <van-nav-bar
@@ -15,10 +14,13 @@
           v-model="loading"
           :finished="finished"
           @load="onLoad">
-          <div v-for="item in list" class="message-main">
-            <div class="message-date">{{formatDate(item.createdDate)}}</div>
-            <div class="message-title">{{item.title}}</div>
-            <div class="message-content">{{item.content}}</div>
+          <div v-for="item in list">
+            <new-white-space/>
+            <new-wing-blank class="item">
+              <div class="createdDate">{{timeConvert(item.createdDate)}}</div>
+              <div class="title">{{item.title}}</div>
+              <div class="content">{{item.content}}</div>
+            </new-wing-blank>
           </div>
           <new-no-data v-show="finished"></new-no-data>
         </van-list>
@@ -74,31 +76,23 @@
 </script>
 
 <style scoped type="text/scss" lang="scss">
-  .message {
-    &-main {
-      width: 720px;
-      background: rgba(255, 255, 255, 1);
-      margin-top: 40px;
-      flex-direction: column;
-    }
-    &-date {
-      font-size: 24px;
-      color: rgba(102, 102, 102, 1);
-      display: flex;
-      justify-content: center;
-    }
-    &-title {
-      font-size: 28px;
-      color: rgba(51, 51, 51, 1);
-      display: flex;
-      margin-left: 35px;
-      margin-top: 10px;
-    }
-    &-content {
+  .item {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    .createdDate {
+      align-self: center;
       font-size: 25px;
       color: rgba(102, 102, 102, 1);
-      margin-left: 35px;
-      margin-right: 35px;
+    }
+    .title {
+      font-size: 30px;
+      color: rgba(51, 51, 51, 1);
+      margin-top: 10px;
+    }
+    .content {
+      font-size: 30px;
+      color: rgba(102, 102, 102, 1);
       margin-top: 10px;
     }
   }
