@@ -34,6 +34,9 @@ export default {
 </script>
 <style lang="scss">
 @import "assets/scss/index.scss";
+* {
+  font-family: HiraginoSansGB-W3;
+}
 .app-router {
   position:absolute;
   width:100%;

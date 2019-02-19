@@ -1,12 +1,15 @@
 <template>
   <div
   class="no-data"
-  >没有更多数据了</div>
+  >{{name}}</div>
 </template>
 
 <script>
   export default {
-    name: 'noData'
+    name: 'noData',
+    props: {
+      name: {default: '没有更多数据了'}
+    }
   };
 </script>
 
