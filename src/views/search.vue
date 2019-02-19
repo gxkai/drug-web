@@ -1,19 +1,120 @@
 <template>
-  <div>
-    <header>
-      <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="#666666"
-                @click="$router.go(-1)"></van-icon>
-      <input type="text" placeholder="   输入关键词搜索" v-model.trim="drugName">
-      <span class="searchBtn" @click="onSearch">搜索</span>
-    </header>
-    <div class="searchDiv">
-     <span class="hot">热门</span>
-    <span class="fz24" v-for="item in drugInfo"  @click="$router.push('/drugs?keyword='+item)">{{item}}</span>
-    </div>
-  </div>
+  <!--<div>-->
+    <!--<header>-->
+      <!--<van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="#666666"-->
+                <!--@click="$router.go(-1)"></van-icon>-->
+      <!--<input type="text" placeholder="   输入关键词搜索" v-model.trim="keyword">-->
+      <!--<span class="searchBtn" @click="onSearch">搜索</span>-->
+    <!--</header>-->
+    <!--<div class="searchDiv">-->
+     <!--<span class="hot">热门</span>-->
+    <!--<span class="fz24" v-for="item in hotWords"  @click="$router.push('/drugs?keyword='+item)">{{item}}</span>-->
+    <!--</div>-->
+  <!--</div>-->
+  <new-layout centerColor="white">
+    <template slot="top">
+        <new-wing-blank class="header">
+          <div class="search">
+            <van-icon name="search" class="search__icon" color="grey" size="2em"/>
+            <form action="" onsubmit="return false;">
+            <input class="search__input"
+                   type="search"
+                   @keypress="onSearch"
+                   v-model="keyword"
+            >
+            </form>
+          </div>
+          <div class="cancel"
+               @click="onCancel"
+          >
+            取消
+          </div>
+        </new-wing-blank>
+    </template>
+    <template slot="center">
+      <div class="wrap">
+        <new-wing-blank class="history" row="1em" column=".5em">
+          <div class="title">
+            历史搜索
+          </div>
+          <van-icon name="delete" size="1em" color="grey" @click.native="onDelete"/>
+        </new-wing-blank>
+        <new-wing-blank class="content" column=".5em">
+          <div class="item"  v-for="(name, index) in hisWords" :key="index" @click="onKeyword(name)">
+            {{name}}
+          </div>
+        </new-wing-blank>
+        <new-wing-blank class="title" row="1em" column=".5em" >
+          热门搜索
+        </new-wing-blank>
+        <new-wing-blank class="content" column=".5em">
+          <div class="item" v-for="(name, index) in hotWords" :key="index" @click="onKeyword(name)">
+            {{name}}
+          </div>
+        </new-wing-blank>
+      </div>
+    </template>
+  </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
-  header {
+  .header {
+    display: flex;
+    align-items: center;
+    .search {
+      width: 550px;
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      border-radius: 20px;
+      &__input {
+        background-color: #f5f5f5;
+        border: none;
+        -webkit-appearance: none;
+        width: 400px;
+        height: 50px;
+        font-size: 30px;
+      }
+      &__icon {
+        margin: 0 20px;
+      }
+    }
+    .cancel {
+      flex-grow: 1;
+      text-align: center;
+      color: deepskyblue;
+      font-weight: 200;
+      font-size: 30px;
+    }
+  }
+  .wrap {
+    width: 720px;
+    .title {
+      font-size: 30px;
+    }
+    .history {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 30px;
+    }
+    .content {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      .item {
+        padding: 10px 30px;
+        background-color: #f5f5f5;
+        font-size: 25px;
+        border-radius: 5px;
+        margin-left: 15px;
+        margin-top: 15px;
+        white-space: nowrap;
+        color: #999999;
+        font-weight: 100;
+      }
+    }
+  }
+  /*header {
     height: 127px;
     .drugs-header__left {
       margin-right: 20px;
@@ -70,7 +171,7 @@
     display: inline-block;
     float: left;
     color: #666666;
-  }
+  }*/
 
 </style>
 
@@ -79,26 +180,47 @@
   export default {
     data() {
       return {
-        drugInfo: [],
-        drugName: ''
+        hotWords: [],
+        hisWords: [],
+        keyword: ''
       };
     },
     created() {
-      this.initData();
     },
     mounted() {
     },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.initData();
+      });
+    },
     methods: {
       async initData() {
-        const data = await this.$http.get('/drugs/keywords');
-        this.drugInfo = data;
+        this.hotWords = await this.$http.get('/drugs/keywords');
+        this.hisWords = this.$storage.get('hisWords') || [];
       },
       onSearch() {
-        if (this.drugName === '') {
+        if (this.keyword === '') {
           this.$toast('请输入关键字');
           return;
         }
-        this.$router.push('/drugs?keyword=' + this.drugName);
+        if (this.$storage.get('hisWords')) {
+          this.$storage.get('hisWords').concat(this.keyword);
+          this.$storage.set('hisWords', this.$storage.get('hisWords'));
+        } else {
+          let arr = [this.keyword];
+          this.$storage.set('hisWords', arr);
+        }
+        this.$router.push('/drugs?keyword=' + this.keyword);
+      },
+      onCancel() {
+        this.$router.go(-1);
+      },
+      onKeyword(name) {
+        this.$router.push(`/drugs?keyword=${name}`);
+      },
+      onDelete() {
+        this.$storage.remove('hisWords');
       }
     }
   };
