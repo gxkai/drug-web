@@ -1,35 +1,35 @@
 <template>
   <!--<div>-->
-    <!--<header>-->
-      <!--<van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="#666666"-->
-                <!--@click="$router.go(-1)"></van-icon>-->
-      <!--<input type="text" placeholder="   输入关键词搜索" v-model.trim="keyword">-->
-      <!--<span class="searchBtn" @click="onSearch">搜索</span>-->
-    <!--</header>-->
-    <!--<div class="searchDiv">-->
-     <!--<span class="hot">热门</span>-->
-    <!--<span class="fz24" v-for="item in hotWords"  @click="$router.push('/drugs?keyword='+item)">{{item}}</span>-->
-    <!--</div>-->
+  <!--<header>-->
+  <!--<van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="#666666"-->
+  <!--@click="$router.go(-1)"></van-icon>-->
+  <!--<input type="text" placeholder="   输入关键词搜索" v-model.trim="keyword">-->
+  <!--<span class="searchBtn" @click="onSearch">搜索</span>-->
+  <!--</header>-->
+  <!--<div class="searchDiv">-->
+  <!--<span class="hot">热门</span>-->
+  <!--<span class="fz24" v-for="item in hotWords"  @click="$router.push('/drugs?keyword='+item)">{{item}}</span>-->
+  <!--</div>-->
   <!--</div>-->
   <new-layout centerColor="white">
     <template slot="top">
-        <new-wing-blank class="header">
-          <div class="search">
-            <van-icon name="search" class="search__icon" color="grey" size="2em"/>
-            <form action="" onsubmit="return false;">
+      <new-wing-blank class="header">
+        <div class="search">
+          <van-icon name="search" class="search__icon" color="grey" size="2em"/>
+          <form action="" onsubmit="return false;">
             <input class="search__input"
                    type="search"
                    @keypress="onSearch"
                    v-model="keyword"
             >
-            </form>
-          </div>
-          <div class="cancel"
-               @click="onCancel"
-          >
-            取消
-          </div>
-        </new-wing-blank>
+          </form>
+        </div>
+        <div class="cancel"
+             @click="onCancel"
+        >
+          取消
+        </div>
+      </new-wing-blank>
     </template>
     <template slot="center">
       <div class="wrap">
@@ -40,11 +40,11 @@
           <van-icon name="delete" size="1em" color="grey" @click.native="onDelete"/>
         </new-wing-blank>
         <new-wing-blank class="content" column=".5em">
-          <div class="item"  v-for="(name, index) in hisWords" :key="index" @click="onKeyword(name)">
+          <div class="item" v-for="(name, index) in hisWords" :key="index" @click="onKeyword(name)">
             {{name}}
           </div>
         </new-wing-blank>
-        <new-wing-blank class="title" row="1em" column=".5em" >
+        <new-wing-blank class="title" row="1em" column=".5em">
           热门搜索
         </new-wing-blank>
         <new-wing-blank class="content" column=".5em">
@@ -86,6 +86,7 @@
       font-size: 30px;
     }
   }
+
   .wrap {
     width: 720px;
     .title {
@@ -114,6 +115,7 @@
       }
     }
   }
+
   /*header {
     height: 127px;
     .drugs-header__left {
@@ -201,7 +203,10 @@
         this.hotWords = await this.$http.get('/drugs/keywords');
         this.hisWords = getDrugSearchHisWords() || [];
       },
-      onSearch() {
+      onSearch(e) {
+        if (e.keyCode !== 13) {
+          return;
+        }
         if (this.keyword === '') {
           this.$toast('请输入关键字');
           return;
