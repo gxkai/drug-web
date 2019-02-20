@@ -940,8 +940,8 @@
         repositoryTypes: [],
         isLoading: false,
         timer: '',
-        currentAddress: getCurrentAddress(),
         show: false,
+        currentAddress: {},
         banners: [require('@/assets/image/home/home_banner.png'), require('@/assets/image/home/home_banner_02.png')]
       };
     },
@@ -960,30 +960,12 @@
         }
       }
     },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.getCurrentAddress();
+      });
+    },
     created() {
-      if (this.currentAddress === undefined) {
-        new BMap.Geolocation().getCurrentPosition(async r => {
-          console.log(r.point);
-          const params = {
-            lat: r.point.lat,
-            lng: r.point.lng
-          };
-          const data = await this.$api.getPois(params);
-          console.log(data);
-          const position = {
-            name: data.pois[0].name,
-            lat: data.pois[0].location.lat,
-            lng: data.pois[0].location.lng
-          };
-          setCurrentAddress(position);
-        });
-        // const position = {
-        //   name: '测试地址',
-        //   lat: 31,
-        //   lng: 120
-        // };
-        // setCurrentAddress(position);
-      }
       this.initData();
     },
     mounted() {
@@ -992,6 +974,38 @@
       clearTimeout(this.timer);
     },
     methods: {
+      getCurrentAddress() {
+        let currentAddress = getCurrentAddress();
+        if (currentAddress === undefined) {
+          if (this.isMobile()) {
+            new BMap.Geolocation().getCurrentPosition(async r => {
+              console.log(r.point);
+              const params = {
+                lat: r.point.lat,
+                lng: r.point.lng
+              };
+              const data = await this.$api.getPois(params);
+              const position = {
+                name: data.pois[0].name,
+                lat: data.pois[0].location.lat,
+                lng: data.pois[0].location.lng
+              };
+              setCurrentAddress(position);
+              this.currentAddress = position;
+            });
+          } else {
+            const position = {
+              name: '测试地址',
+              lat: 31,
+              lng: 120
+            };
+            setCurrentAddress(position);
+            this.currentAddress = position;
+          }
+        } else {
+          this.currentAddress = currentAddress;
+        }
+      },
       async initData() {
         this.$toast.loading({ duration: 0, forbidClick: true });
         // 限时抢购

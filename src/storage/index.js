@@ -4,7 +4,7 @@ const AccountKey = 'drug-account';
 const CurrentAddressKey = 'drug-current-address';
 const ReceivedAddressKey = 'drug-received-address';
 const DrugSearchHisWords = 'drug-search-his-words';
-
+const UsernameKey = 'drug-username';
 /**
  * 授权口令
  * @returns {Object|Boolean}
@@ -83,4 +83,20 @@ export function getDrugSearchHisWords() {
 
 export function removeDrugSearchHisWords() {
   storage.remove(DrugSearchHisWords);
+}
+
+/**
+ * 登陆用户名
+ * @returns {Object|Boolean}
+ */
+export function getUsername() {
+  return storage.get(UsernameKey);
+}
+
+export function setUsername(e) {
+  storage.set(UsernameKey, e);
+}
+
+export function removeUsername() {
+  storage.remove(UsernameKey);
 }

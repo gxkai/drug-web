@@ -1,22 +1,4 @@
 import router from '../router';
-import storage from 'good-storage';
-
-const SEARCH_KEY = 'orderHis';
-const SEARCH_MAX_LENGTH = 15;
-
-function insertArray(arr, val, compare, maxlen) {
-  const index = arr.findIndex(compare);
-  if (index === 0) {
-    return;
-  }
-  if (index > 0) {
-    arr.splice(index, 1);
-  }
-  arr.unshift(val);
-  if (maxlen && arr.length > maxlen) {
-    arr.pop();
-  }
-}
 
 export default {
   install(Vue, options) {
@@ -180,19 +162,6 @@ export default {
       } else {
         return _this.transformOrderState(state);
       }
-    };
-    /**
-     * 搜索历史存储
-     * @param str
-     * @returns {*}
-     */
-    Vue.prototype.saveSearch = (str) => {
-      let searches = storage.get(SEARCH_KEY, []);
-      insertArray(searches, str, (item) => {
-        return item === str;
-      }, SEARCH_MAX_LENGTH);
-      storage.set(SEARCH_KEY, searches);
-      return searches;
     };
     /**
      * 是否空判断
@@ -422,6 +391,28 @@ export default {
       }
       return null;
       // return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href))[1].replace(/\+/g, '%20')) || null;
+    };
+    /**
+     * 检验访问端是否是手机
+     * @returns {boolean}
+     */
+    Vue.prototype.isMobile = () => {
+      var system = {
+        win: false,
+        mac: false,
+        xll: false,
+        ipad: false
+      };
+      var p = navigator.platform;
+      system.win = p.indexOf('Win') === 0;
+      system.mac = p.indexOf('Mac') === 0;
+      system.x11 = (p === 'X11') || (p.indexOf('Linux') === 0);
+      system.ipad = (navigator.userAgent.match(/iPad/i) != null);
+      if (system.win || system.mac || system.xll || system.ipad) {
+        return false;
+      } else {
+        return true;
+      }
     };
   }
 };

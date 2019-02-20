@@ -116,11 +116,18 @@
         return this.$refs.mySwiper.swiper;
       }
     },
+    beforeRouteEnter(from, to, next) {
+      next(vm => {
+        vm.initData();
+      });
+    },
     created() {
     },
     mounted() {
     },
     methods: {
+      initData() {
+      },
       async getCaptcha() {
         let captcha = await this.$http.post('/captchas', {
           'username': this.registerUsername,

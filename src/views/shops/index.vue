@@ -81,9 +81,6 @@
                   {{item.name}}
                 </div>
                 <div>
-                  <!--<new-star :score="item.score" disabled></new-star>-->
-                </div>
-                <div>
                   电话：{{item.phone}}
                 </div>
                 <div>
@@ -97,10 +94,6 @@
                   <span class="rx-since">可自提</span>
                 </div>
               </div>
-           <!--   <div class="shops-container-item-peisong"
-                   v-show="item.distribution === true  && item.shopDistance < item.distance">
-                <i class="iconfont ic-peisong-"></i>
-              </div>-->
             </div>
             <new-no-data v-if="finished"></new-no-data>
           </van-list>
