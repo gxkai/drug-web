@@ -177,6 +177,8 @@
 
 
 <script>
+  import { getDrugSearchHisWords, setDrugSearchHisWords, removeDrugSearchHisWords } from '../storage';
+
   export default {
     data() {
       return {
@@ -197,19 +199,20 @@
     methods: {
       async initData() {
         this.hotWords = await this.$http.get('/drugs/keywords');
-        this.hisWords = this.$storage.get('hisWords') || [];
+        this.hisWords = getDrugSearchHisWords() || [];
       },
       onSearch() {
         if (this.keyword === '') {
           this.$toast('请输入关键字');
           return;
         }
-        if (this.$storage.get('hisWords')) {
-          this.$storage.get('hisWords').concat(this.keyword);
-          this.$storage.set('hisWords', this.$storage.get('hisWords'));
+        let arr = getDrugSearchHisWords();
+        if (arr) {
+          arr.unshift(this.keyword);
+          setDrugSearchHisWords(arr);
         } else {
           let arr = [this.keyword];
-          this.$storage.set('hisWords', arr);
+          setDrugSearchHisWords(arr);
         }
         this.$router.push('/drugs?keyword=' + this.keyword);
       },
@@ -220,7 +223,11 @@
         this.$router.push(`/drugs?keyword=${name}`);
       },
       onDelete() {
-        this.$storage.remove('hisWords');
+        this.$dialog.confirm({ message: '确定删除历史？' }).then(() => {
+          removeDrugSearchHisWords();
+          this.hisWords.splice(0);
+          this.$toast('删除成功');
+        });
       }
     }
   };
