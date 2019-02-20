@@ -9,7 +9,7 @@
           <div>
             <i class="iconfont ic-shouji shouji"></i>
           </div>
-          <input type="number" placeholder="请输入手机号码" v-model="username">
+          <input type="number" placeholder="请输入手机号码" v-model="username" v-focus>
         </div>
         <div class="swiper-slide-login_password">
           <div>
@@ -243,6 +243,9 @@
             text-align: left;
             color: #CCCCCC;
           }
+          line-height: 30px;
+          padding-top: 10px;
+          padding-bottom: 10px;
           outline: none;
           border: none;
         }
