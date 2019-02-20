@@ -76,7 +76,7 @@
 </template>
 
 <script>
-  import { setToken, setAccount } from '../storage';
+  import { setToken, setAccount, getUsername, setUsername } from '../storage';
 
   export default {
     name: 'login',
@@ -103,7 +103,7 @@
         showCode: true,
         count: '',
         time: null,
-        username: '15995600006',
+        username: '',
         password: '000000',
         clientId: '1',
         registerUsername: '',
@@ -116,7 +116,7 @@
         return this.$refs.mySwiper.swiper;
       }
     },
-    beforeRouteEnter(from, to, next) {
+    beforeRouteEnter(to, from, next) {
       next(vm => {
         vm.initData();
       });
@@ -127,6 +127,7 @@
     },
     methods: {
       initData() {
+        this.username = getUsername();
       },
       async getCaptcha() {
         let captcha = await this.$http.post('/captchas', {
@@ -179,6 +180,7 @@
         const account = await this.$http.get('/accounts');
         console.log(account);
         setAccount(account);
+        setUsername(this.username);
         this.$toast.clear();
         this.$router.push(`/home`);
       },
