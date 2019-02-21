@@ -141,6 +141,9 @@
         }
         let arr = getDrugSearchHisWords();
         if (arr) {
+          if (arr.length === 15) {
+            arr.pop();
+          }
           arr.unshift(this.keyword);
           setDrugSearchHisWords(arr);
         } else {

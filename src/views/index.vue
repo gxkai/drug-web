@@ -311,14 +311,14 @@
         <div class="arrow"><em></em><span></span></div>
         <div
           class="tag__text tag__text--bottom"
-          @click="$router.push({ path: '/chats', query: { type: 0 } })"
+          @click="$router.push({ path: '/chats', query: { type: 'PHARMACIST' } })"
         >
           <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
           <span class="tag__text--font">药师咨询</span>
         </div>
         <div
           class="tag__text"
-          @click="$router.push({ path: '/chats', query: { type: 1 } })"
+          @click="$router.push({ path: '/chats', query: { type: 'CUSTOMER_SERVICE' } })"
         >
           <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
           <span class="tag__text--font">客服咨询</span>
