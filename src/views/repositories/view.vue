@@ -5,10 +5,7 @@
         :title="info.title"
         left-arrow
         @click-left="$router.go(-1)"
-        @click-right="$router.push('/messageTypes')"
-      >
-        <van-icon name="chat" slot="right"/>
-      </van-nav-bar>
+      />
     </template>
     <template slot="center">
       <div class="repositories-view--title bgwhite"

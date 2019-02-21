@@ -5,10 +5,7 @@
         :title="title"
         left-arrow
         @click-left="$router.go(-1)"
-        @click-right="$router.push('/messageTypes')"
-      >
-        <van-icon name="chat" slot="right"/>
-      </van-nav-bar>
+      />
     </template>
     <template slot="center">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">

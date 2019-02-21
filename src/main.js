@@ -108,7 +108,7 @@ Vue.use(Actionsheet).use(GoodsAction)
     preLoad: 1,
     error: require('./assets/image/lazyLoad/default.png'),
     loading: require('./assets/image/lazyLoad/loading.gif'),
-    attempt: 3
+    attempt: 0
   });
 Vue.use(vueEventCalendar, { locale: 'zh', className: '' });
 Vue.prototype.$http = http;
