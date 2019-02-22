@@ -432,7 +432,7 @@
         this.$toast.loading({duration: 0, forbidClick: true, message: '结算中'});
         const data = await this.$http.get(`/orders/cart?cartIds=${cartIds}&isRx=${isRx}`);
         this.$toast.clear();
-        this.$router.push({ path: '/orders/create/fromCart', query: { cartShop: JSON.stringify(data), isRx: isRx } });
+        this.$router.push({ name: '购物车结算', params: { cartShop: data, isRx: isRx } });
       },
       /**
        * 计算总价和总数

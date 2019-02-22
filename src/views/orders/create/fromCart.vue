@@ -171,8 +171,8 @@
       return {
         name: '订单结算',
         account: getAccount(),
-        cartShop: JSON.parse(this.$route.query.cartShop),
-        isRx: this.$route.query.isRx,
+        cartShop: this.$route.params.cartShop,
+        isRx: this.$route.params.isRx,
         deliveryType: 'SELF',
         payType: 'KRCB',
         couponRecord: '',

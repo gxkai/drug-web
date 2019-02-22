@@ -4,7 +4,7 @@
   >
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />

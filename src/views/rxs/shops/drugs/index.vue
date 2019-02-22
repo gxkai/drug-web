@@ -221,7 +221,7 @@
         this.$toast.loading({duration: 0, forbidClick: true});
         const shopDrugOrderDTO = await this.$http.post('orders/shop/preClose', json);
         this.$toast.clear();
-        this.$router.push({ path: '/orders/create/fromShop', query: { orderShopDrugDTO: JSON.stringify(json), shopDrugOrderDTO: JSON.stringify(shopDrugOrderDTO) } });
+        this.$router.push({ name: '订单结算', params: { orderShopDrugDTO: json, shopDrugOrderDTO: shopDrugOrderDTO } });
       }
     }
   };

@@ -167,8 +167,8 @@
       return {
         name: '订单结算',
         account: getAccount(),
-        orderShopDrugDTO: JSON.parse(this.$route.query.orderShopDrugDTO),
-        shopDrugOrderDTO: JSON.parse(this.$route.query.shopDrugOrderDTO),
+        orderShopDrugDTO: this.$route.params.orderShopDrugDTO,
+        shopDrugOrderDTO: this.$route.params.shopDrugOrderDTO,
         deliveryType: 'SELF',
         payType: 'KRCB',
         couponRecord: '',
