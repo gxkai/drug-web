@@ -9,30 +9,6 @@ export default {
     return `${str.substr(0, 3)}****${str.substr(-4, 4)}`;
   },
   /**
-   * 判断字符串是否为空
-   * @param str
-   * @returns {boolean}
-   */
-  isNullOrEmpty: function (str) {
-    if (str === null || str === '') {
-      return true;
-    } else {
-      return false;
-    }
-  },
-  /**
-   * 金额格式化，为空时处理为0.0
-   * @param str
-   * @returns {boolean}
-   */
-  formatAmount: function (str) {
-    if (str === null || str === '') {
-      return '0.0';
-    } else {
-      return str;
-    }
-  },
-  /**
    * 订单状态 英->中
    * @param str
    */

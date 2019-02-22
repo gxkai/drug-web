@@ -210,23 +210,29 @@
         }
       }
     },
+    beforeRouteEnter(to, from ,next) {
+      next(vm => {
+        vm.connection();
+      });
+    },
     async created() {
       await this.initData();
       console.log('chatId', this.chatId);
     },
     mounted() {
-      this.initWebSocket();
     },
     beforeDestroy() {
       this.disconnect();
     },
     filters: {
-      // 将日期过滤为 hour:minutes
       time(date) {
         date = new Date(date);
+        let year = date.getFullYear();
+        let month = (date.getMonth() + 1) < 10 ? `0${(date.getMonth() + 1)}` : (date.getMonth() + 1);
+        let day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
         let hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
         let min = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-        return `${hour}:${min}`;
+        return `${year}/${month}/${day} ${hour}:${min}`;
       }
     },
     methods: {
@@ -256,9 +262,6 @@
         this.isLoading = false;
         this.list = this.list.concat(data.list);
         this.list = this.list.sort((a, b) => a.createdDate - b.createdDate);
-      },
-      initWebSocket() {
-        this.connection();
       },
       connection() {
         let socket = new SockJS(`${process.env.WEBSOCKET_ROOT}/hello`);

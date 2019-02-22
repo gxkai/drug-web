@@ -2,7 +2,7 @@
   <new-layout class="pharmacist">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="type === 'PHARMACIST'? '药师列表': '客服列表'"
         left-arrow
         @click-left="$router.go(-1)"
       />
