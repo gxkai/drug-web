@@ -68,7 +68,7 @@
     data() {
       return {
         address: {
-          id: this.$route.query.id,
+          id: this.$route.params.id,
           consignee: undefined,
           phone: undefined,
           address: undefined,
@@ -85,7 +85,7 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        let position = vm.$route.query.position;
+        let position = vm.$route.params.position;
         if (position !== undefined) {
           vm.address.lat = position.lat;
           vm.address.lng = position.lng;

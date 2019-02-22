@@ -95,10 +95,10 @@
     data() {
       return {
         activeRed: 1,
-        rxId: this.$route.query.rxId,
+        rxId: this.$route.params.rxId,
         rxShops: [],
         rxShops_: [],
-        hospitalId: this.$route.query.hospitalId,
+        hospitalId: this.$route.params.hospitalId,
         hospital: null,
         searchIcon: '输入药房名称',
         sort: 'PRICE_DESC',

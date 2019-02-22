@@ -2,7 +2,7 @@
   <new-layout class="cart" centerColor="white">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         right-text="删除"
         @click-left="$router.go(-1)"

@@ -2,7 +2,7 @@
   <new-layout class="shops">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -72,7 +72,7 @@
                  :item="item"
                  v-for="(item,index) in list"
                  :key="index"
-                 @click="$router.push({path:'/shops/view',query:{shopId:item.id}})">
+                 @click="$router.push({name:'/shops/view',params:{shopId:item.id}})">
               <div class="shops-container-item-left">
                 <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')"/>
               </div>

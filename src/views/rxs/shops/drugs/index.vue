@@ -4,7 +4,7 @@
     <new-layout>
       <template slot="top">
         <van-nav-bar
-          :title="$route.name"
+          :title="$route.meta.name"
           left-arrow
           @click-left="$router.go(-1)"
         />
@@ -119,10 +119,10 @@
   export default {
     data() {
       return {
-        rxId: this.$route.query.rxId,
-        shopId: this.$route.query.shopId,
-        shopName: this.$route.query.shopName,
-        type: this.$route.query.type,
+        rxId: this.$route.params.rxId,
+        shopId: this.$route.params.shopId,
+        shopName: this.$route.params.shopName,
+        type: this.$route.params.type,
         drugs: [],
         show: false,
         origins: [],
@@ -221,7 +221,7 @@
         this.$toast.loading({duration: 0, forbidClick: true});
         const shopDrugOrderDTO = await this.$http.post('orders/shop/preClose', json);
         this.$toast.clear();
-        this.$router.push({ name: '订单结算', params: { orderShopDrugDTO: json, shopDrugOrderDTO: shopDrugOrderDTO } });
+        this.$router.push({ name: '/orders/create/fromShop', params: { orderShopDrugDTO: json, shopDrugOrderDTO: shopDrugOrderDTO } });
       }
     }
   };

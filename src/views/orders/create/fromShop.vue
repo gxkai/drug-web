@@ -2,7 +2,7 @@
   <new-layout class="pay_shop">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -159,7 +159,7 @@
   </new-layout>
 </template>
 <script>
-  import {getAccount} from '@/storage';
+  import { getAccount } from '@/storage';
 
   export default {
     name: 'createFromCart',
@@ -188,11 +188,11 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        vm.address = vm.$route.query.address;
+        vm.address = vm.$route.params.address;
       });
     },
     beforeRouteLeave(to, from, next) {
-      to.query.address = this.address;
+      to.params.address = this.address;
       next();
     },
     mounted() {
@@ -221,10 +221,17 @@
         json.shopId = this.orderShopDrugDTO.shopId;
         json.type = this.shopDrugOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
         json.from = 'APP';
-        this.$toast.loading({duration: 0, forbidClick: true, message: '生成订单中...'});
+        this.$toast.loading({ duration: 0, forbidClick: true, message: '生成订单中...' });
         let order = await this.$http.post('/orders/shop', json);
-        this.$toast.loading({duration: 0, forbidClick: true, message: '生成支付链接中...'});
+        this.$toast.loading({ duration: 0, forbidClick: true, message: '生成支付链接中...' });
         let url = await this.$http.get(`/orders/${order.id}/pay`);
+        if (url === '') {
+          this.$toast.loading({ duration: 0, forbidClick: true, message: '支付中...' });
+          await this.$http.post('/orders/qy/callback', {orderNo: order.number, insuranceNo: '000001', bankNo: '000000001'});
+          this.$toast.clear();
+          this.$router.replace('/orders');
+          return;
+        }
         this.$toast.clear();
         window.location.href = url;
       },

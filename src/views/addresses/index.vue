@@ -2,7 +2,7 @@
   <new-layout class="address">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -26,7 +26,7 @@
             <!--</div>-->
             <span class="address__content__item__bottom-address">{{`${address.address}  ${address.room}`}}</span>
             <van-icon name="edit" size="3em"
-                      @click="$router.push({path:'/addresses/edit',query:{id:address.id}})"></van-icon>
+                      @click="$router.push({name:'/addresses/edit',params:{id:address.id}})"></van-icon>
             <van-icon name="delete" size="3em"
                       @click="del(address.id,index)"></van-icon>
           </div>

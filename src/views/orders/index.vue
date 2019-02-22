@@ -6,7 +6,7 @@
           <van-nav-bar
             :title="title"
             left-arrow
-            @click-left="$router.go(-1)"
+            @click-left="$router.push('/accounts')"
             @click-right="show = true"
             v-show="!show"
           >
@@ -74,7 +74,7 @@
         popupUrl: '',
         popupVisible: false,
         keyword: '',
-        state: this.$route.query.state || '',
+        state: this.$route.params.state || '',
         columns: []
       };
     },

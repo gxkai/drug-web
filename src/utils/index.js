@@ -209,27 +209,27 @@ export default {
      * @param str
      */
     Vue.prototype.linkToRxView = (str) => {
-      router.push({ path: '/rxs/view', query: { rxId: str } });
+      router.push({ name: '/rxs/view', params: { rxId: str } });
     };
     /**
      * 跳转到药房药品规格页
      * @param str
      */
     Vue.prototype.linkToShopDrugSpec = (str) => {
-      router.push({ path: '/shopDrugs', query: { shopDrugId: str } });
+      router.push({ name: '/shopDrugs', params: { shopDrugId: str } });
     };
     /**
      * 跳转到药房详情页
      * @param str
      */
     Vue.prototype.linkToShopView = (str) => {
-      router.push({ path: '/shops/view', query: { shopId: str } });
+      router.push({ name: '/shops/view', params: { shopId: str } });
     };
     /**
      * 跳转到订单地址页
      */
     Vue.prototype.linkToOrderAddress = (shopId) => {
-      router.push({ path: '/orders/addresses', query: { shopId: shopId } });
+      router.push({ name: '/orders/addresses', params: { shopId: shopId } });
     };
     /**
      * 跳转到医保卡绑定页
@@ -250,7 +250,7 @@ export default {
      * @param name
      */
     Vue.prototype.linkToRxShopDrug = (rxId, shopId, name, type) => {
-      router.push({ path: '/rxs/shops/drugs', query: { rxId: rxId, shopId: shopId, shopName: name, type: type } });
+      router.push({ name: '/rxs/shops/drugs', params: { rxId: rxId, shopId: shopId, shopName: name, type: type } });
     };
 
     /**
@@ -258,7 +258,7 @@ export default {
      * @param orderRefundId
      */
     Vue.prototype.linkToOrderRefundView = (orderRefundId) => {
-      router.push({ path: '/orderRefunds/view', query: { orderRefundId: orderRefundId } });
+      router.push({ name: '/orderRefunds/view', params: { orderRefundId: orderRefundId } });
     };
 
     /**
@@ -266,7 +266,7 @@ export default {
      * @param orderId
      */
     Vue.prototype.linkToTakeDrug = (orderId) => {
-      router.push({ path: '/orders/takeDrug', query: { orderId: orderId } });
+      router.push({ name: '/orders/takeDrug', params: { orderId: orderId } });
     };
 
     /**
@@ -275,7 +275,7 @@ export default {
      * @param drugId
      */
     Vue.prototype.linkToDrugShop = (drugId) => {
-      router.push({ path: '/drugs/shops', query: { drugId: drugId } });
+      router.push({ name: '/drugs/shops', params: { drugId: drugId } });
     };
 
     /**
@@ -283,7 +283,7 @@ export default {
      * @param shopId
      */
     Vue.prototype.linkToShopInfo = (shopId) => {
-      router.push({ path: '/shops/info', query: { id: shopId } });
+      router.push({ name: '/shops/info', params: { id: shopId } });
     };
 
     /**
@@ -291,7 +291,7 @@ export default {
      * @param shopId
      */
     Vue.prototype.linkToShopDrugs = (shopId, typeId) => {
-      router.push({ path: '/shops/drugs', query: { id: shopId, typeId: typeId } });
+      router.push({ name: '/shops/drugs', params: { id: shopId, typeId: typeId } });
     };
 
     /**
@@ -299,7 +299,7 @@ export default {
      * @param shopId
      */
     Vue.prototype.linkToChatView = (shopId) => {
-      router.push({ path: '/chats/view', query: { shopId: shopId } });
+      router.push({ name: '/chats/view', params: { shopId: shopId } });
     };
 
     /**
@@ -314,7 +314,7 @@ export default {
      * @param item
      */
     Vue.prototype.linkToConsumeInfo = (item) => {
-      router.push({ path: '/accounts/insurance/consumeInfo', query: { consumeInfo: JSON.stringify(item) } });
+      router.push({ name: '/accounts/insurance/consumeInfo', params: { consumeInfo: item } });
     };
 
     /**
@@ -322,14 +322,14 @@ export default {
      * @param item
      */
     Vue.prototype.linkToConsumeInfoMore = (item) => {
-      router.push({ path: '/accounts/insurance/consumeInfoMore', query: { consumeInfoMore: JSON.stringify(item) } });
+      router.push({ name: '/accounts/insurance/consumeInfoMore', params: { consumeInfoMore: item } });
     };
     /**
      * 跳转到优惠券详情
      * @param couponId
      */
     Vue.prototype.linkToPointView = (couponId) => {
-      router.push({ path: '/points/view', query: { couponId: couponId } });
+      router.push({ name: '/points/view', params: { couponId: couponId } });
     };
     /**
      * 地图coordType 转换

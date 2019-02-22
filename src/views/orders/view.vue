@@ -6,7 +6,7 @@
     >
       <template slot="top">
         <van-nav-bar
-          :title="$route.name"
+          :title="$route.meta.name"
           left-arrow
           @click-left="$router.go(-1)"
         />
@@ -337,7 +337,7 @@
         actives: 0,
         popup: false,
         title: '订单详情',
-        orderId: this.$route.query.orderId,
+        orderId: this.$route.params.orderId,
         popupVisible: false,
         order: {},
         activeButton: {
@@ -435,13 +435,13 @@
         window.location.href = this.order.payUrl;
       },
       onRefund() {
-        this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });
+        this.$router.push({ name: '/orderRefunds/create', params: { orderId: this.order.id } });
       },
       onDelivery() {
-        this.$router.push({ path: '/orders/delivery', query: { orderId: this.order.id } });
+        this.$router.push({ name: '/orders/delivery', params: { orderId: this.order.id } });
       },
       onAppraise() {
-        this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
+        this.$router.push({ name: '/drugAppraises/create', params: { orderId: this.order.id } });
       },
       async onConfirm() {
         await this.$http.put(`/orders/${this.order.id}/complete`);

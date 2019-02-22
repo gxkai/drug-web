@@ -2,7 +2,7 @@
   <new-layout>
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -22,7 +22,7 @@
   export default {
     data() {
       return {
-        consumeInfo: JSON.parse(this.$route.query.consumeInfo)
+        consumeInfo: this.$route.params.consumeInfo
       };
     },
     created() {

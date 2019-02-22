@@ -23,7 +23,7 @@
             v-for="item in item.drugType"
             :key="item.id"
             class="drugTypes--drug--item"
-            @click="$router.push({path:'/drugs',query:{typeId:item.id}})"
+            @click="$router.push({name:'/drugs',params:{typeId:item.id}})"
           >
             <img v-lazy="getImgURL(item.fileId,'MIDDLE_LOGO')"/>
             <div>{{item.type}}</div>

@@ -17,7 +17,7 @@
           class="repositories--item van-hairline--bottom"
           v-for="(item, index) in list"
           :key="index"
-          @click="$router.push({path:'/repositories/view',query:{id:item.id,repositoryTypeId:repositoryTypeId,title:title,pageNum:index+1}})"
+          @click="$router.push({name:'/repositories/view',params:{id:item.id,repositoryTypeId:repositoryTypeId,title:title,pageNum:index+1}})"
           >
             <div
             class="repositories--item__top"
@@ -83,8 +83,8 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        repositoryTypeId: this.$route.query.repositoryTypeId,
-        title: this.$route.query.title
+        repositoryTypeId: this.$route.params.repositoryTypeId,
+        title: this.$route.params.title
       };
     },
     created() {

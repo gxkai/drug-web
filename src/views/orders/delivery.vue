@@ -2,7 +2,7 @@
   <new-layout class="delivery">
    <template slot="top">
      <van-nav-bar
-       :title="$route.name"
+       :title="$route.meta.name"
        left-arrow
        @click-left="$router.go(-1)"
      />
@@ -113,7 +113,7 @@
     data() {
       return {
         title: '配送详情',
-        orderId: this.$route.query.orderId,
+        orderId: this.$route.params.orderId,
         order: {}
       };
     },

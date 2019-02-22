@@ -73,7 +73,7 @@
     name: 'about',
     data() {
       return {
-        shopId: this.$route.query.shopId,
+        shopId: this.$route.params.shopId,
         hospitalInfo: {
           fileId: '',
           name: '',

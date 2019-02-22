@@ -4,7 +4,7 @@
   >
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
         @click-right="$router.push('/home')"
@@ -47,7 +47,7 @@
             >
             </div>
             <div class="appraise-success--second--list--item__right"
-                 @click="$router.push({path:'/drugAppraises/create',query:{orderId:item.orderId}})"
+                 @click="$router.push({name:'/drugAppraises/create',params:{orderId:item.orderId}})"
             >
               去评价
             </div>

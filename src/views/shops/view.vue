@@ -2,7 +2,7 @@
   <new-layout class="shop_view">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -257,7 +257,7 @@
       return {
         list: [],
         shopInfo: [],
-        shopId: this.$route.query.shopId,
+        shopId: this.$route.params.shopId,
         collected: false,
         drugTypes: []
       };

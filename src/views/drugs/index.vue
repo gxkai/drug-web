@@ -246,8 +246,8 @@
         showForm: false,
         forms: [],
         formsResult: [],
-        drugTypeId: this.$route.query.typeId || '',
-        keyword: this.$route.query.keyword || '',
+        drugTypeId: this.$route.params.typeId || '',
+        keyword: this.$route.params.keyword || '',
         drugSort: 'SYNTHESIZE_DESC',
         searchIcon: '\ue64c 药品名'
       };

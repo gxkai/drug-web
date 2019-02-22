@@ -35,7 +35,7 @@ Vue.use(VueRouter);
 
 const errorRouter = {
   path: '/error',
-  name: '错误页面',
+  name: '/error',
   meta: {
     name: '错误页面'
   },
@@ -44,7 +44,7 @@ const errorRouter = {
 
 const searchRouter = {
   path: '/search',
-  name: '搜索',
+  name: '/search',
   meta: {
     name: '搜索'
   },
@@ -53,7 +53,7 @@ const searchRouter = {
 const chatRouter = [
   {
     path: '/chats/view',
-    name: '聊天列表',
+    name: '/chats/view',
     meta: {
       name: '聊天列表'
     },
@@ -61,7 +61,7 @@ const chatRouter = [
   },
   {
     path: '/chats',
-    name: '聊天详情',
+    name: '/chats',
     meta: {
       name: '聊天详情'
     },
@@ -72,14 +72,14 @@ const chatRouter = [
 const accountRouter = [
   {
     path: '/accounts/password',
-    name: '密码设置',
+    name: '/accounts/password',
     meta: {
       name: '密码设置'
     },
     component: () => import('@/views/accounts/password')
   }, {
     path: '/accounts/view',
-    name: '账户信息详情',
+    name: '/accounts/view',
     meta: {
       name: '账户信息详情'
     },
@@ -87,7 +87,7 @@ const accountRouter = [
   },
   {
     path: '/accounts/info',
-    name: '账户信息',
+    name: '/accounts/info',
     meta: {
       name: '账户信息'
     },
@@ -95,7 +95,7 @@ const accountRouter = [
   },
   {
     path: '/accounts/insurance/account',
-    name: '医保账户信息',
+    name: '/accounts/insurance/account',
     meta: {
       name: '医保账户信息'
     },
@@ -103,7 +103,7 @@ const accountRouter = [
   },
   {
     path: '/accounts/insurance',
-    name: '医保卡信息',
+    name: '/accounts/insurance',
     meta: {
       name: '医保卡信息'
     },
@@ -111,7 +111,7 @@ const accountRouter = [
   },
   {
     path: '/accounts/insurance/consume',
-    name: '消费信息',
+    name: '/accounts/insurance/consume',
     meta: {
       name: '消费信息'
     },
@@ -119,7 +119,7 @@ const accountRouter = [
   },
   {
     path: '/accounts/insurance/consumeinfo',
-    name: '消费机构信息',
+    name: '/accounts/insurance/consumeinfo',
     meta: {
       name: '消费机构信息'
     },
@@ -127,7 +127,7 @@ const accountRouter = [
   },
   {
     path: '/accounts/insurance/consumeinfomore',
-    name: '消费信息详情',
+    name: '/accounts/insurance/consumeinfomore',
     meta: {
       name: '消费信息详情'
     },
@@ -138,7 +138,7 @@ const accountRouter = [
 const rxRouter = [
   {
     path: '/rxs',
-    name: '处方列表',
+    name: '/rxs',
     meta: {
       name: '处方列表'
     },
@@ -146,7 +146,7 @@ const rxRouter = [
   },
   {
     path: '/rxs/shops',
-    name: '处方药房列表',
+    name: '/rxs/shops',
     meta: {
       name: '处方药房列表'
     },
@@ -154,7 +154,7 @@ const rxRouter = [
   },
   {
     path: '/rxs/shops/drugs',
-    name: '选择厂商',
+    name: '/rxs/shops/drugs',
     meta: {
       name: '选择厂商'
     },
@@ -162,7 +162,7 @@ const rxRouter = [
   },
   {
     path: '/rxs/view',
-    name: '处方详情',
+    name: '/rxs/view',
     meta: {
       name: '处方详情'
     },
@@ -171,7 +171,7 @@ const rxRouter = [
 ];
 const hospitalRouter = {
   path: '/hospital/view',
-  name: '医院详情',
+  name: '/hospital/view',
   meta: {
     name: '医院详情'
   },
@@ -181,7 +181,7 @@ const hospitalRouter = {
 const addressRouter = [
   {
     path: '/addresses/edit',
-    name: '地址修改',
+    name: '/addresses/edit',
     meta: {
       name: '地址修改'
     },
@@ -189,7 +189,7 @@ const addressRouter = [
   },
   {
     path: '/addresses',
-    name: '地址列表',
+    name: '/addresses',
     meta: {
       name: '地址列表'
     },
@@ -197,7 +197,7 @@ const addressRouter = [
   },
   {
     path: '/addresses/choose',
-    name: '选择收货地址',
+    name: '/addresses/choose',
     meta: {
       name: '选择收货地址'
     },
@@ -205,7 +205,7 @@ const addressRouter = [
   },
   {
     path: '/addresses/confirm',
-    name: '确认收货地址',
+    name: '/addresses/confirm',
     meta: {
       name: '确认收货地址'
     },
@@ -216,7 +216,7 @@ const addressRouter = [
 const drugAppraiseRouter = [
   {
     path: '/drugAppraises',
-    name: '药品评价列表',
+    name: '/drugAppraises',
     meta: {
       name: '药品评价列表'
     },
@@ -224,7 +224,7 @@ const drugAppraiseRouter = [
   },
   {
     path: '/drugAppraises/create',
-    name: '药品评价创建',
+    name: '/drugAppraises/create',
     meta: {
       name: '药品评价创建'
     },
@@ -232,7 +232,7 @@ const drugAppraiseRouter = [
   },
   {
     path: '/drugAppraises/success',
-    name: '药品评价成功',
+    name: '/drugAppraises/success',
     meta: {
       name: '药品评价成功'
     },
@@ -242,7 +242,7 @@ const drugAppraiseRouter = [
 
 const collectRouter = {
   path: '/collects',
-  name: '我的收藏',
+  name: '/collects',
   meta: {
     name: '我的收藏'
   },
@@ -252,7 +252,7 @@ const collectRouter = {
 const repositoryRouter = [
   {
     path: '/repositories',
-    name: '知识库列表',
+    name: '/repositories',
     meta: {
       name: '知识库列表'
     },
@@ -260,7 +260,7 @@ const repositoryRouter = [
   },
   {
     path: '/repositories/view',
-    name: '知识库详情',
+    name: '/repositories/view',
     meta: {
       name: '知识库详情'
     },
@@ -268,7 +268,7 @@ const repositoryRouter = [
   },
   {
     path: '/repositoryTypes',
-    name: '知识库类型',
+    name: '/repositoryTypes',
     meta: {
       name: '知识库类型'
     },
@@ -279,7 +279,7 @@ const repositoryRouter = [
 const shopDrugSpecRouter = [
   {
     path: '/shopDrugs',
-    name: '商品首页',
+    name: '/shopDrugs',
     meta: {
       name: '商品首页'
     },
@@ -287,7 +287,7 @@ const shopDrugSpecRouter = [
   },
   {
     path: '/shopDrugs/view',
-    name: '商品详情',
+    name: '/shopDrugs/view',
     meta: {
       name: '商品详情'
     },
@@ -298,7 +298,7 @@ const shopDrugSpecRouter = [
 const messageRouter = [
   {
     path: '/messageTypes',
-    name: '消息类型',
+    name: '/messageTypes',
     meta: {
       name: '消息类型'
     },
@@ -306,7 +306,7 @@ const messageRouter = [
   },
   {
     path: '/messages',
-    name: '消息列表',
+    name: '/messages',
     meta: {
       name: '消息列表'
     },
@@ -317,7 +317,7 @@ const messageRouter = [
 const orderRouter = [
   {
     path: '/orders/view',
-    name: '订单详情',
+    name: '/orders/view',
     meta: {
       name: '订单详情'
     },
@@ -325,7 +325,7 @@ const orderRouter = [
   },
   {
     path: '/orders/delivery',
-    name: '配送详情',
+    name: '/orders/delivery',
     meta: {
       name: '配送详情'
     },
@@ -333,7 +333,7 @@ const orderRouter = [
   },
   {
     path: '/orders/create/fromCart',
-    name: '购物车结算',
+    name: '/orders/create/fromCart',
     meta: {
       name: '购物车结算'
     },
@@ -341,7 +341,7 @@ const orderRouter = [
   },
   {
     path: '/orders/create/fromShop',
-    name: '订单结算',
+    name: '/orders/create/fromShop',
     meta: {
       name: '订单结算'
     },
@@ -349,7 +349,7 @@ const orderRouter = [
   },
   {
     path: '/orders/addresses',
-    name: '订单地址',
+    name: '/orders/addresses',
     meta: {
       name: '订单地址'
     },
@@ -357,7 +357,7 @@ const orderRouter = [
   },
   {
     path: '/orders/pay/success',
-    name: '支付成功',
+    name: '/orders/pay/success',
     meta: {
       name: '支付成功'
     },
@@ -365,7 +365,7 @@ const orderRouter = [
   },
   {
     path: '/orders',
-    name: '全部订单',
+    name: '/orders',
     meta: {
       name: '全部订单'
     },
@@ -376,7 +376,7 @@ const orderRouter = [
 const shopRouter = [
   {
     path: '/shops/view',
-    name: '药房详情',
+    name: '/shops/view',
     meta: {
       name: '药房详情'
     },
@@ -384,7 +384,7 @@ const shopRouter = [
   },
   {
     path: '/shops/info',
-    name: '商家介绍',
+    name: '/shops/info',
     meta: {
       name: '商家介绍'
     },
@@ -392,8 +392,7 @@ const shopRouter = [
   },
   {
     path: '/shops',
-    alias: '/shops/index',
-    name: '药房列表',
+    name: '/shops',
     meta: {
       name: '药房列表'
     },
@@ -401,7 +400,7 @@ const shopRouter = [
   },
   {
     path: '/shops/drugs',
-    name: '药房药品列表',
+    name: '/shops/drugs',
     meta: {
       name: '药房药品列表'
     },
@@ -412,7 +411,7 @@ const shopRouter = [
 const drugRouter = [
   {
     path: '/drugs',
-    name: '药品列表',
+    name: '/drugs',
     meta: {
       name: '药品列表'
     },
@@ -420,7 +419,7 @@ const drugRouter = [
   },
   {
     path: '/drugs/shops',
-    name: '药品药房',
+    name: '/drugs/shops',
     meta: {
       name: '药品药房'
     },
@@ -431,7 +430,7 @@ const drugRouter = [
 const settingRouter = [
   {
     path: '/setting',
-    name: '设置',
+    name: '/setting',
     meta: {
       name: '设置'
     },
@@ -439,7 +438,7 @@ const settingRouter = [
   },
   {
     path: '/version',
-    name: '版本信息',
+    name: '/version',
     meta: {
       name: '版本信息'
     },
@@ -447,7 +446,7 @@ const settingRouter = [
   },
   {
     path: '/about',
-    name: '关于我们',
+    name: '/about',
     meta: {
       name: '关于我们'
     },
@@ -458,7 +457,7 @@ const settingRouter = [
 const otherRouter = [
   {
     path: '/feedbacks/create',
-    name: '意见反馈',
+    name: '/feedbacks/create',
     meta: {
       name: '意见反馈'
     },
@@ -466,7 +465,7 @@ const otherRouter = [
   },
   {
     path: '/faqs',
-    name: '常见问题',
+    name: '/faqs',
     meta: {
       name: '常见问题'
     },
@@ -476,7 +475,7 @@ const otherRouter = [
 const appRouter = [
   {
     path: '/',
-    name: '跳转入口',
+    name: '/',
     meta: {
       name: '跳转路口'
     },
@@ -484,7 +483,7 @@ const appRouter = [
   },
   {
     path: '/home',
-    name: '首页',
+    name: '/home',
     meta: {
       name: '首页'
     },
@@ -492,7 +491,7 @@ const appRouter = [
   },
   {
     path: '/accounts',
-    name: '个人中心',
+    name: '/accounts',
     meta: {
       name: '个人中心'
     },
@@ -500,7 +499,7 @@ const appRouter = [
   },
   {
     path: '/carts',
-    name: '购物车列表',
+    name: '/carts',
     meta: {
       name: '购物车列表'
     },
@@ -508,7 +507,7 @@ const appRouter = [
   },
   {
     path: '/drugTypes',
-    name: '药品类型',
+    name: '/drugTypes',
     meta: {
       name: '药品类型'
     },
@@ -516,7 +515,7 @@ const appRouter = [
   },
   {
     path: '/login',
-    name: '登陆',
+    name: '/login',
     meta: {
       name: '登陆'
     },
@@ -524,7 +523,7 @@ const appRouter = [
   },
   {
     path: '/forget',
-    name: '忘记密码',
+    name: '/forget',
     meta: {
       name: '忘记密码'
     },

@@ -2,7 +2,7 @@
   <new-layout>
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         right-text="管理"
         @click-left="$router.go(-1)"
@@ -68,8 +68,8 @@
       return {
         list: [],
         account: getAccount(),
-        shopId: this.$route.query.shopId,
-        address: this.$route.query.address,
+        shopId: this.$route.params.shopId,
+        address: this.$route.params.address,
         innerRanges: [],
         overRanges: []
       };
@@ -83,7 +83,7 @@
       });
     },
     beforeRouteLeave(to, from, next) {
-      to.query.address = this.address;
+      to.params.address = this.address;
       next();
     },
     methods: {

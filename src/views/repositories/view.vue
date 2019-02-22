@@ -71,7 +71,7 @@
           title: ''
         },
         title: '',
-        id: this.$route.query.id
+        id: this.$route.params.id
       };
     },
     created() {

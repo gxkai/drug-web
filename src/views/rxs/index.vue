@@ -2,7 +2,7 @@
   <new-layout class="rxs">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -50,7 +50,7 @@
               class="rxs--item"
               v-for="item in list"
               :key="item.id"
-              @click="$router.push({path:'/rxs/view',query:{rxId:item.id}})"
+              @click="$router.push({name:'/rxs/view',params:{rxId:item.id}})"
             >
               <img class="rxs--mark"
                    v-lazy="item.state ==='ENABLED'? require('../../assets/image/rxs/rx-true.png') : require('../../assets/image/rxs/rx-false.png')">

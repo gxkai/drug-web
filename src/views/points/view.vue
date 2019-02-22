@@ -97,7 +97,7 @@
     name: 'newPayList',
     data() {
       return {
-        couponId: this.$route.query.couponId,
+        couponId: this.$route.params.couponId,
         coupon: {},
         consignee: '',
         phone: '',

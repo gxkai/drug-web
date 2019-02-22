@@ -2,7 +2,7 @@
   <new-layout class="shop-info">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -199,7 +199,7 @@
     data() {
       return {
         shopInfo: {},
-        shopId: this.$route.query.id
+        shopId: this.$route.params.id
       };
     },
     created() {

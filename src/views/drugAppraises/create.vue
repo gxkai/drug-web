@@ -2,7 +2,7 @@
   <new-layout class="drug-appraise-create">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         right-text="发布"
         @click-left="$router.go(-1)"
@@ -135,7 +135,7 @@
     name: 'myAppraise',
     data() {
       return {
-        orderId: this.$route.query.orderId,
+        orderId: this.$route.params.orderId,
         list: [{ score: 5 }],
         deliveryScore: 5,
         serviceScore: 5,

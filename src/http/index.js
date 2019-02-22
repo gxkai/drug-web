@@ -10,7 +10,7 @@ axios.interceptors.request.use(
       'Content-Type': 'application/json'
     };
     config.validateStatus = status => {
-      return status === 200;
+      return status === 200 || status === 201;
     };
     const token = getToken();
     if (token) {

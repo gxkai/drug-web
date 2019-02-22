@@ -2,7 +2,7 @@
   <new-layout class="repository-types">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -10,7 +10,7 @@
     <template slot="center">
       <div class="repository-types--item"
            v-for="(item,index) in list" :key="index"
-           @click="$router.push({path:'/repositories',query:{repositoryTypeId:item.id,title:item.name}})"
+           @click="$router.push({name:'/repositories',params:{repositoryTypeId:item.id,title:item.name}})"
       >
         <div class="repository-types--item__left">
        <img v-lazy="require('../../assets/image/' + item.icon + '.png')"/>

@@ -2,7 +2,7 @@
   <new-layout class="shop_drugs">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -92,8 +92,8 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        shopId: this.$route.query.id,
-        typeId: this.$route.query.typeId || ''
+        shopId: this.$route.params.id,
+        typeId: this.$route.params.typeId || ''
       };
     },
     created() {

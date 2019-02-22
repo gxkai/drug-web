@@ -2,7 +2,7 @@
   <new-layout class="shop-drug-spec">
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -39,8 +39,8 @@
     },
     data() {
       return {
-        shopDrugSpec: JSON.parse(this.$route.query.shopDrug),
-        state: this.$route.query.state || 0
+        shopDrugSpec: this.$route.params.shopDrug,
+        state: this.$route.params.state || 0
       };
     },
     created() {

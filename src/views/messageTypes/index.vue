@@ -2,7 +2,7 @@
   <new-layout>
     <template slot="top">
       <van-nav-bar
-        :title="$route.name"
+        :title="$route.meta.name"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -10,7 +10,7 @@
     <template slot="center">
       <div class="message-type--item"
            v-for="(item,index) in list"
-           @click="$router.push({path:'/messages',query:{messageType:item.messageType,title:item.name}})"
+           @click="$router.push({name:'/messages',params:{messageType:item.messageType,title:item.name}})"
       >
         <div class="message-type--item__left">
           <img v-lazy="defaultMsgList[index].img"/>

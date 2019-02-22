@@ -100,7 +100,7 @@
   export default {
     data() {
       return {
-        rxId: this.$route.query.rxId,
+        rxId: this.$route.params.rxId,
         state: '',
         rx: [],
         account: getAccount()
@@ -120,7 +120,7 @@
       },
       submit() {
         if (this.rx.state === 'ENABLED') {
-          this.$router.push({ path: '/rxs/shops', query: { rxId: this.rxId, hospitalId: this.rx.hospitalId } });
+          this.$router.push({ name: '/rxs/shops', params: { rxId: this.rxId, hospitalId: this.rx.hospitalId } });
         }
       }
     }

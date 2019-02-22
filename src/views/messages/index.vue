@@ -40,8 +40,8 @@
         pageNum: 0,
         pageSize: 15,
         list: [],
-        messageType: this.$route.query.messageType,
-        title: this.$route.query.title
+        messageType: this.$route.params.messageType,
+        title: this.$route.params.title
       };
     },
     created() {

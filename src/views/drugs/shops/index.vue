@@ -450,7 +450,7 @@
         drugInfo: [],
         drugSpecs: [],
         drugSpec: {},
-        drugId: this.$route.query.drugId,
+        drugId: this.$route.params.drugId,
         show: false,
         total: 0,
         sort: 'SYNTHESIZE',

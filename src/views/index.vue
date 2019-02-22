@@ -89,8 +89,8 @@
                   :key="text.id"
                   @click="
                     $router.push({
-                      path: '/repositories/view',
-                      query: { id: text.val.id, title: text.val.title }
+                      name: '/repositories/view',
+                      params: { id: text.val.id, title: text.val.title }
                     })
                   "
                 >
@@ -158,7 +158,7 @@
           <div class="home__family">
             <div
               class="home__family__div home__family__used"
-              @click="$router.push('drugs?typeId=cMLo_cCMRyKrd46oISOJRQ')"
+              @click="$router.push({name: '/drugs', params: {typeId:'cMLo_cCMRyKrd46oISOJRQ'}})"
             >
               <p class="home__family__div__p">感冒</p>
               <p class="home__family__div__p1">清热解毒</p>
@@ -168,7 +168,7 @@
             </div>
             <div
               class="home__family__div home__family__used"
-              @click="$router.push('drugs?typeId=Nc10FphRTviCxz7vGiVr6A')"
+              @click="$router.push({name:'/drugs', params: {typeId: 'Nc10FphRTviCxz7vGiVr6A'}})"
             >
               <p class="home__family__div__p">抗过敏</p>
               <p class="home__family__div__p1">皮炎湿疹</p>
@@ -178,7 +178,7 @@
             </div>
             <div
               class="home__family__div home__family__used"
-              @click="$router.push('drugs?typeId=74exCUknTDe0qnag36LRCQ')"
+              @click="$router.push({name: '/drugs', params: {typeId: '74exCUknTDe0qnag36LRCQ'}})"
             >
               <p class="home__family__div__p">止咳化痰</p>
               <p class="home__family__div__p1">肺热咳嗽</p>
@@ -196,7 +196,7 @@
           <div class="home__family">
             <div
               class="home__family__div home__family__used"
-              @click="$router.push('drugs?typeId=S2BIwR09QN6MNstlWcTrvQ')"
+              @click="$router.push({name:'/drugs', params: {typeId:'S2BIwR09QN6MNstlWcTrvQ'}})"
             >
               <p class="home__family__div__p">跌打损伤</p>
               <p class="home__family__div__p1 text-1988CA">关节炎</p>
@@ -206,7 +206,7 @@
             </div>
             <div
               class="home__family__div home__family__used"
-              @click="$router.push('drugs?typeId=C1Rlu40JRlS7VuxopGxA-A')"
+              @click="$router.push({name: '/drugs', params:{typeId: 'C1Rlu40JRlS7VuxopGxA-A'}})"
             >
               <p class="home__family__div__p">骨质疏松</p>
               <p class="home__family__div__p1 text-1988CA">肩周炎</p>
@@ -216,7 +216,7 @@
             </div>
             <div
               class="home__family__div home__family__used"
-              @click="$router.push('drugs?typeId=xsE5-eyYTfC3RXEoLjCxgg')"
+              @click="$router.push({name: '/drugs', parmas: {typeId: 'xsE5-eyYTfC3RXEoLjCxgg'}})"
             >
               <p class="home__family__div__p">腰肌劳损</p>
               <p class="home__family__div__p1 text-1988CA">骨质增生</p>
@@ -234,7 +234,7 @@
           <div class="home__family">
             <div
               class="home__family__div home__family__used"
-              @click="$router.push('drugs?typeId=apqD-f6ESl25k5bJG7qIeQ')"
+              @click="$router.push({name: '/drugs', params: {typeId: 'apqD-f6ESl25k5bJG7qIeQ'}})"
             >
               <p class="home__family__div__p">胃炎</p>
               <p class="home__family__div__p1 text-1D63CE">清热解毒</p>
@@ -244,7 +244,7 @@
             </div>
             <div
               class="home__family__div home__family__used"
-              @click="$router.push('drugs?typeId=lks1M2u5SVa216t6x35E3w')"
+              @click="$router.push({name: 'drugs', params: {typeId: 'lks1M2u5SVa216t6x35E3w'}})"
             >
               <p class="home__family__div__p">消化不良</p>
               <p class="home__family__div__p1 text-1D63CE">胃肠解痉</p>
@@ -254,7 +254,7 @@
             </div>
             <div
               class="home__family__div home__family__used"
-              @click="$router.push('drugs?typeId=6NOZUuyVTT6dzMaogWGXOg\n')"
+              @click="$router.push({name: '/drugs', params: {typeId:'6NOZUuyVTT6dzMaogWGXOg\n'}})"
             >
               <p class="home__family__div__p">腹泻</p>
               <p class="home__family__div__p1 text-1D63CE">肺热咳嗽</p>
@@ -311,14 +311,14 @@
         <div class="arrow"><em></em><span></span></div>
         <div
           class="tag__text tag__text--bottom"
-          @click="$router.push({ path: '/chats', query: { type: 'PHARMACIST' } })"
+          @click="$router.push({ name: '/chats', params: { type: 'PHARMACIST' } })"
         >
           <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
           <span class="tag__text--font">药师咨询</span>
         </div>
         <div
           class="tag__text"
-          @click="$router.push({ path: '/chats', query: { type: 'CUSTOMER_SERVICE' } })"
+          @click="$router.push({ name: '/chats', params: { type: 'CUSTOMER_SERVICE' } })"
         >
           <van-icon name="xiaoxi1" size="3em" color="#F60032"></van-icon>
           <span class="tag__text--font">客服咨询</span>

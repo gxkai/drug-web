@@ -132,7 +132,7 @@
     data() {
       return {
         list: [],
-        type: this.$route.query.type,
+        type: this.$route.params.type,
         account: getAccount()
       };
     },
@@ -153,7 +153,7 @@
           type: this.type
         };
         let chat = await this.$http.post(`/chats`, data);
-        this.$router.push({ path: '/chats/view', query: { user: JSON.stringify(user), chatId: chat.id } });
+        this.$router.push({ name: '/chats/view', params: { user: user, chatId: chat.id } });
       }
     }
   };
