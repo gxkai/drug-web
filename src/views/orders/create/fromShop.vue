@@ -160,6 +160,7 @@
         json.shopId = this.orderShopDrugDTO.shopId;
         json.type = this.shopDrugOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
         json.from = 'APP';
+        json.rxId = this.shopDrugOrderDTO.rxId;
         json.add = this.add;
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成订单中...' });
         let order = await this.$http.post('/orders/shop', json);
