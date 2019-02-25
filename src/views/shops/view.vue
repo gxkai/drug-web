@@ -272,7 +272,7 @@
         this.list = await this.$http.get(`/shops/${this.shopId}/drugs/recommend`);
         this.shopInfo = await this.$http.get(`/shops/${this.shopId}`);
         this.collected = await this.$http.get(`/collects/shop/one?shopId=${this.shopId}`);
-        this.drugTypes = await this.$http.get('/drugTypes', {shopId: this.shopId});
+        this.drugTypes = await this.$http.get(`/shops/${this.shopId}/drugTypes`);
       },
       async onCollect() {
         this.collected = !this.collected;
