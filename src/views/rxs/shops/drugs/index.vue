@@ -34,7 +34,7 @@
                 <div class="rx__content__item--content__right-spec">
                   <!--<van-icon name="yaopinshuju" color="#F60000" size="3em"></van-icon>-->
                   <span>用量 : </span>
-                  <span class="ml-l-10">{{ carts[index].usage }}</span>
+                  <span class="ml-l-10">{{ carts[index].dosage }}</span>
                 </div>
 
                 <div class="rx__content__item--content__right-originName">
