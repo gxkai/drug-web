@@ -57,7 +57,7 @@
           </div>
           <div class="shopDrug__content__part-3">
             <div class="shopDrug__content__part-3__item"
-                 @click="$router.push({name: '/shopDrugs/view', query: {state: 0,shopDrug:shopDrug}})">
+                 @click="$router.push({name: '/shopDrugs/view', params: {state: 0,shopDrug:shopDrug}})">
               <div class="shopDrug__content__part-3__item__left">
                 <van-icon name="liwu-copy"></van-icon>
                 <span>商品详情</span>
@@ -67,7 +67,7 @@
               </div>
             </div>
             <div class="shopDrug__content__part-3__item"
-                 @click="$router.push({name: '/shopDrugs/view', query: {state: 1,shopDrug:shopDrug}})">
+                 @click="$router.push({name: '/shopDrugs/view', params: {state: 1,shopDrug:shopDrug}})">
               <div class="shopDrug__content__part-3__item__left">
                 <van-icon name="pingjia"></van-icon>
                 <span>商品评价</span>
@@ -122,7 +122,7 @@
             </div>
             <div class="shopDrug__content__part-4__footer">
               <div class="shopDrug__content__part-4__footer-button"
-                   @click="$router.push({path:'/shops/view',query:{shopId:shopDrug.shopId}})">
+                   @click="$router.push({name:'/shops/view',params:{shopId:shopDrug.shopId}})">
                 进入店铺
               </div>
             </div>
@@ -133,7 +133,7 @@
                 顾客评论({{shopDrug.drugAppraises.total}})
               </div>
               <div class="shopDrug__content__part-5__header__right"
-                   @click="$router.push({name: '/shopDrugs/view', query: {state: 1,shopDrug:shopDrug}})">
+                   @click="$router.push({name: '/shopDrugs/view', params: {state: 1,shopDrug:shopDrug}})">
                 全部评价&gt;
               </div>
             </div>

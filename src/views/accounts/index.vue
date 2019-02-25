@@ -41,48 +41,48 @@
 
               <van-tabbar-item v-if="count.toPayCount === 0"
                                icon="daifukuan"
-                               :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
+                               :to="{name:'/orders', params:{state: 'TO_PAY'}}">待付款
               </van-tabbar-item>
 
               <van-tabbar-item v-else
                                icon="daifukuan"
                                :info="count.toPayCount"
-                               :to="{path:'/orders', query:{state: 'TO_PAY'}}">待付款
+                               :to="{name:'/orders', params:{state: 'TO_PAY'}}">待付款
               </van-tabbar-item>
 
               <van-tabbar-item v-if="count.toDeliveryCount === 0"
                                icon="yaopin"
-                               :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">调剂中
+                               :to="{name:'/orders', params:{state: 'TO_DELIVERY'}}">调剂中
               </van-tabbar-item>
 
               <van-tabbar-item v-else
                                icon="yaopin"
                                :info="count.toDeliveryCount "
-                               :to="{path:'/orders', query:{state: 'TO_DELIVERY'}}">调剂中
+                               :to="{name:'/orders', params:{state: 'TO_DELIVERY'}}">调剂中
               </van-tabbar-item>
 
 
               <van-tabbar-item  v-if="count.toReceivedCount === 0"
                                 icon="daishouhuo1"
-                                :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
+                                :to="{name:'/orders', params:{state: 'TO_RECEIVED'}}">待收货
               </van-tabbar-item>
 
               <van-tabbar-item  v-else
                                 icon="daishouhuo1"
                                 :info="count.toReceivedCount"
-                                :to="{path:'/orders', query:{state: 'TO_RECEIVED'}}">待收货
+                                :to="{name:'/orders', params:{state: 'TO_RECEIVED'}}">待收货
               </van-tabbar-item>
 
               <van-tabbar-item
                 v-if="count.toAppraiseCount === 0"
                 icon="wenjianjia"
-                :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
+                :to="{name:'/orders', params:{state: 'TO_APPRAISE'}}">待评价
               </van-tabbar-item>
 
               <van-tabbar-item v-else
                                icon="wenjianjia"
                                :info="count.toAppraiseCount"
-                               :to="{path:'/orders', query:{state: 'TO_APPRAISE'}}">待评价
+                               :to="{name:'/orders', params:{state: 'TO_APPRAISE'}}">待评价
               </van-tabbar-item>
             </van-tabbar>
           </div>
