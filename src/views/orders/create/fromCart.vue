@@ -88,73 +88,17 @@
             <span  v-else>&yen;{{toFixedTwo(cartShop.amount)}}</span>
           </div>
         </div>
-        <!--<div class="pay_cart-content-medicaid">-->
-        <!--<div class="pay_cart-content-medicaid-header">-->
-        <!--医保信息-->
-        <!--</div>-->
-        <!--<div class="pay_cart-content-medicaid-content">-->
-        <!--<div class="pay_cart-content-medicaid-content-card"-->
-        <!--v-if="isNotBlank(account.medicaidNumber)">-->
-        <!--<div>-->
-        <!--<span>会员姓名&#58;</span>-->
-        <!--<span>{{account.name}}</span>-->
-        <!--</div>-->
-        <!--<div>-->
-        <!--<span>医保卡号&#58;</span>-->
-        <!--<span>{{account.medicaidNumber}}</span>-->
-        <!--</div>-->
-        <!--<div>-->
-        <!--<span>卡内余额&#58;</span>-->
-        <!--<span>&yen;0</span>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="pay_cart-content-medicaid-content-no_card"-->
-        <!--v-else>-->
-        <!--<span class="iconfont ic-qianbao"></span>-->
-        <!--<a @click="linkToCardBind">去绑定医保卡</a>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="pay_cart-content-coupon">-->
-        <!--<div class="pay_cart-content-coupon_link">-->
-        <!--<div class="pay_cart-content-coupon_link_left">优惠券</div>-->
-        <!--<div class="pay_cart-content-coupon_link_right">-->
-        <!--<div v-if="isNotBlank(couponRecord)">-->
-        <!--满{{couponRecord.amount}}减{{couponRecord.minus}}-->
-        <!--</div>-->
-        <!--<div @click="show = true">-->
-        <!--<i class="iconfont ic-youjiantou"></i>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="pay_cart-content-coupon_popup">-->
-        <!--<van-popup v-model="show" position="bottom">-->
-        <!--<div class="pay_cart-content-coupon_popup-container">-->
-        <!--<div class="pay_cart-content-coupon_popup-container-title text-l-30">-->
-        <!--使用优惠券-->
-        <!--</div>-->
-        <!--<div class="pay_cart-content-coupon_popup-container-list">-->
-        <!--<div class="pay_cart-content-coupon_popup-container-list-item"-->
-        <!--v-for="(item,key) in coupons"-->
-        <!--:key="key"-->
-        <!--@click="couponRecord = item;show = false;payAmount = cart.payAmount - item.minus">-->
-        <!--<div class="text-l-28">-->
-        <!--满{{item.amount}}减{{item.minus}}-->
-        <!--</div>-->
-        <!--<div>-->
-        <!--<input :id="item" type="radio"  :value="item"   v-model="couponRecord">-->
-        <!--<label :for="item"></label>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div v-if="coupons.length === 0" class="pay_cart-content-coupon_popup-container-list-none text-l-28">-->
-        <!--没有可用优惠券-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</van-popup>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="dividing"></div>-->
+        <new-white-space/>
+        <van-cell-group>
+          <van-field
+            v-model="add"
+            label="备注"
+            type="textarea"
+            placeholder="请输入备注"
+            rows="3"
+          />
+        </van-cell-group>
+        <new-white-space/>
       </div>
     </template>
     <template slot="bottom">
@@ -182,7 +126,8 @@
         loading: false,
         address: undefined,
         medicaidInfo: {},
-        isMedicarePay: false
+        isMedicarePay: false,
+        add: ''
       };
     },
     components: {},
@@ -239,6 +184,7 @@
         json.medicaid = this.isMedicarePay;
         json.type = this.isRx === true ? 'RX' : 'SIMPLE';
         json.origin = 'APP';
+        json.add = this.add;
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成订单中...' });
         let order = await this.$http.post('/orders/shop', json);
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成支付链接中...' });

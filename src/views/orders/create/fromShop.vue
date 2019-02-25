@@ -10,12 +10,6 @@
     <template slot="center">
       <div class="pay_shop-content">
         <div class="pay_shop-content-delivery_type">
-          <!--<div class="pay_shop-content-delivery_type-header">-->
-            <!--<div>-->
-              <!--<i class="iconfont ic-peisongfangshi"></i>-->
-            <!--</div>-->
-            <!--<div>配送方式</div>-->
-          <!--</div>-->
           <div class="pay_shop-content-delivery_type-content">
             <span :class="{active:deliveryType=='DELIVERY'}"
                   @click.stop="onDeliveryType('DELIVERY')"
@@ -84,73 +78,17 @@
             <span v-else>&yen;{{toFixedTwo(shopDrugOrderDTO.amount)}}</span>
           </div>
         </div>
-        <!--<div class="pay_shop-content-medicaid">-->
-          <!--<div class="pay_shop-content-medicaid-header">-->
-            <!--医保信息-->
-          <!--</div>-->
-          <!--<div class="pay_shop-content-medicaid-content">-->
-            <!--<div class="pay_shop-content-medicaid-content-card"-->
-                 <!--v-if="isNotBlank(account.medicaidNumber)">-->
-              <!--<div>-->
-                <!--<span>会员姓名&#58;</span>-->
-                <!--<span>{{account.name}}</span>-->
-              <!--</div>-->
-              <!--<div>-->
-                <!--<span>医保卡号&#58;</span>-->
-                <!--<span>{{account.medicaidNumber}}</span>-->
-              <!--</div>-->
-              <!--<div>-->
-                <!--<span>卡内余额&#58;</span>-->
-                <!--<span>&yen;0</span>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="pay_shop-content-medicaid-content-no_card"-->
-                 <!--v-else>-->
-              <!--<span class="iconfont ic-qianbao"></span>-->
-              <!--<a @click="linkToCardBind">去绑定医保卡</a>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="pay_shop-content-coupon">-->
-        <!--<div class="pay_shop-content-coupon_link">-->
-        <!--<div class="pay_shop-content-coupon_link_left">优惠券</div>-->
-        <!--<div class="pay_shop-content-coupon_link_right">-->
-        <!--<div v-if="isNotBlank(couponRecord)">-->
-        <!--满{{couponRecord.amount}}减{{couponRecord.minus}}-->
-        <!--</div>-->
-        <!--<div @click="show = true">-->
-        <!--<i class="iconfont ic-youjiantou"></i>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="pay_shop-content-coupon_popup">-->
-        <!--<van-popup v-model="show" position="bottom">-->
-        <!--<div class="pay_shop-content-coupon_popup-container">-->
-        <!--<div class="pay_shop-content-coupon_popup-container-title text-l-30">-->
-        <!--使用优惠券-->
-        <!--</div>-->
-        <!--<div class="pay_shop-content-coupon_popup-container-list">-->
-        <!--<div class="pay_shop-content-coupon_popup-container-list-item van-hairline&#45;&#45;bottom"-->
-        <!--v-for="(item,key) in coupons"-->
-        <!--:key="key"-->
-        <!--@click="couponRecord = item;show = false;payAmount = shopDrugOrderDTO.payAmount - item.minus">-->
-        <!--<div class="text-l-28">-->
-        <!--满{{item.amount}}减{{item.minus}}-->
-        <!--</div>-->
-        <!--<div>-->
-        <!--<input :id="item" type="radio"  :value="item"   v-model="couponRecord">-->
-        <!--<label :for="item"></label>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div v-if="coupons.length === 0" class="pay_shop-content-coupon_popup-container-list-none text-l-28">-->
-        <!--没有可用优惠券-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</van-popup>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="dividing"></div>-->
+        <new-white-space/>
+        <van-cell-group>
+          <van-field
+            v-model="add"
+            label="备注"
+            type="textarea"
+            placeholder="请输入备注"
+            rows="3"
+          />
+        </van-cell-group>
+        <new-white-space/>
       </div>
     </template>
     <template slot="bottom">
@@ -177,7 +115,8 @@
         payAmount: 0,
         loading: false,
         address: undefined,
-        isMedicarePay: false
+        isMedicarePay: false,
+        add: ''
       };
     },
     components: {},
@@ -221,6 +160,7 @@
         json.shopId = this.orderShopDrugDTO.shopId;
         json.type = this.shopDrugOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
         json.from = 'APP';
+        json.add = this.add;
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成订单中...' });
         let order = await this.$http.post('/orders/shop', json);
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成支付链接中...' });
