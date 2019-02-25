@@ -172,6 +172,7 @@
             name: drug.name,
             spec: drug.spec,
             usage: drug.usage,
+            dosage: drug.dosage,
             price: drug.drugs[0].price,
             quantity: drug.quantity,
             fileId: drug.drugs[0].fileId,
