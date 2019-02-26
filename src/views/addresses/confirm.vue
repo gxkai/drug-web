@@ -254,7 +254,7 @@
       this.getLocation();
     },
     beforeRouteLeave(to, from, next) {
-      to.query.position = this.choosePosition;
+      to.params.position = this.choosePosition;
       next();
     },
     methods: {
