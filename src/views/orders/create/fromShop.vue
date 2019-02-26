@@ -81,7 +81,7 @@
         <new-white-space/>
         <van-cell-group>
           <van-field
-            v-model="add"
+            v-model="accountRemark"
             label="备注"
             type="textarea"
             placeholder="请输入备注"
@@ -116,7 +116,7 @@
         loading: false,
         address: undefined,
         isMedicarePay: false,
-        add: ''
+        accountRemark: ''
       };
     },
     components: {},
@@ -161,7 +161,7 @@
         json.type = this.shopDrugOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
         json.from = 'APP';
         json.rxId = this.shopDrugOrderDTO.rxId;
-        json.add = this.add;
+        json.accountRemark = this.accountRemark;
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成订单中...' });
         let order = await this.$http.post('/orders/shop', json);
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成支付链接中...' });

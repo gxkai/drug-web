@@ -81,7 +81,10 @@
               <div style="display: flex">
                 <van-icon name="shijian2" color="#F60000" size="3em"></van-icon>
                 <span style="align-self: center">倒计时</span>
-                <new-count-down :endTime="item.rxDate" durationDay="3" style="align-self: center"></new-count-down>
+                <span style="align-self: center" v-if="item.state ==='DISABLED'">
+                  处方已失效
+                </span>
+                <new-count-down :endTime="item.rxDate" durationDay="3" style="align-self: center" v-else></new-count-down>
               </div>
             </div>
 
