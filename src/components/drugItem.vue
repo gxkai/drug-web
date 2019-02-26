@@ -8,7 +8,10 @@
       <div class="drug_item-right">
         <div class="drug_item-right-info">
         <div class="drug_item-right-info_name">
-          {{ item.name }}&nbsp;&nbsp;{{item.spec}} {{item.form}}
+          {{ item.name }}{{item.spec}}{{item.form}}
+          <span class="drug_item-right-info_promotion1">卷</span>
+          <span class="drug_item-right-info_promotion">促</span>
+
         </div>
         <div class="drug_item-right-info_sfda">
           {{ item.originName }}
@@ -16,7 +19,7 @@
         <div class="drug_item-right-info_sfda">
           国药准字：{{ item.sfda }}
         </div>
-        <div class="drug_item-right-info_sfda">
+        <div class="drug_item-right-info_sfda" style="display: none">
           销量：{{ item.sales }}
         </div>
         <!--<div class="drug_item-right-info_sales">-->
@@ -26,9 +29,13 @@
         <div class="drug_item-right-sale">
           <div class="drug_item-right-sale_price">
             <span>&yen;{{toFixedTwo(item.price)}}</span>
-            <span>起</span>
+            <span>元起</span>
           </div>
-          <div class="drug_item-right-sale_count">
+          <div class="drug_item-right-sale_count drug_item-right-sale_counts">
+            <span>销量</span>
+            <span>{{item.sales}}</span>
+          </div>
+          <div class="drug_item-right-sale_count" style="display: none;">
             <span>{{item.shopCount}}个</span>
             <span>商家在售</span>
           </div>
@@ -49,6 +56,14 @@
         width: 200px;
         height: 200px;
       }
+      .rx_mark{
+        width:50px;
+        height: 25px;
+        line-height: 22px;
+        text-align: center;
+        display: inline-block;
+        border-radius: 25px/12.5px;
+      }
     }
     &-right {
       padding: 20px;
@@ -63,11 +78,37 @@
           text-overflow: ellipsis;
           -webkit-line-clamp: 2;
           line-clamp: 2;
+         }
+        &_promotion,&_promotion1{
+          width:50px;
+          height: 25px;
+          line-height: 25px;
+          text-align: center;
+          display: inline-block;
+          border-radius: 25px/12.5px;
+          font-size: 19px;
+          float: right;
+          display: inline-block;
+          margin-top: 10px;
+        }
+        &_promotion{
+          background: #F60000;
+          color: #ffffff;
+          right: 45px;
+          top: 10px;
+          margin-right: 13px;
+         }
+        &_promotion1{
+          background: #ffbe00;
+          color: #ffffff;
+          right: 55px;
+          top: 10px;
+
         }
         &_sfda {
           color: #999999;
-          font-size: 25px;
-          padding: 10px 0;
+          font-size: 22px;
+          padding: 3px 0;
         }
         &_sales {
           color: #999999;
@@ -83,10 +124,12 @@
             &:nth-child(1) {
               color: $themeColor;
               font-size: 30px;
+              font-weight:bold;
             }
             &:nth-child(2) {
               color: #999999;
               font-size: 25px;
+              font-weight:bold;
             }
           }
         }
@@ -102,6 +145,12 @@
             }
           }
         }
+        &_counts{
+          span{
+            font-size: 23px!important;
+            line-height: 40px;
+          }
+         }
       }
     }
   }
