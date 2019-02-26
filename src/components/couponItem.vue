@@ -29,7 +29,7 @@
     },
     methods: {
       onExchange() {
-        this.$router.push({path: '/points/view', query: {couponId: this.item.id}});
+        this.$router.push({name: '/points/view', params: {couponId: this.item.id}});
       }
     }
   };

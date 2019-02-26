@@ -96,7 +96,7 @@
     beforeRouteLeave(to, from, next) {
       if (this.address.lat !== undefined) {
         let location = { lat: this.address.lat, lng: this.address.lng };
-        to.query.location = location;
+        to.params.location = location;
       }
       next();
     },

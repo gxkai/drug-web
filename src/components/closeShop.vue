@@ -66,10 +66,10 @@
       onShop() {
         switch (this.shopInfo.type) {
           case 'HOSPITAL':
-            this.$router.push({ path: '/hospital/view', query: { shopId: this.shopInfo.shopId } });
+            this.$router.push({ name: '/hospital/view', params: { shopId: this.shopInfo.shopId } });
             break;
           default:
-            this.$router.push({ path: '/shops/view', query: { shopId: this.shopInfo.shopId } });
+            this.$router.push({ name: '/shops/view', params: { shopId: this.shopInfo.shopId } });
         }
       }
     }

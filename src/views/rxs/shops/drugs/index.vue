@@ -102,7 +102,7 @@
           </div>
         </div>
         <van-goods-action style="position: static">
-          <van-goods-action-mini-btn icon="shop" text="药房" :to="{path:'/shops/view',query:{shopId:shopId}}"/>
+          <van-goods-action-mini-btn icon="shop" text="药房" :to="{name:'/shops/view',params:{shopId:shopId}}"/>
           <van-goods-action-mini-btn icon="cart" text="购物车" to="/carts"/>
           <van-goods-action-big-btn class="add-to-cart" text="加入购物车" @click="type==='HOSPITAL'? '' : createCart()"
                                     :style="{backgroundColor:type==='HOSPITAL'?'gray':'#ff976a'}"/>
@@ -172,6 +172,7 @@
             name: drug.name,
             spec: drug.spec,
             usage: drug.usage,
+            dosage: drug.dosage,
             price: drug.drugs[0].price,
             quantity: drug.quantity,
             fileId: drug.drugs[0].fileId,
