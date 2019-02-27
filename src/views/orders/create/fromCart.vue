@@ -186,7 +186,7 @@
         json.origin = 'APP';
         json.accountRemark = this.accountRemark;
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成订单中...' });
-        let order = await this.$http.post('/orders/shop', json);
+        let order = await this.$http.post('/orders', json);
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成支付链接中...' });
         let url = await this.$http.get(`/orders/${order.id}/pay`);
         if (url === '') {

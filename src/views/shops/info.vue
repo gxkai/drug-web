@@ -210,7 +210,7 @@
         this.shopInfo = await this.$http.get(`/shops/${this.shopId}`);
       },
       onLocation() {
-        window.location.href = `https://api.map.baidu.com/marker?location=31.381,120.987&title=${this.shopInfo.name}&content=${this.shopInfo.address}&output=html&src=webapp.baidu.openAPIdemo  `;
+        this.$router.push({ name: '/iframe', params: { url: this.jumpToBaidu(this.shopInfo.name, this.shopInfo.address, this.shopInfo.lat, this.shopInfo.lng), name: '药店导航' } });
       }
     }
   };

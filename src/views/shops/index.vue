@@ -82,11 +82,11 @@
                 </div>
                 <div class="shop-rate">
                   <div>
-                    <van-rate v-model="shopRate" style="display: inline-block" />
-                    <span class="yueshou">月售33</span>
+                    <!--<van-rate v-model="shopRate" style="display: inline-block" />-->
+                    <span class="yueshou">总销量{{item.sales}}</span>
                   </div>
                   <div>
-                    36分钟  {{item.distance | meter}}
+                      {{item.distance | meter}}
                   </div>
                 </div>
                 <!--<div>-->
@@ -103,9 +103,9 @@
                 <!--</div>-->
                 <div class="mt10">
                   <!--<span class="rx-delivery" v-if="item.distribution==true && item.shopDistance >= item.distance">可配送</span>-->
-                  <span class="rx-since">领券</span>
+                  <!--<span class="rx-since">领券</span>-->
                   <span class="rx-since">可自提</span>
-                  <span class="rx-since">医保店</span>
+                  <span class="rx-since" :class="[item.medicaid? '':'border--grey']">医保店</span>
                   <span class="rx-since">在线咨询</span>
                 </div>
               </div>
@@ -236,6 +236,11 @@
     text-align: center;
     line-height: 33px;
     margin-right: 15px;
+  }
+
+  .border--grey {
+    border-color: #999999!important;
+    color: #999999!important;
   }
 
   .shops {

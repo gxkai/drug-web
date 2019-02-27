@@ -1,6 +1,5 @@
 <template>
   <div id="drug_body">
-
     <new-layout class="drugs-shops">
       <template slot="top">
         <van-nav-bar
@@ -8,18 +7,17 @@
           left-arrow
           @click-left="$router.go(-1)"
         />
-
       </template>
       <template slot="center">
         <div class="drugs-shops__top">
           <div class="drugs-shops__top__topbottom">
             <div class="drugs-shops__top__shoplogo">
-                <img  v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
+              <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
             </div>
             <div class="drugs-shops__top__shopinfo">
               <p>{{drugInfo.name}}</p>
-              <p @click="show = true">规格:{{drugInfo.spec||'暂无'}}</p>
-              <p>剂型/型号:{{drugInfo.form||'暂无'}}</p>
+              <p @click="show = true">规格:{{drugSpec.spec||'暂无'}}</p>
+              <p>剂型/型号:{{drugSpec.form||'暂无'}}</p>
               <!--<p style="display: none">
                        <span class="drugs-shops__top__shopinfo__count">204</span>个商家报价
                        <span>价格指数</span><span class="drugs-shops__top__shopinfo__join">加入同店购</span>
@@ -27,10 +25,10 @@
             </div>
           </div>
           <div class="drugs-shops__top__shopinform">
-
             <p class="drugs-shops__top__shopinform__approve"><i>批准文号：</i><span>国药准字{{drugInfo.sfda||'暂无'}}</span></p>
-            <p class="drugs-shops__top__shopinform__approve"><i>生产企业：</i><span>{{drugInfo.company||'暂无'}}</span></p>
-            <p class="drugs-shops__top__shopinform__approve"><i>适&nbsp;&nbsp;应&nbsp;&nbsp;症：</i><span>去湿，和中。用于感冒发烧，症状见头痛、腹痛腹泻、呕心干呕、肠胃不适；亦可用于晕车晕船等。</span></p>
+            <p class="drugs-shops__top__shopinform__approve"><i>生产企业：</i><span>{{drugSpec.origin ||'暂无'}}</span></p>
+            <p class="drugs-shops__top__shopinform__approve"><i>适&nbsp;&nbsp;应&nbsp;&nbsp;症：</i><span>{{drugInfo.introduce|| '暂无'}}</span>
+            </p>
             <!-- <p class="drugs-shops__top__shopinform__instructions">展示商品说明书</p>-->
           </div>
           <!-- <div class="drugs-shops__top__tag">
@@ -40,15 +38,10 @@
               <span>2小时内送达</span>
            </div>-->
         </div>
-
-
         <van-tabs v-model="active">
           <van-tab title="商家报价">
-
-
-
-            <div class="drugs_one"  v-for="(shop,index) in shops" :key="index">
-              <p @click="linkToShopDrugSpec(shop.shopDrugId)">
+            <div class="drugs_one" v-for="(shop,index) in shops" :key="index" @click="linkToShopDrugSpec(shop.shopDrugId)">
+              <p>
                 <span>{{shop.name}}</span>
                 <span> &yen;{{shop.price}}</span>
               </p>
@@ -56,24 +49,16 @@
                 <van-icon name="ditu" color="#F60000" size="3em"></van-icon>
                 <span class="ellipsis">
                           地址：{{shop.address}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{shop.distance | meter}}
-                       </span>
-                <span></span>
-
-
-                <van-icon name="gouwuche3" color="#F60000" size="6em" @click="goCar(shop.price)"></van-icon>
+                </span>
+                <van-icon name="gouwuche3" color="#F60000" size="6em" @click.stop="goCar(shop)"></van-icon>
               </div>
-
               <div class="drugs_extract">
                 <span class="rx-since">可自提</span>
                 <span class="rx-delivery" v-if="shop.distribution==true && shop.shopDistance < shop.distance">可配送</span>
-               </div>
+              </div>
             </div>
-
-
-
           </van-tab>
           <van-tab title="商品信息">
-
             <div
               class="drug-info"
             >
@@ -88,19 +73,19 @@
                 </div>
                 <div>
                   <span>批准文号：</span>
-                 <span>国药准字{{drugInfo.sfda||'暂无'}}</span>
+                  <span>国药准字{{drugInfo.sfda||'暂无'}}</span>
                 </div>
                 <div>
                   <span>包装规格：</span>
-                   <span>{{drugInfo.spec||'暂无'}}</span>
+                  <span>{{drugSpec.spec||'暂无'}}</span>
                 </div>
                 <div>
                   <span>剂型/型号：</span>
-                   <span>{{drugInfo.form||'暂无'}}</span>
+                  <span>{{drugSpec.form||'暂无'}}</span>
                 </div>
                 <div>
                   <span>英文名称：</span>
-                   <span>{{drugInfo.enName||'暂无'}}</span>
+                  <span>{{drugInfo.enName||'暂无'}}</span>
                 </div>
                 <div>
                   <span>汉语拼音：</span>
@@ -108,68 +93,56 @@
                 </div>
                 <div>
                   <span>有效期：</span>
-                   <span>{{drugInfo.validity||'暂无'}}</span>
+                  <span>{{drugInfo.validity||'暂无'}}</span>
                 </div>
                 <div>
                   <span>生产企业：</span>
-                  <span>{{drugInfo.company||'暂无'}}</span>
+                  <span>{{drugSpec.origin||'暂无'}}</span>
                 </div>
               </div>
-               <img v-lazy="getImgURL(fileId,'LARGE_PIC')"
-                    v-for="fileId in drugInfo.fileIds"
-                    class="drug-info&#45;&#45;pic"
-               />
+              <img v-lazy="getImgURL(pic,'LARGE_PIC')"
+                   v-for="pic in drugSpec.pics"
+                   class="drug-info&#45;&#45;pic"
+              />
             </div>
           </van-tab>
           <van-tab title="注意事项">
             <div class="drugs-attention">
-              <p>1、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>
-              <p>2、 如眼睑发肿、结膜红斑,发生率低于3%。 </p>
-              <p>3、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>
-              <p>4、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>
+              <!--<p>1、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>-->
+              <!--<p>2、 如眼睑发肿、结膜红斑,发生率低于3%。 </p>-->
+              <!--<p>3、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>-->
+              <!--<p>4、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>-->
             </div>
           </van-tab>
-          <van-tab title="药品评价">
-            <div class="appraise">
-              <div class="appraise-title">
-
-                <div class="appraise-title-right">
-                  <div class="text-l-25">
-                    共有{{list.length}}位网友评论
-                  </div>
-                </div>
-              </div>
-
-              <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-                <van-list
-                  v-model="loading"
-                  :finished="finished"
-                  @load="onLoad">
-                  <new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>
-                  <new-no-data v-if="finished"></new-no-data>
-                </van-list>
-              </van-pull-refresh>
-            </div>
-
-
-          </van-tab>
+          <!--<van-tab title="药品评价">-->
+            <!--<div class="appraise">-->
+              <!--<div class="appraise-title">-->
+                <!--<div class="appraise-title-right">-->
+                  <!--<div class="text-l-25">-->
+                    <!--共有{{list.length}}位网友评论-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<van-pull-refresh v-model="isLoading" @refresh="onRefresh">-->
+                <!--<van-list-->
+                  <!--v-model="loading"-->
+                  <!--:finished="finished"-->
+                  <!--@load="onLoad">-->
+                  <!--<new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>-->
+                  <!--<new-no-data v-if="finished"></new-no-data>-->
+                <!--</van-list>-->
+              <!--</van-pull-refresh>-->
+            <!--</div>-->
+          <!--</van-tab>-->
           <!--<van-tab title="组合推荐">内容 4</van-tab>-->
         </van-tabs>
-
-
-
-
-
-
-
-        <!--点击规格商家筛选开始-->
         <van-popup
           v-model="show"
           position="bottom">
           <div class="drugs-shops-popup">
             <div class="drugs-shops-popup-header">
               <div class="drugs-shops-popup-header-left">
-                 <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
+                <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
               </div>
               <div class="drugs-shops-popup-header-center">
                 <div class="elpsTwo">{{drugInfo.introduce|| '暂无介绍'}}</div>
@@ -189,7 +162,7 @@
                      v-for="item in drugSpecs"
                      :class="{'drugs-shops-popup-content-list-active':drugSpec === item}"
                      @click="show = false; drugSpec = item">
-                  <div>{{item.name}}</div>
+                  <div>{{item.spec}}</div>
                   <div>
                     <input :id="item.id" type="radio" :value="item.id" v-model="drugSpec.id">
                     <label :for="item.id"></label>
@@ -199,12 +172,6 @@
             </div>
           </div>
         </van-popup>
-        <!--点击规格商家筛选结束-->
-
-
-
-
-        <!--购物车弹框开始-->
         <van-popup position="bottom" v-model="show1">
           <div class="shopDrug__popup">
             <div class="shopDrug__popup__part-1 van-hairline--bottom">
@@ -214,14 +181,13 @@
               </div>
               <div class="shopDrug__popup__part-1__left">
                 <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')" class="shopDrug__popup__part-1__left-logo"/>
-
               </div>
               <div class="shopDrug__popup__part-1__right">
                 <div class="shopDrug__popup__part-1__right-name">
                   {{drugInfo.name}}
                 </div>
                 <div class="shopDrug__popup__part-1__right-price">
-                  &yen;{{drugPrice}}
+                  &yen;{{shopDrugInfo.price}}
                 </div>
               </div>
             </div>
@@ -242,11 +208,7 @@
             </div>
           </div>
         </van-popup>
-     <!--购物车弹框结束-->
-
-
-
-
+        <!--购物车弹框结束-->
       </template>
     </new-layout>
   </div>
@@ -254,6 +216,7 @@
 
 <script>
   import { getCurrentAddress } from '@/storage';
+
   export default {
     data() {
       return {
@@ -269,7 +232,6 @@
         val: -1,
         currentAddress: getCurrentAddress(),
         name: 'drugAppraise',
-        props: ['shopDrugSpec'],
         loading: false,
         finished: false,
         isLoading: false,
@@ -277,7 +239,10 @@
         pageSize: 15,
         list: [],
         show1: false,
-        drugPrice: ''
+        drugPrice: '',
+        number: 1,
+        active: 0,
+        shopDrugInfo: {}
       };
     },
     watch: {
@@ -302,34 +267,34 @@
     mounted() {
     },
     methods: {
-      goCar(price) {
+      goCar(shopDrugInfo) {
         this.show1 = true;
-        this.drugPrice = price;
+        this.shopDrugInfo = shopDrugInfo;
       },
-      onRefresh() {
-        this.finished = false;
-        this.list = [];
-        this.pageNum = 0;
-        this.onLoad();
-      },
-      async onLoad() {
-        this.pageNum++;
-        const params = {
-          'pageNum': this.pageNum,
-          'pageSize': this.pageSize,
-          'shopDrugId': this.shopDrugSpec.id
-        };
-        const data = await this.$http.get('/drugAppraises', params);
-        this.isLoading = false;
-        this.loading = false;
-        this.list = this.list.concat(data.list);
-        console.log(this.list);
-        if (data.list.length === 0) {
-          this.finished = true;
-        }
-      },
+      // onRefresh() {
+      //   this.finished = false;
+      //   this.list = [];
+      //   this.pageNum = 0;
+      //   this.onLoad();
+      // },
+      // async onLoad() {
+      //   this.pageNum++;
+      //   const params = {
+      //     'pageNum': this.pageNum,
+      //     'pageSize': this.pageSize,
+      //     'shopDrugId': this.shopDrugSpec.id
+      //   };
+      //   const data = await this.$http.get('/drugAppraises', params);
+      //   this.isLoading = false;
+      //   this.loading = false;
+      //   this.list = this.list.concat(data.list);
+      //   console.log(this.list);
+      //   if (data.list.length === 0) {
+      //     this.finished = true;
+      //   }
+      // },
       async initData() {
-        this.$toast.loading({duration: 0, forbidClick: true});
+        this.$toast.loading({ duration: 0, forbidClick: true });
         const data = await this.$http.get('/drugs/' + this.drugId);
         this.$toast.clear();
         this.drugInfo = data;
@@ -338,7 +303,7 @@
         this.getShops();
       },
       async getShops() {
-        this.$toast.loading({duration: 0, forbidClick: true});
+        this.$toast.loading({ duration: 0, forbidClick: true });
         const data = await this.$http.get(`/drugs/${this.drugId}/shops?sort=${this.sort}&lat=${this.currentAddress.lat}&lng=${this.currentAddress.lng}`);
         this.$toast.clear();
         this.total = data.total;
@@ -369,48 +334,29 @@
         this.getShops();
       },
       async onConfirm() {
-        if (this.type === 0) {
-          const data = [{
-            shopId: this.shopDrug.shopId,
-            drugId: this.shopDrug.drugId,
-            shopDrugId: this.shopDrug.id,
-            quantity: this.number
-          }];
-          this.$toast.loading({ duration: 0, forbidClick: true });
-          await this.$http.post('/carts', data);
-          debugger;
-          this.$toast('加入购物车成功');
-          this.show = false;
-        } else {
-          let drugInfoList = [];
-          drugInfoList.push({
-            shopDrugId: this.shopDrug.id,
-            quantity: this.number
-          });
-          let json = {
-            'shopId': this.shopDrug.shopId,
-            'shopName': this.shopDrug.shopName,
-            'drugs': drugInfoList,
-            'type': 'SIMPLE'
-          };
-          this.$toast.loading({ duration: 0, forbidClick: true });
-          const shopDrugOrderDTO = await this.$http.post('orders/shop/preClose', json);
-          this.$toast.clear();
-          this.$router.push({ name: '/orders/create/fromShop', params: { orderShopDrugDTO: json, shopDrugOrderDTO: shopDrugOrderDTO } });
-        }
+        const data = [{
+          shopId: this.shopDrugInfo.shopId,
+          drugId: this.shopDrugInfo.drugId,
+          shopDrugId: this.shopDrugInfo.shopDrugId,
+          quantity: this.number
+        }];
+        this.$toast.loading({ duration: 0, forbidClick: true });
+        await this.$http.post('/carts', data);
+        this.$toast('加入购物车成功');
+        this.show1 = false;
       }
     }
   };
 </script>
 
 <style type="text/scss" lang="scss">
-  *{
+  * {
     margin: 0px;
     padding: 0px;
   }
 
-  #drug_body{
-    background: #ffffff!important;
+  #drug_body {
+    background: #ffffff !important;
   }
 
   .rx-delivery {
@@ -441,63 +387,64 @@
     line-height: 33px;
     margin-right: 15px;
   }
-  .drugs-shops__top{
-    height:450px;
+
+  .drugs-shops__top {
+    height: 450px;
     width: 720px;
     background: #ffffff;
-    &__topbottom{
-      border-bottom:1px dashed #e0e0e0;
+    &__topbottom {
+      border-bottom: 1px dashed #e0e0e0;
       overflow: hidden;
       height: 17vh;
       background: #ffffff;
     }
-    &__shoplogo{
+    &__shoplogo {
       display: inline-block;
       float: left;
-      img{
+      img {
         width: 150px;
         height: 150px;
         margin: 25px;
       }
     }
-    &__shopinfo{
+    &__shopinfo {
       display: inline-block;
       float: left;
       width: 480px;
-      p{
+      p {
 
-        &:first-child{
+        &:first-child {
           margin-top: 30px;
           margin-bottom: 15px;
           font-size: 28px;
         }
-        &:nth-child(2), &:nth-child(3){
+        &:nth-child(2), &:nth-child(3) {
           margin-top: 10px;
           color: #9d9d9d;
           font-size: 25px;
           margin-bottom: 10px;
         }
-        &:nth-child(4){
+        &:nth-child(4) {
           margin-top: 10px;
           color: #9d9d9d;
           font-size: 25px;
           margin-bottom: 10px;
-          span{
+          span {
             font-size: 25px;
-            :first-child{
+            :first-child {
               color: #F60000;
             }
-            :nth-child(3){
+            :nth-child(3) {
               display: inline-block;
               border: 1px solid red;
             }
           }
         }
       }
-      &__count{
+      &__count {
         color: red;
       }
-      &__join{
+      &__join {
         display: inline-block;
         border: 1px solid red;
         padding: 5px;
@@ -509,45 +456,45 @@
       }
 
     }
-    &__shopinform{
+    &__shopinform {
       width: 100%;
       background: #ffffff;
       padding-bottom: 10px;
-      p{
+      p {
 
-        &:first-child{
+        &:first-child {
           margin-top: 10px;
           margin-bottom: 15px;
           font-size: 28px;
         }
-        &:nth-child(2), &:nth-child(3){
+        &:nth-child(2), &:nth-child(3) {
           margin-top: 10px;
           color: #9d9d9d;
           font-size: 25px;
           margin-bottom: 10px;
 
         }
-        &:nth-child(4){
+        &:nth-child(4) {
           margin-top: 10px;
           color: #9d9d9d;
           font-size: 25px;
           margin-bottom: 10px;
-          span{
+          span {
             font-size: 25px;
-            :first-child{
+            :first-child {
               color: #F60000;
             }
-            :nth-child(3){
+            :nth-child(3) {
               display: inline-block;
               border: 1px solid red;
             }
           }
         }
       }
-      &__approve{
+      &__approve {
 
         margin-left: 15px;
-        i{
+        i {
           width: 130px;
           font-style: normal;
           font-size: 25px;
@@ -555,7 +502,7 @@
           vertical-align: top;
           color: #666666;
         }
-        span{
+        span {
           display: inline-block;
           font-size: 25px;
           width: 550px;
@@ -563,16 +510,16 @@
         }
 
       }
-      &__instructions{
+      &__instructions {
         text-align: center;
-        color: #F60000!important;
-        margin-top: 30px!important;
+        color: #F60000 !important;
+        margin-top: 30px !important;
       }
     }
 
-    &__tag{
+    &__tag {
       text-align: center;
-      span{
+      span {
         font-size: 25px;
         display: inline-block;
         margin-right: 15px;
@@ -844,54 +791,61 @@
   .red {
     color: $themeColor !important;
   }
-  .drugs_one{
+
+  .drugs_one {
     margin-top: 10px;
-    p{
-      span{
+    p {
+      span {
         font-size: 25px;
       }
-      span:nth-child(2){
+      span:nth-child(2) {
         float: right;
         margin-right: 15px;
       }
       margin-left: 15px;
     }
-    p:first-child{
+    p:first-child {
       height: 50px;
       line-height: 50px;
     }
 
   }
-  .drugs_one_address{
-    span{
+
+  .drugs_one_address {
+    span {
       font-size: 25px;
     }
   }
-  .ellipsis{
+
+  .ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 550px;
     display: inline-block;
   }
-  .van-icon-gouwuche3{
+
+  .van-icon-gouwuche3 {
     display: inline-block;
     float: right;
   }
-  .van-tab span{
-    font-size: 30px!important;
+
+  .van-tab span {
+    font-size: 30px !important;
   }
-  .drugs_extract{
+
+  .drugs_extract {
     margin-left: 15px;
     margin-top: 15px;
     overflow: hidden;
 
   }
-  .drugs-attention{
+
+  .drugs-attention {
     background: #ffffff;
     padding-top: 15px;
     padding: 25px;
-    p{
+    p {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -902,8 +856,9 @@
       color: #999999;
     }
   }
-  .layout--center{
-    background: #ffffff!important;
+
+  .layout--center {
+    background: #ffffff !important;
   }
 
   .appraise {
@@ -936,6 +891,7 @@
       height: 100vh;
     }
   }
+
   .rx-since {
     font-size: 20px;
     width: 82px;
@@ -949,7 +905,8 @@
     line-height: 33px;
     margin-right: 15px;
   }
-  .drugs_one{
+
+  .drugs_one {
     padding: 20px;
   }
 
@@ -957,13 +914,13 @@
     background-color: white;
     &--text {
       padding: 25px;
-      &>div {
+      & > div {
         margin-top: 20px;
-        &>span {
+        & > span {
           color: #999999;
-          font-size:24px;
-          font-family:HiraginoSansGB-W3;
-          font-weight:normal;
+          font-size: 24px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
           &:nth-child(1) {
             display: inline-block;
             width: 150px;
@@ -977,9 +934,11 @@
       margin: 10px 110px;
     }
   }
-  .van-tabs--line{
-    border-top: none!important;
+
+  .van-tabs--line {
+    border-top: none !important;
   }
+
   /*加入购物车样式*/
   .shopDrug {
     &__popup {
@@ -1002,9 +961,9 @@
         &__right {
           padding-left: 10px;
           &-name {
-            font-size:26px;
-            font-family:HiraginoSansGB-W3;
-            font-weight:normal;
+            font-size: 26px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
             color: #333333;
             width: 400px;
             overflow: hidden;
@@ -1013,9 +972,9 @@
             line-clamp: 2;
           }
           &-price {
-            font-size:30px;
-            font-family:HiraginoSansGB-W3;
-            font-weight:normal;
+            font-size: 30px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
             color: #FF0101;
           }
         }
@@ -1025,20 +984,21 @@
         justify-content: space-between;
         padding: 20px;
         &__left {
-          font-size:24px;
-          font-family:HiraginoSansGB-W3;
-          font-weight:normal;}
+          font-size: 24px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
+        }
       }
       &__part-3 {
         padding: 20px;
         .van-button {
-          width:690px;
-          height:90px;
-          background:$themeColor;
-          border-radius:8px;
-          font-size:36px;
-          font-family:HiraginoSansGB-W3;
-          font-weight:normal;
+          width: 690px;
+          height: 90px;
+          background: $themeColor;
+          border-radius: 8px;
+          font-size: 36px;
+          font-family: HiraginoSansGB-W3;
+          font-weight: normal;
           color: #ffffff;
         }
       }
@@ -1105,7 +1065,7 @@
           display: flex;
           justify-content: center;
           overflow: auto;
-          &>div {
+          & > div {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;

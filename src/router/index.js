@@ -470,6 +470,14 @@ const otherRouter = [
       name: '常见问题'
     },
     component: () => import('@/views/faqs/index.vue')
+  },
+  {
+    path: '/iframe',
+    name: '/iframe',
+    meta: {
+      name: 'iframe'
+    },
+    component: () => import('@/views/iframe.vue')
   }
 ];
 const appRouter = [

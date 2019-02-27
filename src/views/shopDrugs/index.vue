@@ -33,6 +33,18 @@
           </div>
           <div class="shopDrug__content__part-2">
             <div class="shopDrug__content__part-2__item">
+              <span>国药准字</span>
+              <span>{{shopDrug.sfda}}</span>
+            </div>
+            <div class="shopDrug__content__part-2__item">
+              <span>库存</span>
+              <span>{{shopDrug.stock}}</span>
+            </div>
+            <div class="shopDrug__content__part-2__item">
+              <span>包装规格</span>
+              <span>{{shopDrug.spec}}</span>
+            </div>
+            <!--<div class="shopDrug__content__part-2__item">
               <div>
                 <span>国药准字</span>
                 <span>{{shopDrug.sfda}}</span>
@@ -53,7 +65,7 @@
                 <span>包装规格</span>
                 <span>{{shopDrug.spec}}</span>
               </div>
-            </div>
+            </div>-->
           </div>
           <div class="shopDrug__content__part-3">
             <div class="shopDrug__content__part-3__item"
@@ -170,10 +182,6 @@
         </van-goods-action>
       </template>
     </new-layout>
-
-
-
-
     <van-popup position="bottom" v-model="show">
       <div class="shopDrug__popup">
         <div class="shopDrug__popup__part-1 van-hairline--bottom">
@@ -210,11 +218,6 @@
         </div>
       </div>
     </van-popup>
-
-
-
-
-
   </div>
 </template>
 <style scoped type="text/less" lang="less">
@@ -337,35 +340,10 @@
         }
       }
       &__part-2 {
-        padding: 20px;
-        background-color: white;
-        margin-top: 180px;
         display: flex;
-        align-items: center;
+        justify-content: space-between;
         &__item {
-          flex-grow: 20;
-          display: flex;
-          justify-content: center;
-          overflow: auto;
-          &>div {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-          span {
-            font-size: 20px;
-            font-family: HiraginoSansGB-W3;
-            font-weight: normal;
-          }
-          span:first-child {
-            color: $themeColor;
-            margin-right: 10px;
-          }
-        }
-        &__dividing {
-          height: 30px;
-          width: 1PX;
-          background-color: #7D7D7D;
+          width: 220px;
         }
       }
       &__part-3 {

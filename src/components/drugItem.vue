@@ -9,8 +9,8 @@
         <div class="drug_item-right-info">
         <div class="drug_item-right-info_name">
           {{ item.name }}{{item.spec}}{{item.form}}
-          <span class="drug_item-right-info_promotion1">卷</span>
-          <span class="drug_item-right-info_promotion">促</span>
+          <!--<span class="drug_item-right-info_promotion1">卷</span>-->
+          <!--<span class="drug_item-right-info_promotion">促</span>-->
 
         </div>
         <div class="drug_item-right-info_sfda">

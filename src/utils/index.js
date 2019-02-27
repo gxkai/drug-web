@@ -414,5 +414,15 @@ export default {
         return true;
       }
     };
+    /**
+     * 百度地图导航
+     * @param name
+     * @param address
+     * @param lat
+     * @param lng
+     */
+    Vue.prototype.jumpToBaidu = (name, address, lat, lng) => {
+      return `https://api.map.baidu.com/marker?location=${lat},${lng}&title=${name}&content=${address}&output=html&src=webapp.baidu.openAPIdemo  `;
+    };
   }
 };
