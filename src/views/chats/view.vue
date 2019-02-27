@@ -203,12 +203,6 @@
       };
     },
     watch: {
-      stompClient() {
-        if (this.stompClient === null) {
-          this.connection();
-          console.log('connected');
-        }
-      }
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
@@ -263,14 +257,22 @@
         this.list = this.list.concat(data.list);
         this.list = this.list.sort((a, b) => a.createdDate - b.createdDate);
       },
-      connection() {
+      connection(json) {
         let socket = new SockJS(`${process.env.WEBSOCKET_ROOT}/hello`);
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, () => {
           this.stompClient.subscribe(`/user/${this.chatId}/message`, (res) => {
-            this.list.push(JSON.parse(res.body));
+            let chatRecord = JSON.parse(res.body);
+            this.list.push(chatRecord);
             this.loadToBottom();
+            if (chatRecord.type === 'ACCOUNT') {
+              this.text = '';
+            }
           });
+          console.log('连接成功');
+          if (json !== undefined) {
+            this.send(json);
+          }
         }, (err) => {
           console.log(err);
         });
@@ -281,8 +283,8 @@
           console.log('Disconnected');
         }
       },
-      send(id) {
-        this.stompClient.send('/hello', { 'Authorization': getToken() }, id);
+      send(json) {
+        this.stompClient.send('/hello', { 'Authorization': getToken() }, JSON.stringify(json));
       },
       onImage(e) {
         this.show = true;
@@ -299,9 +301,11 @@
           message: this.text,
           chatId: this.chatId
         };
-        let data = await this.$http.post(`/chatRecords`, json);
-        this.text = '';
-        this.send(data.id);
+        if (this.stompClient === null) {
+          this.connection(json);
+        } else {
+          this.send(json);
+        }
       },
       async onRead(file) {
         let param = new FormData();
@@ -320,9 +324,11 @@
           message: fileId,
           chatId: this.chatId
         };
-        let data = await this.$http.post('/chatRecords', json);
-        console.log(data);
-        this.send(data.id);
+        if (this.stompClient === null) {
+          this.connection(json);
+        } else {
+          this.send(json);
+        }
       }
     }
   };
