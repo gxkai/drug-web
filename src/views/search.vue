@@ -150,13 +150,13 @@
           let arr = [this.keyword];
           setDrugSearchHisWords(arr);
         }
-        this.$router.push('/drugs?keyword=' + this.keyword);
+        this.$router.push({ name: '/drugs', params: { keyword: this.keyword } });
       },
       onCancel() {
         this.$router.go(-1);
       },
       onKeyword(name) {
-        this.$router.push(`/drugs?keyword=${name}`);
+        this.$router.push({ name: `/drugs`, params: { keyword: name } });
       },
       onDelete() {
         this.$dialog.confirm({ message: '确定删除历史？' }).then(() => {
