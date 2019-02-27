@@ -856,7 +856,7 @@
 
   .home__chat {
     &__image {
-      width: 100px;
+      width: 60px;
       height: auto;
     }
     .tag {
@@ -941,7 +941,7 @@
         isLoading: false,
         timer: '',
         show: false,
-        currentAddress: {},
+        currentAddress: {name: '定位中...'},
         banners: [require('@/assets/image/home/home_banner.png'), require('@/assets/image/home/home_banner_02.png')]
       };
     },
