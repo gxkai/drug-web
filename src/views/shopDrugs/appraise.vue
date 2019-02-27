@@ -24,7 +24,7 @@
       </van-list>
     </van-pull-refresh>
   </div>
-  </div>
+
 </template>
 
 <script>

@@ -11,52 +11,52 @@
           <div class="shops-filter-item-text">
             综合
           </div>
-        <!--  <div class="shops-filter-item-arrow">
-            <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
-            </div>
-            <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
-            </div>
-          </div>-->
+          <!--  <div class="shops-filter-item-arrow">
+              <div class="shops-filter-item-arrow-up"
+                   :style="{borderBottomColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
+              </div>
+              <div class="shops-filter-item-arrow-down"
+                   :style="{borderTopColor:shopSort === 'SYNTHESIZE'? '#F60000': 'gray'} ">
+              </div>
+            </div>-->
         </div>
         <div class="shops-filter-item" @click="orderBy('DISTANCE')" :class="{ red:activeRed == 2}">
           <div class="shops-filter-item-text">
             距离最近
           </div>
-       <!--   <div class="shops-filter-item-arrow">
-            <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
-            </div>
-            <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
-            </div>
-          </div>-->
+          <!--   <div class="shops-filter-item-arrow">
+               <div class="shops-filter-item-arrow-up"
+                    :style="{borderBottomColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
+               </div>
+               <div class="shops-filter-item-arrow-down"
+                    :style="{borderTopColor:shopSort === 'DISTANCE'? '#F60000': 'gray'} ">
+               </div>
+             </div>-->
         </div>
         <div class="shops-filter-item" @click="orderBy('APPRAISE')" :class="{ red:activeRed == 3}">
           <div class="shops-filter-item-text">
             好评优先
           </div>
-         <!-- <div class="shops-filter-item-arrow">
-            <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
-            </div>
-            <div class="shops-filter-item-arrow-down"
-                 :style="{borderTopColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
-            </div>
-          </div>-->
+          <!-- <div class="shops-filter-item-arrow">
+             <div class="shops-filter-item-arrow-up"
+                  :style="{borderBottomColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
+             </div>
+             <div class="shops-filter-item-arrow-down"
+                  :style="{borderTopColor:shopSort === 'APPRAISE'? '#F60000': 'gray'} ">
+             </div>
+           </div>-->
         </div>
         <div class="shops-filter-item" @click="orderBy('SALE')" :class="{ red:activeRed == 4}">
           <div class="shops-filter-item-text">
             销量最多
           </div>
-      <!--    <div class="shops-filter-item-arrow">
-            <div class="shops-filter-item-arrow-up"
-                 :style="{borderBottomColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
-            </div>
-            <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
-            </div>
-          </div>-->
+          <!--    <div class="shops-filter-item-arrow">
+                <div class="shops-filter-item-arrow-up"
+                     :style="{borderBottomColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
+                </div>
+                <div class="shops-filter-item-arrow-down" :style="{borderTopColor:shopSort === 'SALE'? '#F60000': 'gray'} ">
+                </div>
+              </div>-->
         </div>
       </div>
     </template>
@@ -80,18 +80,33 @@
                 <div>
                   {{item.name}}
                 </div>
-                <div>
-                  电话：{{item.phone}}
+                <div class="shop-rate">
+                  <div>
+                    <van-rate v-model="shopRate" style="display: inline-block" />
+                    <span class="yueshou">月售33</span>
+                  </div>
+                  <div>
+                    36分钟  {{item.distance | meter}}
+                  </div>
                 </div>
-                <div>
-                  地址：{{item.address}}
+                <!--<div>-->
+                <!--电话：{{item.phone}}-->
+                <!--</div>-->
+                <div class="shopAdd">
+                  <div>
+                    <van-icon name="dizhi" size="1.2em" color="#a6a6a6"></van-icon>{{item.address}}
+                  </div>
+                  <span>平台配送</span>
                 </div>
-                <div class="fz21">
-                  <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span> 距当前位置：{{item.distance | meter}}
-                </div>
+                <!--<div class="fz21">-->
+                <!--<span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span> 距当前位置：{{item.distance | meter}}-->
+                <!--</div>-->
                 <div class="mt10">
-                  <span class="rx-delivery" v-if="item.distribution==true && item.shopDistance >= item.distance">可配送</span>
+                  <!--<span class="rx-delivery" v-if="item.distribution==true && item.shopDistance >= item.distance">可配送</span>-->
+                  <span class="rx-since">领券</span>
                   <span class="rx-since">可自提</span>
+                  <span class="rx-since">医保店</span>
+                  <span class="rx-since">在线咨询</span>
                 </div>
               </div>
             </div>
@@ -119,7 +134,8 @@
         list: [],
         shopSort: 'SYNTHESIZE',
         searchIcon: '\ue64c 药品名',
-        position: getCurrentAddress()
+        position: getCurrentAddress(),
+        shopRate: 5
       };
     },
     created() {
@@ -212,11 +228,11 @@
     width: 82px;
     height: 33px;
     background: rgba(255, 255, 255, 1);
-    border: 1px solid deepskyblue;
+    border: 1px solid #F60000;
     border-radius: 7px;
     display: inline-block;
     float: left;
-    color: deepskyblue;
+    color: #F60000;
     text-align: center;
     line-height: 33px;
     margin-right: 15px;
@@ -290,12 +306,12 @@
         &:first-child {
           margin-top: 10px;
         }
-        padding: 20px;
+        padding: 6px;
         &-left {
-          padding: 20px;
+          padding: 15px;
           img {
-            width: 250px;
-            height: 250px;
+            width: 200px;
+            height: 200px;
           }
         }
         &-right {
@@ -320,6 +336,32 @@
           }
         }
       }
+    }
+  }
+  .shop-rate{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &>div{
+      font-size: 20px;
+    }
+    span.yueshou{
+      font-size: 20px;
+    }
+  }
+  .shopAdd{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 1.5;
+    margin-top: 8px;
+    &>div{
+      font-size: 24px !important;
+      display: flex;
+    }
+    span{
+      font-size:20px;
+      color:#a6a6a6;
     }
   }
 </style>

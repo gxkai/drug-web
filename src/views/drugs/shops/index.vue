@@ -1,41 +1,6 @@
 <template>
-  <div>
-    <van-popup
-      v-model="show"
-      position="bottom">
-      <div class="drugs-shops-popup">
-        <div class="drugs-shops-popup-header">
-          <div class="drugs-shops-popup-header-left">
-            <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
-          </div>
-          <div class="drugs-shops-popup-header-center">
-            <div class="elpsTwo">{{drugInfo.introduce|| '暂无介绍'}}</div>
-            <div class="elpsTwo">{{drugInfo.name}}</div>
-            <div style="color: #F60000">{{drugInfo.sfda}}</div>
-          </div>
-          <div class="drugs-shops-popup-header-right" @click="show = false">
-            <i class="iconfont ic-guanbi2"></i>
-          </div>
-        </div>
-        <div class="drugs-shops-popup-content">
-          <div class="drugs-shops-popup-content-title">
-            选择规格
-          </div>
-          <div class="drugs-shops-popup-content-list">
-            <div class="drugs-shops-popup-content-list-item"
-                 v-for="item in drugSpecs"
-                 :class="{'drugs-shops-popup-content-list-active':drugSpec === item}"
-                 @click="show = false; drugSpec = item">
-              <div>{{item.name}}</div>
-              <div>
-                <input :id="item.id" type="radio" :value="item.id" v-model="drugSpec.id">
-                <label :for="item.id"></label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </van-popup>
+  <div id="drug_body">
+
     <new-layout class="drugs-shops">
       <template slot="top">
         <van-nav-bar
@@ -46,108 +11,408 @@
 
       </template>
       <template slot="center">
-        <van-swipe :autoplay="3000">
-          <van-swipe-item v-for="(pic,index) in drugSpec.pics" :key="index">
-            <img v-lazy="getImgURL(pic, 'MIDDLE_PIC')"/>
-          </van-swipe-item>
-        </van-swipe>
-        <div class="drugs-shops__part-1">
-          <div class="drugs-shops__part-1__front">
-            <div class="drugs-shops__part-1__front-name">{{drugInfo.name}}</div>
-            <div class="drugs-shops__part-1__front-introduce">{{drugInfo.introduce}}</div>
-            <div class="drugs-shops__part-1__front-sfda">国药准字：{{drugInfo.sfda}}</div>
-            <div class="drugs-shops__part-1__front-originName">厂商：{{drugInfo.originName}}</div>
+        <div class="drugs-shops__top">
+          <div class="drugs-shops__top__topbottom">
+            <div class="drugs-shops__top__shoplogo">
+                <img  v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
+            </div>
+            <div class="drugs-shops__top__shopinfo">
+              <p>{{drugInfo.name}}</p>
+              <p @click="show = true">规格:{{drugInfo.spec||'暂无'}}</p>
+              <p>剂型/型号:{{drugInfo.form||'暂无'}}</p>
+              <!--<p style="display: none">
+                       <span class="drugs-shops__top__shopinfo__count">204</span>个商家报价
+                       <span>价格指数</span><span class="drugs-shops__top__shopinfo__join">加入同店购</span>
+                 </p>-->
+            </div>
           </div>
-          <div class="drugs-shops__part-1__behind">
+          <div class="drugs-shops__top__shopinform">
 
+            <p class="drugs-shops__top__shopinform__approve"><i>批准文号：</i><span>国药准字{{drugInfo.sfda||'暂无'}}</span></p>
+            <p class="drugs-shops__top__shopinform__approve"><i>生产企业：</i><span>{{drugInfo.company||'暂无'}}</span></p>
+            <p class="drugs-shops__top__shopinform__approve"><i>适&nbsp;&nbsp;应&nbsp;&nbsp;症：</i><span>去湿，和中。用于感冒发烧，症状见头痛、腹痛腹泻、呕心干呕、肠胃不适；亦可用于晕车晕船等。</span></p>
+            <!-- <p class="drugs-shops__top__shopinform__instructions">展示商品说明书</p>-->
           </div>
+          <!-- <div class="drugs-shops__top__tag">
+              <span>正品保证</span>
+              <span>闪电发货</span>
+              <span>贴心服务</span>
+              <span>2小时内送达</span>
+           </div>-->
         </div>
-        <div class="drugs-shops__part-2 van-hairline--bottom">
-          <van-cell is-link :arrow-direction="show=== true ? 'down' : ''" @click="show = true">
-            <template slot="title">
-              <span class="drugs-shops__part-2__left-number">
-                {{total}}个
-              </span>
-                  <span class="drugs-shops__part-2__left-name">
-                商家报价
-              </span>
-            </template>
-          </van-cell>
-        </div>
-        <div class="drugs-shops__part-3">
-          <div class="drugs-shops__part-3__item"
-               @click="orderById">
-            <div class="drugs-shops__part-3__item__name" :class="{ red:activeRed == 1}">
-              默认
-            </div>
-            <!--<div class="drugs-shops__part-3__item__arrow">-->
-            <!--<div class="drugs-shops__part-3__item__arrow-up"-->
-            <!--:style="{borderBottomColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>-->
-            <!--<div class="drugs-shops__part-3__item__arrow-down"-->
-            <!--:style="{borderTopColor: sort === 'SYNTHESIZE'?'#F60000':'gray'}"></div>-->
-            <!--</div>-->
-          </div>
-          <div class="drugs-shops__part-3__item"
-               @click="orderByDistance">
-            <div class="drugs-shops__part-3__item__name" :class="{ red:activeRed == 2}">
-              距离最近
-            </div>
-            <!--<div class="drugs-shops__part-3__item__arrow">-->
-            <!--<div class="drugs-shops__part-3__item__arrow-up"-->
-            <!--:style="{borderBottomColor: sort === 'DISTANCE_ASC'?'#F60000':'gray'}"></div>-->
-            <!--<div class="drugs-shops__part-3__item__arrow-down"-->
-            <!--:style="{borderTopColor: sort === 'DISTANCE'?'#F60000':'gray'}"></div>-->
-            <!--</div>-->
-          </div>
-          <div class="drugs-shops__part-3__item"
-               @click="orderByPrice">
-            <div class="drugs-shops__part-3__item__name" :class="{ red:activeRed == 3}">
-              价格
-            </div>
-            <div class="drugs-shops__part-3__item__arrow">
-              <div class="drugs-shops__part-3__item__arrow-up"
-                   :style="{borderBottomColor: sort === 'PRICE_ASC'?'#F60000':'gray'}"></div>
-              <div class="drugs-shops__part-3__item__arrow-down"
-                   :style="{borderTopColor: sort === 'PRICE_DESC'?'#F60000':'gray'}"></div>
-            </div>
-          </div>
-        </div>
-        <div class="drugs-shops__part-4">
-          <div class="drugs-shops__part-4__item"
-               v-for="(shop,index) in shops" :key="index"
-               @click="linkToShopDrugSpec(shop.shopDrugId)">
-            <div class="drugs-shops__part-4__item__name">
-              {{shop.name}}
-            </div>
-            <div class="drugs-shops__part-4__item__price">
-              &yen;{{shop.price}}
-            </div>
 
-            <div class="drugs-shops__part-4__item__icon">
-              <van-icon name="gouwuche3" color="#F60000" size="4em"></van-icon>
-            </div>
-            <div class="drugs-shops__part-4__item__info">
-              <van-icon name="ditu" color="#F60000" size="3em"></van-icon>
-              <span>{{shop.address}}</span>
-              <!--<van-icon name="aixin" color="#F60000" size="2em"></van-icon>-->
-              <!--<span>{{shop.score}}</span>-->
-              <!--<van-icon name="kucun" color="#F60000" size="2em"></van-icon>-->
-              <!--<span>{{shop.stock}}</span>-->
+
+        <van-tabs v-model="active">
+          <van-tab title="商家报价">
+
+
+
+            <div class="drugs_one"  v-for="(shop,index) in shops" :key="index">
+              <p @click="linkToShopDrugSpec(shop.shopDrugId)">
+                <span>{{shop.name}}</span>
+                <span> &yen;{{shop.price}}</span>
+              </p>
+              <div class="drugs_one_address">
+                <van-icon name="ditu" color="#F60000" size="3em"></van-icon>
+                <span class="ellipsis">
+                          地址：{{shop.address}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{shop.distance | meter}}
+                       </span>
+                <span></span>
+
+
+                <van-icon name="gouwuche3" color="#F60000" size="6em" @click="goCar(shop.price)"></van-icon>
+              </div>
+
+              <div class="drugs_extract">
+                <span class="rx-since">可自提</span>
+                <span class="rx-delivery" v-if="shop.distribution==true && shop.shopDistance < shop.distance">可配送</span>
+               </div>
             </div>
 
 
-            <div class="drugs-shops__part-4__item__distance">
-              <span class="rx-delivery" v-if="shop.distribution==true && shop.shopDistance < shop.distance">可配送</span>
-              <span class="rx-since">可自提</span>
-              <span class="drugs-shops__part-4__item__distance__meter">距当前位置：{{shop.distance | meter}}</span>
+
+          </van-tab>
+          <van-tab title="商品信息">
+
+            <div
+              class="drug-info"
+            >
+              <div class="drug-info--text">
+                <div>
+                  <span>通用名：</span>
+                  <span>{{drugInfo.name||'暂无'}}</span>
+                </div>
+                <div>
+                  <span>商品品牌：</span>
+                  <span>{{drugInfo.brand||'暂无'}}</span>
+                </div>
+                <div>
+                  <span>批准文号：</span>
+                 <span>国药准字{{drugInfo.sfda||'暂无'}}</span>
+                </div>
+                <div>
+                  <span>包装规格：</span>
+                   <span>{{drugInfo.spec||'暂无'}}</span>
+                </div>
+                <div>
+                  <span>剂型/型号：</span>
+                   <span>{{drugInfo.form||'暂无'}}</span>
+                </div>
+                <div>
+                  <span>英文名称：</span>
+                   <span>{{drugInfo.enName||'暂无'}}</span>
+                </div>
+                <div>
+                  <span>汉语拼音：</span>
+                  <span>{{drugInfo.pinyinName||'暂无'}}</span>
+                </div>
+                <div>
+                  <span>有效期：</span>
+                   <span>{{drugInfo.validity||'暂无'}}</span>
+                </div>
+                <div>
+                  <span>生产企业：</span>
+                  <span>{{drugInfo.company||'暂无'}}</span>
+                </div>
+              </div>
+               <img v-lazy="getImgURL(fileId,'LARGE_PIC')"
+                    v-for="fileId in drugInfo.fileIds"
+                    class="drug-info&#45;&#45;pic"
+               />
+            </div>
+          </van-tab>
+          <van-tab title="注意事项">
+            <div class="drugs-attention">
+              <p>1、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>
+              <p>2、 如眼睑发肿、结膜红斑,发生率低于3%。 </p>
+              <p>3、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>
+              <p>4、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>
+            </div>
+          </van-tab>
+          <van-tab title="药品评价">
+            <div class="appraise">
+              <div class="appraise-title">
+
+                <div class="appraise-title-right">
+                  <div class="text-l-25">
+                    共有{{list.length}}位网友评论
+                  </div>
+                </div>
+              </div>
+
+              <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+                <van-list
+                  v-model="loading"
+                  :finished="finished"
+                  @load="onLoad">
+                  <new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>
+                  <new-no-data v-if="finished"></new-no-data>
+                </van-list>
+              </van-pull-refresh>
+            </div>
+
+
+          </van-tab>
+          <!--<van-tab title="组合推荐">内容 4</van-tab>-->
+        </van-tabs>
+
+
+
+
+
+
+
+        <!--点击规格商家筛选开始-->
+        <van-popup
+          v-model="show"
+          position="bottom">
+          <div class="drugs-shops-popup">
+            <div class="drugs-shops-popup-header">
+              <div class="drugs-shops-popup-header-left">
+                 <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
+              </div>
+              <div class="drugs-shops-popup-header-center">
+                <div class="elpsTwo">{{drugInfo.introduce|| '暂无介绍'}}</div>
+                <div class="elpsTwo">{{drugInfo.name}}</div>
+                <div style="color: #F60000">{{drugInfo.sfda}}</div>
+              </div>
+              <div class="drugs-shops-popup-header-right" @click="show = false">
+                <i class="iconfont ic-guanbi2"></i>
+              </div>
+            </div>
+            <div class="drugs-shops-popup-content">
+              <div class="drugs-shops-popup-content-title">
+                选择规格
+              </div>
+              <div class="drugs-shops-popup-content-list">
+                <div class="drugs-shops-popup-content-list-item"
+                     v-for="item in drugSpecs"
+                     :class="{'drugs-shops-popup-content-list-active':drugSpec === item}"
+                     @click="show = false; drugSpec = item">
+                  <div>{{item.name}}</div>
+                  <div>
+                    <input :id="item.id" type="radio" :value="item.id" v-model="drugSpec.id">
+                    <label :for="item.id"></label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </van-popup>
+        <!--点击规格商家筛选结束-->
+
+
+
+
+        <!--购物车弹框开始-->
+        <van-popup position="bottom" v-model="show1">
+          <div class="shopDrug__popup">
+            <div class="shopDrug__popup__part-1 van-hairline--bottom">
+              <div class="shopDrug__popup__part-1__close-icon">
+                <van-icon name="close" size="3em" color="#F60000"
+                          @click="show1 = false"/>
+              </div>
+              <div class="shopDrug__popup__part-1__left">
+                <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')" class="shopDrug__popup__part-1__left-logo"/>
+
+              </div>
+              <div class="shopDrug__popup__part-1__right">
+                <div class="shopDrug__popup__part-1__right-name">
+                  {{drugInfo.name}}
+                </div>
+                <div class="shopDrug__popup__part-1__right-price">
+                  &yen;{{drugPrice}}
+                </div>
+              </div>
+            </div>
+            <div class="shopDrug__popup__part-2">
+              <div class="shopDrug__popup__part-2__left">
+                购买数量
+              </div>
+              <div class="shopDrug__popup__part-2__right">
+                <new-stepper
+                  v-model="number"
+                  :min="1"
+                  :step="1"
+                />
+              </div>
+            </div>
+            <div class="shopDrug__popup__part-3">
+              <van-button size="large" @click="onConfirm">确定</van-button>
+            </div>
+          </div>
+        </van-popup>
+     <!--购物车弹框结束-->
+
+
+
+
       </template>
     </new-layout>
   </div>
 </template>
+
+<script>
+  import { getCurrentAddress } from '@/storage';
+  export default {
+    data() {
+      return {
+        activeRed: 1,
+        shops: [],
+        drugInfo: [],
+        drugSpecs: [],
+        drugSpec: {},
+        drugId: this.$route.params.drugId,
+        show: false,
+        total: 0,
+        sort: 'SYNTHESIZE',
+        val: -1,
+        currentAddress: getCurrentAddress(),
+        name: 'drugAppraise',
+        props: ['shopDrugSpec'],
+        loading: false,
+        finished: false,
+        isLoading: false,
+        pageNum: 0,
+        pageSize: 15,
+        list: [],
+        show1: false,
+        drugPrice: ''
+      };
+    },
+    watch: {
+      drugSpec(value) {
+        this.getShops();
+      }
+    },
+    filters: {
+      meter(meter) {
+        if (meter < 1) {
+          let meters = meter * 1000;
+          return meters + '米';
+        } else {
+          let kilometers = meter;
+          return kilometers + '公里';
+        }
+      }
+    },
+    created() {
+      this.initData();
+    },
+    mounted() {
+    },
+    methods: {
+      goCar(price) {
+        this.show1 = true;
+        this.drugPrice = price;
+      },
+      onRefresh() {
+        this.finished = false;
+        this.list = [];
+        this.pageNum = 0;
+        this.onLoad();
+      },
+      async onLoad() {
+        this.pageNum++;
+        const params = {
+          'pageNum': this.pageNum,
+          'pageSize': this.pageSize,
+          'shopDrugId': this.shopDrugSpec.id
+        };
+        const data = await this.$http.get('/drugAppraises', params);
+        this.isLoading = false;
+        this.loading = false;
+        this.list = this.list.concat(data.list);
+        console.log(this.list);
+        if (data.list.length === 0) {
+          this.finished = true;
+        }
+      },
+      async initData() {
+        this.$toast.loading({duration: 0, forbidClick: true});
+        const data = await this.$http.get('/drugs/' + this.drugId);
+        this.$toast.clear();
+        this.drugInfo = data;
+        this.drugSpecs = data.drugSpecs;
+        this.drugSpec = this.drugSpecs[0];
+        this.getShops();
+      },
+      async getShops() {
+        this.$toast.loading({duration: 0, forbidClick: true});
+        const data = await this.$http.get(`/drugs/${this.drugId}/shops?sort=${this.sort}&lat=${this.currentAddress.lat}&lng=${this.currentAddress.lng}`);
+        this.$toast.clear();
+        this.total = data.total;
+        this.shops = data.list;
+      },
+
+      orderById() {
+        this.activeRed = 1;
+        this.sort = 'SYNTHESIZE';
+        this.getShops();
+      },
+      orderByDistance() {
+        this.activeRed = 2;
+        if (this.sort === 'DISTANCE') {
+          this.sort = 'SYNTHESIZE';
+        } else {
+          this.sort = 'DISTANCE';
+        }
+        this.getShops();
+      },
+      orderByPrice() {
+        this.activeRed = 3;
+        if (this.sort === 'PRICE_DESC') {
+          this.sort = 'PRICE_ASC';
+        } else {
+          this.sort = 'PRICE_DESC';
+        }
+        this.getShops();
+      },
+      async onConfirm() {
+        if (this.type === 0) {
+          const data = [{
+            shopId: this.shopDrug.shopId,
+            drugId: this.shopDrug.drugId,
+            shopDrugId: this.shopDrug.id,
+            quantity: this.number
+          }];
+          this.$toast.loading({ duration: 0, forbidClick: true });
+          await this.$http.post('/carts', data);
+          debugger;
+          this.$toast('加入购物车成功');
+          this.show = false;
+        } else {
+          let drugInfoList = [];
+          drugInfoList.push({
+            shopDrugId: this.shopDrug.id,
+            quantity: this.number
+          });
+          let json = {
+            'shopId': this.shopDrug.shopId,
+            'shopName': this.shopDrug.shopName,
+            'drugs': drugInfoList,
+            'type': 'SIMPLE'
+          };
+          this.$toast.loading({ duration: 0, forbidClick: true });
+          const shopDrugOrderDTO = await this.$http.post('orders/shop/preClose', json);
+          this.$toast.clear();
+          this.$router.push({ name: '/orders/create/fromShop', params: { orderShopDrugDTO: json, shopDrugOrderDTO: shopDrugOrderDTO } });
+        }
+      }
+    }
+  };
+</script>
+
 <style type="text/scss" lang="scss">
+  *{
+    margin: 0px;
+    padding: 0px;
+  }
+
+  #drug_body{
+    background: #ffffff!important;
+  }
+
   .rx-delivery {
     font-size: 20px;
     width: 82px;
@@ -176,8 +441,149 @@
     line-height: 33px;
     margin-right: 15px;
   }
+  .drugs-shops__top{
+    height:450px;
+    width: 720px;
+    background: #ffffff;
+    &__topbottom{
+      border-bottom:1px dashed #e0e0e0;
+      overflow: hidden;
+      height: 17vh;
+      background: #ffffff;
+    }
+    &__shoplogo{
+      display: inline-block;
+      float: left;
+      img{
+        width: 150px;
+        height: 150px;
+        margin: 25px;
+      }
+    }
+    &__shopinfo{
+      display: inline-block;
+      float: left;
+      width: 480px;
+      p{
+
+        &:first-child{
+          margin-top: 30px;
+          margin-bottom: 15px;
+          font-size: 28px;
+        }
+        &:nth-child(2), &:nth-child(3){
+          margin-top: 10px;
+          color: #9d9d9d;
+          font-size: 25px;
+          margin-bottom: 10px;
+        }
+        &:nth-child(4){
+          margin-top: 10px;
+          color: #9d9d9d;
+          font-size: 25px;
+          margin-bottom: 10px;
+          span{
+            font-size: 25px;
+            :first-child{
+              color: #F60000;
+            }
+            :nth-child(3){
+              display: inline-block;
+              border: 1px solid red;
+            }
+          }
+        }
+      }
+      &__count{
+        color: red;
+      }
+      &__join{
+        display: inline-block;
+        border: 1px solid red;
+        padding: 5px;
+        border-radius: 15px;
+        color: #F60000;
+        float: right;
+        margin-right: 10px;
+        display: inline-block;
+      }
+
+    }
+    &__shopinform{
+      width: 100%;
+      background: #ffffff;
+      padding-bottom: 10px;
+      p{
+
+        &:first-child{
+          margin-top: 10px;
+          margin-bottom: 15px;
+          font-size: 28px;
+        }
+        &:nth-child(2), &:nth-child(3){
+          margin-top: 10px;
+          color: #9d9d9d;
+          font-size: 25px;
+          margin-bottom: 10px;
+
+        }
+        &:nth-child(4){
+          margin-top: 10px;
+          color: #9d9d9d;
+          font-size: 25px;
+          margin-bottom: 10px;
+          span{
+            font-size: 25px;
+            :first-child{
+              color: #F60000;
+            }
+            :nth-child(3){
+              display: inline-block;
+              border: 1px solid red;
+            }
+          }
+        }
+      }
+      &__approve{
+
+        margin-left: 15px;
+        i{
+          width: 130px;
+          font-style: normal;
+          font-size: 25px;
+          display: inline-block;
+          vertical-align: top;
+          color: #666666;
+        }
+        span{
+          display: inline-block;
+          font-size: 25px;
+          width: 550px;
+          color: #666666;
+        }
+
+      }
+      &__instructions{
+        text-align: center;
+        color: #F60000!important;
+        margin-top: 30px!important;
+      }
+    }
+
+    &__tag{
+      text-align: center;
+      span{
+        font-size: 25px;
+        display: inline-block;
+        margin-right: 15px;
+        border: 1px solid red;
+      }
+    }
+
+  }
 
   .drugs-shops {
+    height: 900px;
     .van-swipe {
       width: 100%;
       height: 400px;
@@ -438,89 +844,433 @@
   .red {
     color: $themeColor !important;
   }
-</style>
-<script>
-  import { getCurrentAddress } from '@/storage';
-
-  export default {
-    data() {
-      return {
-        activeRed: 1,
-        shops: [],
-        drugInfo: [],
-        drugSpecs: [],
-        drugSpec: {},
-        drugId: this.$route.params.drugId,
-        show: false,
-        total: 0,
-        sort: 'SYNTHESIZE',
-        val: -1,
-        currentAddress: getCurrentAddress()
-      };
-    },
-    watch: {
-      drugSpec(value) {
-        this.getShops();
+  .drugs_one{
+    margin-top: 10px;
+    p{
+      span{
+        font-size: 25px;
       }
-    },
-    filters: {
-      meter(meter) {
-        if (meter < 1) {
-          let meters = meter * 1000;
-          return meters + '米';
-        } else {
-          let kilometers = meter;
-          return kilometers + '公里';
-        }
+      span:nth-child(2){
+        float: right;
+        margin-right: 15px;
       }
-    },
-    created() {
-      this.initData();
-    },
-    mounted() {
-    },
-    methods: {
-      async initData() {
-        this.$toast.loading({duration: 0, forbidClick: true});
-        const data = await this.$http.get('/drugs/' + this.drugId);
-        this.$toast.clear();
-        this.drugInfo = data;
-        this.drugSpecs = data.drugSpecs;
-        this.drugSpec = this.drugSpecs[0];
-        this.getShops();
-      },
-      async getShops() {
-        this.$toast.loading({duration: 0, forbidClick: true});
-        const data = await this.$http.get(`/drugs/${this.drugId}/shops?sort=${this.sort}&lat=${this.currentAddress.lat}&lng=${this.currentAddress.lng}`);
-        this.$toast.clear();
-        this.total = data.total;
-        this.shops = data.list;
-      },
+      margin-left: 15px;
+    }
+    p:first-child{
+      height: 50px;
+      line-height: 50px;
+    }
 
-      orderById() {
-        this.activeRed = 1;
-        this.sort = 'SYNTHESIZE';
-        this.getShops();
-      },
-      orderByDistance() {
-        this.activeRed = 2;
-        if (this.sort === 'DISTANCE') {
-          this.sort = 'SYNTHESIZE';
-        } else {
-          this.sort = 'DISTANCE';
+  }
+  .drugs_one_address{
+    span{
+      font-size: 25px;
+    }
+  }
+  .ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 550px;
+    display: inline-block;
+  }
+  .van-icon-gouwuche3{
+    display: inline-block;
+    float: right;
+  }
+  .van-tab span{
+    font-size: 30px!important;
+  }
+  .drugs_extract{
+    margin-left: 15px;
+    margin-top: 15px;
+    overflow: hidden;
+
+  }
+  .drugs-attention{
+    background: #ffffff;
+    padding-top: 15px;
+    padding: 25px;
+    p{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 705px;
+      display: inline-block;
+      font-size: 25px;
+      margin-left: 15px;
+      color: #999999;
+    }
+  }
+  .layout--center{
+    background: #ffffff!important;
+  }
+
+  .appraise {
+    padding: 20px;
+    &-title {
+      width: 100%;
+      height: 100px;
+      background-color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      &-left {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        font-family: HiraginoSansGB-W3;
+        color: rgba(51, 51, 51, 1);
+      }
+      &-right {
+        font-family: HiraginoSansGB-W3;
+        color: rgba(153, 153, 153, 1);
+        div {
+          margin-top: 15px;
         }
-        this.getShops();
-      },
-      orderByPrice() {
-        this.activeRed = 3;
-        if (this.sort === 'PRICE_DESC') {
-          this.sort = 'PRICE_ASC';
-        } else {
-          this.sort = 'PRICE_DESC';
-        }
-        this.getShops();
       }
     }
-  };
-</script>
+    &-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+  }
+  .rx-since {
+    font-size: 20px;
+    width: 82px;
+    height: 33px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid $themeColor !important;
+    border-radius: 7px;
+    display: inline-block;
+    color: $themeColor !important;
+    text-align: center;
+    line-height: 33px;
+    margin-right: 15px;
+  }
+  .drugs_one{
+    padding: 20px;
+  }
 
+  .drug-info {
+    background-color: white;
+    &--text {
+      padding: 25px;
+      &>div {
+        margin-top: 20px;
+        &>span {
+          color: #999999;
+          font-size:24px;
+          font-family:HiraginoSansGB-W3;
+          font-weight:normal;
+          &:nth-child(1) {
+            display: inline-block;
+            width: 150px;
+          }
+        }
+      }
+    }
+    &--pic {
+      width: 500px;
+      height: 350px;
+      margin: 10px 110px;
+    }
+  }
+  .van-tabs--line{
+    border-top: none!important;
+  }
+  /*加入购物车样式*/
+  .shopDrug {
+    &__popup {
+      &__part-1 {
+        display: flex;
+        align-items: flex-end;
+        padding: 20px;
+        position: relative;
+        &__close-icon {
+          position: absolute;
+          right: 20px;
+          top: 20px;
+        }
+        &__left {
+          &-logo {
+            width: 200px;
+            height: 200px;
+          }
+        }
+        &__right {
+          padding-left: 10px;
+          &-name {
+            font-size:26px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color: #333333;
+            width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+          }
+          &-price {
+            font-size:30px;
+            font-family:HiraginoSansGB-W3;
+            font-weight:normal;
+            color: #FF0101;
+          }
+        }
+      }
+      &__part-2 {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        &__left {
+          font-size:24px;
+          font-family:HiraginoSansGB-W3;
+          font-weight:normal;}
+      }
+      &__part-3 {
+        padding: 20px;
+        .van-button {
+          width:690px;
+          height:90px;
+          background:$themeColor;
+          border-radius:8px;
+          font-size:36px;
+          font-family:HiraginoSansGB-W3;
+          font-weight:normal;
+          color: #ffffff;
+        }
+      }
+    }
+    &__content {
+      .van-swipe {
+        width: 100%;
+        height: 400px;
+        &-item {
+          img {
+            width: 100%;
+            height: 400px;
+          }
+        }
+      }
+      &__part-1 {
+        position: relative;
+        &__front {
+          position: absolute;
+          z-index: 1;
+          width: 670px;
+          height: 160px;
+          background-color: $themeColor;
+          left: 25px;
+          padding: 20px;
+          & > div {
+            width: 100%;
+            text-align: center;
+            margin: 2px auto;
+            color: #FFFFFF;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          &-name, &-price {
+            font-size: 30px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: 400;
+          }
+          &-introduce {
+            font-size: 18px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
+          }
+        }
+        &__behind {
+          position: absolute;
+          z-index: 0;
+          width: 670px;
+          height: 160px;
+          background-color: #DCDCDC;
+          left: 35px;
+          top: 10px;
+        }
+      }
+      &__part-2 {
+        padding: 20px;
+        background-color: white;
+        margin-top: 180px;
+        display: flex;
+        align-items: center;
+        &__item {
+          flex-grow: 20;
+          display: flex;
+          justify-content: center;
+          overflow: auto;
+          &>div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          span {
+            font-size: 20px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
+          }
+          span:first-child {
+            color: $themeColor;
+            margin-right: 10px;
+          }
+        }
+        &__dividing {
+          height: 30px;
+          width: 1PX;
+          background-color: #7D7D7D;
+        }
+      }
+      &__part-3 {
+        background-color: white;
+        margin-top: 20px;
+        width: 720px;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        &__item {
+          background-color: #F2F2F2;
+          width: 600px;
+          height: 70px;
+          padding: 0 20px 0 200px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          span {
+            font-size: 30px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
+            color: #666666;
+          }
+          &__left {
+            .van-icon {
+              color: $themeColor;
+              font-size: 30px;
+            }
+          }
+          &__right {
+            .van-icon {
+              color: #000000;
+              font-size: 30px;
+            }
+          }
+        }
+      }
+      &__part-4 {
+        background-color: white;
+        margin-top: 20px;
+        padding: 20px 50px;
+        &__header {
+          display: flex;
+          align-items: center;
+          &__left {
+            &-logo {
+              width: 120px;
+              height: 120px;
+            }
+          }
+          &__center {
+            width: 360px;
+            padding-left: 10px;
+            &-shopName {
+              font-size: 26px;
+              font-family: HiraginoSansGB-W3;
+              font-weight: normal;
+              color: #333333;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+        }
+        &__content {
+          &__item {
+            & > div {
+              text-align: center;
+              &:first-child {
+                font-size: 20px;
+                font-family: HiraginoSansGB-W3;
+                font-weight: normal;
+                color: #333333;
+              }
+              &:last-child {
+                font-size: 20px;
+                font-family: HiraginoSansGB-W3;
+                font-weight: normal;
+                color: $themeColor;
+              }
+            }
+          }
+        }
+        &__footer {
+          padding: 30px 0;
+          &-button {
+            width: 450px;
+            height: 70px;
+            line-height: 70px;
+            background-color: $themeColor;
+            border-radius: 25px;
+            margin: 0 auto;
+            font-size: 24px;
+            font-weight: normal;
+            color: #FFFFFF;
+            text-align: center;
+          }
+        }
+      }
+      &__part-5 {
+        margin-top: 20px;
+        background-color: white;
+        padding: 20px;
+        &__header {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px;
+          &__left {
+            font-size: 20px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
+            color: #999999;
+          }
+          &__right {
+            font-size: 20px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
+            color: #333333;
+          }
+        }
+        &__item {
+          padding: 20px 0;
+          &__header {
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            &--right {
+              font-size: 25px;
+            }
+          }
+          &__content {
+            padding: 10px 0;
+            font-size: 20px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
+            color: #666666;
+          }
+          &__footer {
+            font-size: 22px;
+            font-family: HiraginoSansGB-W3;
+            font-weight: normal;
+            color: #999999;
+          }
+        }
+      }
+    }
+  }
+</style>

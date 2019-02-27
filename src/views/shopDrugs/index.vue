@@ -170,6 +170,10 @@
         </van-goods-action>
       </template>
     </new-layout>
+
+
+
+
     <van-popup position="bottom" v-model="show">
       <div class="shopDrug__popup">
         <div class="shopDrug__popup__part-1 van-hairline--bottom">
@@ -206,6 +210,11 @@
         </div>
       </div>
     </van-popup>
+
+
+
+
+
   </div>
 </template>
 <style scoped type="text/less" lang="less">
