@@ -27,6 +27,7 @@
       </div>
       <div class="repositories-view--content bgwhite" v-html="info.content">
       </div>
+      <div  class="repositories-view--content--bottom">-----&nbsp;&nbsp;我是有底线的&nbsp;&nbsp;-----</div>
     </template>
   </new-layout>
 </template>
@@ -55,6 +56,13 @@
         img {
           width: 100%;
         }
+      }
+      &--bottom{
+        font-size: 20px;
+        text-align: center;
+        color: #bbbbbb;
+        margin-top: 50px;
+        margin-bottom: 50px;
       }
     }
   }

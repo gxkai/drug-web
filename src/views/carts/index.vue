@@ -69,15 +69,15 @@
                     </div>
                     <div class="cart-list-drugs-item-right">
                       <div>
-                        <div class="cart-list-drugs-item-right_name">
+                        <div class="cart-list-drugs-item-right_name"  @click="linkToShopDrugSpec(cartDrug.id)">
                           {{cartDrug.name}}
                         </div>
-                        <div class="cart-list-drugs-item-right_spec">
+                        <div class="cart-list-drugs-item-right_spec"  @click="linkToShopDrugSpec(cartDrug.id)">
                           规格：{{cartDrug.spec}}
                         </div>
                       </div>
                       <div>
-                        <div class="cart-list-drugs-item-right_price">
+                        <div class="cart-list-drugs-item-right_price"  @click="linkToShopDrugSpec(cartDrug.id)">
                           &yen;{{cartDrug.price}}
                         </div>
                         <div>

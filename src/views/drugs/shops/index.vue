@@ -102,7 +102,7 @@
               </div>
               <img v-lazy="getImgURL(pic,'LARGE_PIC')"
                    v-for="pic in drugSpec.pics"
-                   class="drug-info&#45;&#45;pic"
+                   class="drug_img drug-info&#45;&#45;pic"
               />
             </div>
           </van-tab>
@@ -794,6 +794,7 @@
 
   .drugs_one {
     margin-top: 10px;
+
     p {
       span {
         font-size: 25px;
@@ -908,6 +909,7 @@
 
   .drugs_one {
     padding: 20px;
+    height: 200px;
   }
 
   .drug-info {
@@ -937,6 +939,9 @@
 
   .van-tabs--line {
     border-top: none !important;
+    padding-bottom: 20px;
+
+    overflow: hidden;
   }
 
   /*加入购物车样式*/
@@ -1233,4 +1238,8 @@
       }
     }
   }
+  .drug_img{
+    width: 90%;
+    margin-left: 5%;
+   }
 </style>
