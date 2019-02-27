@@ -229,34 +229,34 @@
         });
       },
       onDrug(item) {
-        this.$router.push({ path: '/shopDrugs', query: { shopDrugId: item.shopDrugId } });
+        this.$router.push({ name: '/shopDrugs', params: { shopDrugId: item.shopDrugId } });
       },
       onRx() {
-        this.$router.push({ path: '/rxs/view', query: { rxId: this.order.rxId } });
+        this.$router.push({ name: '/rxs/view', params: { rxId: this.order.rxId } });
       },
       onShop() {
         switch (this.order.type) {
           case 'HOSPITAL':
-            this.$router.push({ path: '/hospital/view', query: { shopId: this.order.shopId } });
+            this.$router.push({ name: '/hospital/view', params: { shopId: this.order.shopId } });
             break;
           default:
-            this.$router.push({ path: '/shops/view', query: { shopId: this.order.shopId } });
+            this.$router.push({ name: '/shops/view', params: { shopId: this.order.shopId } });
         }
       },
       onDetail() {
-        this.$router.push({ path: '/orders/view', query: { orderId: this.order.id } });
+        this.$router.push({ name: '/orders/view', params: { orderId: this.order.id } });
       },
       async onPay() {
         window.location.href = this.order.payUrl === null ? await this.$http.get(`/orders/${this.order.id}/pay`) : this.order.payUrl;
       },
       onRefund() {
-        this.$router.push({ path: '/orderRefunds/create', query: { orderId: this.order.id } });
+        this.$router.push({ name: '/orderRefunds/create', params: { orderId: this.order.id } });
       },
       onDelivery() {
-        this.$router.push({ path: '/orders/delivery', query: { orderId: this.order.id } });
+        this.$router.push({ name: '/orders/delivery', params: { orderId: this.order.id } });
       },
       onAppraise() {
-        this.$router.push({ path: '/drugAppraises/create', query: { orderId: this.order.id } });
+        this.$router.push({ name: '/drugAppraises/create', params: { orderId: this.order.id } });
       },
       onRemind() {
         this.$toast('提醒发货成功!');

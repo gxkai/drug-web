@@ -16,7 +16,7 @@
             </div>
             <div class="drugs-shops__top__shopinfo">
               <p>{{drugInfo.name}}</p>
-              <p @click="show = true">规格:{{drugSpec.spec||'暂无'}}</p>
+              <p @click="onSpec">规格:{{drugSpec.spec||'暂无'}}</p>
               <p>剂型/型号:{{drugSpec.form||'暂无'}}</p>
               <!--<p style="display: none">
                        <span class="drugs-shops__top__shopinfo__count">204</span>个商家报价
@@ -145,7 +145,6 @@
                 <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
               </div>
               <div class="drugs-shops-popup-header-center">
-                <div class="elpsTwo">{{drugInfo.introduce|| '暂无介绍'}}</div>
                 <div class="elpsTwo">{{drugInfo.name}}</div>
                 <div style="color: #F60000">{{drugInfo.sfda}}</div>
               </div>
@@ -344,6 +343,11 @@
         await this.$http.post('/carts', data);
         this.$toast('加入购物车成功');
         this.show1 = false;
+      },
+      onSpec() {
+        if (this.drugSpecs.length > 1) {
+          this.show = true;
+        }
       }
     }
   };
