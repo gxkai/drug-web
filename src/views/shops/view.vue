@@ -114,7 +114,7 @@
     }
     &-info {
       background-color: $themeColor;
-      padding: 40px 80px;
+      padding: 40px 30px;
       margin-bottom: 20px;
       display: flex;
       align-items: center;
