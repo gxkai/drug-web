@@ -96,7 +96,7 @@
                   <div>
                     <van-icon name="dizhi" size="1.2em" color="#a6a6a6"></van-icon>{{item.address}}
                   </div>
-                  <span>平台配送</span>
+                  <!--<span>平台配送</span>-->
                 </div>
                 <!--<div class="fz21">-->
                 <!--<span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span> 距当前位置：{{item.distance | meter}}-->
@@ -105,7 +105,7 @@
                   <!--<span class="rx-delivery" v-if="item.distribution==true && item.shopDistance >= item.distance">可配送</span>-->
                   <!--<span class="rx-since">领券</span>-->
                   <span class="rx-since">可自提</span>
-                  <span class="rx-since" :class="[item.medicaid? '':'border--grey']">医保店</span>
+                  <span class="rx-since" v-if="item.medicaid!=null">医保店</span>
                   <span class="rx-since">在线咨询</span>
                 </div>
               </div>
@@ -225,8 +225,8 @@
   }
   .rx-since {
     font-size: 20px;
-    width: 82px;
-    height: 33px;
+    padding: 2px 3px;
+
     background: rgba(255, 255, 255, 1);
     border: 1px solid #F60000;
     border-radius: 7px;
@@ -321,6 +321,7 @@
         }
         &-right {
           padding: 20px;
+          width: 550px;
           div {
             font-size: 25px;
             &:nth-child(1) {

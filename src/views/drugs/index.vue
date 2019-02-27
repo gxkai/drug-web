@@ -319,6 +319,7 @@
           formId: this.formId
         };
         const data = await this.$http.get('/drugs', params);
+
         this.isLoading = false;
         this.loading = false;
         this.list = this.list.concat(data.list);
