@@ -176,7 +176,7 @@
           'serviceScore': this.serviceScore,
           'drugs': this.drugs
         };
-        this.$toast.loading({duration: 0, mask: true});
+        this.$toast.loading({duration: 0, forbidClick: true});
         await this.$http.post('/drugAppraises', data);
         this.$toast.clear();
         this.$router.replace('/drugAppraises/success');

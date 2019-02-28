@@ -53,7 +53,7 @@
         const params = {
           'content': this.content
         };
-        this.$toast.loading();
+        this.$toast.loading({ duration: 0, forbidClick: true });
         await this.$http.post('/feedbacks', params);
         this.$toast('成功');
       }
