@@ -109,7 +109,7 @@
         >重置
         </van-button>
         <van-button type="primary"
-                    @click="onRefresh;show=false"
+                    @click="onConfirm"
         >确认
         </van-button>
       </van-row>
@@ -393,6 +393,10 @@
         };
         this.forms = await this.$http.get('/forms', params);
         this.formsResult = [];
+      },
+      onConfirm() {
+        this.onRefresh();
+        this.show = false;
       }
     }
   };
