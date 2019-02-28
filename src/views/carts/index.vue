@@ -4,7 +4,7 @@
       <van-nav-bar
         :title="$route.meta.name"
         left-arrow
-        right-text="删除"
+        :right-text="cartShops.length === 0 ? '': '删除'"
         @click-left="$router.go(-1)"
         @click-right="onRemoveBatch()"
       />
