@@ -329,6 +329,7 @@
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
+          align-items: center;
           &>span {
             font-size: 20px;
             &:nth-child(1) {
