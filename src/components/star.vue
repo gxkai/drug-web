@@ -59,7 +59,6 @@ export default {
           if (this.newScore === 0) {
             this.newScore = 1;
             this.arr[0] = true;
-            this.$toast('指下留情');
           }
         } else if (!this.arr[index]) {
           this.arr = this.defaultArr.map((e, i) => {
