@@ -19,7 +19,7 @@
         </div>
         <div class="swiper-slide-login_commit"
              @click="login()">
-          登陆
+          登录
         </div>
         <div class="swiper-slide-login_bullets">
           <div class="swiper-slide-login_bullets-empty"

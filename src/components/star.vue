@@ -56,6 +56,11 @@ export default {
         } else if (this.arr[index] && !this.arr[index + 1]) {
           this.arr = this.defaultArr;
           this.newScore = 0;
+          if (this.newScore === 0) {
+            this.newScore = 1;
+            this.arr[0] = true;
+            this.$toast('指下留情😯');
+          }
         } else if (!this.arr[index]) {
           this.arr = this.defaultArr.map((e, i) => {
             if (i <= index) {

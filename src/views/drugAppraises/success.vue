@@ -27,7 +27,9 @@
       <div
         class="appraise-success--second"
       >
-        <div class="appraise-success--second--cut">
+        <div class="appraise-success--second--cut"
+        v-if="list.length > 0"
+        >
           <div class="appraise-success--second--cut__left"></div>
           <div class="appraise-success--second--cut__center">接着评下去吧</div>
           <div class="appraise-success--second--cut__right"></div>

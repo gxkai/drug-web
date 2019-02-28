@@ -39,9 +39,9 @@
 
         <div class="order_view-money">
           <ul>
-            <li>实付金额：<span class="order-view-money_red">¥{{order.payAmount}}</span></li>
-            <li>商品金额：<span class="order-view-money_red">¥{{order.totalAmount}}</span></li>
-            <li>医保扣除：<span class="order-view-money_red">¥{{order.medicaidAmount}}</span></li>
+            <li>实付金额：<span class="order-view-money_red">¥{{order.payAmount||0}}</span></li>
+            <li>商品金额：<span class="order-view-money_red">¥{{order.totalAmount||0}}</span></li>
+            <li>医保扣除：<span class="order-view-money_red">¥{{order.medicaidAmount||0}}</span></li>
           </ul>
         </div>
 
