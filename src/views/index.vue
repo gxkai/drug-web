@@ -793,10 +793,14 @@
       }
     }
     &__recomd__goods {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      grid-template-rows: auto;
       &__div {
-        width: 360px;
-        float: left;
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         &__rx {
           width: 42px;
           height: 25px;
