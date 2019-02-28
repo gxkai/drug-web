@@ -26,11 +26,11 @@
             <div class="order__header">
               <router-link to="/orders">
                 <div class="left__all-order">
-                  <span>全部订单</span>
+                  <span style="font-weight: 500;color: black;font-family:Times New Roman">全部订单</span>
                 </div>
                 <div class="right__my-order">
-                  <span>我的订单</span>
-                  <van-icon name="youjiantou" />
+                  <span style="color: #999999">我的订单</span>
+                  <van-icon name="youjiantou" color=" #999999"/>
                 </div>
               </router-link>
             </div>
