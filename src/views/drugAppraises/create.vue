@@ -30,7 +30,7 @@
           <span>店铺评分</span>
         </div>
         <div class="drug-appraise-create__part-2__content">
-          <div class="drug-appraise-create__part-2__content__item">
+          <div class="drug-appraise-create__part-2__content__item" v-if="order.deliveryType === 'DELIVERY'">
             <span class="drug-appraise-create__part-2__content__item-name">配送速度</span>
             <new-star size="middle" :score.sync="deliveryScore"/>
           </div>
@@ -136,7 +136,8 @@
         packageScore: 5,
         account: getAccount(),
         shopId: '',
-        drugs: []
+        drugs: [],
+        order: {}
       };
     },
     created() {
@@ -154,6 +155,7 @@
         if (this.list && this.list.length > 0) {
           this.shopId = this.list[0].shopId;
         }
+        this.order = await this.$http.get(`/orders/${this.orderId}`);
       },
       async commit() {
         this.list.forEach(e => {
