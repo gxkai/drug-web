@@ -122,7 +122,7 @@
     methods: {
       async toQyPayUrl() {
         let url = await this.$http.get(`/hospitals/${this.hospitalId}/url`);
-        window.location.href = url;
+        this.$router.push({name: '/iframe', params: {url: url, name: '医院结算'}});
       },
       initData() {
         this.getRxShops();
