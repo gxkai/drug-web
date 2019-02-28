@@ -83,7 +83,7 @@
                 <div class="shop-rate">
                   <div>
                     <!--<van-rate v-model="shopRate" style="display: inline-block" />-->
-                    <span class="yueshou">总销量{{item.sales}}</span>
+                    <span class="yueshou">总销量{{item.sales|| 0}}</span>
                   </div>
                   <div>
                       {{item.distance | meter}}
@@ -102,11 +102,10 @@
                 <!--<span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span> 距当前位置：{{item.distance | meter}}-->
                 <!--</div>-->
                 <div class="mt10">
-                  <!--<span class="rx-delivery" v-if="item.distribution==true && item.shopDistance >= item.distance">可配送</span>-->
-                  <!--<span class="rx-since">领券</span>-->
-                  <span class="rx-since">可自提</span>
-                  <span class="rx-since" v-if="item.medicaid!=null">医保店</span>
-                  <span class="rx-since">在线咨询</span>
+                  <van-tag type="danger" plain>可自提</van-tag>
+                  <van-tag :type="item.distribution==true && item.shopDistance < item.distance ? 'danger':'' " plain>可配送</van-tag>
+                  <van-tag type="item.medicaid? 'danger':''" plain >医保店</van-tag>
+                  <van-tag type="danger" plain>在线咨询</van-tag>
                 </div>
               </div>
             </div>
@@ -198,6 +197,12 @@
   ;
 </script>
 <style scoped type="text/scss" lang="scss">
+
+  /deep/ .van-tag {
+    font-size: 20px!important;
+    padding: 5px 10px;
+    margin-left: 10px;
+  }
   .red{
     color: $themeColor;
   }
@@ -208,34 +213,6 @@
   }
   .mt10{
     margin-top: 10px;
-  }
-  .rx-delivery {
-    font-size: 20px;
-    width: 82px;
-    height: 33px;
-    background: rgba(255, 255, 255, 1);
-    border: 1px solid $themeColor;
-    border-radius: 7px;
-    display: inline-block;
-    float: left;
-    color: #F5003F;
-    text-align: center;
-    line-height: 33px;
-    margin-right: 15px;
-  }
-  .rx-since {
-    font-size: 20px;
-    padding: 2px 3px;
-
-    background: rgba(255, 255, 255, 1);
-    border: 1px solid #F60000;
-    border-radius: 7px;
-    display: inline-block;
-    float: left;
-    color: #F60000;
-    text-align: center;
-    line-height: 33px;
-    margin-right: 15px;
   }
 
   .border--grey {
