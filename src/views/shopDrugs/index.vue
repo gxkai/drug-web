@@ -33,39 +33,17 @@
           </div>
           <div class="shopDrug__content__part-2">
             <div class="shopDrug__content__part-2__item">
-              <span>国药准字</span>
+              <span>国药准字:&nbsp;&nbsp;</span>
               <span>{{shopDrug.sfda}}</span>
             </div>
             <div class="shopDrug__content__part-2__item">
-              <span>库存</span>
+              <span>库存:&nbsp;&nbsp; </span>
               <span>{{shopDrug.stock}}</span>
             </div>
             <div class="shopDrug__content__part-2__item">
-              <span>包装规格</span>
+              <span>包装规格:&nbsp;&nbsp;</span>
               <span>{{shopDrug.spec}}</span>
             </div>
-            <!--<div class="shopDrug__content__part-2__item">
-              <div>
-                <span>国药准字</span>
-                <span>{{shopDrug.sfda}}</span>
-              </div>
-            </div>
-            <div class="shopDrug__content__part-2__dividing">
-            </div>
-            <div class="shopDrug__content__part-2__item">
-              <div>
-                <span>库存</span>
-                <span>{{shopDrug.stock}}</span>
-              </div>
-            </div>
-            <div class="shopDrug__content__part-2__dividing">
-            </div>
-            <div class="shopDrug__content__part-2__item">
-              <div>
-                <span>包装规格</span>
-                <span>{{shopDrug.spec}}</span>
-              </div>
-            </div>-->
           </div>
           <div class="shopDrug__content__part-3">
             <div class="shopDrug__content__part-3__item"
@@ -340,10 +318,23 @@
         }
       }
       &__part-2 {
-        display: flex;
-        justify-content: space-between;
+        margin-top: 190px;
+        display: grid;
+        grid-template-columns: 240px 150px auto;
+        grid-template-rows: auto;
+        grid-column-gap: 5px;
         &__item {
-          width: 220px;
+          padding: 20px 5px;
+          background-color: white;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          &>span {
+            font-size: 20px;
+            &:nth-child(1) {
+              color: $themeColor;
+            }
+          }
         }
       }
       &__part-3 {
