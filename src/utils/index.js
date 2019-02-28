@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import router from '../router';
 
 export default {
@@ -424,5 +425,23 @@ export default {
     Vue.prototype.jumpToBaidu = (name, address, lat, lng) => {
       return `https://api.map.baidu.com/marker?location=${lat},${lng}&title=${name}&content=${address}&output=html&src=webapp.baidu.openAPIdemo  `;
     };
+    let tpl;
+    /**
+     * 加载
+     * @returns {*}
+     */
+    Vue.prototype.loading = () => {
+      var loading = Vue.extend(require('../components/loading.vue').default);
+      tpl = new loading().$mount().$el;
+      document.body.appendChild(tpl);
+      return tpl;
+    };
+    Vue.mixin({
+      methods: {
+        hideLoading: function () {
+          document.body.removeChild(tpl);
+        }
+      }
+    });
   }
 };

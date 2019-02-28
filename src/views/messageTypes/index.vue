@@ -2,7 +2,7 @@
   <new-layout>
     <template slot="top">
       <van-nav-bar
-        :title="$route.meta.name"
+        :title="title"
         left-arrow
         @click-left="$router.go(-1)"
       />
@@ -85,6 +85,7 @@
     name: 'messageTypes',
     data() {
       return {
+        title: '消息类型',
         list: [],
         defaultMsgList: [
           { img: require('../../assets/image/message/ACCOUNT_SYSTEM.png') },
