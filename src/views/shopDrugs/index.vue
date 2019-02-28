@@ -441,6 +441,7 @@
         margin-top: 20px;
         background-color: white;
         padding: 20px;
+        margin-bottom: 130px;
         &__header {
           display: flex;
           justify-content: space-between;
