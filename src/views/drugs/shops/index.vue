@@ -40,23 +40,6 @@
         </div>
         <van-tabs v-model="active">
           <van-tab title="商家报价">
-            <!--<div class="drugs_one" v-for="(shop,index) in shops" :key="index" @click="linkToShopDrugSpec(shop.shopDrugId)">
-              <p>
-                <span>{{shop.name}}</span>
-                <span> &yen;{{shop.price}}</span>
-              </p>
-              <div class="drugs_one_address">
-                <van-icon name="ditu" color="#F60000" size="3em"></van-icon>
-                <span class="ellipsis">
-                          地址：{{shop.address}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{shop.distance | meter}}
-                </span>
-                <van-icon name="gouwuche3" color="#F60000" size="6em" @click.stop="goCar(shop)"></van-icon>
-              </div>
-              <div class="drugs_extract">
-                <span class="rx-since">可自提</span>
-                <span class="rx-delivery" v-if="shop.distribution==true && shop.shopDistance < shop.distance">可配送</span>
-              </div>
-            </div>-->
             <div class="shop-price">
               <div v-for="(shop,index) in shops" :key="index" @click="linkToShopDrugSpec(shop.shopDrugId)">
                 <new-white-space/>
@@ -582,7 +565,6 @@
   }
 
   .drugs-shops {
-    height: 900px;
     .van-swipe {
       width: 100%;
       height: 400px;
