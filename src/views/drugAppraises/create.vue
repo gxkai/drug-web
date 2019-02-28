@@ -32,35 +32,25 @@
         <div class="drug-appraise-create__part-2__content">
           <div class="drug-appraise-create__part-2__content__item">
             <span class="drug-appraise-create__part-2__content__item-name">配送速度</span>
-            <van-rate v-model="deliveryScore" color="red"
-                      class="drug-appraise-create__part-2__content__item-rate"/>
+            <new-star size="middle" :score.sync="deliveryScore"/>
           </div>
           <div class="drug-appraise-create__part-2__content__item">
             <span class="drug-appraise-create__part-2__content__item-name">服务态度</span>
-            <van-rate v-model="serviceScore" color="red"
-                      class="drug-appraise-create__part-2__content__item-rate"/>
+            <new-star size="middle" :score.sync="serviceScore"/>
           </div>
           <div class="drug-appraise-create__part-2__content__item">
             <span class="drug-appraise-create__part-2__content__item-name">描述相符</span>
-            <van-rate v-model="describeScore" color="red"
-                      class="drug-appraise-create__part-2__content__item-rate"/>
+            <new-star size="middle" :score.sync="describeScore"/>
           </div>
           <div class="drug-appraise-create__part-2__content__item">
             <span class="drug-appraise-create__part-2__content__item-name">商品包装</span>
-            <van-rate v-model="packageScore" color="red"
-                      class="drug-appraise-create__part-2__content__item-rate"/>
+            <new-star size="middle" :score.sync="packageScore"/>
           </div>
         </div>
       </div>
     </template>
   </new-layout>
 </template>
-<style scoped type="text/less" lang="less">
-  /deep/.van-rate__item {
-    width: 30px!important;
-    margin-left: 10px;
-  }
-</style>
 <style scoped type="text/scss" lang="scss">
   .drug-appraise-create {
     &__part-2 {
@@ -68,7 +58,7 @@
       padding: 20px;
       &__header {
         span {
-          font-size: 26px;
+          font-size: 30px;
           font-family: HiraginoSansGB-W3;
           font-weight: normal;
           color: rgba(51, 51, 51, 1);
@@ -79,12 +69,13 @@
         &__item {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           margin-top: 20px;
           &-rate {
             margin-left: 30px;
           }
           &-name {
-            font-size: 25px;
+            font-size: 30px;
             font-family: HiraginoSansGB-W3;
             font-weight: normal;
             color: rgba(102, 102, 102, 1);
@@ -116,6 +107,8 @@
             outline: none;
             padding: 40px;
             font-size: 30px;
+            -webkit-appearance: none;
+            border: none;
             &::placeholder {
               font-size: 26px;
               font-family: HiraginoSansGB-W3;
