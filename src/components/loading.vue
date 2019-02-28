@@ -30,7 +30,6 @@
     right: 0;
     width: 720px;
     height: 100vh;
-    background-color: rgba(0,0,0,.5);
     display: flex;
     justify-content: center;
     align-items: center;
