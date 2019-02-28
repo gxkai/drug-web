@@ -60,6 +60,7 @@ import { Step,
   Collapse,
   CollapseItem,
   Uploader,
+  Tag,
   Picker } from 'vant';
 import router from './router';
 import Navigation from 'vue-navigation';
@@ -104,6 +105,7 @@ Vue.use(Actionsheet).use(GoodsAction)
   .use(Picker)
   .use(Step)
   .use(Steps)
+  .use(Tag)
   .use(Lazyload, {
     preLoad: 1,
     error: require('./assets/image/lazyLoad/default.png'),

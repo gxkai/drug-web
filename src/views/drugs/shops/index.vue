@@ -40,7 +40,7 @@
         </div>
         <van-tabs v-model="active">
           <van-tab title="商家报价">
-            <div class="drugs_one" v-for="(shop,index) in shops" :key="index" @click="linkToShopDrugSpec(shop.shopDrugId)">
+            <!--<div class="drugs_one" v-for="(shop,index) in shops" :key="index" @click="linkToShopDrugSpec(shop.shopDrugId)">
               <p>
                 <span>{{shop.name}}</span>
                 <span> &yen;{{shop.price}}</span>
@@ -55,6 +55,29 @@
               <div class="drugs_extract">
                 <span class="rx-since">可自提</span>
                 <span class="rx-delivery" v-if="shop.distribution==true && shop.shopDistance < shop.distance">可配送</span>
+              </div>
+            </div>-->
+            <div class="shop-price">
+              <div v-for="(shop,index) in shops" :key="index" @click="linkToShopDrugSpec(shop.shopDrugId)">
+                <new-white-space/>
+                <div class="shop-price__item">
+                  <div class="shop-price__item1">
+                    <span>{{shop.name}}</span>
+                    <span> &yen;{{shop.price}}</span>
+                  </div>
+                  <div class="shop-price__item2">
+                    <van-icon name="ditu" color="#F60000" size="3em"></van-icon>
+                    <span class="shop-price__item2__address van-ellipsis">地址：{{shop.address}}</span>
+                    <span class="shop-price__item2__distance">{{shop.distance | meter}}</span>
+                  </div>
+                  <div class="shop-price__item3">
+                    <van-tag type="danger" plain>可自提</van-tag>
+                    <van-tag :type="shop.distribution==true && shop.shopDistance < shop.distance ? 'danger':'' " plain>可配送</van-tag>
+                  </div>
+                  <div class="shop-price__item4">
+                    <van-icon name="gouwuche3" color="#F60000" size="4em" @click.stop="goCar(shop)"></van-icon>
+                  </div>
+                </div>
               </div>
             </div>
           </van-tab>
@@ -107,7 +130,7 @@
             </div>
           </van-tab>
           <van-tab title="注意事项">
-            <div class="drugs-attention">
+            <div>
               <!--<p>1、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>-->
               <!--<p>2、 如眼睑发肿、结膜红斑,发生率低于3%。 </p>-->
               <!--<p>3、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>-->
@@ -115,24 +138,24 @@
             </div>
           </van-tab>
           <!--<van-tab title="药品评价">-->
-            <!--<div class="appraise">-->
-              <!--<div class="appraise-title">-->
-                <!--<div class="appraise-title-right">-->
-                  <!--<div class="text-l-25">-->
-                    <!--共有{{list.length}}位网友评论-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<van-pull-refresh v-model="isLoading" @refresh="onRefresh">-->
-                <!--<van-list-->
-                  <!--v-model="loading"-->
-                  <!--:finished="finished"-->
-                  <!--@load="onLoad">-->
-                  <!--<new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>-->
-                  <!--<new-no-data v-if="finished"></new-no-data>-->
-                <!--</van-list>-->
-              <!--</van-pull-refresh>-->
-            <!--</div>-->
+          <!--<div class="appraise">-->
+          <!--<div class="appraise-title">-->
+          <!--<div class="appraise-title-right">-->
+          <!--<div class="text-l-25">-->
+          <!--共有{{list.length}}位网友评论-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--<van-pull-refresh v-model="isLoading" @refresh="onRefresh">-->
+          <!--<van-list-->
+          <!--v-model="loading"-->
+          <!--:finished="finished"-->
+          <!--@load="onLoad">-->
+          <!--<new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>-->
+          <!--<new-no-data v-if="finished"></new-no-data>-->
+          <!--</van-list>-->
+          <!--</van-pull-refresh>-->
+          <!--</div>-->
           <!--</van-tab>-->
           <!--<van-tab title="组合推荐">内容 4</van-tab>-->
         </van-tabs>
@@ -353,43 +376,68 @@
   };
 </script>
 
-<style type="text/scss" lang="scss">
-  * {
-    margin: 0px;
-    padding: 0px;
+<style scoped type="text/scss" lang="scss">
+  /deep/ .van-tabs {
+    &__wrap {
+      height: 100px !important;
+    }
+    &--line {
+      padding-top: 100px;
+    }
+    .van-tab {
+      color: black !important;
+      &--active {
+        color: $themeColor !important;
+      }
+      span {
+        line-height: 100px !important;
+        font-size: 25px !important;
+      }
+    }
+  }
+  /deep/ .van-tag {
+    font-size: 20px!important;
+    padding: 5px 10px;
+    margin-left: 10px;
   }
 
-  #drug_body {
-    background: #ffffff !important;
-  }
-
-  .rx-delivery {
-    font-size: 20px;
-    width: 82px;
-    height: 33px;
-    background: rgba(255, 255, 255, 1);
-    border: 1px solid $themeColor !important;
-    border-radius: 7px;
-    display: inline-block;
-    color: $themeColor !important;
-    text-align: center;
-    line-height: 33px;
-    margin-right: 15px;
-    margin-left: 15px;
-  }
-
-  .rx-since {
-    font-size: 20px;
-    width: 82px;
-    height: 33px;
-    background: rgba(255, 255, 255, 1);
-    border: 1px solid $themeColor !important;
-    border-radius: 7px;
-    display: inline-block;
-    color: $themeColor !important;
-    text-align: center;
-    line-height: 33px;
-    margin-right: 15px;
+  .shop-price {
+    &__item {
+      padding: 10px 20px;
+      display: grid;
+      grid-template-columns: 600px auto;
+      background-color: white;
+    }
+    &__item1 {
+      grid-column: 1/3;
+      display: flex;
+      justify-content: space-between;
+      * {
+        font-size: 25px;
+      }
+    }
+    &__item2 {
+      padding: 10px 0;
+      grid-column: 1/2;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      &__address {
+        font-size: 25px;
+        width: 400px;
+      }
+      &__distance {
+        font-size: 25px;
+      }
+    }
+    &__item3 {
+      grid-column: 1/2;
+      padding: 10px;
+    }
+    &__item4 {
+      grid-column: 2/3;
+      grid-row: 2/4
+    }
   }
 
   .drugs-shops__top {
@@ -496,7 +544,8 @@
         }
       }
       &__approve {
-
+        display: flex;
+        align-items: center;
         margin-left: 15px;
         i {
           width: 130px;
@@ -512,7 +561,6 @@
           width: 550px;
           color: #666666;
         }
-
       }
       &__instructions {
         text-align: center;
@@ -798,7 +846,6 @@
 
   .drugs_one {
     margin-top: 10px;
-
     p {
       span {
         font-size: 25px;
@@ -843,7 +890,6 @@
     margin-left: 15px;
     margin-top: 15px;
     overflow: hidden;
-
   }
 
   .drugs-attention {
@@ -913,7 +959,6 @@
 
   .drugs_one {
     padding: 20px;
-    height: 200px;
   }
 
   .drug-info {
@@ -1242,8 +1287,9 @@
       }
     }
   }
-  .drug_img{
+
+  .drug_img {
     width: 90%;
     margin-left: 5%;
-   }
+  }
 </style>

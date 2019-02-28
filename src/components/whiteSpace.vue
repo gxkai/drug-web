@@ -13,12 +13,16 @@
     props: {
       size: {
         default: 1
+      },
+      color: {
+        default: '#f5f5f5'
       }
     },
     data() {
       return {
         styleObject: {
-          marginTop: `${this.size}em`
+          marginTop: `${this.size}em`,
+          backgroundColor: `${this.color}`
         }
       };
     },

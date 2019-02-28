@@ -11,84 +11,55 @@
     </template>
     <template slot="center">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <div class="cart-list">
+        <div class="cart">
+          <new-white-space/>
           <new-no-data v-if="cartShops.length === 0"></new-no-data>
           <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
-            <div class="cart-list-shop"
-                 @click="linkToShopView(cartShop.id)">
+            <div class="shop"  @click="linkToShopView(cartShop.id)">
               <van-icon name="yaodian" size="4em"></van-icon>
-              <div class="cart-list-shop_name" v-text="cartShop.shopName"></div>
+              <span class="shop__name" v-text="cartShop.shopName"></span>
             </div>
             <div v-for="(cartRx, cartRxIndex) in cartShop.rxs" :key="cartRxIndex">
-              <div class="cart-list-rx"
-                   v-if="isRx(cartRx.rxId)">
-                <div class="cart-list-rx-left">
-                  <div class="cart-list-rx-left_radio"
-                       @click.stop="onRadio(RX,cartShop,cartRx)">
-                    <new-radio :radio="cartRx.radio" size="3em"/>
-                  </div>
+              <div class="rx" v-if="isRx(cartRx.rxId)">
+                <div class="rx__left">
+                  <new-radio :radio="cartRx.radio" size="2.5em"  @click.native.stop="onRadio(RX,cartShop,cartRx)"/>
                   <van-icon name="chufangdanluru" size="4em"></van-icon>
-                  <div class="cart-list-rx-left_name">
-                    处方单
-                  </div>
                 </div>
-                <div class="cart-list-rx-right"
-                     @click="linkToRxView(cartRx.rxId)">
+                <div @click="linkToRxView(cartRx.rxId)" class="rx__name">
                   查看处方&gt;
                 </div>
               </div>
-              <div class="cart-list-rx"
-                   v-else>
-                <div class="cart-list-rx-left">
-                  <div class="cart-list-rx-left_radio"
-                       @click.stop="onRadio(RX,cartShop,cartRx)">
-                    <new-radio :radio="cartRx.radio" size="3em"/>
-                  </div>
+              <div class="rx" v-else>
+                <div class="rx__left">
+                  <new-radio :radio="cartRx.radio" size="2.5em" @click.native.stop="onRadio(RX,cartShop,cartRx)"/>
                   <van-icon name="jisongchufangdan" size="4em"></van-icon>
-                  <div class="cart-list-rx-left_name">
-                    非处方单
-                  </div>
                 </div>
               </div>
-              <div class="cart-list-drugs">
-                  <new-swipe-cell class="cart-list-drugs-item"  v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
+              <div class="drug">
+                  <new-swipe-cell   v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
                        :key="cartDrugIndex" @click-right = "onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">
-                    <div class="cart-list-drugs-item-left">
-                      <div class="cart-list-drugs-item-left_radio"
-                           @click.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)">
-                        <new-radio :radio="cartDrug.radio" size="3em"/>
+                    <div class="drug__item">
+                      <div class="drug__item1">
+                        <new-radio :radio="cartDrug.radio" size="2.5em"  @click.native.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)"/>
                       </div>
-                      <div class="cart-list-drugs-item-left_logo"
-                           @click="linkToShopDrugSpec(cartDrug.id)">
-                        <div class="rx_mark"
-                             v-if="!cartDrug.otc">
-                          处
-                        </div>
+                      <div class="drug__item2" @click="linkToShopDrugSpec(cartDrug.id)">
+                        <div class="drug__image">
+                        <van-tag type="danger" round v-if="!cartDrug.otc" class="drug__tag">处</van-tag>
                         <img v-lazy="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
-                      </div>
-                    </div>
-                    <div class="cart-list-drugs-item-right">
-                      <div>
-                        <div class="cart-list-drugs-item-right_name"  @click="linkToShopDrugSpec(cartDrug.id)">
-                          {{cartDrug.name}}
-                        </div>
-                        <div class="cart-list-drugs-item-right_spec"  @click="linkToShopDrugSpec(cartDrug.id)">
-                          规格：{{cartDrug.spec}}
                         </div>
                       </div>
-                      <div>
-                        <div class="cart-list-drugs-item-right_price"  @click="linkToShopDrugSpec(cartDrug.id)">
-                          &yen;{{cartDrug.price}}
-                        </div>
-                        <div>
-                      <span class="cart-list-drugs-item-right_quantity"
-                            v-if="isRx(cartRx.rxId)">x{{cartDrug.quantity}}</span>
-                          <new-stepper
-                            v-model="cartDrug.quantity"
-                            v-on:change="changeQuantity(cartDrug)"
-                            v-else
-                          />
-                        </div>
+                      <div class="drug__item3" @click="linkToShopDrugSpec(cartDrug.id)">
+                        <div class="drug__name">{{cartDrug.name}}</div>
+                        <div class="drug__spec"> 规格：{{cartDrug.spec}}</div>
+                      </div>
+                      <div class="drug__item4">
+                        <span class="drug__price"> &yen;{{cartDrug.price}}</span>
+                        <span v-if="isRx(cartRx.rxId)" class="drug__quantity">x{{cartDrug.quantity}}</span>
+                        <new-stepper
+                          v-model="cartDrug.quantity"
+                          v-on:change="changeQuantity(cartDrug)"
+                          v-else
+                        />
                       </div>
                     </div>
                     <template slot="right">
@@ -97,6 +68,7 @@
                   </new-swipe-cell>
               </div>
             </div>
+            <new-white-space/>
             <van-submit-bar
               :price="cartShop.allPrice*100"
               :button-text="'结算('+cartShop.allQuantity+')'"
@@ -138,99 +110,96 @@
   .van-tabbar-item--active {
     color: $themeColor !important;
   }
-  .cart {
-    &-list {
-      width: 720px;
-      margin-top: 20px;
-      &-shop {
-        width: 720px;
-        padding: 20px 20px;
-        display: flex;
-        background-color: white;
-        &_name {
-          font-size: 30px;
-          align-self: flex-end;
-        }
-      }
-      &-rx {
-        width: 720px;
-        padding: 20px 20px;
-        display: flex;
-        align-items: center;
-        background-color: white;
-        justify-content: space-between;
-        &-left {
-          display: flex;
-          align-items: center;
-          &_name {
-            font-size: 30px;
-            align-self: flex-end;
-          }
-        }
-        &-right {
-          font-size: 30px;
-          color: $themeColor;
-        }
-      }
-      &-drugs {
-        width: 720px;
-        &-item {
-          width: 720px;
-          display: flex;
-          background-color: #f5f5f5;
-          margin-bottom: 10px;
-          padding-left: 20px;
-          &-left {
-            display: flex;
-            &_logo {
-              padding: 20px;
-              img {
-                width: 200px;
-                height: 200px;
-              }
-            }
-          }
-          &-right {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 430px;
-            & > div {
-              &:nth-child(1) {
-                & > div {
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  -webkit-line-clamp: 2;
-                  line-clamp: 2;
-                }
-              }
-              &:nth-child(2) {
-                display: flex;
-                justify-content: space-between;
-              }
-            }
-            &_name {
-              font-size: 30px;
-            }
-            &_spec {
-              font-size: 25px;
-              color: #999999;
-            }
-            &_price {
-              font-size: 30px;
-              color: $themeColor;
-            }
-            &_quantity {
-              font-size: 30px;
-              color: #999999;
-            }
-          }
-        }
+  /deep/ .van-tag {
+    font-size: 20px!important;
+    padding: 5px 20px;
+    margin-left: 10px;
+  }
+  /**
+  药品标签
+   */
+  .drug{
+    &__tag {
+      position: absolute;
+      top: 0;
+    }
+    &__image {
+      position: relative;
+      img {
+        width: 180px;
       }
     }
-    .van-submit-bar {
-      bottom: 100px;
+    &__name {
+      font-size: 30px;
+    }
+    &__spec {
+      font-size: 25px;
+      color: #999999;
+    }
+    &__price {
+      font-size: 30px;
+      color: $themeColor;
+    }
+    &__quantity {
+      font-size: 30px;
+      color: #999999;
+    }
+    &__item {
+      width: 720px;
+      padding: 5px 20px;
+      display: grid;
+      grid-template-columns: 50px 200px auto;
+      grid-template-rows: 180px auto;
+    }
+    &__item1 {
+      grid-row: 1/3;
+      grid-column: 1/2;
+      display: flex;
+      align-items: center;
+    }
+    &__item2 {
+      grid-row: 1/3;
+      grid-column: 2/3;
+      display: flex;
+      align-items: center;
+    }
+    &__item3 {
+      grid-row: 1/2;
+      grid-column: 3/4;
+    }
+    &__item4 {
+      grid-row: 2/3;
+      grid-column: 3/4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  /**
+  药店标签
+   */
+  .shop {
+    padding: 5px 20px;
+    display: flex;
+    align-items: flex-end;
+    &__name {
+      font-size: 30px;
+    }
+  }
+  /**
+  处方标签
+   */
+  .rx {
+    padding: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__left {
+      display: flex;
+      align-items: flex-end;
+    }
+    &__name {
+      font-size: 25px;
     }
   }
 </style>
