@@ -44,7 +44,7 @@
     top: 1px;
     color:#fff;
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
     line-height: 248px;
     font-weight: 100;
   }
