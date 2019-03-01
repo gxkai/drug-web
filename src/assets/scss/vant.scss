@@ -55,6 +55,12 @@
       font-weight:normal!important;
       color: #999999!important;
     }
+    span {
+      overflow: hidden!important;
+      text-overflow: ellipsis!important;
+      white-space: nowrap!important;
+      display: block!important;
+    }
   }
   &__right-icon {
     line-height: 80px!important;

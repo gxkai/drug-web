@@ -358,6 +358,7 @@
           formId: this.formId,
           keyword: this.keyword
         };
+        this.$loading();
         this.names = await this.$http.get('/drugs/name', params);
         this.namesResult = [];
       },
@@ -369,6 +370,7 @@
           formId: this.formId,
           keyword: this.keyword
         };
+        this.$loading();
         this.origins = await this.$http.get('/origins', params);
         this.originsResult = [];
       },
@@ -380,6 +382,7 @@
           formId: this.formId,
           keyword: this.keyword
         };
+        this.$loading();
         this.specs = await this.$http.get('/specs', params);
         this.specsResult = [];
       },
@@ -391,6 +394,7 @@
           specId: this.specId,
           keyword: this.keyword
         };
+        this.$loading();
         this.forms = await this.$http.get('/forms', params);
         this.formsResult = [];
       },
@@ -402,11 +406,6 @@
   };
 </script>
 <style scope type="text/scss" lang="scss">
-  /deep/.van-cell__value {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
   .red{
     color: $themeColor;
   }
@@ -416,7 +415,7 @@
   .drugs {
     &--popup {
       height: 200vh;
-      width: 50vw;
+      width: 80vw;
       &--bottom {
         position: absolute;
         bottom: 100px;
