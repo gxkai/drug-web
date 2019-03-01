@@ -398,6 +398,9 @@
       grid-column: 1/3;
       display: flex;
       justify-content: space-between;
+      &>span:nth-child(2) {
+        color: $themeColor;
+      }
       * {
         font-size: 25px;
       }
