@@ -6,16 +6,38 @@
         left-arrow
         @click-left="$router.go(-1)"
       />
-      <new-collect-tab :state.sync="state"></new-collect-tab>
     </template>
     <template slot="center">
-      <keep-alive>
-        <component :is="component"></component>
-      </keep-alive>
+      <van-tabs v-model="active">
+        <van-tab title="药品">
+          <component is="drugs"></component>
+        </van-tab>
+        <van-tab title="药房">
+          <component is="shops"></component>
+        </van-tab>
+      </van-tabs>
     </template>
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
+  /deep/ .van-tabs {
+    &__wrap {
+      height: 100px !important;
+    }
+    &--line {
+      padding-top: 100px;
+    }
+    .van-tab {
+      color: black !important;
+      &--active {
+        color: $themeColor !important;
+      }
+      span {
+        line-height: 100px !important;
+        font-size: 25px !important;
+      }
+    }
+  }
 </style>
 
 <script>
@@ -23,24 +45,14 @@
   import shops from '../../views/collects/shops';
   export default {
     name: 'collects',
+    data() {
+      return {
+        active: 0
+      };
+    },
     components: {
       drugs,
       shops
-    },
-    computed: {
-      component() {
-        switch (this.state) {
-          case 1:
-            return shops;
-          default:
-            return drugs;
-        }
-      }
-    },
-    data() {
-      return {
-        state: 0
-      };
     },
     created() {
     },

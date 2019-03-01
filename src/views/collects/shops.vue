@@ -1,27 +1,24 @@
 <template>
-  <div class="collect-shops">
+  <div class="shops">
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list
         v-model="loading"
         :finished="finished"
         @load="onLoad">
-        <div
-          class="collect-shops--item"
-          v-for="item in list"
-          :key="item.id"
-          @click="linkToShopView(item.id)"
+        <div class="item"
+             v-for="(item,index) in list" :key="index"
+             @click="linkToShopView(item.id)"
         >
-          <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')"
-               class="collect-shops--item--logo"
-          >
-          <div
-            class="collect-shops--item__right"
-          >
+          <div class="item1">
+            <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')"
+            >
+          </div>
+          <div class="item2">
             <div>
-              <span>{{item.name}}</span>
+              <span class="name">{{item.name}}</span>
             </div>
             <div>
-              <span>{{item.area}} {{item.address}}</span>
+              <span class="area">{{item.area}}{{item.address}}</span>
             </div>
           </div>
         </div>
@@ -31,48 +28,32 @@
   </div>
 </template>
 <style scoped type="text/scss" lang="scss">
-  .collect-shops {
-    &--item {
-      display: flex;
-      padding: 13px 20px;
-      background-color: white;
+  .shops {
+    .item {
       margin-top: 20px;
-      &--logo {
-        width: 100%;
-        height: 100%;
-        flex: .6;
-      }
-      &__right {
-        margin-left: 20px;
+      padding: 20px;
+      background-color: white;
+      display: grid;
+      grid-template-columns: 300px auto;
+      .item1 {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         justify-content: center;
-        &>div {
-          width: 400px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          line-clamp: 2;
-          -webkit-box-orient: vertical;
-          padding-top: 15px;
-
-          &:nth-child(1) {
-            span {
-              font-size:28px;
-              font-family:HiraginoSansGB-W3;
-              font-weight:normal;
-              color:rgba(51,51,51,1);
-            }
-          }
-          &:nth-child(2) {
-            span {
-              font-size:25px;
-              font-family:HiraginoSansGB-W3;
-              font-weight:normal;
-              color:rgba(153,153,153,1);
-            }
-          }
+        img {
+          width: 200px;
+          height: 200px;
+        }
+      }
+      .item2 {
+        .name{
+          font-size:28px;
+          font-weight:normal;
+          color:rgba(51,51,51,1);
+        }
+        .area {
+          font-size:25px;
+          font-weight:normal;
+          color:rgba(153,153,153,1);
         }
       }
     }

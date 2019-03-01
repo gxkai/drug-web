@@ -1,33 +1,30 @@
 <template>
-  <div class="collect-drugs">
+  <div class="drugs">
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list
         v-model="loading"
         :finished="finished"
         @load="onLoad">
-        <div
-        class="collect-drugs--item"
-        v-for="item in list"
-        :key="item.shopDrugId"
-        @click="linkToShopDrugSpec(item.shopDrugId)"
+        <div class="item"
+             v-for="(item,index) in list" :key="index"
+             @click="linkToShopDrugSpec(item.shopDrugId)"
         >
-        <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')"
-        class="collect-drugs--item--logo"
-        >
-        <div
-        class="collect-drugs--item__right"
-        >
-          <div>
-          <span>[{{item.name}}]</span>
-          <span>({{item.spec}})</span>
+          <div class="item1">
+            <img v-lazy="getImgURL(item.fileId, 'LARGE_LOGO')"
+            >
           </div>
-          <div>
-            <span>商家&#58;{{item.shopName}}</span>
+          <div class="item2">
+            <div>
+              <span class="name">[{{item.name}}]</span>
+              <span class="spec">({{item.spec}})</span>
+            </div>
+            <div>
+              <span class="shopName">商家&#58;{{item.shopName}}</span>
+            </div>
+            <div>
+              <span class="price">&yen;{{toFixedTwo(item.price)}}</span>
+            </div>
           </div>
-          <div>
-            <span>&yen;{{toFixedTwo(item.price)}}</span>
-          </div>
-        </div>
         </div>
         <new-no-data v-show="finished === true"></new-no-data>
       </van-list>
@@ -35,54 +32,37 @@
   </div>
 </template>
 <style scoped type="text/scss" lang="scss">
-  .collect-drugs {
-    &--item {
-      display: flex;
-      padding: 10px 20px;
-      background-color: white;
+  .drugs {
+    .item {
       margin-top: 20px;
-      &--logo {
-        width: 100%;
-        height: 100%;
-        flex: .6;
+      padding: 20px;
+      background-color: white;
+      display: grid;
+      grid-template-columns: 300px auto;
+      .item1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 200px;
+          height: 200px;
+        }
       }
-      &__right {
-        margin-left: 20px;
-        &>div {
-          &:nth-child(1) {
-            width: 400px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            -webkit-box-orient: vertical;
-            padding-top: 15px;
-            span {
-              font-size:28px;
-              font-family:HiraginoSansGB-W3;
-              font-weight:normal;
-              color:rgba(51,51,51,1);
-            }
-          }
-          &:nth-child(2) {
-            span {
-              font-size:25px;
-              line-height: 50px;
-              font-family:HiraginoSansGB-W3;
-              font-weight:normal;
-              color:rgba(153,153,153,1);
-            }
-          }
-          &:nth-child(3) {
-            margin-top: 30px;
-            span {
-              font-size:28px;
-              font-family:HiraginoSansGB-W3;
-              font-weight:normal;
-              color:$themeColor;
-            }
-          }
+      .item2 {
+        .name, .spec {
+          font-size:28px;
+          font-weight:normal;
+          color:rgba(51,51,51,1);
+        }
+        .price {
+          font-size:28px;
+          font-weight:normal;
+          color:$themeColor;
+        }
+        .shopName {
+          font-size:25px;
+          font-weight:normal;
+          color:rgba(153,153,153,1);
         }
       }
     }
