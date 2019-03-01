@@ -30,6 +30,7 @@ axios.interceptors.response.use(
     return response;
   },
   error => {
+    _this.hideLoading();
     if (error.response) {
       switch (error.response.status) {
         case 401:

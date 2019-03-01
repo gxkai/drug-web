@@ -34,7 +34,7 @@
           <div class="shopDrug__content__part-2">
             <div class="shopDrug__content__part-2__item">
               <span>国药准字:&nbsp;&nbsp;</span>
-              <span>{{shopDrug.sfda}}</span>
+              <span>{{shopDrug.sfda||'暂无'}}</span>
             </div>
             <div class="shopDrug__content__part-2__item">
               <span>库存:&nbsp;&nbsp; </span>
@@ -152,11 +152,11 @@
           <van-goods-action-mini-btn :icon="collected === true ? 'shoucang1':'shoucang'" text="收藏" :style="{color: collected === true ? 'red': ''}"
                                      @click="onCollect"/>
           <van-goods-action-big-btn text="加入购物车"
-                                    :style="{backgroundColor:shopDrug.otc===false?'gray':'#f85',borderColor:shopDrug.otc===false?'gray':'#ff976a'}"
-                                    @click="shopDrug.otc===false? '' : show=true;type=0"/>
+                                    :style="{backgroundColor:shopDrug.otc===true && shopDrug.stock > 0?'#f85':'gray',borderColor:shopDrug.otc===true && shopDrug.stock > 0?'#ff976a':'gray'}"
+                                    @click="onShow(0)"/>
           <van-goods-action-big-btn text="立即购买" primary
-                                    :style="{backgroundColor:shopDrug.otc===false?'gray':'#f44',borderColor:shopDrug.otc===false?'gray':'#f44'}"
-                                    @click="shopDrug.otc===false? '' : show=true;type=1"/>
+                                    :style="{backgroundColor:shopDrug.otc===true && shopDrug.stock > 0?'#f44':'gray',borderColor:shopDrug.otc===true && shopDrug.stock > 0?'#f44':'gray'}"
+                                    @click="onShow(1)"/>
         </van-goods-action>
       </template>
     </new-layout>
@@ -188,6 +188,7 @@
               v-model="number"
               :min="1"
               :step="1"
+              :max="shopDrug.stock"
             />
           </div>
         </div>
@@ -515,6 +516,35 @@
     mounted() {
     },
     methods: {
+      onShow(type) {
+        if (this.shopDrug.otc && this.shopDrug.stock > 0) {
+          this.show = true;
+          this.type = type;
+        }
+        if (this.shopDrug.otc === false) {
+          switch (type) {
+            case 0:
+              this.$toast('处方药无法加入购物车');
+              break;
+            case 1:
+              this.$toast('处方药无法立即购买');
+              break;
+            default:
+              break;
+          }
+        } else if (this.shopDrug.stock === 0) {
+          switch (type) {
+            case 0:
+              this.$toast('库存不足，无法加入购物车');
+              break;
+            case 1:
+              this.$toast('库存不足，无法立即购买');
+              break;
+            default:
+              break;
+          }
+        }
+      },
       onChat() {
         this.$dialog.confirm({ message: `打电话给${this.shopDrug.phone}` }).then(() => {
           window.location.href = `tel:${this.shopDrug.phone}`;

@@ -402,6 +402,11 @@
   };
 </script>
 <style scope type="text/scss" lang="scss">
+  /deep/.van-cell__value {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
   .red{
     color: $themeColor;
   }
