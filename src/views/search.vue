@@ -145,6 +145,8 @@
             arr.pop();
           }
           arr.unshift(this.keyword);
+          let set = new Set(arr);
+          arr = Array.from(set);
           setDrugSearchHisWords(arr);
         } else {
           let arr = [this.keyword];
