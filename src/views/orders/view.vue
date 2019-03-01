@@ -52,7 +52,7 @@
             <li>收货地址：<span class="order_view-address-detail">{{order.consignee}}</span></li>
             <li>收货电话：<span class="order_view-address-detail">{{order.phone}}</span></li>
             <li>配送方式：<span class="order_view-address-detail">商家配送</span></li>
-         </ul>
+          </ul>
         </div>
 
 
@@ -75,13 +75,13 @@
           <div class="order_view-button activeButton"
                @click="onPay()"
                v-if="order.state == 'TO_PAY'"
-               >
+          >
             我要付款
           </div>
           <div class="order_view-button activeButton"
                @click="onConfirm()"
                v-if="order.state == 'TO_RECEIVED'"
-               >
+          >
             确认收货
           </div>
           <div class="order_view-button"
@@ -120,13 +120,11 @@
           </div>
         </van-step>
       </van-steps>
-
-
-   </van-popup>
-    <div class="closed"  v-model="popup">
+    </van-popup>
+    <div class="closed" v-model="popup">
       <van-icon name="guanbi2" size="3em" @click="popup=!popup" class="guanbi2"/>
     </div>
- </div>
+  </div>
 
 </template>
 
@@ -134,35 +132,42 @@
   .step {
     display: flex;
     justify-content: space-between;
-    *{
+    * {
       font-size: 25px;
     }
   }
+
   .activeButton {
-    color: $themeColor!important;
-    border-color: $themeColor!important;
+    color: $themeColor !important;
+    border-color: $themeColor !important;
   }
-  [class*=van-hairline]::after{
-    border:none!important;
+
+  [class*=van-hairline]::after {
+    border: none !important;
   }
-  .closed{
+
+  .closed {
     text-align: center;
   }
-  .guanbi2{
+
+  .guanbi2 {
     position: absolute;
     color: white;
     z-index: 99999;
-    top:1100px;
+    top: 1100px;
     text-align: center;
     margin: auto;
   }
-  .van-step__circle-container  .van-icon{
-    font-size: 35px!important;
+
+  .van-step__circle-container .van-icon {
+    font-size: 35px !important;
   }
-  .van-step--vertical.van-step--process .van-icon-checked{
-    font-size: 26px!important;
+
+  .van-step--vertical.van-step--process .van-icon-checked {
+    font-size: 26px !important;
     margin-right: 4px;
   }
+
   .van-steps {
     width: 616px;
     height: 704px;
@@ -188,7 +193,7 @@
     &-state {
       position: relative;
       width: 100%;
-      height:120px;
+      height: 120px;
       background: $themeColor;
       font-weight: bold;
       font-size: 35px;
@@ -272,46 +277,46 @@
       height: 500px;
       margin: 0 110px;
     }
-    &-money{
+    &-money {
       background: white;
       padding-top: 20px;
       border-top: 10px solid #f3f3f3;
-      ul{
-        li{
+      ul {
+        li {
           font-size: 24px;
           text-indent: 22px;
           height: 35px;
           line-height: 35px;
-          span{
+          span {
             font-size: 24px;
             color: $themeColor;
           }
         }
       }
     }
-    &-money_red{
-      color:$themeColor;
+    &-money_red {
+      color: $themeColor;
     }
-    &-address{
+    &-address {
       background: white;
       text-indent: 20px;
-      ul{
+      ul {
         width: 720px;
-        border-top:10px solid #f3f3f3;
-        li{
+        border-top: 10px solid #f3f3f3;
+        li {
           font-size: 24px;
           height: 35px;
           line-height: 35px;
           color: #666666;
-         }
-        li:first-child{
+        }
+        li:first-child {
           height: 55px;
           line-height: 55px;
           font-weight: bold;
           color: #333333;
         }
       }
-      &-detail{
+      &-detail {
         float: right;
         font-size: 24px;
         margin-right: 14px;
@@ -320,12 +325,12 @@
     }
   }
 
-
-  .van-step__title{
-    font-size:50px!important;
+  .van-step__title {
+    font-size: 50px !important;
   }
-  .van-steps .van-icon{
-    font-size: 35px!important;
+
+  .van-steps .van-icon {
+    font-size: 35px !important;
   }
 
 </style>
@@ -344,48 +349,7 @@
           color: '#00ADB3',
           borderColor: '#00ADB3'
         },
-        timeLine: {},
-        stateStyle: '',
-        deliverStyle: {
-          backgroundImage: 'url(' + require('@/assets/image/orderView/toDeliver.png') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100%'
-        },
-        receiveStyle: {
-          backgroundImage: 'url(' + require('@/assets/image/orderView/toReceive.png') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100%'
-        },
-        appraiseStyle: {
-          backgroundImage: 'url(' + require('@/assets/image/orderView/toAppraise.png') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100%'
-        },
-        payStyle: {
-          backgroundImage: 'url(' + require('@/assets/image/orderView/toPay.png') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100%'
-        },
-        refundingStyle: {
-          backgroundImage: 'url(' + require('@/assets/image/orderView/refunding.png') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100%'
-        },
-        completeStyle: {
-          backgroundImage: 'url(' + require('@/assets/image/orderView/complete.png') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100%'
-        },
-        checkStyle: {
-          backgroundImage: 'url(' + require('@/assets/image/orderView/toCheck.png') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100%'
-        },
-        closeStyle: {
-          backgroundImage: 'url(' + require('@/assets/image/orderView/close.png') + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100%'
-        }
+        timeLine: {}
       };
     },
     components: {},
@@ -397,32 +361,11 @@
     },
     methods: {
       async initData() {
+        this.$loading();
         this.order = await this.$http.get(`/orders/${this.orderId}`);
         console.log(this.order);
         this.timeLine = await this.$http.get(`/orders/${this.orderId}/logs`);
         console.log(this.timeLine);
-        this.stateStyle = this.getStateStyle();
-      },
-      getStateStyle() {
-        if (this.order.refundState === 'REFUNDING') {
-          return this.refundingStyle;
-        }
-        switch (this.order.state) {
-          case 'CLOSED':
-            return this.closeStyle;
-          case 'TO_CHECK':
-            return this.checkStyle;
-          case 'TO_PAY':
-            return this.payStyle;
-          case 'TO_APPRAISE':
-            return this.appraiseStyle;
-          case 'TO_RECEIVED':
-            return this.receiveStyle;
-          case 'TO_DELIVERY':
-            return this.deliverStyle;
-          case 'COMPLETED':
-            return this.completeStyle;
-        }
       },
       async onCancel() {
         await this.$http.put(`/orders/${this.order.id}/close`);
