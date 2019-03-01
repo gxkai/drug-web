@@ -56,7 +56,7 @@
                         <span v-if="isRx(cartRx.rxId)" class="drug__quantity">x{{cartDrug.quantity}}</span>
                         <new-stepper
                           v-model="cartDrug.quantity"
-                          v-on:change="changeQuantity(cartDrug)"
+                          v-on:change="changeQuantity(cartDrug, cartShop)"
                           v-else
                         />
                       </div>
@@ -247,8 +247,12 @@
         return sum;
       }
     },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.initData();
+      });
+    },
     created() {
-      this.initData();
     },
     mounted() {
     },
@@ -273,8 +277,9 @@
         });
         this.cartShops = data.cartShops;
       },
-      changeQuantity(cartDrug) {
+      changeQuantity(cartDrug, cartShop) {
         this.$http.put(`/carts/${cartDrug.cartId}?quantity=${cartDrug.quantity}`);
+        this.calculate(cartShop);
       },
       /**
        * 单个删除
@@ -396,7 +401,7 @@
         let isRx = cartShop.rxs.some(rx => {
           return rx.rxId !== '0' && rx.radio === true;
         });
-        this.$toast.loading({duration: 0, forbidClick: true, message: '结算中'});
+        this.$toast.loading({ duration: 0, forbidClick: true, message: '结算中' });
         const data = await this.$http.get(`/orders/cart?cartIds=${cartIds}&isRx=${isRx}`);
         this.$router.push({ name: '/orders/create/fromCart', params: { cartShop: data, isRx: isRx } });
       },
