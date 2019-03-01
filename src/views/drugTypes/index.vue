@@ -121,9 +121,8 @@
     },
     methods: {
       async initData() {
-        this.$toast.loading({duration: 0, forbidClick: true});
+        this.$loading();
         this.list = await this.$http.get('/drugTypes');
-        this.$toast.clear();
       }
     }
   };

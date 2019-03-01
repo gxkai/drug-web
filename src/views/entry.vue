@@ -52,7 +52,6 @@
           setToken(token);
           const account = await this.$http.get('/accounts');
           setAccount(account);
-          this.$toast.clear();
           this.$router.push(`/${this.toPath}`);
         } catch (e) {
           this.$toast('登陆失败');

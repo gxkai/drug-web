@@ -181,7 +181,6 @@
         console.log(account);
         setAccount(account);
         setUsername(this.username);
-        this.$toast.clear();
         this.$router.push(`/home`);
       },
       async register() {

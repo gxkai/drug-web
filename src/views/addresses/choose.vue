@@ -262,7 +262,6 @@
       async getAddresses() {
         this.$toast.loading({ duration: 0, forbidClick: true });
         this.addresses = await this.$http.get('/addresses');
-        this.$toast.clear();
       },
       setPosition(address) {
         const position = {
@@ -299,7 +298,6 @@
         };
         this.$toast.loading({ duration: 0, forbidClick: true });
         const data = await this.$api.getPois(params);
-        this.$toast.clear();
         this.center = data.pois[0].location;
         this.name = data.pois[0].name;
         this.nearbyAddresses = data.pois;
@@ -316,7 +314,6 @@
           this.center = data.pois[0].location;
           this.name = data.pois[0].name;
           this.nearbyAddresses = data.pois;
-          this.$toast.clear();
         });
       }
     }

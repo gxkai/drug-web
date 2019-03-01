@@ -1011,14 +1011,13 @@
         }
       },
       async initData() {
-        this.$toast.loading({ duration: 0, forbidClick: true });
+        this.$loading();
         // 限时抢购
         this.discounts = await this.$http.get('/drugs/discount');
         // 好货推荐
         this.recommends = await this.$http.get('/drugs/recommend');
         // 知识库
         this.repositories = await this.$http.get('/repositories/home');
-        this.$toast.clear();
         if (!this._.isEmpty(this.repositories)) {
           this.startMove();
         }

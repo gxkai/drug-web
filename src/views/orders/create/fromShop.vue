@@ -169,11 +169,9 @@
         if (url === '') {
           this.$toast.loading({ duration: 0, forbidClick: true, message: '支付中...' });
           await this.$http.post('/orders/qy/callback', {orderNo: order.number, insuranceNo: '000001', bankNo: '000000001'});
-          this.$toast.clear();
           this.$router.replace('/orders');
           return;
         }
-        this.$toast.clear();
         window.location.href = url;
       },
       onDeliveryType(item) {

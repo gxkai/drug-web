@@ -426,20 +426,25 @@ export default {
       return `https://api.map.baidu.com/marker?location=${lat},${lng}&title=${name}&content=${address}&output=html&src=webapp.baidu.openAPIdemo  `;
     };
     let tpl;
+    let tplFlag = false;
     /**
      * 加载
      * @returns {*}
      */
-    Vue.prototype.loading = () => {
+    Vue.prototype.$loading = () => {
       var loading = Vue.extend(require('../components/loading.vue').default);
       tpl = new loading().$mount().$el;
       document.body.appendChild(tpl);
+      tplFlag = true;
       return tpl;
     };
     Vue.mixin({
       methods: {
-        hideLoading: function () {
-          document.body.removeChild(tpl);
+        hideLoading() {
+          if (tplFlag) {
+            document.body.removeChild(tpl);
+            tplFlag = false;
+          }
         }
       }
     });

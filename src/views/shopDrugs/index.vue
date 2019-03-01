@@ -525,7 +525,6 @@
         this.$toast.loading({ duration: 0, forbidClick: true });
         this.shopDrug = await this.$http.get(`/shopDrugs/${this.shopDrugId}`);
         this.collected = await this.$http.get(`/collects/drug/one?shopDrugId=${this.shopDrug.id}`);
-        this.$toast.clear();
       },
       async onCollect() {
         let data = {
@@ -569,7 +568,6 @@
           };
           this.$toast.loading({ duration: 0, forbidClick: true });
           const shopDrugOrderDTO = await this.$http.post('orders/shop/preClose', json);
-          this.$toast.clear();
           this.$router.push({ name: '/orders/create/fromShop', params: { orderShopDrugDTO: json, shopDrugOrderDTO: shopDrugOrderDTO } });
         }
       }

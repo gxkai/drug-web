@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getToken, removeToken } from '../storage';
-import { Toast } from 'vant';
+import _this from '../main';
 const qs = require('qs');
 axios.defaults.baseURL = process.env.API_ROOT;
 axios.defaults.timeout = 500000;
@@ -19,10 +19,14 @@ axios.interceptors.request.use(
     return config;
   },
   err => {
+    _this.$toast.clear();
+    _this.hideLoading();
     return Promise.reject(err);
   });
 axios.interceptors.response.use(
   response => {
+    _this.$toast.clear();
+    _this.hideLoading();
     return response;
   },
   error => {
@@ -30,20 +34,20 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           removeToken();
-          Toast('登陆失效，请重新从趣医入口进入');
+          _this.$toast('登陆失效，请重新从趣医入口进入');
           break;
         case 400:
           if (error.response.data.fieldErrors !== undefined && error.response.data.fieldErrors !== null) {
-            Toast(error.response.data.fieldErrors[0].message);
+            _this.$toast(error.response.data.fieldErrors[0].message);
           } else {
-            Toast(`${error.response.data.message}`);
+            _this.$toast(`${error.response.data.message}`);
           }
           break;
         case 500:
-          Toast(`网络繁忙`);
+          _this.$toast(`网络繁忙`);
           break;
         default:
-          Toast('网络异常');
+          _this.$toast('网络异常');
           break;
       }
     }

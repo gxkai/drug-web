@@ -13,7 +13,6 @@
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <div class="cart">
           <new-white-space/>
-          <new-no-data v-if="cartShops.length === 0"></new-no-data>
           <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
             <div class="shop"  @click="linkToShopView(cartShop.id)">
               <van-icon name="yaodian" size="4em"></van-icon>
@@ -259,9 +258,8 @@
         this.isLoading = false;
       },
       async initData() {
-        this.$toast.loading();
+        this.$loading();
         const data = await this.$http.get('/carts');
-        this.$toast.clear();
         data.cartShops.forEach(e => {
           e.allPrice = 0;
           e.allQuantity = 0;
@@ -400,7 +398,6 @@
         });
         this.$toast.loading({duration: 0, forbidClick: true, message: '结算中'});
         const data = await this.$http.get(`/orders/cart?cartIds=${cartIds}&isRx=${isRx}`);
-        this.$toast.clear();
         this.$router.push({ name: '/orders/create/fromCart', params: { cartShop: data, isRx: isRx } });
       },
       /**
