@@ -279,7 +279,7 @@
               @click="linkToShopDrugSpec(recommend.shopDrugId)"
             >
               <div class="home__recomd__goods__div__img">
-                <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
+                <new-rx-image :url="getImgURL(recommend.fileId, 'LARGE_LOGO')" :rx="!recommend.otc"/>
               </div>
               <div class="home__recomd__goods__div__title">
                 {{ recommend.name }}{{ recommend.spec }}
@@ -823,6 +823,7 @@
           }
         }
         &__title {
+          margin-top: 20px;
           font-size: 22px;
           font-weight: normal;
           color: rgba(53, 53, 53, 1);

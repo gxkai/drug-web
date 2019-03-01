@@ -33,8 +33,7 @@
            v-for="item in order.list">
 
         <div class="order_item-content-info-left">
-          <div class="rx_mark" v-if="!item.otc" >处</div>
-          <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
+          <new-rx-image :url="getImgURL(item.fileId,'LARGE_LOGO')" :rx="!item.otc"/>
         </div>
 
         <div class="order_item-content-info-right">
@@ -134,29 +133,15 @@
         }
       }
       &-info {
-        display: flex;
+        display: grid;
+        grid-template-columns: 300px auto;
+        padding: 20px;
         &-left {
-          position: relative;
-          padding: 5px;
-          img {
-            width: 200px;
-            height: 200px;
-            margin-left: 48px;
-          }
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         &-right {
-          padding: 20px 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          & > div {
-            width: 450px;
-            margin-bottom: 50px;
-            &:nth-child(2) {
-              display: flex;
-              justify-content: space-between;
-            }
-          }
           &_name {
             font-size: 30px;
             overflow: hidden;

@@ -19,8 +19,7 @@
                  v-for="drug in list"
                  @click="linkToShopDrugSpec(drug.id)">
               <div class="shop_drugs-list-item-left">
-                <div class="rx_mark" v-if="!drug.otc">处</div>
-                <img v-lazy="getImgURL(drug.fileId,'LARGE_LOGO')">
+                <new-rx-image :url="getImgURL(drug.fileId,'LARGE_LOGO')" :rx="!drug.otc"/>
               </div>
               <div class="shop_drugs-list-item-right">
                 <div class="shop_drugs-list-item-right_name">{{drug.name}}    {{drug.spec}}</div>

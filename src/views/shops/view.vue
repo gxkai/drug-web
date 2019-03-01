@@ -67,10 +67,7 @@
           <div class="shop_view-recommend_list-item"
                v-for="recommend in list"
                @click="linkToShopDrugSpec(recommend.id)">
-            <div class="shop_view-recommend_list-item_logo">
-              <div class="rx_mark" v-if="!recommend.otc">处</div>
-              <img v-lazy="getImgURL(recommend.fileId, 'LARGE_LOGO')"/>
-            </div>
+            <new-rx-image :url="getImgURL(recommend.fileId, 'LARGE_LOGO')" :rx="!recommend.otc" size="large"/>
             <div class="shop_view-recommend_list-item_name">{{recommend.name}}</div>
             <div class="shop_view-recommend_list-item_price">&yen;{{toFixedTwo(recommend.price)}}</div>
           </div>
@@ -186,7 +183,7 @@
       & > div {
         &:nth-child(even) {
           padding: 20px;
-          font-size: 25px;
+          font-size: 25px!important;
         }
         &:nth-child(odd) {
           width: 50px;
@@ -201,6 +198,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       &-item {
+        padding: 10px 0;
         width: 350px;
         margin-bottom: 20px;
         background-color: white;
@@ -269,6 +267,7 @@
     },
     methods: {
       async initData() {
+        this.$loading();
         this.list = await this.$http.get(`/shops/${this.shopId}/drugs/recommend`);
         this.shopInfo = await this.$http.get(`/shops/${this.shopId}`);
         this.collected = await this.$http.get(`/collects/shop/one?shopId=${this.shopId}`);

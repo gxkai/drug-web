@@ -14,14 +14,14 @@
         <div class="cart">
           <new-white-space/>
           <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
-            <div class="shop"  @click="linkToShopView(cartShop.id)">
+            <div class="shop" @click="linkToShopView(cartShop.id)">
               <van-icon name="yaodian" size="4em"></van-icon>
               <span class="shop__name" v-text="cartShop.shopName"></span>
             </div>
             <div v-for="(cartRx, cartRxIndex) in cartShop.rxs" :key="cartRxIndex">
               <div class="rx" v-if="isRx(cartRx.rxId)">
                 <div class="rx__left">
-                  <new-radio :radio="cartRx.radio" size="2.5em"  @click.native.stop="onRadio(RX,cartShop,cartRx)"/>
+                  <new-radio :radio="cartRx.radio" size="2.5em" @click.native.stop="onRadio(RX,cartShop,cartRx)"/>
                   <van-icon name="chufangdanluru" size="4em"></van-icon>
                 </div>
                 <div @click="linkToRxView(cartRx.rxId)" class="rx__name">
@@ -35,36 +35,37 @@
                 </div>
               </div>
               <div class="drug">
-                  <new-swipe-cell   v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
-                       :key="cartDrugIndex" @click-right = "onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">
-                    <div class="drug__item">
-                      <div class="drug__item1">
-                        <new-radio :radio="cartDrug.radio" size="2.5em"  @click.native.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)"/>
-                      </div>
-                      <div class="drug__item2" @click="linkToShopDrugSpec(cartDrug.id)">
-                        <div class="drug__image">
-                        <van-tag type="danger" round v-if="!cartDrug.otc" class="drug__tag">处</van-tag>
-                        <img v-lazy="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
-                        </div>
-                      </div>
-                      <div class="drug__item3" @click="linkToShopDrugSpec(cartDrug.id)">
-                        <div class="drug__name">{{cartDrug.name}}</div>
-                        <div class="drug__spec"> 规格：{{cartDrug.spec}}</div>
-                      </div>
-                      <div class="drug__item4">
-                        <span class="drug__price"> &yen;{{cartDrug.price}}</span>
-                        <span v-if="isRx(cartRx.rxId)" class="drug__quantity">x{{cartDrug.quantity}}</span>
-                        <new-stepper
-                          v-model="cartDrug.quantity"
-                          v-on:change="changeQuantity(cartDrug, cartShop)"
-                          v-else
-                        />
+                <new-swipe-cell v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
+                                :key="cartDrugIndex"
+                                @click-right="onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">
+                  <div class="drug__item">
+                    <div class="drug__item1">
+                      <new-radio :radio="cartDrug.radio" size="2.5em"
+                                 @click.native.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)"/>
+                    </div>
+                    <div class="drug__item2" @click="linkToShopDrugSpec(cartDrug.id)">
+                      <div class="drug__image">
+                        <new-rx-image :url="getImgURL(cartDrug.fileId,'LARGE_LOGO')" :rx="!cartDrug.otc"/>
                       </div>
                     </div>
-                    <template slot="right">
-                      删除
-                    </template>
-                  </new-swipe-cell>
+                    <div class="drug__item3" @click="linkToShopDrugSpec(cartDrug.id)">
+                      <div class="drug__name">{{cartDrug.name}}</div>
+                      <div class="drug__spec"> 规格：{{cartDrug.spec}}</div>
+                    </div>
+                    <div class="drug__item4">
+                      <span class="drug__price"> &yen;{{cartDrug.price}}</span>
+                      <span v-if="isRx(cartRx.rxId)" class="drug__quantity">x{{cartDrug.quantity}}</span>
+                      <new-stepper
+                        v-model="cartDrug.quantity"
+                        v-on:change="changeQuantity(cartDrug, cartShop)"
+                        v-else
+                      />
+                    </div>
+                  </div>
+                  <template slot="right">
+                    删除
+                  </template>
+                </new-swipe-cell>
               </div>
             </div>
             <new-white-space/>
@@ -109,15 +110,11 @@
   .van-tabbar-item--active {
     color: $themeColor !important;
   }
-  /deep/ .van-tag {
-    font-size: 20px!important;
-    padding: 5px 20px;
-    margin-left: 10px;
-  }
+
   /**
   药品标签
    */
-  .drug{
+  .drug {
     &__tag {
       position: absolute;
       top: 0;
@@ -174,6 +171,7 @@
       align-items: center;
     }
   }
+
   /**
   药店标签
    */
@@ -185,6 +183,7 @@
       font-size: 30px;
     }
   }
+
   /**
   处方标签
    */

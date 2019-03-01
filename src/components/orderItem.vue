@@ -27,8 +27,7 @@
       <div class="order_item-content-info"
            v-for="item in order.list" @click="onDetail()">
         <div class="order_item-content-info-left">
-          <div class="rx_mark" v-if="!item.otc">处</div>
-          <img v-lazy="getImgURL(item.fileId,'LARGE_LOGO')">
+          <new-rx-image :url="getImgURL(item.fileId,'LARGE_LOGO')" :rx="!item.otc"/>
         </div>
         <div class="order_item-content-info-right">
           <div>

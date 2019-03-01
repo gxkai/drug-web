@@ -14,11 +14,7 @@
                v-for="cartDrug in cartRx.drugs"
                 @click="linkToShopDrugSpec(cartDrug.id)">
             <div class="close_list-drugs-item-left">
-              <div class="rx_mark"
-               v-if="!cartDrug.otc">
-                处
-              </div>
-              <img v-lazy="getImgURL(cartDrug.fileId,'LARGE_LOGO')">
+              <new-rx-image :url="getImgURL(cartDrug.fileId,'LARGE_LOGO')" :rx="!cartDrug.otc"/>
             </div>
             <div class="close_list-drugs-item-right">
               <div>

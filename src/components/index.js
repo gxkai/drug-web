@@ -54,5 +54,7 @@ export default {
     Vue.component('new-wing-blank', () => import('./wingBlank'));
     // 提交栏
     Vue.component('new-submit-bar', () => import('./submitBar'));
+    // 图片带处方标志
+    Vue.component('new-rx-image', () => import('./rxImage'));
   }
 };

@@ -31,10 +31,7 @@
               {{item.content}}
             </div>
             <div class="drugAppraises--item--drug">
-              <img
-              class="drugAppraises--item--drug--left"
-              v-lazy="getImgURL(item.fileId,'LARGE_LOGO')"
-              >
+              <new-rx-image :url="getImgURL(item.fileId,'LARGE_LOGO')" :rx="!item.otc"/>
               <div
               class="drugAppraises--item--drug__right"
               >
