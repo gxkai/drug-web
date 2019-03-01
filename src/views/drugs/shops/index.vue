@@ -58,7 +58,7 @@
                     <van-tag :type="shop.distribution==true && shop.shopDistance < shop.distance ? 'danger':'' " plain>可配送</van-tag>
                   </div>
                   <div class="shop-price__item4">
-                    <van-icon name="gouwuche3" color="#F60000" size="4em" @click.stop="goCar(shop)"></van-icon>
+                    <van-icon name="gouwuche3" :color="drugInfo.otc&&shop.stock>0?'#F60000':'grey'" size="4em" @click.stop="goCar(shop)"></van-icon>
                   </div>
                 </div>
               </div>
@@ -273,8 +273,14 @@
     },
     methods: {
       goCar(shopDrugInfo) {
-        this.show1 = true;
-        this.shopDrugInfo = shopDrugInfo;
+        if (this.drugInfo.otc && shopDrugInfo.stock > 0) {
+          this.show1 = true;
+          this.shopDrugInfo = shopDrugInfo;
+        } else if (this.drugInfo.otc === false) {
+          this.$toast('处方药无法加入购物车');
+        } else if (shopDrugInfo.stock === 0) {
+          this.$toast('库存不足，无法加入购物车');
+        }
       },
       // onRefresh() {
       //   this.finished = false;
@@ -299,7 +305,7 @@
       //   }
       // },
       async initData() {
-        this.$toast.loading({ duration: 0, forbidClick: true });
+        this.$loading();
         const data = await this.$http.get('/drugs/' + this.drugId);
         this.drugInfo = data;
         this.drugSpecs = data.drugSpecs;
@@ -307,7 +313,6 @@
         this.getShops();
       },
       async getShops() {
-        this.$toast.loading({ duration: 0, forbidClick: true });
         const data = await this.$http.get(`/drugs/${this.drugId}/shops?sort=${this.sort}&lat=${this.currentAddress.lat}&lng=${this.currentAddress.lng}`);
         this.total = data.total;
         this.shops = data.list;

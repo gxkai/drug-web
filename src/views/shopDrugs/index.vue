@@ -552,7 +552,7 @@
         });
       },
       async initData() {
-        this.$toast.loading({ duration: 0, forbidClick: true });
+        this.$loading();
         this.shopDrug = await this.$http.get(`/shopDrugs/${this.shopDrugId}`);
         this.collected = await this.$http.get(`/collects/drug/one?shopDrugId=${this.shopDrug.id}`);
       },
