@@ -110,7 +110,7 @@
       grid-row: 1/2;
       grid-column: 2/3;
       span {
-        font-size: 13px;
+        font-size: 22px;
         font-weight:normal;
         color:rgba(51,51,51,1);
       }
@@ -118,8 +118,9 @@
     .item3 {
       grid-row: 2/3;
       grid-column: 2/3;
+      margin-top: 10px;
       span {
-        font-size:10px;
+        font-size:20px;
         font-weight:normal;
         color:rgba(102,102,102,1);
       }
