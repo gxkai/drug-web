@@ -184,12 +184,7 @@
             购买数量
           </div>
           <div class="shopDrug__popup__part-2__right">
-            <new-stepper
-              v-model="number"
-              :min="1"
-              :step="1"
-              :max="shopDrug.stock"
-            />
+            <new-stepper v-model="number" :min="1" :max="shopDrug.stock"/>
           </div>
         </div>
         <div class="shopDrug__popup__part-3">
