@@ -244,7 +244,7 @@
             </div>
             <div
               class="home__family__div home__family__used"
-              @click="$router.push({name: 'drugs', params: {typeId: 'lks1M2u5SVa216t6x35E3w'}})"
+              @click="$router.push({name: '/drugs', params: {typeId: 'lks1M2u5SVa216t6x35E3w'}})"
             >
               <p class="home__family__div__p">消化不良</p>
               <p class="home__family__div__p1 text-1D63CE">胃肠解痉</p>
