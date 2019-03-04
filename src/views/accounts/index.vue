@@ -483,8 +483,12 @@
         messageCount: 0
       };
     },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.initData();
+      });
+    },
     created() {
-      this.initData();
     },
     mounted() {
     },
