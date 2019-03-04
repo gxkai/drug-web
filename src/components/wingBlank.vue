@@ -12,17 +12,24 @@
     computed: {
     },
     props: {
-      row: {
+      px: {
         default: '2em'
       },
-      column: {
+      py: {
         default: '1em'
+      },
+      mx: {
+        default: '0'
+      },
+      my: {
+        default: '0'
       }
     },
     data() {
       return {
         styleObject: {
-          padding: `${this.column} ${this.row}`
+          padding: `${this.py} ${this.px}`,
+          margin: `${this.my} ${this.mx}`
         }
       };
     },

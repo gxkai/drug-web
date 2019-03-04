@@ -67,7 +67,6 @@
       touchStart(ev) {
         ev = ev || event;
         // tounches类数组，等于1时表示此时有只有一只手指在触摸屏幕
-
         if (ev.touches.length === 1) {
           // 记录开始位置
           this.startX = ev.touches[0].clientX;
@@ -80,10 +79,8 @@
         if (ev.touches.length === 1) {
           // 滑动时距离浏览器左侧实时距离
           this.moveX = ev.touches[0].clientX;
-
           // 起始位置减去 实时的滑动的距离，得到手指实时偏移距离
           this.disX = this.startX - this.moveX;
-          console.log(this.disX);
           // 如果是向右滑动或者不滑动，不改变滑块的位置
           if (this.disX < 0 || this.disX === 0) {
             this.deleteSlider = 'transform:translateX(0px)';
@@ -91,7 +88,6 @@
           } else if (this.disX > 0) {
             // 具体滑动距离我取的是 手指偏移距离*5。
             this.deleteSlider = 'transform:translateX(-' + this.disX * 5 + 'px)';
-
             // 最大也只能等于删除按钮宽度
             if (this.disX * 5 >= wd) {
               this.deleteSlider = 'transform:translateX(-' + wd + 'px)';
@@ -104,9 +100,7 @@
         let wd = this.$refs.remove.offsetWidth;
         if (ev.changedTouches.length === 1) {
           let endX = ev.changedTouches[0].clientX;
-
           this.disX = this.startX - endX;
-          console.log(this.disX);
           // 如果距离小于删除按钮一半,强行回到起点
 
           if ((this.disX * 5) < (wd / 2)) {

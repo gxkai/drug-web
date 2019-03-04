@@ -14,7 +14,7 @@
         <new-white-space/>
         <new-no-data v-if="list.length === 0" name="没有地址数据，点击管理维护地址吧"/>
         <div class="innerRange">
-          <new-wing-blank v-for="(address, index) in innerRanges" :key="index" class="item" row="3em" @click.native="onAddress(address)">
+          <new-wing-blank v-for="(address, index) in innerRanges" :key="index" class="item" px="3em" @click.native="onAddress(address)">
             <div class="item__text">{{address.address}}</div>
             <div class="item__text">{{address.room}}</div>
             <div class="item__text item__text--grey">{{address.consignee}} {{address.phone}}</div>
@@ -22,10 +22,10 @@
         </div>
         <new-white-space/>
         <div class="overRange">
-          <new-wing-blank v-if="overRanges.length > 0" class="title" row="1em">
+          <new-wing-blank v-if="overRanges.length > 0" class="title" px="1em">
             以下地址超出配送范围
           </new-wing-blank>
-          <new-wing-blank v-for="(address, index) in overRanges" :key="index" class="item item--opacity" row="3em" @click.native="tip()">
+          <new-wing-blank v-for="(address, index) in overRanges" :key="index" class="item item--opacity" px="3em" @click.native="tip()">
             <div class="item__text">{{address.address}}</div>
             <div class="item__text">{{address.room}}</div>
             <div class="item__text">{{address.consignee}} {{address.phone}}</div>

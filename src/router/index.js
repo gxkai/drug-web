@@ -311,6 +311,14 @@ const messageRouter = [
       name: '消息列表'
     },
     component: () => import('@/views/messages/index.vue')
+  },
+  {
+    path: '/messages/view',
+    name: '/messages/view',
+    meta: {
+      name: '消息详情'
+    },
+    component: () => import('@/views/messages/view.vue')
   }
 ];
 

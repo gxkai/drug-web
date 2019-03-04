@@ -21,21 +21,21 @@
     </template>
     <template slot="center">
       <div class="wrap">
-        <new-wing-blank class="history" row="1em" column=".5em">
+        <new-wing-blank class="history" px="1em" py=".5em">
           <div class="title">
             历史搜索
           </div>
           <van-icon name="delete" size="1em" color="grey" @click.native="onDelete"/>
         </new-wing-blank>
-        <new-wing-blank class="content" column=".5em">
+        <new-wing-blank class="content" py=".5em">
           <div class="item" v-for="(name, index) in hisWords" :key="index" @click="onKeyword(name)">
             {{name}}
           </div>
         </new-wing-blank>
-        <new-wing-blank class="title" row="1em" column=".5em">
+        <new-wing-blank class="title" px="1em" py=".5em">
           热门搜索
         </new-wing-blank>
-        <new-wing-blank class="content" column=".5em">
+        <new-wing-blank class="content" py=".5em">
           <div class="item" v-for="(name, index) in hotWords" :key="index" @click="onKeyword(name)">
             {{name}}
           </div>
