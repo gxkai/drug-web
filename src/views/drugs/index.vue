@@ -266,8 +266,8 @@
       formsFilter() {
         return this.formsResult.map(e => e.name).join(',');
       },
-      commonName() {
-        return this.namesResult.map(e => e.name);
+      commonNameId() {
+        return this.namesResult.map(e => e.id);
       },
       originId() {
         return this.originsResult.map(e => e.id);
@@ -313,7 +313,7 @@
           keyword: this.keyword,
           drugTypeId: this.drugTypeId,
           sort: this.drugSort,
-          commonName: this.commonName,
+          commonNameId: this.commonNameId,
           originId: this.originId,
           specId: this.specId,
           formId: this.formId
@@ -365,7 +365,7 @@
       async filterByOrigin() {
         const params = {
           drugTypeId: this.drugTypeId,
-          commonName: this.commonName,
+          commonNameId: this.commonNameId,
           specId: this.specId,
           formId: this.formId,
           keyword: this.keyword
@@ -377,7 +377,7 @@
       async filterBySpec() {
         const params = {
           drugTypeId: this.drugTypeId,
-          commonName: this.commonName,
+          commonNameId: this.commonNameId,
           originId: this.originId,
           formId: this.formId,
           keyword: this.keyword
@@ -389,7 +389,7 @@
       async filterByForm() {
         const params = {
           drugTypeId: this.drugTypeId,
-          commonName: this.commonName,
+          commonNameId: this.commonNameId,
           originId: this.originId,
           specId: this.specId,
           keyword: this.keyword
