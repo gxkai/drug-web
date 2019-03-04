@@ -4,7 +4,7 @@
       <van-nav-bar
         :title="$route.meta.name"
         left-arrow
-        :right-text="cartShops.length === 0 ? '': '删除'"
+        :right-text="cartShops.length === 0 ? '': '清空'"
         @click-left="$router.go(-1)"
         @click-right="onRemoveBatch()"
       />
@@ -36,7 +36,7 @@
               </div>
               <div class="drug">
                 <new-swipe-cell v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
-                                :key="cartDrugIndex"
+                                :key="cartDrug.cartId"
                                 @click-right="onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">
                   <div class="drug__item">
                     <div class="drug__item1">
@@ -80,6 +80,7 @@
             </van-submit-bar>
           </div>
         </div>
+        <new-no-data v-if="cartShops.length === 0"/>
       </van-pull-refresh>
     </template>
     <template slot="bottom">
@@ -295,6 +296,7 @@
             if (cartShop.rxs.length === 0) {
               this.cartShops.splice(cartShopIndex, 1);
             }
+            this.calculate(cartShop);
           });
         } else {
           this.$dialog.confirm({ message: '确定删除？' }).then(async () => {
@@ -306,6 +308,7 @@
                 this.cartShops.splice(cartShopIndex, 1);
               }
             }
+            this.calculate(cartShop);
           });
         }
       },
@@ -314,37 +317,13 @@
        */
       onRemoveBatch() {
         let cartIds = this.getCartIds();
-        if (cartIds.length === 0) {
-          this.$toast('请选择药品');
-          return;
-        }
-        this.$dialog.confirm({ message: '确定删除?' }).then(async () => {
+        this.$dialog.confirm({ message: '确定清空购物车?' }).then(async () => {
           const params = {
             cartIds: cartIds
           };
           await this.$http.delete('/carts', params);
-          this.remove();
+          this.cartShops = [];
         });
-      },
-      /**
-       * 通用删除方法
-       */
-      remove() {
-        for (let i = this.cartShops.length; i > 0; i--) {
-          for (let j = this.cartShops[i - 1].rxs.length; j > 0; j--) {
-            for (let k = this.cartShops[i - 1].rxs[j - 1].drugs.length; k > 0; k--) {
-              if (this.cartShops[i - 1].rxs[j - 1].drugs[k - 1].radio) {
-                this.cartShops[i - 1].rxs[j - 1].drugs.splice(k - 1, 1);
-              }
-            }
-            if (this.cartShops[i - 1].rxs[j - 1].drugs.length === 0) {
-              this.cartShops[i - 1].rxs.splice(j - 1, 1);
-            }
-          }
-          if (this.cartShops[i - 1].rxs.length === 0) {
-            this.cartShops.splice(i - 1, 1);
-          }
-        }
       },
       /**
        * 获取已选购物车ID
@@ -355,9 +334,7 @@
         this.cartShops.forEach(e => {
           e.rxs.forEach(e => {
             e.drugs.forEach(e => {
-              if (e.radio) {
-                cartIds.push(e.cartId);
-              }
+              cartIds.push(e.cartId);
             });
           });
         });
