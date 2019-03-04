@@ -115,12 +115,14 @@
     },
     methods: {
       async initData() {
+        this.$loading();
         this.rx = await this.$http.get('/rxs/' + this.rxId);
-        console.log(this.rx);
       },
       submit() {
         if (this.rx.state === 'ENABLED') {
           this.$router.push({ name: '/rxs/shops', params: { rxId: this.rxId, hospitalId: this.rx.hospitalId } });
+        } else {
+          this.$toast('处方单已失效');
         }
       }
     }

@@ -12,8 +12,10 @@
           </van-uploader>
 
           <van-icon name="lingdang"
+                    :info="messageCount"
                     class="lingdang"
-                    @click="linkToMessageType"></van-icon>
+                    @click="linkToMessageType"
+          ></van-icon>
           <!--<van-icon name="setting"-->
           <!--class="setting"-->
           <!--@click="$router.push('/setting')"></van-icon>-->
@@ -477,7 +479,8 @@
         account: getAccount(),
         show: true,
         signIn: false,
-        accountInfo: ''
+        accountInfo: '',
+        messageCount: 0
       };
     },
     created() {
@@ -495,6 +498,7 @@
       },
       async initData() {
         this.count = await this.$http.get('/orders/count');
+        this.messageCount = await this.$http.get('/messages/count');
         if (this.account.fileId) {
           this.headPic = true;
           this.picDefault = false;

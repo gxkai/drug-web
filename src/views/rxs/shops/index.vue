@@ -76,6 +76,7 @@
       <div @click="toQyPayUrl()" v-if="hospital !== null">
         <new-rx-hospital-item :item="hospital"/>
       </div>
+      <new-no-data v-if="rxShops.length === 0" name="没有符合条件的药店数据"/>
       <div
            v-for="(rxShop,index) in rxShops"
            :key="index"
