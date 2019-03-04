@@ -68,7 +68,6 @@ export default {
     Vue.prototype.getImgURL = (fileId, resolution) => {
       resolution = resolution || 'LARGE_LOGO';
       let url = `${process.env.API_ROOT}/files/${fileId}/image?resolution=${resolution}`;
-      console.log(url);
       return url;
     };
     /**
