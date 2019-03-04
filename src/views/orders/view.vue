@@ -49,7 +49,8 @@
         <div class="order_view-address" v-if="order.deliveryType === 'DELIVERY'">
           <ul>
             <li>配送信息</li>
-            <li>收货地址：<span class="order_view-address-detail">{{order.consignee}}</span></li>
+            <li>收货地址：<span class="order_view-address-detail">{{order.address}}</span></li>
+            <li>收货人：<span class="order_view-address-detail">{{order.consignee}}</span></li>
             <li>收货电话：<span class="order_view-address-detail">{{order.phone}}</span></li>
             <li>配送方式：<span class="order_view-address-detail">商家配送</span></li>
           </ul>

@@ -467,13 +467,13 @@
           }
           &__content {
             padding: 10px 0;
-            font-size: 20px;
+            font-size: 16px!important;
             font-family: HiraginoSansGB-W3;
             font-weight: normal;
             color: #666666;
           }
           &__footer {
-            font-size: 22px;
+            font-size: 18px;
             font-family: HiraginoSansGB-W3;
             font-weight: normal;
             color: #999999;

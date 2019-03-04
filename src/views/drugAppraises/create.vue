@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="drug-appraise-create__part-1__item__content">
-          <textarea placeholder="宝贝满足你的期待吗？说说它的优点和不足的地方吧。" maxlength="200" v-model="item.content"></textarea>
+          <textarea placeholder="宝贝满足你的期待吗？说说它的优点和不足的地方吧。(最多100字)" maxlength="100" v-model="item.content"></textarea>
         </div>
       </div>
       <div class="drug-appraise-create__part-2">
