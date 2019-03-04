@@ -35,8 +35,15 @@
                  :center="center"
                  :zoom="zoom"
                  @click="getClickInfo"
+                 @moving="syncCenterAndZoom"
+                 @moveend="syncCenterAndZoom"
+                 @zoomend="syncCenterAndZoom"
+                 :scroll-wheel-zoom="true"
       >
-        <bm-marker :position="{lng: center.lng, lat: center.lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+        <bm-marker :position="{lng: center.lng, lat: center.lat}"
+                   :dragging="true"
+                   animation="BMAP_ANIMATION_BOUNCE"
+        >
         </bm-marker>
       </baidu-map>
       <div class="address-choose--receive">
