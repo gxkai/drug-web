@@ -16,12 +16,8 @@
             </div>
             <div class="drugs-shops__top__shopinfo">
               <p>{{drugInfo.name}}</p>
-              <p @click="onSpec">规格:{{drugSpec.spec||'暂无'}}</p>
+              <p @click="onSpec">规格:{{drugSpec.spec||'暂无'}} <van-icon :name="show?'arrow-down':'arrow'" v-if="drugSpecs.length > 1"/></p>
               <p>剂型/型号:{{drugSpec.form||'暂无'}}</p>
-              <!--<p style="display: none">
-                       <span class="drugs-shops__top__shopinfo__count">204</span>个商家报价
-                       <span>价格指数</span><span class="drugs-shops__top__shopinfo__join">加入同店购</span>
-                 </p>-->
             </div>
           </div>
           <div class="drugs-shops__top__shopinform">
@@ -29,14 +25,7 @@
             <p class="drugs-shops__top__shopinform__approve"><i>生产企业：</i><span>{{drugSpec.origin ||'暂无'}}</span></p>
             <p class="drugs-shops__top__shopinform__approve"><i>适&nbsp;&nbsp;应&nbsp;&nbsp;症：</i><span>{{drugInfo.introduce|| '暂无'}}</span>
             </p>
-            <!-- <p class="drugs-shops__top__shopinform__instructions">展示商品说明书</p>-->
           </div>
-          <!-- <div class="drugs-shops__top__tag">
-              <span>正品保证</span>
-              <span>闪电发货</span>
-              <span>贴心服务</span>
-              <span>2小时内送达</span>
-           </div>-->
         </div>
         <van-tabs v-model="active">
           <van-tab title="商家报价">
@@ -114,33 +103,8 @@
           </van-tab>
           <van-tab title="注意事项">
             <div>
-              <!--<p>1、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>-->
-              <!--<p>2、 如眼睑发肿、结膜红斑,发生率低于3%。 </p>-->
-              <!--<p>3、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>-->
-              <!--<p>4、 不良反应: 常见为眼部的毒副作用, 过敏反应。 </p>-->
             </div>
           </van-tab>
-          <!--<van-tab title="药品评价">-->
-          <!--<div class="appraise">-->
-          <!--<div class="appraise-title">-->
-          <!--<div class="appraise-title-right">-->
-          <!--<div class="text-l-25">-->
-          <!--共有{{list.length}}位网友评论-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<van-pull-refresh v-model="isLoading" @refresh="onRefresh">-->
-          <!--<van-list-->
-          <!--v-model="loading"-->
-          <!--:finished="finished"-->
-          <!--@load="onLoad">-->
-          <!--<new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>-->
-          <!--<new-no-data v-if="finished"></new-no-data>-->
-          <!--</van-list>-->
-          <!--</van-pull-refresh>-->
-          <!--</div>-->
-          <!--</van-tab>-->
-          <!--<van-tab title="组合推荐">内容 4</van-tab>-->
         </van-tabs>
         <van-popup
           v-model="show"
