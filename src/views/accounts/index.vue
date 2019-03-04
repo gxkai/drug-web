@@ -6,8 +6,7 @@
           <van-uploader :after-read="onRead">
             <div class="account--name">{{ account.name }}</div>
             <div class="logo-bg">
-              <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo" v-if="headPic"/>
-              <img src="../../assets/image/accounts/defaultPic.png" class="account-header-logo" v-if="picDefault"/>
+              <img v-lazy="getImgURL(account.fileId,'LARGE_LOGO')" class="account-header-logo"/>
             </div>
           </van-uploader>
 
@@ -463,8 +462,6 @@
   export default {
     data() {
       return {
-        headPic: false,
-        picDefault: true,
         headerBg: {
           background: 'url(' + require('../../../src/assets/image/accounts/banner.jpg') + ')',
           backgroundRepeat: 'no-repeat',
@@ -503,13 +500,6 @@
       async initData() {
         this.count = await this.$http.get('/orders/count');
         this.messageCount = await this.$http.get('/messages/count');
-        if (this.account.fileId) {
-          this.headPic = true;
-          this.picDefault = false;
-        } else {
-          this.headPic = false;
-          this.picDefault = true;
-        };
         this.signIn = await this.$http.get('pointRecords/signIn/validateDailySignIn');
       },
       async onRead(file) {

@@ -67,7 +67,9 @@ export default {
      */
     Vue.prototype.getImgURL = (fileId, resolution) => {
       resolution = resolution || 'LARGE_LOGO';
-      return process.env.API_ROOT + '/files/' + fileId + '/image?resolution=' + resolution;
+      let url = `${process.env.API_ROOT}/files/${fileId}/image?resolution=${resolution}`;
+      console.log(url);
+      return url;
     };
     /**
      * 获取收货二维码
