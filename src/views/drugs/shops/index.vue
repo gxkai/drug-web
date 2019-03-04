@@ -771,6 +771,7 @@
       }
       &-content {
         &-title {
+          margin-top: 20px;
           padding: 20px;
           font-size: 25px;
         }

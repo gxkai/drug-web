@@ -276,8 +276,8 @@
         });
         this.cartShops = data.cartShops;
       },
-      changeQuantity(cartDrug, cartShop) {
-        this.$http.put(`/carts/${cartDrug.cartId}?quantity=${cartDrug.quantity}`);
+      async changeQuantity(cartDrug, cartShop) {
+        await this.$http.put(`/carts/${cartDrug.cartId}?quantity=${cartDrug.quantity}`);
         this.calculate(cartShop);
       },
       /**
