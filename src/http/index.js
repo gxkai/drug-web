@@ -60,7 +60,7 @@ const index = {
     if (params === undefined) {
       params = {};
     }
-    params.date = new Date();
+    params.date = (new Date()).getTime();
     return new Promise((resolve, reject) => {
       axios.get(url, {
         params: params,
