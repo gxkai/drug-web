@@ -40,6 +40,9 @@
                    :center="center"
                    :zoom="zoom"
                    :scroll-wheel-zoom="true"
+                   @moving="syncCenterAndZoom"
+                   @moveend="syncCenterAndZoom"
+                   @zoomend="syncCenterAndZoom"
                    @click="getClickInfo"
         >
           <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
