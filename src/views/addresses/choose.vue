@@ -35,11 +35,11 @@
                  :center="center"
                  :zoom="zoom"
                  @click="getClickInfo"
-                 @moving="syncCenterAndZoom"
                  @moveend="syncCenterAndZoom"
                  @zoomend="syncCenterAndZoom"
                  :scroll-wheel-zoom="true"
       >
+        <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
         <bm-marker :position="{lng: center.lng, lat: center.lat}"
                    :dragging="true"
                    animation="BMAP_ANIMATION_BOUNCE"
@@ -254,7 +254,6 @@
         this.nearbyAddresses = data.pois;
       },
       async syncCenterAndZoom(e) {
-        console.log(e);
         const { lng, lat } = e.target.getCenter();
         this.zoom = e.target.getZoom();
         const params = {

@@ -40,11 +40,11 @@
                    :center="center"
                    :zoom="zoom"
                    :scroll-wheel-zoom="true"
-                   @moving="syncCenterAndZoom"
                    @moveend="syncCenterAndZoom"
                    @zoomend="syncCenterAndZoom"
                    @click="getClickInfo"
         >
+          <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
           <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
           </bm-marker>
         </baidu-map>
