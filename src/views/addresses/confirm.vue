@@ -37,15 +37,19 @@
       </div>
       <div class="address-confirm--nearby" v-if="isNearby">
         <baidu-map class="address-confirm--nearby--map"
+                   style="display: flex; flex-direction: column"
                    :center="center"
                    :zoom="zoom"
-                   :scroll-wheel-zoom="true"
-                   @moveend="syncCenterAndZoom"
-                   @zoomend="syncCenterAndZoom"
                    @click="getClickInfo"
+                   @moveend="syncCenterAndZoom"
+                   :scroll-wheel-zoom="false"
         >
           <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
-          <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+          <bm-view style="width: 100%; height:100px; flex: 1"></bm-view>
+          <bm-marker :position="{lng: center.lng, lat: center.lat}"
+                     :dragging="false"
+                     animation="BMAP_ANIMATION_BOUNCE"
+          >
           </bm-marker>
         </baidu-map>
         <div class="address-confirm--nearby--content">

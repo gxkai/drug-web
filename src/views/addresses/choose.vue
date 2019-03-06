@@ -32,16 +32,18 @@
         </div>
       </div>
       <baidu-map class="address-choose--map"
-                 :center="center"
+                 style="display: flex; flex-direction: column"
+                 center="昆山市"
                  :zoom="zoom"
                  @click="getClickInfo"
                  @moveend="syncCenterAndZoom"
-                 @zoomend="syncCenterAndZoom"
-                 :scroll-wheel-zoom="true"
+                 :scroll-wheel-zoom="false"
+                 @ready="getLocation"
       >
         <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+        <bm-view style="width: 100%; height:100px; flex: 1"></bm-view>
         <bm-marker :position="{lng: center.lng, lat: center.lat}"
-                   :dragging="true"
+                   :dragging="false"
                    animation="BMAP_ANIMATION_BOUNCE"
         >
         </bm-marker>
@@ -225,8 +227,8 @@
         addresses: [],
         nearbyAddresses: [],
         center: {
-          lat: 31,
-          lng: 120
+          lng: 120,
+          lat: 31
         },
         name: '定位中',
         zoom: 15
@@ -240,7 +242,6 @@
       });
     },
     mounted() {
-      this.getLocation();
     },
     methods: {
       async getClickInfo(e) {
