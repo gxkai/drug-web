@@ -1,10 +1,14 @@
 <template>
-  <div class="new-stepper">
-    <button class="new-stepper__minus"
-    @click="minus">-</button>
-    <button  class="new-stepper__input" readonly>{{number}}</button>
-    <button class="new-stepper__plus"
-    @click="plus">+</button>
+  <div class="item">
+    <div class="item1" @click="minus">
+      <span>-</span>
+    </div>
+    <div class="item2">
+      <span>{{number}}</span>
+    </div>
+    <div class="item3" @click="plus">
+      <span>+</span>
+    </div>
   </div>
 </template>
 
@@ -55,6 +59,32 @@
 </script>
 
 <style scoped type="text/scss" lang="scss">
+  .item {
+    display: grid;
+    grid-template-rows: 50px;
+    grid-template-columns: 50px auto 50px;
+    background-color: #999999;
+    .item1 {
+      grid-column: 1/2;
+    }
+    .item2 {
+      grid-column: 2/3;
+      padding: 0 20px;
+    }
+    .item3 {
+      grid-column: 3/4;
+    }
+    .item1, .item2, .item3 {
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      span {
+        font-size: 30px;
+      }
+    }
+
+  }
   .new-stepper {
     display: flex;
     &__minus, &__plus {
