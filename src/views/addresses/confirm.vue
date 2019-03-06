@@ -38,7 +38,7 @@
       <div class="address-confirm--nearby" v-if="isNearby">
         <baidu-map class="address-confirm--nearby--map"
                    style="display: flex; flex-direction: column"
-                   :center="center"
+                   center="昆山市"
                    :zoom="zoom"
                    @click="getClickInfo"
                    @moveend="syncCenterAndZoom"
