@@ -1,6 +1,6 @@
 <template>
-  <div id="drug_body">
-    <new-layout class="drugs-shops">
+  <div>
+    <new-layout>
       <template slot="top">
         <van-nav-bar
           :title="drugInfo.name"
@@ -300,7 +300,7 @@
         drugSpecs: [],
         drugSpec: {},
         drugId: this.$route.params.drugId,
-        show: true,
+        show: false,
         total: 0,
         sort: 'SYNTHESIZE',
         val: -1,
@@ -316,8 +316,7 @@
         drugPrice: '',
         number: 1,
         active: 0,
-        shopDrugInfo: {},
-        radio: '1'
+        shopDrugInfo: {}
       };
     },
     watch: {
