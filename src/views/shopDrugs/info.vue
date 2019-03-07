@@ -5,43 +5,43 @@
     <div class="drug-info--text">
       <div>
         <span>通用名：</span>
-        <span>{{shopDrugSpec.name||'暂无'}}</span>
+        <span>{{shopDrug.name||'暂无'}}</span>
       </div>
       <div>
         <span>商品品牌：</span>
-        <span>{{shopDrugSpec.origin.brand||'暂无'}}</span>
+        <span>{{shopDrug.origin.brand||'暂无'}}</span>
       </div>
       <div>
         <span>批准文号：</span>
-        <span>国药准字{{shopDrugSpec.sfda||'暂无'}}</span>
+        <span>国药准字{{shopDrug.sfda||'暂无'}}</span>
       </div>
       <div>
         <span>包装规格：</span>
-        <span>{{shopDrugSpec.spec||'暂无'}}</span>
+        <span>{{shopDrug.spec||'暂无'}}</span>
       </div>
       <div>
         <span>剂型/型号：</span>
-        <span>{{shopDrugSpec.form||'暂无'}}</span>
+        <span>{{shopDrug.form||'暂无'}}</span>
       </div>
       <div>
         <span>英文名称：</span>
-        <span>{{shopDrugSpec.enName||'暂无'}}</span>
+        <span>{{shopDrug.enName||'暂无'}}</span>
       </div>
       <div>
         <span>汉语拼音：</span>
-        <span>{{shopDrugSpec.pinyinName||'暂无'}}</span>
+        <span>{{shopDrug.pinyinName||'暂无'}}</span>
       </div>
       <div>
         <span>有效期：</span>
-        <span>{{shopDrugSpec.validity||'暂无'}}</span>
+        <span>{{shopDrug.validity||'暂无'}}</span>
       </div>
       <div>
         <span>生产企业：</span>
-        <span>{{shopDrugSpec.origin.company||'暂无'}}</span>
+        <span>{{shopDrug.origin.company||'暂无'}}</span>
       </div>
     </div>
     <img v-lazy="getImgURL(fileId,'LARGE_PIC')"
-         v-for="fileId in shopDrugSpec.fileIds"
+         v-for="fileId in shopDrug.fileIds"
          class="drug-info--pic"
     />
   </div>
@@ -75,12 +75,12 @@
 <script>
   export default {
     name: 'drugInfo',
-    props: ['shopDrugSpec'],
+    props: ['shopDrug'],
     data() {
       return {};
     },
     created() {
-      console.log(this.shopDrugSpec);
+      console.log(this.shopDrug);
     }
   };
 </script>

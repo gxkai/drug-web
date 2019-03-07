@@ -1,7 +1,7 @@
 <template>
   <div>
     <new-layout class="shopDrug">
-      <template slot="top">
+      <!--<template slot="top">
         <van-nav-bar
           :title="$route.meta.name"
           left-arrow
@@ -78,35 +78,35 @@
                   {{shopDrug.shopName}}
                 </div>
                 <div>
-                  <!--<van-rate v-model="shopDrug.shopTotalAppraise.score" disabled disabled-color="red" :size="15"/>-->
+                  &lt;!&ndash;<van-rate v-model="shopDrug.shopTotalAppraise.score" disabled disabled-color="red" :size="15"/>&ndash;&gt;
                 </div>
               </div>
-              <!--<div class="shopDrug__content__part-4__header__right">-->
-                <!--<van-icon name="peisong-" color="#F60000" size="5em"/>-->
-                <!--<van-icon name="anquan" color="#F60000" size="5em"/>-->
-              <!--</div>-->
+              &lt;!&ndash;<div class="shopDrug__content__part-4__header__right">&ndash;&gt;
+                &lt;!&ndash;<van-icon name="peisong-" color="#F60000" size="5em"/>&ndash;&gt;
+                &lt;!&ndash;<van-icon name="anquan" color="#F60000" size="5em"/>&ndash;&gt;
+              &lt;!&ndash;</div>&ndash;&gt;
             </div>
             <div class="shopDrug__content__part-4__content">
               <van-row gutter="20">
                 <van-col span="6" class="shopDrug__content__part-4__content__item">
                   <div>客户服务</div>
-                  <!--<div>{{toFixedOne(shopDrug.shopTotalAppraise.serviceScore)}}分</div>-->
-                  <div>--</div>
+                  &lt;!&ndash;<div>{{toFixedOne(shopDrug.shopTotalAppraise.serviceScore)}}分</div>&ndash;&gt;
+                  <div>&#45;&#45;</div>
                 </van-col>
                 <van-col span="6" class="shopDrug__content__part-4__content__item">
                   <div>发货速度</div>
-                  <!--<div>{{toFixedOne(shopDrug.shopTotalAppraise.deliveryScore)}}分</div>-->
-                  <div>--</div>
+                  &lt;!&ndash;<div>{{toFixedOne(shopDrug.shopTotalAppraise.deliveryScore)}}分</div>&ndash;&gt;
+                  <div>&#45;&#45;</div>
                 </van-col>
                 <van-col span="6" class="shopDrug__content__part-4__content__item">
                   <div>商品包装</div>
-                  <!--<div>{{toFixedOne(shopDrug.shopTotalAppraise.packageScore)}}分</div>-->
-                  <div>--</div>
+                  &lt;!&ndash;<div>{{toFixedOne(shopDrug.shopTotalAppraise.packageScore)}}分</div>&ndash;&gt;
+                  <div>&#45;&#45;</div>
                 </van-col>
                 <van-col span="6" class="shopDrug__content__part-4__content__item">
                   <div>商品描述</div>
-                  <!--<div>{{toFixedOne(shopDrug.shopTotalAppraise.describeScore)}}分</div>-->
-                  <div>--</div>
+                  &lt;!&ndash;<div>{{toFixedOne(shopDrug.shopTotalAppraise.describeScore)}}分</div>&ndash;&gt;
+                  <div>&#45;&#45;</div>
                 </van-col>
               </van-row>
             </div>
@@ -118,7 +118,7 @@
             </div>
           </div>
           <div class="shopDrug__content__part-5">
-            <div class="shopDrug__content__part-5__header van-hairline--bottom">
+            <div class="shopDrug__content__part-5__header van-hairline&#45;&#45;bottom">
               <div class="shopDrug__content__part-5__header__left">
                 顾客评论({{shopDrug.drugAppraises.total}})
               </div>
@@ -127,12 +127,12 @@
                 全部评价&gt;
               </div>
             </div>
-            <div class="shopDrug__content__part-5__item van-hairline--bottom"
+            <div class="shopDrug__content__part-5__item van-hairline&#45;&#45;bottom"
                  v-for="drugAppraise in shopDrug.drugAppraises.list">
               <div class="shopDrug__content__part-5__item__header">
                 <van-rate v-model="drugAppraise.score" disabled disabled-color="red" :size="15"/>
                 <div
-                  class="shopDrug__content__part-5__item__header--right"
+                  class="shopDrug__content__part-5__item__header&#45;&#45;right"
                 >{{drugAppraise.username|asterisk}}</div>
               </div>
               <div class="shopDrug__content__part-5__item__content">
@@ -144,6 +144,140 @@
             </div>
           </div>
         </div>
+      </template>-->
+      <template slot="center" style="position: relative">
+        <van-tabs v-model="active">
+          <van-tab title="商品">
+            <div class="wrapper">
+              <div class="wrapper1">
+                <van-swipe :autoplay="3000">
+                  <van-swipe-item v-for="(fileId,index) in shopDrug.fileIds" :key="index">
+                    <img v-lazy="getImgURL(fileId,'LARGE_PIC')" class="swipe__image"/>
+                  </van-swipe-item>
+                </van-swipe>
+              </div>
+              <div class="wrapper2">
+                  <new-wing-blank class="content1">
+                    <p class="price">
+                      {{`&yen;${shopDrug.price}`}}
+                    </p>
+                    <p class="name">
+                      {{`${shopDrug.name}`}}
+                    </p>
+                    <p class="introduce">
+                      {{`${shopDrug.introduce||'暂无介绍'}`}}
+                    </p>
+                  </new-wing-blank>
+                  <new-wing-blank class="content2">
+                    <div class="item1">
+                      <div>
+                        国药准字：
+                      </div>
+                      <div>
+                        剂型/型号：
+                      </div>
+                      <div>
+                        包装规格：
+                      </div>
+                    </div>
+                    <div class="item2">
+                      <div>
+                        {{`${shopDrug.sfda||'暂无介绍'}`}}
+                      </div>
+                      <div>
+                        {{`${shopDrug.form||'暂无介绍'}`}}
+                      </div>
+                      <div>
+                        {{`${shopDrug.spec||'暂无介绍'}`}}
+                      </div>
+                    </div>
+                  </new-wing-blank>
+              </div>
+              <div class="wrapper3">
+                  <new-wing-blank class="content1">
+                    <div class="item1">
+                      <img v-lazy="getImgURL(shopDrug.shopLogo,'LARGE_LOGO')"/>
+                    </div>
+                    <div class="item2">
+                        <span class="name van-ellipsis">
+                          {{shopDrug.shopName}}
+                        </span>
+                    </div>
+                    <div class="item3">
+                        <span class="name"
+                              @click="$router.push({name:'/shops/view',params:{shopId:shopDrug.shopId}})"
+                        >进入药店</span>
+                    </div>
+                  </new-wing-blank>
+                  <div class="content2">
+                    <div class="item">
+                      <div class="name">
+                        客户服务
+                      </div>
+                      <div class="score">
+                        ----
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="name">
+                        发货速度
+                      </div>
+                      <div class="score">
+                        ----
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="name">
+                        物流速度
+                      </div>
+                      <div class="score">
+                        ----
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="name">
+                        商品包装
+                      </div>
+                      <div class="score">
+                        ----
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="wrapper4">
+                  <new-wing-blank class="content1">
+                    <div class="name">
+                      顾客评价({{shopDrug.drugAppraises.total}})
+                    </div>
+                    <div class="link"  @click="active=2">
+                      查看全部评价>
+                    </div>
+                  </new-wing-blank>
+                  <new-wing-blank class="content2">
+                    <div  v-for="(drugAppraise, index) in shopDrug.drugAppraises.list" :key="index" class="item">
+                      <header>
+                        <new-star :score="drugAppraise.score" size="small" disabled/>
+                        <span class="username">{{drugAppraise.username|asterisk}}</span>
+                      </header>
+                      <article>
+                        {{drugAppraise.content||'没有评论内容'}}
+                      </article>
+                      <footer>
+                        {{timeConvert(drugAppraise.createdDate)}}
+                      </footer>
+                    </div>
+                  </new-wing-blank>
+              </div>
+            </div>
+          </van-tab>
+          <van-tab title="详情">
+            <component is="info" :shopDrug="shopDrug"></component>
+          </van-tab>
+          <van-tab title="评价">
+            <component is="appraise" :shopDrug="shopDrug"></component>
+          </van-tab>
+        </van-tabs>
+        <van-icon name="arrow-left" class="arrow-left" size="3.5em" @click.native="$router.go(-1)"/>
       </template>
       <template slot="bottom">
         <van-goods-action style="position: sticky">
@@ -200,7 +334,169 @@
   }
 </style>
 <style scoped type="text/scss" lang="scss">
-  .shopDrug {
+  /deep/ .van-tabs {
+    &__wrap {
+      height: 100px !important;
+    }
+    &--line {
+      padding-top: 100px;
+    }
+    .van-tab {
+      color: black !important;
+      &--active {
+        color: $themeColor !important;
+      }
+      span {
+        line-height: 100px !important;
+        font-size: 25px !important;
+      }
+    }
+  }
+  /deep/ .van-swipe__indicator {
+    background-color: $themeColor!important;
+  }
+  .arrow-left {
+    position: absolute;
+    left: 10px;
+    top: 30px;
+    z-index: 999;
+  }
+
+  .swipe__image {
+    width: 720px;
+    height: 500px;
+  }
+  .wrapper {
+    width: 720px;
+    display: grid;
+    grid-row-gap: 20px;
+    .wrapper4 {
+      width: 720px;
+      background-color: white;
+      .content1 {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1PX solid #999999;
+        .name {
+          font-size: 25px;
+          color: #999999;
+        }
+        .link {
+          font-size: 25px;
+        }
+      }
+      .content2 {
+        .item {
+          margin-top: 10px;
+          border-bottom: 1PX solid #999999;
+          header {
+            display: flex;
+            justify-content: space-between;
+            .username {
+              font-size: 25px;
+            }
+          }
+          article {
+            font-size: 20px;
+          }
+          footer{
+            font-size: 15px;
+            color: #999999;
+          }
+        }
+      }
+    }
+    .wrapper3 {
+      background-color: white;
+      width: 720px;
+      .content1 {
+        display: grid;
+        grid-template-columns: 150px 400px  150px;
+        border-bottom: 1PX solid #999999;
+        .item1 {
+          img {
+            width: 100px;
+            height: 100px;
+          }
+        }
+        .item2 {
+          display: flex;
+          align-items: center;
+          .name {
+            font-size: 30px;
+          }
+        }
+        .item3 {
+          display: flex;
+          align-items: center;
+          .name {
+            font-size: 25px;
+            background-color: $themeColor;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3em;
+          }
+        }
+      }
+      .content2 {
+        display: grid;
+        grid-template-columns: 180px 180px 180px 180px;
+        .item {
+          height: 100px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          .name {
+            font-size: 25px;
+          }
+          .score {
+            font-size: 25px;
+            color: $themeColor;
+          }
+        }
+      }
+    }
+    .wrapper2 {
+      background-color: white;
+      width: 720px;
+      .content1 {
+        border-bottom: 1Px solid #999999;
+        .price {
+          font-size: 30px;
+          color: $themeColor;
+        }
+        .name {
+          font-size: 30px;
+          font-weight: 100;
+        }
+        .introduce {
+          font-size: 25px;
+          color: #999999;
+        }
+      }
+      .content2 {
+        display: grid;
+        grid-template-columns: 150px auto;
+        .item1 {
+          &>div {
+            font-size: 25px;
+            margin-top: 20px;
+            color: #999999;
+          }
+        }
+        .item2 {
+          &>div {
+            font-size: 25px;
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  }
+
+
+  /*.shopDrug {
     &__popup {
       &__part-1 {
         display: flex;
@@ -486,9 +782,11 @@
     .van-icon-shoucang1 {
       color: green!important;
     }
-  }
+  }*/
 </style>
 <script>
+  import appraise from './appraise';
+  import info from './info';
   export default {
     data() {
       return {
@@ -502,8 +800,13 @@
         collected: false,
         loading: false,
         shopDrugId: this.$route.params.shopDrugId,
-        pharmacist: ''
+        pharmacist: '',
+        active: 0
       };
+    },
+    components: {
+      appraise,
+      info
     },
     created() {
       this.initData();

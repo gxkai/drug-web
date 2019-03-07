@@ -1,28 +1,5 @@
 <template>
   <div>
-    <!--<div class="appraise-title">
-      &lt;!&ndash;<div class="appraise-title-left">&ndash;&gt;
-        &lt;!&ndash;<div class="text-l-25">总评分&nbsp;{{shopDrugSpec.shopTotalAppraise.score}}分</div>&ndash;&gt;
-        &lt;!&ndash;<div>&ndash;&gt;
-          &lt;!&ndash;<van-rate v-model="shopDrugSpec.shopTotalAppraise.score" disabled disabled-color="red" :size="15"></van-rate>&ndash;&gt;
-        &lt;!&ndash;</div>&ndash;&gt;
-      &lt;!&ndash;</div>&ndash;&gt;
-      <div class="appraise-title-right">
-        <div class="text-l-25">
-          共有{{list.length}}位网友评论
-        </div>
-      </div>
-    </div>
-
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-      <van-list
-        v-model="loading"
-        :finished="finished"
-        @load="onLoad">
-        <new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>
-        <new-no-data v-if="finished"></new-no-data>
-      </van-list>
-    </van-pull-refresh>-->
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list
         v-model="loading"
@@ -55,7 +32,7 @@
 <script>
   export default {
     name: 'drugAppraise',
-    props: ['shopDrugSpec'],
+    props: ['shopDrug'],
     data() {
       return {
         loading: false,
@@ -82,7 +59,7 @@
         const params = {
           'pageNum': this.pageNum,
           'pageSize': this.pageSize,
-          'shopDrugId': this.shopDrugSpec.id
+          'shopDrugId': this.shopDrug.id
         };
         const data = await this.$http.get('/drugAppraises', params);
         this.isLoading = false;
