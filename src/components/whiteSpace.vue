@@ -12,7 +12,7 @@
     },
     props: {
       size: {
-        default: 1
+        default: '1em'
       },
       color: {
         default: '#f5f5f5'
@@ -21,7 +21,7 @@
     data() {
       return {
         styleObject: {
-          marginTop: `${this.size}em`,
+          marginTop: `${this.size}`,
           backgroundColor: `${this.color}`
         }
       };
