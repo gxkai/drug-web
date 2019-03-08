@@ -133,6 +133,7 @@
             <component is="appraise" :shopDrug="shopDrug"></component>
           </van-tab>
         </van-tabs>
+        <new-white-space size="2em"/>
         <van-icon name="arrow-left" class="arrow-left" size="3.5em" @click.native="$router.go(-1)"/>
       </template>
       <template slot="bottom">
