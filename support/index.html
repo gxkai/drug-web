@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/common.css">
+    <link rel="stylesheet" href="../static/css/iconfont.css">
+    <title>监管流通app</title>
+    <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script>
+      var vConsole = new VConsole();
+      document.addEventListener('plusready', function() {
+        // var vConsole = new VConsole();
+        var webview = plus.webview.currentWebview();
+        plus.key.addEventListener('backbutton', function() {
+          webview.canBack(function(e) {
+            if (e.canBack) { // webview.back();
+              webview.back();
+            } else {
+              if (!first) {
+                first = new Date().getTime();
+                plus.nativeUI.toast('再按一次退出应用', {
+                  verticalAlign: 'bottom'
+                });
+                setTimeout(function() {
+                  first = null;
+                }, 1000);
+              } else {
+
+                if (new Date().getTime() - first < 1000) {
+                  plus.runtime.quit();
+                }
+              }
+            }
+          })
+        });
+      });
+    </script>
+  </body>
+</html>
