@@ -178,7 +178,9 @@
         </new-wing-blank>
         <new-white-space size="5em"/>
         <new-wing-blank class="content3">
-          <van-button size="large" @click="onConfirm" type="danger">确定</van-button>
+          <div class="button" @click="onConfirm">
+            <span class="text">确定</span>
+          </div>
         </new-wing-blank>
         <new-white-space size="2em"/>
       </div>
@@ -252,6 +254,19 @@
       justify-content: space-between;
       .name {
         font-size: 30px;
+      }
+    }
+    .content3 {
+      .button {
+        background-color: $themeColor;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+       .text {
+        color: white;
+         font-size: 25px;
+       }
       }
     }
   }
