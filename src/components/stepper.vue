@@ -66,13 +66,17 @@
     background-color: #999999;
     .item1 {
       grid-column: 1/2;
+      border: 1PX solid #999999;
     }
     .item2 {
       grid-column: 2/3;
       padding: 0 20px;
+      border-bottom: 1PX solid #999999;
+      border-top: 1PX solid #999999;
     }
     .item3 {
       grid-column: 3/4;
+      border: 1PX solid #999999;
     }
     .item1, .item2, .item3 {
       background-color: white;
@@ -82,30 +86,6 @@
       span {
         font-size: 30px;
       }
-    }
-
-  }
-  .new-stepper {
-    display: flex;
-    &__minus, &__plus {
-      -webkit-appearance: none;
-      border: 1PX solid #eaeaea;
-      width: 40px;
-      height: 43px;
-      line-height: 43px;
-      background-color: white;
-      font-size: 25px;
-    }
-    &__input {
-      -webkit-appearance: none;
-      border: 1PX solid #eaeaea;
-      height: 30px;
-      line-height: 5px;
-      padding: 20px 20px;
-      background-color: white;
-      font-size: 25px;
-      border-left: none;
-      border-right: none;
     }
   }
 </style>

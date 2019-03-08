@@ -493,6 +493,7 @@
       &__item {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         height: 50px;
         padding: 0 10px;
         &--active {
