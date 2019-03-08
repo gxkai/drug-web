@@ -1,7 +1,7 @@
 {
-  "name": "background",
+  "name": "admin",
   "version": "1.0.0",
-  "description": "My kickass Nuxt.js project",
+  "description": "My sweet Nuxt.js project",
   "author": "gxkai",
   "private": true,
   "scripts": {
