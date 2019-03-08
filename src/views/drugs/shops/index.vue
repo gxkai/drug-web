@@ -247,42 +247,37 @@
           </div>
         </van-popup>
         <van-popup position="bottom" v-model="show1">
-          <div class="shopDrug__popup">
-            <div class="shopDrug__popup__part-1 van-hairline--bottom">
-              <div class="shopDrug__popup__part-1__close-icon">
-                <van-icon name="close" size="3em" color="#F60000"
-                          @click="show1 = false"/>
+          <div class="popup-wrapper">
+            <new-wing-blank class="content1">
+              <div class="item1">
+                <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')"/>
               </div>
-              <div class="shopDrug__popup__part-1__left">
-                <img v-lazy="getImgURL(drugSpec.logo,'LARGE_LOGO')" class="shopDrug__popup__part-1__left-logo"/>
-              </div>
-              <div class="shopDrug__popup__part-1__right">
-                <div class="shopDrug__popup__part-1__right-name">
+              <div class="item2">
+                <div class="name text van-ellipsis">
                   {{drugInfo.name}}
                 </div>
-                <div class="shopDrug__popup__part-1__right-price">
+                <div class="price text van-ellipsis">
                   &yen;{{shopDrugInfo.price}}
                 </div>
               </div>
-            </div>
-            <div class="shopDrug__popup__part-2">
-              <div class="shopDrug__popup__part-2__left">
+              <div class="item3">
+                <van-icon name="close" size="3em" color="#F60000" @click="show1 = false"/>
+              </div>
+            </new-wing-blank>
+            <new-white-space size="2em"/>
+            <new-wing-blank class="content2">
+              <div class="name">
                 购买数量
               </div>
-              <div class="shopDrug__popup__part-2__right">
-                <new-stepper
-                  v-model="number"
-                  :min="1"
-                  :step="1"
-                />
-              </div>
-            </div>
-            <div class="shopDrug__popup__part-3">
-              <van-button size="large" @click="onConfirm">确定</van-button>
-            </div>
+              <new-stepper v-model="number" :min="1"/>
+            </new-wing-blank>
+            <new-white-space size="5em"/>
+            <new-wing-blank class="content3">
+              <van-button size="large" @click="onConfirm" type="danger">确定</van-button>
+            </new-wing-blank>
+            <new-white-space size="2em"/>
           </div>
         </van-popup>
-        <!--购物车弹框结束-->
       </template>
     </new-layout>
   </div>
@@ -458,6 +453,39 @@
 
   /deep/ .van-radio .van-icon-checked {
     color: $themeColor!important;
+  }
+
+  .popup-wrapper {
+    width: 720px;
+    .content1 {
+      display: grid;
+      grid-template-columns: 150px auto 50px;
+      .item1 {
+        img {
+          width: 150px;
+          height: 150px;
+        }
+      }
+      .item2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        overflow: hidden;
+        .text {
+          font-size: 25px;
+        }
+        .price {
+          color: $themeColor;
+        }
+      }
+    }
+    .content2 {
+      display: flex;
+      justify-content: space-between;
+      .name {
+        font-size: 30px;
+      }
+    }
   }
 
   /*选择规格*/
