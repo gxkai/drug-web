@@ -159,7 +159,7 @@
           </div>
           <div class="item2">
             <div class="name text van-ellipsis">
-              {{shopDrug.name}}
+              {{shopDrug.name}}({{shopDrug.stock}})
             </div>
             <div class="price text van-ellipsis">
               &yen;{{shopDrug.price}}
