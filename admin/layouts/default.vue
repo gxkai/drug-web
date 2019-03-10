@@ -1,55 +1,57 @@
 <template>
-  <div>
-    <nuxt />
+  <div class="app">
+    <el-row class="main">
+      <el-col :sm="4" :xs="24" :class="{hide: isMenuHidden, navCol: true}">
+        <navbar :class="{hide: isMenuHidden, navCol: true}"></navbar>
+      </el-col>
+      <el-col :sm="colSize" :xs="24" class="content">
+        <el-row><headbar></headbar></el-row>
+        <el-row><nuxt></nuxt></el-row>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
+<script>
+import { mapGetters } from 'vuex';
+import Navbar from '@/components/Navbar';
+import Headbar from '@/components/Headbar';
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
+export default {
+  components: {
+    Navbar,
+    Headbar
+  },
+  computed: {
+    colSize() {
+      return this.isMenuHidden ? 24 : 20;
+    },
+    ...mapGetters(['isMenuHidden'])
+  }
+};
+</script>
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
+<style scoped lang="scss">
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+.app {
+  height: 100%;
+  .el-row.main {
+    height: 100%;
+    .el-col {
+      height: 100%;
+    }
+    .navCol {
+      transition: width 0.5s, opacity 0.15s ease-out;
+      &.hide {
+        transition: width 0.5s, opacity 2s ease-in;
+      }
+    }
+    .content {
+       transition: width 0.5s, opacity 0.5s ease-in;
+     }
+  }
+  @media (max-width: 768px) {
+    height: auto;
+  }
 }
 </style>

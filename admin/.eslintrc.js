@@ -1,20 +1,24 @@
 module.exports = {
   root: true,
+  parser: 'babel-eslint',
   env: {
     browser: true,
     node: true
   },
-  parserOptions: {
-    parser: 'babel-eslint'
-  },
-  extends: [
-    '@nuxtjs',
-    'plugin:nuxt/recommended',
-    'plugin:prettier/recommended'
-  ],
+  extends: 'standard',
+  // required to lint *.vue files
   plugins: [
-    'prettier'
+    'html'
   ],
   // add your custom rules here
-  rules: {}
+  rules: {
+    "semi": ["error", "always"],
+    "space-before-function-paren": ["error", {
+      "anonymous": "always",
+      "named": "never",
+      "asyncArrow": "always",
+    }],
+    "no-debugger": process.env.NODE_ENV === 'production' ? 2 : 0
+  },
+  globals: {}
 }

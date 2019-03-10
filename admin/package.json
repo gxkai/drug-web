@@ -1,39 +1,91 @@
 {
-  "name": "admin",
-  "version": "1.0.0",
-  "description": "My sweet Nuxt.js project",
-  "author": "gxkai",
-  "private": true,
+  "name": "hare",
+  "version": "0.4.0",
+  "description": "Based on Vue.js 2.x, Koa 2.x, Element-UI and Nuxt.js",
+  "author": "Clark Du",
+  "license": "MIT",
+  "main": "dist/server-app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clarkdo/hare.git"
+  },
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "dev": "cross-env MODE=dev nuxt",
+    "build": "cross-env MODE=pro nuxt build",
+    "start": " cross-env MODE=pro nuxt start",
+    "generate": "cross-env MODE=pro nuxt generate",
+    "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  },
+  "lint-staged": {
+    "{client,server,test}/**/*.{js,vue}": [
+      "eslint --ext .js,.vue --ignore-path .gitignore"
+    ]
+  },
   "dependencies": {
-    "cross-env": "^5.2.0",
-    "nuxt": "^2.4.0",
-    "element-ui": "^2.4.11",
-    "@nuxtjs/axios": "^5.3.6"
+    "axios": "^0.18.0",
+    "bunyan": "^1.8.12",
+    "chart.js": "^2.7.2",
+    "element-ui": "^2.3.2",
+    "js-cookie": "^2.2.0",
+    "js-yaml": "^3.11.0",
+    "jwt-decode": "^2.2.0",
+    "koa": "^2.5.0",
+    "koa-body": "^2.3.0",
+    "koa-bunyan": "^1.0.1",
+    "koa-bunyan-logger": "^2.0.0",
+    "koa-compose": "^4.0.0",
+    "koa-compress": "^2.0.0",
+    "koa-connect": "^2.0.1",
+    "koa-proxies": "^0.6.2",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.1",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.22.0",
+    "negotiator": "^0.6.1",
+    "normalize.css": "^8.0.0",
+    "nuxt": "^1.4.0",
+    "svg-captcha": "^1.3.11",
+    "vue-chartjs": "^3.3.1",
+    "vue-class-component": "^6.2.0",
+    "vue-clipboards": "^1.2.4",
+    "vue-i18n": "^7.6.0",
+    "vuex-class": "^0.3.0",
+    "xmlify": "^1.1.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9",
-    "@nuxtjs/eslint-config": "^0.0.1",
-    "babel-eslint": "^8.2.1",
-    "eslint": "^5.0.1",
-    "eslint-config-standard": ">=12.0.0",
-    "eslint-plugin-import": ">=2.14.0",
-    "eslint-plugin-jest": ">=21.24.1",
-    "eslint-plugin-node": ">=7.0.1",
-    "eslint-plugin-nuxt": ">=0.4.2",
-    "eslint-plugin-promise": ">=4.0.1",
-    "eslint-plugin-standard": ">=4.0.0",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "eslint-config-prettier": "^3.1.0",
-    "eslint-plugin-prettier": "2.6.2",
-    "prettier": "1.14.3"
+    "@nuxtjs/axios": "^5.3.1",
+    "@nuxtjs/webpackmonitor": "^0.1.0",
+    "ava": "^0.25.0",
+    "babel-eslint": "^8.2.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "cpx": "^1.5.0",
+    "cross-env": "^5.1.4",
+    "eslint": "^4.19.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-html": "^4.0.2",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.2",
+    "lodash": "^4.17.5",
+    "moxios": "^0.4.0",
+    "node-sass": "^4.8.3",
+    "nodemon": "^1.17.3",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^6.0.7",
+    "standard-version": "4.3.0"
+  },
+  "engines": {
+    "node": ">=8.0.0",
+    "npm": ">=5.0.0"
   }
 }
