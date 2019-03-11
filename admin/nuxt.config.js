@@ -48,6 +48,7 @@ module.exports = {
       'vue-clipboards',
       'moment',
       'chart.js',
+      '@d2-projects/d2-crud',
       'deepmerge' // vue-chartjs dep
     ],
     extractCSS: true,

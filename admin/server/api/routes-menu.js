@@ -22,6 +22,12 @@ let menu = [
     name: 'nav.about',
     url: '/about',
     icon: 'el-icon-menu'
+  },
+  {
+    id: '3',
+    name: 'nav.about',
+    url: '/about',
+    icon: 'el-icon-menu'
   }
 ]
 
@@ -55,6 +61,19 @@ if (SHOW_EXAMPLES) {
           name: 'nav.charts',
           url: '/examples/charts',
           icon: 'el-icon-picture'
+        }
+      ]
+    },
+    {
+      id: '30',
+      name: 'nav.drug',
+      icon: 'el-icon-goods',
+      children: [
+        {
+          id: '30-1',
+          name: 'nav.warning',
+          url: '/drug/warning',
+          icon: 'el-icon-share'
         }
       ]
     }
