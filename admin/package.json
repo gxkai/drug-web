@@ -10,12 +10,22 @@
     "url": "git+https://github.com/clarkdo/hare.git"
   },
   "scripts": {
-    "dev": "cross-env MODE=dev nuxt",
-    "build": "cross-env MODE=pro nuxt build",
-    "start": " cross-env MODE=pro nuxt start",
-    "generate": "cross-env MODE=pro nuxt generate",
-    "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "dev": "cross-env DEBUG=nuxt:* nodemon -w server -w nuxt.config.js server/app.js",
+    "dev:pm2": "pm2 start yarn --name=hare -- dev",
+    "test": "yarn lint && yarn build:client && ava --verbose --serial ",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint:fix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "build": "yarn build:client && yarn build:server",
+    "build:client": "nuxt build",
+    "build:server": "rimraf dist/server && cpx '{nuxt.config.js,server/**}' dist",
+    "start": "cross-env NODE_ENV=production node dist/server/app.js",
+    "start:pm2": "pm2 start yarn --name=hare -- start",
+    "analyze": "nuxt build --analyze",
+    "generate": "nuxt generate",
+    "precommit": "lint-staged",
+    "heroku-postbuild": "yarn build",
+    "prepublishOnly": "yarn lint && yarn test && yarn build:server",
+    "release": "standard-version"
   },
   "ava": {
     "require": [

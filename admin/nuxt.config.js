@@ -1,5 +1,8 @@
-const webpack = require('webpack');
+const webpack = require('webpack')
 module.exports = {
+  srcDir: 'client/',
+  buildDir: 'dist/client/',
+  rootDir: './',
   dev: (process.env.NODE_ENV !== 'production'),
   /*
   ** Router config
@@ -31,8 +34,8 @@ module.exports = {
     babel: {
       plugins: ['transform-decorators-legacy', 'transform-class-properties']
     },
-    extend(config, { isDev }) {
-      config.resolve.alias['class-component'] = '@/plugins/class-component';
+    extend (config, { isDev }) {
+      config.resolve.alias['class-component'] = '@/plugins/class-component'
     },
     vendor: [
       'axios',
@@ -103,4 +106,4 @@ module.exports = {
       } */
     ]
   }
-};
+}
