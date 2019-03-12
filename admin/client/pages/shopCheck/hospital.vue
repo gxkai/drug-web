@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <div>
+  <div class="hospital-main-content">
       <d2-crud
         :columns="columns"
         :data="data"
@@ -9,8 +8,8 @@
         :options="options"
         :rowHandle="rowHandle"
         @custom-emit-1="handleCustomEvent"
-       />
-    </div>
+        @custom-emit-2="handleCustomEvent2"
+      />
   </div>
 </template>
 <script>
@@ -18,37 +17,74 @@
   import Component from 'class-component'
 
   @Component
-  export default class Warning extends Vue {
+  export default class Hospital extends Vue {
     columns= [
       {
-        title: '卡密',
-        key: 'key',
-        width: 320
+        title: '医院编码',
+        key: 'hospitalId',
+        width: 240
       },
       {
-        title: '面值',
-        key: 'value'
+        title: '医院趣医编码',
+        key: 'hospitalQyid'
       },
       {
-        title: '管理员',
-        key: 'admin'
+        title: '医院名称',
+        key: 'hospitalName'
       },
       {
-        title: '创建时间',
-        key: 'dateTimeCreat'
+        title: '经度',
+        key: 'hospitalLng'
       },
       {
-        title: '使用时间',
-        key: 'dateTimeUse'
+        title: '纬度',
+        key: 'hospitalLat'
+      },
+      {
+        title: '当前状态',
+        key: 'curState'
       }
     ];
     data= [
       {
-        key: '1',
-        value: '1',
-        admin: '1',
-        dateTimeCreat: '1',
-        dateTimeUse: '1'
+        hospitalId: '123',
+        hospitalQyid: '456',
+        hospitalName: '第一人民医院',
+        hospitalLng: '121.023',
+        hospitalLat: '30.456',
+        curState: '在业'
+      },
+      {
+        hospitalId: '123',
+        hospitalQyid: '456',
+        hospitalName: '第二人民医院',
+        hospitalLng: '121.023',
+        hospitalLat: '30.456',
+        curState: '在业'
+      },
+      {
+        hospitalId: '123',
+        hospitalQyid: '456',
+        hospitalName: '第三人民医院',
+        hospitalLng: '121.023',
+        hospitalLat: '30.456',
+        curState: '停业'
+      },
+      {
+        hospitalId: '123',
+        hospitalQyid: '456',
+        hospitalName: '第二人民医院',
+        hospitalLng: '121.023',
+        hospitalLat: '30.456',
+        curState: '在业'
+      },
+      {
+        hospitalId: '123',
+        hospitalQyid: '456',
+        hospitalName: '第三人民医院',
+        hospitalLng: '121.023',
+        hospitalLat: '30.456',
+        curState: '停业'
       }
     ];
     loading= false;
@@ -63,19 +99,49 @@
     rowHandle= {
       custom: [
         {
-          text: '自定义按钮',
-          type: 'warning',
-          size: 'small',
+          text: '审核',
+          type: 'text',
           emit: 'custom-emit-1'
+        },
+        {
+          text: '更多',
+          type: 'text',
+          emit: 'custom-emit-2'
         }
       ]
     };
     mounted () {
     }
     handleCustomEvent ({index, row}) {
-      this.$message.success(index.toString())
+      this.$router.push('/shopCheck/hospitalDetail')
+      // this.$message.success(index.toString())
       console.log(index)
       console.log(row)
     }
+    handleCustomEvent2 () {
+      this.$router.push('/shopCheck/hospitalDetail')
+    }
   }
 </script>
+
+<style lang="scss">
+.hospital-main-content {
+  padding: 10px;
+  .el-table {
+    th {
+      background-color: #F4F4F4;
+      color: #555;
+    }
+  }
+  .cell{
+    .el-button+.el-button{
+      margin-left: 5px;
+      &::before{
+        content: '|';
+        padding-right: 5px;
+        color: #eee;
+      }
+    }
+  }
+}
+</style>

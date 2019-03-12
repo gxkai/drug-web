@@ -1,7 +1,5 @@
 <template>
-  <div class="main-content">
-    <h3 class="h3-title">药房审核</h3>
-    <div>
+  <div class="shop-main-content">
       <d2-crud
         :columns="columns"
         :data="data"
@@ -9,10 +7,9 @@
         :pagination="pagination"
         :options="options"
         :rowHandle="rowHandle"
-        @filterMethod="filterMethod"
         @custom-emit-1="handleCustomEvent"
+        @custom-emit-2="handleCustomEvent2"
        />
-    </div>
   </div>
 </template>
 <script>
@@ -45,18 +42,7 @@
       },
       {
         title: '当前状态',
-        key: 'curState',
-        filters: [
-          { text: '正常', value: '正常' },
-          { text: '休息中', value: '休息中' },
-          { text: '违规', value: '违规' },
-          { text: '待审核', value: '待审核' },
-          { text: '不通过', value: '不通过' }
-        ],
-        filterMethod (value, row) {
-          return row.curState === value
-        },
-        filterPlacement: 'bottom-end'
+        key: 'curState'
       }
     ];
     data= [
@@ -154,37 +140,49 @@
       custom: [
         {
           text: '审核',
-          type: 'warning',
-          size: 'small',
+          type: 'text',
           emit: 'custom-emit-1'
+        },
+        {
+          text: '更多',
+          type: 'text',
+          emit: 'custom-emit-2'
         }
       ]
     };
     mounted () {
     }
     handleCustomEvent ({index, row}) {
-      this.$message.success(index.toString())
+      this.$router.push('/shopCheck/check')
+      // this.$message.success(index.toString())
       // console.log(index)
       // console.log(row)
+    }
+    handleCustomEvent2 () {
+      this.$router.push('/shopCheck/check')
     }
   }
 </script>
 
 
-<style scoped lang="scss">
-  .el-table__header-wrapper {
-    th{
-      background: #f7f7f7;
-      color: #555;
+<style lang="scss">
+  .shop-main-content{
+    padding:10px;
+    .el-table{
+      th{
+        background-color: #F4F4F4;
+        color: #555;
+      }
     }
-  }
-
-  .main-content{
-    padding:0 10px;
-  }
-  .h3-title{
-    margin: 0;
-    padding: 25px 0 10px 0;
-    border-bottom: 1px solid #eee
+    .cell{
+      .el-button+.el-button{
+        margin-left: 5px;
+        &::before{
+          content: '|';
+          padding-right: 5px;
+          color: #eee;
+        }
+      }
+    }
   }
 </style>
