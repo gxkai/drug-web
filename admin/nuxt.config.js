@@ -87,6 +87,8 @@ module.exports = {
   plugins: [
     '@/plugins/i18n',
     '@/plugins/element-ui',
+    '@/plugins/d2-crud',
+    {src: '@/plugins/v-charts', ssr: false},
     {src: '@/plugins/clipboard', ssr: false},
     {src: '@/plugins/error-handler', ssr: false}
   ],
