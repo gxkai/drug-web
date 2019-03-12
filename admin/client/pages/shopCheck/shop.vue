@@ -20,7 +20,7 @@
   import Component from 'class-component'
 
   @Component
-  export default class Warning extends Vue {
+  export default class Shop extends Vue {
     columns= [
       {
         title: '药房名称',
