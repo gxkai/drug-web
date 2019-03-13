@@ -1,6 +1,21 @@
 <template>
-  <div>
-    <div>
+  <div class="chat">
+    <div class="filter">
+      <el-row :gutter="20">
+        <el-col :span="7">
+          <el-input
+            placeholder="用户名称"
+            v-model="nameValue"
+            clearable>
+          </el-input>
+
+          <el-button size="medium" type="primary">搜索</el-button>
+          <el-button size="medium">清空</el-button>
+        </el-col>
+      </el-row>
+    </div>
+
+    <div class="list">
       <d2-crud
         :columns="columns"
         :data="data"
@@ -18,39 +33,32 @@
   import Component from 'class-component'
 
   @Component
-  export default class Warning extends Vue {
+  export default class Chat extends Vue {
+    nameValue = '';
+
     columns= [
       {
-        title: '卡密',
-        key: 'key',
-        width: 320
+        title: '编号',
+        key: 'number'
       },
       {
-        title: '面值',
-        key: 'value'
+        title: '用户名称',
+        key: 'username'
       },
       {
-        title: '管理员',
-        key: 'admin'
-      },
-      {
-        title: '创建时间',
-        key: 'dateTimeCreat'
-      },
-      {
-        title: '使用时间',
-        key: 'dateTimeUse'
+        title: '药师名称',
+        key: 'pharmacistName'
       }
     ];
-    data= [
+
+    data = [
       {
-        key: '1',
-        value: '1',
-        admin: '1',
-        dateTimeCreat: '1',
-        dateTimeUse: '1'
+        number: '1',
+        username: '张三',
+        pharmacistName: '李四'
       }
     ];
+
     loading= false;
     pagination= {
       currentPage: 1,
@@ -63,10 +71,9 @@
     rowHandle= {
       custom: [
         {
-          text: '自定义按钮',
-          type: 'warning',
-          size: 'small',
-          emit: 'custom-emit-1'
+          text: '查看详情',
+          type: 'primary',
+          size: 'small'
         }
       ]
     };
@@ -79,3 +86,14 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  .filter{
+    margin: 20px auto;
+
+    .el-input{
+      width: 50%;
+      margin-right: 30px;
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div>
+  <div class="rx">
+    <h2>处方管理</h2>
+    <div class="list">
       <d2-crud
         :columns="columns"
         :data="data"
@@ -18,55 +19,63 @@
   import Component from 'class-component'
 
   @Component
-  export default class Warning extends Vue {
+  export default class Rx extends Vue {
     columns= [
       {
-        title: '卡密',
-        key: 'key',
-        width: 320
+        title: '处方医院',
+        key: 'preHospital'
       },
       {
-        title: '面值',
-        key: 'value'
+        title: '病患姓名',
+        key: 'patientName'
       },
       {
-        title: '管理员',
-        key: 'admin'
+        title: '症状',
+        key: 'symptom'
       },
       {
-        title: '创建时间',
-        key: 'dateTimeCreat'
+        title: '处方医生',
+        key: 'preDoctor'
       },
       {
-        title: '使用时间',
-        key: 'dateTimeUse'
+        title: '处方科室',
+        key: 'preDept'
+      },
+      {
+        title: '更新时间',
+        key: 'updateTime'
+      },
+      {
+        title: '当前状态',
+        key: 'currentState'
       }
     ];
-    data= [
+    data = [
       {
-        key: '1',
-        value: '1',
-        admin: '1',
-        dateTimeCreat: '1',
-        dateTimeUse: '1'
+        preHospital: '1',
+        patientName: '1',
+        symptom: '1',
+        preDoctor: '1',
+        preDept: '1',
+        updateTime: '2019-03-12 13:15:45',
+        currentState: '未使用'
       }
     ];
-    loading= false;
-    pagination= {
+    loading = false;
+    pagination = {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 1,
       total: 0
     };
-    options= {
+    options = {
       border: true
     };
     rowHandle= {
       custom: [
         {
-          text: '自定义按钮',
-          type: 'warning',
-          size: 'small',
-          emit: 'custom-emit-1'
+          text: '查看',
+          type: 'primary',
+          size: 'small'
         }
       ]
     };
