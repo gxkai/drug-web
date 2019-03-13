@@ -1,8 +1,8 @@
 <template>
-  <div class="hospital-main-content2">
-    <h3 class="h3-tit">详情页面</h3>
+  <div class="hospital-detail">
+    <bread-crumb :path="$route.path"/>
     <div class="hospital-form">
-      <el-form ref="form" :model="form" label-width="160px">
+      <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="医院编码：">
         <el-input v-model="form.hospitalId" placeholder="请输入"></el-input>
       </el-form-item>
@@ -42,8 +42,13 @@
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
+  import BreadCrumb from '@/components/Breadcrumb'
 
-  @Component
+  @Component({
+    components: {
+      BreadCrumb
+    }
+  })
   export default class HospitalDetail extends Vue {
     hospitalImage = require(`~/assets/img/hospital/img1.png`)
     form = {
@@ -61,13 +66,8 @@
 
 
 <style scoped lang="scss">
-.hospital-main-content2{
+.hospital-detail{
   padding: 10px;
-  .h3-tit{
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    text-indent: 20px;
-  }
   .hospital-form{
     padding-right: 200px;
     form.el-form{
@@ -87,5 +87,4 @@
     }
   }
 }
-
 </style>

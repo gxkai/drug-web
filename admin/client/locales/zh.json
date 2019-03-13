@@ -55,8 +55,18 @@
     "规格管理",
   "/drugCheck/type":
     "类型管理",
+  "/drugCheck/type/typeChild":
+    "子类管理",
+  "/drugCheck/type/typeChild/create":
+    "子类创建",
+  "/drugCheck/type/typeChild/edit":
+    "子类编辑",
   "/drugCheck/stock":
     "药品库管理",
+  "/drugCheck/stock/create":
+    "药品库新增",
+  "/drugCheck/stock/edit":
+    "药品库编辑",
   "/drugCheck/drug":
     "药品列表管理",
   "/drugCheck/drugInfo":
@@ -109,7 +119,4 @@
     "登陆日志",
   "/system/system":
     "系统参数"
-
-
-
 }

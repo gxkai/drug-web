@@ -1,5 +1,6 @@
 <template>
-  <div class="hospital-main-content">
+  <div class="p10">
+      <bread-crumb :path="$route.path"/>
       <d2-crud
         :columns="columns"
         :data="data"
@@ -9,14 +10,20 @@
         :rowHandle="rowHandle"
         @custom-emit-1="handleCustomEvent"
         @custom-emit-2="handleCustomEvent2"
+        class="drug-table"
       />
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
+  import BreadCrumb from '@/components/Breadcrumb'
 
-  @Component
+  @Component({
+    components: {
+      BreadCrumb
+    }
+  })
   export default class Hospital extends Vue {
     columns= [
       {
@@ -124,24 +131,31 @@
   }
 </script>
 
-<style lang="scss">
-.hospital-main-content {
-  padding: 10px;
-  .el-table {
-    th {
-      background-color: #F4F4F4;
-      color: #555;
-    }
+<style lang="scss" scoped>
+  .p10{
+    padding:5px 10px;
   }
-  .cell{
-    .el-button+.el-button{
-      margin-left: 5px;
-      &::before{
-        content: '|';
-        padding-right: 5px;
-        color: #eee;
+  /deep/.drug-table{
+    .d2-crud-body{
+      padding: 0 !important;
+      .el-table{
+        th{
+          background-color: #F4F4F4 !important;
+          color: #555 !important;
+        }
+        td{
+          .cell{
+            /deep/.el-button+.el-button{
+              margin-left: 5px;
+              &::before{
+                content: '|';
+                padding-right: 5px;
+                color: #eee;
+              }
+            }
+          }
+        }
       }
     }
   }
-}
 </style>

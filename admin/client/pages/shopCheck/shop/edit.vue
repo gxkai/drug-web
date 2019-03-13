@@ -1,8 +1,8 @@
 <template>
-  <div class="shop-main-content2">
+  <div class="shop-edit">
     <bread-crumb :path="$route.path"/>
     <div class="check-form">
-      <el-form ref="form" :model="form" label-width="200px">
+      <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="药店名称：">
           <el-input v-model="form.shopName" placeholder="请输入"></el-input>
         </el-form-item>
@@ -215,16 +215,11 @@
 
 
 <style scoped lang="scss">
-.shop-main-content2{
+.shop-edit{
   padding: 10px;
-  .h3-tit{
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    text-indent: 20px;
-  }
   .check-form{
-    padding:0 200px 0 0px;
-    form.el-form{
+    padding:0 100px 0 0;
+    .el-form{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-template-rows: repeat(7, 50px) 200px 200px 200px;
@@ -268,7 +263,7 @@
   justify-content: center;
   padding: 50px;
 }
-/**
+/*
 element reset
  */
 /deep/.avatar-uploader .el-upload {
