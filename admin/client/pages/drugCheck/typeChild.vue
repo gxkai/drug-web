@@ -1,7 +1,10 @@
 <template>
-  <div class="type--content">
-    <div class="type--content__search">
+  <div class="spec--content">
+    <div class="spec--content__search">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
+      <el-input v-model="commonNameValue" placeholder="请输入类型名称" style="width: 200px;"></el-input>
+      <el-button type="primary" size="small">搜索</el-button>
+      <el-button size="small" @click="clear">清空</el-button>
     </div>
     <div>
       <d2-crud
@@ -14,14 +17,11 @@
         :rowHandle="rowHandle"
         :edit-template="editTemplate"
         :form-options="formOptions"
-        @type-child-emit="handleChild"
         @row-edit="handleRowEdit"
         @row-remove="handleRowRemove"
         @row-add="handleRowAdd"
         add-title="我的新增"
         :add-template="addTemplate"
-        :add-rules="addRules"
-        @dialog-cancel="handleDialogCancel"
       />
     </div>
   </div>
@@ -30,7 +30,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   @Component
-  export default class TypeDrugs extends Vue {
+  export default class typeDrugsChild extends Vue {
+    commonNameValue = ''
     columns = [
       {
         title: 'ID',
@@ -39,40 +40,30 @@
       },
       {
         title: '类型名称',
-        key: 'typeName'
-      },
-      {
-        title: '排序',
-        key: 'typeSort'
+        key: 'specName'
       }
     ]
     data = [
       {
-        typeId: '1',
-        typeName: '家庭常用',
-        typeSort: '1'
+        specId: '1',
+        specName: '15g*16袋'
       },
       {
-        typeId: '2',
-        typeName: '儿科用药',
-        typeSort: '2'
+        specId: '2',
+        specName: '15g*16袋'
       },
       {
-        typeId: '3',
-        typeName: '肠胃用药',
-        typeSort: '3'
+        specId: '3',
+        specName: '15g*16袋'
       },
       {
-        typeId: '14',
-        typeName: '呼吸系统',
-        typeSort: '4'
+        specId: '4',
+        specName: '15g*16袋'
       },
       {
-        typeId: '5',
-        typeName: '心脑血管',
-        typeSort: '5'
+        specId: '5',
+        specName: '15g*16袋'
       }
-
     ]
     loading = false;
     pagination = {
@@ -85,13 +76,6 @@
     }
     rowHandle = {
       columnHeader: '操作',
-      custom: [
-        {
-          text: '下级',
-          type: 'text',
-          emit: 'type-child-emit'
-        }
-      ],
       edit: {
         text: '编辑',
         type: 'text'
@@ -103,42 +87,32 @@
       }
     }
     editTemplate = {
-      typeId: {
+      specId: {
         title: 'ID',
         value: ''
       },
-      typeName: {
-        title: '类型名称',
-        value: ''
-      },
-      typeSort: {
-        title: '排序',
+      specName: {
+        title: '规格名称',
         value: ''
       }
     }
     addTemplate = {
-      typeId: {
+      specId: {
         title: 'ID',
         value: ''
       },
-      typeName: {
-        title: '类型名称',
-        value: ''
-      },
-      typeSort: {
-        title: '排序',
+      specName: {
+        title: '规格名称',
         value: ''
       }
     }
     formOptions = {
       labelWidth: '80px',
-      labelPosition: 'right',
+      labelPosition: 'left',
       saveLoading: false
     }
-    addRules = {
-      typeId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
-      typeName: [ { required: true, message: '请输入类型名称', trigger: 'blur' } ],
-      typeSort: [ { required: true, message: '请输入排序', trigger: 'blur' } ]
+    clear () {
+      this.commonNameValue = ''
     }
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
@@ -150,13 +124,6 @@
         done()
         this.formOptions.saveLoading = false
       }, 300)
-    }
-    handleDialogCancel (done) {
-      this.$message({
-        message: '取消保存',
-        type: 'warning'
-      })
-      done()
     }
     handleRowRemove ({ index, row }, done) {
       setTimeout(() => {
@@ -184,14 +151,11 @@
         this.formOptions.saveLoading = false
       }, 300)
     }
-    handleChild () {
-      this.$router.push('/drugCheck/typeChild')
-    }
   }
 </script>
 
 <style lang="scss">
-  .type--content{
+  .spec--content{
     padding: 10px;
     &__search{
       display: flex;

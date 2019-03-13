@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row>
+    <el-row class="breadcrumb">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item v-for="(path, index) in paths_" :key="index">
           <nuxt-link :to="index>0 ? path : ''">
@@ -42,4 +42,8 @@ export default class Breadcrumb extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped type="text/scss" lang="scss">
+  .breadcrumb {
+    padding: 20px 0;
+  }
+</style>
