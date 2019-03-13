@@ -1,7 +1,5 @@
 export default {
   install(Vue, options) {
-    // 自定义头, TODO 移除
-    Vue.component('new-header', () => import('./header'));
     // 星星组件
     Vue.component('new-star', () => import('./star'));
     // 没有数据
@@ -29,7 +27,7 @@ export default {
     // 处方列表倒计时组件
     Vue.component('new-count-down', () => import('./countDown'));
     // 首页二级标题
-    Vue.component('new-header-sec', () => import('./headerSec'));
+    Vue.component('new-central-title', () => import('./centralTitle'));
     // 我的评价标签
     Vue.component('new-appraise-item', () => import('./appraiseItem'));
     // 优惠券标签
@@ -56,5 +54,11 @@ export default {
     Vue.component('new-submit-bar', () => import('./submitBar'));
     // 图片带处方标志
     Vue.component('new-rx-image', () => import('./rxImage'));
+    // 竖线
+    Vue.component('new-line', () => import('./line'));
+    // 咨询小人
+    Vue.component('new-consult', () => import('./consult'));
+    // 坐标题
+    Vue.component('new-left-title', () => import('./leftTitle'));
   }
 };
