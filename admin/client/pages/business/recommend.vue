@@ -185,6 +185,11 @@
       custom: [
         {
           text: '查看',
+          type: 'success',
+          size: 'small'
+        },
+        {
+          text: '更多',
           type: 'primary',
           size: 'small'
         }

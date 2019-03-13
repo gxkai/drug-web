@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <div>
+  <div class="feedback">
+    <h2>用户反馈</h2>
+
+    <div class="list">
       <d2-crud
         :columns="columns"
         :data="data"
@@ -18,37 +20,46 @@
   import Component from 'class-component'
 
   @Component
-  export default class Warning extends Vue {
+  export default class Feedback extends Vue {
     columns= [
       {
-        title: '卡密',
-        key: 'key',
-        width: 320
+        title: '序号',
+        key: 'num'
       },
       {
-        title: '面值',
-        key: 'value'
+        title: '用户名',
+        key: 'name'
       },
       {
-        title: '管理员',
-        key: 'admin'
+        title: '提交时间',
+        key: 'submitTime'
       },
       {
-        title: '创建时间',
-        key: 'dateTimeCreat'
+        title: '内容',
+        key: 'content'
       },
       {
-        title: '使用时间',
-        key: 'dateTimeUse'
+        title: '状态',
+        key: 'status'
+      },
+      {
+        title: '处理人',
+        key: 'processer'
+      },
+      {
+        title: '回复内容',
+        key: 'replyContent'
       }
     ];
     data= [
       {
-        key: '1',
-        value: '1',
-        admin: '1',
-        dateTimeCreat: '1',
-        dateTimeUse: '1'
+        num: '1',
+        name: '1',
+        submitTime: '1',
+        content: '1',
+        status: '1',
+        processer: '2',
+        replyContent: '2'
       }
     ];
     loading= false;
@@ -63,10 +74,14 @@
     rowHandle= {
       custom: [
         {
-          text: '自定义按钮',
+          text: '查看',
+          type: 'primary',
+          size: 'small'
+        },
+        {
+          text: '图片',
           type: 'warning',
-          size: 'small',
-          emit: 'custom-emit-1'
+          size: 'small'
         }
       ]
     };

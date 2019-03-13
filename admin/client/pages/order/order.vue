@@ -47,12 +47,12 @@
             <el-date-picker
               v-model="dateValue"
               type="datetimerange"
-              range-separator="~"
+              range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>
           </el-col>
-          <el-col :span="5" class="action-col">
+          <el-col :span="7" class="action-col">
             <el-button size="medium" type="primary">搜索</el-button>
             <el-button size="medium">重置</el-button>
           </el-col>
