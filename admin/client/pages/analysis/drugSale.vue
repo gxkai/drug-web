@@ -1,15 +1,24 @@
 <template>
-  <div>
-    <div>
+  <div class="drug-sale">
+    <div class="filter">
+      <el-select v-model="value8" filterable placeholder="请选择">
+        <el-option
+          v-for="item in list"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <el-button type="primary">搜索</el-button>
+      <el-button>清空</el-button>
+    </div>
+
+    <div class="list">
       <d2-crud
-        :columns="columns"
+        :columns="columnData"
         :data="data"
-        :loading="loading"
-        :pagination="pagination"
-        :options="options"
-        :rowHandle="rowHandle"
-        @custom-emit-1="handleCustomEvent"
-       />
+        :options="optionData"
+        :pagination="pagination"/>
     </div>
   </div>
 </template>
@@ -18,64 +27,65 @@
   import Component from 'class-component'
 
   @Component
-  export default class Warning extends Vue {
-    columns= [
+  export default class DrugSale extends Vue {
+    list = [
       {
-        title: '卡密',
-        key: 'key',
-        width: 320
-      },
-      {
-        title: '面值',
-        key: 'value'
-      },
-      {
-        title: '管理员',
-        key: 'admin'
-      },
-      {
-        title: '创建时间',
-        key: 'dateTimeCreat'
-      },
-      {
-        title: '使用时间',
-        key: 'dateTimeUse'
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
       }
     ];
-    data= [
+
+    value8 = '';
+
+    columnData = [
       {
-        key: '1',
-        value: '1',
-        admin: '1',
-        dateTimeCreat: '1',
-        dateTimeUse: '1'
+        title: '排序',
+        key: 'sort',
+        width: '300'
+      },
+      {
+        title: '药品名称',
+        key: 'drugName'
+      },
+      {
+        title: '销售量',
+        key: 'sales',
+        width: '300'
       }
     ];
-    loading= false;
-    pagination= {
+    data = [
+      {
+        sort: 1,
+        drugName: '川贝枇杷糖浆',
+        sales: 23344
+      },
+      {
+        sort: 2,
+        drugName: '辛伐他汀片',
+        sales: 14068
+      }
+    ];
+    pagination = {
       currentPage: 1,
-      pageSize: 5,
-      total: 0
+      pageSize: 1,
+      total: this.data.length
     };
-    options= {
+    optionData = {
       border: true
     };
-    rowHandle= {
-      custom: [
-        {
-          text: '自定义按钮',
-          type: 'warning',
-          size: 'small',
-          emit: 'custom-emit-1'
-        }
-      ]
-    };
     mounted () {
-    }
-    handleCustomEvent ({index, row}) {
-      this.$message.success(index.toString())
-      console.log(index)
-      console.log(row)
     }
   }
 </script>

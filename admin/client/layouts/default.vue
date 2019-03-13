@@ -47,7 +47,7 @@ export default {
       }
     }
     .content {
-       transition: width 0.5s, opacity 0.5s ease-in;
+      transition: width 0.5s, opacity 0.5s ease-in;
      }
   }
   @media (max-width: 768px) {

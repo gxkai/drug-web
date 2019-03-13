@@ -317,7 +317,7 @@ if (SHOW_EXAMPLES) {
         },
         {
           id: '100-8',
-          name: '知识库管理',
+          name: '系统参数',
           url: '/system/system',
           icon: 'el-icon-share'
         }
