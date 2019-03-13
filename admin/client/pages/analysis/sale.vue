@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>
+      <bread-crumb :path="$route.path"/>
       <d2-crud
         :columns="columns"
         :data="data"
@@ -17,8 +18,13 @@
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
+  import BreadCrumb from '@/components/Breadcrumb'
 
-  @Component
+  @Component({
+    components: {
+      BreadCrumb
+    }
+  })
   export default class Sale extends Vue {
     chartData= {
       columns: ['日期', '访问用户'],

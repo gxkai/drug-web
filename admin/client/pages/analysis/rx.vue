@@ -1,16 +1,15 @@
 <template>
-  <div>
-    <div>
-      <d2-crud
-        :columns="columns"
-        :data="data"
-        :loading="loading"
-        :pagination="pagination"
-        :options="options"
-        :rowHandle="rowHandle"
-        @custom-emit-1="handleCustomEvent"
-       />
-    </div>
+  <div class="sale-wrap">
+    <el-row>
+      <div class="filter">
+        <el-button size="small" type="primary">近一周</el-button>
+        <el-button size="small" type="primary">近一月</el-button>
+        <el-button size="small" type="primary">近一年</el-button>
+      </div>
+      <div class="sales-pie">
+        <ve-pie :data="pieData"></ve-pie>
+      </div>
+    </el-row>
   </div>
 </template>
 <script>
@@ -18,64 +17,34 @@
   import Component from 'class-component'
 
   @Component
-  export default class Warning extends Vue {
-    columns= [
-      {
-        title: '卡密',
-        key: 'key',
-        width: 320
-      },
-      {
-        title: '面值',
-        key: 'value'
-      },
-      {
-        title: '管理员',
-        key: 'admin'
-      },
-      {
-        title: '创建时间',
-        key: 'dateTimeCreat'
-      },
-      {
-        title: '使用时间',
-        key: 'dateTimeUse'
-      }
-    ];
-    data= [
-      {
-        key: '1',
-        value: '1',
-        admin: '1',
-        dateTimeCreat: '1',
-        dateTimeUse: '1'
-      }
-    ];
-    loading= false;
-    pagination= {
-      currentPage: 1,
-      pageSize: 5,
-      total: 0
-    };
-    options= {
-      border: true
-    };
-    rowHandle= {
-      custom: [
-        {
-          text: '自定义按钮',
-          type: 'warning',
-          size: 'small',
-          emit: 'custom-emit-1'
-        }
+  export default class Rx extends Vue {
+    pieData = {
+      columns: ['名称', '数量'],
+      rows: [
+        { '名称': '非处方', '数量': 1393 },
+        { '名称': '处方', '数量': 3530 }
       ]
     };
+
     mounted () {
-    }
-    handleCustomEvent ({index, row}) {
-      this.$message.success(index.toString())
-      console.log(index)
-      console.log(row)
+
     }
   }
 </script>
+
+<style lang="scss" scoped>
+
+  .sale-wrap{
+    padding: 20px;
+
+    .filter{
+      text-align: center;
+      margin: 30px 0;
+
+      .el-button+.el-button {
+        margin-left: 0;
+      }
+    }
+  }
+
+</style>
