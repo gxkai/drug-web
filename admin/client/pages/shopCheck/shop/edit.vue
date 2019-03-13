@@ -268,19 +268,20 @@
   justify-content: center;
   padding: 50px;
 }
-</style>
-<style>
-.avatar-uploader .el-upload {
+/**
+element reset
+ */
+/deep/.avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
 }
-.avatar-uploader .el-upload:hover {
+/deep/.avatar-uploader .el-upload:hover {
   border-color: #409EFF;
 }
-.avatar-uploader-icon {
+/deep/.avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
   width: 148px;
@@ -288,10 +289,9 @@
   line-height: 148px;
   text-align: center;
 }
-.avatar {
+/deep/.avatar {
   width: 148px;
   height: 148px;
   display: block;
 }
-
 </style>
