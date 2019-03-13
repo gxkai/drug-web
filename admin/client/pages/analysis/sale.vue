@@ -1,69 +1,34 @@
 <template>
-  <div class="sale-wrap">
-    <el-row>
-      <div class="search">
-        <el-select v-model="value8" filterable placeholder="请选择">
-          <el-option
-            v-for="item in list"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-button type="primary">搜索</el-button>
-        <el-button>清空</el-button>
-      </div>
-    </el-row>
-
-    <el-row>
-      <div class="filter">
-        <el-button size="small" type="primary">近一周</el-button>
-        <el-button size="small" type="primary">近一月</el-button>
-        <el-button size="small" type="primary">近一年</el-button>
-      </div>
-      <div class="sales-pie">
-        <ve-pie :data="pieData"></ve-pie>
-      </div>
-      <div class="sales-line">
-        <ve-line :data="lineData" :settings="chartSettings"></ve-line>
-      </div>
-    </el-row>
+  <div>
+    <div>
+      <bread-crumb :path="$route.path"/>
+      <d2-crud
+        :columns="columns"
+        :data="data"
+        :loading="loading"
+        :pagination="pagination"
+        :options="options"
+        :rowHandle="rowHandle"
+        @custom-emit-1="handleCustomEvent"
+       />
+      <ve-pie :data="chartData"></ve-pie>
+    </div>
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
+  import BreadCrumb from '@/components/Breadcrumb'
 
-  @Component
+  @Component({
+    components: {
+      BreadCrumb
+    }
+  })
   export default class Sale extends Vue {
-    list = [{
-      value: '选项1',
-      label: '黄金糕'
-    }, {
-      value: '选项2',
-      label: '双皮奶'
-    }, {
-      value: '选项3',
-      label: '蚵仔煎'
-    }, {
-      value: '选项4',
-      label: '龙须面'
-    }, {
-      value: '选项5',
-      label: '北京烤鸭'
-    }];
-
-    value8 = '';
-
-    pieData = {
+    chartData= {
       columns: ['日期', '访问用户'],
       rows: [
-        { '日期': '1/1', '访问用户': 1393 },
-        { '日期': '1/2', '访问用户': 3530 },
-        { '日期': '1/3', '访问用户': 2923 },
-        { '日期': '1/4', '访问用户': 1723 },
-        { '日期': '1/5', '访问用户': 3792 },
-        { '日期': '1/6', '访问用户': 4593 },
         { '日期': '1/1', '访问用户': 1393 },
         { '日期': '1/2', '访问用户': 3530 },
         { '日期': '1/3', '访问用户': 2923 },
@@ -72,42 +37,63 @@
         { '日期': '1/6', '访问用户': 4593 }
       ]
     };
-
-    chartSettings = {
-      xAxisType: 'time'
+    columns= [
+      {
+        title: '卡密',
+        key: 'key',
+        width: 320
+      },
+      {
+        title: '面值',
+        key: 'value'
+      },
+      {
+        title: '管理员',
+        key: 'admin'
+      },
+      {
+        title: '创建时间',
+        key: 'dateTimeCreat'
+      },
+      {
+        title: '使用时间',
+        key: 'dateTimeUse'
+      }
+    ];
+    data= [
+      {
+        key: '1',
+        value: '1',
+        admin: '1',
+        dateTimeCreat: '1',
+        dateTimeUse: '1'
+      }
+    ];
+    loading= false;
+    pagination= {
+      currentPage: 1,
+      pageSize: 5,
+      total: 0
     };
-
-    lineData = {
-      columns: ['日期', '访问用户', '下单用户', '下单率'],
-      rows: [
-        { '日期': '2018-01-01', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32 },
-        { '日期': '2018-01-02', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26 },
-        { '日期': '2018-01-03', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76 },
-        { '日期': '2018-01-05', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49 },
-        { '日期': '2018-01-10', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323 },
-        { '日期': '2018-01-20', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78 }
+    options= {
+      border: true
+    };
+    rowHandle= {
+      custom: [
+        {
+          text: '自定义按钮',
+          type: 'warning',
+          size: 'small',
+          emit: 'custom-emit-1'
+        }
       ]
     };
-
     mounted () {
-
+    }
+    handleCustomEvent ({index, row}) {
+      this.$message.success(index.toString())
+      console.log(index)
+      console.log(row)
     }
   }
 </script>
-
-<style lang="scss" scoped>
-
-  .sale-wrap{
-    padding: 20px;
-
-    .filter{
-      text-align: center;
-      margin: 30px 0;
-
-      .el-button+.el-button {
-        margin-left: 0;
-      }
-    }
-  }
-
-</style>

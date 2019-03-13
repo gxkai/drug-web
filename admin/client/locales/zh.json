@@ -16,5 +16,96 @@
     "exit": "退出"
   },
   "tagline":
-    "Application boilerplate based on Vue.js 2.x, Koa 2.x, Element-UI, Axios, Vue i18n and Nuxt.js"
+    "Application boilerplate based on Vue.js 2.x, Koa 2.x, Element-UI, Axios, Vue i18n and Nuxt.js",
+  "/":
+    "首页",
+  "/analysis":
+    "统计分析",
+  "/analysis/sale":
+    "销售分析",
+  "/analysis/order":
+    "订单分析",
+  "/analysis/rx":
+    "处方统计",
+  "/analysis/shopSale":
+    "药房销售额排名",
+  "/analysis/drugSale":
+    "药品销量排名",
+  "/analysis/medicaid":
+    "医保统计",
+  "/shopCheck":
+    "店铺审核",
+  "/shopCheck/shop":
+    "药房审核",
+  "/shopCheck/origin":
+    "厂商审核",
+  "/shopCheck/hospital":
+    "医院管理",
+  "/drugCheck":
+    "药品审核",
+  "/drugCheck/commonName":
+    "通用名管理",
+  "/drugCheck/form":
+    "剂型管理",
+  "/drugCheck/spec":
+    "规格管理",
+  "/drugCheck/type":
+    "类型管理",
+  "/drugCheck/stock":
+    "药品库管理",
+  "/drugCheck/drug":
+    "药品列表管理",
+  "/drugCheck/drugInfo":
+    "规格管理",
+  "/order":
+    "订单管理",
+  "/order/order":
+    "订单管理",
+  "/order/appraise":
+    "评价管理",
+  "/rx":
+    "处方管理",
+  "/rx/rx":
+    "处方管理",
+  "/business":
+    "业务管理",
+  "/business/advert":
+    "广告管理",
+  "/business/recommend":
+    "好货推荐",
+  "/business/discount":
+    "惠民促销",
+  "/business/chat":
+    "药师咨询",
+  "/business/feedback":
+    "用户反馈",
+  "/business/system":
+    "系统消息",
+  "/business/word":
+    "搜索词管理",
+  "/business/repository":
+    "知识库管理",
+  "/business/faq":
+    "常见问题",
+  "/system":
+    "系统设置",
+  "/system/account":
+    "会员管理",
+  "/system/user":
+    "用户管理",
+  "/system/admin":
+    "监管用户",
+  "/system/role":
+    "角色管理",
+  "/system/file":
+    "附件管理",
+  "/system/interface":
+    "接口调用数",
+  "/system/loginLog":
+    "登陆日志",
+  "/system/system":
+    "系统参数"
+
+
+
 }
