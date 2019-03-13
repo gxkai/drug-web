@@ -14,10 +14,12 @@
 <script>
 import Component from 'class-component'
 import ForkThis from '@/components/ForkThis'
+import BreadCrumb from '@/components/Breadcrumb'
 
 @Component({
   components: {
-    ForkThis
+    ForkThis,
+    BreadCrumb
   }
 })
 export default class Home {
