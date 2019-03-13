@@ -73,7 +73,8 @@
         {
           text: '查看详情',
           type: 'primary',
-          size: 'small'
+          size: 'small',
+          emit: 'custom-emit-1'
         }
       ]
     };
