@@ -25,7 +25,7 @@
           <el-input v-model="form.hospitalLat" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院照片：" class="hospitalImg">
-          <img src="~/assets/img/img1.png" style="max-width: 100%;height: auto;">
+          <img :src="hospitalImage" style="max-width: 100%;height: auto;">
         </el-form-item>
         <el-form-item label="医院介绍：" class="hospitalIntro">
           <el-input
@@ -45,6 +45,7 @@
 
   @Component
   export default class HospitalDetail extends Vue {
+    hospitalImage = require(`~/assets/img/hospital/img1.png`)
     form = {
       hospitalId: '',
       hospitalQyid: '',
