@@ -153,13 +153,13 @@
     mounted () {
     }
     handleCustomEvent ({index, row}) {
-      this.$router.push('/shopCheck/check')
+      this.$router.push('/shopCheck/shop/edit')
       // this.$message.success(index.toString())
       // console.log(index)
       // console.log(row)
     }
     handleCustomEvent2 () {
-      this.$router.push('/shopCheck/check')
+      this.$router.push('/shopCheck/shop/edit')
     }
   }
 </script>

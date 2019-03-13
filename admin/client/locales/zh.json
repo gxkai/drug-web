@@ -37,6 +37,8 @@
     "店铺审核",
   "/shopCheck/shop":
     "药房审核",
+  "/shopCheck/shop/edit":
+    "药房审核编辑",
   "/shopCheck/origin":
     "厂商审核",
   "/shopCheck/hospital":

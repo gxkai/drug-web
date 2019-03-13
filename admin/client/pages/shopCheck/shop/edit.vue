@@ -1,6 +1,6 @@
 <template>
   <div class="shop-main-content2">
-    <h3 class="h3-tit">基本信息</h3>
+    <bread-crumb :path="$route.path"/>
     <div class="check-form">
       <el-form ref="form" :model="form" label-width="200px">
         <el-form-item label="药店名称：">
@@ -140,8 +140,13 @@
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
+  import BreadCrumb from '@/components/Breadcrumb'
 
-  @Component
+  @Component({
+    components: {
+      BreadCrumb
+    }
+  })
   export default class ShopCheck extends Vue {
     form = {
       shopName: '',
