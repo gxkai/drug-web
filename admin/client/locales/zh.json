@@ -43,6 +43,8 @@
     "厂商审核",
   "/shopCheck/hospital":
     "医院管理",
+  "/shopCheck/hospital/detail":
+    "医院管理详情",
   "/drugCheck":
     "药品审核",
   "/drugCheck/commonName":

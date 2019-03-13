@@ -113,13 +113,13 @@
     mounted () {
     }
     handleCustomEvent ({index, row}) {
-      this.$router.push('/shopCheck/hospitalDetail')
+      this.$router.push('/shopCheck/hospital/detail')
       // this.$message.success(index.toString())
       console.log(index)
       console.log(row)
     }
     handleCustomEvent2 () {
-      this.$router.push('/shopCheck/hospitalDetail')
+      this.$router.push('/shopCheck/hospital/detail')
     }
   }
 </script>
