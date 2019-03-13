@@ -1,6 +1,7 @@
 <template>
   <div class="commonName--content">
     <div class="commonName--content__search">
+      <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
       <el-input v-model="commonNameValue" placeholder="请输入通用名" style="width: 200px;"></el-input>
       <el-button type="primary" size="small">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
@@ -17,9 +18,12 @@
         :edit-template="editTemplate"
         :form-options="formOptions"
         @row-edit="handleRowEdit"
-        @dialog-cancel="handleDialogCancel"
-        @form-data-change="handleFormDataChange"
         @row-remove="handleRowRemove"
+        @row-add="handleRowAdd"
+        add-title="我的新增"
+        :add-template="addTemplate"
+        :add-rules="addRules"
+        @dialog-cancel="handleDialogCancel"
        />
     </div>
   </div>
@@ -94,23 +98,31 @@
         value: ''
       }
     }
+    addTemplate = {
+      commonId: {
+        title: 'ID',
+        value: ''
+      },
+      commonName: {
+        title: '通用名',
+        value: ''
+      }
+    }
     formOptions = {
       labelWidth: '80px',
-      labelPosition: 'left',
+      labelPosition: 'right',
       saveLoading: false
+    }
+    addRules = {
+      commonId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
+      commonName: [ { required: true, message: '请输入通用名', trigger: 'blur' } ]
     }
     clear () {
       this.commonNameValue = ''
     }
-    handleFormDataChange ({ key, value }) {
-      // console.log(key)
-      // console.log(value)
-    }
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
       setTimeout(() => {
-        // console.log(index)
-        // console.log(row)
         this.$message({
           message: '编辑成功',
           type: 'success'
@@ -121,20 +133,35 @@
     }
     handleDialogCancel (done) {
       this.$message({
-        message: '取消编辑',
+        message: '取消保存',
         type: 'warning'
       })
       done()
     }
     handleRowRemove ({ index, row }, done) {
       setTimeout(() => {
-        // console.log(index)
-        // console.log(row)
         this.$message({
           message: '删除成功',
           type: 'success'
         })
         done()
+      }, 300)
+    }
+    addRow () {
+      this.$refs.d2Crud.showDialog({
+        mode: 'add'
+      })
+    }
+    handleRowAdd (row, done) {
+      this.formOptions.saveLoading = true
+      setTimeout(() => {
+        console.log(row)
+        this.$message({
+          message: '保存成功',
+          type: 'success'
+        })
+        done()
+        this.formOptions.saveLoading = false
       }, 300)
     }
   }
@@ -148,7 +175,7 @@
       justify-content: Flex-start;
       align-items: center;
       .el-input{
-        margin-right: 10px;
+        margin: 0 10px;
         &__inner{
           height: 34px !important;
           line-height: 34px !important;
