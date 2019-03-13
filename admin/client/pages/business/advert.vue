@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <div>
+  <div class="advert">
+    <h2>广告位管理</h2>
+
+    <div class="list">
       <d2-crud
         :columns="columns"
         :data="data"
@@ -8,8 +10,7 @@
         :pagination="pagination"
         :options="options"
         :rowHandle="rowHandle"
-        @custom-emit-1="handleCustomEvent"
-       />
+        @custom-emit-1="handleCustomEvent"/>
     </div>
   </div>
 </template>
@@ -18,37 +19,36 @@
   import Component from 'class-component'
 
   @Component
-  export default class Warning extends Vue {
+  export default class Advert extends Vue {
     columns= [
       {
-        title: '卡密',
-        key: 'key',
-        width: 320
+        title: '序号',
+        key: 'num'
       },
       {
-        title: '面值',
-        key: 'value'
+        title: '模块',
+        key: 'module'
       },
       {
-        title: '管理员',
-        key: 'admin'
+        title: '排序',
+        key: 'sort'
       },
       {
-        title: '创建时间',
-        key: 'dateTimeCreat'
+        title: '链接地址',
+        key: 'url'
       },
       {
-        title: '使用时间',
-        key: 'dateTimeUse'
+        title: '图片',
+        key: 'image'
       }
     ];
     data= [
       {
-        key: '1',
-        value: '1',
-        admin: '1',
-        dateTimeCreat: '1',
-        dateTimeUse: '1'
+        num: '1',
+        module: '1',
+        sort: '1',
+        url: '1',
+        image: '1'
       }
     ];
     loading= false;
@@ -63,10 +63,15 @@
     rowHandle= {
       custom: [
         {
-          text: '自定义按钮',
-          type: 'warning',
+          text: '查看',
+          type: 'success',
           size: 'small',
-          emit: 'custom-emit-1'
+          class: 'view'
+        },
+        {
+          text: '更多',
+          type: 'primary',
+          size: 'small'
         }
       ]
     };
