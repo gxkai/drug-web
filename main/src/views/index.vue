@@ -515,6 +515,7 @@
         border: none;
         -webkit-appearance: none;
         border-radius: 8em;
+        padding-bottom: 10px;
         &::placeholder {
           text-align: center;
           font-size: 30px;
