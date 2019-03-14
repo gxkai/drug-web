@@ -15,14 +15,6 @@
                     class="lingdang"
                     @click="linkToMessageType"
           ></van-icon>
-          <!--<van-icon name="setting"-->
-          <!--class="setting"-->
-          <!--@click="$router.push('/setting')"></van-icon>-->
-          <!--<div class="account-header-sign_in"-->
-          <!--v-text="signIn === true ? '已签到' : '每日签到'"-->
-          <!--:style="{backgroundColor: signIn === true ? 'Pink': ''}"-->
-          <!--@click="$router.push('/points/signIn')">-->
-          <!--</div>-->
           <div class="account-fixed-order">
             <div class="order__header">
               <router-link to="/orders">
@@ -500,7 +492,6 @@
       async initData() {
         this.count = await this.$http.get('/orders/count');
         this.messageCount = await this.$http.get('/messages/count');
-        this.signIn = await this.$http.get('pointRecords/signIn/validateDailySignIn');
       },
       async onRead(file) {
         let self = this;
