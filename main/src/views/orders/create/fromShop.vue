@@ -139,8 +139,6 @@
     methods: {
       async initData() {
         this.payAmount = this.shopDrugOrderDTO.payAmount;
-        const data = await this.$http.get('couponRecords/order');
-        this.coupons = data.filter(e => this.payAmount >= e.amount);
       },
       async onOrder() {
         let json = {};

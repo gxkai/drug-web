@@ -150,10 +150,6 @@
       async initData() {
         console.log(this.cartShop);
         this.payAmount = this.cartShop.payAmount;
-        const data = await this.$http.get('couponRecords/order');
-        this.coupons = data.filter(e => this.cartShop.payAmount >= e.amount);
-        // this.medicaidInfo = await this.$http.get('/medicaidInfo');
-        // console.log(this.medicaidInfo);
       },
       /**
        * 获取购物车ID数组
