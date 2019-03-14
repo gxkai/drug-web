@@ -191,7 +191,7 @@
         let url = await this.$http.get(`/orders/${order.id}/pay`);
         if (url === '') {
           this.$toast.loading({ duration: 0, forbidClick: true, message: '支付中...' });
-          await this.$http.post('/orders/qy/callback', {orderNo: order.number, insuranceNo: '000001', bankNo: '000000001'});
+          await this.$http.post('http://172.16.11.138:8085/app/orders/qy/callback', {orderNo: order.number, insuranceNo: '000001', bankNo: '000000001'});
           this.$router.replace('/orders');
           return;
         }
