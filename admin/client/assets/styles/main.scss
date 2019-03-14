@@ -1,4 +1,4 @@
-@import 'assets/fonts/style.css';
+@import '../../assets/fonts/style.css';
 html,
 body,
 header,
@@ -104,15 +104,3 @@ textarea {
 @media (max-width: 768px) {
 }
 
-
-/**
- *  表格中操作按钮样式重置
- */
-
-.drug-appraise__list{
-  .viewBtn{
-    float: left;
-    margin-left: 0;
-    margin-right: 10px;
-  }
-}
