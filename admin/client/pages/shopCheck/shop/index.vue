@@ -9,7 +9,9 @@
         :options="options"
         :rowHandle="rowHandle"
         @custom-emit-1="handleCustomEvent"
-        @custom-emit-2="handleCustomEvent2"
+        @custom-emit-2="handleCustomEvent"
+        @custom-emit-3="handleCustomEvent"
+        @custom-emit-4="handleCustomEvent"
         class="drug-table"
        />
   </div>
@@ -67,15 +69,7 @@
         idNumber: '321281199210081112',
         shopAddress: '玉山镇朝阳西路203号',
         phoneNumber: '17766220751',
-        curState: '休息中'
-      },
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
-        curState: '正常'
+        curState: '停业'
       },
       {
         shopName: '百家惠',
@@ -99,71 +93,65 @@
         idNumber: '321281199210081112',
         shopAddress: '玉山镇朝阳西路203号',
         phoneNumber: '17766220751',
-        curState: '待审核'
-      },
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
         curState: '不通过'
-      },
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
-        curState: '不通过'
-      },
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
-        curState: '正常'
-      },
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
-        curState: '正常'
       }
-    ];
+    ]
     loading= false;
     pagination= {
       currentPage: 1,
       pageSize: 5,
       total: 0
-    };
+    }
     options= {
       border: true
-    };
+    }
     rowHandle= {
       custom: [
         {
           text: '审核',
           type: 'text',
-          emit: 'custom-emit-1'
+          emit: 'custom-emit-1',
+          show (index, row) {
+            if (row.curState === '待审核') {
+              return true
+            }
+          }
         },
         {
-          text: '更多',
+          text: '查看',
           type: 'text',
-          emit: 'custom-emit-2'
+          emit: 'custom-emit-2',
+          show (index, row) {
+            if (row.curState === '正常' || row.curState === '不通过' || row.curState === '待审核' || row.curState === '停业' || row.curState === '违规') {
+              return true
+            }
+          }
+        },
+        {
+          text: '开业',
+          type: 'text',
+          emit: 'custom-emit-3',
+          show (index, row) {
+            if (row.curState === '停业') {
+              return true
+            }
+          }
+        },
+        {
+          text: '停业',
+          type: 'text',
+          emit: 'custom-emit-4',
+          show (index, row) {
+            if (row.curState === '正常') {
+              return true
+            }
+          }
         }
       ]
-    };
-    mounted () {
     }
     handleCustomEvent ({index, row}) {
       this.$router.push('/shopCheck/shop/edit')
-    }
-    handleCustomEvent2 () {
-      this.$router.push('/shopCheck/shop/edit')
+      // console.log(row)
     }
   }
 </script>

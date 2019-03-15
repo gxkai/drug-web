@@ -1,6 +1,9 @@
 <template>
   <div class="p10">
       <bread-crumb :path="$route.path"/>
+      <div>
+        <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
+      </div>
       <d2-crud
         :columns="columns"
         :data="data"
@@ -10,6 +13,8 @@
         :rowHandle="rowHandle"
         @custom-emit-1="handleCustomEvent"
         @custom-emit-2="handleCustomEvent2"
+        @custom-emit-3="handleCustomEvent2"
+        @custom-emit-4="handleCustomEvent2"
         class="drug-table"
       />
   </div>
@@ -64,26 +69,10 @@
       {
         hospitalId: '123',
         hospitalQyid: '456',
-        hospitalName: '第二人民医院',
-        hospitalLng: '121.023',
-        hospitalLat: '30.456',
-        curState: '在业'
-      },
-      {
-        hospitalId: '123',
-        hospitalQyid: '456',
         hospitalName: '第三人民医院',
         hospitalLng: '121.023',
         hospitalLat: '30.456',
         curState: '停业'
-      },
-      {
-        hospitalId: '123',
-        hospitalQyid: '456',
-        hospitalName: '第二人民医院',
-        hospitalLng: '121.023',
-        hospitalLat: '30.456',
-        curState: '在业'
       },
       {
         hospitalId: '123',
@@ -106,14 +95,44 @@
     rowHandle= {
       custom: [
         {
-          text: '审核',
+          text: '查看',
           type: 'text',
-          emit: 'custom-emit-1'
+          emit: 'custom-emit-1',
+          show (index, row) {
+            if (row.curState === '在业' || row.curState === '停业') {
+              return true
+            }
+          }
         },
         {
-          text: '更多',
+          text: '停业',
           type: 'text',
-          emit: 'custom-emit-2'
+          emit: 'custom-emit-2',
+          show (index, row) {
+            if (row.curState === '在业') {
+              return true
+            }
+          }
+        },
+        {
+          text: '开业',
+          type: 'text',
+          emit: 'custom-emit-3',
+          show (index, row) {
+            if (row.curState === '停业') {
+              return true
+            }
+          }
+        },
+        {
+          text: '编辑',
+          type: 'text',
+          emit: 'custom-emit-4',
+          show (index, row) {
+            if (row.curState === '在业' || row.curState === '停业') {
+              return true
+            }
+          }
         }
       ]
     };
@@ -128,6 +147,9 @@
     handleCustomEvent2 () {
       this.$router.push('/shopCheck/hospital/detail')
     }
+    addRow () {
+      this.$router.push('/shopCheck/hospital/create')
+    }
   }
 </script>
 
@@ -136,6 +158,7 @@
     padding:5px 10px;
   }
   /deep/.drug-table{
+    margin-top: 10px;
     .d2-crud-body{
       padding: 0 !important;
       .el-table{

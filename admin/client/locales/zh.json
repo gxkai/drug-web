@@ -45,6 +45,8 @@
     "医院管理",
   "/shopCheck/hospital/detail":
     "医院管理详情",
+  "/shopCheck/hospital/create":
+    "医院新增",
   "/drugCheck":
     "药品审核",
   "/drugCheck/commonName":
@@ -69,8 +71,14 @@
     "药品库编辑",
   "/drugCheck/drug":
     "药品列表管理",
+  "/drugCheck/drug/detail":
+    "查看详情",
   "/drugCheck/drugInfo":
-    "规格管理",
+    "待审核列表",
+  "/drugCheck/drugInfo/check":
+    "药品审核",
+  "/drugCheck/drugInfo/detail":
+    "查看详情",
   "/order":
     "订单管理",
   "/order/order":

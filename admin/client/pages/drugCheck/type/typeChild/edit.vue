@@ -2,7 +2,7 @@
   <div class="type--create">
     <bread-crumb :path="$route.path"/>
     <div>
-      <el-form ref="form" class="type--create--form" :model="form" label-width="150px">
+      <el-form ref="form" class="type--create__form" :model="form" label-width="150px">
         <el-form-item label="LOGO">
           <el-upload
             class="avatar-uploader"
@@ -10,7 +10,7 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -60,8 +60,9 @@
     }
   })
   export default class TypeChildEdit extends Vue {
-    imageUrl = require(`~/assets/img/hospital/img1.png`)
+    // imageUrl = require(`~/assets/img/hospital/img1.png`)
     form = {
+      imageUrl: require(`~/assets/img/hospital/img1.png`),
       typeName: '小儿消化不良',
       fatherTypeName: '儿科用药',
       isShow: '是',
@@ -88,12 +89,12 @@
       ]
     }
     handleAvatarSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+      this.form.imageUrl = URL.createObjectURL(file.raw)
     }
     beforeAvatarUpload (file) {
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+        this.$message.error('上传图片大小不能超过 2MB!')
       }
       return isLt2M
     }
@@ -106,6 +107,9 @@
 <style lang="scss" scoped>
   .type--create{
     padding:0 10px;
+    &__form{
+      padding-right: 100px;
+    }
     .type-form-btn{
       display: flex;
       justify-content: center;
