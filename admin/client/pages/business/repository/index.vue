@@ -3,14 +3,8 @@
     <div class="repository">
       <bread-crumb :path="$route.path"/>
       <div class="title-add">
-        <el-row>
-          <el-col :span="12">
-            <h4>知识库</h4>
-          </el-col>
-          <el-col :span="12" class="add-col">
-            <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
-          </el-col>
-        </el-row>
+        <h3>知识库</h3>
+        <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
@@ -299,14 +293,12 @@
       border: 1px solid #E9E9E9;
 
       .title-add{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: 0 20px;
         margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;
-
-        .add-col{
-          text-align: right;
-          line-height: 60px;
-        }
       }
 
       .list {
