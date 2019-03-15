@@ -48,6 +48,10 @@ export default {
     }
     .content {
       transition: width 0.5s, opacity 0.5s ease-in;
+      background: #f4f4f4;
+      .el-row:nth-child(2){
+        background: #f4f4f4;
+      }
      }
   }
   @media (max-width: 768px) {

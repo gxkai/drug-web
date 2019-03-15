@@ -14,6 +14,7 @@
                 class="van-icon"
                 :placeholder="searchIcon"
                 @click="$router.push('/search')"
+                readonly="readonly"
               />
             </div>
           </new-wing-blank>
@@ -515,7 +516,7 @@
         border: none;
         -webkit-appearance: none;
         border-radius: 8em;
-        padding-top: 10px;
+        line-height: 50px;
         &::placeholder {
           text-align: center;
           font-size: 30px;

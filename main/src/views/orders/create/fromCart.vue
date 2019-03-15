@@ -150,10 +150,6 @@
       async initData() {
         console.log(this.cartShop);
         this.payAmount = this.cartShop.payAmount;
-        const data = await this.$http.get('couponRecords/order');
-        this.coupons = data.filter(e => this.cartShop.payAmount >= e.amount);
-        // this.medicaidInfo = await this.$http.get('/medicaidInfo');
-        // console.log(this.medicaidInfo);
       },
       /**
        * 获取购物车ID数组
@@ -191,7 +187,7 @@
         let url = await this.$http.get(`/orders/${order.id}/pay`);
         if (url === '') {
           this.$toast.loading({ duration: 0, forbidClick: true, message: '支付中...' });
-          await this.$http.post('/orders/qy/callback', {orderNo: order.number, insuranceNo: '000001', bankNo: '000000001'});
+          await this.$http.post('http://172.16.11.138:8085/app/orders/qy/callback', {orderNo: order.number, insuranceNo: '000001', bankNo: '000000001'});
           this.$router.replace('/orders');
           return;
         }
