@@ -1,11 +1,11 @@
 <template>
-  <div class="faq-wrap">
-    <div class="faq">
+  <div class="repository-wrap">
+    <div class="repository">
       <bread-crumb :path="$route.path"/>
       <div class="title-add">
         <el-row>
           <el-col :span="12">
-            <h4>常见问题</h4>
+            <h4>知识库</h4>
           </el-col>
           <el-col :span="12" class="add-col">
             <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
@@ -22,15 +22,15 @@
           :pagination="pagination"
           :options="options"
           :rowHandle="rowHandle"
+          @custom-emit-list="viewList"
+
+          edit-title="我的修改"
+          :edit-template="editTemplate"
 
           add-title="我的新增"
           :add-template="addTemplate"
           @row-add="handleRowAdd"
           @row-remove="handleRowRemove"
-
-          edit-title="我的修改"
-          :edit-template="editTemplate"
-          @row-edit="handleRowEdit"
 
           :form-options="formOptions"
           @dialog-open="handleDialogOpen"
@@ -51,7 +51,7 @@
       BreadCrumb
     }
   })
-  export default class Faq extends Vue {
+  export default class Repository extends Vue {
     columns = [
       {
         title: '序号',
@@ -59,67 +59,88 @@
         // width: '200'
       },
       {
-        title: '常见问题标题',
-        key: 'faqTitle'
-        // width: '300'
+        title: '类别名称',
+        key: 'categoryName'
+        // width: '250'
       },
       {
-        title: '阅读次数',
-        key: 'readNum'
+        title: '打开次数',
+        key: 'openNum'
         // width: '200'
       },
       {
-        title: '回复',
-        key: 'replyContent'
-        // width: '500'
-      },
-      {
-        title: '更新时间',
-        key: 'updateTime'
+        title: '图片',
+        key: 'imageUrl'
+        // width: '450'
       }
     ];
     data = [
       {
         serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
       },
       {
         serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
       },
       {
         serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
       },
       {
         serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
       },
       {
         serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
+      },
+      {
+        serialNumber: '1',
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
+      },
+      {
+        serialNumber: '1',
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
+      },
+      {
+        serialNumber: '1',
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
+      },
+      {
+        serialNumber: '1',
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
+      },
+      {
+        serialNumber: '1',
+        categoryName: '1',
+        openNum: '100',
+        imageUrl: ''
       }
     ];
     loading= false;
     pagination= {
       currentPage: 1,
       pageSize: 5,
-      total: 0
+      total: this.data.length
     };
     options= {
       border: true
@@ -127,8 +148,18 @@
     rowHandle= {
       edit: {
         text: '编辑',
-        type: 'text'
+        type: 'text',
+        class: 'repository-edit'
       },
+
+      custom: [
+        {
+          text: '列表',
+          type: 'text',
+          emit: 'custom-emit-list',
+          class: 'repository-list'
+        }
+      ],
 
       remove: {
         text: '删除',
@@ -138,53 +169,45 @@
     };
 
     formOptions = {
-      labelWidth: '120px',
+      labelWidth: '80px',
       labelPosition: 'left',
       saveLoading: false
     }
-
-    editTemplate = {
-      serialNumber: {
-        title: '序号',
-        value: ''
-      },
-      faqTitle: {
-        title: '常见问题标题',
-        value: ''
-      },
-      readNum: {
-        title: '阅读次数',
-        value: ''
-      },
-      replyContent: {
-        title: '回复',
-        value: ''
-      },
-      updateTime: {
-        title: '更新时间',
-        value: ''
-      }
-    };
 
     addTemplate = {
       serialNumber: {
         title: '序号',
         value: ''
       },
-      faqTitle: {
-        title: '常见问题标题',
+      categoryName: {
+        title: '类别名称',
         value: ''
       },
-      readNum: {
-        title: '阅读次数',
+      openNum: {
+        title: '打开次数',
         value: ''
       },
-      replyContent: {
-        title: '回复',
+      imageUrl: {
+        title: '图片',
+        value: ''
+      }
+    };
+
+    editTemplate = {
+      serialNumber: {
+        title: '序号',
         value: ''
       },
-      updateTime: {
-        title: '更新时间',
+      categoryName: {
+        title: '类别名称',
+        value: ''
+      },
+      openNum: {
+        title: '打开次数',
+        value: ''
+      },
+      imageUrl: {
+        title: '图片',
         value: ''
       }
     };
@@ -257,13 +280,19 @@
         this.formOptions.saveLoading = false
       }, 300)
     }
+
+    // 列表
+    viewList ({index, row}) {
+      this.$router.push('/business/repository/repositoryCategoryList')
+    }
   }
 </script>
 
 <style lang="scss">
-  .faq-wrap{
+  .repository-wrap{
     padding: 20px;
-    .faq{
+
+    .repository{
       min-height: 850px;
       background: #FFF;
       border-radius: 5px;
@@ -288,6 +317,11 @@
             background-color: #F4F4F4;
             color: #555;
           }
+          &__body {
+            td{
+              padding: 6px 0;
+            }
+          }
         }
       }
 
@@ -299,8 +333,12 @@
           left: -4px;
           top: -1px;
         }
+
+        .repository-edit,
+        .repository-list{
+          float: left;
+        }
       }
     }
   }
-
 </style>

@@ -67,10 +67,14 @@
     "订单管理",
   "/order/appraise":
     "评价管理",
+  "/order/appraise/detail":
+    "评价详情",
   "/rx":
     "处方管理",
   "/rx/rx":
     "处方管理",
+  "/rx/rx/detail":
+    "处方单详情",
   "/business":
     "业务管理",
   "/business/advert":
@@ -89,6 +93,8 @@
     "搜索词管理",
   "/business/repository":
     "知识库管理",
+  "/business/repository/repositoryCategoryList":
+    "知识库分类列表",
   "/business/faq":
     "常见问题",
   "/system":

@@ -1,9 +1,10 @@
 <template>
-  <div class="advert-wrap">
-    <div class="advert">
+  <div class="rx-wrap">
+    <div class="rx">
       <bread-crumb :path="$route.path"/>
+
       <div class="title">
-        <h2>广告位管理</h2>
+        <h2>处方管理</h2>
       </div>
 
       <div class="list">
@@ -14,8 +15,8 @@
           :pagination="pagination"
           :options="options"
           :rowHandle="rowHandle"
-          @view-emit="viewEvent"
-          @more-emit="moreEvent"/>
+          @viewDetail-emit="viewDetail"
+        />
       </div>
     </div>
   </div>
@@ -31,45 +32,55 @@
       BreadCrumb
     }
   })
-  export default class Advert extends Vue {
+  export default class Rx extends Vue {
     columns= [
       {
-        title: '序号',
-        key: 'num'
+        title: '处方医院',
+        key: 'preHospital'
       },
       {
-        title: '模块',
-        key: 'module'
+        title: '病患姓名',
+        key: 'patientName'
       },
       {
-        title: '排序',
-        key: 'sort'
+        title: '症状',
+        key: 'symptom'
       },
       {
-        title: '链接地址',
-        key: 'url'
+        title: '处方医生',
+        key: 'preDoctor'
       },
       {
-        title: '图片',
-        key: 'image'
+        title: '处方科室',
+        key: 'preDept'
+      },
+      {
+        title: '更新时间',
+        key: 'updateTime'
+      },
+      {
+        title: '当前状态',
+        key: 'currentState'
       }
     ];
-    data= [
+    data = [
       {
-        num: '1',
-        module: '1',
-        sort: '1',
-        url: '1',
-        image: '1'
+        preHospital: '1',
+        patientName: '1',
+        symptom: '1',
+        preDoctor: '1',
+        preDept: '1',
+        updateTime: '2019-03-12 13:15:45',
+        currentState: '未使用'
       }
     ];
-    loading= false;
-    pagination= {
+    loading = false;
+    pagination = {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 1,
       total: 0
     };
-    options= {
+    options = {
       border: true
     };
     rowHandle= {
@@ -77,12 +88,7 @@
         {
           text: '查看',
           type: 'text',
-          emit: 'view-emit'
-        },
-        {
-          text: '更多',
-          type: 'text',
-          emit: 'more-emit'
+          emit: 'viewDetail-emit'
         }
       ]
     };
@@ -90,21 +96,17 @@
     mounted () {
     }
 
-    viewEvent ({index, row}) {
-      this.$message.success(index.toString())
-    }
-
-    moreEvent ({index, row}) {
-      this.$message.success(index.toString())
+    viewDetail () {
+      this.$router.push('/rx/rx/detail')
     }
   }
 </script>
 
 <style lang="scss">
-  .advert-wrap{
+  .rx-wrap{
     padding: 20px;
 
-    .advert{
+    .rx{
       min-height: 850px;
       background: #FFF;
       border-radius: 5px;
@@ -129,16 +131,6 @@
               padding: 6px 0;
             }
           }
-        }
-      }
-
-      .cell{
-        button:last-child:before{
-          content: '|';
-          color: #EEE;
-          position: relative;
-          left: -4px;
-          top: -1px;
         }
       }
     }

@@ -1,101 +1,92 @@
 <template>
-  <div class="recommend">
-    <div class="filter">
-      <el-row :gutter="20" class="filter-top">
-        <el-col :span="8">
-          <span>药店名称：</span>
-          <el-input
-            placeholder="请输入"
-            v-model="pharmacyValue"
-            clearable>
-          </el-input>
-        </el-col>
-        <el-col :span="8">
-          <span>药品名称：</span>
-          <el-input
-            placeholder="请输入"
-            v-model="drugValue"
-            clearable>
-          </el-input>
-        </el-col>
-        <el-col :span="8">
-          <span>生产厂商：</span>
-          <el-select v-model="produceValue" clearable filterable placeholder="请选择">
-            <el-option
-              v-for="item in produceList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+  <div class="recommend-wrap">
+    <div class="recommend">
+      <bread-crumb :path="$route.path"/>
 
-      <el-row :gutter="20" class="filter-bottom">
-        <el-col :span="8">
-          <span>当前状态：</span>
-          <el-select v-model="produceValue" clearable filterable placeholder="请选择">
-            <el-option
-              v-for="item in produceList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="8">
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</span>
-          <el-date-picker
-            v-model="dateValue"
-            type="datetimerange"
-            range-separator="~"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
-          </el-date-picker>
-        </el-col>
-        <el-col :span="2" class="action-col">
-          <el-button type="primary" size="medium">搜索</el-button>
-        </el-col>
-      </el-row>
-    </div>
+      <div class="filter">
+        <el-row :gutter="20" class="filter-top">
+          <el-col :span="8">
+            <span class="tit">药店名称：</span>
+            <el-input
+              placeholder="请输入"
+              v-model="pharmacyValue"
+              clearable>
+            </el-input>
+          </el-col>
+          <el-col :span="8">
+            <span class="tit">药品名称：</span>
+            <el-input
+              placeholder="请输入"
+              v-model="drugValue"
+              clearable>
+            </el-input>
+          </el-col>
+          <el-col :span="8" class="produce-col">
+            <span class="tit">生产厂商：</span>
+            <el-select v-model="produceValue" clearable filterable placeholder="请选择">
+              <el-option
+                v-for="item in produceList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
 
-    <div class="list">
-      <d2-crud
-        :columns="columns"
-        :data="data"
-        :loading="loading"
-        :pagination="pagination"
-        :options="options"
-        :rowHandle="rowHandle"
-        @custom-emit-1="handleCustomEvent"/>
+        <el-row :gutter="20" class="filter-bottom">
+          <el-col :span="8" class="status-col">
+            <span class="tit">当前状态：</span>
+            <el-select v-model="produceValue" clearable filterable placeholder="请选择">
+              <el-option
+                v-for="item in produceList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="8">
+            <span class="tit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</span>
+            <el-date-picker
+              v-model="dateValue"
+              type="datetimerange"
+              range-separator="~"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-col>
+          <el-col :span="7" class="action-col">
+            <el-button type="primary" size="small">搜索</el-button>
+          </el-col>
+        </el-row>
+      </div>
+
+      <div class="list">
+        <d2-crud
+          :columns="columns"
+          :data="data"
+          :loading="loading"
+          :pagination="pagination"
+          :options="options"
+          :rowHandle="rowHandle"
+          @view-emit="viewEvent"
+          @more-emit="moreEvent"/>
+      </div>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-  .filter{
-    margin-bottom: 20px;
-    text-align: center;
-
-    .action-col{
-      text-align: right;
-    }
-
-    &-top{
-       margin: 20px 0;
-    }
-
-    .el-input,.el-select,.el-date-editor{
-      width: 65%;
-    }
-  }
-</style>
-
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
+  import BreadCrumb from '@/components/Breadcrumb'
 
-  @Component
+  @Component({
+    components: {
+      BreadCrumb
+    }
+  })
   export default class Recommend extends Vue {
     pharmacyValue = '';
     produceValue = '';
@@ -185,22 +176,90 @@
       custom: [
         {
           text: '查看',
-          type: 'success',
-          size: 'small'
+          type: 'text',
+          emit: 'view-emit'
         },
         {
           text: '更多',
-          type: 'primary',
-          size: 'small'
+          type: 'text',
+          emit: 'more-emit'
         }
       ]
     };
     mounted () {
     }
-    handleCustomEvent ({index, row}) {
+    viewEvent ({index, row}) {
       this.$message.success(index.toString())
-      console.log(index)
-      console.log(row)
+    }
+    moreEvent ({index, row}) {
+      this.$message.success(index.toString())
     }
   }
 </script>
+
+<style lang="scss">
+  .recommend-wrap{
+    padding: 20px;
+
+    .recommend{
+      min-height: 850px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+
+      .filter{
+        padding: 0 20px 30px;
+        margin: 0 10px;
+        text-align: center;
+        border-bottom: 1px solid #E9E9E9;
+
+        span.tit{
+          font-size: 15px;
+        }
+
+        .action-col{
+          text-align: right;
+        }
+
+        &-top{
+          margin: 20px 0;
+        }
+
+        .el-input,.el-select,.el-date-editor{
+          width: 60%;
+        }
+
+        .produce-col .el-input,
+        .status-col .el-input{
+          width: 100%;
+        }
+      }
+
+      .list {
+        padding: 0 30px;
+
+        .el-table{
+          th{
+            background-color: #F4F4F4;
+            color: #555;
+          }
+          &__body {
+            td{
+              padding: 6px 0;
+            }
+          }
+        }
+      }
+
+      .cell{
+        button:last-child:before{
+          content: '|';
+          color: #EEE;
+          position: relative;
+          left: -4px;
+          top: -1px;
+        }
+      }
+    }
+  }
+</style>

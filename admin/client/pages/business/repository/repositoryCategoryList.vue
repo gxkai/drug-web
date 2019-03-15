@@ -1,16 +1,9 @@
 <template>
-  <div class="faq-wrap">
-    <div class="faq">
+  <div class="type-wrap">
+    <div class="repository__type">
       <bread-crumb :path="$route.path"/>
-      <div class="title-add">
-        <el-row>
-          <el-col :span="12">
-            <h4>常见问题</h4>
-          </el-col>
-          <el-col :span="12" class="add-col">
-            <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
-          </el-col>
-        </el-row>
+      <div class="title">
+        <h4>分类1</h4>
       </div>
 
       <div class="list">
@@ -22,11 +15,6 @@
           :pagination="pagination"
           :options="options"
           :rowHandle="rowHandle"
-
-          add-title="我的新增"
-          :add-template="addTemplate"
-          @row-add="handleRowAdd"
-          @row-remove="handleRowRemove"
 
           edit-title="我的修改"
           :edit-template="editTemplate"
@@ -51,68 +39,53 @@
       BreadCrumb
     }
   })
-  export default class Faq extends Vue {
+  export default class RepositoryCategoryList extends Vue {
     columns = [
       {
         title: '序号',
         key: 'serialNumber'
-        // width: '200'
+        // width: '80'
       },
       {
-        title: '常见问题标题',
-        key: 'faqTitle'
-        // width: '300'
+        title: '标题',
+        key: 'title'
+        // width: '250'
       },
       {
-        title: '阅读次数',
-        key: 'readNum'
-        // width: '200'
+        title: '来源',
+        key: 'origin'
+        // width: '250'
       },
       {
-        title: '回复',
-        key: 'replyContent'
-        // width: '500'
+        title: '打开次数',
+        key: 'openNum'
+        // width: '80'
+      },
+      {
+        title: '内容',
+        key: 'content'
+        // width: '400'
+      },
+      {
+        title: '是否置顶',
+        key: 'isToTop'
+        // width: '80'
       },
       {
         title: '更新时间',
         key: 'updateTime'
+        // width: '200'
       }
     ];
     data = [
       {
         serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
+        title: '城市',
+        origin: '百度百科',
+        openNum: '20',
+        content: '艰苦奋斗',
+        isToTop: '是',
+        updateTime: '2019-03-13 13:25:35'
       }
     ];
     loading= false;
@@ -138,7 +111,7 @@
     };
 
     formOptions = {
-      labelWidth: '120px',
+      labelWidth: '80px',
       labelPosition: 'left',
       saveLoading: false
     }
@@ -148,39 +121,24 @@
         title: '序号',
         value: ''
       },
-      faqTitle: {
-        title: '常见问题标题',
+      title: {
+        title: '标题',
         value: ''
       },
-      readNum: {
-        title: '阅读次数',
+      origin: {
+        title: '来源',
         value: ''
       },
-      replyContent: {
-        title: '回复',
+      openNum: {
+        title: '打开次数',
         value: ''
       },
-      updateTime: {
-        title: '更新时间',
-        value: ''
-      }
-    };
-
-    addTemplate = {
-      serialNumber: {
-        title: '序号',
+      content: {
+        title: '内容',
         value: ''
       },
-      faqTitle: {
-        title: '常见问题标题',
-        value: ''
-      },
-      readNum: {
-        title: '阅读次数',
-        value: ''
-      },
-      replyContent: {
-        title: '回复',
+      isToTop: {
+        title: '是否置顶',
         value: ''
       },
       updateTime: {
@@ -194,30 +152,6 @@
       //   message: '打开模态框，模式为：' + mode,
       //   type: 'success'
       // })
-    }
-
-    // 普通的新增
-    addRow () {
-      this.$refs.d2Crud.showDialog({
-        mode: 'add'
-      })
-    }
-
-    handleRowAdd (row, done) {
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(row)
-        this.$message({
-          message: '保存成功',
-          type: 'success'
-        })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
-        this.formOptions.saveLoading = false
-      }, 300)
     }
 
     handleDialogCancel (done) {
@@ -261,23 +195,18 @@
 </script>
 
 <style lang="scss">
-  .faq-wrap{
+  .type-wrap{
     padding: 20px;
-    .faq{
+    .repository__type{
       min-height: 850px;
       background: #FFF;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
-      .title-add{
+      .title{
         padding: 0 20px;
         margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;
-
-        .add-col{
-          text-align: right;
-          line-height: 60px;
-        }
       }
 
       .list {
@@ -296,7 +225,7 @@
           content: '|';
           color: #EEE;
           position: relative;
-          left: -4px;
+          left: -6px;
           top: -1px;
         }
       }
