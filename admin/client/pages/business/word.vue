@@ -3,7 +3,7 @@
     <div class="word">
       <bread-crumb :path="$route.path"/>
       <div class="title">
-        <h2>搜索词管理</h2>
+        <h3>搜索词管理</h3>
       </div>
 
       <div class="list">
@@ -40,6 +40,9 @@
               <el-input v-model="viewData.type" readonly placeholder="请输入"></el-input>
             </el-form-item>
           </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false" type="primary">关 闭</el-button>
         </div>
       </el-dialog>
     </div>
@@ -118,6 +121,7 @@
     }
 
     viewData = {};
+    isClickModal = false
     dialogVisible = false
 
     view ({index, row}) {
@@ -142,6 +146,14 @@
       background: #FFF;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
+
+      .el-dialog__body{
+        padding: 20px;
+        border:{
+          top: 1px solid #e9e9e9;
+          bottom: 1px solid #e9e9e9;
+        }
+      }
 
       .title{
         padding: 0 20px;
@@ -169,6 +181,7 @@
           top: -1px;
         }
       }
+
     }
   }
 </style>

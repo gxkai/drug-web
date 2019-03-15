@@ -70,9 +70,75 @@
           :pagination="pagination"
           :options="options"
           :rowHandle="rowHandle"
-          @view-emit="viewEvent"
+          @view-emit="viewDetail"
           @more-emit="moreEvent"/>
       </div>
+
+      <!-- 查看模态框 -->
+      <el-dialog
+        title="查看"
+        :visible.sync="viewDialogVisible"
+        width="30%"
+        :close-on-click-modal = 'isClickModal'>
+        <div class="main">
+          <el-form :model="viewData" label-width="100px">
+            <el-form-item label="序号">
+              <el-input v-model="viewData.num" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="药店名称">
+              <el-input v-model="viewData.pharmacyName" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="药品规格">
+              <el-input v-model="viewData.drugSpec" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="生产厂商">
+              <el-input v-model="viewData.produce" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="销量">
+              <el-input v-model="viewData.salesNum" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="销售价">
+              <el-input v-model="viewData.salesPrice" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="申请日期">
+              <el-input v-model="viewData.applyDate" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="展示开始时间">
+              <el-input v-model="viewData.showStartTime" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="展示结束时间">
+              <el-input v-model="viewData.showEndTime" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="当前状态">
+              <el-input v-model="viewData.status" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="viewDialogVisible = false" type="primary">关 闭</el-button>
+        </div>
+      </el-dialog>
+
+      <!--不通过原因-->
+      <el-dialog
+        title="不通过原因"
+        :visible.sync="failDialogVisible"
+        width="30%"
+        :close-on-click-modal='isClickModal'>
+        <div class="reason">
+          <el-input
+            type="textarea"
+            :rows="5"
+            placeholder="请输入不通过原因"
+            v-model="failReason">
+          </el-input>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="failDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="failDialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -91,6 +157,7 @@
     pharmacyValue = '';
     produceValue = '';
     drugValue = '';
+    dateValue = ''
 
     produceList = [
       {
@@ -129,8 +196,12 @@
         key: 'produce'
       },
       {
-        title: '销量/销售价',
-        key: 'sales'
+        title: '销量',
+        key: 'salesNum'
+      },
+      {
+        title: '销售价',
+        key: 'salesPrice'
       },
       {
         title: '申请日期',
@@ -156,7 +227,8 @@
         pharmacyName: '1',
         drugSpec: '1',
         produce: '1',
-        sales: '1',
+        salesNum: '10',
+        salesPrice: '100',
         applyDate: '1',
         showStartTime: '1',
         showEndTime: '1',
@@ -186,13 +258,33 @@
         }
       ]
     };
-    mounted () {
+
+    viewDialogVisible = false;
+    isClickModal = false
+    viewData = {};
+
+    viewDetail ({index, row}) {
+      this.viewDialogVisible = true
+      this.viewData.num = row.num
+      this.viewData.pharmacyName = row.pharmacyName
+      this.viewData.drugSpec = row.drugSpec
+      this.viewData.produce = row.produce
+      this.viewData.salesNum = row.salesNum
+      this.viewData.salesPrice = row.salesPrice
+      this.viewData.applyDate = row.applyDate
+      this.viewData.showStartTime = row.showStartTime
+      this.viewData.showEndTime = row.showEndTime
+      this.viewData.status = row.status
     }
-    viewEvent ({index, row}) {
-      this.$message.success(index.toString())
-    }
+
+    failReason = '';
+    failDialogVisible = false;
     moreEvent ({index, row}) {
-      this.$message.success(index.toString())
+      this.failDialogVisible = true
+    }
+
+    mounted () {
+
     }
   }
 </script>
@@ -207,6 +299,22 @@
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
+      .el-dialog__body{
+        padding: 20px;
+        border:{
+          top: 1px solid #e9e9e9;
+          bottom: 1px solid #e9e9e9;
+        }
+      }
+
+      textarea{
+        border: none;
+        outline: none;
+        resize: none;
+        font-size: 15px;
+        color: #949494;
+      }
+
       .filter{
         padding: 0 20px 30px;
         margin: 0 10px;
@@ -219,6 +327,7 @@
 
         .action-col{
           text-align: right;
+          line-height: 40px;
         }
 
         &-top{
@@ -226,7 +335,7 @@
         }
 
         .el-input,.el-select,.el-date-editor{
-          width: 60%;
+          width: 80%;
         }
 
         .produce-col .el-input,
