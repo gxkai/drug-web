@@ -88,6 +88,7 @@ module.exports = {
     '@/plugins/i18n',
     '@/plugins/element-ui',
     {src: '@/plugins/d2-crud', ssr: false},
+    {src: '@/plugins/vue-baidu-map', ssr: false},
     {src: '@/plugins/v-charts', ssr: false},
     {src: '@/plugins/clipboard', ssr: false},
     {src: '@/plugins/error-handler', ssr: false}

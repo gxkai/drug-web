@@ -1,8 +1,9 @@
 <template>
-  <div class="commonName--content">
-    <div class="commonName--content__search">
+  <div class="common--content">
+    <bread-crumb :path="$route.path"/>
+    <div class="common--content__search">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
-      <el-input v-model="commonNameValue" placeholder="请输入药剂名称" style="width: 200px;"></el-input>
+      <el-input v-model="commonNameValue" size="small" placeholder="请输入药剂名称" style="width: 200px;"></el-input>
       <el-button type="primary" size="small">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
@@ -24,6 +25,7 @@
         :add-template="addTemplate"
         :add-rules="addRules"
         @dialog-cancel="handleDialogCancel"
+        class="drug-table"
       />
     </div>
   </div>
@@ -31,7 +33,13 @@
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
-  @Component
+  import BreadCrumb from '@/components/Breadcrumb'
+
+  @Component({
+    components: {
+      BreadCrumb
+    }
+  })
   export default class Form extends Vue {
     commonNameValue = ''
     columns = [
@@ -185,8 +193,8 @@
   }
 </script>
 
-<style lang="scss">
-  .commonName--content{
+<style lang="scss" scoped>
+  .common--content{
     padding: 10px;
     &__search{
       display: flex;
@@ -194,25 +202,25 @@
       align-items: center;
       .el-input{
         margin: 0 10px;
-        &__inner{
-          height: 34px !important;
-          line-height: 34px !important;
-        }
       }
     }
+  }
+  /deep/.drug-table{
     .el-table{
       th{
-        background-color: #F4F4F4;
-        color: #555;
+        background-color: #F4F4F4 !important;
+        color: #555 !important;
       }
-    }
-    .cell{
-      .el-button+.el-button{
-        margin-left: 5px;
-        &::before{
-          content: '|';
-          padding-right: 5px;
-          color: #eee;
+      td{
+        .cell{
+          /deep/.el-button+.el-button{
+            margin-left: 5px;
+            &::before{
+              content: '|';
+              padding-right: 5px;
+              color: #eee;
+            }
+          }
         }
       }
     }

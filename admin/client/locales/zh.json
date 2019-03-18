@@ -45,6 +45,8 @@
     "医院管理",
   "/shopCheck/hospital/detail":
     "医院管理详情",
+  "/shopCheck/hospital/create":
+    "医院新增",
   "/drugCheck":
     "药品审核",
   "/drugCheck/commonName":
@@ -55,12 +57,28 @@
     "规格管理",
   "/drugCheck/type":
     "类型管理",
+  "/drugCheck/type/typeChild":
+    "子类管理",
+  "/drugCheck/type/typeChild/create":
+    "子类创建",
+  "/drugCheck/type/typeChild/edit":
+    "子类编辑",
   "/drugCheck/stock":
     "药品库管理",
+  "/drugCheck/stock/create":
+    "药品库新增",
+  "/drugCheck/stock/edit":
+    "药品库编辑",
   "/drugCheck/drug":
     "药品列表管理",
+  "/drugCheck/drug/detail":
+    "查看详情",
   "/drugCheck/drugInfo":
-    "规格管理",
+    "待审核列表",
+  "/drugCheck/drugInfo/check":
+    "药品审核",
+  "/drugCheck/drugInfo/detail":
+    "查看详情",
   "/order":
     "订单管理",
   "/order/order":
@@ -121,7 +139,4 @@
     "登陆日志",
   "/system/system":
     "系统参数"
-
-
-
 }

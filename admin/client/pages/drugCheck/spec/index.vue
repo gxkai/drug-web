@@ -1,7 +1,11 @@
 <template>
-  <div class="type--content">
-    <div class="type--content__search">
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
+  <div class="common--content">
+    <bread-crumb :path="$route.path"/>
+    <div class="common--content__search">
+      <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增规格</el-button>
+      <el-input v-model="commonNameValue" size="small" placeholder="请输入规格名称" style="width: 200px;"></el-input>
+      <el-button type="primary" size="small">搜索</el-button>
+      <el-button size="small" @click="clear">清空</el-button>
     </div>
     <div>
       <d2-crud
@@ -14,7 +18,6 @@
         :rowHandle="rowHandle"
         :edit-template="editTemplate"
         :form-options="formOptions"
-        @type-child-emit="handleChild"
         @row-edit="handleRowEdit"
         @row-remove="handleRowRemove"
         @row-add="handleRowAdd"
@@ -22,6 +25,7 @@
         :add-template="addTemplate"
         :add-rules="addRules"
         @dialog-cancel="handleDialogCancel"
+        class="drug-table"
       />
     </div>
   </div>
@@ -29,50 +33,47 @@
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
-  @Component
-  export default class TypeDrugs extends Vue {
+  import BreadCrumb from '@/components/Breadcrumb'
+
+  @Component({
+    components: {
+      BreadCrumb
+    }
+  })
+  export default class Spec extends Vue {
+    commonNameValue = ''
     columns = [
       {
         title: 'ID',
-        key: 'typeId',
+        key: 'specId',
         width: 320
       },
       {
-        title: '类型名称',
-        key: 'typeName'
-      },
-      {
-        title: '排序',
-        key: 'typeSort'
+        title: '规格名称',
+        key: 'specName'
       }
     ]
     data = [
       {
-        typeId: '1',
-        typeName: '家庭常用',
-        typeSort: '1'
+        specId: '1',
+        specName: '15g*16袋'
       },
       {
-        typeId: '2',
-        typeName: '儿科用药',
-        typeSort: '2'
+        specId: '2',
+        specName: '15g*16袋'
       },
       {
-        typeId: '3',
-        typeName: '肠胃用药',
-        typeSort: '3'
+        specId: '3',
+        specName: '15g*16袋'
       },
       {
-        typeId: '14',
-        typeName: '呼吸系统',
-        typeSort: '4'
+        specId: '4',
+        specName: '15g*16袋'
       },
       {
-        typeId: '5',
-        typeName: '心脑血管',
-        typeSort: '5'
+        specId: '5',
+        specName: '15g*16袋'
       }
-
     ]
     loading = false;
     pagination = {
@@ -85,13 +86,6 @@
     }
     rowHandle = {
       columnHeader: '操作',
-      custom: [
-        {
-          text: '下级',
-          type: 'text',
-          emit: 'type-child-emit'
-        }
-      ],
       edit: {
         text: '编辑',
         type: 'text'
@@ -103,30 +97,22 @@
       }
     }
     editTemplate = {
-      typeId: {
+      specId: {
         title: 'ID',
         value: ''
       },
-      typeName: {
-        title: '类型名称',
-        value: ''
-      },
-      typeSort: {
-        title: '排序',
+      specName: {
+        title: '规格名称',
         value: ''
       }
     }
     addTemplate = {
-      typeId: {
+      specId: {
         title: 'ID',
         value: ''
       },
-      typeName: {
-        title: '类型名称',
-        value: ''
-      },
-      typeSort: {
-        title: '排序',
+      specName: {
+        title: '规格名称',
         value: ''
       }
     }
@@ -136,9 +122,11 @@
       saveLoading: false
     }
     addRules = {
-      typeId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
-      typeName: [ { required: true, message: '请输入类型名称', trigger: 'blur' } ],
-      typeSort: [ { required: true, message: '请输入排序', trigger: 'blur' } ]
+      specId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
+      specName: [ { required: true, message: '请输入规格名称', trigger: 'blur' } ]
+    }
+    clear () {
+      this.commonNameValue = ''
     }
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
@@ -184,14 +172,11 @@
         this.formOptions.saveLoading = false
       }, 300)
     }
-    handleChild () {
-      this.$router.push('/drugCheck/typeChild')
-    }
   }
 </script>
 
-<style lang="scss">
-  .type--content{
+<style lang="scss" scoped>
+  .common--content{
     padding: 10px;
     &__search{
       display: flex;
@@ -199,25 +184,25 @@
       align-items: center;
       .el-input{
         margin: 0 10px;
-        &__inner{
-          height: 34px !important;
-          line-height: 34px !important;
-        }
       }
     }
+  }
+  /deep/.drug-table{
     .el-table{
       th{
-        background-color: #F4F4F4;
-        color: #555;
+        background-color: #F4F4F4 !important;
+        color: #555 !important;
       }
-    }
-    .cell{
-      .el-button+.el-button{
-        margin-left: 5px;
-        &::before{
-          content: '|';
-          padding-right: 5px;
-          color: #eee;
+      td{
+        .cell{
+          /deep/.el-button+.el-button{
+            margin-left: 5px;
+            &::before{
+              content: '|';
+              padding-right: 5px;
+              color: #eee;
+            }
+          }
         }
       }
     }
