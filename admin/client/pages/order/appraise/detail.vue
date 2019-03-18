@@ -5,7 +5,7 @@
 
       <div class="title">
         <h3>评价详情</h3>
-        <el-button type="primary" size="small" @click="$router.push('/order/appraise')">返回</el-button>
+        <el-button type="primary" size="small" @click="$router.go(-1)">返回</el-button>
       </div>
 
       <div class="detail-con">

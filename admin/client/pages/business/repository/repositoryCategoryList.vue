@@ -3,7 +3,8 @@
     <div class="repository__type">
       <bread-crumb :path="$route.path"/>
       <div class="title">
-        <h4>分类1</h4>
+        <h3>分类1</h3>
+        <el-button size="small" type="primary" @click="$router.go(-1)">返回</el-button>
       </div>
 
       <div class="list">
@@ -204,6 +205,9 @@
       border: 1px solid #E9E9E9;
 
       .title{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: 0 20px;
         margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;

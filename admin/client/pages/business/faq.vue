@@ -26,6 +26,7 @@
           add-title="我的新增"
           :add-template="addTemplate"
           @row-add="handleRowAdd"
+
           @row-remove="handleRowRemove"
 
           edit-title="我的修改"

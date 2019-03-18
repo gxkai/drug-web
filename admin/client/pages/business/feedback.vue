@@ -3,7 +3,7 @@
     <div class="feedback">
       <bread-crumb :path="$route.path"/>
       <div class="title">
-        <h2>用户反馈</h2>
+        <h3>用户反馈</h3>
       </div>
 
       <div class="list">
@@ -69,6 +69,9 @@
               <el-input v-model="viewData.replyContent" readonly></el-input>
             </el-form-item>
           </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="isShowViewDialog = false" type="primary">关 闭</el-button>
         </div>
       </el-dialog>
     </div>
@@ -180,6 +183,7 @@
     }
 
     viewData = {}
+    isClickModal = false
     isShowViewDialog = false
     viewEvent ({index, row}) {
       this.isShowViewDialog = true
