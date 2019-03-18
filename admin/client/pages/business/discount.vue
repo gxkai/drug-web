@@ -116,6 +116,10 @@
             </el-form-item>
           </el-form>
         </div>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="viewDialogVisible = false" type="primary">关 闭</el-button>
+        </div>
       </el-dialog>
 
       <!--不通过原因-->
@@ -123,7 +127,7 @@
         title="不通过原因"
         :visible.sync="failDialogVisible"
         width="30%"
-        :close-on-click-modal = 'isClickModal'>
+        :close-on-click-modal='isClickModal'>
         <div class="reason">
           <el-input
             type="textarea"
@@ -152,7 +156,6 @@
     }
   })
   export default class Discount extends Vue {
-    isClickModal = false
     pharmacyValue = '';
     produceValue = '';
     drugValue = '';
@@ -259,6 +262,7 @@
     };
 
     viewDialogVisible = false;
+    isClickModal = false
     viewData = {};
 
     viewDetail ({index, row}) {
@@ -278,7 +282,7 @@
 
     failReason = '';
     failDialogVisible = false;
-    moreEvent ({index, row}) {
+    moreEvent () {
       this.failDialogVisible = true
     }
 
@@ -333,7 +337,7 @@
         }
 
         .el-input,.el-select,.el-date-editor{
-          width: 60%;
+          width: 80%;
         }
 
         .produce-col{
@@ -376,6 +380,4 @@
       }
     }
   }
-
-
 </style>

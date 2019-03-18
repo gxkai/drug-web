@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h2>处方管理</h2>
+        <h3>处方管理</h3>
       </div>
 
       <div class="list">
