@@ -19,8 +19,8 @@ let menu = [
   },
   {
     id: '3',
-    name: 'nav.about',
-    url: '/about',
+    name: '分布图',
+    url: '/map',
     icon: 'el-icon-menu'
   }
 ]
