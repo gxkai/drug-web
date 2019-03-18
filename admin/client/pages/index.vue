@@ -495,6 +495,7 @@ export default class Home {
 .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px 10px;
   .wrapper1 {
     grid-area: 1/1/2/2;
   }
