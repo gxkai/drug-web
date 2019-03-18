@@ -169,7 +169,7 @@ if (SHOW_EXAMPLES) {
         },
         {
           id: '60-7',
-          name: '规格管理',
+          name: '药品信息审核',
           url: '/drugCheck/drugInfo',
           icon: 'el-icon-share'
         }

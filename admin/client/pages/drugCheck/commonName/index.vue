@@ -1,8 +1,9 @@
 <template>
-  <div class="commonName--content">
-    <div class="commonName--content__search">
+  <div class="common--content">
+    <bread-crumb :path="$route.path"/>
+    <div class="common--content__search">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
-      <el-input v-model="commonNameValue" placeholder="请输入通用名" style="width: 200px;"></el-input>
+      <el-input v-model="commonNameValue" size="small" placeholder="请输入通用名" style="width: 200px;"></el-input>
       <el-button type="primary" size="small">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
@@ -24,15 +25,22 @@
         :add-template="addTemplate"
         :add-rules="addRules"
         @dialog-cancel="handleDialogCancel"
-       />
+        class="drug-table"
+      />
     </div>
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
-  @Component
-  export default class commonName extends Vue {
+  import BreadCrumb from '@/components/Breadcrumb'
+
+  @Component({
+    components: {
+      BreadCrumb
+    }
+  })
+  export default class CommonName extends Vue {
     commonNameValue = ''
     columns = [
       {
@@ -52,19 +60,19 @@
       },
       {
         commonId: '2',
-        commonName: '补肾润肺口服液'
+        commonName: 'hlsp盐酸小檗碱片'
       },
       {
         commonId: '3',
-        commonName: '补肾润3肺口服液'
+        commonName: 'hlsp盐酸小檗碱片'
       },
       {
         commonId: '4',
-        commonName: '补肾润肺4口服液'
+        commonName: 'hlsp盐酸小檗碱片'
       },
       {
         commonId: '5',
-        commonName: '补肾润肺5口服液'
+        commonName: 'hlsp盐酸小檗碱片'
       }
     ]
     loading = false;
@@ -167,8 +175,8 @@
   }
 </script>
 
-<style lang="scss">
-  .commonName--content{
+<style lang="scss" scoped>
+  .common--content{
     padding: 10px;
     &__search{
       display: flex;
@@ -176,27 +184,27 @@
       align-items: center;
       .el-input{
         margin: 0 10px;
-        &__inner{
-          height: 34px !important;
-          line-height: 34px !important;
+      }
+    }
+  }
+  /deep/.drug-table{
+      .el-table{
+        th{
+          background-color: #F4F4F4 !important;
+          color: #555 !important;
+        }
+        td{
+          .cell{
+            /deep/.el-button+.el-button{
+              margin-left: 5px;
+              &::before{
+                content: '|';
+                padding-right: 5px;
+                color: #eee;
+              }
+            }
+          }
         }
       }
-    }
-    .el-table{
-      th{
-        background-color: #F4F4F4;
-        color: #555;
-      }
-    }
-    .cell{
-      .el-button+.el-button{
-        margin-left: 5px;
-        &::before{
-          content: '|';
-          padding-right: 5px;
-          color: #eee;
-        }
-      }
-    }
   }
 </style>
