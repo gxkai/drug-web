@@ -58,7 +58,11 @@ export default {
     Vue.component('new-line', () => import('./line'));
     // 咨询小人
     Vue.component('new-consult', () => import('./consult'));
-    // 坐标题
+    // 左标题
     Vue.component('new-left-title', () => import('./leftTitle'));
+    // 按钮
+    Vue.component('new-button', () => import('./button'));
+    // 药品
+    Vue.component('new-drug', () => import('./drug'));
   }
 };

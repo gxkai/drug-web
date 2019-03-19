@@ -21,6 +21,7 @@ import './plugins/vue-event-calendar/dist/style.css';
 import vueEventCalendar from './plugins/vue-event-calendar';
 import animate from 'animate.css';
 import directive from './directives';
+import VueI18n from 'vue-i18n';
 import { Step,
   Steps,
   Actionsheet,
@@ -64,6 +65,7 @@ import { Step,
   Picker } from 'vant';
 import router from './router';
 import Navigation from 'vue-navigation';
+Vue.use(VueI18n);
 Vue.use(directive);
 Vue.use(animate);
 Vue.use(Navigation, { router });
@@ -132,10 +134,19 @@ fastclick.attach(document.body);
  * 过滤器
  */
 Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
-
+/**
+ * 多语言
+ */
+const i18n = new VueI18n({
+  locale: 'zh',
+  messages: {
+    'zh': require('./lang/zh')
+  }
+});
 /* eslint-disable no-new */
 export default new Vue({
   el: '#app',
+  i18n,
   router,
   store,
   components: { App },
