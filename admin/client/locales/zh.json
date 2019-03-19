@@ -19,6 +19,8 @@
     "Application boilerplate based on Vue.js 2.x, Koa 2.x, Element-UI, Axios, Vue i18n and Nuxt.js",
   "/":
     "首页",
+  "/map":
+    "分布图",
   "/analysis":
     "统计分析",
   "/analysis/sale":

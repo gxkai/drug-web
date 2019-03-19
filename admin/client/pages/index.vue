@@ -1,38 +1,8 @@
 <template>
   <div>
-    <baidu-map
-      class="map"
-      :center="center"
-      :mapStyle="mapStyle"
-      style="display: flex; flex-direction: column"
-      :map-type="mapType"
-    >
-      <bm-boundary
-        name="江苏省昆山市"
-        :strokeWeight="1"
-        strokeColor="#007fff"
-      ></bm-boundary>
-      <bm-view style="width: 100%; flex: 1"></bm-view>
-      <bm-marker
-        v-for="(marker, index) in markers"
-        :key="index"
-        :position="marker.point"
-        @click="infoWindowOpen(marker)"
-      >
-        <bm-info-window
-          :position="marker.point"
-          :title="marker.title"
-          :show="marker.show"
-          @close="infoWindowClose(marker)"
-          @open="infoWindowOpen(marker)"
-        >
-          <p>{{ marker.introduction }}</p>
-        </bm-info-window>
-      </bm-marker>
-    </baidu-map>
     <div class="container">
       <div class="wrapper1 wrapper">
-        <el-card>
+        <el-card style="height: 100%">
           <div slot="header">
             <span>评价指数</span>
           </div>
@@ -44,19 +14,37 @@
         </el-card>
       </div>
       <div class="wrapper2 wrapper">
-        <el-card>
+        <el-card style="height: 100%">
           <div slot="header">
             <span>各类目占比</span>
           </div>
-          <el-row>
-            <el-col>
-              <ve-ring :data="ringData1"></ve-ring>
-            </el-col>
-          </el-row>
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="处方流出" name="first">
+              <el-row>
+                <el-col>
+                  <ve-ring :data="ringData11"></ve-ring>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="处方" name="second">
+              <el-row>
+                <el-col>
+                  <ve-ring :data="ringData12"></ve-ring>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="医保" name="third">
+              <el-row>
+                <el-col>
+                  <ve-ring :data="ringData13"></ve-ring>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+          </el-tabs>
         </el-card>
       </div>
       <div class="wrapper3 wrapper">
-        <el-card>
+        <el-card style="height: 100%">
           <div slot="header">
             <span>用户群体</span>
           </div>
@@ -68,7 +56,7 @@
         </el-card>
       </div>
       <div class="wrapper4 wrapper">
-        <el-card>
+        <el-card style="height: 100%">
           <div slot="header">
             <span>药品品类占比</span>
           </div>
@@ -80,7 +68,37 @@
         </el-card>
       </div>
       <div class="wrapper5 wrapper">
-        <el-card>
+        <!--<baidu-map-->
+          <!--class="map"-->
+          <!--:center="center"-->
+          <!--:mapStyle="mapStyle"-->
+          <!--style="display: flex; flex-direction: column"-->
+          <!--:map-type="mapType"-->
+        <!--&gt;-->
+          <!--<bm-boundary-->
+            <!--name="江苏省昆山市"-->
+            <!--:strokeWeight="1"-->
+            <!--strokeColor="#007fff"-->
+          <!--&gt;</bm-boundary>-->
+          <!--<bm-view style="width: 100%; flex: 1"></bm-view>-->
+          <!--<bm-marker-->
+            <!--v-for="(marker, index) in markers"-->
+            <!--:key="index"-->
+            <!--:position="marker.point"-->
+            <!--@click="infoWindowOpen(marker)"-->
+          <!--&gt;-->
+            <!--<bm-info-window-->
+              <!--:position="marker.point"-->
+              <!--:title="marker.title"-->
+              <!--:show="marker.show"-->
+              <!--@close="infoWindowClose(marker)"-->
+              <!--@open="infoWindowOpen(marker)"-->
+            <!--&gt;-->
+              <!--<p>{{ marker.introduction }}</p>-->
+            <!--</bm-info-window>-->
+          <!--</bm-marker>-->
+        <!--</baidu-map>-->
+        <el-card style="height: 100%">
           <div slot="header">
             <span>药品监管服务平台</span>
           </div>
@@ -113,8 +131,98 @@
           </el-row>
         </el-card>
       </div>
-      <div class="wrapper6 wrapper"></div>
-      <div class="wrapper7 wrapper"></div>
+      <div class="wrapper6 wrapper">
+        <el-card style="height: 100%">
+          <div slot="header">
+            <span>平台热销排行</span>
+          </div>
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="全部" name="first">
+              <div class="plat">
+                <div
+                  class="wrapper"
+                  v-for="(item, index) in platData"
+                  :key="index"
+                >
+                  <div class="item item1">
+                        <span :class="[index < 3 ? 'top' : 'bottom']">
+                          {{ index }}
+                        </span>
+                  </div>
+                  <div class="item item2">
+                        <span class="ellipsis">
+                          {{ item.name }}
+                        </span>
+                  </div>
+                  <div class="item item3">
+                        <span>
+                          {{ item.count }}
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="医院" name="second">
+              <div class="plat">
+                <div
+                  class="wrapper"
+                  v-for="(item, index) in platHotDataHospital"
+                  :key="index"
+                >
+                  <div class="item item1">
+                        <span :class="[index < 3 ? 'top' : 'bottom']">
+                          {{ index }}
+                        </span>
+                  </div>
+                  <div class="item item2">
+                        <span class="ellipsis">
+                          {{ item.name }}
+                        </span>
+                  </div>
+                  <div class="item item3">
+                        <span>
+                          {{ item.count }}
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="药店" name="third">
+              <div class="plat">
+                <div
+                  class="wrapper"
+                  v-for="(item, index) in platHotDataShop"
+                  :key="index"
+                >
+                  <div class="item item1">
+                        <span :class="[index < 3 ? 'top' : 'bottom']">
+                          {{ index }}
+                        </span>
+                  </div>
+                  <div class="item item2">
+                        <span class="ellipsis">
+                          {{ item.name }}
+                        </span>
+                  </div>
+                  <div class="item item3">
+                        <span>
+                          {{ item.count }}
+                        </span>
+                  </div>
+                </div>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+        </el-card>
+      </div>
+      <div class="wrapper7 wrapper">
+        <el-card>
+          <div slot="header">
+            <span>用户来源</span>
+          </div>
+          <ve-histogram :data="histogramData" :settings="histogramSettings"></ve-histogram>
+        </el-card>
+      </div>
       <div class="wrapper8 wrapper"></div>
     </div>
   </div>
@@ -174,28 +282,41 @@ export default class Home {
       { 年龄: '60+', 全部: 4123, 医院: 12, 药店: 4355 }
     ]
   };
-  ringData1 = {
+  ringData11 = {
     columns: ['渠道', '数量'],
     rows: [
-      { 渠道: '处方', 数量: 1393 },
-      { 渠道: '处方流出', 数量: 3530 },
-      { 渠道: '医保', 数量: 2923 }
+      { 渠道: '处方流出(26%, 1393)', 数量: 1393 },
+      { 渠道: '其他(26%, 2530)', 数量: 3530 }
+    ]
+  };
+  ringData12 = {
+    columns: ['渠道', '数量'],
+    rows: [
+      { 渠道: '处方(26%, 1393)', 数量: 1393 },
+      { 渠道: '其他(26%, 2530)', 数量: 3530 }
+    ]
+  };
+  ringData13 = {
+    columns: ['渠道', '数量'],
+    rows: [
+      { 渠道: '医保(26%, 1393)', 数量: 1393 },
+      { 渠道: '其他(26%, 2530)', 数量: 3530 }
     ]
   };
   ringData2 = {
     columns: ['药品类别', '数量'],
     rows: [
-      { 药品类别: '家庭常用', 数量: 1393 },
-      { 药品类别: '心脑血管', 数量: 3530 },
-      { 药品类别: '抗肿瘤药', 数量: 2923 },
-      { 药品类别: '五官科药', 数量: 3530 },
-      { 药品类别: '妇科用品', 数量: 3530 },
-      { 药品类别: '其他', 数量: 3530 }
+      { 药品类别: '家庭常用(17% 3530)', 数量: 3530 },
+      { 药品类别: '心脑血管(17%, 3530)', 数量: 3530 },
+      { 药品类别: '抗肿瘤药(17%, 3530)', 数量: 3530 },
+      { 药品类别: '五官科药(17%, 3530)', 数量: 3530 },
+      { 药品类别: '妇科用品(17%, 3530)', 数量: 3530 },
+      { 药品类别: '其他(17%, 3530)', 数量: 3530 }
     ]
   };
   ringSettings2 = {
     radius: [10, 100]
-  };
+  }
   platData = [
     {
       name: '999感冒灵',
@@ -225,7 +346,120 @@ export default class Home {
       name: '999感冒灵',
       count: 323234
     }
-  ];
+  ]
+  activeName = 'first'
+  activeName3 = 'first'
+  platHotData = [
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    }
+  ]
+  platHotDataHospital = [
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    }
+  ]
+  platHotDataShop = [
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    },
+    {
+      name: '999感冒灵',
+      count: 323234
+    }
+  ]
+  histogramSettings = {
+    metrics: ['智慧昆山', '农商行', '其他'],
+    dimension: ['日期']
+  }
+  histogramData = {
+    columns: ['日期', '智慧昆山', '农商行', '其他'],
+    rows: [
+      { '日期': '1月', '智慧昆山': 1393, '农商行': 1093, '其他': 1000 },
+      { '日期': '2月', '智慧昆山': 3530, '农商行': 3230, '其他': 1000 },
+      { '日期': '3月', '智慧昆山': 2923, '农商行': 2623, '其他': 1000 },
+      { '日期': '4月', '智慧昆山': 1723, '农商行': 1423, '其他': 1000 },
+      { '日期': '5月', '智慧昆山': 3792, '农商行': 3492, '其他': 1000 },
+      { '日期': '6月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
+      { '日期': '7月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
+      { '日期': '8月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
+      { '日期': '9月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
+      { '日期': '10月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
+      { '日期': '11月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
+      { '日期': '12月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 }
+    ]
+  }
   mounted () {
     this.addPoints()
   }
@@ -256,16 +490,12 @@ export default class Home {
 
 <style scoped lang="scss" type="text/scss">
 .map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: calc(100vh - 60px);
+  height: 100%;
 }
 .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px 10px;
   .wrapper1 {
     grid-area: 1/1/2/2;
   }
@@ -276,6 +506,9 @@ export default class Home {
     background-color: white;
     z-index: 1;
     opacity: 0.9;
+  }
+  .wrapper7 {
+    grid-area: 3/1/4/4;
   }
 }
 .plat {
