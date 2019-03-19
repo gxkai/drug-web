@@ -8,11 +8,11 @@
           <el-col :span="24" class="filter-top">
             <el-col :span="8">
               <span>订单编号：</span>
-              <el-input v-model="input" placeholder="请输入"></el-input>
+              <el-input v-model="orderID" placeholder="请输入"></el-input>
             </el-col>
             <el-col :span="8">
               <span>订单类型：</span>
-              <el-select v-model="value2" filterable placeholder="请选择">
+              <el-select v-model="value2" clearable filterable placeholder="请选择">
                 <el-option
                   v-for="item in list2"
                   :key="item.value"
@@ -23,7 +23,7 @@
             </el-col>
             <el-col :span="8">
               <span>订单状态：</span>
-              <el-select v-model="value3" filterable placeholder="请选择">
+              <el-select v-model="value3" clearable filterable placeholder="请选择">
                 <el-option
                   v-for="item in list3"
                   :key="item.value"
@@ -37,7 +37,7 @@
           <el-col :span="24" class="filter-bottom">
             <el-col :span="8">
               <span>药店名称：</span>
-              <el-select v-model="value1" filterable placeholder="请选择">
+              <el-select v-model="value1" clearable filterable placeholder="请选择">
                 <el-option
                   v-for="item in list1"
                   :key="item.value"
@@ -49,7 +49,7 @@
 
             <el-col :span="8">
               <span>用户信息：</span>
-              <el-select v-model="value1" filterable placeholder="请选择">
+              <el-select v-model="value1" clearable filterable placeholder="请选择">
                 <el-option
                   v-for="item in list1"
                   :key="item.value"
@@ -100,6 +100,7 @@
   })
   export default class Order extends Vue {
     value1 = '';
+    orderID = '';
     list1 = [
       {
         value: '选项1',
@@ -276,6 +277,12 @@
 
         .el-input,.el-select,.el-date-editor{
           width: 65%;
+        }
+
+        .el-select{
+          .el-input{
+            width: 100%;
+          }
         }
       }
 
