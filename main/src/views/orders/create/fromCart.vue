@@ -1,5 +1,5 @@
 <template>
-  <new-layout class="pay_cart">
+  <new-layout>
     <template slot="top">
       <van-nav-bar
         :title="$route.meta.name"
@@ -8,101 +8,124 @@
       />
     </template>
     <template slot="center">
-      <div class="pay_cart-content">
-        <div class="pay_cart-content-delivery_type">
-          <div class="pay_cart-content-delivery_type-content">
-           <span :class="{active:deliveryType=='DELIVERY'}"
-                 @click.stop="onDeliveryType('DELIVERY')" v-if="cartShop.distribution">送货上门</span>
-            <span :class="{active:deliveryType=='SELF'}"
-                  @click.stop="onDeliveryType('SELF')">上门自提</span>
-          </div>
-        </div>
-        <div class="pay_cart-content-delivery"
-             v-if="deliveryType === 'DELIVERY'"
-             @click="linkToOrderAddress(cartShop.id)">
-          <div class="pay_cart-content-delivery-address"
-               v-if="address!== undefined">
-            <van-icon name="dizhi" size="4em" color="#a6a6a6"></van-icon>
-            <div class="pay_cart-content-delivery-address-center">
-              <div class="elps">
-                <span>收货人&#58;{{address.consignee}}</span>
-                <span class="ml-l-10">{{address.phone}}</span>
-              </div>
-              <div class="elps">
-                收货地址&#58;{{address.address}}
-              </div>
+      <van-tabs v-model="active">
+        <new-white-space />
+        <van-tab title="送货上门">
+          <new-wing-blank class="wrapper1" py="5em" v-if="address === undefined">
+            <new-button
+              name="+选择收货地址"
+              fontSize="2em"
+              backgroundColor="red"
+              color="white"
+              borderRadius=".5em"
+              fontWeight="400"
+            />
+          </new-wing-blank>
+          <new-wing-blank class="wrapper2" v-else>
+            <div class="line line1">
+              <van-icon name="person" size="2em" />
+              <span>收货人{{address.consignee||''}}</span>
             </div>
-            <van-icon name="arrow" size="2em"></van-icon>
-          </div>
-          <div class="pay_cart-content-delivery-no_address"
-               v-else>
-            请维护地址&gt;
-          </div>
-          <div class="pay_cart-content-delivery-bar">
-            <img src="../../../assets/image/colorbackground.png">
-          </div>
+            <div class="line line2">
+              <span>收货地址{{address.address||''}}</span>
+            </div>
+          </new-wing-blank>
+        </van-tab>
+        <van-tab title="到店自取">
+          <new-left-title text="自取地址" textColor="black" />
+          <new-wing-blank class="wrapper2">
+            <div class="line line1">
+              <van-icon name="shijian2" size="2em" />
+              <span>营业时间：{{shop.openTime}}-{{shop.closeTime}}</span>
+            </div>
+            <div class="line line2">
+              <van-icon name="location" size="2em" />
+              <span>药店地址：{{shop.address}}</span>
+            </div>
+            <div class="line line3">
+              <new-button
+                name="查看地图"
+                fontSize="1.5em"
+                backgroundColor="red"
+                color="white"
+                borderRadius=".5em"
+                fontWeight="400"
+                @click.native="onLocation"
+              />
+            </div>
+          </new-wing-blank>
+        </van-tab>
+      </van-tabs>
+      <new-white-space />
+      <new-left-title text="是否医保" textColor="black" />
+      <new-wing-blank class="wrapper3">
+        <div class="item item1" @click="isMedicarePay = false">
+          <new-radio :radio="isMedicarePay === false" />
+          <span>
+            自费
+          </span>
         </div>
-        <new-close-list :cartShop="cartShop" class="new-close-list"></new-close-list>
-
-        <div class="pay_cart-content-pay_type">
-          <!--<div class="pay_cart-content-pay_type-header">-->
-            <!--<van-icon name="qian" size="4em"></van-icon>-->
-            <!--<div>付费方式</div>-->
-          <!--</div>-->
-          <div class="pay_cart-content-pay_type-content">
-           <span :class="{active:isMedicarePay==false}"
-                 @click.stop="isMedicarePay = false">自费</span>
-            <span :class="{active:isMedicarePay==true}"
-                  @click.stop="isMedicarePay = true"
-                  v-if="isRx === true && account.medicaidNumber !== undefined">医保</span>
-          </div>
+        <div class="item item2" @click="isMedicarePay = true">
+          <new-radio :radio="isMedicarePay === true" />
+          <span>
+            医保
+          </span>
         </div>
-        <!--<div class="pay_cart-content-pay_type">-->
-        <!--<div class="pay_cart-content-pay_type-header">-->
-        <!--<div>-->
-        <!--<i class="iconfont ic-dingdanzhifufangshi"></i>-->
-        <!--</div>-->
-        <!--<div>支付方式</div>-->
-        <!--</div>-->
-        <!--<div class="pay_cart-content-pay_type-content">-->
-        <!--<span class="iconfont ic-weixin"-->
-        <!--:class="{active:payType=='WECHAT_PAY'}"-->
-        <!--@click.stop="onPayType('WECHAT_PAY')"></span>-->
-        <!--<span class="iconfont ic-alipay"-->
-        <!--:class="{active:payType=='ALIPAY'}"-->
-        <!--@click.stop="onPayType('ALIPAY')"></span>-->
-        <!--</div>-->
-        <!--</div>-->
-        <div class="pay_cart-content-pay_amount">
-          <div>
-            <span>商品总额：</span>
-            <span>&yen;{{toFixedTwo(cartShop.amount)}}</span>
-          </div>
-          <div v-if="isMedicarePay">
-            <span>医保扣除：</span>
-            <span>&yen;{{toFixedTwo(cartShop.medicaidAmount)}}</span>
-          </div>
-          <div>
-            <span>实际支付：</span>
-            <span  v-if="isMedicarePay">&yen;{{toFixedTwo(cartShop.payAmount)}}</span>
-            <span  v-else>&yen;{{toFixedTwo(cartShop.amount)}}</span>
-          </div>
+      </new-wing-blank>
+      <new-white-space />
+      <new-left-title text="买家留言" textColor="black" />
+      <van-cell-group>
+        <van-field
+          v-model="accountRemark"
+          label="备注"
+          type="textarea"
+          placeholder="请输入备注"
+          rows="3"
+        />
+      </van-cell-group>
+      <new-white-space />
+      <new-left-title text="药品详情" textColor="black" />
+      <new-wing-blank class="wrapper4 van-hairline--top">
+        <div class="line line1">
+          <span>
+            商品总金额
+          </span>
+          <span v-if="isMedicarePay === true"> ¥{{ cartShop.payAmount || ''}} </span>
+          <span v-else> ¥{{ toFixedTwo(cartShop.amount)||'' }} </span>
         </div>
-        <new-white-space/>
-        <van-cell-group>
-          <van-field
-            v-model="accountRemark"
-            label="备注"
-            type="textarea"
-            placeholder="请输入备注"
-            rows="3"
-          />
-        </van-cell-group>
-        <new-white-space/>
+        <div class="line line2" v-if="isMedicarePay === true">
+          <span>
+            医保扣除
+          </span>
+          <span> ¥{{ toFixedTwo(cartShop.medicaidAmount) }} </span>
+        </div>
+        <div class="line line3">
+          <span>
+            实付金额
+          </span>
+          <span> ¥{{ toFixedTwo(cartShop.payAmount) }} </span>
+        </div>
+      </new-wing-blank>
+      <new-wing-blank class="wrapper5">
+        <span>
+          {{cartShop.shopName}}
+        </span>
+      </new-wing-blank>
+      <div v-for="(rx,index) in cartShop.rxs" :key="index">
+        <new-drug v-for="(item, index) in rx.drugs" :key="index" :item="item"/>
       </div>
-    </template>
-    <template slot="bottom">
-      <new-submit-bar :price="payAmount" @submit="onOrder"/>
+      <new-white-space />
+      <new-wing-blank class="wrapper6">
+        <new-button
+          name="提交订单"
+          fontSize="2em"
+          backgroundColor="red"
+          color="white"
+          borderRadius=".5em"
+          fontWeight="400"
+          @click.native="onOrder"
+        />
+      </new-wing-blank>
     </template>
   </new-layout>
 </template>
@@ -117,17 +140,16 @@
         account: getAccount(),
         cartShop: this.$route.params.cartShop,
         isRx: this.$route.params.isRx,
-        deliveryType: 'SELF',
+        deliveryType: 'DELIVERY',
         payType: 'KRCB',
-        couponRecord: '',
-        coupons: [],
         show: false,
         payAmount: 0,
         loading: false,
         address: undefined,
         medicaidInfo: {},
         isMedicarePay: false,
-        accountRemark: ''
+        accountRemark: '',
+        shop: {}
       };
     },
     components: {},
@@ -150,6 +172,7 @@
       async initData() {
         console.log(this.cartShop);
         this.payAmount = this.cartShop.payAmount;
+        this.shop = await this.$http.get(`/shops/${this.shopDrugOrderDTO.shopId}`);
       },
       /**
        * 获取购物车ID数组
@@ -192,283 +215,101 @@
           return;
         }
         window.location.href = url;
-      },
-      onDeliveryType(item) {
-        this.deliveryType = item;
-      },
-      onPayType(item) {
-        this.payType = item;
       }
     }
   };
 </script>
 <style scoped type="text/scss" lang="scss">
-  .active {
-    color: #ef4f4f;
-    border: 1PX solid $themeColor!important;
-  }
-
-  .text-red {
-    color: $themeColor;
-  }
-
-  .dividing {
-    width: 100%;
-    height: 10px;
-    background-color: #f5f5f5;
-  }
-
-  .pay_cart {
-    &-content {
-      &-delivery {
-        &-bar {
-          width: 100%;
-          img {
-            width: 100%;
-          }
-        }
-        &-address {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 20px 20px;
-          background-color: white;
-          div, span {
-            font-size: 28px;
-          }
-          &-center {
-            padding: 0 10px;
-            width: 600px;
-          }
-        }
-        &-no_address {
-          padding: 20px 20px;
-          background-color: white;
-          font-size: 35px;
-          text-align: center;
-        }
+  /deep/ .van-tabs {
+    &__wrap {
+      height: 100px !important;
+    }
+    &--line {
+      padding-top: 100px;
+    }
+    .van-tab {
+      color: black !important;
+      &--active {
+        color: $themeColor !important;
       }
-      &-delivery_type {
-        margin-bottom: 20px;
-        &-header {
-          background-color: white;
-          display: flex;
-          align-items: center;
-          padding: 20px;
-          i {
-            font-size: 50px;
-          }
-          div {
-            font-size: 30px;
-          }
-        }
-        &-content {
-          background-color: white;
-          padding: 20px 0 20px 40px;
-          span {
-            border: 1PX solid #f5f5f5;
-            font-size: 30px;
-            padding: 5px 10px;
-            display: inline-block;
-            &:not(:first-child) {
-              margin-left: 10px;
-            }
-          }
-        }
-      }
-      &-pay_type {
-        margin-top: 20px;
-        &-content {
-          background-color: white;
-          padding: 20px 0 20px 40px;
-          span {
-            border: 1PX solid #f5f5f5;
-            font-size: 30px;
-            padding: 5px 10px;
-            display: inline-block;
-            &:not(:first-child) {
-              margin-left: 10px;
-            }
-          }
-        }
-      }
-      &-pay_amount {
-        margin-top: 20px;
-        background-color: white;
-        padding: 20px 0 20px 40px;
-        span {
-          font-size: 28px;
-        }
-        div {
-          margin-bottom: 10px;
-          span:nth-child(2) {
-            color: $themeColor;
-          }
-        }
-      }
-      &-medicaid {
-        background-color: white;
-        margin-bottom: 20px;
-        &-header {
-          font-size: 30px;
-          padding: 10px 0 10px 20px;
-          border: 1PX solid #f5f5f5;
-        }
-        &-content {
-          &-card {
-            padding: 20px 0 20px 70px;
-            span {
-              font-size: 28px;
-            }
-            div {
-              margin-bottom: 10px;
-              &:last-child {
-                span:nth-child(2) {
-                  color: $themeColor;
-                }
-              }
-            }
-          }
-          &-no_card {
-            padding: 20px 0 20px 70px;
-            span {
-              font-size: 50px;
-            }
-            a {
-              font-size: 30px;
-              border-bottom: 1PX solid $themeColor;
-              color: $themeColor;
-            }
-          }
-        }
-      }
-      &-coupon {
-        background-color: white;
-        &_link {
-          display: flex;
-          background-color: white;
-          align-items: center;
-          justify-content: space-between;
-          padding: 10px 20px;
-          div {
-            font-size: 30px;
-          }
-          &_right {
-            display: flex;
-            align-items: center;
-            color: #999999;
-          }
-          i {
-            font-size: 40px;
-          }
-        }
-        &_popup {
-          &-container {
-            min-height: 400px;
-            max-height: 100vh;
-            overflow: auto;
-            &-title {
-              padding: 30px 0;
-              text-align: center;
-            }
-            &-list {
-              padding: 20px;
-              &-item {
-                padding: 5px 10px;
-                margin: 10px 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                div:nth-child(2) {
-                  position: relative;
-                }
-                div {
-                  font-size: 28px;
-                }
-                label {
-                  font-size: 28px;
-                  position: absolute;
-                  left: 0;
-                  top: 0;
-                  width: 30px;
-                  height: 30px;
-                  border-radius: 50%;
-                  border: 1px solid #999;
-                }
-                input {
-                  width: 30px;
-                  height: 30px;
-                  opacity: 0;
-                }
-                input:checked + label {
-                  background-color: $themeColor;
-                  border: 1PX solid $themeColor;
-                }
-                input:checked + label::after {
-                  position: absolute;
-                  content: "";
-                  width: 7px;
-                  height: 12px;
-                  top: 4px;
-                  left: 8px;
-                  border: 1PX solid #fff;
-                  border-top: none;
-                  border-left: none;
-                  transform: rotate(45deg);
-                }
-              }
-              &-none {
-                text-align: center;
-              }
-            }
-          }
-        }
+      span {
+        line-height: 100px !important;
+        font-size: 25px !important;
       }
     }
-    &-footer {
-      background-color: white;
-      padding: 20px 0;
-      position: fixed;
-      bottom: 0;
-      z-index: 2;
+  }
+  .wrapper6 {
+    display: flex;
+    justify-content: center;
+  }
+  .wrapper5 {
+    background-color: white;
+    span {
+      font-size:24px;
+      font-weight:400;
+    }
+  }
+  .wrapper4 {
+    background-color: white;
+    display: grid;
+    align-content: space-evenly;
+    height: 200px;
+    .line {
       display: flex;
-      justify-content: flex-end;
-      width: 100%;
-      div {
-        span {
-          &:nth-child(1) {
-            font-size: 30px;
-            i {
-              font-style: normal;
-              color: $themeColor;
-              font-size: 30px;
-            }
-          }
-          &:nth-child(2) {
-            font-size: 30px;
-            border: 1PX solid #f5f5f5;
-            background-color: $themeColor;
-            color: white;
-            font-weight: 100;
-            padding: 20px 40px;
-          }
+      justify-content: space-between;
+      span {
+        font-size: 24px;
+        font-weight: 400;
+        color: $greyColor;
+        &:nth-child(2) {
+          color: $themeColor;
         }
       }
     }
   }
-
-  .ic-weixin.active {
-    color: #72bd63 !important;
+  .wrapper3 {
+    background-color: white;
+    display: flex;
+    .item {
+      display: flex;
+      align-items: center;
+      span {
+        font-size: 24px;
+        font-weight: 400;
+        margin-left: 10px;
+      }
+    }
+    .item2 {
+      margin-left: 100px;
+    }
   }
-
-  .ic-alipay.active {
-    color: #009fe8 !important;
+  .wrapper2 {
+    background: white;
+    display: grid;
+    .line1,
+    .line2 {
+      span {
+        font-size: 24px;
+        font-weight: 400;
+        color: $greyColor;
+      }
+    }
+    .line2 {
+      margin-top: 10px;
+    }
+    .line3 {
+      justify-self: right;
+      margin-top: 20px;
+      span {
+        font-size: 23px;
+        margin-left: 10px;
+      }
+    }
   }
-
-  .pay_shop-content-pay_type-content span {
-    background: grey;
+  .wrapper1 {
+    display: flex;
+    justify-content: center;
+    background-color: white;
   }
-
-
 </style>
 

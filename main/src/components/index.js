@@ -4,8 +4,6 @@ export default {
     Vue.component('new-star', () => import('./star'));
     // 没有数据
     Vue.component('new-no-data', () => import('./noData'));
-    // 购物车预结算标签
-    Vue.component('new-close-list', () => import('./closeList'));
     // 药品列表药品标签
     Vue.component('new-drug-item', () => import('./drugItem'));
     // radio组件
@@ -20,8 +18,6 @@ export default {
     Vue.component('new-order-item', () => import('./orderItem'));
     // 订单详情标签
     Vue.component('new-order-view-item', () => import('./orderViewItem'));
-    // 药房预结算标签
-    Vue.component('new-close-shop', () => import('./closeShop'));
     // 让利惠民倒计时组件
     Vue.component('new-time-down', () => import('./timeDown'));
     // 处方列表倒计时组件
