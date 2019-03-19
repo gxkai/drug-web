@@ -3,7 +3,7 @@
     <div class="advert">
       <bread-crumb :path="$route.path"/>
       <div class="title">
-        <h3>广告位管理</h3>
+        <h3>功能区管理</h3>
         <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
       </div>
 
@@ -102,17 +102,17 @@
     data= [
       {
         num: '1',
-        module: '感冒流行季',
+        module: '我的处方',
         sort: '1',
         url: 'https：//.........',
-        image: '1'
+        image: ''
       },
       {
         num: '2',
-        module: 'XXXX专场',
+        module: 'xxxx',
         sort: '2',
         url: 'https：//.........',
-        image: '1'
+        image: ''
       }
     ];
     loading= false;
@@ -266,6 +266,11 @@
     isClickModal = false;
     viewData = {};
 
+    // num: '1',
+    // module: '1',
+    // sort: '1',
+    // url: '1',
+    // image: '1'
     viewEvent ({index, row}) {
       this.viewDialogVisible = true
       this.viewData.num = row.num

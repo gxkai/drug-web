@@ -77,12 +77,113 @@
         </el-row>
       </div>
 
-      <div class="list">
-        <d2-crud
-          :columns="columnData"
-          :data="data"
-          :options="optionData"
-          :pagination="paginationData"/>
+      <div class="order-list">
+        <div class="container" v-for="(item, index) in perPageData" :key="index">
+          <div class="wrapper wrapper1">
+            <div class="item item1 item-bg">
+              <span>商品信息</span>
+            </div>
+            <div class="item item2">
+              <p>
+                订单编号：{{ item.orderID }}
+              </p>
+              <p>
+                下单时间：{{ item.orderTime }}
+              </p>
+            </div>
+            <div class="item item3">
+              <div class="item-info">
+                <img src="../../../assets/img/hospital/img1.png" alt="">
+                <p>
+                  药品名称：{{ item.drugInfo.name }}
+                </p>
+                <p>
+                  <span>单价：{{ item.drugInfo.price }}</span>
+                  <span>，件数：{{ item.drugInfo.quantity }}</span>
+                </p>
+                <p>12位条形码：{{ item.drugInfo.barCode }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrapper wrapper2">
+            <div class="item item1 item-bg">
+              <span>备货门店</span>
+            </div>
+            <div class="item item2 item-bg">
+              <span>用户信息</span>
+            </div>
+            <div class="item item3 item-bg">
+              <span>提货方式</span>
+            </div>
+            <div class="item item4 item-bg">
+              <span>提货人信息</span>
+            </div>
+            <div class="item item5 item-bg">
+              <span>订单类型</span>
+            </div>
+            <div class="item item6">
+              <span>备注：{{ item.remark }}</span>
+            </div>
+            <div class="item item7">
+              <span>{{ item.stockStore }}</span>
+            </div>
+            <div class="item item8">
+              <span>{{ item.username }}</span>
+            </div>
+            <div class="item item9">
+              <span>{{ item.deliveryMode }}</span>
+            </div>
+            <div class="item item10">
+              <p>姓名：{{ item.shipperInfo.userName }}</p>
+              <p>电话：{{ item.shipperInfo.phoneNumber }}</p>
+              <p>地址：{{ item.shipperInfo.address }}</p>
+            </div>
+            <div class="item item11">
+              <span>{{ item.orderType }}</span>
+            </div>
+          </div>
+
+          <div class="wrapper wrapper3">
+            <div class="item item1 item-bg">
+              <span>是否医保结算</span>
+            </div>
+            <div class="item item2 item-bg">
+              <span>订单金额</span>
+            </div>
+            <div class="item item3 item-bg">
+              <span>当前状态</span>
+            </div>
+            <div class="item item4 item-bg">
+              <span>操作</span>
+            </div>
+            <div class="item item5">
+              <span>{{ item.isMedicalInsuranceSettle }}</span>
+            </div>
+            <div class="item item6">
+              <p>{{ item.orderAmount.amount }}</p>
+              <p>{{ item.orderAmount.msPrice }}</p>
+              <p>{{ item.orderAmount.payMode }}</p>
+            </div>
+            <div class="item item7">
+              <span>{{ item.status }}</span>
+            </div>
+            <div class="item item8">
+              <el-button type="text" size="medium" @click="viewDetail(index, item.orderID)">查看详情</el-button>
+              <el-button type="text" size="medium" @click="finishedAdjust(index)">调剂完成</el-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :current-page="currentPageNum"
+          :page-size="pageNum"
+          layout="prev, pager, next, jumper, total"
+          :total="orderListData.length">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -162,82 +263,484 @@
 
     dateValue = '';
 
-    columnData = [
+    currentPageNum = 1; // 当前页
+    pageNum = 5; // 每页显示条数
+
+    // 所有订单列表数据
+    orderListData = [
       {
-        title: '商品信息',
-        key: 'goodsInfo',
-        children: [
-          {
-            title: '订单编号',
-            key: 'orderID'
-          },
-          {
-            title: '下单时间',
-            key: 'orderTime'
-          }
-        ]
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
       },
       {
-        title: '备货门店',
-        key: 'stockStore'
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
       },
       {
-        title: '用户信息',
-        key: 'userInfo'
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
       },
       {
-        title: '提货方式',
-        key: 'deliveryMode'
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
       },
       {
-        title: '提货人信息',
-        key: 'shipperInfo'
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
       },
       {
-        title: '订单类型',
-        key: 'orderType'
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
       },
       {
-        title: '是否医保结算',
-        key: 'isMedicalSettle'
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
       },
       {
-        title: '订单金额',
-        key: 'orderAmount'
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
       },
       {
-        title: '当前状态',
-        key: 'currentState'
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
+      },
+      {
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
+      },
+      {
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
+      },
+      {
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
+      },
+      {
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
+      },
+      {
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
+      },
+      {
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
+      },
+      {
+        orderID: '201902250000050',
+        orderTime: '2019-03-18 09:26:35',
+        drugInfo: {
+          name: '感冒灵颗粒',
+          price: 20,
+          quantity: 5,
+          barCode: '123456789123'
+        },
+        remark: '请配送到xxx',
+        stockStore: '百家惠大药房',
+        userName: '老王',
+        deliveryMode: '自提', // 自提/配送
+        shipperInfo: {
+          userName: '老王',
+          phoneNumber: '18616533247',
+          address: '江苏省 苏州市 昆山市 海创大厦C 22F'
+        },
+        orderType: '处方', // 处方/自购
+        isMedicalInsuranceSettle: '是', // 是/否
+        orderAmount: {
+          amount: 100,
+          msPrice: '(含医保: 90)',
+          payMode: '医保支付'
+        },
+        status: '调剂中'
       }
     ];
 
-    data = [
-      {
-        goodsInfo: '1',
-        stockStore: '百家惠',
-        userInfo: '1',
-        deliveryMode: '1',
-        shipperInfo: '1',
-        orderType: '1',
-        isMedicalSettle: '1',
-        orderAmount: '1',
-        currentState: '1'
-      }
-    ];
+    perPageData = []; // 存储每页显示的数据
 
-    paginationData = {
-      currentPage: 1,
-      pageSize: 3, // 每页显示数据条数
-      total: this.data.length // 数据总条数
-    };
+    sliceData () {
+      this.perPageData = this.orderListData
+      this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
+    }
 
-    optionData = {
-      border: true
-    };
+    handleCurrentChange (page) {
+      this.currentPageNum = page
+      this.sliceData()
+    }
+
+    // 查看详情
+    viewDetail (index, orderID) {
+      this.$router.push('/order/order/detail')
+    }
+
+    // 调剂完成
+    finishedAdjust (index) {
+
+    }
+
+    messageNotice () {
+      this.$notify.info({
+        message: '您有一笔新订单，请及时确认！',
+        position: 'bottom-right',
+        customClass: 'notice-msg'
+      })
+    }
+
+    mounted () {
+      this.sliceData()
+      this.messageNotice()
+    }
   }
 </script>
 
 <style lang="scss">
+  $tableBorder: 1px solid #EBEEF5;
 
   .order-wrap{
     padding: 20px;
@@ -248,19 +751,10 @@
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
-      .title-add{
-        padding: 0 20px;
-        margin: 0 10px;
-        border-bottom: 1px solid #E9E9E9;
-
-        .add-col{
-          text-align: right;
-          line-height: 60px;
-        }
-      }
-
       .filter{
-        margin-bottom: 20px;
+        margin: 20px 15px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #E9E9E9;
 
         .el-col-8{
           text-align: center;
@@ -286,38 +780,176 @@
         }
       }
 
-      .list {
-        padding: 0 30px;
+      &-list{
+        .container {
+          font-size: 15px;
+          margin: 30px 15px 0;
+          display: grid;
+          background: #EBEEF5;
+          border: $tableBorder;
+          grid-column-gap: 1px;
+          grid-template-columns: 20% 1fr 30%;
 
-        .el-table{
-          th{
-            background-color: #F4F4F4;
-            color: #555;
+          p{
+            margin: 10px 0 0;
           }
-          &__body {
-            td{
-              padding: 6px 0;
+
+          .wrapper {
+            display: grid;
+            grid-template-rows: 50px 90px 190px;
+            background: #FFF;
+
+            .item{
+              display: flex;
+              flex-flow: column;
+              justify-content: center;
+              padding: 10px;
+
+              &-bg{
+                color: #555;
+                font-weight: bold;
+                background-color: #F4F4F4;
+              }
+
+              &-info{
+                img{
+                  width: 100px;
+                }
+              }
+            }
+          }
+
+          .wrapper1 {
+            .item1{
+              /*align-items: center;*/
+            }
+            .item1,.item2 {
+              border-bottom: $tableBorder;
+            }
+          }
+
+          .wrapper2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 50% 1fr;
+
+            .item{
+              /*align-items: center;*/
+            }
+
+            .item1{
+              grid-area: 1/1/2/2;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item2{
+              grid-area: 1/2/2/3;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item3{
+              grid-area: 1/3/2/4;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item4{
+              grid-area: 1/4/2/5;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item5{
+              grid-area: 1/5/2/6;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item6{
+              grid-area: 2/1/3/6;
+              border-bottom: $tableBorder;
+            }
+            .item7, .item8, .item9, .item10{
+              border-right: $tableBorder;
+            }
+
+            /*.item{*/
+            /*&:nth-child(5){*/
+            /*align-items: start;*/
+            /*}*/
+            /*&:nth-child(8){*/
+            /*align-items: start;*/
+            /*}*/
+            /*}*/
+          }
+
+          .wrapper3 {
+            display: grid;
+            grid-template-rows: 50px 280px;
+            grid-template-columns: repeat(4, 1fr);
+
+            /*.item{*/
+            /*align-items: center;*/
+            /*}*/
+
+            .item1{
+              grid-area: 1/1/2/2;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item2{
+              grid-area: 1/2/2/3;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item3{
+              grid-area: 1/3/2/4;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item4{
+              grid-area: 1/4/2/5;
+              border-bottom: $tableBorder;
+            }
+
+            .item5, .item6, .item7{
+              border-right: $tableBorder;
+            }
+
+            .el-button+.el-button {
+              margin-left: 0;
             }
           }
         }
       }
 
-      .cell{
-        button:last-child:before{
-          content: '|';
-          color: #EEE;
-          position: relative;
-          left: -4px;
-          top: -1px;
-        }
-
-        .repository-edit,
-        .repository-list{
-          float: left;
+      .pagination{
+        margin: 30px 0;
+        .el-pagination__total{
+          float: right;
         }
       }
     }
   }
 
+  /*消息提醒样式*/
+  .el-notification .el-icon-info{
+    color: #FFBF00;
+  }
 
+  .el-notification__content{
+    margin-top: 3px;
+  }
 </style>

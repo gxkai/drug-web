@@ -114,7 +114,7 @@
   })
   export default class Appraise extends Vue {
     activeTab = 'first';
-
+    value2 = '';
     value1 = '';
     inputValue = '';
     dateValue = '';
@@ -325,7 +325,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .appraise-wrap{
     padding: 20px;
 
@@ -349,6 +349,18 @@
 
       .action-col{
         line-height: 40px;
+      }
+
+      .drug-appraise__list{
+        .cell{
+          button:last-child:before{
+            content: '|';
+            color: #EEE;
+            position: relative;
+            left: -6px;
+            top: -1px;
+          }
+        }
       }
     }
   }
