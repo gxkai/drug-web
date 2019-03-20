@@ -230,6 +230,7 @@
 
 <script>
 import Component from 'class-component'
+import axios from 'axios'
 
 @Component({
   components: {}
@@ -459,6 +460,10 @@ export default class Home {
       { '日期': '11月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
       { '日期': '12月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 }
     ]
+  }
+  async beforeMount () {
+    let {data: accounts} = await axios.get(`/api/supervise/accounts`, {params: {pageNum: 1, pageSize: 15}})
+    console.log(accounts)
   }
   mounted () {
     this.addPoints()
