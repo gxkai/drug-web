@@ -1,6 +1,34 @@
 <template>
   <div class="p10">
       <bread-crumb :path="$route.path"/>
+      <div class="shop-search">
+        <el-select size="small" v-model="shopName" filterable placeholder="药房名称">
+          <el-option
+            v-for="item in shopOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-select size="small" v-model="legalName" filterable placeholder="法人姓名">
+          <el-option
+            v-for="item in legalOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-select size="small" v-model="drugState" placeholder="选择状态">
+          <el-option
+            v-for="item in stateOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-button type="primary" size="small">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
+      </div>
       <d2-crud
         :columns="columns"
         :data="data"
@@ -8,10 +36,10 @@
         :pagination="pagination"
         :options="options"
         :rowHandle="rowHandle"
-        @custom-emit-1="handleCustomEvent"
-        @custom-emit-2="handleCustomEvent"
-        @custom-emit-3="handleCustomEvent"
-        @custom-emit-4="handleCustomEvent"
+        @emit-check="handleCheckEvent"
+        @emit-detail="handleDetailEvent"
+        @emit-run="handleRunEvent"
+        @emit-stop="handleStopEvent"
         class="drug-table"
        />
   </div>
@@ -27,6 +55,9 @@
     }
   })
   export default class Shop extends Vue {
+    shopName = ''
+    legalName = ''
+    drugState = ''
     columns= [
       {
         title: '药房名称',
@@ -53,7 +84,7 @@
         title: '当前状态',
         key: 'curState'
       }
-    ];
+    ]
     data= [
       {
         shopName: '百家惠',
@@ -77,14 +108,6 @@
         idNumber: '321281199210081112',
         shopAddress: '玉山镇朝阳西路203号',
         phoneNumber: '17766220751',
-        curState: '违规'
-      },
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
         curState: '待审核'
       },
       {
@@ -96,21 +119,59 @@
         curState: '不通过'
       }
     ]
-    loading= false;
+    shopOptions = [
+      {
+        value: '同德堂',
+        label: '同德堂'
+      },
+      {
+        value: '百家惠',
+        label: '百家惠'
+      }
+    ]
+    legalOptions = [
+      {
+        value: '黄哲林',
+        label: '黄哲林'
+      },
+      {
+        value: '老王',
+        label: '老王'
+      }
+    ]
+    stateOptions = [
+      {
+        value: '正常',
+        label: '正常'
+      },
+      {
+        value: '停业',
+        label: '停业'
+      },
+      {
+        value: '待审核',
+        label: '待审核'
+      },
+      {
+        value: '不通过',
+        label: '不通过'
+      }
+    ]
+    loading = false;
     pagination= {
       currentPage: 1,
       pageSize: 5,
       total: 0
     }
-    options= {
+    options = {
       border: true
     }
-    rowHandle= {
+    rowHandle = {
       custom: [
         {
           text: '审核',
           type: 'text',
-          emit: 'custom-emit-1',
+          emit: 'emit-check',
           show (index, row) {
             if (row.curState === '待审核') {
               return true
@@ -120,9 +181,9 @@
         {
           text: '查看',
           type: 'text',
-          emit: 'custom-emit-2',
+          emit: 'emit-detail',
           show (index, row) {
-            if (row.curState === '正常' || row.curState === '不通过' || row.curState === '待审核' || row.curState === '停业' || row.curState === '违规') {
+            if (row.curState === '正常' || row.curState === '不通过' || row.curState === '待审核' || row.curState === '停业') {
               return true
             }
           }
@@ -130,7 +191,7 @@
         {
           text: '开业',
           type: 'text',
-          emit: 'custom-emit-3',
+          emit: 'emit-run',
           show (index, row) {
             if (row.curState === '停业') {
               return true
@@ -140,7 +201,7 @@
         {
           text: '停业',
           type: 'text',
-          emit: 'custom-emit-4',
+          emit: 'emit-stop',
           show (index, row) {
             if (row.curState === '正常') {
               return true
@@ -149,9 +210,32 @@
         }
       ]
     }
-    handleCustomEvent ({index, row}) {
+    handleCheckEvent () {
       this.$router.push('/shopCheck/shop/edit')
-      // console.log(row)
+    }
+    handleStopEvent ({index, row}) {
+      let stop = this.rowHandle.custom
+      for (let i = 0; i < stop.length; i++) {
+        if (stop[i].text === '开业') {
+          row.curState = '停业'
+        }
+      }
+    }
+    handleRunEvent ({index, row}) {
+      let run = this.rowHandle.custom
+      for (let i = 0; i < run.length; i++) {
+        if (run[i].text === '停业') {
+          row.curState = '正常'
+        }
+      }
+    }
+    handleDetailEvent () {
+      this.$router.push('/shopCheck/shop/detail')
+    }
+    clear () {
+      this.shopName = ''
+      this.legalName = ''
+      this.drugState = ''
     }
   }
 </script>
@@ -161,7 +245,21 @@
 .p10{
   padding:5px 10px;
 }
+.shop-search{
+  display: flex;
+  justify-content: Flex-start;
+  align-items: center;
+  .el-input{
+    margin-right: 10px;
+    width: 160px;
+  }
+  .el-select{
+    margin-right: 10px;
+    width: 160px;
+  }
+}
 /deep/.drug-table{
+  margin-top: 10px;
   .d2-crud-body{
       padding: 0 !important;
     .el-table{

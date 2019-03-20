@@ -1,6 +1,20 @@
 <template>
   <div class="p10">
     <bread-crumb :path="$route.path"/>
+    <div class="druginfo-search">
+      <el-input v-model="drugNameValue" size="small" placeholder="请输入药品名称" style="width: 150px;"></el-input>
+      <el-input v-model="firmNameValue" size="small" placeholder="请输入厂商简称" style="width: 150px;"></el-input>
+      <el-select size="small" v-model="drugState" placeholder="药品状态">
+        <el-option
+          v-for="item in stateOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <el-button type="primary" size="small">搜索</el-button>
+      <el-button size="small" @click="clear">清空</el-button>
+    </div>
     <d2-crud
       :columns="columns"
       :data="data"
@@ -25,6 +39,9 @@
     }
   })
   export default class DrugInfo extends Vue {
+    drugNameValue = ''
+    firmNameValue = ''
+    drugState = ''
     columns= [
       {
         title: '药品名称',
@@ -86,11 +103,6 @@
           emit: 'emit-detail'
         },
         {
-          text: '更多',
-          type: 'text',
-          emit: 'emit-detail'
-        },
-        {
           text: '审核',
           type: 'text',
           emit: 'emit-check',
@@ -102,6 +114,16 @@
         }
       ]
     }
+    stateOptions = [
+      {
+        value: '审核通过',
+        label: '审核通过'
+      },
+      {
+        value: '待审核',
+        label: '待审核'
+      }
+    ]
     mounted () {
     }
     handleDetailEvent ({index, row}) {
@@ -113,6 +135,11 @@
     handleCheckEvent () {
       this.$router.push('/drugCheck/drugInfo/check')
     }
+    clear () {
+      this.drugNameValue = ''
+      this.firmNameValue = ''
+      this.drugState = ''
+    }
   }
 </script>
 
@@ -120,7 +147,21 @@
   .p10{
     padding: 0 10px;
   }
+  .druginfo-search{
+    display: flex;
+    justify-content: Flex-start;
+    align-items: center;
+    .el-input{
+      margin: 0 5px;
+    }
+    .el-select{
+      width: 150px;
+      margin-left: 5px;
+      margin-right: 10px;
+    }
+  }
   /deep/.drug-table{
+    margin-top: 10px;
     .d2-crud-body{
       padding: 0 !important;
       .el-table{

@@ -3,7 +3,7 @@
     <div class="advert">
       <bread-crumb :path="$route.path"/>
       <div class="title">
-        <h3>广告位管理</h3>
+        <h3>模块区管理</h3>
         <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
       </div>
 
@@ -17,12 +17,11 @@
           :options="options"
           :rowHandle="rowHandle"
           @view-emit="viewEvent"
+          @set-drug-emit='setDrug'
 
           add-title="我的新增"
           :add-template="addTemplate"
           @row-add="handleRowAdd"
-
-          @row-remove="handleRowRemove"
 
           edit-title="我的修改"
           :edit-template="editTemplate"
@@ -102,17 +101,24 @@
     data= [
       {
         num: '1',
-        module: '感冒流行季',
+        module: '专病咨询',
         sort: '1',
         url: 'https：//.........',
         image: '1'
       },
       {
         num: '2',
-        module: 'XXXX专场',
+        module: '家庭常用',
         sort: '2',
         url: 'https：//.........',
-        image: '1'
+        image: '2'
+      },
+      {
+        num: '3',
+        module: '品牌推荐',
+        sort: '3',
+        url: 'https：//.........',
+        image: '3'
       }
     ];
     loading= false;
@@ -125,24 +131,23 @@
       border: true
     };
     rowHandle= {
-      custom: [
-        {
-          text: '查看',
-          type: 'text',
-          emit: 'view-emit'
-        }
-      ],
-
       edit: {
         text: '编辑',
         type: 'text'
       },
 
-      remove: {
-        text: '删除',
-        type: 'text',
-        confirm: true
-      }
+      custom: [
+        {
+          text: '设置药品',
+          type: 'text',
+          emit: 'set-drug-emit'
+        },
+        {
+          text: '查看',
+          type: 'text',
+          emit: 'view-emit'
+        }
+      ]
     };
 
     formOptions = {
@@ -229,18 +234,6 @@
       done()
     }
 
-    handleRowRemove ({ index, row }, done) {
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
-    }
-
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
       setTimeout(() => {
@@ -273,6 +266,11 @@
       this.viewData.sort = row.sort
       this.viewData.url = row.url
       this.viewData.image = row.image
+    }
+
+    // 设置药品
+    setDrug () {
+      this.$router.push('/drugCheck/drug')
     }
   }
 </script>

@@ -220,48 +220,60 @@ if (SHOW_EXAMPLES) {
         },
         {
           id: '90-2',
+          name: '功能区管理',
+          url: '/business/ability',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '90-3',
+          name: '模块区管理',
+          url: '/business/module',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '90-4',
           name: '好货推荐',
           url: '/business/recommend',
           icon: 'el-icon-share'
         },
         {
-          id: '90-3',
+          id: '90-5',
           name: '惠民促销',
           url: '/business/discount',
           icon: 'el-icon-share'
         },
         {
-          id: '90-4',
+          id: '90-6',
           name: '药师咨询',
           url: '/business/chat',
           icon: 'el-icon-share'
         },
         {
-          id: '90-5',
+          id: '90-7',
           name: '用户反馈',
           url: '/business/feedback',
           icon: 'el-icon-share'
         },
         {
-          id: '90-6',
+          id: '90-8',
           name: '系统消息',
           url: '/business/system',
           icon: 'el-icon-share'
         },
         {
-          id: '90-7',
+          id: '90-9',
           name: '搜索词管理',
           url: '/business/word',
           icon: 'el-icon-share'
         },
         {
-          id: '90-8',
+          id: '90-10',
           name: '知识库管理',
           url: '/business/repository',
           icon: 'el-icon-share'
         },
         {
-          id: '90-9',
+          id: '90-11',
           name: '常见问题',
           url: '/business/faq',
           icon: 'el-icon-share'
@@ -275,48 +287,54 @@ if (SHOW_EXAMPLES) {
       children: [
         {
           id: '100-1',
+          name: '药师管理',
+          url: '/system/pharmacist',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '100-2',
           name: '会员管理',
           url: '/system/account',
           icon: 'el-icon-share'
         },
         {
-          id: '100-2',
-          name: '用户管理',
-          url: '/system/user',
+          id: '100-3',
+          name: '药店管理',
+          url: '/system/shop',
           icon: 'el-icon-share'
         },
         {
-          id: '100-3',
+          id: '100-4',
           name: '监管用户',
           url: '/system/admin',
           icon: 'el-icon-share'
         },
         {
-          id: '100-4',
+          id: '100-5',
           name: '角色管理',
           url: '/system/role',
           icon: 'el-icon-share'
         },
         {
-          id: '100-5',
+          id: '100-6',
           name: '附件管理',
           url: '/system/file',
           icon: 'el-icon-share'
         },
         {
-          id: '100-6',
+          id: '100-7',
           name: '接口调用数',
           url: '/system/interface',
           icon: 'el-icon-share'
         },
         {
-          id: '100-7',
+          id: '100-8',
           name: '登陆日志',
           url: '/system/loginLog',
           icon: 'el-icon-share'
         },
         {
-          id: '100-8',
+          id: '100-9',
           name: '系统参数',
           url: '/system/system',
           icon: 'el-icon-share'
