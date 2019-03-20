@@ -135,7 +135,7 @@
       margin-right: 100px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(4, 50px) 150px repeat(3, 50px)px;
+      grid-template-rows: repeat(4, 50px) 150px repeat(3, 50px);
       .el-form-item{
         &:nth-child(9){
           grid-column: 1 / 3;
