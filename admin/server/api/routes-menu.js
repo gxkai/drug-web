@@ -19,8 +19,8 @@ let menu = [
   },
   {
     id: '3',
-    name: 'nav.about',
-    url: '/about',
+    name: '分布图',
+    url: '/map',
     icon: 'el-icon-menu'
   }
 ]
@@ -220,48 +220,60 @@ if (SHOW_EXAMPLES) {
         },
         {
           id: '90-2',
+          name: '功能区管理',
+          url: '/business/ability',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '90-3',
+          name: '模块区管理',
+          url: '/business/module',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '90-4',
           name: '好货推荐',
           url: '/business/recommend',
           icon: 'el-icon-share'
         },
         {
-          id: '90-3',
+          id: '90-5',
           name: '惠民促销',
           url: '/business/discount',
           icon: 'el-icon-share'
         },
         {
-          id: '90-4',
+          id: '90-6',
           name: '药师咨询',
           url: '/business/chat',
           icon: 'el-icon-share'
         },
         {
-          id: '90-5',
+          id: '90-7',
           name: '用户反馈',
           url: '/business/feedback',
           icon: 'el-icon-share'
         },
         {
-          id: '90-6',
+          id: '90-8',
           name: '系统消息',
           url: '/business/system',
           icon: 'el-icon-share'
         },
         {
-          id: '90-7',
+          id: '90-9',
           name: '搜索词管理',
           url: '/business/word',
           icon: 'el-icon-share'
         },
         {
-          id: '90-8',
+          id: '90-10',
           name: '知识库管理',
           url: '/business/repository',
           icon: 'el-icon-share'
         },
         {
-          id: '90-9',
+          id: '90-11',
           name: '常见问题',
           url: '/business/faq',
           icon: 'el-icon-share'

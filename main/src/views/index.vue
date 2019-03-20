@@ -24,8 +24,7 @@
             </van-swipe-item>
           </van-swipe>
         </div>
-        <new-white-space />
-        <new-wing-blank class="wrapper2">
+        <new-wing-blank class="wrapper2" py="0">
           <div
             class="item"
             v-for="(item, index) in jumps"
@@ -71,7 +70,7 @@
         </new-wing-blank>
         <new-white-space />
         <div>
-          <new-wing-blank class="wrapper4 van-hairline--bottom">
+          <new-wing-blank class="wrapper4 van-hairline--bottom" v-if="discounts.length > 0">
             <div class="item1">
               <new-line width="5px" height="3em" color="red" />
             </div>
@@ -90,7 +89,7 @@
               </span>
             </div>
           </new-wing-blank>
-          <new-wing-blank class="wrapper5">
+          <new-wing-blank class="wrapper5" v-if="discounts.length > 0">
             <van-swipe :show-indicators="false" :width="200">
               <van-swipe-item
                 v-for="(discount, index) in discounts"
@@ -163,8 +162,8 @@
           </div>
         </div>
         <new-white-space />
-        <new-central-title icon="aixin" color="red" text="好货推荐"/>
-        <div class="wrapper15">
+        <new-central-title icon="aixin" color="red" text="好货推荐" v-if="recommends.length>0"/>
+        <div class="wrapper15" v-if="recommends.length>0">
           <div
             class="item"
             v-for="(recommend, index) in recommends"
@@ -474,8 +473,8 @@
       flex-direction: column;
       align-items: center;
       img {
-        width: 150px;
-        height: 150px;
+        width: 150px * .75;
+        height: 150px * .75;
       }
       span {
         font-size: 30px;

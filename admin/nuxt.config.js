@@ -46,6 +46,7 @@ module.exports = {
       'vue-i18n',
       'vue-chartjs',
       'vue-clipboards',
+      'vue-baidu-map',
       'moment',
       'chart.js',
       '@d2-projects/d2-crud',
@@ -89,9 +90,11 @@ module.exports = {
     '@/plugins/element-ui',
     {src: '@/plugins/d2-crud', ssr: false},
     {src: '@/plugins/vue-baidu-map', ssr: false},
+    {src: '@/plugins/vue-amap', ssr: false},
     {src: '@/plugins/v-charts', ssr: false},
     {src: '@/plugins/clipboard', ssr: false},
-    {src: '@/plugins/error-handler', ssr: false}
+    {src: '@/plugins/error-handler', ssr: false},
+    {src: '@/plugins/vue-baidu-map', ssr: false}
   ],
   modules: [
     '@nuxtjs/webpackmonitor',
@@ -100,14 +103,14 @@ module.exports = {
   // koa-proxies for dev, options reference https://github.com/nodejitsu/node-http-proxy#options
   development: {
     proxies: [
-      /* {
-        path: '/hpi/',
-        target: 'http://localhost:3000/',
+      {
+        path: '/api/',
+        target: 'http://172.16.11.140:8091/api/',
         logs: true,
         prependPath: false,
         changeOrigin: true,
         rewrite: path => path.replace(/^\/pages(\/|\/\w+)?$/, '/service')
-      } */
+      }
     ]
   }
 }

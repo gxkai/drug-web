@@ -1,36 +1,67 @@
 <template>
-  <div class="repository-wrap">
-    <div class="repository">
+  <div class="advert-wrap">
+    <div class="advert">
       <bread-crumb :path="$route.path"/>
-      <div class="title-add">
-        <h3>知识库</h3>
+      <div class="title">
+        <h3>功能区管理</h3>
         <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
         <d2-crud
-          ref="d2Crud"
+          ref = 'd2Crud'
           :columns="columns"
           :data="data"
           :loading="loading"
           :pagination="pagination"
           :options="options"
           :rowHandle="rowHandle"
-          @custom-emit-list="viewList"
-
-          edit-title="我的修改"
-          :edit-template="editTemplate"
+          @view-emit="viewEvent"
 
           add-title="我的新增"
           :add-template="addTemplate"
           @row-add="handleRowAdd"
+
           @row-remove="handleRowRemove"
 
+          edit-title="我的修改"
+          :edit-template="editTemplate"
+          @row-edit="handleRowEdit"
+
           :form-options="formOptions"
-          @dialog-open="handleDialogOpen"
-          @dialog-cancel="handleDialogCancel"
-        />
+          @dialog-cancel="handleDialogCancel"/>
       </div>
+
+      <!-- 查看模态框 -->
+      <el-dialog
+        title="查看"
+        :visible.sync="viewDialogVisible"
+        width="30%"
+        :close-on-click-modal = 'isClickModal'>
+        <div class="main">
+          <el-form :model="viewData" label-width="100px">
+            <el-form-item label="序号">
+              <el-input v-model="viewData.num" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="模块">
+              <el-input v-model="viewData.module" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="排序">
+              <el-input v-model="viewData.sort" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="链接地址">
+              <el-input v-model="viewData.url" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="图片">
+              <el-input v-model="viewData.image" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="viewDialogVisible = false" type="primary">关 闭</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -45,115 +76,67 @@
       BreadCrumb
     }
   })
-  export default class Repository extends Vue {
-    columns = [
+  export default class Advert extends Vue {
+    columns= [
       {
         title: '序号',
-        key: 'serialNumber'
-        // width: '200'
+        key: 'num'
       },
       {
-        title: '类别名称',
-        key: 'categoryName'
-        // width: '250'
+        title: '模块',
+        key: 'module'
       },
       {
-        title: '打开次数',
-        key: 'openNum'
-        // width: '200'
+        title: '排序',
+        key: 'sort'
+      },
+      {
+        title: '链接地址',
+        key: 'url'
       },
       {
         title: '图片',
-        key: 'imageUrl'
-        // width: '450'
+        key: 'image'
       }
     ];
-    data = [
+    data= [
       {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
+        num: '1',
+        module: '我的处方',
+        sort: '1',
+        url: 'https：//.........',
+        image: ''
       },
       {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
+        num: '2',
+        module: 'xxxx',
+        sort: '2',
+        url: 'https：//.........',
+        image: ''
       }
     ];
     loading= false;
     pagination= {
       currentPage: 1,
       pageSize: 5,
-      total: this.data.length
+      total: 0
     };
     options= {
       border: true
     };
     rowHandle= {
-      edit: {
-        text: '编辑',
-        type: 'text',
-        class: 'repository-edit'
-      },
-
       custom: [
         {
-          text: '列表',
+          text: '查看',
           type: 'text',
-          emit: 'custom-emit-list',
-          class: 'repository-list'
+          emit: 'view-emit'
         }
       ],
+
+      edit: {
+        text: '编辑',
+        type: 'text'
+      },
 
       remove: {
         text: '删除',
@@ -163,55 +146,56 @@
     };
 
     formOptions = {
-      labelWidth: '80px',
+      labelWidth: '120px',
       labelPosition: 'left',
       saveLoading: false
     }
 
     addTemplate = {
-      serialNumber: {
+      num: {
         title: '序号',
         value: ''
       },
-      categoryName: {
-        title: '类别名称',
+      module: {
+        title: '模块',
         value: ''
       },
-      openNum: {
-        title: '打开次数',
+      sort: {
+        title: '排序',
         value: ''
       },
-      imageUrl: {
+      url: {
+        title: '链接地址',
+        value: ''
+      },
+      image: {
         title: '图片',
         value: ''
       }
     };
 
     editTemplate = {
-      serialNumber: {
+      num: {
         title: '序号',
         value: ''
       },
-      categoryName: {
-        title: '类别名称',
+      module: {
+        title: '模块',
         value: ''
       },
-      openNum: {
-        title: '打开次数',
+      sort: {
+        title: '排序',
         value: ''
       },
-      imageUrl: {
+      url: {
+        title: '链接地址',
+        value: ''
+      },
+      image: {
         title: '图片',
         value: ''
       }
     };
-
-    handleDialogOpen ({ mode }) {
-      // this.$message({
-      //   message: '打开模态框，模式为：' + mode,
-      //   type: 'success'
-      // })
-    }
 
     // 普通的新增
     addRow () {
@@ -275,24 +259,48 @@
       }, 300)
     }
 
-    // 列表
-    viewList ({index, row}) {
-      this.$router.push('/business/repository/repositoryCategoryList')
+    mounted () {
+    }
+
+    viewDialogVisible = false;
+    isClickModal = false;
+    viewData = {};
+
+    // num: '1',
+    // module: '1',
+    // sort: '1',
+    // url: '1',
+    // image: '1'
+    viewEvent ({index, row}) {
+      this.viewDialogVisible = true
+      this.viewData.num = row.num
+      this.viewData.module = row.module
+      this.viewData.sort = row.sort
+      this.viewData.url = row.url
+      this.viewData.image = row.image
     }
   }
 </script>
 
 <style lang="scss">
-  .repository-wrap{
+  .advert-wrap{
     padding: 20px;
 
-    .repository{
+    .advert{
       min-height: 850px;
       background: #FFF;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
-      .title-add{
+      .el-dialog__body{
+        padding: 20px;
+        border:{
+          top: 1px solid #e9e9e9;
+          bottom: 1px solid #e9e9e9;
+        }
+      }
+
+      .title{
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -318,7 +326,7 @@
       }
 
       .cell{
-        button:last-child:before{
+        button:not(:last-child):before{
           content: '|';
           color: #EEE;
           position: relative;
@@ -326,9 +334,10 @@
           top: -1px;
         }
 
-        .repository-edit,
-        .repository-list{
+        button:last-child{
           float: left;
+          margin-left: 0;
+          margin-right: 10px;
         }
       }
     }

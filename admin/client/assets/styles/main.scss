@@ -1,4 +1,4 @@
-@import '../../assets/fonts/style.css';
+@import "../../assets/fonts/style.css";
 html,
 body,
 header,
@@ -8,12 +8,12 @@ header,
   // max-height: 900px;
   margin: 0 auto;
 }
-#__layout{
+#__layout {
   height: 100%;
 }
 body {
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', SimSun, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", SimSun, sans-serif;
   overflow: auto;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -50,7 +50,7 @@ textarea {
   position: relative;
   margin: 15px 0px 15px 5px;
   transform: rotate(0deg);
-  transition: .5s ease-in-out;
+  transition: 0.5s ease-in-out;
   cursor: pointer;
   span {
     display: block;
@@ -62,7 +62,7 @@ textarea {
     opacity: 1;
     left: 0;
     transform: rotate(0deg);
-    transition: .25s ease-in-out;
+    transition: 0.25s ease-in-out;
     &:nth-child(1) {
       top: $first-top;
     }
@@ -94,7 +94,7 @@ textarea {
   }
 }
 .input-with-select .el-input-group__prepend {
-  width: auto
+  width: auto;
 }
 @media (max-width: 1440px) {
   .container {
@@ -104,3 +104,8 @@ textarea {
 @media (max-width: 768px) {
 }
 
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

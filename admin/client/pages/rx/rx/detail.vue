@@ -5,14 +5,14 @@
 
       <div class="title">
         <h3>处方单详情</h3>
-        <el-button type="primary" size="small" @click="$router.push('/rx/rx')">返回</el-button>
+        <el-button type="primary" size="small" @click="$router.go(-1)">返回</el-button>
       </div>
 
       <div class="detail-con">
         <div class="form-info">
           <el-form ref="formInfo" :model="formInfo" label-width="150px">
             <el-form-item label="No：">
-              <el-input v-model="formInfo.idNumber" placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.idNumber" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="处方日期：">
               <el-date-picker
@@ -23,29 +23,28 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item label="姓名：">
-              <el-input v-model="formInfo.name" placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.name" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="性别：">
-              <el-input v-model="formInfo.sex" placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.sex" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="年龄：">
-              <el-input v-model="formInfo.age" placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.age" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="单位地址：">
-              <el-input v-model="formInfo.address" placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.address" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="联系电话：">
-              <el-input v-model="formInfo.telNumber" placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.telNumber" readonly placeholder="请输入"></el-input>
             </el-form-item><br>
             <el-form-item label="医院：">
-              <el-input v-model="formInfo.hospital" placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.hospital" readonly placeholder="请输入"></el-input>
             </el-form-item>
-
             <el-form-item label="科室：">
-              <el-input v-model="formInfo.department" placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.department" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="诊断：">
-              <el-input v-model="formInfo.diagnosis" placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.diagnosis" readonly placeholder="请输入"></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -62,16 +61,16 @@
           <h2>处方单跟踪信息</h2>
           <el-form ref="trackForm" :model="trackInfo" label-width="120px">
             <el-form-item label="订单编号：">
-              <el-input v-model="trackInfo.orderNumber" placeholder="请输入"></el-input>
+              <el-input v-model="trackInfo.orderNumber" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="支付方式：">
-              <el-input v-model="trackInfo.payMethod" placeholder="请输入"></el-input>
+              <el-input v-model="trackInfo.payMethod" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="药店：">
-              <el-input v-model="trackInfo.pharmacyName" placeholder="请输入"></el-input>
+              <el-input v-model="trackInfo.pharmacyName" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="订单状态：">
-              <el-input v-model="trackInfo.orderStatus" placeholder="请输入"></el-input>
+              <el-input v-model="trackInfo.orderStatus" readonly placeholder="请输入"></el-input>
             </el-form-item>
           </el-form>
         </div>

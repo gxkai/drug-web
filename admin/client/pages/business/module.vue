@@ -1,36 +1,66 @@
 <template>
-  <div class="repository-wrap">
-    <div class="repository">
+  <div class="advert-wrap">
+    <div class="advert">
       <bread-crumb :path="$route.path"/>
-      <div class="title-add">
-        <h3>知识库</h3>
+      <div class="title">
+        <h3>模块区管理</h3>
         <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
         <d2-crud
-          ref="d2Crud"
+          ref = 'd2Crud'
           :columns="columns"
           :data="data"
           :loading="loading"
           :pagination="pagination"
           :options="options"
           :rowHandle="rowHandle"
-          @custom-emit-list="viewList"
-
-          edit-title="我的修改"
-          :edit-template="editTemplate"
+          @view-emit="viewEvent"
+          @set-drug-emit='setDrug'
 
           add-title="我的新增"
           :add-template="addTemplate"
           @row-add="handleRowAdd"
-          @row-remove="handleRowRemove"
+
+          edit-title="我的修改"
+          :edit-template="editTemplate"
+          @row-edit="handleRowEdit"
 
           :form-options="formOptions"
-          @dialog-open="handleDialogOpen"
-          @dialog-cancel="handleDialogCancel"
-        />
+          @dialog-cancel="handleDialogCancel"/>
       </div>
+
+      <!-- 查看模态框 -->
+      <el-dialog
+        title="查看"
+        :visible.sync="viewDialogVisible"
+        width="30%"
+        :close-on-click-modal = 'isClickModal'>
+        <div class="main">
+          <el-form :model="viewData" label-width="100px">
+            <el-form-item label="序号">
+              <el-input v-model="viewData.num" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="模块">
+              <el-input v-model="viewData.module" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="排序">
+              <el-input v-model="viewData.sort" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="链接地址">
+              <el-input v-model="viewData.url" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="图片">
+              <el-input v-model="viewData.image" readonly placeholder="请输入"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="viewDialogVisible = false" type="primary">关 闭</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -45,96 +75,57 @@
       BreadCrumb
     }
   })
-  export default class Repository extends Vue {
-    columns = [
+  export default class Advert extends Vue {
+    columns= [
       {
         title: '序号',
-        key: 'serialNumber'
-        // width: '200'
+        key: 'num'
       },
       {
-        title: '类别名称',
-        key: 'categoryName'
-        // width: '250'
+        title: '模块',
+        key: 'module'
       },
       {
-        title: '打开次数',
-        key: 'openNum'
-        // width: '200'
+        title: '排序',
+        key: 'sort'
+      },
+      {
+        title: '链接地址',
+        key: 'url'
       },
       {
         title: '图片',
-        key: 'imageUrl'
-        // width: '450'
+        key: 'image'
       }
     ];
-    data = [
+    data= [
       {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
+        num: '1',
+        module: '专病咨询',
+        sort: '1',
+        url: 'https：//.........',
+        image: '1'
       },
       {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
+        num: '2',
+        module: '家庭常用',
+        sort: '2',
+        url: 'https：//.........',
+        image: '2'
       },
       {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
+        num: '3',
+        module: '品牌推荐',
+        sort: '3',
+        url: 'https：//.........',
+        image: '3'
       }
     ];
     loading= false;
     pagination= {
       currentPage: 1,
       pageSize: 5,
-      total: this.data.length
+      total: 0
     };
     options= {
       border: true
@@ -142,76 +133,74 @@
     rowHandle= {
       edit: {
         text: '编辑',
-        type: 'text',
-        class: 'repository-edit'
+        type: 'text'
       },
 
       custom: [
         {
-          text: '列表',
+          text: '设置药品',
           type: 'text',
-          emit: 'custom-emit-list',
-          class: 'repository-list'
+          emit: 'set-drug-emit'
+        },
+        {
+          text: '查看',
+          type: 'text',
+          emit: 'view-emit'
         }
-      ],
-
-      remove: {
-        text: '删除',
-        type: 'text',
-        confirm: true
-      }
+      ]
     };
 
     formOptions = {
-      labelWidth: '80px',
+      labelWidth: '120px',
       labelPosition: 'left',
       saveLoading: false
     }
 
     addTemplate = {
-      serialNumber: {
+      num: {
         title: '序号',
         value: ''
       },
-      categoryName: {
-        title: '类别名称',
+      module: {
+        title: '模块',
         value: ''
       },
-      openNum: {
-        title: '打开次数',
+      sort: {
+        title: '排序',
         value: ''
       },
-      imageUrl: {
+      url: {
+        title: '链接地址',
+        value: ''
+      },
+      image: {
         title: '图片',
         value: ''
       }
     };
 
     editTemplate = {
-      serialNumber: {
+      num: {
         title: '序号',
         value: ''
       },
-      categoryName: {
-        title: '类别名称',
+      module: {
+        title: '模块',
         value: ''
       },
-      openNum: {
-        title: '打开次数',
+      sort: {
+        title: '排序',
         value: ''
       },
-      imageUrl: {
+      url: {
+        title: '链接地址',
+        value: ''
+      },
+      image: {
         title: '图片',
         value: ''
       }
     };
-
-    handleDialogOpen ({ mode }) {
-      // this.$message({
-      //   message: '打开模态框，模式为：' + mode,
-      //   type: 'success'
-      // })
-    }
 
     // 普通的新增
     addRow () {
@@ -245,18 +234,6 @@
       done()
     }
 
-    handleRowRemove ({ index, row }, done) {
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
-    }
-
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
       setTimeout(() => {
@@ -275,24 +252,48 @@
       }, 300)
     }
 
-    // 列表
-    viewList ({index, row}) {
-      this.$router.push('/business/repository/repositoryCategoryList')
+    mounted () {
+    }
+
+    viewDialogVisible = false;
+    isClickModal = false;
+    viewData = {};
+
+    viewEvent ({index, row}) {
+      this.viewDialogVisible = true
+      this.viewData.num = row.num
+      this.viewData.module = row.module
+      this.viewData.sort = row.sort
+      this.viewData.url = row.url
+      this.viewData.image = row.image
+    }
+
+    // 设置药品
+    setDrug () {
+      this.$router.push('/drugCheck/drug')
     }
   }
 </script>
 
 <style lang="scss">
-  .repository-wrap{
+  .advert-wrap{
     padding: 20px;
 
-    .repository{
+    .advert{
       min-height: 850px;
       background: #FFF;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
-      .title-add{
+      .el-dialog__body{
+        padding: 20px;
+        border:{
+          top: 1px solid #e9e9e9;
+          bottom: 1px solid #e9e9e9;
+        }
+      }
+
+      .title{
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -318,7 +319,7 @@
       }
 
       .cell{
-        button:last-child:before{
+        button:not(:last-child):before{
           content: '|';
           color: #EEE;
           position: relative;
@@ -326,9 +327,10 @@
           top: -1px;
         }
 
-        .repository-edit,
-        .repository-list{
+        button:last-child{
           float: left;
+          margin-left: 0;
+          margin-right: 10px;
         }
       }
     }

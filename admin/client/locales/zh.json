@@ -19,6 +19,8 @@
     "Application boilerplate based on Vue.js 2.x, Koa 2.x, Element-UI, Axios, Vue i18n and Nuxt.js",
   "/":
     "首页",
+  "/map":
+    "分布图",
   "/analysis":
     "统计分析",
   "/analysis/sale":
@@ -85,6 +87,8 @@
     "订单管理",
   "/order/order":
     "订单管理",
+  "/order/order/detail":
+    "订单详情",
   "/order/appraise":
     "评价管理",
   "/rx":
@@ -95,12 +99,20 @@
     "业务管理",
   "/business/advert":
     "广告管理",
+  "/business/ability":
+    "功能区管理",
+  "/business/module":
+    "功能区管理",
   "/business/recommend":
     "好货推荐",
   "/business/discount":
     "惠民促销",
   "/business/chat":
     "药师咨询",
+  "/business/chat/list":
+    "聊天列表",
+  "/business/chat/list/detail":
+    "聊天详情",
   "/business/feedback":
     "用户反馈",
   "/business/system":
