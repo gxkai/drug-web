@@ -19,13 +19,13 @@
         </div>
         <div class="rxs--header__right">
           <div>
-            <van-icon name="wo" color="white" size="3em"></van-icon>
+            <van-icon name="wo" color="white" size=".4rem"></van-icon>
             <span class="ml-l-20">{{account.name || '无'}}</span>
             <span class="ml-l-50">{{getGender(account.gender)|| '未填写'}}</span>
             <span class="ml-l-40">{{account.age + '岁'|| '未填写'}}</span>
           </div>
           <div class="mt-l-20">
-            <van-icon name="Id" color="white" size="3em"></van-icon>
+            <van-icon name="Id" color="white" size=".4rem"></van-icon>
             <span class="ml-l-20">{{account.identityNumber|| '未填写'}}</span>
           </div>
         </div>
@@ -55,31 +55,31 @@
               <img class="rxs--mark"
                    v-lazy="item.state ==='ENABLED'? require('../../assets/image/rxs/rx-true.png') : require('../../assets/image/rxs/rx-false.png')">
               <div style="display: flex">
-                <van-icon name="yiyuan" color="#F60000" size="3em"></van-icon>
+                <van-icon name="yiyuan" color="#F60000" size=".4rem"></van-icon>
                 <span style="align-self: center">医院</span>
                 <span style="align-self: center">
                   {{item.hospital||'未注明'}}
                 </span>
-                <span style="font-size: 2em">
+                <span style="font-size: .3rem">
                   {{item.number}}
                 </span>
               </div>
               <div style="display: flex">
-                <van-icon name="riqi" color="#F60000" size="3em"></van-icon>
+                <van-icon name="riqi" color="#F60000" size=".4rem"></van-icon>
                 <span style="align-self: center">日期</span>
                 <span style="align-self: center">
                   {{timeConvert(item.rxDate)}}
                 </span>
               </div>
               <div style="display: flex">
-                <van-icon name="222" color="#F60000" size="3em"></van-icon>
+                <van-icon name="222" color="#F60000" size=".4rem"></van-icon>
                 <span style="align-self: center">诊断</span>
                 <span style="align-self: center">
                   {{item.illness}}
                 </span>
               </div>
               <div style="display: flex">
-                <van-icon name="shijian2" color="#F60000" size="3em"></van-icon>
+                <van-icon name="shijian2" color="#F60000" size=".4rem"></van-icon>
                 <span style="align-self: center">倒计时</span>
                 <span style="align-self: center" v-if="item.state ==='DISABLED'">
                   处方已失效

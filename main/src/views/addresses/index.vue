@@ -21,13 +21,10 @@
           </span>
           </div>
           <div class="address__content__item__bottom">
-            <!--<div class="address__content__item__bottom-default">-->
-              <!--<van-icon name="moren" size="4em" color="#FF0000" v-show="address.defaulted"></van-icon>-->
-            <!--</div>-->
             <span class="address__content__item__bottom-address">{{`${address.address}  ${address.room}`}}</span>
-            <van-icon name="edit" size="3em"
+            <van-icon name="edit" size=".5rem"
                       @click="$router.push({name:'/addresses/edit',params:{id:address.id}})"></van-icon>
-            <van-icon name="delete" size="3em"
+            <van-icon name="delete" size=".5rem"
                       @click="del(address.id,index)"></van-icon>
           </div>
         </div>

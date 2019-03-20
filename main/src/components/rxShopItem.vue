@@ -18,7 +18,7 @@
         <span class="rx-delivery" v-if="item.distribution==true && item.shopDistance < item.distance">可配送</span>
         <span class="rx-since">可自提</span>
         <span class="rx-distance van-ellipsis">距当前位置：{{item.distance | meter}}</span>
-        <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span>
+        <span class="rx_shop_address"> <van-icon name="dizhi" size=".5rem" color="#a6a6a6"></van-icon></span>
       </div>
     </div>
   </div>

@@ -15,14 +15,14 @@
           <new-white-space/>
           <div v-for="(cartShop, cartShopIndex) in cartShops" :key="cartShopIndex">
             <div class="shop" @click="linkToShopView(cartShop.id)">
-              <van-icon name="yaodian" size="4em"></van-icon>
+              <van-icon name="yaodian" size=".8rem"></van-icon>
               <span class="shop__name" v-text="cartShop.shopName"></span>
             </div>
             <div v-for="(cartRx, cartRxIndex) in cartShop.rxs" :key="cartRxIndex">
               <div class="rx" v-if="isRx(cartRx.rxId)">
                 <div class="rx__left">
-                  <new-radio :radio="cartRx.radio" size="2.5em" @click.native.stop="onRadio(RX,cartShop,cartRx)"/>
-                  <van-icon name="chufangdanluru" size="4em"></van-icon>
+                  <new-radio :radio="cartRx.radio" size=".5rem" @click.native.stop="onRadio(RX,cartShop,cartRx)"/>
+                  <van-icon name="chufangdanluru" size=".8rem"></van-icon>
                 </div>
                 <div @click="linkToRxView(cartRx.rxId)" class="rx__name">
                   查看处方&gt;
@@ -30,8 +30,8 @@
               </div>
               <div class="rx" v-else>
                 <div class="rx__left">
-                  <new-radio :radio="cartRx.radio" size="2.5em" @click.native.stop="onRadio(RX,cartShop,cartRx)"/>
-                  <van-icon name="jisongchufangdan" size="4em"></van-icon>
+                  <new-radio :radio="cartRx.radio" size=".5rem" @click.native.stop="onRadio(RX,cartShop,cartRx)"/>
+                  <van-icon name="jisongchufangdan" size=".8rem"></van-icon>
                 </div>
               </div>
               <div class="drug">
@@ -40,7 +40,7 @@
                                 @click-right="onRemove(cartShop,cartShopIndex,cartRx,cartRxIndex,cartDrug,cartDrugIndex)">
                   <div class="drug__item">
                     <div class="drug__item1">
-                      <new-radio :radio="cartDrug.radio" size="2.5em"
+                      <new-radio :radio="cartDrug.radio" size=".5rem"
                                  @click.native.stop="onRadio(DRUG,cartShop,cartRx,cartDrug)"/>
                     </div>
                     <div class="drug__item2" @click="linkToShopDrugSpec(cartDrug.id)">

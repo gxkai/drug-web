@@ -13,10 +13,10 @@
     },
     props: {
       px: {
-        default: '2em'
+        default: '.5rem'
       },
       py: {
-        default: '1em'
+        default: '.5rem'
       },
       mx: {
         default: '0'

@@ -36,7 +36,7 @@
         default: 'white'
       },
       fontSize: {
-        default: '1em'
+        default: '.4rem'
       },
       borderRadius: {
         default: ''

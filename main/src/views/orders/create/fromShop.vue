@@ -18,10 +18,10 @@
           >
             <new-button
               name="+选择收货地址"
-              fontSize="2em"
+              fontSize=".4rem"
               backgroundColor="red"
               color="white"
-              borderRadius=".5em"
+              borderRadius=".2rem"
               fontWeight="400"
               @click.native="onAddress"
             />
@@ -45,20 +45,20 @@
           <new-left-title text="自取地址" textColor="black" />
           <new-wing-blank class="wrapper2">
             <div class="line line1">
-              <van-icon name="shijian2" size="2em" />
+              <van-icon name="shijian2" size=".4rem" />
               <span>营业时间：{{ shop.openTime }}-{{ shop.closeTime }}</span>
             </div>
             <div class="line line2">
-              <van-icon name="location" size="2em" />
+              <van-icon name="location" size=".4rem" />
               <span>药店地址：{{ shop.address }}</span>
             </div>
             <div class="line line3">
               <new-button
                 name="查看地图"
-                fontSize="1.5em"
+                fontSize=".4rem"
                 backgroundColor="red"
                 color="white"
-                borderRadius=".5em"
+                borderRadius=".2rem"
                 fontWeight="400"
                 @click.native="onLocation"
               />
@@ -132,10 +132,10 @@
       <new-wing-blank class="wrapper6">
         <new-button
           name="提交订单"
-          fontSize="2em"
+          fontSize=".4rem"
           backgroundColor="red"
           color="white"
-          borderRadius=".5em"
+          borderRadius=".2rem"
           fontWeight="400"
           @click.native="onOrder"
         />
@@ -154,7 +154,6 @@ export default {
       account: getAccount(),
       orderShopDrugDTO: this.$route.params.orderShopDrugDTO,
       shopDrugOrderDTO: this.$route.params.shopDrugOrderDTO,
-      deliveryType: 'SELF',
       payType: 'KRCB',
       show: false,
       payAmount: 0,
@@ -167,15 +166,16 @@ export default {
     };
   },
   components: {},
-  computed: {},
-  watch: {
-    active(newValue) {
-      if (newValue === 0) {
-        this.delivery = 'DELIVERY';
+  computed: {
+    deliveryType() {
+      if (this.active === 0) {
+        return 'DELIVERY';
       } else {
-        this.delivery = 'SELF';
+        return 'SELF';
       }
     }
+  },
+  watch: {
   },
   created() {
     this.initData();

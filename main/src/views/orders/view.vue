@@ -28,7 +28,7 @@
                {{leftTime|countTimeConvert}}
             </span>
           </div>
-          <new-white-space size="3em"/>
+          <new-white-space size="1rem"/>
           <div class="line4">
             <new-button
               fontSize="2em"
@@ -90,15 +90,16 @@
         <new-left-title :text="shop.name" textColor="black"/>
         <new-wing-blank class="wrapper2">
           <div class="line line1">
-            <van-icon name="shijian2" size="2em"/>
+            <van-icon name="shijian2" size=".5rem"/>
             <span>营业时间：{{shop.openTime}}-{{shop.closeTime}}</span>
           </div>
           <div class="line line2">
-            <van-icon name="location" size="2em"/>
+            <van-icon name="location" size=".5rem"/>
             <span>{{shop.address}}</span>
           </div>
+          <new-white-space />
           <div class="line line3" @click="onCall()">
-            <van-icon name="phone" size="2em" color="#FF0000"/>
+            <van-icon name="phone" size=".5rem" color="#FF0000"/>
             <span>
               拨打药房电话
             </span>

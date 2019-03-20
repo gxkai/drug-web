@@ -14,10 +14,10 @@
           <new-wing-blank class="wrapper1" py="5em" v-if="address === undefined">
             <new-button
               name="+选择收货地址"
-              fontSize="2em"
+              fontSize=".4rem"
               backgroundColor="red"
               color="white"
-              borderRadius=".5em"
+              borderRadius=".2rem"
               fontWeight="400"
               @click.native="onAddress"
             />
@@ -42,20 +42,20 @@
           <new-left-title text="自取地址" textColor="black" />
           <new-wing-blank class="wrapper2">
             <div class="line line1">
-              <van-icon name="shijian2" size="2em" />
+              <van-icon name="shijian2" size=".4rem" />
               <span>营业时间：{{shop.openTime}}-{{shop.closeTime}}</span>
             </div>
             <div class="line line2">
-              <van-icon name="location" size="2em" />
+              <van-icon name="location" size=".4rem" />
               <span>药店地址：{{shop.address}}</span>
             </div>
             <div class="line line3">
               <new-button
                 name="查看地图"
-                fontSize="1.5em"
+                fontSize=".4rem"
                 backgroundColor="red"
                 color="white"
-                borderRadius=".5em"
+                borderRadius=".2rem"
                 fontWeight="400"
                 @click.native="onLocation"
               />
@@ -125,10 +125,10 @@
       <new-wing-blank class="wrapper6">
         <new-button
           name="提交订单"
-          fontSize="2em"
+          fontSize=".4rem"
           backgroundColor="red"
           color="white"
-          borderRadius=".5em"
+          borderRadius=".2rem"
           fontWeight="400"
           @click.native="onOrder"
         />
@@ -147,7 +147,6 @@
         account: getAccount(),
         cartShop: this.$route.params.cartShop,
         isRx: this.$route.params.isRx,
-        deliveryType: 'DELIVERY',
         payType: 'KRCB',
         show: false,
         payAmount: 0,
@@ -156,7 +155,8 @@
         medicaidInfo: {},
         isMedicarePay: false,
         accountRemark: '',
-        shop: {}
+        shop: {},
+        active: 0
       };
     },
     components: {},
@@ -174,7 +174,15 @@
     },
     mounted() {
     },
-    computed: {},
+    computed: {
+      deliveryType() {
+        if (this.active === 0) {
+          return 'DELIVERY';
+        } else {
+          return 'SELF';
+        }
+      }
+    },
     methods: {
       async initData() {
         console.log(this.cartShop);
