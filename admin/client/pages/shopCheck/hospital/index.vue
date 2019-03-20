@@ -1,8 +1,11 @@
 <template>
   <div class="p10">
       <bread-crumb :path="$route.path"/>
-      <div>
+      <div class="hospital-search">
         <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
+        <el-input v-model="hospitalNameValue" size="small" placeholder="请输入医院名称" style="width: 200px;"></el-input>
+        <el-button type="primary" size="small">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
       </div>
       <d2-crud
         :columns="columns"
@@ -11,10 +14,10 @@
         :pagination="pagination"
         :options="options"
         :rowHandle="rowHandle"
-        @custom-emit-1="handleCustomEvent"
-        @custom-emit-2="handleCustomEvent2"
-        @custom-emit-3="handleCustomEvent2"
-        @custom-emit-4="handleCustomEvent2"
+        @emit-detail="handleDetailEvent"
+        @emit-stop="handleStopEvent"
+        @emit-run="handleRunEvent"
+        @emit-edit="handleEditEvent"
         class="drug-table"
       />
   </div>
@@ -30,6 +33,7 @@
     }
   })
   export default class Hospital extends Vue {
+    hospitalNameValue = ''
     columns= [
       {
         title: '医院编码',
@@ -97,7 +101,7 @@
         {
           text: '查看',
           type: 'text',
-          emit: 'custom-emit-1',
+          emit: 'emit-detail',
           show (index, row) {
             if (row.curState === '在业' || row.curState === '停业') {
               return true
@@ -107,7 +111,7 @@
         {
           text: '停业',
           type: 'text',
-          emit: 'custom-emit-2',
+          emit: 'emit-stop',
           show (index, row) {
             if (row.curState === '在业') {
               return true
@@ -117,7 +121,7 @@
         {
           text: '开业',
           type: 'text',
-          emit: 'custom-emit-3',
+          emit: 'emit-run',
           show (index, row) {
             if (row.curState === '停业') {
               return true
@@ -127,7 +131,7 @@
         {
           text: '编辑',
           type: 'text',
-          emit: 'custom-emit-4',
+          emit: 'emit-edit',
           show (index, row) {
             if (row.curState === '在业' || row.curState === '停业') {
               return true
@@ -138,17 +142,33 @@
     };
     mounted () {
     }
-    handleCustomEvent ({index, row}) {
+    handleDetailEvent () {
       this.$router.push('/shopCheck/hospital/detail')
-      // this.$message.success(index.toString())
-      console.log(index)
-      console.log(row)
     }
-    handleCustomEvent2 () {
+    handleStopEvent ({index, row}) {
+      let stop = this.rowHandle.custom
+      for (let i = 0; i < stop.length; i++) {
+        if (stop[i].text === '开业') {
+          row.curState = '停业'
+        }
+      }
+    }
+    handleRunEvent ({index, row}) {
+      let run = this.rowHandle.custom
+      for (let i = 0; i < run.length; i++) {
+        if (run[i].text === '停业') {
+          row.curState = '在业'
+        }
+      }
+    }
+    handleEditEvent () {
       this.$router.push('/shopCheck/hospital/detail')
     }
     addRow () {
       this.$router.push('/shopCheck/hospital/create')
+    }
+    clear () {
+      this.hospitalNameValue = ''
     }
   }
 </script>
@@ -156,6 +176,14 @@
 <style lang="scss" scoped>
   .p10{
     padding:5px 10px;
+  }
+  .hospital-search{
+    display: flex;
+    justify-content: Flex-start;
+    align-items: center;
+    .el-input{
+      margin: 0 10px;
+    }
   }
   /deep/.drug-table{
     margin-top: 10px;

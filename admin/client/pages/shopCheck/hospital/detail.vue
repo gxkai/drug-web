@@ -1,7 +1,6 @@
 <template>
   <div class="hospital-detail">
     <bread-crumb :path="$route.path"/>
-
     <div class="hospital-form">
       <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="医院编码：">
@@ -24,6 +23,12 @@
         </el-form-item>
         <el-form-item label="纬度：">
           <el-input v-model="form.hospitalLat" disabled placeholder="暂无"></el-input>
+        </el-form-item>
+        <el-form-item class="el-form-item-map">
+          <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view">
+            <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+            </bm-marker>
+          </baidu-map>
         </el-form-item>
         <el-form-item label="医院照片：" class="hospitalImg">
           <el-upload
@@ -68,16 +73,24 @@
       hospitalName: '第一人民医院',
       hospitalPhone: '0512-8888 0000',
       hospitalAdd: '昆山市xxxx',
-      hospitalLng: '123.01',
-      hospitalLat: '30.2',
+      hospitalLng: '120.897081',
+      hospitalLat: '31.405473',
       hospitalIntroduce: '',
       hospitalImage: require(`~/assets/img/hospital/img1.png`)
     }
+    center = {lng: 0, lat: 0}
+    zoom = 3
     handleAvatarSuccess (res, file) {
       this.form.hospitalImage = URL.createObjectURL(file.raw)
     }
     submit () {
       this.$router.push('/shopCheck/hospital')
+    }
+    handler ({BMap, map}) {
+      console.log(BMap, map)
+      this.center.lng = this.form.hospitalLng
+      this.center.lat = this.form.hospitalLat
+      this.zoom = 15
     }
   }
 </script>
@@ -91,7 +104,7 @@
     form.el-form{
       display: grid;
       grid-template-columns: 40% 60%;
-      grid-template-rows: repeat(7, 50px) 200px;
+      grid-template-rows: repeat(7, 50px) 300px 200px;
       .el-form-item{
         grid-column: 1 / 2;
         &.hospitalImg{
@@ -101,10 +114,18 @@
         &.hospitalIntro{
           grid-column: 1 / 3;
         }
+        &.el-form-item-map{
+          grid-column: 1 / 3;
+          .bm-view {
+            width: 100%;
+            height: 280px;
+          }
+        }
       }
     }
   }
 }
+
 /deep/.avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
