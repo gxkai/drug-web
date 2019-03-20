@@ -499,7 +499,7 @@
 
             h4{
               color: #6c6c6c;
-              margin-top: 0;
+              padding-bottom: 30px;
               padding-left: 20px;
             }
 

@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>广告位管理</h3>
-        <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
+        <el-button type="primary" @click="addAdvert" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
@@ -99,6 +99,7 @@
         key: 'image'
       }
     ];
+
     data= [
       {
         num: '1',
@@ -115,15 +116,18 @@
         image: '1'
       }
     ];
+
     loading= false;
     pagination= {
       currentPage: 1,
       pageSize: 5,
-      total: 0
+      total: this.data.length
     };
-    options= {
+
+    options = {
       border: true
     };
+
     rowHandle= {
       custom: [
         {
@@ -197,8 +201,8 @@
       }
     };
 
-    // 普通的新增
-    addRow () {
+    // 新增广告
+    addAdvert () {
       this.$refs.d2Crud.showDialog({
         mode: 'add'
       })

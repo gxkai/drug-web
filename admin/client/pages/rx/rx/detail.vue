@@ -50,7 +50,7 @@
         </div>
 
         <div class="rp-wrap">
-          <h2>Rp</h2>
+          <h3>Rp</h3>
           <d2-crud
             :columns="columns"
             :data="rpData"
@@ -58,7 +58,7 @@
         </div>
 
         <div class="track-info">
-          <h2>处方单跟踪信息</h2>
+          <h3>处方单跟踪信息</h3>
           <el-form ref="trackForm" :model="trackInfo" label-width="120px">
             <el-form-item label="订单编号：">
               <el-input v-model="trackInfo.orderNumber" readonly placeholder="请输入"></el-input>
@@ -177,13 +177,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px;
+        padding: 0 20px 15px;
         margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;
 
         h3{
           color: #666;
           font-size: 18px;
+          margin: 0;
         }
       }
 
@@ -226,6 +227,10 @@
 
         .rp-wrap{
           padding: 0 70px;
+
+          h3{
+            margin-bottom: 0;
+          }
         }
       }
     }
