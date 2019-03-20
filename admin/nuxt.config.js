@@ -103,14 +103,14 @@ module.exports = {
   // koa-proxies for dev, options reference https://github.com/nodejitsu/node-http-proxy#options
   development: {
     proxies: [
-      /* {
-        path: '/hpi/',
-        target: 'http://localhost:3000/',
+      {
+        path: '/api/',
+        target: 'http://172.16.11.140:8091/api/',
         logs: true,
         prependPath: false,
         changeOrigin: true,
         rewrite: path => path.replace(/^\/pages(\/|\/\w+)?$/, '/service')
-      } */
+      }
     ]
   }
 }
