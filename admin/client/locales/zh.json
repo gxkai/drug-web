@@ -101,6 +101,10 @@
     "业务管理",
   "/business/advert":
     "广告管理",
+  "/business/ability":
+    "功能区管理",
+  "/business/module":
+    "功能区管理",
   "/business/recommend":
     "好货推荐",
   "/business/discount":
