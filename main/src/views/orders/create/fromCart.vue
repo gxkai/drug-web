@@ -19,15 +19,22 @@
               color="white"
               borderRadius=".5em"
               fontWeight="400"
+              @click.native="onAddress"
             />
           </new-wing-blank>
-          <new-wing-blank class="wrapper2" v-else>
+          <new-wing-blank class="wrapper7" v-else @click.native="onAddress"
+          >
             <div class="line line1">
-              <van-icon name="person" size="2em" />
-              <span>收货人{{address.consignee||''}}</span>
+              <span>收货人：{{ address.consignee || "" }}</span>
             </div>
             <div class="line line2">
-              <span>收货地址{{address.address||''}}</span>
+              <span>收货电话：{{ address.phone || "" }}</span>
+            </div>
+            <div class="line line3">
+              <span
+              >收货地址：{{ address.address || ""
+                }}{{ address.room || "" }}</span
+              >
             </div>
           </new-wing-blank>
         </van-tab>
@@ -90,7 +97,7 @@
           <span>
             商品总金额
           </span>
-          <span v-if="isMedicarePay === true"> ¥{{ cartShop.payAmount || ''}} </span>
+          <span v-if="isMedicarePay === true"> ¥{{ toFixedTwo(cartShop.payAmount) || ''}} </span>
           <span v-else> ¥{{ toFixedTwo(cartShop.amount)||'' }} </span>
         </div>
         <div class="line line2" v-if="isMedicarePay === true">
@@ -172,7 +179,7 @@
       async initData() {
         console.log(this.cartShop);
         this.payAmount = this.cartShop.payAmount;
-        this.shop = await this.$http.get(`/shops/${this.shopDrugOrderDTO.shopId}`);
+        this.shop = await this.$http.get(`/shops/${this.cartShop.id}`);
       },
       /**
        * 获取购物车ID数组
@@ -204,6 +211,24 @@
         json.type = this.isRx === true ? 'RX' : 'SIMPLE';
         json.origin = 'APP';
         json.accountRemark = this.accountRemark;
+        if (this.isMedicarePay === true) {
+          this.$dialog
+            .confirm({
+              title: '提示信息',
+              message:
+                '如选择医保支付，支付成功后，请耐心等待30S，订单状态才会更新。'
+            })
+            .then(async () => {
+              this.orderOption(json);
+            })
+            .catch(() => {
+              return false;
+            });
+        } else {
+          this.orderOption(json);
+        }
+      },
+      async orderOption(json) {
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成订单中...' });
         let order = await this.$http.post('/orders', json);
         this.$toast.loading({ duration: 0, forbidClick: true, message: '生成支付链接中...' });
@@ -215,6 +240,12 @@
           return;
         }
         window.location.href = url;
+      },
+      onAddress() {
+        this.$router.push({
+          name: '/orders/addresses',
+          params: { shopId: this.cartShop.id }
+        });
       }
     }
   };
@@ -236,6 +267,24 @@
         line-height: 100px !important;
         font-size: 25px !important;
       }
+    }
+  }
+  .wrapper7 {
+    background: white;
+    display: grid;
+    padding: 10px 20px!important;
+    .line1,
+    .line2,
+    .line3 {
+      span {
+        font-size: 24px;
+        font-weight: 400;
+        color: $greyColor;
+      }
+    }
+    .line2,
+    .line3 {
+      margin-top: 10px;
     }
   }
   .wrapper6 {

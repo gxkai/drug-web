@@ -11,7 +11,11 @@
       <van-tabs v-model="active">
         <new-white-space />
         <van-tab title="送货上门">
-          <new-wing-blank class="wrapper1" py="5em" v-if="address === undefined">
+          <new-wing-blank
+            class="wrapper1"
+            py="5em"
+            v-if="address === undefined"
+          >
             <new-button
               name="+选择收货地址"
               fontSize="2em"
@@ -19,15 +23,21 @@
               color="white"
               borderRadius=".5em"
               fontWeight="400"
+              @click.native="onAddress"
             />
           </new-wing-blank>
-          <new-wing-blank class="wrapper2" v-else>
+          <new-wing-blank class="wrapper7" v-else @click.native="onAddress">
             <div class="line line1">
-              <van-icon name="person" size="2em" />
-              <span>收货人{{address.consignee||''}}</span>
+              <span>收货人：{{ address.consignee || "" }}</span>
             </div>
             <div class="line line2">
-              <span>收货地址{{address.address||''}}</span>
+              <span>收货电话：{{ address.phone || "" }}</span>
+            </div>
+            <div class="line line3">
+              <span
+                >收货地址：{{ address.address || ""
+                }}{{ address.room || "" }}</span
+              >
             </div>
           </new-wing-blank>
         </van-tab>
@@ -36,11 +46,11 @@
           <new-wing-blank class="wrapper2">
             <div class="line line1">
               <van-icon name="shijian2" size="2em" />
-              <span>营业时间：{{shop.openTime}}-{{shop.closeTime}}</span>
+              <span>营业时间：{{ shop.openTime }}-{{ shop.closeTime }}</span>
             </div>
             <div class="line line2">
               <van-icon name="location" size="2em" />
-              <span>药店地址：{{shop.address}}</span>
+              <span>药店地址：{{ shop.address }}</span>
             </div>
             <div class="line line3">
               <new-button
@@ -90,8 +100,10 @@
           <span>
             商品总金额
           </span>
-          <span v-if="isMedicarePay === true"> ¥{{ shopDrugOrderDTO.payAmount || ''}} </span>
-          <span v-else> ¥{{ shopDrugOrderDTO.amount||'' }} </span>
+          <span v-if="isMedicarePay === true">
+            ¥{{ shopDrugOrderDTO.payAmount || "" }}
+          </span>
+          <span v-else> ¥{{ shopDrugOrderDTO.amount || "" }} </span>
         </div>
         <div class="line line2" v-if="isMedicarePay === true">
           <span>
@@ -108,10 +120,14 @@
       </new-wing-blank>
       <new-wing-blank class="wrapper5">
         <span>
-          {{shopDrugOrderDTO.shopName}}
+          {{ shopDrugOrderDTO.shopName }}
         </span>
       </new-wing-blank>
-      <new-drug v-for="(item, index) in shopDrugOrderDTO.drugs" :key="index" :item="item"/>
+      <new-drug
+        v-for="(item, index) in shopDrugOrderDTO.drugs"
+        :key="index"
+        :item="item"
+      />
       <new-white-space />
       <new-wing-blank class="wrapper6">
         <new-button
@@ -177,7 +193,9 @@ export default {
   methods: {
     async initData() {
       this.payAmount = this.shopDrugOrderDTO.payAmount;
-      this.shop = await this.$http.get(`/shops/${this.shopDrugOrderDTO.shopId}`);
+      this.shop = await this.$http.get(
+        `/shops/${this.shopDrugOrderDTO.shopId}`
+      );
       console.log(this.shopDrugOrderDTO);
     },
     async onOrder() {
@@ -193,13 +211,30 @@ export default {
       json.items = this.orderShopDrugDTO.drugs;
       json.deliveryType = this.deliveryType;
       json.payType = this.payType;
-      json.couponRecordId = this.couponRecord.id;
       json.medicaid = this.isMedicarePay;
       json.shopId = this.orderShopDrugDTO.shopId;
       json.type = this.shopDrugOrderDTO.rxId === null ? 'SIMPLE' : 'RX';
       json.from = 'APP';
       json.rxId = this.shopDrugOrderDTO.rxId;
       json.accountRemark = this.accountRemark;
+      if (this.isMedicarePay === true) {
+        this.$dialog
+          .confirm({
+            title: '提示信息',
+            message:
+              '如选择医保支付，支付成功后，请耐心等待30S，订单状态才会更新。'
+          })
+          .then(async () => {
+            this.orderOption(json);
+          })
+          .catch(() => {
+            return false;
+          });
+      } else {
+        this.orderOption(json);
+      }
+    },
+    async orderOption(json) {
       this.$toast.loading({
         duration: 0,
         forbidClick: true,
@@ -228,7 +263,24 @@ export default {
       window.location.href = url;
     },
     onLocation() {
-      this.$router.push({ name: '/iframe', params: { url: this.jumpToBaidu(this.shop.name, this.shop.address, this.shop.lat, this.shop.lng), name: '药店导航' } });
+      this.$router.push({
+        name: '/iframe',
+        params: {
+          url: this.jumpToBaidu(
+            this.shop.name,
+            this.shop.address,
+            this.shop.lat,
+            this.shop.lng
+          ),
+          name: '药店导航'
+        }
+      });
+    },
+    onAddress() {
+      this.$router.push({
+        name: '/orders/addresses',
+        params: { shopId: this.shopDrugOrderDTO.shopId }
+      });
     }
   }
 };
@@ -252,6 +304,24 @@ export default {
     }
   }
 }
+.wrapper7 {
+  background: white;
+  display: grid;
+  padding: 10px 20px!important;
+  .line1,
+  .line2,
+  .line3 {
+    span {
+      font-size: 24px;
+      font-weight: 400;
+      color: $greyColor;
+    }
+  }
+  .line2,
+  .line3 {
+    margin-top: 10px;
+  }
+}
 .wrapper6 {
   display: flex;
   justify-content: center;
@@ -259,8 +329,8 @@ export default {
 .wrapper5 {
   background-color: white;
   span {
-    font-size:24px;
-    font-weight:400;
+    font-size: 24px;
+    font-weight: 400;
   }
 }
 .wrapper4 {
