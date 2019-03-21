@@ -15,9 +15,9 @@
           @pagination-current-change="paginationCurrentChange"
           :options="options"
           :rowHandle="rowHandle"
-          @view-emit = 'viewEvent'
+          @view-emit='viewEvent'
           @feedback-emit="feedBackDialog"
-          @view-image-emit = 'viewImage'/>
+          @view-image-emit='viewImage'/>
       </div>
 
       <!-- 回复模态框 -->
@@ -61,7 +61,7 @@
               <el-input v-model="viewData.content" readonly></el-input>
             </el-form-item>
             <el-form-item label="状态">
-              <el-input v-model="viewData.processed" readonly></el-input>
+              <el-input v-model="viewData.processed ? '已处理' : '未处理'" readonly></el-input>
             </el-form-item>
             <el-form-item label="处理人">
               <el-input v-model="viewData.adminName" readonly></el-input>
@@ -93,42 +93,42 @@
   })
   export default class Feedback extends Vue {
     feedbackData = ''
-    fbID = ''
+    rowData = {}
     columns= [
       {
         title: '序号',
-        key: 'id',
-        width: '120'
+        key: 'id'
+        // width: '120'
       },
       {
         title: '用户名',
-        key: 'name',
-        width: '120'
+        key: 'name'
+        // width: '120'
       },
       {
         title: '提交时间',
-        key: 'createdDate',
-        width: '200'
+        key: 'createdDate'
+        // width: '200'
       },
       {
         title: '内容',
-        key: 'content',
-        width: '320'
+        key: 'content'
+        // width: '320'
       },
       {
         title: '状态',
-        key: 'processed',
-        width: '120'
+        key: 'processed'
+        // width: '120'
       },
       {
         title: '处理人',
-        key: 'adminName',
-        width: '120'
+        key: 'adminName'
+        // width: '120'
       },
       {
         title: '回复内容',
-        key: 'remark',
-        width: '320'
+        key: 'remark'
+        // width: '320'
       }
     ];
 
@@ -170,7 +170,9 @@
     viewData = {}
     isClickModal = false
     isShowViewDialog = false
-    viewEvent ({index, row}) {
+
+    // 查看
+    viewEvent ({row}) {
       this.isShowViewDialog = true
       this.viewData.id = row.id
       this.viewData.name = row.name
@@ -185,8 +187,8 @@
     isShowFeedBackDialog = false; // 模态框开启状态
     feedBackDialog ({row}) {
       this.isShowFeedBackDialog = true
-      console.log(row.id)
-      this.fbID = row.id
+      // console.log(row.id)
+      this.rowData = row
     }
 
     // 回复
@@ -196,8 +198,16 @@
         processed: true,
         remark: this.feedbackData
       }
-      let fbRes = await axios.post(`/api/supervise/feedbacks/${this.fbID}`, {params})
-      console.log(fbRes)
+      let fbRes = await axios.post(`/api/supervise/feedbacks/${this.rowData.id}`, params)
+      if (fbRes) {
+        this.$message({
+          message: '回复成功',
+          type: 'success'
+        })
+        this.isShowFeedBackDialog = false
+        this.feedbackData = ''
+        this.getFeedbacks()
+      }
     }
 
     viewImage ({index, row}) {
@@ -223,7 +233,7 @@
 
       this.feedbackList.forEach(item => {
         item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
-        // item.processed = item.processed ? '已处理' : '未处理'
+        item.processed = item.remark ? 'true' : 'false'
       })
     }
 

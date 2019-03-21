@@ -2,20 +2,20 @@
   <div class="system-wrap">
     <div class="system">
       <bread-crumb :path="$route.path"/>
-      <div class="filter">
-        <el-row :gutter="20">
-          <el-col :span="7">
-            <el-input
-              placeholder="用户名称"
-              v-model="nameValue"
-              clearable>
-            </el-input>
+      <!--<div class="filter">-->
+        <!--<el-row :gutter="20">-->
+          <!--<el-col :span="7">-->
+            <!--<el-input-->
+              <!--placeholder="用户名称"-->
+              <!--v-model="nameValue"-->
+              <!--clearable>-->
+            <!--</el-input>-->
 
-            <el-button size="small" type="primary" @click="searchMsg">搜索</el-button>
-            <el-button size="small" @click="nameValue = ''">清空</el-button>
-          </el-col>
-        </el-row>
-      </div>
+            <!--<el-button size="small" type="primary" @click="searchMsg">搜索</el-button>-->
+            <!--<el-button size="small" @click="nameValue = ''">清空</el-button>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
+      <!--</div>-->
 
       <div class="list">
         <d2-crud
@@ -83,10 +83,6 @@
       }
     };
 
-    searchMsg () {
-
-    }
-
     async removeMsg ({row}, done) {
       let delRes = await axios.delete(`/api/supervise/messages/${row.id}`)
       console.log(delRes)
@@ -112,6 +108,8 @@
         pageSize: this.pagination.pageSize
       }
       let {data: message} = await axios.get('/api/supervise/messages', {params})
+
+      console.log(message)
 
       this.msgList = message.list
       this.msgList.forEach(e => {

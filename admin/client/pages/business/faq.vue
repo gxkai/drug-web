@@ -25,16 +25,15 @@
 
           add-title="我的新增"
           :add-template="addTemplate"
-          @row-add="handleRowAdd"
+          @row-add="addFaq"
 
-          @row-remove="handleRowRemove"
+          @row-remove="removeFaq"
 
           edit-title="我的修改"
           :edit-template="editTemplate"
           @row-edit="editFaq"
 
           :form-options="formOptions"
-          @dialog-open="handleDialogOpen"
           @dialog-cancel="handleDialogCancel"
         />
       </div>
@@ -107,10 +106,6 @@
     }
 
     editTemplate = {
-      id: {
-        title: '序号',
-        value: ''
-      },
       question: {
         title: '常见问题标题',
         value: ''
@@ -122,19 +117,11 @@
       answer: {
         title: '回复',
         value: ''
-      },
-      lastModifiedDate: {
-        title: '更新时间',
-        value: ''
       }
     };
 
     addTemplate = {
-      serialNumber: {
-        title: '序号',
-        value: ''
-      },
-      faqTitle: {
+      question: {
         title: '常见问题标题',
         value: ''
       },
@@ -142,46 +129,11 @@
         title: '阅读次数',
         value: ''
       },
-      replyContent: {
+      answer: {
         title: '回复',
-        value: ''
-      },
-      updateTime: {
-        title: '更新时间',
         value: ''
       }
     };
-
-    handleDialogOpen ({ mode }) {
-      // this.$message({
-      //   message: '打开模态框，模式为：' + mode,
-      //   type: 'success'
-      // })
-    }
-
-    // 普通的新增
-    addRow () {
-      this.$refs.d2Crud.showDialog({
-        mode: 'add'
-      })
-    }
-
-    handleRowAdd (row, done) {
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(row)
-        this.$message({
-          message: '保存成功',
-          type: 'success'
-        })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
-        this.formOptions.saveLoading = false
-      }, 300)
-    }
 
     handleDialogCancel (done) {
       this.$message({
@@ -191,34 +143,75 @@
       done()
     }
 
-    handleRowRemove ({ index, row }, done) {
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
+    // 点击新增按钮
+    addRow () {
+      this.$refs.d2Crud.showDialog({
+        mode: 'add'
+      })
+    }
+
+    // 新增
+    async addFaq (row, done) {
+      this.formOptions.saveLoading = true
+
+      let params = {
+        question: row.question,
+        answer: row.answer
+      }
+      let addRes = await axios.post(`/api/supervise/faqs`, params)
+      if (addRes) {
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        })
+        done()
+        this.formOptions.saveLoading = false
+        this.getFaqs()
+      }
+    }
+
+    // 删除
+    async removeFaq ({row}, done) {
+      let delRes = await axios.delete(`/api/supervise/faqs/${row.id}`)
+      console.log(delRes)
+      if (delRes) {
         this.$message({
           message: '删除成功',
           type: 'success'
         })
         done()
-      }, 300)
+        this.getFaqs()
+      }
     }
 
+    // 编辑
     async editFaq ({row}, done) {
       this.formOptions.saveLoading = true
       let params = {
         id: row.id,
         question: row.question,
-        answer: row.answer,
-        lastModifiedDate: moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
+        answer: row.answer
       }
       let editRes = await axios.put(`/api/supervise/faqs/${row.id}`, params)
 
-      console.log(editRes)
+      if (editRes) {
+        this.$message({
+          message: '修改成功',
+          type: 'success'
+        })
+        done()
+        this.formOptions.saveLoading = false
+        this.getFaqs()
+      }
     }
 
+    // 获取所有常见问题
     async getFaqs () {
-      let {data: faq} = await axios.get(`/api/supervise/faqs`)
-      console.log(faq)
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      let {data: faq} = await axios.get(`/api/supervise/faqs`, {params})
 
       this.faqList = faq.list
       this.pagination.total = faq.total
@@ -269,7 +262,7 @@
           content: '|';
           color: #EEE;
           position: relative;
-          left: -4px;
+          left: -6px;
           top: -1px;
         }
       }
