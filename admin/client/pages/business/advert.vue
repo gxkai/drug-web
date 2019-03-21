@@ -11,7 +11,7 @@
         <d2-crud
           ref = 'd2Crud'
           :columns="columns"
-          :data="data"
+          :data="advertsList"
           :loading="loading"
           :pagination="pagination"
           :options="options"
@@ -20,7 +20,7 @@
 
           add-title="我的新增"
           :add-template="addTemplate"
-          @row-add="handleRowAdd"
+          @row-add="confirmAddAdvert"
 
           @row-remove="handleRowRemove"
 
@@ -28,8 +28,7 @@
           :edit-template="editTemplate"
           @row-edit="handleRowEdit"
 
-          :form-options="formOptions"
-          @dialog-cancel="handleDialogCancel"/>
+          :form-options="formOptions"/>
       </div>
 
       <!-- 查看模态框 -->
@@ -70,6 +69,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
 
   @Component({
     components: {
@@ -80,11 +80,11 @@
     columns= [
       {
         title: '序号',
-        key: 'num'
+        key: 'id'
       },
       {
         title: '模块',
-        key: 'module'
+        key: 'type'
       },
       {
         title: '排序',
@@ -96,32 +96,17 @@
       },
       {
         title: '图片',
-        key: 'image'
+        key: 'fileId'
       }
     ];
 
-    data= [
-      {
-        num: '1',
-        module: '感冒流行季',
-        sort: '1',
-        url: 'https：//.........',
-        image: '1'
-      },
-      {
-        num: '2',
-        module: 'XXXX专场',
-        sort: '2',
-        url: 'https：//.........',
-        image: '1'
-      }
-    ];
+    advertsList = [];
 
     loading= false;
-    pagination= {
+    pagination = {
       currentPage: 1,
-      pageSize: 5,
-      total: this.data.length
+      pageSize: 15,
+      total: 0
     };
 
     options = {
@@ -156,11 +141,11 @@
     }
 
     addTemplate = {
-      num: {
+      id: {
         title: '序号',
         value: ''
       },
-      module: {
+      type: {
         title: '模块',
         value: ''
       },
@@ -172,18 +157,18 @@
         title: '链接地址',
         value: ''
       },
-      image: {
+      fileId: {
         title: '图片',
         value: ''
       }
     };
 
     editTemplate = {
-      num: {
+      id: {
         title: '序号',
         value: ''
       },
-      module: {
+      type: {
         title: '模块',
         value: ''
       },
@@ -195,7 +180,7 @@
         title: '链接地址',
         value: ''
       },
-      image: {
+      fileId: {
         title: '图片',
         value: ''
       }
@@ -208,29 +193,24 @@
       })
     }
 
-    handleRowAdd (row, done) {
+    async confirmAddAdvert (e, done) {
       this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(row)
-        this.$message({
-          message: '保存成功',
-          type: 'success'
-        })
+      console.log(e)
+      let params = {
+        advert: e
+      }
+      let addRes = await axios.post(`/api/supervise/adverts`, {params})
+      console.log(addRes)
 
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
-        this.formOptions.saveLoading = false
-      }, 300)
-    }
-
-    handleDialogCancel (done) {
-      this.$message({
-        message: '取消保存',
-        type: 'warning'
-      })
       done()
+      // setTimeout(() => {
+      //   this.$message({
+      //     message: '保存成功',
+      //     type: 'success'
+      //   })
+      //
+      this.formOptions.saveLoading = false
+      // }, 300)
     }
 
     handleRowRemove ({ index, row }, done) {
@@ -263,9 +243,6 @@
       }, 300)
     }
 
-    mounted () {
-    }
-
     viewDialogVisible = false;
     isClickModal = false;
     viewData = {};
@@ -277,6 +254,21 @@
       this.viewData.sort = row.sort
       this.viewData.url = row.url
       this.viewData.image = row.image
+    }
+
+    async beforeMount () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      let {data: adverts} = await axios.get(`/api/supervise/adverts`, {params})
+      console.log(adverts)
+
+      this.advertsList = adverts.list
+      this.pagination.total = adverts.total
+    }
+
+    mounted () {
     }
   }
 </script>
