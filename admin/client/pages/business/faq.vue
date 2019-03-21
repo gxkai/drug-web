@@ -17,7 +17,7 @@
         <d2-crud
           ref="d2Crud"
           :columns="columns"
-          :data="data"
+          :data="faqList"
           :loading="loading"
           :pagination="pagination"
           :options="options"
@@ -31,7 +31,7 @@
 
           edit-title="我的修改"
           :edit-template="editTemplate"
-          @row-edit="handleRowEdit"
+          @row-edit="editFaq"
 
           :form-options="formOptions"
           @dialog-open="handleDialogOpen"
@@ -46,6 +46,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -56,70 +58,30 @@
     columns = [
       {
         title: '序号',
-        key: 'serialNumber'
-        // width: '200'
+        key: 'id'
       },
       {
         title: '常见问题标题',
-        key: 'faqTitle'
-        // width: '300'
+        key: 'question'
       },
       {
         title: '阅读次数',
         key: 'readNum'
-        // width: '200'
       },
       {
         title: '回复',
-        key: 'replyContent'
-        // width: '500'
+        key: 'answer'
       },
       {
         title: '更新时间',
-        key: 'updateTime'
+        key: 'lastModifiedDate'
       }
     ];
-    data = [
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      }
-    ];
+    faqList = [];
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     };
     options= {
@@ -145,11 +107,11 @@
     }
 
     editTemplate = {
-      serialNumber: {
+      id: {
         title: '序号',
         value: ''
       },
-      faqTitle: {
+      question: {
         title: '常见问题标题',
         value: ''
       },
@@ -157,11 +119,11 @@
         title: '阅读次数',
         value: ''
       },
-      replyContent: {
+      answer: {
         title: '回复',
         value: ''
       },
-      updateTime: {
+      lastModifiedDate: {
         title: '更新时间',
         value: ''
       }
@@ -241,22 +203,32 @@
       }, 300)
     }
 
-    handleRowEdit ({ index, row }, done) {
+    async editFaq ({row}, done) {
       this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '编辑成功',
-          type: 'success'
-        })
+      let params = {
+        id: row.id,
+        question: row.question,
+        answer: row.answer,
+        lastModifiedDate: moment(new Date()).format('YYYY-MM-DD hh:mm:ss')
+      }
+      let editRes = await axios.put(`/api/supervise/faqs/${row.id}`, params)
 
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
-        this.formOptions.saveLoading = false
-      }, 300)
+      console.log(editRes)
+    }
+
+    async getFaqs () {
+      let {data: faq} = await axios.get(`/api/supervise/faqs`)
+      console.log(faq)
+
+      this.faqList = faq.list
+      this.pagination.total = faq.total
+      this.faqList.forEach(item => {
+        item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD hh:mm:ss')
+      })
+    }
+
+    mounted () {
+      this.getFaqs()
     }
   }
 </script>
