@@ -94,7 +94,7 @@
                 <!--</div>-->
                 <div class="shopAdd">
                   <div>
-                    <van-icon name="dizhi" size="1.2em" color="#a6a6a6"></van-icon>{{item.address}}
+                    <van-icon name="dizhi" size=".5rem" color="#a6a6a6"></van-icon>{{item.address}}
                   </div>
                   <!--<span>平台配送</span>-->
                 </div>
@@ -202,6 +202,7 @@
     font-size: 20px!important;
     padding: 5px 10px;
     margin-left: 10px;
+    margin-top: 10px;
   }
   .red{
     color: $themeColor;

@@ -16,16 +16,15 @@
           <el-input v-model="form.drugApproval" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="药品大类：">
-          <el-input v-model="form.drugClass" placeholder="请输入"></el-input>
+          <el-button @click="dialogDrugClass = true" class="drug-class">{{ form.drugClass }}</el-button>
         </el-form-item>
         <el-form-item label="药品小类：">
-          <el-input v-model="form.drugClass2" placeholder="请输入"></el-input>
+          <el-button @click="dialogDrugClass2 = true" class="drug-class">{{ form.drugClass2 }}</el-button>
         </el-form-item>
         <el-form-item label="药品类型：">
           <el-radio-group v-model="form.drugType">
             <el-radio :label="1">处方药</el-radio>
-            <el-radio :label="2">甲类OTC</el-radio>
-            <el-radio :label="3">乙类OTC</el-radio>
+            <el-radio :label="2">OTC</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="规格：">
@@ -40,14 +39,19 @@
             <el-radio :label="2">否</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="功能主治：">
-          <el-input v-model="form.drugFunction" placeholder="请输入"></el-input>
+        <el-form-item label="注意事项：">
+          <el-input v-model="form.drugNotice" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="条形码：">
           <el-input v-model="form.drugCode" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="注意事项：">
-          <el-input v-model="form.drugNotice" placeholder="请输入"></el-input>
+        <el-form-item label="功能主治：">
+          <el-input
+            type="textarea"
+            :rows="5"
+            placeholder="请输入内容"
+            v-model="form.drugFunction">
+          </el-input>
         </el-form-item>
       </el-form>
     </div>
@@ -69,6 +73,30 @@
       <el-button @click="submitSuccess">返回</el-button>
       <el-button type="primary" @click="submitSuccess">提交</el-button>
     </div>
+
+    <!--大类弹窗-->
+    <el-dialog title="药品大类选择" :visible.sync="dialogDrugClass">
+      <el-checkbox-group v-model="drugListValue" @change="handleChecked">
+        <el-checkbox v-for="(item,index) in drugList" :label="item" :key="index">{{ item }}</el-checkbox>
+      </el-checkbox-group>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogDrugClass = false">取 消</el-button>
+        <el-button type="primary" @click="dialogDrugClass = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!--小类弹窗-->
+    <el-dialog title="药品小类选择" :visible.sync="dialogDrugClass2">
+      <el-checkbox-group v-model="drugListValue2" @change="handleChecked2">
+        <el-checkbox v-for="(item,index) in childList" :label="item" :key="index">{{ item }}</el-checkbox>
+      </el-checkbox-group>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogDrugClass2 = false">取 消</el-button>
+        <el-button type="primary" @click="dialogDrugClass2 = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
+
   </div>
 </template>
 <script>
@@ -86,8 +114,8 @@
       commonName: '',
       firmName: '',
       drugApproval: '',
-      drugClass: '',
-      drugClass2: '',
+      drugClass: '请选择药品大类',
+      drugClass2: '请选择药品小类',
       drugType: '',
       drugSpec: '',
       drugForm: '',
@@ -111,8 +139,22 @@
         imageUrl: require(`~/assets/img/hospital/img1.png`)
       }
     ]
+    dialogDrugClass = false
+    drugListValue =[]
+    dialogDrugClass2 = false
+    drugListValue2 =[]
+    drugList = ['家庭常用1', '家庭常用2', '家庭常用3']
+    childList = ['家庭常用22', '家庭常用23', '家庭常用24', '家庭常用25', '家庭常用26']
+    mounted () {
+    }
     submitSuccess () {
       this.$router.push('/drugCheck/drugInfo')
+    }
+    handleChecked (value) {
+      this.form.drugClass = value.toString()
+    }
+    handleChecked2 (value) {
+      this.form.drugClass2 = value.toString()
     }
   }
 </script>
@@ -121,12 +163,23 @@
   .p10{
     padding: 0 10px;
   }
-  .check-form{
+  /deep/.check-form{
     margin-right: 150px;
     .el-form{
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(7, 50px);
+      grid-template-rows: repeat(6, 50px) 120px;
+      .el-form-item{
+        &:last-child{
+          grid-column: 1/3;
+        }
+      }
+      .drug-class{
+        width: 100%;
+        height: 40px;
+        text-align: left;
+        padding: 12px 15px;
+      }
     }
   }
   .check-image{
@@ -136,8 +189,8 @@
     grid-template-rows: 250px;
     section{
       img{
-        max-width: 100%;
-        height: 180px;
+        max-width: 80%;
+        height: auto;
       }
       strong{
         display: block;

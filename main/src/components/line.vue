@@ -10,10 +10,10 @@
     mixins: [],
     props: {
       width: {
-        default: '1px'
+        default: '4px'
       },
       height: {
-        default: '2em'
+        default: '.5rem'
       },
       color: {
         default: 'black'

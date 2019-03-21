@@ -134,7 +134,7 @@
           </van-tab>
         </van-tabs>
         <new-white-space size="2em"/>
-        <van-icon name="arrow-left" class="arrow-left" size="3.5em" @click.native="$router.go(-1)"/>
+        <van-icon name="arrow-left" class="arrow-left" size=".5rem" @click.native="$router.go(-1)"/>
       </template>
       <template slot="bottom">
         <van-goods-action style="position: sticky">
@@ -166,23 +166,23 @@
             </div>
           </div>
           <div class="item3">
-            <van-icon name="close" size="3em" color="#F60000" @click="show = false"/>
+            <van-icon name="close" size=".5rem" color="#F60000" @click="show = false"/>
           </div>
         </new-wing-blank>
-        <new-white-space size="2em"/>
+        <new-white-space size="1rem"/>
         <new-wing-blank class="content2">
           <div class="name">
             购买数量
           </div>
           <new-stepper v-model="number" :min="1" :max="shopDrug.stock"/>
         </new-wing-blank>
-        <new-white-space size="5em"/>
+        <new-white-space size="1rem"/>
         <new-wing-blank class="content3">
           <div class="button" @click="onConfirm">
             <span class="text">确定</span>
           </div>
         </new-wing-blank>
-        <new-white-space size="2em"/>
+        <new-white-space size=".5rem"/>
       </div>
     </van-popup>
   </div>

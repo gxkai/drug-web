@@ -53,12 +53,29 @@
       <el-form-item label="最小计量">
         <el-input v-model="form.minDose" disabled placeholder="暂无"></el-input>
       </el-form-item>
-      <el-form-item label="药品图片">
-        <img :src="form.drugImage" style="max-width: 200px;height: auto;">
-      </el-form-item>
+      <!--<el-form-item label="药品图片">-->
+        <!--<img :src="form.drugImage" style="max-width: 200px;height: auto;">-->
+      <!--</el-form-item>-->
     </el-form>
+
+
+    <div class="check-image">
+      <section>
+        <strong>药品封面照</strong>
+        <div><img :src="imageUrl"></div>
+      </section>
+      <section>
+        <strong>展示图</strong>
+        <div>
+            <span v-for="item in drugImg" :key="item.id">
+              <img :src="item.imageUrl">
+            </span>
+        </div>
+      </section>
+    </div>
     <div class="back-btn">
       <el-button @click="goBack">返回</el-button>
+      <el-button type="primary" @click="goBack">提交</el-button>
     </div>
   </div>
 </template>
@@ -87,9 +104,24 @@
       drugWarning: '22',
       drugRecommend: '否',
       drugForm: '颗粒剂',
-      minDose: '',
-      drugImage: require(`~/assets/img/hospital/img1.png`)
+      minDose: ''
+      // drugImage: require(`~/assets/img/hospital/img1.png`)
     }
+    imageUrl = require(`~/assets/img/hospital/img1.png`)
+    drugImg = [
+      {
+        id: '0',
+        imageUrl: require(`~/assets/img/hospital/img1.png`)
+      },
+      {
+        id: '1',
+        imageUrl: require(`~/assets/img/hospital/img1.png`)
+      },
+      {
+        id: '2',
+        imageUrl: require(`~/assets/img/hospital/img1.png`)
+      }
+    ]
     goBack () {
       this.$router.push('/drugCheck/drug')
     }
@@ -103,19 +135,42 @@
       margin-right: 100px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(4, 50px) 150px repeat(3, 50px) 200px;
+      grid-template-rows: repeat(4, 50px) 150px repeat(3, 50px);
       .el-form-item{
         &:nth-child(9){
           grid-column: 1 / 3;
         }
-        &:last-child{
-          grid-column: 1 / 3;
-        }
+
       }
     }
     .back-btn{
       display: flex;
       justify-content: center;
+      padding: 50px;
+    }
+  }
+  .check-image{
+    margin: 20px 50px 0;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 250px;
+    section{
+      img{
+        max-width: 80%;
+        height: auto;
+      }
+      strong{
+        display: block;
+        line-height: 3;
+        font-size: 16px;
+      }
+      &:nth-child(2){
+        >div{
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-rows: 200px;
+        }
+      }
     }
   }
 </style>

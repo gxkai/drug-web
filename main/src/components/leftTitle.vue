@@ -1,7 +1,7 @@
 <template>
   <new-wing-blank class="wrapper van-hairline--bottom">
     <div class="item1">
-      <new-line width="5px" height="3em" :color="lineColor" />
+      <new-line width="4px" height=".5rem" :color="lineColor" />
     </div>
     <div class="item2">
             <span :style="{color: textColor}">

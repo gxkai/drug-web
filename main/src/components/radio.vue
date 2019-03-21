@@ -20,7 +20,7 @@
         default: false
       },
       size: {
-        default: '2em'
+        default: '.5rem'
       }
     },
     methods: {

@@ -18,7 +18,7 @@
         </van-cell>
 
         <van-cell title="性别"
-                  :value="getGender(account.gender)">
+                  :value="$t(account.gender)">
         </van-cell>
 
         <van-cell title="年龄"

@@ -6,12 +6,11 @@
         :finished="finished"
         @load="onLoad">
         <!--<new-appraise-item :item="item" v-for="(item,index) in list" :key="index"></new-appraise-item>-->
-        <new-wing-blank v-for="(item,index) in list" :key="index" class="item" py="3em">
+        <new-wing-blank v-for="(item,index) in list" :key="index" class="item">
           <div class="item1">
             <span>{{item.username|asterisk}}</span>
             <span>{{timeConvert(item.createdDate)}}</span>
           </div>
-          <new-white-space/>
           <div class="item2">
             <new-star size="small" :score="item.score" disabled/>
           </div>

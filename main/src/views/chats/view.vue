@@ -42,10 +42,10 @@
       <template slot="bottom">
         <div class="chat__text">
           <van-uploader :after-read="onRead">
-            <van-icon name="jia03" size="4em" color="#F60000"></van-icon>
+            <van-icon name="jia03" size=".6rem" color="#F60000"></van-icon>
           </van-uploader>
           <textarea class="chat__text__textarea" v-model="text"/>
-          <van-icon name="paper-airplane" size="4em"
+          <van-icon name="paper-airplane" size=".6rem"
                     @click="onMessage"
           ></van-icon>
         </div>
