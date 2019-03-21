@@ -100,6 +100,13 @@ module.exports = {
     '@nuxtjs/webpackmonitor',
     '@nuxtjs/axios'
   ],
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/hpi/': 'http://172.16.11.138:3000/hpi/',
+    '/api/': 'http://172.16.11.140:8091/api/'
+  },
   // koa-proxies for dev, options reference https://github.com/nodejitsu/node-http-proxy#options
   development: {
     proxies: [
