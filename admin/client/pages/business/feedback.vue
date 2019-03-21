@@ -9,9 +9,10 @@
       <div class="list">
         <d2-crud
           :columns="columns"
-          :data="data"
+          :data="feedbackList"
           :loading="loading"
           :pagination="pagination"
+          @pagination-current-change="paginationCurrentChange"
           :options="options"
           :rowHandle="rowHandle"
           @view-emit = 'viewEvent'
@@ -24,7 +25,7 @@
         title="回复"
         :visible.sync="isShowFeedBackDialog"
         width="30%"
-        :close-on-click-modal = 'isClickModal'>
+        :close-on-click-modal='isClickModal'>
         <div class="feedCon">
           <el-input
             type="textarea"
@@ -35,7 +36,7 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="isShowFeedBackDialog = false">取 消</el-button>
-          <el-button type="primary" @click="isShowFeedBackDialog = false">确 定</el-button>
+          <el-button type="primary" @click="confirm">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -48,25 +49,25 @@
         <div class="main">
           <el-form :model="viewData" label-width="100px">
             <el-form-item label="序号">
-              <el-input v-model="viewData.num" readonly></el-input>
+              <el-input v-model="viewData.id" readonly></el-input>
             </el-form-item>
             <el-form-item label="用户名">
               <el-input v-model="viewData.name" readonly></el-input>
             </el-form-item>
             <el-form-item label="提交时间">
-              <el-input v-model="viewData.submitTime" readonly></el-input>
+              <el-input v-model="viewData.createdDate" readonly></el-input>
             </el-form-item>
             <el-form-item label="内容">
               <el-input v-model="viewData.content" readonly></el-input>
             </el-form-item>
             <el-form-item label="状态">
-              <el-input v-model="viewData.status" readonly></el-input>
+              <el-input v-model="viewData.processed" readonly></el-input>
             </el-form-item>
             <el-form-item label="处理人">
-              <el-input v-model="viewData.processer" readonly></el-input>
+              <el-input v-model="viewData.adminName" readonly></el-input>
             </el-form-item>
             <el-form-item label="回复内容">
-              <el-input v-model="viewData.replyContent" readonly></el-input>
+              <el-input v-model="viewData.remark" readonly></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -82,6 +83,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -90,10 +93,11 @@
   })
   export default class Feedback extends Vue {
     feedbackData = ''
+    fbID = ''
     columns= [
       {
         title: '序号',
-        key: 'num',
+        key: 'id',
         width: '120'
       },
       {
@@ -103,7 +107,7 @@
       },
       {
         title: '提交时间',
-        key: 'submitTime',
+        key: 'createdDate',
         width: '200'
       },
       {
@@ -113,47 +117,28 @@
       },
       {
         title: '状态',
-        key: 'status',
+        key: 'processed',
         width: '120'
       },
       {
         title: '处理人',
-        key: 'processer',
+        key: 'adminName',
         width: '120'
       },
       {
         title: '回复内容',
-        key: 'replyContent',
+        key: 'remark',
         width: '320'
       }
     ];
 
-    data = [
-      {
-        num: '1',
-        name: '1',
-        submitTime: '1',
-        content: 'fffff',
-        status: '1',
-        processer: '2',
-        replyContent: '2'
-      },
-      {
-        num: '1',
-        name: '1',
-        submitTime: '1',
-        content: 'img',
-        status: '1',
-        processer: '2',
-        replyContent: '2'
-      }
-    ];
+    feedbackList = [];
 
     loading = false;
 
     pagination = {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     };
 
@@ -187,26 +172,63 @@
     isShowViewDialog = false
     viewEvent ({index, row}) {
       this.isShowViewDialog = true
-      this.viewData.num = row.num
+      this.viewData.id = row.id
       this.viewData.name = row.name
-      this.viewData.submitTime = row.submitTime
+      this.viewData.createdDate = row.createdDate
       this.viewData.content = row.content
-      this.viewData.status = row.status
-      this.viewData.processer = row.processer
-      this.viewData.replyContent = row.replyContent
+      this.viewData.processed = row.processed
+      this.viewData.adminName = row.adminName
+      this.viewData.remark = row.remark
     }
 
     // 模态框参数
     isShowFeedBackDialog = false; // 模态框开启状态
-    feedBackDialog ({index, row}) {
+    feedBackDialog ({row}) {
       this.isShowFeedBackDialog = true
+      console.log(row.id)
+      this.fbID = row.id
+    }
+
+    // 回复
+    async confirm () {
+      let params = {
+        adminId: '2',
+        processed: true,
+        remark: this.feedbackData
+      }
+      let fbRes = await axios.post(`/api/supervise/feedbacks/${this.fbID}`, {params})
+      console.log(fbRes)
     }
 
     viewImage ({index, row}) {
 
     }
 
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getFeedbacks()
+    }
+
+    async getFeedbacks () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+
+      let {data: feedbacks} = await axios.get(`/api/supervise/feedbacks`, {params})
+      console.log(feedbacks)
+
+      this.feedbackList = feedbacks.list
+      this.pagination.total = feedbacks.total
+
+      this.feedbackList.forEach(item => {
+        item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
+        // item.processed = item.processed ? '已处理' : '未处理'
+      })
+    }
+
     mounted () {
+      this.getFeedbacks()
     }
   }
 </script>
