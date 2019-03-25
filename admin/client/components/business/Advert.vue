@@ -36,14 +36,14 @@
           <el-table-column
             prop="imgURL"
             label="图片">
-
             <template slot-scope="scope">
-              <img :src="scope.row.imgURL" style="width: 50px;height: 50px">
+              <img v-if="scope.row.imgURL" :src="scope.row.imgURL" style="width: 50px;height: 50px">
+              <img v-else src="../../assets/img/hospital/img1.png" style="width: 50px;height: 50px">
             </template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button @click="viewAdvert(scope.row)" type="text">查看</el-button>
+              <el-button @click="viewAdvert(scope.$index, scope.row)" type="text">查看</el-button>
               <el-button @click="editAdvert(scope.$index, scope.row)" type="text">编辑</el-button>
               <el-button @click="removeAdvert(scope.$index, scope.row)" type="text">删除</el-button>
             </template>
@@ -70,7 +70,7 @@
         <div class="main">
           <el-form :model="viewData" label-width="100px">
             <el-form-item label="序号">
-              <el-input v-model="viewData.id" readonly placeholder="请输入"></el-input>
+              <el-input v-model="viewData.index + 1" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="模块">
               <el-input v-model="viewData.type" readonly placeholder="请输入"></el-input>
@@ -246,7 +246,7 @@
       this.addData.fileId = fileID
       let params = this.addData
       let addRes = await axios.post(`/api/supervise/adverts`, params)
-      // console.log(addRes)
+      console.log(addRes)
       if (addRes) {
         this.$message({
           message: '添加成功',
@@ -264,9 +264,9 @@
     isClickModal = false;
     viewData = {};
 
-    viewAdvert (row) {
+    viewAdvert (index, row) {
       this.viewDialogVisible = true
-      this.viewData.id = row.id
+      this.viewData.index = index
       this.viewData.type = row.type
       this.viewData.sort = row.sort
       this.viewData.url = row.url
@@ -284,7 +284,7 @@
     }
 
     editFile = {} // 存放file
-    async editAvatarSuccess (res, file) {
+    editAvatarSuccess (res, file) {
       this.editData.imgURL = URL.createObjectURL(file.raw)
       this.editFile = file.raw
     }
@@ -378,10 +378,10 @@
 
     // 获取图片路径
     async getImgURL (id, post) {
-      let imgParams = {
+      let params = {
         resolution: 'SMALL_LOGO'
       }
-      let {data: imgRes} = await axios.get(`/api/supervise/files/${id}`, {params: imgParams})
+      let {data: imgRes} = await axios.get(`/api/supervise/files/${id}`, {params})
       let url = imgRes.replace('redirect:', '')
       post(url)
     }

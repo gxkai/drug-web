@@ -9,10 +9,11 @@
 
       <div class="list">
         <d2-crud
-          :columns="columns"
-          :data="data"
+          :columns="rxColumns"
+          :data="rxList"
           :loading="loading"
           :pagination="pagination"
+          @pagination-current-change="paginationCurrentChange"
           :options="options"
           :rowHandle="rowHandle"
           @viewDetail-emit="viewDetail"
@@ -26,6 +27,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -33,18 +36,18 @@
     }
   })
   export default class Rx extends Vue {
-    columns= [
+    rxColumns = [
       {
         title: '处方医院',
-        key: 'preHospital'
+        key: 'hospitalName'
       },
       {
         title: '病患姓名',
-        key: 'patientName'
+        key: 'accountName'
       },
       {
         title: '症状',
-        key: 'symptom'
+        key: 'illness'
       },
       {
         title: '处方医生',
@@ -52,32 +55,23 @@
       },
       {
         title: '处方科室',
-        key: 'preDept'
+        key: 'office'
       },
       {
         title: '更新时间',
-        key: 'updateTime'
+        key: 'rxDate'
       },
       {
         title: '当前状态',
-        key: 'currentState'
+        key: 'state'
       }
     ];
-    data = [
-      {
-        preHospital: '1',
-        patientName: '1',
-        symptom: '1',
-        preDoctor: '1',
-        preDept: '1',
-        updateTime: '2019-03-12 13:15:45',
-        currentState: '未使用'
-      }
-    ];
+    rxList = [];
+
     loading = false;
     pagination = {
       currentPage: 1,
-      pageSize: 1,
+      pageSize: 15,
       total: 0
     };
     options = {
@@ -93,11 +87,48 @@
       ]
     };
 
-    mounted () {
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getRxs()
     }
 
-    viewDetail () {
-      this.$router.push('/rx/rx/detail')
+    // 查看详情
+    viewDetail ({row}) {
+      this.$router.push({
+        path: '/rx/rx/detail',
+        query: {
+          rxId: row.id
+        }
+      })
+    }
+
+    // 转换当前状态
+    isAbled (state) {
+      if (state === 'ENABLED') {
+        return '可用'
+      } else {
+        return '不可用'
+      }
+    }
+
+    async getRxs () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      let {data: rxRes} = await axios.get(`/api/supervise/rxs`, {params})
+      console.log(rxRes)
+      this.rxList = rxRes.list
+      this.pagination.total = rxRes.total
+
+      this.rxList.forEach(item => {
+        item.rxDate = moment(item.rxDate).format('YYYY-MM-DD hh:mm:ss')
+        item.state = this.isAbled(item.state)
+      })
+    }
+
+    mounted () {
+      this.getRxs()
     }
   }
 </script>

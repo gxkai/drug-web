@@ -58,7 +58,7 @@
     columns = [
       {
         title: '序号',
-        key: 'id'
+        key: 'index'
       },
       {
         title: '常见问题标题',
@@ -198,17 +198,15 @@
         question: row.question,
         answer: row.answer
       }
-      let editRes = await axios.put(`/api/supervise/faqs/${row.id}`, params)
+      await axios.put(`/api/supervise/faqs/${row.id}`, params)
 
-      if (editRes) {
-        this.$message({
-          message: '修改成功',
-          type: 'success'
-        })
-        done()
-        this.formOptions.saveLoading = false
-        this.getFaqs()
-      }
+      this.$message({
+        message: '修改成功',
+        type: 'success'
+      })
+      done()
+      this.formOptions.saveLoading = false
+      this.getFaqs()
     }
 
     // 获取所有常见问题
@@ -221,7 +219,8 @@
 
       this.faqList = faq.list
       this.pagination.total = faq.total
-      this.faqList.forEach(item => {
+      this.faqList.forEach((item, index) => {
+        item.index = index + 1
         item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD hh:mm:ss')
       })
     }

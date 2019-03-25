@@ -84,17 +84,14 @@
     };
 
     async removeMsg ({row}, done) {
-      let delRes = await axios.delete(`/api/supervise/messages/${row.id}`)
-      console.log(delRes)
+      await axios.delete(`/api/supervise/messages/${row.id}`)
 
-      if (delRes) {
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-        this.getMessage()
-      }
+      this.$message({
+        message: '删除成功',
+        type: 'success'
+      })
+      done()
+      this.getMessage()
     }
 
     paginationCurrentChange (page) {
@@ -108,8 +105,6 @@
         pageSize: this.pagination.pageSize
       }
       let {data: message} = await axios.get('/api/supervise/messages', {params})
-
-      console.log(message)
 
       this.msgList = message.list
       this.msgList.forEach(e => {

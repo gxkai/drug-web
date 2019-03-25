@@ -49,7 +49,7 @@
         <div class="main">
           <el-form :model="viewData" label-width="100px">
             <el-form-item label="序号">
-              <el-input v-model="viewData.id" readonly></el-input>
+              <el-input v-model="viewData.index" readonly></el-input>
             </el-form-item>
             <el-form-item label="用户名">
               <el-input v-model="viewData.name" readonly></el-input>
@@ -97,38 +97,31 @@
     columns= [
       {
         title: '序号',
-        key: 'id'
-        // width: '120'
+        key: 'index'
       },
       {
         title: '用户名',
         key: 'name'
-        // width: '120'
       },
       {
         title: '提交时间',
         key: 'createdDate'
-        // width: '200'
       },
       {
         title: '内容',
         key: 'content'
-        // width: '320'
       },
       {
         title: '状态',
         key: 'processed'
-        // width: '120'
       },
       {
         title: '处理人',
         key: 'adminName'
-        // width: '120'
       },
       {
         title: '回复内容',
         key: 'remark'
-        // width: '320'
       }
     ];
 
@@ -172,15 +165,16 @@
     isShowViewDialog = false
 
     // 查看
-    viewEvent ({row}) {
+    viewEvent (data) {
       this.isShowViewDialog = true
-      this.viewData.id = row.id
-      this.viewData.name = row.name
-      this.viewData.createdDate = row.createdDate
-      this.viewData.content = row.content
-      this.viewData.processed = row.processed
-      this.viewData.adminName = row.adminName
-      this.viewData.remark = row.remark
+      this.viewData.index = data.index + 1
+      this.viewData.id = data.row.id
+      this.viewData.name = data.row.name
+      this.viewData.createdDate = data.row.createdDate
+      this.viewData.content = data.row.content
+      this.viewData.processed = data.row.processed
+      this.viewData.adminName = data.row.adminName
+      this.viewData.remark = data.row.remark
     }
 
     // 模态框参数
@@ -198,16 +192,14 @@
         processed: true,
         remark: this.feedbackData
       }
-      let fbRes = await axios.post(`/api/supervise/feedbacks/${this.rowData.id}`, params)
-      if (fbRes) {
-        this.$message({
-          message: '回复成功',
-          type: 'success'
-        })
-        this.isShowFeedBackDialog = false
-        this.feedbackData = ''
-        this.getFeedbacks()
-      }
+      await axios.post(`/api/supervise/feedbacks/${this.rowData.id}`, params)
+      this.$message({
+        message: '回复成功',
+        type: 'success'
+      })
+      this.isShowFeedBackDialog = false
+      this.feedbackData = ''
+      this.getFeedbacks()
     }
 
     viewImage ({index, row}) {
@@ -226,12 +218,13 @@
       }
 
       let {data: feedbacks} = await axios.get(`/api/supervise/feedbacks`, {params})
-      console.log(feedbacks)
+      // console.log(feedbacks)
 
       this.feedbackList = feedbacks.list
       this.pagination.total = feedbacks.total
 
-      this.feedbackList.forEach(item => {
+      this.feedbackList.forEach((item, index) => {
+        item.index = index + 1
         item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
         item.processed = item.remark ? 'true' : 'false'
       })
