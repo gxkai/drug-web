@@ -70,6 +70,10 @@
           <el-table-column
             prop="serialNumber"
             label="序号">
+
+            <template slot-scope="scope">
+              <span>{{ scope.$index + 1 }}</span>
+            </template>
           </el-table-column>
           <el-table-column
             prop="pharmacyName"

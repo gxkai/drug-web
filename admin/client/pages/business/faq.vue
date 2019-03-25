@@ -20,6 +20,7 @@
           :data="faqList"
           :loading="loading"
           :pagination="pagination"
+          @pagination-current-change="paginationCurrentChange"
           :options="options"
           :rowHandle="rowHandle"
 
@@ -141,6 +142,11 @@
         type: 'warning'
       })
       done()
+    }
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getFaqs()
     }
 
     // 点击新增按钮
