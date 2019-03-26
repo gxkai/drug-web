@@ -128,8 +128,8 @@
       }
     }
     handleEditEvent ({index, row}) {
-      console.log(index)
-      console.log(row)
+      // console.log(index)
+      // console.log(row)
       this.$router.push('/system/admin/edit')
     }
     async handleStop ({index, row}) {
@@ -139,7 +139,7 @@
           row.activated = '停用'
         }
       }
-      // console.log(typeof row.activated)
+      console.log(typeof row.activated)
       // await axios.post(`/api/supervise/admins/${row.id}/activated`, {activated: row.activated}).then(res => {
       //   console.log(res)
       // })
