@@ -48,7 +48,7 @@
       BreadCrumb
     }
   })
-  export default class AdminEdit extends Vue {
+  export default class AdminCreate extends Vue {
     form = {
       name: '1234',
       account: '123456789',

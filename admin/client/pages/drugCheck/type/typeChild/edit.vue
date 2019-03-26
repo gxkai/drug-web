@@ -20,17 +20,17 @@
         <el-form-item label="父类名称">
           <el-select v-model="form.fatherTypeName" placeholder="请选择父类名称" style="width:100%;">
             <el-option
-              v-for="item in form.fatherType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in fatherType"
+              :key="item.type"
+              :label="item.type"
+              :value="item.type">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="是否显示">
           <el-select v-model="form.isShow" placeholder="请选择是否显示" style="width:100%;">
             <el-option
-              v-for="item in form.selectOptions"
+              v-for="item in selectOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -44,7 +44,7 @@
       </el-form>
       <div class="type-form-btn">
         <el-button size="small" @click="back()">返回</el-button>
-        <el-button type="primary" size="small" @click="back()">提交</el-button>
+        <el-button type="primary" size="small" @click="submit()">提交</el-button>
       </div>
     </div>
   </div>
@@ -53,43 +53,53 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
     }
   })
   export default class TypeChildEdit extends Vue {
-    // imageUrl = require(`~/assets/img/hospital/img1.png`)
     form = {
-      imageUrl: require(`~/assets/img/hospital/img1.png`),
-      typeName: '小儿消化不良',
-      fatherTypeName: '儿科用药',
-      isShow: '是',
-      typeSort: '3',
-      fatherType: [
-        {
-          value: '选项1',
-          label: '家庭常用'
-        },
-        {
-          value: '选项2',
-          label: '儿科用药'
-        }
-      ],
-      selectOptions: [
-        {
-          value: '选项1',
-          label: '是'
-        },
-        {
-          value: '选项2',
-          label: '否'
-        }
-      ]
+      imageUrl: '',
+      typeName: '',
+      fatherTypeName: '',
+      isShow: '',
+      typeSort: ''
     }
+    fatherType = []
+    selectOptions = [
+      {
+        value: true,
+        label: '是'
+      },
+      {
+        value: false,
+        label: '否'
+      }
+    ]
+    beforeMount () {
+      this.initData()
+      this.editData()
+    }
+    async initData () {
+      await axios.get(`/api/supervise/drugTypes/father`).then(res => {
+        // console.log(res.data)
+        this.fatherType = res.data
+      })
+    }
+    async editData () {
+      let id = this.$route.query.id
+      await axios.get(`/api/supervise/drugTypes/${id}`).then(res => {
+        console.log(res.data)
+        // this.form = res.data
+      })
+    }
+
+    filePath = {}
     handleAvatarSuccess (res, file) {
       this.form.imageUrl = URL.createObjectURL(file.raw)
+      this.filePath = file.raw
     }
     beforeAvatarUpload (file) {
       const isLt2M = file.size / 1024 / 1024 < 2
@@ -98,8 +108,43 @@
       }
       return isLt2M
     }
+
+    // 获取图片路径
+    // async getImageUrl (id, post) {
+    //   console.log(id)
+    //   console.log(post)
+    //   let params = {
+    //     resolution: 'SMALL_LOGO'
+    //   }
+    //   let img = await axios.get(`/api/supervise/files/${id}`, {params: {resolution: 'SMALL_LOGO'}})
+    //   console.log(img)
+    //   let url = img.data.replace(/redirect:/, '')
+    //   post(url)
+    // }
+
+    async submit () {
+      let fileParams = new FormData()
+      fileParams.append('file', this.filePath)
+      fileParams.append('fileType', 'LOGO')
+      let imgres = await axios.post('/api/supervise/files', fileParams)
+      console.log(imgres)
+
+      let id = this.$route.query.id
+      let drugTypeChildADTO = {
+        file: '',
+        fileId: this.$route.query.fileId,
+        id: id,
+        pid: this.$route.query.pid,
+        ptype: this.form.fatherTypeName,
+        showed: this.form.isShow,
+        sort: this.form.typeSort,
+        type: this.form.typeName
+      }
+      await axios.put(`/api/supervise/child/drugTypes/${id}`, drugTypeChildADTO)
+      this.$router.push('/drugCheck/type')
+    }
     back () {
-      this.$router.push('/drugCheck/type/typeChild')
+      this.$router.go(-1)
     }
   }
 </script>

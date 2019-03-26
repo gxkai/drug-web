@@ -4,12 +4,12 @@
     <div class="pharm-search">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
       <el-input v-model="roleNameValue" size="small" placeholder="请输入角色名称" style="width: 150px;"></el-input>
-      <el-button type="primary" size="small">搜索</el-button>
+      <el-button type="primary" size="small" @click="search">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="roleData"
       :loading="loading"
       :pagination="pagination"
       :options="options"
@@ -24,7 +24,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -35,29 +35,18 @@
     columns = [
       {
         title: 'ID',
-        key: 'roleId'
+        key: 'id'
       },
       {
         title: '角色名称',
-        key: 'roleName'
+        key: 'name'
       },
       {
         title: '角色描述',
-        key: 'roleDescription'
+        key: 'description'
       }
     ]
-    data = [
-      {
-        roleId: 'MkeNsdeWQAS_cUxKNUkn2g',
-        roleName: '管理员',
-        roleDescription: '管理员管理员管理员管理员管理员管理员'
-      },
-      {
-        roleId: 'z1R7wJdNS7KLN4CemAe0Ug',
-        roleName: '卫计委',
-        roleDescription: '卫计委卫计委卫计委卫计委卫计委卫计委'
-      }
-    ]
+    roleData = []
     loading= false;
     pagination= {
       currentPage: 1,
@@ -81,27 +70,60 @@
         confirm: true
       }
     }
-    mounted () {
+    beforeMount () {
+      this.initData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.initData()
+      // this.search()
+    }
+    async initData () {
+      let params = {
+        id: '',
+        name: '',
+        type: ''
+      }
+      let data = await axios.get(`/api/supervise/roles`, {params: params})
+      // console.log(data)
+      this.roleData = data.data
+      this.pagination.total = data.data.length
     }
     handleEdit ({index, row}) {
-      this.$router.push('/system/role/edit')
+      this.$router.push({path: '/system/role/edit', query: {id: row.id}})
     }
     addRow () {
       this.$router.push('/system/role/create')
     }
     clear () {
       this.roleNameValue = ''
+      this.initData()
     }
-    handleRowRemove ({ index, row }, done) {
+    async handleRowRemove ({ index, row }, done) {
+      await axios.delete(`/api/supervise/roles/${row.id}`)
       setTimeout(() => {
-        // console.log(index)
-        // console.log(row)
         this.$message({
           message: '删除成功',
           type: 'success'
         })
         done()
       }, 300)
+    }
+    async search () {
+      if (this.roleNameValue === '') {
+        this.$message({
+          message: '角色名称',
+          type: 'warning'
+        })
+      }
+      let params = {
+        id: '',
+        name: this.roleNameValue,
+        type: ''
+      }
+      let data = await axios.get(`/api/supervise/roles`, {params: params})
+      this.roleData = data.data
+      this.pagination.total = data.data.length
     }
   }
 </script>

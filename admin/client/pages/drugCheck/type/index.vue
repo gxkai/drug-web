@@ -10,7 +10,6 @@
         :columns="columns"
         :data="data"
         :loading="loading"
-        :pagination="pagination"
         :options="options"
         :rowHandle="rowHandle"
         :edit-template="editTemplate"
@@ -32,7 +31,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -42,52 +41,20 @@
     columns = [
       {
         title: 'ID',
-        key: 'typeId',
+        key: 'id',
         width: 320
       },
       {
         title: '类型名称',
-        key: 'typeName'
+        key: 'type'
       },
       {
         title: '排序',
-        key: 'typeSort'
+        key: 'sort'
       }
     ]
-    data = [
-      {
-        typeId: '1',
-        typeName: '家庭常用',
-        typeSort: '1'
-      },
-      {
-        typeId: '2',
-        typeName: '儿科用药',
-        typeSort: '2'
-      },
-      {
-        typeId: '3',
-        typeName: '肠胃用药',
-        typeSort: '3'
-      },
-      {
-        typeId: '14',
-        typeName: '呼吸系统',
-        typeSort: '4'
-      },
-      {
-        typeId: '5',
-        typeName: '心脑血管',
-        typeSort: '5'
-      }
-
-    ]
+    data = []
     loading = false;
-    pagination = {
-      currentPage: 1,
-      pageSize: 5,
-      total: 0
-    }
     options = {
       border: true
     }
@@ -111,29 +78,25 @@
       }
     }
     editTemplate = {
-      typeId: {
+      id: {
         title: 'ID',
         value: ''
       },
-      typeName: {
+      type: {
         title: '类型名称',
         value: ''
       },
-      typeSort: {
+      sort: {
         title: '排序',
         value: ''
       }
     }
     addTemplate = {
-      typeId: {
-        title: 'ID',
-        value: ''
-      },
-      typeName: {
+      type: {
         title: '类型名称',
         value: ''
       },
-      typeSort: {
+      sort: {
         title: '排序',
         value: ''
       }
@@ -144,11 +107,28 @@
       saveLoading: false
     }
     addRules = {
-      typeId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
-      typeName: [ { required: true, message: '请输入类型名称', trigger: 'blur' } ],
-      typeSort: [ { required: true, message: '请输入排序', trigger: 'blur' } ]
+      // id: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
+      type: [ { required: true, message: '请输入类型名称', trigger: 'blur' } ],
+      sort: [ { required: true, message: '请输入排序', trigger: 'blur' } ]
     }
-    handleRowEdit ({ index, row }, done) {
+    beforeMount () {
+      this.initData()
+    }
+    async initData () {
+      await axios.get(`/api/supervise/drugTypes/father`).then(res => {
+        this.data = res.data
+      })
+    }
+    async handleRowEdit ({ index, row }, done) {
+      await axios.get(`/api/supervise/drugTypes/exists`, {params: {id: row.id, type: row.type}})
+      let drugTypeADTO = {
+        fileId: row.fileId,
+        pid: row.pid,
+        showed: row.showed,
+        sort: row.sort,
+        type: row.type
+      }
+      await axios.put(`/api/supervise/drugTypes/${row.id}`, drugTypeADTO)
       this.formOptions.saveLoading = true
       setTimeout(() => {
         this.$message({
@@ -166,7 +146,8 @@
       })
       done()
     }
-    handleRowRemove ({ index, row }, done) {
+    async handleRowRemove ({ index, row }, done) {
+      await axios.post(`/api/supervise/drugTypes/${row.id}`)
       setTimeout(() => {
         this.$message({
           message: '删除成功',
@@ -180,10 +161,19 @@
         mode: 'add'
       })
     }
-    handleRowAdd (row, done) {
+    async handleRowAdd (row, done) {
+      await axios.get(`/api/supervise/drugTypes/exists`, {params: {id: row.id, type: row.type}})
+      let drugTypeAdminDTO = {
+        fileId: row.fileId,
+        pid: row.pid,
+        showed: row.showed,
+        sort: row.sort,
+        type: row.type
+      }
+      await axios.post(`/api/supervise/drugTypes`, drugTypeAdminDTO)
+      this.initData()
       this.formOptions.saveLoading = true
       setTimeout(() => {
-        console.log(row)
         this.$message({
           message: '保存成功',
           type: 'success'
@@ -192,8 +182,8 @@
         this.formOptions.saveLoading = false
       }, 300)
     }
-    handleChild () {
-      this.$router.push('/drugCheck/type/typeChild')
+    handleChild ({index, row}) {
+      this.$router.push({path: '/drugCheck/type/typeChild', query: {id: row.id, type: row.type}})
     }
   }
 </script>
