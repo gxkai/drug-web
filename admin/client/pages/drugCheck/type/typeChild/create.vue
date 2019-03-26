@@ -21,9 +21,9 @@
           <el-select v-model="form.fatherTypeName" placeholder="请选择父类名称" style="width:100%;">
             <el-option
               v-for="item in form.fatherType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item.type"
+              :label="item.type"
+              :value="item.type">
             </el-option>
           </el-select>
         </el-form-item>
@@ -44,7 +44,7 @@
       </el-form>
       <div class="type-form-btn">
         <el-button size="small" @click="back()">返回</el-button>
-        <el-button type="primary" size="small" @click="back()">提交</el-button>
+        <el-button type="primary" size="small" @click="submit()">提交</el-button>
       </div>
     </div>
   </div>
@@ -53,7 +53,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -66,29 +66,32 @@
       fatherTypeName: '',
       isShow: '',
       typeSort: '',
-      fatherType: [
-        {
-          value: '选项1',
-          label: '家庭常用'
-        },
-        {
-          value: '选项2',
-          label: '儿童用药'
-        }
-      ],
+      fatherType: [],
       selectOptions: [
         {
-          value: '选项1',
+          value: true,
           label: '是'
         },
         {
-          value: '选项2',
+          value: false,
           label: '否'
         }
       ]
     }
+    beforeMount () {
+      this.initData()
+    }
+    async initData () {
+      await axios.get(`/api/supervise/drugTypes/father`).then(res => {
+        // console.log(res)
+        this.form.fatherType = res.data
+      })
+    }
+
+    filePath = {}
     handleAvatarSuccess (res, file) {
       this.form.imageUrl = URL.createObjectURL(file.raw)
+      this.filePath = file.raw
     }
     beforeAvatarUpload (file) {
       const isLt2M = file.size / 1024 / 1024 < 2
@@ -99,6 +102,27 @@
     }
     back () {
       this.$router.push('/drugCheck/type/typeChild')
+    }
+    async submit () {
+      let fileParams = new FormData()
+      fileParams.append('file', this.filePath)
+      fileParams.append('fileType', 'LOGO')
+      let imgres = await axios.post('/api/supervise/files', fileParams)
+      console.log(imgres)
+
+      let pid = this.$route.query.pid
+      let drugType = {
+        file: '',
+        fileId: imgres.data,
+        id: '',
+        pid: pid,
+        ptype: this.form.fatherTypeName,
+        showed: this.form.isShow,
+        sort: this.form.typeSort,
+        type: this.form.typeName
+      }
+      await axios.post(`/api/supervise/child/drugTypes`, drugType)
+      this.$router.push('/drugCheck/type')
     }
   }
 </script>

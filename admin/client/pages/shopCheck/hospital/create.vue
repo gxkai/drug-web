@@ -24,6 +24,14 @@
         <el-form-item label="纬度：">
           <el-input v-model="form.hospitalLat" placeholder="请输入"></el-input>
         </el-form-item>
+        <el-form-item class="el-form-item-map">
+          <baidu-map :center="center" :zoom="zoom" @ready="handler" @click="getPoint" class="bm-view">
+            <!--<bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>-->
+            <!--<bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>-->
+            <bm-local-search :keyword="form.hospitalAdd" :auto-viewport="true" :zoom="zoom" style="display: none"></bm-local-search>
+            <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+          </baidu-map>
+        </el-form-item>
         <el-form-item label="医院照片：" class="hospitalImg">
           <el-upload
             class="avatar-uploader"
@@ -60,22 +68,53 @@
     }
   })
   export default class HospitalCreat extends Vue {
+    show = true
     form = {
       hospitalId: '',
       hospitalQyid: '',
       hospitalName: '',
       hospitalPhone: '',
-      hospitalAdd: '',
+      hospitalAdd: '昆山',
       hospitalLng: '',
       hospitalLat: '',
       hospitalIntroduce: '',
       hospitalImage: ''
     }
+    center = {lng: 120.9909, lat: 31.403685}
+    zoom = 3
     handleAvatarSuccess (res, file) {
       this.form.hospitalImage = URL.createObjectURL(file.raw)
     }
     submit () {
       this.$router.push('/shopCheck/hospital')
+    }
+    handler ({BMap, map}) {
+      console.log(BMap, map)
+      this.center.lng = this.form.hospitalLng
+      this.center.lat = this.form.hospitalLat
+      this.zoom = 15
+    }
+    getPoint (e) { // 点击地图获取一些信息，
+      this.show = true
+      this.center.lng = this.form.hospitalLng
+      this.center.lat = this.form.hospitalLat
+      // this.zoom = 15
+      this.zoom = e.target.getZoom()
+      /* global BMap */
+      let geocoder = new BMap.Geocoder() // 创建地址解析器的实例
+      geocoder.getLocation(e.point, rs => {
+        console.log(rs)
+        this.form.hospitalLng = e.point.lng
+        this.form.hospitalLat = e.point.lat
+      })
+    }
+    infoWindowClose () {
+      this.show = false
+    }
+    infoWindowOpen () {
+      setInterval(() => {
+        this.show = true
+      }, 100)
     }
   }
 </script>
@@ -85,11 +124,11 @@
   .hospital-detail{
     padding: 10px;
     .hospital-form{
-      padding-right: 200px;
+      padding-right: 100px;
       form.el-form{
         display: grid;
         grid-template-columns: 40% 60%;
-        grid-template-rows: repeat(7, 50px) 200px;
+        grid-template-rows: repeat(7, 50px) 300px 200px;
         .el-form-item{
           grid-column: 1 / 2;
           &.hospitalImg{
@@ -98,6 +137,13 @@
           }
           &.hospitalIntro{
             grid-column: 1 / 3;
+          }
+          &.el-form-item-map{
+            grid-column: 1 / 3;
+            .bm-view {
+              width: 100%;
+              height: 280px;
+            }
           }
         }
       }

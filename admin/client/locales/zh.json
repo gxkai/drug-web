@@ -144,7 +144,9 @@
   "/system/admin":
     "监管用户",
   "/system/admin/edit":
-    "修改用户",
+    "修改监管用户",
+  "/system/admin/create":
+    "新增监管用户",
   "/system/role":
     "角色管理",
   "/system/role/edit":

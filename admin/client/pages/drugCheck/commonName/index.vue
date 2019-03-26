@@ -4,14 +4,14 @@
     <div class="common--content__search">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
       <el-input v-model="commonNameValue" size="small" placeholder="请输入通用名" style="width: 200px;"></el-input>
-      <el-button type="primary" size="small">搜索</el-button>
+      <el-button type="primary" size="small" @click="search">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
     <div>
       <d2-crud
         ref="d2Crud"
         :columns="columns"
-        :data="data"
+        :data="commonNameData"
         :loading="loading"
         :pagination="pagination"
         :options="options"
@@ -25,6 +25,7 @@
         :add-template="addTemplate"
         :add-rules="addRules"
         @dialog-cancel="handleDialogCancel"
+        @pagination-current-change="paginationCurrentChange"
         class="drug-table"
       />
     </div>
@@ -34,7 +35,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -45,40 +46,19 @@
     columns = [
       {
         title: 'ID',
-        key: 'commonId',
+        key: 'id',
         width: 320
       },
       {
         title: '通用名',
-        key: 'commonName'
+        key: 'name'
       }
     ]
-    data = [
-      {
-        commonId: '1',
-        commonName: 'hlsp盐酸小檗碱片'
-      },
-      {
-        commonId: '2',
-        commonName: 'hlsp盐酸小檗碱片'
-      },
-      {
-        commonId: '3',
-        commonName: 'hlsp盐酸小檗碱片'
-      },
-      {
-        commonId: '4',
-        commonName: 'hlsp盐酸小檗碱片'
-      },
-      {
-        commonId: '5',
-        commonName: 'hlsp盐酸小檗碱片'
-      }
-    ]
+    commonNameData = []
     loading = false;
     pagination = {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options = {
@@ -97,21 +77,17 @@
       }
     }
     editTemplate = {
-      commonId: {
+      id: {
         title: 'ID',
         value: ''
       },
-      commonName: {
+      name: {
         title: '通用名',
         value: ''
       }
     }
     addTemplate = {
-      commonId: {
-        title: 'ID',
-        value: ''
-      },
-      commonName: {
+      name: {
         title: '通用名',
         value: ''
       }
@@ -125,10 +101,29 @@
       commonId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
       commonName: [ { required: true, message: '请输入通用名', trigger: 'blur' } ]
     }
+    beforeMount () {
+      this.fetchData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.fetchData()
+      this.search()
+    }
+    async fetchData () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/common/names`, {params: params})
+      this.commonNameData = data.data.list
+      this.pagination.total = data.data.total
+    }
     clear () {
       this.commonNameValue = ''
     }
-    handleRowEdit ({ index, row }, done) {
+    async handleRowEdit ({ index, row }, done) {
+      await axios.get(`/api/supervise/common/names/${row.id}/count`, {params: {name: row.name}})
+      await axios.put(`/api/supervise/common/names/${row.id}/update`, {id: row.id, name: row.name})
       this.formOptions.saveLoading = true
       setTimeout(() => {
         this.$message({
@@ -146,7 +141,8 @@
       })
       done()
     }
-    handleRowRemove ({ index, row }, done) {
+    async handleRowRemove ({ index, row }, done) {
+      await axios.post(`/api/supervise/common/names/${row.id}/delete`)
       setTimeout(() => {
         this.$message({
           message: '删除成功',
@@ -160,10 +156,13 @@
         mode: 'add'
       })
     }
-    handleRowAdd (row, done) {
+    async handleRowAdd (row, done) {
+      await axios.get(`/api/supervise/common/names/count`, {params: {name: row.name}})
+      await axios.post(`/api/supervise/common/names/create`, {name: row.name})
+      this.fetchData()
       this.formOptions.saveLoading = true
       setTimeout(() => {
-        console.log(row)
+        // console.log(row)
         this.$message({
           message: '保存成功',
           type: 'success'
@@ -171,6 +170,23 @@
         done()
         this.formOptions.saveLoading = false
       }, 300)
+    }
+    async search () {
+      if (this.commonNameValue === '') {
+        this.$message({
+          message: '请输入通用名名称',
+          type: 'warning'
+        })
+      }
+      let params = {
+        name: this.commonNameValue,
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      await axios.get(`/api/supervise/common/names`, {params: params}).then(res => {
+        this.commonNameData = res.data.list
+        this.pagination.total = res.data.total
+      })
     }
   }
 </script>

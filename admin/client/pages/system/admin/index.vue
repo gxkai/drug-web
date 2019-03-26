@@ -3,7 +3,7 @@
     <bread-crumb :path="$route.path"/>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="adminData"
       :loading="loading"
       :pagination="pagination"
       :options="options"
@@ -11,6 +11,7 @@
       @emit-edit="handleEditEvent"
       @emit-stop="handleStop"
       @emit-run="handleRun"
+      @emit-reset="handleReset"
       class="drug-table"
     />
   </div>
@@ -19,18 +20,17 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
     }
   })
-  export default class DrugShop extends Vue {
+  export default class AdminIndex extends Vue {
     columns= [
       {
         title: '序号',
-        key: 'adminId',
-        width: 60
+        key: 'id'
       },
       {
         title: '名字',
@@ -38,44 +38,26 @@
       },
       {
         title: '账号',
-        key: 'account'
+        key: 'username'
       },
       {
         title: '角色',
-        key: 'role'
+        key: 'roleId'
       },
       {
         title: '最后一次登录时间',
-        key: 'lastLogin',
-        width: 240
+        key: 'lastLoginDate'
       },
       {
         title: '状态',
-        key: 'curState'
+        key: 'activated'
       }
     ]
-    data= [
-      {
-        adminId: '1',
-        name: '哈哈',
-        account: '147',
-        role: '管理员',
-        lastLogin: '2019-03-15 15:39:33',
-        curState: '在用'
-      },
-      {
-        adminId: '2',
-        name: '呵呵',
-        account: '123',
-        role: '管理员',
-        lastLogin: '2019-03-15 15:39:33',
-        curState: '停用'
-      }
-    ]
+    adminData= []
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options= {
@@ -94,7 +76,7 @@
           type: 'text',
           emit: 'emit-stop',
           show (index, row) {
-            if (row.curState === '在用') {
+            if (row.activated === '在用') {
               return true
             }
           }
@@ -104,7 +86,7 @@
           type: 'text',
           emit: 'emit-run',
           show (index, row) {
-            if (row.curState === '停用') {
+            if (row.activated === '停用') {
               return true
             }
           }
@@ -116,29 +98,67 @@
         }
       ]
     }
-    mounted () {
+    beforeMount () {
+      this.initData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.initData()
+    }
+    async initData () {
+      let params = {
+        activated: '',
+        name: '',
+        roleId: '',
+        username: '',
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/admins`, {params: params})
+      // console.log(data)
+      this.adminData = data.data.list
+      this.pagination.total = data.data.total
+      let newArray = this.adminData
+      for (let i = 0; i < newArray.length; i++) {
+        if (newArray[i].activated.toString() === 'true') {
+          newArray[i].activated = '在用'
+        } else {
+          newArray[i].activated = '停用'
+        }
+      }
     }
     handleEditEvent ({index, row}) {
-      // this.$message.success(index.toString())
       console.log(index)
       console.log(row)
-      this.$router.push('/system/admin/edit?adminId=' + row.adminId)
+      this.$router.push('/system/admin/edit')
     }
-    handleStop ({index, row}) {
+    async handleStop ({index, row}) {
       let stop = this.rowHandle.custom
       for (let i = 0; i < stop.length; i++) {
         if (stop[i].text === '停用') {
-          row.curState = '停用'
+          row.activated = '停用'
         }
       }
+      // console.log(typeof row.activated)
+      // await axios.post(`/api/supervise/admins/${row.id}/activated`, {activated: row.activated}).then(res => {
+      //   console.log(res)
+      // })
     }
-    handleRun ({index, row}) {
+    async handleRun ({index, row}) {
       let run = this.rowHandle.custom
       for (let i = 0; i < run.length; i++) {
         if (run[i].text === '在用') {
-          row.curState = '在用'
+          row.activated = '在用'
         }
       }
+      // console.log(typeof row.activated)
+      // await axios.post(`/api/supervise/admins/${row.id}/activated`, {activated: new Boolean(row.activated)}).then(res => {
+      //   console.log(res)
+      // })
+    }
+    async handleReset ({index, row}) {
+      await axios.put(`/api/supervise/admins/${row.id}/reset`)
+      this.initData()
     }
   }
 </script>
