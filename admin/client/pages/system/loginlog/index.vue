@@ -4,19 +4,27 @@
     <div class="file-search">
       <el-date-picker
         size="small"
-        v-model="dataValue"
-        type="daterange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期">
+        style="width: 200px;"
+        v-model="startDate"
+        value-format="yyyy-MM-DD HH:mm:ss"
+        type="datetime"
+        placeholder="开始日期">
       </el-date-picker>
-      <el-input size="small" v-model="username" placeholder="请输入用户名"></el-input>
-      <el-button type="primary" size="small">搜索</el-button>
+      <el-date-picker
+        size="small"
+        style="width: 200px;"
+        v-model="endDate"
+        value-format="yyyy-MM-DD HH:mm:ss"
+        type="datetime"
+        placeholder="结束日期">
+      </el-date-picker>
+      <el-input size="small" v-model="inputValue" placeholder="请输入用户名"></el-input>
+      <el-button type="primary" size="small" @click="search">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="loginlogData"
       :loading="loading"
       :pagination="pagination"
       :options="options"
@@ -28,6 +36,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -35,48 +45,79 @@
     }
   })
   export default class LoginLog extends Vue {
-    dataValue = ''
-    username = ''
+    startDate = ''
+    endDate = ''
+    inputValue = ''
     columns= [
       {
         title: '用户名',
-        key: 'loginName'
+        key: 'username'
       },
       {
         title: '登陆类型',
-        key: 'loginType'
+        key: 'type'
       },
       {
         title: '登陆方式',
-        key: 'loginWay'
+        key: 'mode'
       },
       {
         title: '登陆日期',
-        key: 'loginData'
+        key: 'date'
       }
     ]
-    data= [
-      {
-        loginName: '15995600001',
-        loginType: '会员',
-        loginWay: '会员',
-        loginData: '2019-03-19 09:13:33'
-      }
-    ]
+    loginlogData= []
     loading= false
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options= {
       border: true
     }
-    mounted () {
+    beforeMount () {
+      this.initData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.initData()
+    }
+    async initData () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/loginLogs`, {params: params})
+      this.loginlogData = data.data.list
+      this.pagination.total = data.data.total
+      this.loginlogData.forEach(e => {
+        e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
+      })
+    }
+    async search () {
+      if (this.endDate === '' && this.startDate === '' && this.inputValue === '') {
+        this.$message({
+          message: '查询条件不能为空',
+          type: 'warning'
+        })
+      }
+      let params = {
+        end: this.endDate,
+        start: this.startDate,
+        username: this.inputValue,
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      await axios.get(`/api/supervise/loginLogs`, {params: params}).then(res => {
+        console.log(res)
+        // this.loginlogData = res.data.list
+      })
     }
     clear () {
-      this.dataValue = ''
-      this.username = ''
+      this.startDate = ''
+      this.endDate = ''
+      this.inputValue = ''
     }
   }
 </script>

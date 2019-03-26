@@ -15,16 +15,18 @@
       <el-tree
         :data="treeData"
         show-checkbox
+        check-on-click-node
         default-expand-all
         node-key="id"
         ref="tree"
         highlight-current
+        :default-checked-keys="defaultCheck"
         :props="defaultProps">
       </el-tree>
     </div>
     <div class="role-btn">
       <el-button @click="goback">返回</el-button>
-      <el-button type="primary" @click="goback">提交</el-button>
+      <el-button type="primary" @click="submit">提交</el-button>
     </div>
 
   </div>
@@ -33,7 +35,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -44,100 +46,63 @@
       roleName: '',
       roleDescription: ''
     }
-    treeData = [{
-      id: 1,
-      label: '药店审核',
-      children: [{
-        id: 6,
-        label: '药房审核'
-      },
-      {
-        id: 7,
-        label: '药师管理'
-      },
-      {
-        id: 8,
-        label: '配送员管理'
-      }]
-    },
-    {
-      id: 2,
-      label: '药品审核',
-      children: [{
-        id: 9,
-        label: '通用名管理'
-      },
-      {
-        id: 10,
-        label: '厂商管理'
-      },
-      {
-        id: 11,
-        label: '剂型管理'
-      },
-      {
-        id: 12,
-        label: '规格管理'
-      },
-      {
-        id: 13,
-        label: '类型管理'
-      },
-      {
-        id: 14,
-        label: '药品库管理'
-      },
-      {
-        id: 15,
-        label: '药品列表管理'
-      },
-      {
-        id: 16,
-        label: '库存流水列表'
-      },
-      {
-        id: 17,
-        label: '药品修正列表'
-      }]
-    },
-    {
-      id: 3,
-      label: '订单管理',
-      children: [{
-        id: 18,
-        label: '订单管理'
-      },
-      {
-        id: 19,
-        label: '评价管理'
-      }]
-    },
-    {
-      id: 4,
-      label: '处方管理',
-      children: [{
-        id: 20,
-        label: '处方管理'
-      }]
-    },
-    {
-      id: 5,
-      label: '系统设置',
-      children: [{
-        id: 21,
-        label: '会员管理'
-      },
-      {
-        id: 22,
-        label: '用户管理'
-      }]
-    }]
+    treeData = []
     defaultProps = {
       children: 'children',
-      label: 'label'
+      label: 'name'
+    }
+    defaultCheck = []
+    beforeMount () {
+      this.initData()
+    }
+    async initData () {
+      let id = this.$route.query.id
+      let data = await axios.get(`/api/supervise/roles/${id}`, {params: {id: id}})
+      // console.log(data)
+      this.form.roleName = data.data.name
+      this.form.roleDescription = data.data.description
+      let newArr = data.data.treeList
+      // console.log(newArr)
+      if (newArr.length > 0) {
+        newArr.forEach(item => {
+          const pid = item.pid
+          if (pid !== '') {
+            newArr.forEach(ele => {
+              if (ele.id === pid) {
+                let childArray = ele.children
+                if (!childArray) {
+                  childArray = []
+                }
+                childArray.push(item)
+                ele.children = childArray
+              }
+            })
+          }
+        })
+      }
+      this.treeData = newArr.filter(item => item.pid === null)
+      this.defaultCheck = newArr.filter(item => item.checked === true)
+      // console.log(this.defaultCheck)
+      // console.log(this.treeData)
+    }
+    async submit () {
+      // 被选中的节点组成的数组
+      let treeList = this.$refs.tree.getCheckedNodes()
+      // console.log(treeList)
+      let id = this.$route.query.id
+      let roleDTO = {
+        id: id,
+        name: this.form.roleName,
+        description: this.form.roleDescription,
+        treeList: treeList,
+        type: 'ROLE_ADMIN'
+      }
+      let data = await axios.put(`/api/supervise/roles/${id}`, roleDTO)
+      console.log(data)
+      this.$router.push('/system/role')
     }
     goback () {
-      this.$router.push('/system/role')
+      this.$router.go(-1)
     }
   }
 </script>

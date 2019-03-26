@@ -11,12 +11,12 @@
         </el-option>
       </el-select>
       <el-input-number size="small" v-model="fileNum" controls-position="right" @change="handleChange" :min="0" :max="100"></el-input-number>
-      <el-button type="primary" size="small">搜索</el-button>
+      <el-button type="primary" size="small" @click="search">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="fileData"
       :loading="loading"
       :pagination="pagination"
       :options="options"
@@ -31,7 +31,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -43,7 +43,7 @@
     columns= [
       {
         title: '名称',
-        key: 'fileName',
+        key: 'name',
         width: 320
       },
       {
@@ -52,37 +52,22 @@
       },
       {
         title: '拓展名',
-        key: 'expandName'
+        key: 'extension'
       },
       {
         title: '大小',
-        key: 'fileSize'
+        key: 'size'
       },
       {
         title: '浏览次数',
-        key: 'fileViews'
+        key: 'read'
       }
     ]
-    data= [
-      {
-        fileName: '450H6SVnRdiYaMRaxatDtA.jpeg',
-        fileType: 'LOGO',
-        expandName: 'jpeg',
-        fileSize: '3013',
-        fileViews: '1'
-      },
-      {
-        fileName: 'WExPmwOVTz-FpjInh6Jy9A.jpeg',
-        fileType: 'LOGO',
-        expandName: 'jpeg',
-        fileSize: '3013',
-        fileViews: '10'
-      }
-    ]
+    fileData = []
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options= {
@@ -120,24 +105,60 @@
         label: 'FILE'
       }
     ]
-    mounted () {
+    beforeMount () {
+      this.initData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.initData()
+    }
+    async initData () {
+      let params = {
+        endRead: '',
+        fileType: '',
+        startRead: '',
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/files`, {params: params})
+      console.log(data)
+      this.fileData = data.data.list
+      this.pagination.total = data.data.total
     }
     handleChange (value) {
       console.log(value)
     }
-    handleDownload ({index, row}) {
-      // this.$message.success(index.toString())
-      console.log(index)
-      console.log(row)
+    async handleDownload ({index, row}) {
+      let params = {
+        local: '',
+        resolution: ''
+      }
+      let data = await axios.get(`/api/supervise/files/${row.id}`, {params: params})
+      // console.log(data)
+      let alink = document.createElement('a')
+      alink.href = row.name
+      alink.download = data.data.replace(/redirect:/, '')
+      alink.click()
     }
     clear () {
       this.fileType = ''
       this.fileNum = 0
     }
-    handleRowRemove ({ index, row }, done) {
+    async search () {
+      let params = {
+        fileType: this.fileType,
+        startRead: this.fileNum,
+        endRead: this.fileNum,
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      await axios.get(`/api/supervise/files`, {params: params}).then(res => {
+        this.fileData = res.data.list
+      })
+    }
+    async handleRowRemove ({ index, row }, done) {
+      await axios.post(`/api/supervise/api/files/${row.id}`)
       setTimeout(() => {
-        // console.log(index)
-        // console.log(row)
         this.$message({
           message: '删除成功',
           type: 'success'
