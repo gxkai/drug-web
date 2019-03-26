@@ -8,10 +8,8 @@ module.exports = {
     "autoprefixer": {
       browsers: ['last 20 versions']
     },
-    'postcss-px2rem': {remUnit:72,
-      baseDpr:2,
-      rootValue: 16,
-      unitPrecision: 5,
+    'postcss-px2rem': {
+      rootValue: 36,
       propList: ['*'],
       selectorBlackList: [],
       replace: true,

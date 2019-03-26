@@ -17,7 +17,7 @@
           <div>{{ item.name }}</div>
         </div>
         <div class="repository-types--item__right">
-          <van-icon name="arrow" size="3em"></van-icon>
+          <van-icon name="arrow" size=".5rem"></van-icon>
         </div>
       </div>
       <new-no-data v-if="finished"></new-no-data>

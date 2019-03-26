@@ -6,7 +6,7 @@
           <new-wing-blank class="header">
             <div class="item item1" @click="$router.push('/addresses/choose')">
               <span class="van-ellipsis">{{ currentAddress.name }}</span>
-              <van-icon name="arrowdown" color="white" size="3em"></van-icon>
+              <van-icon name="arrowdown" color="white" size=".5rem"></van-icon>
             </div>
             <div class="item item2">
               <input
@@ -46,7 +46,7 @@
             <span></span>
           </div>
           <div class="item2">
-            <van-icon name="laba" color="#F63016" size="5em" />
+            <van-icon name="laba" color="#F63016" size="1rem" />
           </div>
           <div class="item3">
             <transition name="slide" mode="out-in">
@@ -72,7 +72,7 @@
         <div>
           <new-wing-blank class="wrapper4 van-hairline--bottom" v-if="discounts.length > 0">
             <div class="item1">
-              <new-line width="5px" height="3em" color="red" />
+              <new-line width="4px" height=".5rem" color="red" />
             </div>
             <div class="item2">
               <span>
@@ -80,7 +80,7 @@
               </span>
             </div>
             <div class="item3">
-              <van-icon name="shizhong" color="#F63016" size="3em"></van-icon>
+              <van-icon name="shizhong" color="#F63016" size=".5rem"></van-icon>
               <new-time-down></new-time-down>
             </div>
             <div class="item4">

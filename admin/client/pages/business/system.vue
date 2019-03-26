@@ -2,30 +2,31 @@
   <div class="system-wrap">
     <div class="system">
       <bread-crumb :path="$route.path"/>
-      <div class="filter">
-        <el-row :gutter="20">
-          <el-col :span="7">
-            <el-input
-              placeholder="用户名称"
-              v-model="nameValue"
-              clearable>
-            </el-input>
+      <!--<div class="filter">-->
+        <!--<el-row :gutter="20">-->
+          <!--<el-col :span="7">-->
+            <!--<el-input-->
+              <!--placeholder="用户名称"-->
+              <!--v-model="nameValue"-->
+              <!--clearable>-->
+            <!--</el-input>-->
 
-            <el-button size="small" type="primary">搜索</el-button>
-            <el-button size="small">清空</el-button>
-          </el-col>
-        </el-row>
-      </div>
+            <!--<el-button size="small" type="primary" @click="searchMsg">搜索</el-button>-->
+            <!--<el-button size="small" @click="nameValue = ''">清空</el-button>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
+      <!--</div>-->
 
       <div class="list">
         <d2-crud
           :columns="columns"
-          :data="data"
+          :data="msgList"
           :loading="loading"
           :pagination="pagination"
+          @pagination-current-change="paginationCurrentChange"
           :options="options"
           :rowHandle="rowHandle"
-          @row-remove="handleRowRemove"
+          @row-remove="removeMsg"
         />
       </div>
     </div>
@@ -36,6 +37,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -49,7 +52,7 @@
     columns= [
       {
         title: '消息类型',
-        key: 'msgType'
+        key: 'type'
       },
       {
         title: '标题',
@@ -57,23 +60,17 @@
       },
       {
         title: '创建时间',
-        key: 'createTime'
+        key: 'createdDate'
       }
     ];
 
-    data = [
-      {
-        msgType: '商家系统消息',
-        title: '订单号：2019030411255...',
-        createTime: '2019-03-11 16:00:09'
-      }
-    ];
+    msgList = [];
 
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
-      total: this.data.length
+      pageSize: 15,
+      total: 0
     };
     options= {
       border: true
@@ -86,19 +83,38 @@
       }
     };
 
-    handleRowRemove ({ index, row }, done) {
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
+    async removeMsg ({row}, done) {
+      await axios.delete(`/api/supervise/messages/${row.id}`)
+
+      this.$message({
+        message: '删除成功',
+        type: 'success'
+      })
+      done()
+      this.getMessage()
+    }
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getMessage()
+    }
+
+    async getMessage () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      let {data: message} = await axios.get('/api/supervise/messages', {params})
+
+      this.msgList = message.list
+      this.msgList.forEach(e => {
+        e.createdDate = moment(e.createdDate).format('YYYY-MM-DD HH:mm:ss')
+      })
+      this.pagination.total = message.total
     }
 
     mounted () {
+      this.getMessage()
     }
   }
 </script>

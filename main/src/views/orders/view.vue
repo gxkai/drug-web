@@ -1,9 +1,6 @@
 <template>
-
   <div>
-    <new-layout
-      class="order_view"
-    >
+    <new-layout>
       <template slot="top">
         <van-nav-bar
           :title="$route.meta.name"
@@ -12,359 +9,414 @@
         />
       </template>
       <template slot="center">
-        <div class="order_view-state">
-          <div class="order_view-state_name" v-text="transformOrderState(order.state, order.refundState, this)+ '>'"
-               @click="popup = !popup ">
+        <new-wing-blank class="wrapper1">
+          <div class="line1">
+            <span>
+              {{$t(order.state)}}
+            </span>
           </div>
-          <new-count-down :endTime="order.lastModifiedDate" durationMin='15'
-                          class="order_view-state_time"
-                          v-show="order.state === 'TO_CHECK' || order.state === 'TO_PAY'"/>
-        </div>
-        <div class="order_view-address"
-             v-if="order.deliveryType === 'DELIVERY'">
-          <div class="order_view-address-left">
-            <van-icon name="location" size="3em"/>
+          <div class="line2">
+            <span v-if="order.state==='TO_PAY'">
+              超过<i>30分钟</i>未支付，订单将自动取消
+            </span>
+            <span v-if="order.state==='TO_DELIVERY'">
+              医保不支持在线退单，如需退款请到备货门店自行退。
+            </span>
           </div>
-          <div class="order_view-address-right">
-            <div class="order_view-address-right_consignee">
-              收货人：{{order.consignee}} {{order.phone}}
-            </div>
-            <div class="order_view-address-right_address">
-              收货地址：{{order.address}}
-            </div>
+          <div class="line3" v-if="order.state==='TO_PAY'">
+            <span>
+               {{leftTime|countTimeConvert}}
+            </span>
           </div>
-        </div>
+          <new-white-space size="1rem"/>
+          <div class="line4">
+            <new-button
+              fontSize="2em"
+              color="#666666"
+              borderColor="#666666"
+              backgroundColor="white"
+              name="取消订单"
+              v-if="order.state==='TO_PAY'"
+              @click.native="onCancel"
+            />
+            <new-button
+              fontSize="2em"
+              color="#666666"
+              borderColor="#666666"
+              backgroundColor="white"
+              name="去付款"
+              v-if="order.state==='TO_PAY'"
+              @click.native="onPay"
+            />
+            <!--<new-button-->
+              <!--fontSize="2em"-->
+              <!--color="#666666"-->
+              <!--borderColor="#666666"-->
+              <!--backgroundColor="white"-->
+              <!--name="申请退款"-->
+              <!--v-if="order.state == 'TO_DELIVERY' && order.medicaid === true"-->
+              <!--@click.native="onRefund"-->
+            <!--/>-->
+            <new-button
+              fontSize="2em"
+              color="#666666"
+              borderColor="#666666"
+              backgroundColor="white"
+              name="确认收货"
+              v-if="order.state == 'TO_RECEIVED'"
+              @click.native="onConfirm"
+            />
+            <new-button
+              fontSize="2em"
+              color="#666666"
+              borderColor="#666666"
+              backgroundColor="white"
+              name="查看配送"
+              v-if="order.deliveryType == 'DELIVERY'"
+              @click.native="onDelivery"
+            />
+            <new-button
+              fontSize="2em"
+              color="#666666"
+              borderColor="#666666"
+              backgroundColor="white"
+              name="我要评价"
+              v-if="order.state == 'TO_APPRAISE'"
+              @click.native="onAppraise"
+            />
+          </div>
+        </new-wing-blank>
         <new-white-space/>
-        <new-order-view-item :order.sync="order"></new-order-view-item>
-
-        <div class="order_view-money">
-          <ul>
-            <li>实付金额：<span class="order-view-money_red">¥{{order.payAmount||0}}</span></li>
-            <li>商品金额：<span class="order-view-money_red">¥{{order.totalAmount||0}}</span></li>
-            <li>医保扣除：<span class="order-view-money_red">¥{{order.medicaidAmount||0}}</span></li>
-          </ul>
-        </div>
-
-
-        <div class="order_view-address" v-if="order.deliveryType === 'DELIVERY'">
-          <ul>
-            <li>配送信息</li>
-            <li>收货地址：<span class="order_view-address-detail">{{order.address}}</span></li>
-            <li>收货人：<span class="order_view-address-detail">{{order.consignee}}</span></li>
-            <li>收货电话：<span class="order_view-address-detail">{{order.phone}}</span></li>
-            <li>配送方式：<span class="order_view-address-detail">商家配送</span></li>
-          </ul>
-        </div>
-
-
-        <div class="order_view-address">
-          <ul>
-            <li>订单信息</li>
-            <li>订单编号：<span class="order_view-address-detail">{{order.number}}</span></li>
-            <li>支付编号：<span class="order_view-address-detail"></span></li>
-            <li>医保结算编号：<span class="order_view-address-detail"></span></li>
-            <li>下单时间：<span class="order_view-address-detail">{{timeConvert(order.createdDate)}}</span></li>
-            <li>备注信息: <span class="order_view-address-detail">{{order.accountRemark}}</span></li>
-          </ul>
-        </div>
-        <div class="order_view-buttons">
-          <div class="order_view-button"
-               @click="onCancel()"
-               v-if="order.state == 'TO_PAY'">
-            取消订单
+        <new-left-title :text="shop.name" textColor="black"/>
+        <new-wing-blank class="wrapper2">
+          <div class="line line1">
+            <van-icon name="shijian2" size=".5rem"/>
+            <span>营业时间：{{shop.openTime}}-{{shop.closeTime}}</span>
           </div>
-          <div class="order_view-button activeButton"
-               @click="onPay()"
-               v-if="order.state == 'TO_PAY'"
-          >
-            我要付款
+          <div class="line line2">
+            <van-icon name="location" size=".5rem"/>
+            <span>{{shop.address}}</span>
           </div>
-          <div class="order_view-button activeButton"
-               @click="onConfirm()"
-               v-if="order.state == 'TO_RECEIVED'"
-          >
-            确认收货
+          <new-white-space />
+          <div class="line line3" @click="onCall()">
+            <van-icon name="phone" size=".5rem" color="#FF0000"/>
+            <span>
+              拨打药房电话
+            </span>
           </div>
-          <div class="order_view-button"
-               @click="onDelivery()"
-               v-if="order.deliveryType == 'DELIVERY' && (order.state == 'TO_RECEIVED' ||order.state ==  'TO_APPRAISE' ||order.state ==  'COMPLETED' ||order.state ==  'REFUNDING')">
-            查看配送
+        </new-wing-blank>
+        <new-white-space/>
+        <new-left-title text="订单详情" textColor="black"/>
+        <new-wing-blank class="wrapper3">
+          <div class="line line1">
+            <span>
+              订单编号：{{order.number}}
+            </span>
           </div>
-          <div class="order_view-button"
-               @click="onAppraise()"
-               v-if="order.state == 'TO_APPRAISE'">
-            我要评价
+          <div class="line line2">
+            <span>
+              支付编号：{{order.payNumber}}
+            </span>
           </div>
-          <div @click="linkToTakeDrug(order.id)"
-               v-if="order.state == 'TO_RECEIVED' && order.type === 'HOSPITAL'">取药地址
+          <div class="line line3">
+            <span>
+              配送方式：{{$t(order.deliveryType)}}
+            </span>
           </div>
-        </div>
-        <!--<van-popup-->
-        <!--v-model="popupVisible"-->
-        <!--position="top"-->
-        <!--&gt;-->
-        <!--<img v-lazy="getQrCodeURL(order.id)" class="order_view-qr_code">-->
-        <!--</van-popup>-->
+          <div class="line line4">
+            <span>
+              支付方式：{{$t(order.payType)}}
+            </span>
+          </div>
+          <div class="line line5">
+            <span>
+              下单时间：{{order.createdDate|timeConvert}}
+            </span>
+          </div>
+          <div class="line line6">
+            <span>
+              买家留言：{{order.accountRemark}}
+            </span>
+          </div>
+        </new-wing-blank>
+        <new-white-space/>
+        <new-left-title text="商品详情" textColor="black"/>
+        <new-drug v-for="(item, index) in order.list" :key="index" :item="item"/>
+        <new-wing-blank class="wrapper5 van-hairline--top">
+          <div class="line line1">
+            <span>
+              商品总金额
+            </span>
+            <span>
+              ¥{{order.totalAmount}}
+            </span>
+          </div>
+          <div class="line line2">
+            <span>
+              医保扣除
+            </span>
+            <span>
+              ¥{{order.medicaidAmount}}
+            </span>
+          </div>
+          <div class="line line3">
+            <span>
+              实付金额
+            </span>
+            <span>
+              ¥{{order.payAmount}}
+            </span>
+          </div>
+        </new-wing-blank>
       </template>
     </new-layout>
-
-    <van-popup
-      v-model="popup"
-      position="center">
-      <van-steps :active="actives" direction="vertical" active-color="#FF0000">
-        <van-step v-for="(time, index) in timeLine" :key="index">
-          <!--<span class="step__title" :class="{step__title_order:index===0}">{{time.message}}</span>-->
-          <!--<span class="fr step__title step__title_fr">{{timeConvert(time.createdDate)}}</span>-->
-          <div class="step">
-            <div>{{time.message}}</div>
-            <div>{{timeConvert(time.createdDate)}}</div>
-          </div>
-        </van-step>
-      </van-steps>
+    <van-popup v-model="show" position="bottom" class="pop">
+      <new-wing-blank class="container">
+        <div class="title">
+          <span>
+            选择退款原因
+          </span>
+        </div>
+        <div class="item" v-for="(item, index) in reasons" :key="index" @click="reason=item">
+          <span>
+            {{item}}
+          </span>
+          <new-radio :radio="reason === item"/>
+        </div>
+      </new-wing-blank>
+      <div class="button">
+          <span>
+            确认
+          </span>
+      </div>
     </van-popup>
-    <div class="closed" v-model="popup">
-      <van-icon name="guanbi2" size="3em" @click="popup=!popup" class="guanbi2"/>
-    </div>
   </div>
 
 </template>
 
 <style scoped type="text/scss" lang="scss">
-  .step {
-    display: flex;
-    justify-content: space-between;
-    * {
-      font-size: 25px;
-    }
-  }
-
-  .activeButton {
-    color: $themeColor !important;
-    border-color: $themeColor !important;
-  }
-
-  [class*=van-hairline]::after {
-    border: none !important;
-  }
-
-  .closed {
-    text-align: center;
-  }
-
-  .guanbi2 {
-    position: absolute;
-    color: white;
-    z-index: 99999;
-    top: 1100px;
-    text-align: center;
-    margin: auto;
-  }
-
-  .van-step__circle-container .van-icon {
-    font-size: 35px !important;
-  }
-
-  .van-step--vertical.van-step--process .van-icon-checked {
-    font-size: 26px !important;
-    margin-right: 4px;
-  }
-
-  .van-steps {
-    width: 616px;
-    height: 704px;
-    font-size: 24px;
-    padding: 58px;
-  }
-
-  .van-hairline {
-    height: 103px;
-  }
-
-  .fr {
-    float: right
-  }
-
-  .order_close {
-    text-align: center;
-    padding-bottom: 20px;
-  }
-
-  .order_view {
-
-    &-state {
-      position: relative;
-      width: 100%;
-      height: 120px;
-      background: $themeColor;
-      font-weight: bold;
-      font-size: 35px;
-      &_name {
-        position: absolute;
-        left: 53px;
-        top: 35px;
-        font-size: 30px;
-        color: white;
-        font-weight: 200;
-      }
-      &_time {
-        position: absolute;
-        left: 150px;
-        top: 90px;
-        font-size: 25px;
-        color: white;
-      }
-    }
-    &-address {
-      display: flex;
-      align-items: center;
-      padding: 20px 0;
-      &-left {
-        padding: 20px;
-        .iconfont {
-          color: black;
-          font-size: 50px;
+  .pop {
+    .container {
+      display: grid;
+      grid-row-gap: 30px;
+      .title {
+        justify-self: center;
+        span {
+          font-size:30px;
+          font-weight:400;
         }
       }
-      &-right {
-        width: 550px;
-        & > div {
-          padding: 2px 0;
-          font-size: 25px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-      }
-    }
-    &-deal {
-      padding: 20px;
-      background-color: #f5f5f5;
-      & > div {
-        padding: 5px;
-        font-size: 25px;
-      }
-    }
-    &-amount {
-      width: 100%;
-      background-color: #f5f5f5;
-      margin: 20px 0;
-      & > div {
+      .item {
         display: flex;
         justify-content: space-between;
-        padding: 5px 20px;
-        font-size: 25px;
-        & > span {
-          font-size: 25px;
+        span {
+          font-size:24px;
+          font-weight:400;
         }
       }
     }
-    &-buttons {
-      background-color: white;
-      padding: 20px;
+    .button {
+      margin-top: 50px;
+      background-color: $themeColor;
       display: flex;
-      justify-content: flex-end;
-      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px 0;
+      span {
+        font-size:30px;
+        font-weight:400;
+        color:white;
+      }
     }
-    &-button {
-      border: 1PX solid #BFBFBF;
-      border-radius: 20PX;
-      padding: 5px 20px;
-      color: #555555;
-      font-size: 25px;
-      margin: 5px;
+  }
+  .wrapper5 {
+    background-color: white;
+    display: grid;
+    align-content: space-evenly;
+    height: 200px;
+    .line {
+      display: flex;
+      justify-content: space-between;
+      span {
+        font-size:20px;
+        font-weight:400;
+        &:nth-child(2) {
+          color: $themeColor;
+        }
+      }
     }
-    &-qr_code {
-      width: 500px;
-      height: 500px;
-      margin: 0 110px;
-    }
-    &-money {
-      background: white;
-      padding-top: 20px;
-      border-top: 10px solid #f3f3f3;
-      ul {
-        li {
-          font-size: 24px;
-          text-indent: 22px;
-          height: 35px;
-          line-height: 35px;
-          span {
-            font-size: 24px;
+  }
+  .wrapper4 {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    background-color: white;
+    .right {
+      display: grid;
+      align-content: space-evenly;
+      .line {
+        display: flex;
+        justify-content: space-between;
+      }
+      .line1 {
+        span {
+          font-size:20px;
+          font-weight:400;
+          &:nth-child(2) {
             color: $themeColor;
           }
         }
       }
-    }
-    &-money_red {
-      color: $themeColor;
-    }
-    &-address {
-      background: white;
-      text-indent: 20px;
-      ul {
-        width: 720px;
-        border-top: 10px solid #f3f3f3;
-        li {
-          font-size: 24px;
-          height: 35px;
-          line-height: 35px;
-          color: #666666;
-        }
-        li:first-child {
-          height: 55px;
-          line-height: 55px;
-          font-weight: bold;
-          color: #333333;
+      .line2 {
+        span {
+          font-size:20px;
+          color: $greyColorLighter;
         }
       }
-      &-detail {
-        float: right;
+      .line3 {
+        span {
+          font-size:20px;
+          font-weight:400;
+          &:nth-child(1) {
+            color: $themeColor;
+          }
+          &:nth-child(2) {
+            color: $greyColorLighter;
+          }
+        }
+      }
+    }
+  }
+  .wrapper3 {
+    background-color: white;
+    display: grid;
+    grid-row-gap: 20px;
+    .line {
+      span {
+        color: $greyColor;
+        font-size:23px;
+        font-weight:400;
+      }
+    }
+  }
+  .wrapper2 {
+    background: white;
+    display: grid;
+    .line1, .line2 {
+      span {
+        font-size:24px;
+        font-weight:400;
+        color: $greyColor;
+      }
+    }
+    .line2 {
+      margin-top: 10px;
+    }
+    .line3 {
+      justify-self: center;
+      margin-top: 10px;
+      span {
+        font-size: 23px;
+        margin-left: 10px;
+      }
+    }
+  }
+  .wrapper1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    .line1 {
+      span {
+        color: $themeColor;
+        font-size: 36px;
+        font-weight: bold;
+      }
+    }
+    .line2 {
+      span {
         font-size: 24px;
-        margin-right: 14px;
-        color: #666666;
+        color: $greyColorLighter;
+        i {
+          color: $themeColor;
+          font-style: normal;
+          font-size: 24px;
+        }
       }
     }
+    .line3 {
+      span {
+        color: $greyColorLighter;
+        font-size: 24px;
+        font-weight: 400;
+      }
+    }
+    .line4 {
+      align-self: stretch;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
   }
-
-  .van-step__title {
-    font-size: 50px !important;
-  }
-
-  .van-steps .van-icon {
-    font-size: 35px !important;
-  }
-
 </style>
 
 <script>
   export default {
     data() {
       return {
-        actives: 0,
-        popup: false,
         title: '订单详情',
         orderId: this.$route.params.orderId,
-        popupVisible: false,
+        show: false,
         order: {},
-        activeButton: {
-          color: '#00ADB3',
-          borderColor: '#00ADB3'
-        },
-        timeLine: {}
+        timeLine: {},
+        leftTime: 0,
+        reasons: [
+          '商品降价',
+          '质量问题',
+          '商品损坏',
+          '缺少件',
+          '其他原因'
+        ],
+        reason: '',
+        timer: '',
+        shop: {}
       };
     },
     components: {},
-    computed: {},
+    computed: {
+    },
     created() {
       this.initData();
     },
     mounted() {
     },
+    beforeDestroy() {
+      clearTimeout(this.timer);
+    },
     methods: {
+      countTime() {
+        // 获取当前时间
+        var date = new Date();
+        var now = date.getTime();
+        // 设置截止时间
+        var endDate = new Date(this.order.lastModifiedDate + 15 * 3600);
+        var end = endDate.getTime();
+        // 时间差
+        var leftTime = end - now;
+        if (leftTime > 0) {
+          this.timer = setTimeout(this.countTime, 1000);
+          this.leftTime = leftTime;
+        } else {
+          this.leftTime = '倒计时结束';
+        }
+      },
+      onCall() {
+        window.location.href = `tel:${this.order.shopPhone}`;
+      },
       async initData() {
         this.$loading();
         this.order = await this.$http.get(`/orders/${this.orderId}`);
         console.log(this.order);
+        this.countTime();
+        this.shop = await this.$http.get(`/shops/${this.order.shopId}`);
         this.timeLine = await this.$http.get(`/orders/${this.orderId}/logs`);
         console.log(this.timeLine);
       },
@@ -373,10 +425,7 @@
         this.order.state = 'CLOSED';
       },
       async onPay() {
-        if (this._.isEmpty(this.order.payUrl)) {
-          this.order.payUrl = await this.$http.get(`/orders/${this.order.id}/pay`);
-        }
-        window.location.href = this.order.payUrl;
+        window.location.href = await this.$http.get(`/orders/${this.order.id}/pay`);
       },
       onRefund() {
         this.$router.push({ name: '/orderRefunds/create', params: { orderId: this.order.id } });

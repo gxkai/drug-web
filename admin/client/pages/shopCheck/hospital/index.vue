@@ -4,14 +4,15 @@
       <div class="hospital-search">
         <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
         <el-input v-model="hospitalNameValue" size="small" placeholder="请输入医院名称" style="width: 200px;"></el-input>
-        <el-button type="primary" size="small">搜索</el-button>
+        <el-button type="primary" size="small" @click="searchHospital">搜索</el-button>
         <el-button size="small" @click="clear">清空</el-button>
       </div>
       <d2-crud
         :columns="columns"
-        :data="data"
+        :data="hospitalData"
         :loading="loading"
         :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
         :options="options"
         :rowHandle="rowHandle"
         @emit-detail="handleDetailEvent"
@@ -26,6 +27,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
 
   @Component({
     components: {
@@ -37,60 +39,35 @@
     columns= [
       {
         title: '医院编码',
-        key: 'hospitalId',
+        key: 'code',
         width: 240
       },
       {
         title: '医院趣医编码',
-        key: 'hospitalQyid'
+        key: 'qyCode'
       },
       {
         title: '医院名称',
-        key: 'hospitalName'
+        key: 'introduction'
       },
       {
         title: '经度',
-        key: 'hospitalLng'
+        key: 'lng'
       },
       {
         title: '纬度',
-        key: 'hospitalLat'
+        key: 'lat'
       },
       {
         title: '当前状态',
         key: 'curState'
       }
     ];
-    data= [
-      {
-        hospitalId: '123',
-        hospitalQyid: '456',
-        hospitalName: '第一人民医院',
-        hospitalLng: '121.023',
-        hospitalLat: '30.456',
-        curState: '在业'
-      },
-      {
-        hospitalId: '123',
-        hospitalQyid: '456',
-        hospitalName: '第三人民医院',
-        hospitalLng: '121.023',
-        hospitalLat: '30.456',
-        curState: '停业'
-      },
-      {
-        hospitalId: '123',
-        hospitalQyid: '456',
-        hospitalName: '第三人民医院',
-        hospitalLng: '121.023',
-        hospitalLat: '30.456',
-        curState: '停业'
-      }
-    ];
+    hospitalData = [];
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     };
     options= {
@@ -140,16 +117,45 @@
         }
       ]
     };
-    mounted () {
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getHospitals()
     }
-    handleDetailEvent () {
-      this.$router.push('/shopCheck/hospital/detail')
+
+    handleDetailEvent ({row}) {
+      this.$router.push({
+        path: '/shopCheck/hospital/detail',
+        query: {
+          id: row.id
+        }
+      })
     }
+
+    // 编辑
+    handleEditEvent ({row}) {
+      this.$router.push({
+        path: '/shopCheck/hospital/edit',
+        query: {
+          id: row.id
+        }
+      })
+    }
+
+    // 新增
+    addRow () {
+      this.$router.push('/shopCheck/hospital/create')
+    }
+
     handleStopEvent ({index, row}) {
+      console.log(index)
+      console.log(row)
       let stop = this.rowHandle.custom
       for (let i = 0; i < stop.length; i++) {
         if (stop[i].text === '开业') {
           row.curState = '停业'
+          row.deleted = true
+          this.saveStatus(row)
         }
       }
     }
@@ -158,17 +164,52 @@
       for (let i = 0; i < run.length; i++) {
         if (run[i].text === '停业') {
           row.curState = '在业'
+          row.deleted = false
+          this.saveStatus(row)
         }
       }
     }
-    handleEditEvent () {
-      this.$router.push('/shopCheck/hospital/detail')
+
+    // 存储当前状态
+    async saveStatus (row) {
+      let params = {
+        deleted: row.deleted
+      }
+      let putRes = await axios.put(`/api/supervise/hospitals/${row.id}`, params)
+      console.log(putRes)
     }
-    addRow () {
-      this.$router.push('/shopCheck/hospital/create')
-    }
+
     clear () {
       this.hospitalNameValue = ''
+    }
+
+    searchHospital () {
+      this.getHospitals(this.hospitalNameValue)
+    }
+
+    async getHospitals (hName) {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        name: hName.trim()
+      }
+      let {data: hRes} = await axios.get(`/api/supervise/hospitals`, {params})
+      console.log(hRes)
+
+      this.hospitalData = hRes.list
+      this.pagination.total = hRes.total
+
+      this.hospitalData.forEach(item => {
+        if (!item.deleted) {
+          item.curState = '在业'
+        } else {
+          item.curState = '停业'
+        }
+      })
+    }
+
+    mounted () {
+      this.getHospitals()
     }
   }
 </script>

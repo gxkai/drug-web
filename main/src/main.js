@@ -8,7 +8,8 @@ import component from './components';
 import http from './http';
 import api from './api';
 import storage from 'good-storage';
-import './plugins/flex';
+// import './plugins/flex';
+import 'lib-flexible';
 import VueAwesomeSwiper from './plugins/vue-awesome-swiper';
 import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
@@ -17,10 +18,9 @@ import './icons/iconfont.css';
 import './icons/vanIcon.css';
 import './plugins/vconsole';
 import _ from 'lodash';
-import './plugins/vue-event-calendar/dist/style.css';
-import vueEventCalendar from './plugins/vue-event-calendar';
 import animate from 'animate.css';
 import directive from './directives';
+import VueI18n from 'vue-i18n';
 import { Step,
   Steps,
   Actionsheet,
@@ -64,6 +64,7 @@ import { Step,
   Picker } from 'vant';
 import router from './router';
 import Navigation from 'vue-navigation';
+Vue.use(VueI18n);
 Vue.use(directive);
 Vue.use(animate);
 Vue.use(Navigation, { router });
@@ -112,7 +113,6 @@ Vue.use(Actionsheet).use(GoodsAction)
     loading: require('./assets/image/lazyLoad/loading.gif'),
     attempt: 0
   });
-Vue.use(vueEventCalendar, { locale: 'zh', className: '' });
 Vue.prototype.$http = http;
 Vue.prototype.$api = api;
 Vue.prototype.$storage = storage;
@@ -132,10 +132,19 @@ fastclick.attach(document.body);
  * 过滤器
  */
 Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
-
+/**
+ * 多语言
+ */
+const i18n = new VueI18n({
+  locale: 'zh',
+  messages: {
+    'zh': require('./lang/zh')
+  }
+});
 /* eslint-disable no-new */
 export default new Vue({
   el: '#app',
+  i18n,
   router,
   store,
   components: { App },

@@ -9,14 +9,15 @@
       <div class="list">
         <d2-crud
           :columns="columns"
-          :data="data"
+          :data="feedbackList"
           :loading="loading"
           :pagination="pagination"
+          @pagination-current-change="paginationCurrentChange"
           :options="options"
           :rowHandle="rowHandle"
-          @view-emit = 'viewEvent'
+          @view-emit='viewEvent'
           @feedback-emit="feedBackDialog"
-          @view-image-emit = 'viewImage'/>
+          @view-image-emit='viewImage'/>
       </div>
 
       <!-- 回复模态框 -->
@@ -24,7 +25,7 @@
         title="回复"
         :visible.sync="isShowFeedBackDialog"
         width="30%"
-        :close-on-click-modal = 'isClickModal'>
+        :close-on-click-modal='isClickModal'>
         <div class="feedCon">
           <el-input
             type="textarea"
@@ -35,7 +36,7 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="isShowFeedBackDialog = false">取 消</el-button>
-          <el-button type="primary" @click="isShowFeedBackDialog = false">确 定</el-button>
+          <el-button type="primary" @click="confirm">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -48,25 +49,25 @@
         <div class="main">
           <el-form :model="viewData" label-width="100px">
             <el-form-item label="序号">
-              <el-input v-model="viewData.num" readonly></el-input>
+              <el-input v-model="viewData.index" readonly></el-input>
             </el-form-item>
             <el-form-item label="用户名">
               <el-input v-model="viewData.name" readonly></el-input>
             </el-form-item>
             <el-form-item label="提交时间">
-              <el-input v-model="viewData.submitTime" readonly></el-input>
+              <el-input v-model="viewData.createdDate" readonly></el-input>
             </el-form-item>
             <el-form-item label="内容">
               <el-input v-model="viewData.content" readonly></el-input>
             </el-form-item>
             <el-form-item label="状态">
-              <el-input v-model="viewData.status" readonly></el-input>
+              <el-input v-model="viewData.processed ? '已处理' : '未处理'" readonly></el-input>
             </el-form-item>
             <el-form-item label="处理人">
-              <el-input v-model="viewData.processer" readonly></el-input>
+              <el-input v-model="viewData.adminName" readonly></el-input>
             </el-form-item>
             <el-form-item label="回复内容">
-              <el-input v-model="viewData.replyContent" readonly></el-input>
+              <el-input v-model="viewData.remark" readonly></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -82,6 +83,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -90,70 +93,45 @@
   })
   export default class Feedback extends Vue {
     feedbackData = ''
+    rowData = {}
     columns= [
       {
         title: '序号',
-        key: 'num',
-        width: '120'
+        key: 'index'
       },
       {
         title: '用户名',
-        key: 'name',
-        width: '120'
+        key: 'name'
       },
       {
         title: '提交时间',
-        key: 'submitTime',
-        width: '200'
+        key: 'createdDate'
       },
       {
         title: '内容',
-        key: 'content',
-        width: '320'
+        key: 'content'
       },
       {
         title: '状态',
-        key: 'status',
-        width: '120'
+        key: 'processed'
       },
       {
         title: '处理人',
-        key: 'processer',
-        width: '120'
+        key: 'adminName'
       },
       {
         title: '回复内容',
-        key: 'replyContent',
-        width: '320'
+        key: 'remark'
       }
     ];
 
-    data = [
-      {
-        num: '1',
-        name: '1',
-        submitTime: '1',
-        content: 'fffff',
-        status: '1',
-        processer: '2',
-        replyContent: '2'
-      },
-      {
-        num: '1',
-        name: '1',
-        submitTime: '1',
-        content: 'img',
-        status: '1',
-        processer: '2',
-        replyContent: '2'
-      }
-    ];
+    feedbackList = [];
 
     loading = false;
 
     pagination = {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     };
 
@@ -185,28 +163,75 @@
     viewData = {}
     isClickModal = false
     isShowViewDialog = false
-    viewEvent ({index, row}) {
+
+    // 查看
+    viewEvent (data) {
       this.isShowViewDialog = true
-      this.viewData.num = row.num
-      this.viewData.name = row.name
-      this.viewData.submitTime = row.submitTime
-      this.viewData.content = row.content
-      this.viewData.status = row.status
-      this.viewData.processer = row.processer
-      this.viewData.replyContent = row.replyContent
+      this.viewData.index = data.index + 1
+      this.viewData.id = data.row.id
+      this.viewData.name = data.row.name
+      this.viewData.createdDate = data.row.createdDate
+      this.viewData.content = data.row.content
+      this.viewData.processed = data.row.processed
+      this.viewData.adminName = data.row.adminName
+      this.viewData.remark = data.row.remark
     }
 
     // 模态框参数
     isShowFeedBackDialog = false; // 模态框开启状态
-    feedBackDialog ({index, row}) {
+    feedBackDialog ({row}) {
       this.isShowFeedBackDialog = true
+      // console.log(row.id)
+      this.rowData = row
+    }
+
+    // 回复
+    async confirm () {
+      let params = {
+        adminId: '2',
+        processed: true,
+        remark: this.feedbackData
+      }
+      await axios.post(`/api/supervise/feedbacks/${this.rowData.id}`, params)
+      this.$message({
+        message: '回复成功',
+        type: 'success'
+      })
+      this.isShowFeedBackDialog = false
+      this.feedbackData = ''
+      this.getFeedbacks()
     }
 
     viewImage ({index, row}) {
 
     }
 
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getFeedbacks()
+    }
+
+    async getFeedbacks () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+
+      let {data: feedbacks} = await axios.get(`/api/supervise/feedbacks`, {params})
+      // console.log(feedbacks)
+
+      this.feedbackList = feedbacks.list
+      this.pagination.total = feedbacks.total
+
+      this.feedbackList.forEach((item, index) => {
+        item.index = index + 1
+        item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
+        item.processed = item.remark ? 'true' : 'false'
+      })
+    }
+
     mounted () {
+      this.getFeedbacks()
     }
   }
 </script>

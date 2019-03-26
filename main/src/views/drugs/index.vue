@@ -3,11 +3,11 @@
     <new-layout class="drugs">
       <template slot="top">
         <div class="drugs-header">
-          <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
+          <van-icon name="arrow-left" class="drugs-header__left" size=".5rem" color="white" @click="$router.go(-1)"></van-icon>
           <form action="" onsubmit="return false;">
             <input v-model.trim="keyword" class="iconfont drugs-header__input" :placeholder="searchIcon" @keypress="search" type="search">
           </form>
-          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="onRefresh()"></van-icon>
+          <van-icon name="sousuo" class="drugs-header__right" size=".5rem" color="white" @click="onRefresh()"></van-icon>
         </div>
         <div class="drugs-filter">
           <div class="drugs-filter-item" @click="OrderById()" :class="{ red:activeRed == 1}">

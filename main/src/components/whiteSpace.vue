@@ -12,7 +12,7 @@
     },
     props: {
       size: {
-        default: '1em'
+        default: '.2rem'
       },
       color: {
         default: '#f5f5f5'

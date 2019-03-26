@@ -11,7 +11,7 @@
        <div  class="elps rx_shop_tel">电话：{{item.phone}}</div>
        <div  class="elps rx_shop_tel">价格：¥{{item.amount}}</div>
        <div  class="elps rx_shop_tel">距当前位置：{{item.distance | meter}}
-          <span class="rx_shop_address"> <van-icon name="dizhi" size="2em" color="#a6a6a6"></van-icon></span>
+          <span class="rx_shop_address"> <van-icon name="dizhi" size=".5rem" color="#a6a6a6"></van-icon></span>
        </div>
     </div>
    <!-- <div class="rx_shop_item-left">

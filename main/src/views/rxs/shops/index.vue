@@ -5,7 +5,7 @@
     <template slot="top">
       <div class="shops-header drugs">
        <div class="drugs-header">
-          <van-icon name="arrow-left" class="drugs-header__left" size="2.5em" color="white" @click="$router.go(-1)"></van-icon>
+          <van-icon name="arrow-left" class="drugs-header__left" size=".5rem" color="white" @click="$router.go(-1)"></van-icon>
          <form action="" onsubmit="return false;">
            <input
              class="iconfont drugs-header__input"
@@ -14,7 +14,7 @@
              type="search"
              @keypress="search">
          </form>
-          <van-icon name="sousuo" class="drugs-header__right" size="3em" color="white" @click="search(shopName)"></van-icon>
+          <van-icon name="sousuo" class="drugs-header__right" size=".5rem" color="white" @click="search(shopName)"></van-icon>
         </div>
    </div>
       <div class="shops-filter">

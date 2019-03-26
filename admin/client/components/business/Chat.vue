@@ -208,6 +208,16 @@
         }
       }
 
+      .title{
+        padding: 0 20px;
+        margin: 0 10px 20px;
+        border-bottom: 1px solid #E9E9E9;
+
+        h3{
+          margin-bottom: 10px;
+        }
+      }
+
       textarea{
         border: none;
         outline: none;

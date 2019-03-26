@@ -12,12 +12,12 @@
         <div class="shop-info__part-1">
           <img v-lazy="getImgURL(shopInfo.logo, 'LARGE_LOGO')">
           <span>{{shopInfo.name}}</span>
-          <van-icon name="anquan" color="#FFFFFF" size="5em"></van-icon>
+          <van-icon name="anquan" color="#FFFFFF" size=".8rem"></van-icon>
         </div>
         <div class="shop-info__part-2" @click="onLocation">
           <span class="shop-info__part-2__span-name">门店地址:</span>
           <span class="shop-info__part-2__span-address">{{shopInfo.address}}</span>
-          <van-icon name="location" size="2em" class="shop-info__part-2__location" color="blue" v-bounce-column/>
+          <van-icon name="location" size=".5rem" class="shop-info__part-2__location" color="blue" v-bounce-column/>
         </div>
         <div class="shop-info__part-3" style="display: none;">
           <div class="shop-info__part-3__header van-hairline--bottom">

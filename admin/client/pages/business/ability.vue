@@ -1,6 +1,6 @@
 <template>
-  <div class="advert-wrap">
-    <div class="advert">
+  <div class="ability-wrap">
+    <div class="ability">
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>功能区管理</h3>
@@ -283,10 +283,10 @@
 </script>
 
 <style lang="scss">
-  .advert-wrap{
+  .ability-wrap{
     padding: 20px;
 
-    .advert{
+    .ability{
       min-height: 850px;
       background: #FFF;
       border-radius: 5px;

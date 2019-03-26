@@ -9,7 +9,7 @@
         <div class="order_item-title-left_name" v-text="order.shopName"></div>
       </div>
       <div class="order_item-title-right"
-           v-text="transformOrderStateSec(order.state, order.refundState, this)">
+           v-text="$t(order.state)">
       </div>
     </div>
     <div class="order_item-content">

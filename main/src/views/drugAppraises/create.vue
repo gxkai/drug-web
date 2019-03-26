@@ -26,7 +26,7 @@
       </div>
       <div class="drug-appraise-create__part-2">
         <div class="drug-appraise-create__part-2__header">
-          <van-icon name="shangchuanmoban" size="3em"></van-icon>
+          <van-icon name="shangchuanmoban" size=".5rem"></van-icon>
           <span>店铺评分</span>
         </div>
         <div class="drug-appraise-create__part-2__content">

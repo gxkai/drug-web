@@ -12,65 +12,60 @@
         <div class="form-info">
           <el-form ref="formInfo" :model="formInfo" label-width="150px">
             <el-form-item label="No：">
-              <el-input v-model="formInfo.idNumber" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.id" readonly></el-input>
             </el-form-item>
             <el-form-item label="处方日期：">
-              <el-date-picker
-                v-model="formInfo.rxDate"
-                type="date"
-                placeholder="选择日期"
-                style="width: 100%">
-              </el-date-picker>
+              <el-input v-model="formInfo.rxDate" readonly></el-input>
             </el-form-item>
             <el-form-item label="姓名：">
-              <el-input v-model="formInfo.name" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.accountName" readonly></el-input>
             </el-form-item>
             <el-form-item label="性别：">
-              <el-input v-model="formInfo.sex" readonly placeholder="请输入"></el-input>
+              <el-input :value="$t(formInfo.gender)" readonly></el-input>
             </el-form-item>
             <el-form-item label="年龄：">
-              <el-input v-model="formInfo.age" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.age" readonly></el-input>
             </el-form-item>
             <el-form-item label="单位地址：">
-              <el-input v-model="formInfo.address" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.place" readonly></el-input>
             </el-form-item>
             <el-form-item label="联系电话：">
-              <el-input v-model="formInfo.telNumber" readonly placeholder="请输入"></el-input>
-            </el-form-item><br>
+              <el-input v-model="formInfo.phone" readonly></el-input>
+            </el-form-item>
             <el-form-item label="医院：">
-              <el-input v-model="formInfo.hospital" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.hospital" readonly></el-input>
             </el-form-item>
             <el-form-item label="科室：">
-              <el-input v-model="formInfo.department" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.office" readonly></el-input>
             </el-form-item>
             <el-form-item label="诊断：">
-              <el-input v-model="formInfo.diagnosis" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.illness" readonly></el-input>
             </el-form-item>
           </el-form>
         </div>
 
         <div class="rp-wrap">
-          <h2>Rp</h2>
+          <h3>Rp</h3>
           <d2-crud
-            :columns="columns"
-            :data="rpData"
+            :columns="rpColumns"
+            :data="rpList"
             :options="options"/>
         </div>
 
         <div class="track-info">
-          <h2>处方单跟踪信息</h2>
+          <h3>处方单跟踪信息</h3>
           <el-form ref="trackForm" :model="trackInfo" label-width="120px">
             <el-form-item label="订单编号：">
-              <el-input v-model="trackInfo.orderNumber" readonly placeholder="请输入"></el-input>
+              <el-input v-model="trackInfo.orderNumber" readonly></el-input>
             </el-form-item>
             <el-form-item label="支付方式：">
-              <el-input v-model="trackInfo.payMethod" readonly placeholder="请输入"></el-input>
+              <el-input v-model="trackInfo.payMethod" readonly></el-input>
             </el-form-item>
             <el-form-item label="药店：">
-              <el-input v-model="trackInfo.pharmacyName" readonly placeholder="请输入"></el-input>
+              <el-input v-model="trackInfo.pharmacyName" readonly></el-input>
             </el-form-item>
             <el-form-item label="订单状态：">
-              <el-input v-model="trackInfo.orderStatus" readonly placeholder="请输入"></el-input>
+              <el-input v-model="trackInfo.orderStatus" readonly></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -83,6 +78,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -90,18 +87,7 @@
     }
   })
   export default class Rx extends Vue {
-    formInfo = {
-      idNumber: '',
-      rxDate: '',
-      name: '',
-      sex: '',
-      age: '',
-      address: '',
-      telNumber: '',
-      hospital: '',
-      department: '',
-      diagnosis: ''
-    };
+    formInfo = {};
 
     trackInfo = {
       orderNumber: '',
@@ -110,49 +96,63 @@
       orderStatus: ''
     };
 
-    columns= [
+    rpColumns = [
       {
         title: '组号',
-        key: 'groupNumber'
+        key: 'index',
+        width: 100
       },
       {
-        title: '药品名（规格）',
-        key: 'drugNameSpec'
+        title: '药品名',
+        key: 'name'
       },
       {
         title: '用量',
-        key: 'dosage'
+        key: 'dosage',
+        width: 150
       },
       {
         title: '用量单位',
-        key: 'dosageUnit'
+        key: 'unit',
+        width: 100
       },
       {
         title: '频次',
-        key: 'frequency'
+        key: 'frequency',
+        width: 100
       },
       {
         title: '天数',
-        key: 'daysNumber'
+        key: 'days',
+        width: 100
       }
     ];
 
-    rpData = [
-      {
-        groupNumber: '1',
-        drugNameSpec: '感冒灵颗粒（15g*16袋）',
-        dosage: '15g/次',
-        dosageUnit: 'g',
-        frequency: '3',
-        daysNumber: '1'
-      }
-    ];
+    rpList = [];
 
     options = {
       border: true
     };
 
+    async getRxDetail (id) {
+      let {data: rxDetail} = await axios.get(`/api/supervise/rxs/${id}/info`)
+      // console.log(rxDetail)
+
+      this.formInfo = rxDetail
+      this.formInfo.rxDate = moment(this.formInfo.rxDate).format('YYYY-MM-DD hh:mm:ss')
+      this.rpList = rxDetail.list
+      this.rpList.forEach((item, index) => {
+        item.index = index + 1
+        item.name += `（${item.spec}）`
+      })
+
+      let trackRes = await axios.get(`/api/supervise/rxs/${id}/order/state`)
+      console.log(trackRes)
+    }
+
     mounted () {
+      let rxId = this.$route.query.rxId
+      this.getRxDetail(rxId)
     }
   }
 </script>
@@ -177,13 +177,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px;
+        padding: 0 20px 15px;
         margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;
 
         h3{
           color: #666;
           font-size: 18px;
+          margin: 0;
         }
       }
 
@@ -191,7 +192,7 @@
         padding: 0 30px;
 
         .form-info{
-          padding: 20px 300px 0 0;
+          padding: 20px 150px 0 0;
 
           .el-form{
             display: grid;
@@ -208,7 +209,7 @@
         }
 
         .track-info{
-          padding: 20px 300px 30px 70px;
+          padding: 20px 150px 30px 70px;
 
           .el-form{
             display: grid;
@@ -226,6 +227,10 @@
 
         .rp-wrap{
           padding: 0 70px;
+
+          h3{
+            margin-bottom: 0;
+          }
         }
       }
     }

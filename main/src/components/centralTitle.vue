@@ -13,7 +13,7 @@
       <span></span>
     </div>
     <div class="item item2">
-      <van-icon :name="icon" size="3em" :color="iconColor"/>
+      <van-icon :name="icon" size=".5rem" :color="iconColor"/>
       <span :style="{color: textColor}">{{text}}</span>
     </div>
     <div class="item item3">
@@ -62,7 +62,7 @@
         display: block;
         width: 100px;
         height: 1Px;
-        background-color: black;
+        background-color: $greyColorLighter;
       }
     }
   }

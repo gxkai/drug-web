@@ -20,13 +20,13 @@
                   {{drugInfo.name}}
                 </span>
               </div>
-              <new-white-space size="0.5em"/>
+              <new-white-space size="0.5rem"/>
               <div @click="onSpec">
                 <span class="info1__spec">
                   规格:{{drugSpec.spec||'暂无'}} <van-icon :name="show?'arrow-down':'arrow'" v-if="drugSpecs.length > 1"/>
                 </span>
               </div>
-              <new-white-space size="0.5em"/>
+              <new-white-space size="0.5rem"/>
               <div>
                 <span class="info1__form">
                   剂型/型号:{{drugSpec.form||'暂无'}}
@@ -82,7 +82,7 @@
                     <span> &yen;{{shop.price}}</span>
                   </div>
                   <div class="info3__item2">
-                    <van-icon name="ditu" color="#F60000" size="3em"></van-icon>
+                    <van-icon name="ditu" color="#F60000" size=".5rem"></van-icon>
                     <span class="info3__item2__address van-ellipsis">地址：{{shop.address}}</span>
                     <span class="info3__item2__distance">{{shop.distance | meter}}</span>
                   </div>
@@ -91,7 +91,7 @@
                     <van-tag :type="shop.distribution==true && shop.shopDistance < shop.distance ? 'danger':'' " plain>可配送</van-tag>
                   </div>
                   <div class="info3__item4">
-                    <van-icon name="gouwuche3" :color="drugInfo.otc&&shop.stock>0?'#F60000':'grey'" size="4em" @click.stop="goCar(shop)"></van-icon>
+                    <van-icon name="gouwuche3" :color="drugInfo.otc&&shop.stock>0?'#F60000':'grey'" size=".8rem" @click.stop="goCar(shop)"></van-icon>
                   </div>
                 </div>
               </div>
@@ -223,7 +223,7 @@
                 </div>
               </div>
               <div class="popup1__info1__item3">
-                <van-icon name="guanbi2" size="3em" color="red" @click.native="show = false"/>
+                <van-icon name="guanbi2" size=".6rem" color="red" @click.native="show = false"/>
               </div>
             </new-wing-blank>
             <new-wing-blank py="0">
@@ -261,23 +261,23 @@
                 </div>
               </div>
               <div class="item3">
-                <van-icon name="close" size="3em" color="#F60000" @click="show1 = false"/>
+                <van-icon name="close" size=".6rem" color="#F60000" @click="show1 = false"/>
               </div>
             </new-wing-blank>
-            <new-white-space size="2em"/>
+            <new-white-space size=".5rem"/>
             <new-wing-blank class="content2">
               <div class="name">
                 购买数量
               </div>
               <new-stepper v-model="number" :min="1"/>
             </new-wing-blank>
-            <new-white-space size="5em"/>
+            <new-white-space size=".5rem"/>
             <new-wing-blank class="content3">
               <div class="button" @click="onConfirm">
                 <span class="text">确定</span>
               </div>
             </new-wing-blank>
-            <new-white-space size="2em"/>
+            <new-white-space size=".5rem"/>
           </div>
         </van-popup>
       </template>
