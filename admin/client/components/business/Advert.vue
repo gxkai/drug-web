@@ -56,7 +56,7 @@
             :current-page="currentPage"
             :page-size="pageSize"
             layout="prev, pager, next, jumper, total"
-            :total="advertsList.length">
+            :total="totalPages">
           </el-pagination>
         </div>
       </div>
@@ -245,18 +245,16 @@
 
       this.addData.fileId = fileID
       let params = this.addData
-      let addRes = await axios.post(`/api/supervise/adverts`, params)
-      console.log(addRes)
-      if (addRes) {
-        this.$message({
-          message: '添加成功',
-          type: 'success'
-        })
-        this.advertsList.push(this.addData)
-        this.addDialogVisible = false
-        // this.setAddData()
-        this.totalPages = this.advertsList.length
-      }
+      await axios.post(`/api/supervise/adverts`, params)
+      // console.log(addRes)
+      this.$message({
+        message: '添加成功',
+        type: 'success'
+      })
+      // this.advertsList.push(this.addData)
+      this.addDialogVisible = false
+      this.setAddData()
+      this.totalPages += 1
     }
 
     // 查看广告
@@ -367,9 +365,7 @@
       this.totalPages = adverts.total
       this.advertsList.forEach(item => {
         this.getImgURL(item.fileId, data => {
-          if (data.substring(data.lastIndexOf('/') + 1, data.length) === 'null') {
-            item.imgURL = ''
-          } else {
+          if (data.substring(data.lastIndexOf('/') + 1, data.length) !== 'null') {
             item.imgURL = data
           }
         })
