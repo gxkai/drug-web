@@ -17,24 +17,24 @@
         <d2-crud
           ref="d2Crud"
           :columns="columns"
-          :data="data"
+          :data="faqList"
           :loading="loading"
           :pagination="pagination"
+          @pagination-current-change="paginationCurrentChange"
           :options="options"
           :rowHandle="rowHandle"
 
           add-title="我的新增"
           :add-template="addTemplate"
-          @row-add="handleRowAdd"
+          @row-add="addFaq"
 
-          @row-remove="handleRowRemove"
+          @row-remove="removeFaq"
 
           edit-title="我的修改"
           :edit-template="editTemplate"
-          @row-edit="handleRowEdit"
+          @row-edit="editFaq"
 
           :form-options="formOptions"
-          @dialog-open="handleDialogOpen"
           @dialog-cancel="handleDialogCancel"
         />
       </div>
@@ -46,6 +46,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -56,70 +58,30 @@
     columns = [
       {
         title: '序号',
-        key: 'serialNumber'
-        // width: '200'
+        key: 'index'
       },
       {
         title: '常见问题标题',
-        key: 'faqTitle'
-        // width: '300'
+        key: 'question'
       },
       {
         title: '阅读次数',
         key: 'readNum'
-        // width: '200'
       },
       {
         title: '回复',
-        key: 'replyContent'
-        // width: '500'
+        key: 'answer'
       },
       {
         title: '更新时间',
-        key: 'updateTime'
+        key: 'lastModifiedDate'
       }
     ];
-    data = [
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      },
-      {
-        serialNumber: '1',
-        faqTitle: '1',
-        readNum: '100',
-        replyContent: '百度',
-        updateTime: '2019-03-13 13:39:45'
-      }
-    ];
+    faqList = [];
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     };
     options= {
@@ -145,11 +107,7 @@
     }
 
     editTemplate = {
-      serialNumber: {
-        title: '序号',
-        value: ''
-      },
-      faqTitle: {
+      question: {
         title: '常见问题标题',
         value: ''
       },
@@ -157,22 +115,14 @@
         title: '阅读次数',
         value: ''
       },
-      replyContent: {
+      answer: {
         title: '回复',
-        value: ''
-      },
-      updateTime: {
-        title: '更新时间',
         value: ''
       }
     };
 
     addTemplate = {
-      serialNumber: {
-        title: '序号',
-        value: ''
-      },
-      faqTitle: {
+      question: {
         title: '常见问题标题',
         value: ''
       },
@@ -180,46 +130,11 @@
         title: '阅读次数',
         value: ''
       },
-      replyContent: {
+      answer: {
         title: '回复',
-        value: ''
-      },
-      updateTime: {
-        title: '更新时间',
         value: ''
       }
     };
-
-    handleDialogOpen ({ mode }) {
-      // this.$message({
-      //   message: '打开模态框，模式为：' + mode,
-      //   type: 'success'
-      // })
-    }
-
-    // 普通的新增
-    addRow () {
-      this.$refs.d2Crud.showDialog({
-        mode: 'add'
-      })
-    }
-
-    handleRowAdd (row, done) {
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(row)
-        this.$message({
-          message: '保存成功',
-          type: 'success'
-        })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
-        this.formOptions.saveLoading = false
-      }, 300)
-    }
 
     handleDialogCancel (done) {
       this.$message({
@@ -229,34 +144,89 @@
       done()
     }
 
-    handleRowRemove ({ index, row }, done) {
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getFaqs()
+    }
+
+    // 点击新增按钮
+    addRow () {
+      this.$refs.d2Crud.showDialog({
+        mode: 'add'
+      })
+    }
+
+    // 新增
+    async addFaq (row, done) {
+      this.formOptions.saveLoading = true
+
+      let params = {
+        question: row.question,
+        answer: row.answer
+      }
+      let addRes = await axios.post(`/api/supervise/faqs`, params)
+      if (addRes) {
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        })
+        done()
+        this.formOptions.saveLoading = false
+        this.getFaqs()
+      }
+    }
+
+    // 删除
+    async removeFaq ({row}, done) {
+      let delRes = await axios.delete(`/api/supervise/faqs/${row.id}`)
+      console.log(delRes)
+      if (delRes) {
         this.$message({
           message: '删除成功',
           type: 'success'
         })
         done()
-      }, 300)
+        this.getFaqs()
+      }
     }
 
-    handleRowEdit ({ index, row }, done) {
+    // 编辑
+    async editFaq ({row}, done) {
       this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '编辑成功',
-          type: 'success'
-        })
+      let params = {
+        id: row.id,
+        question: row.question,
+        answer: row.answer
+      }
+      await axios.put(`/api/supervise/faqs/${row.id}`, params)
 
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
-        this.formOptions.saveLoading = false
-      }, 300)
+      this.$message({
+        message: '修改成功',
+        type: 'success'
+      })
+      done()
+      this.formOptions.saveLoading = false
+      this.getFaqs()
+    }
+
+    // 获取所有常见问题
+    async getFaqs () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      let {data: faq} = await axios.get(`/api/supervise/faqs`, {params})
+
+      this.faqList = faq.list
+      this.pagination.total = faq.total
+      this.faqList.forEach((item, index) => {
+        item.index = index + 1
+        item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD hh:mm:ss')
+      })
+    }
+
+    mounted () {
+      this.getFaqs()
     }
   }
 </script>
@@ -297,7 +267,7 @@
           content: '|';
           color: #EEE;
           position: relative;
-          left: -4px;
+          left: -6px;
           top: -1px;
         }
       }

@@ -226,7 +226,7 @@ if (SHOW_EXAMPLES) {
         },
         {
           id: '90-3',
-          name: '模块区管理',
+          name: '板块区管理',
           url: '/business/module',
           icon: 'el-icon-share'
         },

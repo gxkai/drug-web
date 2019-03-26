@@ -2,27 +2,27 @@
   <div class="hospital-detail">
     <bread-crumb :path="$route.path"/>
     <div class="hospital-form">
-      <el-form ref="form" :model="addData" label-width="150px">
+      <el-form ref="form" :model="editData" label-width="150px">
         <el-form-item label="医院编码：">
-          <el-input v-model="addData.code" placeholder="请输入"></el-input>
+          <el-input v-model="editData.code" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院趣医编码：">
-          <el-input v-model="addData.qyCode" placeholder="请输入"></el-input>
+          <el-input v-model="editData.qyCode" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院名称：">
-          <el-input v-model="addData.name" placeholder="请输入"></el-input>
+          <el-input v-model="editData.name" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院电话：">
-          <el-input v-model="addData.phone" placeholder="请输入"></el-input>
+          <el-input v-model="editData.phone" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院地址：">
-          <el-input v-model="addData.address" placeholder="请输入"></el-input>
+          <el-input v-model="editData.address" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="经度：">
-          <el-input v-model="addData.lng" placeholder="请输入"></el-input>
+          <el-input v-model="editData.lng" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="纬度：">
-          <el-input v-model="addData.lat" placeholder="请输入"></el-input>
+          <el-input v-model="editData.lat" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院照片：" class="hospitalImg">
           <el-upload
@@ -30,7 +30,7 @@
             action=""
             :show-file-list="false"
             :on-success="uploadSuccess"
-          >
+            >
             <img v-if="hospitalImage" :src="hospitalImage" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -40,7 +40,7 @@
             type="textarea"
             :autosize="{ minRows: 8, maxRows: 8}"
             placeholder="请输入"
-            v-model="addData.introduction">
+            v-model="editData.introduction">
           </el-input>
         </el-form-item>
       </el-form>
@@ -63,32 +63,30 @@
       BreadCrumb
     }
   })
-  export default class HospitalCreate extends Vue {
-    addData = {}
+  export default class HospitalEdit extends Vue {
+    editData = {}
     hospitalImage = ''
+    hID = ''
+    imgJudge = ''
 
-    addFile = {}
     uploadSuccess (res, file) {
       this.hospitalImage = URL.createObjectURL(file.raw)
-      this.addFile = file.raw
+      this.editData.editFile = file.raw
     }
 
     // 提交
     async submit () {
-      if (!this.hospitalImage) {
-        this.$message.error('内容不能为空')
-        return
+      if (this.imgJudge !== this.hospitalImage) {
+        let fileParams = new FormData()
+        fileParams.append('file', this.editData.editFile)
+        fileParams.append('fileType', 'LOGO')
+        let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
+        this.editData.fileId = fileID
       }
 
-      let fileParams = new FormData()
-      fileParams.append('file', this.addFile)
-      fileParams.append('fileType', 'LOGO')
-      let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
-      this.addData.fileId = fileID
-
-      await axios.post(`/api/supervise/hospitals`, this.addData)
+      await axios.put(`/api/supervise/hospitals/${this.hID}`, this.editData)
       this.$message({
-        message: '添加成功！',
+        message: '修改成功！',
         type: 'success'
       })
       setTimeout(() => {
@@ -96,8 +94,26 @@
       }, 1000)
     }
 
-    mounted () {
+    async getInfo (id) {
+      let {data: detail} = await axios.get(`/api/supervise/hospitals/${id}`)
+      console.log(detail)
+      this.editData = detail
 
+      // 获取医院图片
+      let params = {
+        resolution: 'LARGE_LOGO'
+      }
+      let {data: imgRes} = await axios.get(`/api/supervise/files/${this.editData.fileId}`, {params})
+      let url = imgRes.replace('redirect:', '')
+      if (url.substring(url.lastIndexOf('/') + 1, url.length) !== 'null') {
+        this.hospitalImage = url
+        this.imgJudge = this.hospitalImage
+      }
+    }
+
+    mounted () {
+      this.hID = this.$route.query.id
+      this.getInfo(this.hID)
     }
   }
 </script>

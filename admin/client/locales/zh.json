@@ -15,6 +15,8 @@
     "pwd": "修改密码",
     "exit": "退出"
   },
+  "MALE": "男",
+  "FEMALE": "女",
   "tagline":
     "Application boilerplate based on Vue.js 2.x, Koa 2.x, Element-UI, Axios, Vue i18n and Nuxt.js",
   "/":
@@ -49,6 +51,8 @@
     "医院管理",
   "/shopCheck/hospital/detail":
     "医院管理详情",
+  "/shopCheck/hospital/edit":
+    "医院管理编辑",
   "/shopCheck/hospital/create":
     "医院新增",
   "/drugCheck":
@@ -95,6 +99,8 @@
     "处方管理",
   "/rx/rx":
     "处方管理",
+  "/rx/rx/detail":
+    "处方单详情",
   "/business":
     "业务管理",
   "/business/advert":
@@ -102,7 +108,7 @@
   "/business/ability":
     "功能区管理",
   "/business/module":
-    "功能区管理",
+    "板块区管理",
   "/business/recommend":
     "好货推荐",
   "/business/discount":

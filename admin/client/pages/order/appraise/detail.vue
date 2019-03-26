@@ -82,7 +82,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px;
+        padding: 0 20px 10px;
         margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;
 
