@@ -5,7 +5,7 @@
 
       <div class="title">
         <h3>广告位管理</h3>
-        <el-button type="primary" @click="addDialogVisible = true" style="background: #169bd5;">新增</el-button>
+        <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
@@ -13,10 +13,7 @@
           :data="advertsList"
           border
           style="width: 100%">
-          <el-table-column
-            prop="id"
-            label="序号">
-
+          <el-table-column label="序号">
             <template slot-scope="scope">
               <span>{{ scope.$index + 1 }}</span>
             </template>
@@ -37,8 +34,8 @@
             prop="imgURL"
             label="图片">
             <template slot-scope="scope">
-              <img v-if="scope.row.imgURL" :src="scope.row.imgURL" style="width: 50px;height: 50px">
-              <img v-else src="../../assets/img/hospital/img1.png" style="width: 50px;height: 50px">
+              <img v-if="scope.row.imgURL" :src="scope.row.imgURL" style="width: 50px;">
+              <img v-else src="../../assets/img/hospital/img1.png" style="width: 50px;">
             </template>
           </el-table-column>
           <el-table-column label="操作">
@@ -200,7 +197,16 @@
     }
 
     // 新增广告
-    addData = {}
+    addData = {
+      id: '',
+      type: '',
+      sort: '',
+      url: '',
+      fileId: '',
+      imgURL: '',
+      imgJudeg: ''
+    }
+
     setAddData () {
       this.addData = {
         index: '',
@@ -209,14 +215,14 @@
         sort: '',
         url: '',
         fileId: '',
-        imgURL: ''
+        imgURL: '',
+        imgJudeg: ''
       }
     }
-    addDialogVisible = false;
 
+    addDialogVisible = false;
     // 新增图片上传
     addFile = {}
-
     addBeforeUpload (file) {
       // // console.log(file)
       // const isJPG = file.type === 'image/jpeg'
@@ -236,14 +242,27 @@
       this.addFile = file.raw
     }
 
+    addRow () {
+      this.addDialogVisible = true
+      this.setAddData()
+    }
+
     async addAdvert () {
       // 上传图片
-      let fileParams = new FormData()
-      fileParams.append('file', this.addFile)
-      fileParams.append('fileType', 'LOGO')
-      let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
+      if (this.addData.imgJudeg !== this.addData.imgURL) {
+        let fileParams = new FormData()
+        fileParams.append('file', this.addFile)
+        fileParams.append('fileType', 'LOGO')
+        let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
+        this.addData.fileId = fileID
+      } else {
+        this.$message({
+          message: '内容不能为空',
+          type: 'warning'
+        })
+        return
+      }
 
-      this.addData.fileId = fileID
       let params = this.addData
       await axios.post(`/api/supervise/adverts`, params)
       // console.log(addRes)
@@ -251,10 +270,10 @@
         message: '添加成功',
         type: 'success'
       })
-      // this.advertsList.push(this.addData)
       this.addDialogVisible = false
+      this.getAdverts()
       this.setAddData()
-      this.totalPages += 1
+      // this.totalPages += 1
     }
 
     // 查看广告
@@ -282,23 +301,20 @@
     }
 
     editFile = {} // 存放file
+    editDialogVisible = false;
+    editData = {
+      id: '',
+      type: '',
+      sort: '',
+      url: '',
+      fileId: '',
+      imgURL: '',
+      imgJudeg: ''
+    }
+
     editAvatarSuccess (res, file) {
       this.editData.imgURL = URL.createObjectURL(file.raw)
       this.editFile = file.raw
-    }
-
-    editDialogVisible = false;
-    editData = {}
-    setEditData () {
-      this.editData = {
-        index: '',
-        id: '',
-        type: '',
-        sort: '',
-        url: '',
-        fileId: '',
-        imgURL: ''
-      }
     }
 
     editAdvert (index, row) {
@@ -306,52 +322,50 @@
       this.editDialogVisible = true
       this.editData.index = index
       this.editData.id = row.id
+      this.editData.fileId = row.fileId
       this.editData.type = row.type
       this.editData.sort = row.sort
       this.editData.url = row.url
       this.editData.imgURL = row.imgURL
+      this.editData.imgJudeg = row.imgJudeg
     }
 
     async confirmEdit () {
       // 上传图片
-      let fileParams = new FormData()
-      fileParams.append('file', this.editFile)
-      fileParams.append('fileType', 'LOGO')
-      let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
-      this.editData.fileId = fileID // 图片上传成功后更新fileId
+      if (this.editData.imgJudeg !== this.editData.imgURL) {
+        let fileParams = new FormData()
+        fileParams.append('file', this.editFile)
+        fileParams.append('fileType', 'LOGO')
+        let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
+        this.editData.fileId = fileID // 图片上传成功后更新fileId
+      }
 
       let params = this.editData
-      let editRes = await axios.put(`/api/supervise/adverts/${this.editData.id}`, params)
-      if (editRes) {
-        this.$message({
-          message: '编辑成功',
-          type: 'success'
-        })
-        this.updateLineData(this.editData.index, this.editData)
-        this.editDialogVisible = false
-        this.setEditData() // 清空表单数据
-      }
+      await axios.put(`/api/supervise/adverts/${this.editData.id}`, params)
+      this.$message({
+        message: '编辑成功',
+        type: 'success'
+      })
+      this.updateLineData(this.editData.index, this.editData)
+      this.editDialogVisible = false
     }
 
     // 删除广告
     removeAdvert (index, row) {
-      // this.$confirm('确定删除吗？', '提示', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // }).then(() => {
-      //   let delRes = axios.post(`/api/supervise/adverts/${row.id}`)
-      //   console.log(delRes)
-      //   if (delRes) {
-      //     this.$message({
-      //       type: 'success',
-      //       message: '删除成功!'
-      //     })
-      //     this.advertsList.splice(index, 1)
-      //     console.log(this.advertsList)
-      //     this.totalPages = this.advertsList.length
-      //   }
-      // }).catch(() => {})
+      this.$confirm('确定删除吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post(`/api/supervise/adverts/${row.id}`)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+        // this.advertsList.splice(index, 1)
+        this.totalPages -= 1
+        this.getAdverts()
+      }).catch(() => {})
     }
 
     async getAdverts () {
@@ -360,13 +374,13 @@
         pageSize: this.pageSize
       }
       let {data: adverts} = await axios.get(`/api/supervise/adverts`, {params})
-      console.log(adverts.list)
       this.advertsList = adverts.list
       this.totalPages = adverts.total
       this.advertsList.forEach(item => {
         this.getImgURL(item.fileId, data => {
           if (data.substring(data.lastIndexOf('/') + 1, data.length) !== 'null') {
             item.imgURL = data
+            item.imgJudeg = data
           }
         })
       })
@@ -384,8 +398,6 @@
 
     mounted () {
       this.getAdverts()
-      this.setEditData()
-      this.setAddData()
     }
   }
 </script>
@@ -402,7 +414,7 @@
 
       .avatar-uploader{
         img{
-          width: 100%;
+          width: 100px;
         }
       }
 

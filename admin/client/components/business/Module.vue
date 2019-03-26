@@ -5,20 +5,21 @@
 
       <div class="title">
         <h3>板块区管理</h3>
-        <el-button type="primary" @click="addDialogVisible = true" style="background: #169bd5;">新增</el-button>
+        <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
         <el-table
-          :data="advertsList"
+          :data="modulesList"
           border
           style="width: 100%">
-          <el-table-column
-            prop="id"
-            label="序号">
+          <el-table-column label="序号">
+            <template slot-scope="scope">
+              <span>{{ scope.$index + 1 }}</span>
+            </template>
           </el-table-column>
           <el-table-column
-            prop="type"
+            prop="name"
             label="模块">
           </el-table-column>
           <el-table-column
@@ -34,27 +35,18 @@
             label="图片">
 
             <template slot-scope="scope">
-              <img :src="scope.row.imgURL" style="width: 50px;height: 50px">
+              <img v-if="scope.row.imgURL" :src="scope.row.imgURL" style="width: 50px;">
+              <img v-else :src="emptyImg" style="width: 50px;">
             </template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button @click="viewAdvert(scope.row)" type="text">查看</el-button>
-              <el-button @click="editAdvert(scope.row)" type="text">编辑</el-button>
-              <el-button @click="removeAdvert(scope.row)" type="text">删除</el-button>
+              <el-button @click="viewAdvert(scope.$index, scope.row)" type="text">查看</el-button>
+              <el-button @click="editAdvert(scope.$index, scope.row)" type="text">编辑</el-button>
+              <el-button @click="setDrug" type="text">设置药品</el-button>
             </template>
           </el-table-column>
         </el-table>
-
-        <div class="pagination">
-          <el-pagination
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-size="pageSize"
-            layout="prev, pager, next, jumper, total"
-            :total="totalPages">
-          </el-pagination>
-        </div>
       </div>
 
       <!--查看广告-->
@@ -66,10 +58,10 @@
         <div class="main">
           <el-form :model="viewData" label-width="100px">
             <el-form-item label="序号">
-              <el-input v-model="viewData.id" readonly placeholder="请输入"></el-input>
+              <el-input v-model="viewData.index" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="模块">
-              <el-input v-model="viewData.type" readonly placeholder="请输入"></el-input>
+              <el-input v-model="viewData.name" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="排序">
               <el-input v-model="viewData.sort" readonly placeholder="请输入"></el-input>
@@ -78,7 +70,8 @@
               <el-input v-model="viewData.url" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="图片">
-              <img :src="viewData.imgURL"/>
+              <img v-if="viewData.imgURL" :src="viewData.imgURL"/>
+              <img v-else src="../../assets/img/hospital/img1.png" style="width: 100px"/>
             </el-form-item>
           </el-form>
         </div>
@@ -97,7 +90,7 @@
         <div class="edit-con">
           <el-form :model="editData" label-width="100px">
             <el-form-item label="模块">
-              <el-input v-model="editData.type" placeholder="请输入"></el-input>
+              <el-input v-model="editData.name" placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="排序">
               <el-input v-model="editData.sort" placeholder="请输入"></el-input>
@@ -106,10 +99,9 @@
               <el-input v-model="editData.url" placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="图片">
-              <!--<el-input v-model="editData.fileId" placeholder="请输入"></el-input>-->
               <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action=""
                 :show-file-list="false"
                 :on-success="editAvatarSuccess"
                 :before-upload="editBeforeUpload">
@@ -134,7 +126,7 @@
         <div class="edit-con">
           <el-form :model="addData" label-width="100px">
             <el-form-item label="模块">
-              <el-input v-model="addData.type" placeholder="请输入"></el-input>
+              <el-input v-model="addData.name" placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="排序">
               <el-input v-model="addData.sort" placeholder="请输入"></el-input>
@@ -146,11 +138,11 @@
               <!--<el-input v-model="editData.fileId" placeholder="请输入"></el-input>-->
               <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action=""
                 :show-file-list="false"
                 :on-success="addAvatarSuccess"
                 :before-upload="addBeforeUpload">
-                <img v-if="addData.imageUrl" :src="addData.imageUrl" class="avatar">
+                <img v-if="addData.imgURL" :src="addData.imgURL" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
@@ -178,64 +170,78 @@
   })
 
   export default class Module extends Vue {
-    currentPage = 1; // 当前页
-    pageSize = 15; // 每页显示条数
-    totalPages = 0;
+    modulesList = [];
+    emptyImg = require('../../assets/img/hospital/img1.png')
 
-    // 所有列表数据
-    advertsList = [];
+    // 设置药品
+    setDrug () {
 
-    handleCurrentChange (page) {
-      this.currentPage = page
-      this.getAdverts()
     }
 
     // 新增广告
-    addData = {
-      type: '',
-      sort: '',
-      url: ''
-      // fileId: '',
-      // imageUrl: ''
+    addData = {}
+    setAddData () {
+      this.addData = {
+        name: '',
+        sort: '',
+        url: '',
+        fileId: '',
+        imgURL: '',
+        imgJudeg: ''
+      }
     }
+    addFile = {}
     addDialogVisible = false;
 
     // 新增图片上传
-    addAvatarSuccess (res, file) {
-      // console.log(res)
-      // console.log(file)
-      this.addData.imageUrl = URL.createObjectURL(file.raw)
-    }
-
     addBeforeUpload (file) {
       // console.log(file)
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      // const isJPG = file.type === 'image/jpeg'
+      // const isLt2M = file.size / 1024 / 1024 < 2
+      //
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!')
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!')
+      // }
+      // return isJPG && isLt2M
+    }
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
+    addAvatarSuccess (res, file) {
+      this.addData.imgURL = URL.createObjectURL(file.raw)
+      this.addFile = file.raw
+    }
+
+    addRow () {
+      this.addDialogVisible = true
+      this.setAddData()
     }
 
     async addAdvert () {
-      // console.log(this.addData)
+      if (this.addData.imgJudeg !== this.addData.imgURL) {
+        let fileParams = new FormData()
+        fileParams.append('file', this.addFile)
+        fileParams.append('fileType', 'LOGO')
+        let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
+        this.addData.fileId = fileID // 图片上传成功后更新fileId
+      } else {
+        this.$message({
+          message: '内容不能为空',
+          type: 'warning'
+        })
+        return
+      }
 
       let params = this.addData
-      let addRes = await axios.post(`/api/supervise/adverts`, params)
-      // console.log(addRes)
-      if (addRes) {
-        this.$message({
-          message: '添加成功',
-          type: 'success'
-        })
-        this.addDialogVisible = false
-        this.addData = {}
-        this.getAdverts()
-      }
+      await axios.post(`/api/supervise/modules`, params)
+      this.$message({
+        message: '添加成功',
+        type: 'success'
+      })
+      this.addDialogVisible = false
+      this.modulesList.push(this.addData)
+      this.setAddData()
     }
 
     // 查看广告
@@ -243,123 +249,106 @@
     isClickModal = false;
     viewData = {};
 
-    viewAdvert (row) {
+    viewAdvert (index, row) {
       this.viewDialogVisible = true
+      this.viewData.index = index
       this.viewData.id = row.id
-      this.viewData.type = row.type
+      this.viewData.name = row.name
       this.viewData.sort = row.sort
       this.viewData.url = row.url
       this.viewData.imgURL = row.imgURL
     }
 
     // 编辑广告
-    editAvatarSuccess (res, file) {
-      // console.log(res)
-      // console.log(file)
-      this.editData.imgURL = URL.createObjectURL(file.raw)
+    editFile = {}
+    editDialogVisible = false;
+    editData = {
+      name: '',
+      sort: '',
+      url: '',
+      fileId: '',
+      imgURL: '',
+      imgJudeg: ''
     }
 
     editBeforeUpload (file) {
       // console.log(file)
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
+      // const isJPG = file.type === 'image/jpeg'
+      // const isLt2M = file.size / 1024 / 1024 < 2
+      //
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!')
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!')
+      // }
+      // return isJPG && isLt2M
     }
 
-    editDialogVisible = false;
-    editData = {}
-    setEditData () {
-      this.editData = {
-        id: '',
-        type: '',
-        sort: '',
-        url: '',
-        fileId: '',
-        imgURL: ''
-      }
+    editAvatarSuccess (res, file) {
+      this.editData.imgURL = URL.createObjectURL(file.raw)
+      this.editFile = file.raw
     }
-    editAdvert (row) {
-      // console.log(row)
+
+    editAdvert (index, row) {
       this.editDialogVisible = true
+      this.editData.index = index
       this.editData.id = row.id
-      this.editData.type = row.type
+      this.editData.fileId = row.fileId
+      this.editData.name = row.name
       this.editData.sort = row.sort
       this.editData.url = row.url
-      // this.editData.fileId = row.fileId
       this.editData.imgURL = row.imgURL
+      this.editData.imgJudeg = row.imgJudeg
     }
 
     async confirmEdit () {
+      if (this.editData.imgJudeg !== this.editData.imgURL) {
+        let fileParams = new FormData()
+        fileParams.append('file', this.editFile)
+        fileParams.append('fileType', 'LOGO')
+        let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
+        this.editData.fileId = fileID // 图片上传成功后更新fileId
+      }
+
       let params = this.editData
-      let editRes = await axios.put(`/api/supervise/adverts/${this.editData.id}`, params)
-      if (editRes) {
-        this.$message({
-          message: '编辑成功',
-          type: 'success'
-        })
-        this.editDialogVisible = false
-        this.setEditData()
-        this.getAdverts()
-      }
+      await axios.put(`/api/supervise/modules/${this.editData.id}`, params)
+      this.$message({
+        message: '编辑成功',
+        type: 'success'
+      })
+      this.editDialogVisible = false
+      this.$set(this.modulesList, this.editData.index, this.editData)
     }
 
-    // 删除广告
-    removeAdvert (row) {
-      this.$confirm('确定删除吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let delRes = axios.post(`/api/supervise/adverts/${row.id}`)
-        console.log(delRes)
-        if (delRes) {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-          this.getAdverts()
-        }
-      }).catch(() => {})
-    }
+    async getModules () {
+      let {data: moduleData} = await axios.get(`/api/supervise/modules`)
+      console.log(moduleData)
 
-    async getAdverts () {
-      let params = {
-        pageNum: this.currentPage,
-        pageSize: this.pageSize
-      }
-      let {data: adverts} = await axios.get(`/api/supervise/adverts`, {params})
-      // console.log(adverts)
-
-      this.advertsList = adverts.list
-      this.totalPages = adverts.total
-      this.advertsList.forEach(item => {
-        this.getImgURL(data => {
-          item.imgURL = data
+      this.modulesList = moduleData
+      this.modulesList.forEach(item => {
+        this.getImgURL(item.fileId, data => {
+          if (data.substring(data.lastIndexOf('/') + 1, data.length) !== 'null') {
+            item.imgURL = data
+            item.imgJudeg = data
+          }
         })
       })
     }
 
     // 获取图片路径
-    async getImgURL (post) {
-      let imgParams = {
+    async getImgURL (id, post) {
+      let params = {
         resolution: 'SMALL_LOGO'
       }
-      let id = '--dVhLXdQqmk8L9ndxxwaA'
-      let {data: imgRes} = await axios.get(`/api/supervise/files/${id}`, {params: imgParams})
+      let {data: imgRes} = await axios.get(`/api/supervise/files/${id}`, {params})
       let url = imgRes.replace('redirect:', '')
+      console.log(url)
       post(url)
     }
 
     mounted () {
-      this.getAdverts()
-      this.setEditData()
+      this.getModules()
     }
   }
 </script>
@@ -373,6 +362,12 @@
       background: #FFF;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
+
+      .avatar-uploader{
+        img{
+          width: 100px;
+        }
+      }
 
       .el-dialog__body{
         padding: 20px;

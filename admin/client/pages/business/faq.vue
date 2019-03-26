@@ -66,7 +66,7 @@
       },
       {
         title: '阅读次数',
-        key: 'readNum'
+        key: 'readTimes'
       },
       {
         title: '回复',
@@ -111,7 +111,7 @@
         title: '常见问题标题',
         value: ''
       },
-      readNum: {
+      readTimes: {
         title: '阅读次数',
         value: ''
       },
@@ -126,7 +126,7 @@
         title: '常见问题标题',
         value: ''
       },
-      readNum: {
+      readTimes: {
         title: '阅读次数',
         value: ''
       },
@@ -162,6 +162,7 @@
 
       let params = {
         question: row.question,
+        readTimes: row.readTimes,
         answer: row.answer
       }
       let addRes = await axios.post(`/api/supervise/faqs`, params)
@@ -194,8 +195,8 @@
     async editFaq ({row}, done) {
       this.formOptions.saveLoading = true
       let params = {
-        id: row.id,
         question: row.question,
+        readTimes: row.readTimes,
         answer: row.answer
       }
       await axios.put(`/api/supervise/faqs/${row.id}`, params)
@@ -206,7 +207,6 @@
       })
       done()
       this.formOptions.saveLoading = false
-      this.getFaqs()
     }
 
     // 获取所有常见问题
@@ -216,12 +216,13 @@
         pageSize: this.pagination.pageSize
       }
       let {data: faq} = await axios.get(`/api/supervise/faqs`, {params})
-
+      console.log(faq)
       this.faqList = faq.list
       this.pagination.total = faq.total
       this.faqList.forEach((item, index) => {
         item.index = index + 1
         item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD hh:mm:ss')
+        item.readTimes = item.readTimes || 0
       })
     }
 

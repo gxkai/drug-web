@@ -3,9 +3,10 @@
     <bread-crumb :path="$route.path"/>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="chatList"
       :loading="loading"
       :pagination="pagination"
+      @pagination-current-change="paginationCurrentChange"
       :options="options"
       :rowHandle="rowHandle"
       @emit-detail="handleDetail"
@@ -17,6 +18,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -27,52 +30,36 @@
     columns= [
       {
         title: '序号',
-        key: 'chatId',
+        key: 'index',
         width: 60
       },
       {
         title: '用户名',
-        key: 'userName'
+        key: 'accountName'
       },
       {
         title: '最后一次发送时间',
-        key: 'lastSend'
+        key: 'userLastDate'
       },
       {
         title: '发送内容',
-        key: 'sendText'
+        key: 'userMessage'
       },
       {
         title: '最后一次回复时间',
-        key: 'lastReply'
+        key: 'accountLastDate'
       },
       {
         title: '回复内容',
-        key: 'replyText'
+        key: 'accountMessage'
       }
     ]
-    data= [
-      {
-        chatId: '1',
-        userName: '哈哈',
-        lastSend: '2018-12-30 12:00:00',
-        sendText: '1q2w3e4r',
-        lastReply: '2018-12-30 12:00:00',
-        replyText: '123456'
-      },
-      {
-        chatId: '1',
-        userName: '哈哈',
-        lastSend: '2018-12-30 12:00:00',
-        sendText: '1q2w3e4r',
-        lastReply: '2018-12-30 12:00:00',
-        replyText: '123456'
-      }
-    ]
+    chatList = []
+    uId = ''
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options= {
@@ -87,13 +74,40 @@
         }
       ]
     }
-    mounted () {
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getChatList(this.uId)
     }
+
     handleDetail ({index, row}) {
-      // this.$message.success(index.toString())
-      console.log(index)
-      console.log(row)
-      this.$router.push('/system/pharmacist/chat/detail')
+      this.$router.push({
+        path: '/system/pharmacist/chat/detail',
+        query: {
+          id: row.id
+        }
+      })
+    }
+
+    async getChatList (id) {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      let {data: chat} = await axios.get(`/api/supervise/chats/users/${id}`, {params})
+      // console.log(chat)
+      this.chatList = chat.list
+      this.pagination.total = chat.total
+      this.chatList.forEach((item, index) => {
+        item.index = index + 1
+        item.userLastDate = item.userLastDate ? moment(item.userLastDate).format('YYYY-MM-DD hh:mm:ss') : ''
+        item.accountLastDate = item.accountLastDate ? moment(item.accountLastDate).format('YYYY-MM-DD hh:mm:ss') : ''
+      })
+    }
+
+    mounted () {
+      this.uId = this.$route.query.id
+      this.getChatList(this.uId)
     }
   }
 </script>

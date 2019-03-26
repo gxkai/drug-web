@@ -2,43 +2,43 @@
   <div class="hospital-detail">
     <bread-crumb :path="$route.path"/>
     <div class="hospital-form">
-      <el-form ref="form" :model="form" label-width="150px">
+      <el-form ref="form" :model="addData" label-width="150px">
         <el-form-item label="医院编码：">
-          <el-input v-model="form.hospitalId" placeholder="请输入"></el-input>
+          <el-input v-model="addData.code" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院趣医编码：">
-          <el-input v-model="form.hospitalQyid" placeholder="请输入"></el-input>
+          <el-input v-model="addData.qyCode" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院名称：">
-          <el-input v-model="form.hospitalName" placeholder="请输入"></el-input>
+          <el-input v-model="addData.name" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院电话：">
-          <el-input v-model="form.hospitalPhone" placeholder="请输入"></el-input>
+          <el-input v-model="addData.phone" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院地址：">
-          <el-input v-model="form.hospitalAdd" placeholder="请输入"></el-input>
+          <el-input v-model="addData.address" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="经度：">
-          <el-input v-model="form.hospitalLng" placeholder="请输入"></el-input>
+          <el-input v-model="addData.lng" @change="handler" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="纬度：">
-          <el-input v-model="form.hospitalLat" placeholder="请输入"></el-input>
+          <el-input v-model="addData.lat" @change="handler" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item class="el-form-item-map">
           <baidu-map :center="center" :zoom="zoom" @ready="handler" @click="getPoint" class="bm-view">
-            <!--<bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>-->
+            <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
             <!--<bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>-->
-            <bm-local-search :keyword="form.hospitalAdd" :auto-viewport="true" :zoom="zoom" style="display: none"></bm-local-search>
+            <!--<bm-local-search :keyword="form.hospitalAdd" :auto-viewport="true" :zoom="zoom" style="display: none"></bm-local-search>-->
             <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
           </baidu-map>
         </el-form-item>
         <el-form-item label="医院照片：" class="hospitalImg">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             :show-file-list="false"
             :on-success="handleAvatarSuccess">
-            <img v-if="form.hospitalImage" :src="form.hospitalImage" class="avatar">
+            <img v-if="addData.hospitalImage" :src="addData.hospitalImage" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -47,12 +47,13 @@
             type="textarea"
             :autosize="{ minRows: 8, maxRows: 8}"
             placeholder="请输入"
-            v-model="form.hospitalIntroduce">
+            v-model="addData.introduction">
           </el-input>
         </el-form-item>
       </el-form>
       <div class="submit-btn">
         <el-button type="primary" @click="submit">提交</el-button>
+        <el-button @click="$router.go(-1)">返回</el-button>
       </div>
     </div>
   </div>
@@ -61,6 +62,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
 
   @Component({
     components: {
@@ -69,52 +71,76 @@
   })
   export default class HospitalCreat extends Vue {
     show = true
-    form = {
-      hospitalId: '',
-      hospitalQyid: '',
-      hospitalName: '',
-      hospitalPhone: '',
-      hospitalAdd: '昆山',
-      hospitalLng: '',
-      hospitalLat: '',
-      hospitalIntroduce: '',
-      hospitalImage: ''
+    addData = {
+      code: '',
+      qyCode: '',
+      name: '',
+      phone: '',
+      address: '',
+      lng: '',
+      lat: '',
+      introduction: '',
+      hospitalImage: '',
+      imageJudeg: ''
     }
+    imgJudge = ''
     center = {lng: 120.9909, lat: 31.403685}
     zoom = 3
+
     handleAvatarSuccess (res, file) {
-      this.form.hospitalImage = URL.createObjectURL(file.raw)
+      this.addData.hospitalImage = URL.createObjectURL(file.raw)
+      this.addData.addFile = file.raw
     }
-    submit () {
-      this.$router.push('/shopCheck/hospital')
-    }
+
     handler ({BMap, map}) {
-      console.log(BMap, map)
-      this.center.lng = this.form.hospitalLng
-      this.center.lat = this.form.hospitalLat
+      // console.log(BMap, map)
+      this.center.lng = this.addData.lng
+      this.center.lat = this.addData.lat
       this.zoom = 15
     }
+
     getPoint (e) { // 点击地图获取一些信息，
       this.show = true
-      this.center.lng = this.form.hospitalLng
-      this.center.lat = this.form.hospitalLat
+      this.center.lng = this.addData.lng
+      this.center.lat = this.addData.lat
       // this.zoom = 15
       this.zoom = e.target.getZoom()
       /* global BMap */
       let geocoder = new BMap.Geocoder() // 创建地址解析器的实例
       geocoder.getLocation(e.point, rs => {
-        console.log(rs)
-        this.form.hospitalLng = e.point.lng
-        this.form.hospitalLat = e.point.lat
+        // console.log(rs)
+        this.addData.lng = e.point.lng
+        this.addData.lat = e.point.lat
       })
     }
+
     infoWindowClose () {
       this.show = false
     }
+
     infoWindowOpen () {
       setInterval(() => {
         this.show = true
       }, 100)
+    }
+
+    async submit () {
+      if (this.addData.imgJudge !== this.addData.hospitalImage) {
+        let fileParams = new FormData()
+        fileParams.append('file', this.addData.addFile)
+        fileParams.append('fileType', 'LOGO')
+        let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
+        this.addData.fileId = fileID
+      }
+
+      await axios.post(`/api/supervise/hospitals`, this.addData)
+      this.$message({
+        message: '提交成功！',
+        type: 'success'
+      })
+      setTimeout(() => {
+        this.$router.go(-1)
+      }, 1000)
     }
   }
 </script>

@@ -21,6 +21,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+
   @Component({
     components: {
       BreadCrumb
@@ -71,6 +73,16 @@
         ]
       }
     ]
+
+    async getDetail (id) {
+      let detail = await axios.get(`/api/supervise/admins/jaGE49wRQciJIDMXFpRtAA`)
+      console.log(detail)
+    }
+
+    mounted () {
+      let id = this.$route.query.id
+      this.getDetail(id)
+    }
   }
 </script>
 
