@@ -110,14 +110,19 @@
         pageSize: 15
       }
       await axios.get(`/api/supervise/loginLogs`, {params: params}).then(res => {
-        console.log(res)
-        // this.loginlogData = res.data.list
+        this.loginlogData = res.data.list
+        this.pagination.total = res.data.total
+        this.loginlogData.forEach(e => {
+          e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
+          // console.log(e.date)
+        })
       })
     }
     clear () {
       this.startDate = ''
       this.endDate = ''
       this.inputValue = ''
+      this.initData()
     }
   }
 </script>

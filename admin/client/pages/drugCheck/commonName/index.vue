@@ -122,7 +122,14 @@
       this.commonNameValue = ''
     }
     async handleRowEdit ({ index, row }, done) {
-      await axios.get(`/api/supervise/common/names/${row.id}/count`, {params: {name: row.name}})
+      let getName = await axios.get(`/api/supervise/common/names/${row.id}/count`, {params: {name: row.name}})
+      if (getName.data >= 1) {
+        this.$message({
+          message: '通用名已存在!',
+          type: 'warning'
+        })
+        return false
+      }
       await axios.put(`/api/supervise/common/names/${row.id}/update`, {id: row.id, name: row.name})
       this.formOptions.saveLoading = true
       setTimeout(() => {
@@ -157,7 +164,14 @@
       })
     }
     async handleRowAdd (row, done) {
-      await axios.get(`/api/supervise/common/names/count`, {params: {name: row.name}})
+      let getName = await axios.get(`/api/supervise/common/names/count`, {params: {name: row.name}})
+      if (getName.data >= 1) {
+        this.$message({
+          message: '通用名已存在!',
+          type: 'warning'
+        })
+        return false
+      }
       await axios.post(`/api/supervise/common/names/create`, {name: row.name})
       this.fetchData()
       this.formOptions.saveLoading = true
