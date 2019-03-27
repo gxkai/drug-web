@@ -16,7 +16,7 @@
     </div>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="accountData"
       :loading="loading"
       :pagination="pagination"
       :options="options"
@@ -32,7 +32,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  // import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -85,7 +85,7 @@
         key: 'curState'
       }
     ]
-    data= [
+    accountData= [
       {
         accountId: '1',
         userName: '哈哈',

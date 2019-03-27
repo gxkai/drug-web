@@ -1,6 +1,9 @@
 <template>
   <div class="p10">
     <bread-crumb :path="$route.path"/>
+    <div class="pharm-search">
+      <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
+    </div>
     <d2-crud
       :columns="columns"
       :data="adminData"
@@ -72,21 +75,21 @@
           emit: 'emit-edit'
         },
         {
-          text: '停用',
+          text: '不可用',
           type: 'text',
           emit: 'emit-stop',
           show (index, row) {
-            if (row.activated === '在用') {
+            if (row.activated === '可用') {
               return true
             }
           }
         },
         {
-          text: '在用',
+          text: '可用',
           type: 'text',
           emit: 'emit-run',
           show (index, row) {
-            if (row.activated === '停用') {
+            if (row.activated === '不可用') {
               return true
             }
           }
@@ -121,44 +124,29 @@
       let newArray = this.adminData
       for (let i = 0; i < newArray.length; i++) {
         if (newArray[i].activated.toString() === 'true') {
-          newArray[i].activated = '在用'
+          newArray[i].activated = '可用'
         } else {
-          newArray[i].activated = '停用'
+          newArray[i].activated = '不可用'
         }
       }
     }
     handleEditEvent ({index, row}) {
-      // console.log(index)
-      // console.log(row)
-      this.$router.push('/system/admin/edit')
+      this.$router.push({path: '/system/admin/edit', query: {id: row.id}})
     }
     async handleStop ({index, row}) {
-      let stop = this.rowHandle.custom
-      for (let i = 0; i < stop.length; i++) {
-        if (stop[i].text === '停用') {
-          row.activated = '停用'
-        }
-      }
-      console.log(typeof row.activated)
-      // await axios.post(`/api/supervise/admins/${row.id}/activated`, {activated: row.activated}).then(res => {
-      //   console.log(res)
-      // })
+      await axios.post(`/api/supervise/admins/${row.id}/activated?activated=` + false)
+      this.initData()
     }
     async handleRun ({index, row}) {
-      let run = this.rowHandle.custom
-      for (let i = 0; i < run.length; i++) {
-        if (run[i].text === '在用') {
-          row.activated = '在用'
-        }
-      }
-      // console.log(typeof row.activated)
-      // await axios.post(`/api/supervise/admins/${row.id}/activated`, {activated: new Boolean(row.activated)}).then(res => {
-      //   console.log(res)
-      // })
+      await axios.post(`/api/supervise/admins/${row.id}/activated?activated=` + true)
+      this.initData()
     }
     async handleReset ({index, row}) {
       await axios.put(`/api/supervise/admins/${row.id}/reset`)
       this.initData()
+    }
+    addRow () {
+      this.$router.push('/system/admin/create')
     }
   }
 </script>
@@ -167,7 +155,13 @@
   .p10{
     padding: 0 10px;
   }
+  .pharm-search{
+    display: flex;
+    justify-content: Flex-start;
+    align-items: center;
+  }
   /deep/.drug-table{
+    margin-top: 10px;
     .d2-crud-body{
       padding: 0 !important;
       .el-table{
