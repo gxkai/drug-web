@@ -20,7 +20,7 @@
         node-key="id"
         ref="tree"
         highlight-current
-        :default-checked-keys="defaultCheck"
+        :default-checked-keys='defaultCheck'
         :props="defaultProps">
       </el-tree>
     </div>
@@ -58,11 +58,9 @@
     async initData () {
       let id = this.$route.query.id
       let data = await axios.get(`/api/supervise/roles/${id}`, {params: {id: id}})
-      // console.log(data)
       this.form.roleName = data.data.name
       this.form.roleDescription = data.data.description
       let newArr = data.data.treeList
-      // console.log(newArr)
       if (newArr.length > 0) {
         newArr.forEach(item => {
           const pid = item.pid
@@ -81,14 +79,20 @@
         })
       }
       this.treeData = newArr.filter(item => item.pid === null)
-      this.defaultCheck = newArr.filter(item => item.checked === true)
-      // console.log(this.defaultCheck)
-      // console.log(this.treeData)
+      // 过滤item.checked===true的数组
+      let tmp = newArr.filter(function (item) {
+        return item.checked === true
+      })
+      tmp.forEach(ele => {
+        this.defaultCheck.push(ele.id)
+      })
     }
     async submit () {
       // 被选中的节点组成的数组
       let treeList = this.$refs.tree.getCheckedNodes()
-      // console.log(treeList)
+      for (let i = 0; i < treeList.length; i++) {
+        treeList[i].checked = true
+      }
       let id = this.$route.query.id
       let roleDTO = {
         id: id,
@@ -97,8 +101,7 @@
         treeList: treeList,
         type: 'ROLE_ADMIN'
       }
-      let data = await axios.put(`/api/supervise/roles/${id}`, roleDTO)
-      console.log(data)
+      await axios.put(`/api/supervise/roles/${id}`, roleDTO)
       this.$router.push('/system/role')
     }
     goback () {

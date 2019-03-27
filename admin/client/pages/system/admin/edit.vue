@@ -33,7 +33,7 @@
       </el-form>
       <div class="admin-edit-btn">
         <el-button @click="goBack">返回</el-button>
-        <el-button type="primary" @click="goBack">提交</el-button>
+        <el-button type="primary" @click="submit">提交</el-button>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -50,24 +50,52 @@
   })
   export default class AdminEdit extends Vue {
     form = {
-      name: '1234',
-      account: '123456789',
+      name: '',
+      account: '',
       role: '',
       curState: '',
       introduce: ''
     }
     stateOptions = [
       {
-        value: '在用',
+        value: true,
         label: '在用'
       },
       {
-        value: '停用',
+        value: false,
         label: '停用'
       }
     ]
-    goBack () {
+    beforeMount () {
+      this.getData()
+    }
+    async getData () {
+      let id = this.$route.query.id
+      await axios.get(`/api/supervise/admins/${id}`).then(res => {
+        console.log(res)
+        this.form.name = res.data.name
+        this.form.account = res.data.username
+        this.form.role = res.data.roleId
+        this.form.curState = res.data.activated
+        this.form.introduce = res.data.introduce
+      })
+    }
+    async submit () {
+      let admin = {
+        name: this.form.name,
+        username: this.form.account,
+        roleId: this.form.role,
+        activated: this.form.curState,
+        introduce: this.form.introduce,
+        fileId: '',
+        password: '123456'
+      }
+      let id = this.$route.query.id
+      await axios.put(`/api/supervise/admins/${id}`, admin)
       this.$router.push('/system/admin')
+    }
+    goBack () {
+      this.$router.go(-1)
     }
   }
 </script>

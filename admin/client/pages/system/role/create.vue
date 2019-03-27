@@ -56,7 +56,6 @@
     async initData () {
       let roleTree = await axios.get(`/api/supervise/roles/tree`)
       let newArr = roleTree.data.treeList
-      // console.log(newArr)
       if (newArr.length > 0) {
         newArr.forEach(item => {
           const pid = item.pid
@@ -69,26 +68,27 @@
                 }
                 childArray.push(item)
                 ele.children = childArray
-                // console.log(ele)
               }
             })
           }
         })
       }
       this.treeData = newArr.filter(item => item.pid === null)
-      console.log(this.treeData)
     }
     async submit () {
       // 被选中的节点组成的数组
       let treeList = this.$refs.tree.getCheckedNodes()
+      for (let i = 0; i < treeList.length; i++) {
+        treeList[i].checked = true
+      }
+      console.log(treeList)
       let roleDTO = {
         name: this.form.roleName,
         description: this.form.roleDescription,
         treeList: treeList,
         type: 'ROLE_ADMIN'
       }
-      let data = await axios.post(`/api/supervise/roles`, roleDTO)
-      console.log(data)
+      await axios.post(`/api/supervise/roles`, roleDTO)
       this.$router.push('/system/role')
     }
     goback () {
