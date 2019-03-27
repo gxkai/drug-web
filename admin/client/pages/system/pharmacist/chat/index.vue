@@ -95,7 +95,7 @@
         pageSize: this.pagination.pageSize
       }
       let {data: chat} = await axios.get(`/api/supervise/chats/users/${id}`, {params})
-      // console.log(chat)
+      console.log(chat)
       this.chatList = chat.list
       this.pagination.total = chat.total
       this.chatList.forEach((item, index) => {
@@ -106,7 +106,15 @@
     }
 
     mounted () {
-      this.uId = this.$route.query.id
+      if (this.$route.query.id) {
+        this.uId = this.$route.query.id
+        localStorage.setItem('chatID', this.uId)
+      } else {
+        this.uId = localStorage.getItem('chatID')
+      }
+
+      console.log(this.uId)
+
       this.getChatList(this.uId)
     }
   }

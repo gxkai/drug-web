@@ -52,8 +52,8 @@
         </el-form-item>
       </el-form>
       <div class="submit-btn">
-        <el-button type="primary" @click="submit">提交</el-button>
         <el-button @click="$router.go(-1)">返回</el-button>
+        <el-button type="primary" @click="submit">提交</el-button>
       </div>
     </div>
   </div>

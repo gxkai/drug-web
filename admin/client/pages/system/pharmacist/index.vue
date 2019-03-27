@@ -86,7 +86,7 @@
     loading = false;
     pagination = {
       currentPage: 1,
-      pageSize: 2,
+      pageSize: 15,
       total: 0
     }
     options= {
@@ -255,6 +255,9 @@
 
     mounted () {
       this.getPharmacist()
+      if (localStorage.getItem('chatID')) {
+        localStorage.removeItem('chatID')
+      }
     }
   }
 </script>
