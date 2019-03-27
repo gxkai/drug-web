@@ -107,75 +107,80 @@
     padding: 10px;
     overflow-y: scroll;
     background: #eee;
-    li {
-      margin-bottom: 20px;
-      list-style: none;
+    ul{
+      padding: 0 15px;
 
-      .date{
-        color: #aaa;
-        font-size: 15px;
-        text-align: center;
-      }
+      li {
+        margin-bottom: 20px;
+        list-style: none;
 
-      .main{
-        &.pic{
-          display: flex;
-        }
-        .name{
-          font-size: 14px;
-          padding-right: 15px;
+        .date{
+          color: #aaa;
+          font-size: 15px;
+          text-align: center;
         }
 
-        .img{
-          img{
-            width: 100px;
-            border-radius: 5px;
-          }
-        }
-
-        .text {
-          display: inline-block;
-          position: relative;
-          padding: 0 10px;
-          max-width: 90%;
-          min-height: 30px;
-          line-height: 2.5;
-          font-size: 12px;
-          text-align: left;
-          word-break: break-all;
-          background-color: #fafafa;
-          border-radius: 4px;
-
-          &:before {
-            content: " ";
-            position: absolute;
-            top: 9px;
-            right: 100%;
-            border: 6px solid transparent;
-            border-right-color: #fafafa;
-          }
-        }
-      }
-
-      .pharmacist{
         .main{
-          text-align: right;
-
+          &.pic{
+            display: flex;
+          }
           .name{
-            padding-right: 0;
-            padding-left: 15px;
+            font-size: 14px;
+            padding-right: 15px;
           }
 
-          .text{
-            &:before{
-              right: -6px;
-              border-right: transparent;
-              border-left-color: #fafafa;
+          .img{
+            img{
+              width: 100px;
+              border-radius: 5px;
+            }
+          }
+
+          .text {
+            display: inline-block;
+            position: relative;
+            padding: 0 10px;
+            max-width: 90%;
+            min-height: 30px;
+            line-height: 2.5;
+            font-size: 12px;
+            text-align: left;
+            word-break: break-all;
+            background-color: #fafafa;
+            border-radius: 4px;
+
+            &:before {
+              content: " ";
+              position: absolute;
+              top: 9px;
+              right: 100%;
+              border: 6px solid transparent;
+              border-right-color: #fafafa;
+            }
+          }
+        }
+
+        .pharmacist{
+          .main{
+            text-align: right;
+
+            .name{
+              padding-right: 0;
+              padding-left: 15px;
+            }
+
+            .text{
+              &:before{
+                right: -6px;
+                border-right: transparent;
+                border-left-color: #fafafa;
+              }
             }
           }
         }
       }
     }
+
     .avatar {
       float: left;
       margin: 0 10px 0 0;
