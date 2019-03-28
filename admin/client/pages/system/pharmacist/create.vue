@@ -7,13 +7,13 @@
           <el-input v-model="form.username" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="药师名：">
-          <el-input v-model="form.pharmacistName" placeholder="请输入"></el-input>
+          <el-input v-model="form.name" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="角色：">
-          <el-input v-model="form.role" placeholder="请输入"></el-input>
+          <el-input v-model="form.roleName" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="状态：">
-          <el-select v-model="form.curState" placeholder="请选择">
+          <el-select v-model="form.status" placeholder="请选择">
             <el-option
               v-for="item in stateOptions"
               :key="item.value"
@@ -24,8 +24,7 @@
         </el-form-item>
         <el-form-item label="评分：">
           <el-rate
-            v-model="form.rateScore"
-            show-score
+            v-model="form.score"
             class="rate-score"
             >
           </el-rate>
@@ -35,7 +34,7 @@
 
     <div class="pharm-btn">
       <el-button @click="goback">返回</el-button>
-      <el-button type="primary" @click="goback">提交</el-button>
+      <el-button type="primary" @click="submit">提交</el-button>
     </div>
 
   </div>
@@ -44,6 +43,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
 
   @Component({
     components: {
@@ -52,11 +52,14 @@
   })
   export default class PharmacistCreate extends Vue {
     form = {
+      name: '',
       username: '',
-      pharmacistName: '',
-      role: '',
-      curState: '',
-      rateScore: 3
+      password: '123456',
+      roleId: 'ROLE_ADMIN_PHARMACIST',
+      roleName: '药师',
+      status: '',
+      activated: false,
+      score: 0
     }
     stateOptions = [
       {
@@ -70,6 +73,25 @@
     ]
     goback () {
       this.$router.push('/system/pharmacist')
+    }
+
+    async submit () {
+      if (this.form.status) {
+        if (this.form.status === '启用') {
+          this.form.activated = true
+        } else {
+          this.form.activated = false
+        }
+      }
+
+      await axios.post(`/api/supervise/admins`, this.form)
+      this.$message({
+        message: '提交成功！',
+        type: 'success'
+      })
+      setTimeout(() => {
+        this.$router.push('/system/pharmacist')
+      }, 1500)
     }
   }
 </script>

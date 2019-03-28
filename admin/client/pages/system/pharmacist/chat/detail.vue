@@ -3,17 +3,43 @@
     <bread-crumb :path="$route.path"/>
     <div class="chatDetail">
       <ul>
-        <li v-for="items in sessions" :key="items.id">
-          <section v-for="item in items.messages">
-            <p class="time"><span>{{ item.date }}</span></p>
-            <div class="chat-main" :class="{ self: item.self }">
-              <p>{{ items.user.name }}</p>
-              <img class="avatar" width="30" height="30" :src="item.self ? user.img : items.user.img" />
-              <div class="text">{{ item.content }}</div>
+        <li v-for="(item, index) in detailList" :key="index">
+          <div class="account" v-if="item.type === 'ACCOUNT'">
+            <p class="date">{{ item.createdDate }}</p>
+            <div class="main" :class="item.messageType === 'PIC' ? 'pic' : ''">
+              <span class="name">{{ item.accountName }}</span>
+              <span v-if="item.messageType === 'TEXT'" class="text">
+                {{ item.message }}
+              </span>
+              <span v-else class="img">
+                <img :src="item.picUrl">
+              </span>
             </div>
-          </section>
+          </div>
+
+          <div class="pharmacist" v-else>
+            <p class="date">{{ item.createdDate }}</p>
+            <div class="main" :class="item.messageType === 'PIC' ? 'pic' : ''">
+              <span v-if="item.messageType === 'TEXT'" class="text">
+                {{ item.message }}
+              </span>
+              <span v-else class="img">
+                <img :src="item.picUrl">
+              </span>
+              <span class="name">{{ item.userName }}</span>
+            </div>
+          </div>
         </li>
       </ul>
+    </div>
+    <div class="pagination">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        layout="prev, pager, next, jumper, total"
+        :total="totalPages">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -21,56 +47,45 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
+
   @Component({
     components: {
       BreadCrumb
     }
   })
   export default class ChatDetail extends Vue {
-    user = {
-      name: 'coffce',
-      img: require(`~/assets/img/login-bg.jpeg`)
+    currentPage = 1; // 当前页
+    pageSize = 15; // 每页显示条数
+    totalPages = 0;
+    chatID = ''
+    detailList = []
+
+    handleCurrentChange (page) {
+      this.currentPage = page
+      this.getDetail(this.chatID)
     }
-    sessions = [
-      {
-        id: 1,
-        user: {
-          name: '左1',
-          img: require(`~/assets/img/hospital/img1.png`)
-        },
-        messages: [
-          {
-            content: '左2',
-            date: '2019-02-24 12:00:00',
-            self: false
-          },
-          {
-            content: '左3',
-            date: '2019-03-24 12:00:00',
-            self: false
-          }
-        ]
-      },
-      {
-        id: 2,
-        user: {
-          name: '右1',
-          img: require(`~/assets/img/hospital/img1.png`)
-        },
-        messages: [
-          {
-            content: '右2',
-            date: '2019-04-24 12:00:00',
-            self: true
-          },
-          {
-            content: '右3',
-            date: '2019-05-24 12:00:00',
-            self: true
-          }
-        ]
+
+    async getDetail (id) {
+      let params = {
+        pageNum: this.currentPage,
+        pageSize: this.pageSize
       }
-    ]
+      let {data: detail} = await axios.get(`/api/supervise/chats/${id}`, {params})
+      console.log(detail)
+      this.detailList = detail.list
+      this.totalPages = detail.total
+
+      this.detailList.forEach(item => {
+        item.createdDate = moment(item.createdDate).format('YYYY-MM-DD hh:mm:ss')
+      })
+    }
+
+    mounted () {
+      this.chatID = this.$route.query.id
+      this.getDetail(this.chatID)
+    }
   }
 </script>
 
@@ -78,79 +93,98 @@
   .p10{
     padding: 0 10px;
   }
+
+  /deep/.pagination{
+    margin: 30px 0;
+    .el-pagination__total{
+      float: right;
+    }
+  }
+
   .chatDetail {
     width: 80%;
     height: 600px;
     padding: 10px;
     overflow-y: scroll;
     background: #eee;
-    li {
-      margin-bottom: 15px;
-      list-style: none;
-      .chat-main{
-        /*border: 1px solid #000;*/
-        p{
-          font-size: 12px;
-          line-height: 1;
-          color: #666666;
+    ul{
+      padding: 0 15px;
+
+      li {
+        margin-bottom: 20px;
+        list-style: none;
+
+        .date{
+          color: #aaa;
+          font-size: 15px;
+          text-align: center;
+        }
+
+        .main{
+          &.pic{
+            display: flex;
+          }
+          .name{
+            font-size: 14px;
+            padding-right: 15px;
+          }
+
+          .img{
+            img{
+              width: 100px;
+              border-radius: 5px;
+            }
+          }
+
+          .text {
+            display: inline-block;
+            position: relative;
+            padding: 0 10px;
+            max-width: 90%;
+            min-height: 30px;
+            line-height: 2.5;
+            font-size: 12px;
+            text-align: left;
+            word-break: break-all;
+            background-color: #fafafa;
+            border-radius: 4px;
+
+            &:before {
+              content: " ";
+              position: absolute;
+              top: 9px;
+              right: 100%;
+              border: 6px solid transparent;
+              border-right-color: #fafafa;
+            }
+          }
+        }
+
+        .pharmacist{
+          .main{
+            text-align: right;
+
+            .name{
+              padding-right: 0;
+              padding-left: 15px;
+            }
+
+            .text{
+              &:before{
+                right: -6px;
+                border-right: transparent;
+                border-left-color: #fafafa;
+              }
+            }
+          }
         }
       }
     }
-    .time {
-      margin: 7px 0;
-      text-align: center;
-      > span {
-        display: inline-block;
-        padding: 2px 18px;
-        font-size: 12px;
-        color: #fff;
-        border-radius: 2px;
-        background-color: #dcdcdc;
-      }
-    }
+
     .avatar {
       float: left;
       margin: 0 10px 0 0;
       border-radius: 3px;
-    }
-    .text {
-      display: inline-block;
-      position: relative;
-      padding: 0 10px;
-      max-width: 90%;
-      min-height: 30px;
-      line-height: 2.5;
-      font-size: 12px;
-      text-align: left;
-      word-break: break-all;
-      background-color: #fafafa;
-      border-radius: 4px;
-
-      &:before {
-        content: " ";
-        position: absolute;
-        top: 9px;
-        right: 100%;
-        border: 6px solid transparent;
-        border-right-color: #fafafa;
-      }
-    }
-
-    .self {
-      text-align: right;
-      .avatar {
-        float: right;
-        margin: 0 0 0 10px;
-      }
-      .text {
-        background-color: #b2e281;
-        &:before {
-          right: inherit;
-          left: 100%;
-          border-right-color: transparent;
-          border-left-color: #b2e281;
-        }
-      }
     }
   }
 </style>

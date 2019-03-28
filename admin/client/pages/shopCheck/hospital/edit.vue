@@ -19,10 +19,17 @@
           <el-input v-model="editData.address" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="经度：">
-          <el-input v-model="editData.lng" placeholder="请输入"></el-input>
+          <el-input v-model="editData.lng" @change="handler" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="纬度：">
-          <el-input v-model="editData.lat" placeholder="请输入"></el-input>
+          <el-input v-model="editData.lat" @change="handler" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item class="el-form-item-map">
+          <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view">
+            <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
+            <!--<bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>-->
+            <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+          </baidu-map>
         </el-form-item>
         <el-form-item label="医院照片：" class="hospitalImg">
           <el-upload
@@ -45,8 +52,8 @@
         </el-form-item>
       </el-form>
       <div class="submit-btn">
-        <el-button type="primary" @click="submit">提交</el-button>
         <el-button @click="$router.go(-1)">返回</el-button>
+        <el-button type="primary" @click="submit">提交</el-button>
       </div>
     </div>
   </div>
@@ -68,6 +75,15 @@
     hospitalImage = ''
     hID = ''
     imgJudge = ''
+    center = {lng: 0, lat: 0}
+    zoom = 3
+
+    handler ({BMap, map}) {
+      // console.log(BMap, map)
+      this.center.lng = this.editData.lng
+      this.center.lat = this.editData.lat
+      this.zoom = 15
+    }
 
     uploadSuccess (res, file) {
       this.hospitalImage = URL.createObjectURL(file.raw)
@@ -136,6 +152,14 @@
           }
           &.hospitalIntro{
             grid-column: 1 / 3;
+          }
+          &.el-form-item-map{
+            grid-column: 1 / 3;
+            grid-row: 8 / 10;
+            .bm-view {
+              width: 100%;
+              height: 280px;
+            }
           }
         }
       }
