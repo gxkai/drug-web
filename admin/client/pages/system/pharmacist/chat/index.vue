@@ -39,19 +39,19 @@
       },
       {
         title: '最后一次发送时间',
-        key: 'userLastDate'
-      },
-      {
-        title: '发送内容',
-        key: 'userMessage'
-      },
-      {
-        title: '最后一次回复时间',
         key: 'accountLastDate'
       },
       {
-        title: '回复内容',
+        title: '发送内容',
         key: 'accountMessage'
+      },
+      {
+        title: '最后一次回复时间',
+        key: 'userLastDate'
+      },
+      {
+        title: '回复内容',
+        key: 'userMessage'
       }
     ]
     chatList = []
