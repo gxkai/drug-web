@@ -10,7 +10,7 @@
         <d2-crud
           ref="d2Crud"
           :columns="columns"
-          :data="data"
+          :data="keywordsData"
           :loading="loading"
           :pagination="pagination"
           :options="options"
@@ -28,13 +28,13 @@
         <div class="main">
           <el-form :model="viewData" label-width="100px">
             <el-form-item label="序号">
-              <el-input v-model="viewData.num" readonly placeholder="请输入"></el-input>
+              <el-input v-model="viewData.index" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="搜索词">
-              <el-input v-model="viewData.searchNum" readonly placeholder="请输入"></el-input>
+              <el-input v-model="viewData.name" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="搜索次数">
-              <el-input v-model="viewData.searchWord" readonly placeholder="请输入"></el-input>
+              <el-input v-model="viewData.searchTimes" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="类型">
               <el-input v-model="viewData.type" readonly placeholder="请输入"></el-input>
@@ -53,54 +53,41 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
     }
   })
   export default class Word extends Vue {
-    columns= [
+    columns = [
       {
         title: '序号',
-        key: 'num'
+        key: 'index'
       },
       {
         title: '搜索词',
-        key: 'searchWord'
+        key: 'name'
       },
       {
         title: '搜索次数',
-        key: 'searchNum'
+        key: 'searchTimes'
       },
       {
         title: '类型',
         key: 'type'
       }
-    ];
-    data= [
-      {
-        num: '1',
-        searchWord: '感冒',
-        searchNum: '1',
-        type: '后台推荐'
-      },
-      {
-        num: '2',
-        searchWord: '念慈菴',
-        searchNum: '2',
-        type: '用户搜索'
-      }
-    ];
-    loading= false;
+    ]
+    keywordsData = []
+    loading= false
     pagination= {
       currentPage: 1,
-      pageSize: 5,
-      total: this.data.length
-    };
+      pageSize: 15,
+      total: 0
+    }
     options= {
       border: true
-    };
+    }
     rowHandle= {
       custom: [
         {
@@ -114,25 +101,46 @@
           emit: 'firstPush-emit'
         }
       ]
-    };
+    }
+
+    beforeMount () {
+      this.initData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.initData()
+      this.search()
+    }
+    async initData () {
+      let params = {
+        name: '',
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/keywords`, {params: params})
+      console.log(data)
+      this.keywordsData = data.data.list
+      // 添加序号
+      this.keywordsData.forEach((item, index) => {
+        item.index = index + 1
+      })
+      this.pagination.total = data.data.total
+    }
 
     firstPush ({index, row}) {
       this.$router.push('/drugCheck/drug')
     }
 
-    viewData = {};
+    viewData = {}
     isClickModal = false
     dialogVisible = false
 
     view ({index, row}) {
-      this.viewData.num = row.num
-      this.viewData.searchNum = row.searchNum
-      this.viewData.searchWord = row.searchWord
+      this.viewData.index = row.index
+      this.viewData.name = row.name
+      this.viewData.searchTimes = row.searchTimes
       this.viewData.type = row.type
       this.dialogVisible = true
-    }
-
-    mounted () {
     }
   }
 </script>

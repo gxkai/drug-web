@@ -2,7 +2,7 @@
   <div class="p10">
       <bread-crumb :path="$route.path"/>
       <div class="shop-search">
-        <el-select size="small" v-model="shopName" filterable placeholder="药房名称">
+        <el-select size="small" v-model="shopName" filterable placeholder="药房名称" style="width:auto;">
           <el-option
             v-for="item in shopOptions"
             :key="item.value"
@@ -31,7 +31,7 @@
       </div>
       <d2-crud
         :columns="columns"
-        :data="data"
+        :data="shopData"
         :loading="loading"
         :pagination="pagination"
         :options="options"
@@ -48,7 +48,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -58,87 +58,35 @@
     shopName = ''
     legalName = ''
     drugState = ''
-    columns= [
+    columns = [
       {
         title: '药房名称',
-        key: 'shopName',
-        width: 240
+        key: 'shopName'
       },
       {
         title: '法人姓名',
-        key: 'legalName'
+        key: 'legal'
       },
       {
         title: '身份证号',
-        key: 'idNumber'
+        key: 'identityNumber'
       },
       {
         title: '经营地址',
-        key: 'shopAddress'
+        key: 'address'
       },
       {
         title: '手机号码',
-        key: 'phoneNumber'
+        key: 'phone'
       },
       {
         title: '当前状态',
-        key: 'curState'
+        key: 'state'
       }
     ]
-    data= [
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
-        curState: '正常'
-      },
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
-        curState: '停业'
-      },
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
-        curState: '待审核'
-      },
-      {
-        shopName: '百家惠',
-        legalName: '傅旭凯',
-        idNumber: '321281199210081112',
-        shopAddress: '玉山镇朝阳西路203号',
-        phoneNumber: '17766220751',
-        curState: '不通过'
-      }
-    ]
-    shopOptions = [
-      {
-        value: '同德堂',
-        label: '同德堂'
-      },
-      {
-        value: '百家惠',
-        label: '百家惠'
-      }
-    ]
-    legalOptions = [
-      {
-        value: '黄哲林',
-        label: '黄哲林'
-      },
-      {
-        value: '老王',
-        label: '老王'
-      }
-    ]
+    shopData = []
+    shopOptions = []
+    legalOptions = []
     stateOptions = [
       {
         value: '正常',
@@ -155,9 +103,13 @@
       {
         value: '不通过',
         label: '不通过'
+      },
+      {
+        value: '休息中',
+        label: '休息中'
       }
     ]
-    loading = false;
+    loading = false
     pagination= {
       currentPage: 1,
       pageSize: 5,
@@ -173,7 +125,7 @@
           type: 'text',
           emit: 'emit-check',
           show (index, row) {
-            if (row.curState === '待审核') {
+            if (row.state === '待审核') {
               return true
             }
           }
@@ -183,7 +135,7 @@
           type: 'text',
           emit: 'emit-detail',
           show (index, row) {
-            if (row.curState === '正常' || row.curState === '不通过' || row.curState === '待审核' || row.curState === '停业') {
+            if (row.state === '正常' || row.state === '不通过' || row.state === '待审核' || row.state === '停业' || row.state === '休息中') {
               return true
             }
           }
@@ -193,7 +145,7 @@
           type: 'text',
           emit: 'emit-run',
           show (index, row) {
-            if (row.curState === '停业') {
+            if (row.state === '停业') {
               return true
             }
           }
@@ -203,12 +155,58 @@
           type: 'text',
           emit: 'emit-stop',
           show (index, row) {
-            if (row.curState === '正常') {
+            if (row.state === '正常') {
               return true
             }
           }
         }
       ]
+    }
+    beforeMount () {
+      this.getShopData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.getShopData()
+      // this.search()
+    }
+    async getShopData () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/shops`, {params: params})
+      this.shopData = data.data.list
+      this.pagination.total = data.data.total
+
+      this.shopData.forEach((item) => {
+        // console.log(item.legal)
+        // 获取药房名称
+        this.shopOptions.push({
+          value: item.shopName,
+          label: item.shopName
+        })
+        // 获取法人姓名
+        this.legalOptions.push({
+          value: item.legal.trim(),
+          label: item.legal.trim()
+        })
+        if (item.state === 'NORMAL') {
+          item.state = '正常'
+        }
+        if (item.state === 'REST') {
+          item.state = '停业'
+        }
+        if (item.state === 'TO_CHECK') {
+          item.state = '待审核'
+        }
+        if (item.state === 'NO_PASS') {
+          item.state = '不通过'
+        }
+        if (item.state === 'VIOLATION') {
+          item.state = '休息中'
+        }
+      })
     }
     handleCheckEvent () {
       this.$router.push('/shopCheck/shop/edit')
