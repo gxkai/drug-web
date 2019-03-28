@@ -129,6 +129,8 @@
     "搜索词管理",
   "/business/repository":
     "知识库管理",
+  "/business/repository/repositoryCategoryList":
+    "分类列表",
   "/business/faq":
     "常见问题",
   "/system":

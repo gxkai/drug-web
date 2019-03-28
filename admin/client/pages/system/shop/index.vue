@@ -2,7 +2,7 @@
   <div class="p10">
     <bread-crumb :path="$route.path"/>
     <div class="pharm-search">
-      <el-select v-model="shopNameValue" size="small" placeholder="请选择" style="width: 250px;" @change="getShopID">
+      <el-select v-model="shopNameValue" size="small" placeholder="药店名称" style="width: 250px;" @change="getShopID">
         <el-option
           v-for="item in shopNameOptions"
           :key="item.id"

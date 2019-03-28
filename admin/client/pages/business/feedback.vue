@@ -226,7 +226,7 @@
       this.feedbackList.forEach((item, index) => {
         item.index = index + 1
         item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
-        item.processed = item.remark ? 'true' : 'false'
+        item.processed = item.remark ? '已处理' : '未处理'
       })
     }
 

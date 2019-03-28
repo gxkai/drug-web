@@ -8,22 +8,24 @@
           <el-col :span="8">
             <span class="tit">药店名称：</span>
             <el-input
+              style="width: 250px"
+              size="small"
               placeholder="请输入"
-              v-model="pharmacyValue"
-              clearable>
+              v-model="pharmacyValue">
             </el-input>
           </el-col>
           <el-col :span="8">
             <span class="tit">药品名称：</span>
             <el-input
+              size="small"
+              style="width: 250px"
               placeholder="请输入"
-              v-model="drugValue"
-              clearable>
+              v-model="drugValue">
             </el-input>
           </el-col>
           <el-col :span="8" class="produce-col">
             <span class="tit">生产厂商：</span>
-            <el-select v-model="produceValue" clearable filterable placeholder="请选择">
+            <el-select v-model="produceValue" size="small" filterable placeholder="请选择" style="width: 250px">
               <el-option
                 v-for="item in produceList"
                 :key="item.value"
@@ -37,7 +39,7 @@
         <el-row :gutter="20" class="filter-bottom">
           <el-col :span="8" class="status-col">
             <span class="tit">当前状态：</span>
-            <el-select v-model="produceValue" clearable filterable placeholder="请选择">
+            <el-select v-model="produceValue" size="small" filterable placeholder="请选择" style="width: 250px">
               <el-option
                 v-for="item in produceList"
                 :key="item.value"
@@ -49,14 +51,17 @@
           <el-col :span="8">
             <span class="tit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</span>
             <el-date-picker
+              size="small"
+              :clearable="disClearable"
+              style="width: 250px"
               v-model="dateValue"
-              type="datetimerange"
-              range-separator="~"
+              type="daterange"
+              range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>
           </el-col>
-          <el-col :span="7" class="action-col">
+          <el-col :span="4" class="action-col">
             <el-button type="primary" size="small">搜索</el-button>
           </el-col>
         </el-row>
@@ -68,38 +73,52 @@
           border
           style="width: 100%">
           <el-table-column
+            width="50px"
             prop="serialNumber"
             label="序号">
           </el-table-column>
           <el-table-column
+            width="200px"
             prop="pharmacyName"
+            label="药店名称">
+          </el-table-column>
+          <el-table-column
+            width="200px"
+            prop="drugName"
             label="药品名称">
           </el-table-column>
           <el-table-column
+            width="120px"
             prop="drugSpec"
             label="药品规格">
           </el-table-column>
           <el-table-column
+            width="200px"
             prop="produce"
             label="生产厂商">
           </el-table-column>
           <el-table-column
+            width="50px"
             prop="salesNum"
             label="销量">
           </el-table-column>
           <el-table-column
+            width="80px"
             prop="salesPrice"
             label="销售价">
           </el-table-column>
           <el-table-column
+            width="100px"
             prop="applyDate"
             label="申请日期">
           </el-table-column>
           <el-table-column
+            width="170px"
             prop="showStartTime"
             label="展示开始时间">
           </el-table-column>
           <el-table-column
+            width="170px"
             prop="showEndTime"
             label="展示结束时间">
           </el-table-column>
@@ -107,9 +126,9 @@
             prop="status"
             label="当前状态">
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="120px">
             <template slot-scope="scope">
-              <el-button @click="viewDetail(scope.row)" type="text" size="small">查看</el-button>
+              <el-button @click="viewDetail(scope.row)" type="text">查看</el-button>
 
               <el-dropdown trigger="click" v-if="scope.row.showMore">
                 <span class="el-dropdown-link">
@@ -118,15 +137,15 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
-                    <el-button type="text" size="small" @click="passAction(scope.$index, scope.row)">通过</el-button>
+                    <el-button type="text" @click="passAction(scope.$index, scope.row)">通过</el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    <el-button type="text" size="small" @click="failPass(scope.$index, scope.row)">不通过</el-button>
+                    <el-button type="text" @click="failPass(scope.$index, scope.row)">不通过</el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
 
-              <el-button type="text" size="small" @click="obtained(scope.$index, scope.row)" v-if="scope.row.showDown">下架</el-button>
+              <el-button type="text" @click="obtained(scope.$index, scope.row)" v-if="scope.row.showDown">下架</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -242,6 +261,7 @@
     }
   })
   export default class Discount extends Vue {
+    disClearable = false
     pharmacyValue = '';
     produceValue = '';
     drugValue = '';
@@ -272,7 +292,8 @@
     tableData = [
       {
         serialNumber: '1',
-        pharmacyName: '1',
+        pharmacyName: '百家慧',
+        drugName: '感冒灵',
         drugSpec: '1',
         produce: '1',
         salesNum: '10',
@@ -559,7 +580,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .discount-wrap{
     padding: 20px;
 
@@ -595,22 +616,8 @@
           font-size: 15px;
         }
 
-        .action-col{
-          text-align: right;
-          line-height: 40px;
-        }
-
         &-top{
           margin: 20px 0;
-        }
-
-        .el-input,.el-select,.el-date-editor{
-          width: 80%;
-        }
-
-        .produce-col .el-input,
-        .status-col .el-input{
-          width: 100%;
         }
       }
 
@@ -638,8 +645,6 @@
       }
 
       .cell{
-
-
         button:last-child{
           &:before{
             content: '|';
@@ -656,7 +661,7 @@
           &:before{
             display: none;
           }
-      }
+        }
 
         .el-button+.el-button{
           margin-left: 0;
@@ -674,10 +679,9 @@
             top: -1px;
           }
 
-
-
           &-link{
             cursor: pointer;
+            font-size: 14px;
           }
 
           .el-icon--right{
@@ -693,9 +697,12 @@
     }
   }
 
-  .el-dropdown-menu__item{
-    .el-button--text{
-      color: #606266;
+  .el-dropdown-menu {
+    overflow: hidden;
+    &__item {
+      .el-button--text {
+        color: #606266;
+      }
     }
   }
 </style>
