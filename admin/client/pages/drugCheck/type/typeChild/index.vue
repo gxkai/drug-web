@@ -161,10 +161,10 @@
         })
       }
       let params = {
-        name: this.commonNameValue,
-        pageNum: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize,
-        pname: this.$route.query.type
+        name: this.commonNameValue
+        // pageNum: this.pagination.currentPage,
+        // pageSize: this.pagination.pageSize,
+        // pname: this.$route.query.type
       }
       let id = this.$route.query.id
       await axios.get(`/api/supervise/drugType/${id}/children`, {params: params}).then(res => {

@@ -111,6 +111,14 @@
       console.log(imgres)
 
       let pid = this.$route.query.pid
+      let getName = await axios.post(`/api/supervise/drugTypes/${pid}/children/exists`, {params: {type: this.form.typeName}})
+      if (getName.data >= 1) {
+        this.$message({
+          message: '子类名称已存在!',
+          type: 'warning'
+        })
+        return false
+      }
       let drugType = {
         file: '',
         fileId: imgres.data,
