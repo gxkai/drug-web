@@ -26,7 +26,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-button type="primary" size="small">搜索</el-button>
+        <el-button type="primary" size="small" @click="search">搜索</el-button>
         <el-button size="small" @click="clear">清空</el-button>
       </div>
       <d2-crud
@@ -56,6 +56,7 @@
   })
   export default class Shop extends Vue {
     shopName = ''
+    shopId = ''
     legalName = ''
     drugState = ''
     columns = [
@@ -86,26 +87,27 @@
     ]
     shopData = []
     shopOptions = []
+    arr = []
     legalOptions = []
     stateOptions = [
       {
-        value: '正常',
+        value: 'NORMAL',
         label: '正常'
       },
       {
-        value: '停业',
+        value: 'REST',
         label: '停业'
       },
       {
-        value: '待审核',
+        value: 'TO_CHECK',
         label: '待审核'
       },
       {
-        value: '不通过',
+        value: 'NO_PASS',
         label: '不通过'
       },
       {
-        value: '休息中',
+        value: 'VIOLATION',
         label: '休息中'
       }
     ]
@@ -168,7 +170,7 @@
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
       this.getShopData()
-      // this.search()
+      this.search()
     }
     async getShopData () {
       let params = {
@@ -177,20 +179,40 @@
       }
       let data = await axios.get(`/api/supervise/shops`, {params: params})
       this.shopData = data.data.list
+      // this.tableData = data.data.list.map(i => {
+      //   this.$set(i, 'shopId', i.id)
+      //   return i
+      // })
+      // console.log(this.shopData)
       this.pagination.total = data.data.total
-
       this.shopData.forEach((item) => {
-        // console.log(item.legal)
         // 获取药房名称
-        this.shopOptions.push({
-          value: item.shopName,
-          label: item.shopName
-        })
+        // this.shopOptions.push({
+        //   value: item.shopName,
+        //   label: item.shopName
+        // })
         // 获取法人姓名
-        this.legalOptions.push({
-          value: item.legal.trim(),
-          label: item.legal.trim()
+        this.arr.push({
+          value: item.legal,
+          label: item.legal
         })
+        // 法人姓名去重
+        function uniqObjInArray (objarray) {
+          let len = objarray.length
+          let tempJson = {}
+          let res = []
+          for (let i = 0; i < len; i++) {
+            tempJson[JSON.stringify(objarray[i])] = true
+          }
+          // console.log(tempJson)
+          let keyItems = Object.keys(tempJson)
+          for (let j = 0; j < keyItems.length; j++) {
+            res.push(JSON.parse(keyItems[j]))
+          }
+          return res
+        }
+        this.legalOptions = uniqObjInArray(this.arr)
+        // 状态boolean转string
         if (item.state === 'NORMAL') {
           item.state = '正常'
         }
@@ -206,6 +228,15 @@
         if (item.state === 'VIOLATION') {
           item.state = '休息中'
         }
+      })
+      let getAllShop = await axios.post(`/api/supervise/shops/filter`)
+      console.log(getAllShop.data)
+      getAllShop.data.forEach((item) => {
+        this.shopId = item.id
+        this.shopOptions.push({
+          value: item.name,
+          label: item.name
+        })
       })
     }
     handleCheckEvent () {
@@ -234,6 +265,37 @@
       this.shopName = ''
       this.legalName = ''
       this.drugState = ''
+      this.getShopData()
+    }
+    async search () {
+      let params = {
+        legal: this.legalName,
+        shopId: this.shopId,
+        state: this.drugState,
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/shops`, {params: params})
+      // console.log(data)
+      this.shopData = data.data.list
+      this.pagination.total = data.data.total
+      this.shopData.forEach((item) => {
+        if (item.state === 'NORMAL') {
+          item.state = '正常'
+        }
+        if (item.state === 'REST') {
+          item.state = '停业'
+        }
+        if (item.state === 'TO_CHECK') {
+          item.state = '待审核'
+        }
+        if (item.state === 'NO_PASS') {
+          item.state = '不通过'
+        }
+        if (item.state === 'VIOLATION') {
+          item.state = '休息中'
+        }
+      })
     }
   }
 </script>
