@@ -4,20 +4,21 @@
     <div class="file-search">
       <el-date-picker
         size="small"
-        v-model="dataValue"
+        v-model="beginEndDate"
         type="daterange"
         range-separator="至"
         start-placeholder="开始日期"
         end-placeholder="结束日期">
       </el-date-picker>
-      <el-button type="primary" size="small">搜索</el-button>
+      <el-button type="primary" size="small" @click="searchInterface">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="interList"
       :loading="loading"
       :pagination="pagination"
+      @pagination-current-change="paginationCurrentChange"
       :options="options"
       class="drug-table"
     />
@@ -27,6 +28,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -34,11 +37,11 @@
     }
   })
   export default class Interface extends Vue {
-    dataValue = ''
+    beginEndDate = ''
     columns = [
       {
         title: 'URL',
-        key: 'url'
+        key: 'uri'
       },
       {
         title: 'method',
@@ -46,14 +49,14 @@
       },
       {
         title: '次数',
-        key: 'times'
+        key: 'quantity'
       },
       {
         title: '日期',
-        key: 'dateTime'
+        key: 'date'
       }
     ]
-    data = [
+    interList = [
       {
         url: 'api/collects/drug/one',
         method: 'get',
@@ -64,16 +67,49 @@
     loading = false
     pagination = {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options = {
       border: true
     }
-    mounted () {
-    }
+
     clear () {
-      this.dataValue = ''
+      this.beginEndDate = ''
+    }
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getInterface()
+    }
+
+    searchInterface () {
+      for (let i = 0, len = this.beginEndDate.length; i < len; i++) {
+        this.beginEndDate[i] = moment(this.beginEndDate[i]).format('YYYY-MM-DD')
+      }
+
+      this.getInterface(this.beginEndDate[0], this.beginEndDate[1])
+    }
+
+    async getInterface (start, end) {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        start,
+        end
+      }
+      let {data: interData} = await axios.get(`/api/supervise/restStatistics`, {params})
+
+      this.interList = interData.list
+      this.pagination.total = interData.total
+
+      this.interList.forEach(item => {
+        item.date = moment(item.date).format('YYYY-MM-DD hh:mm:ss')
+      })
+    }
+
+    mounted () {
+      this.getInterface()
     }
   }
 </script>
@@ -81,6 +117,7 @@
 <style scoped lang="scss">
   .p10{
     padding: 0 10px;
+    background: #FFF;
   }
   /deep/.file-search{
     display: flex;
