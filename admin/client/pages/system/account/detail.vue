@@ -45,7 +45,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
+  import moment from 'moment'
   @Component({
     components: {
       BreadCrumb
@@ -53,19 +54,44 @@
   })
   export default class AccountDetail extends Vue {
     form = {
-      phone: '13300000000',
-      sex: '男',
-      idCard: '33333333333333333',
+      phone: '',
+      name: '',
+      sex: '',
+      idCard: '',
       medicareCard: '',
-      lastLogin: '2019-03-15 16:09:11',
-      curState: '正常',
+      lastLogin: '',
+      curState: '',
       headPhone: require(`~/assets/img/hospital/img1.png`)
+    }
+    async beforeMount () {
+      let id = this.$route.query.id
+      let getDetail = await axios.get(`/api/supervise/accounts/${id}`)
+      console.log(getDetail)
+      this.form.phone = getDetail.data.username
+      this.form.name = getDetail.data.name
+      // console.log(typeof getDetail.data.gender)
+      if (getDetail.data.gender === 'MALE') {
+        getDetail.data.gender = '男'
+      } else {
+        getDetail.data.gender = '女'
+      }
+      this.form.sex = getDetail.data.gender
+      this.form.idCard = getDetail.data.identityNumber
+      this.form.medicareCard = getDetail.data.medicaidNumber
+      this.form.lastLogin = moment(getDetail.data.loginDate).format('YYYY-MM-DD HH:mm:ss')
+      if (getDetail.data.activated.toString() === 'true') {
+        getDetail.data.activated = '启用'
+      } else {
+        getDetail.data.activated = '停用'
+      }
+      this.form.curState = getDetail.data.activated
+      // this.form.headPhone = getDetail.data.fileId
     }
     handleAvatarSuccess (res, file) {
       this.form.headPhone = URL.createObjectURL(file.raw)
     }
     goBack () {
-      this.$router.push('/system/account')
+      this.$router.go(-1)
     }
   }
 </script>

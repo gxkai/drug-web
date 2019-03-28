@@ -120,7 +120,14 @@
       })
     }
     async handleRowEdit ({ index, row }, done) {
-      await axios.get(`/api/supervise/drugTypes/exists`, {params: {id: row.id, type: row.type}})
+      let getName = await axios.get(`/api/supervise/drugTypes/exists`, {params: {type: row.type}})
+      if (getName.data >= 1) {
+        this.$message({
+          message: '类型名称已存在!',
+          type: 'warning'
+        })
+        return false
+      }
       let drugTypeADTO = {
         fileId: row.fileId,
         pid: row.pid,
@@ -162,7 +169,14 @@
       })
     }
     async handleRowAdd (row, done) {
-      await axios.get(`/api/supervise/drugTypes/exists`, {params: {id: row.id, type: row.type}})
+      let getName = await axios.get(`/api/supervise/drugTypes/exists`, {params: {type: row.type}})
+      if (getName.data >= 1) {
+        this.$message({
+          message: '类型名称已存在!',
+          type: 'warning'
+        })
+        return false
+      }
       let drugTypeAdminDTO = {
         fileId: row.fileId,
         pid: row.pid,

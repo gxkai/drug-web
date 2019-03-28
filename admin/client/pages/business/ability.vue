@@ -4,47 +4,70 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>功能区管理</h3>
-        <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
+        <el-button type="primary" @click="addDialogVisible = true" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
-        <d2-crud
-          ref = 'd2Crud'
-          :columns="columns"
-          :data="data"
-          :loading="loading"
-          :pagination="pagination"
-          :options="options"
-          :rowHandle="rowHandle"
-          @view-emit="viewEvent"
-
-          add-title="我的新增"
-          :add-template="addTemplate"
-          @row-add="handleRowAdd"
-
-          @row-remove="handleRowRemove"
-
-          edit-title="我的修改"
-          :edit-template="editTemplate"
-          @row-edit="handleRowEdit"
-
-          :form-options="formOptions"
-          @dialog-cancel="handleDialogCancel"/>
+        <el-table
+          :data="advertsList"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="id"
+            label="序号">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="模块">
+          </el-table-column>
+          <el-table-column
+            prop="sort"
+            label="排序">
+          </el-table-column>
+          <el-table-column
+            prop="url"
+            label="链接地址">
+          </el-table-column>
+          <el-table-column
+            prop="imgURL"
+            label="图片">
+            <template slot-scope="scope">
+              <img v-if="scope.row.imgURL" :src="scope.row.imgURL" style="width: 50px;height: 50px">
+              <img v-else src="../../assets/img/hospital/img1.png" style="width: 50px;height: 50px">
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button @click="viewAdvert(scope.$index, scope.row)" type="text">查看</el-button>
+              <el-button @click="editAdvert(scope.$index, scope.row)" type="text">编辑</el-button>
+              <el-button @click="removeAdvert(scope.$index, scope.row)" type="text">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="pagination">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-size="pageSize"
+            layout="prev, pager, next, jumper, total"
+            :total="advertsList.length">
+          </el-pagination>
+        </div>
       </div>
 
-      <!-- 查看模态框 -->
+      <!--查看-->
       <el-dialog
         title="查看"
         :visible.sync="viewDialogVisible"
         width="30%"
-        :close-on-click-modal = 'isClickModal'>
+        :close-on-click-modal='isClickModal'>
         <div class="main">
           <el-form :model="viewData" label-width="100px">
             <el-form-item label="序号">
-              <el-input v-model="viewData.num" readonly placeholder="请输入"></el-input>
+              <el-input v-model="viewData.id" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="模块">
-              <el-input v-model="viewData.module" readonly placeholder="请输入"></el-input>
+              <el-input v-model="viewData.name" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="排序">
               <el-input v-model="viewData.sort" readonly placeholder="请输入"></el-input>
@@ -53,15 +76,85 @@
               <el-input v-model="viewData.url" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="图片">
-              <el-input v-model="viewData.image" readonly placeholder="请输入"></el-input>
+              <img :src="viewData.imgURL"/>
             </el-form-item>
           </el-form>
         </div>
-
         <div slot="footer" class="dialog-footer">
           <el-button @click="viewDialogVisible = false" type="primary">关 闭</el-button>
         </div>
       </el-dialog>
+
+      <!--编辑-->
+      <el-dialog
+        title="编辑"
+        :visible.sync="editDialogVisible"
+        width="30%"
+        :close-on-click-modal='isClickModal'>
+        <div class="edit-con">
+          <el-form :model="editData" label-width="100px">
+            <el-form-item label="模块">
+              <el-input v-model="editData.name" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="排序">
+              <el-input v-model="editData.sort" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="链接地址">
+              <el-input v-model="editData.url" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="图片">
+              <el-upload
+                class="avatar-uploader"
+                action=""
+                :show-file-list="false"
+                :on-success="editAvatarSuccess"
+                :before-upload="editBeforeUpload">
+                <img v-if="editData.imgURL" :src="editData.imgURL" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="confirmEdit" type="primary">确 定</el-button>
+        </div>
+      </el-dialog>
+
+      <!--新增-->
+      <el-dialog
+        title="新增"
+        :visible.sync="addDialogVisible"
+        width="30%"
+        :close-on-click-modal='isClickModal'>
+        <div class="edit-con">
+          <el-form :model="addData" label-width="100px">
+            <el-form-item label="模块">
+              <el-input v-model="addData.name" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="排序">
+              <el-input v-model="addData.sort" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="链接地址">
+              <el-input v-model="addData.url" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="图片">
+              <el-upload
+                class="avatar-uploader"
+                action=""
+                :show-file-list="false"
+                :on-success="addAvatarSuccess"
+                :before-upload="addBeforeUpload">
+                <img v-if="addData.imgURL" :src="addData.imgURL" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="addAdvert" type="primary">确 定</el-button>
+        </div>
+      </el-dialog>
+
     </div>
   </div>
 </template>
@@ -70,214 +163,231 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
     }
   })
+
   export default class Advert extends Vue {
-    columns= [
-      {
-        title: '序号',
-        key: 'num'
-      },
-      {
-        title: '模块',
-        key: 'module'
-      },
-      {
-        title: '排序',
-        key: 'sort'
-      },
-      {
-        title: '链接地址',
-        key: 'url'
-      },
-      {
-        title: '图片',
-        key: 'image'
-      }
-    ];
-    data= [
-      {
-        num: '1',
-        module: '我的处方',
-        sort: '1',
-        url: 'https：//.........',
-        image: ''
-      },
-      {
-        num: '2',
-        module: 'xxxx',
-        sort: '2',
-        url: 'https：//.........',
-        image: ''
-      }
-    ];
-    loading= false;
-    pagination= {
-      currentPage: 1,
-      pageSize: 5,
-      total: 0
-    };
-    options= {
-      border: true
-    };
-    rowHandle= {
-      custom: [
-        {
-          text: '查看',
-          type: 'text',
-          emit: 'view-emit'
-        }
-      ],
+    currentPage = 1; // 当前页
+    pageSize = 15; // 每页显示条数
+    totalPages = 0;
 
-      edit: {
-        text: '编辑',
-        type: 'text'
-      },
+    // 所有列表数据
+    advertsList = [];
 
-      remove: {
-        text: '删除',
-        type: 'text',
-        confirm: true
-      }
-    };
-
-    formOptions = {
-      labelWidth: '120px',
-      labelPosition: 'left',
-      saveLoading: false
+    handleCurrentChange (page) {
+      this.currentPage = page
+      this.getAdverts()
     }
 
-    addTemplate = {
-      num: {
-        title: '序号',
-        value: ''
-      },
-      module: {
-        title: '模块',
-        value: ''
-      },
-      sort: {
-        title: '排序',
-        value: ''
-      },
-      url: {
-        title: '链接地址',
-        value: ''
-      },
-      image: {
-        title: '图片',
-        value: ''
-      }
-    };
-
-    editTemplate = {
-      num: {
-        title: '序号',
-        value: ''
-      },
-      module: {
-        title: '模块',
-        value: ''
-      },
-      sort: {
-        title: '排序',
-        value: ''
-      },
-      url: {
-        title: '链接地址',
-        value: ''
-      },
-      image: {
-        title: '图片',
-        value: ''
-      }
-    };
-
-    // 普通的新增
-    addRow () {
-      this.$refs.d2Crud.showDialog({
-        mode: 'add'
-      })
+    // 实时更新操作行数据
+    updateLineData (index, data) {
+      this.$set(this.advertsList, index, data)
+      this.totalPages = this.advertsList.length
     }
 
-    handleRowAdd (row, done) {
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(row)
+    // 新增广告
+    addData = {}
+
+    setAddData () {
+      this.addData = {
+        // index: '',
+        id: '',
+        name: '',
+        sort: '',
+        url: '',
+        // fileId: '',
+        imgURL: ''
+      }
+    }
+
+    addDialogVisible = false;
+
+    // 新增图片上传
+    addFile = {}
+
+    addBeforeUpload (file) {
+      // // console.log(file)
+      // const isJPG = file.type === 'image/jpeg'
+      // const isLt2M = file.size / 1024 / 1024 < 2
+      //
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!')
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!')
+      // }
+      // return isJPG && isLt2M
+    }
+
+    addAvatarSuccess (res, file) {
+      this.addData.imgURL = URL.createObjectURL(file.raw)
+      this.addFile = file.raw
+    }
+
+    async addAdvert () {
+      // 上传图片
+      let fileParams = new FormData()
+      fileParams.append('file', this.addFile)
+      fileParams.append('fileType', 'LOGO')
+      let { data: fileID } = await axios.post(`/api/supervise/files`, fileParams)
+
+      this.addData.fileId = fileID
+      let params = this.addData
+      let addRes = await axios.post(`/api/supervise/functions`, params)
+      console.log(addRes)
+      if (addRes) {
         this.$message({
-          message: '保存成功',
+          message: '添加成功',
           type: 'success'
         })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
-        this.formOptions.saveLoading = false
-      }, 300)
+        this.advertsList.push(this.addData)
+        this.addDialogVisible = false
+        // this.setAddData()
+        this.totalPages = this.advertsList.length
+      }
+      this.getAdverts()
     }
 
-    handleDialogCancel (done) {
-      this.$message({
-        message: '取消保存',
-        type: 'warning'
-      })
-      done()
-    }
-
-    handleRowRemove ({ index, row }, done) {
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
-    }
-
-    handleRowEdit ({ index, row }, done) {
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '编辑成功',
-          type: 'success'
-        })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
-        this.formOptions.saveLoading = false
-      }, 300)
-    }
-
-    mounted () {
-    }
-
+    // 查看广告
     viewDialogVisible = false;
     isClickModal = false;
     viewData = {};
 
-    // num: '1',
-    // module: '1',
-    // sort: '1',
-    // url: '1',
-    // image: '1'
-    viewEvent ({index, row}) {
+    viewAdvert (index, row) {
       this.viewDialogVisible = true
-      this.viewData.num = row.num
-      this.viewData.module = row.module
+      // this.viewData.index = index
+      this.viewData.id = row.id
+      this.viewData.name = row.name
       this.viewData.sort = row.sort
       this.viewData.url = row.url
-      this.viewData.image = row.image
+      this.viewData.imgURL = row.imgURL
+    }
+
+    // 编辑广告
+    editBeforeUpload (file) {
+      // const isJPG = file.type === 'image/jpeg'
+      //
+      // if (!isJPG) {
+      //   this.$message.error('图片只能是 JPG 格式!')
+      // }
+      // return isJPG
+    }
+
+    editFile = {} // 存放file
+    editAvatarSuccess (res, file) {
+      this.editData.imgURL = URL.createObjectURL(file.raw)
+      this.editFile = file.raw
+    }
+
+    editDialogVisible = false;
+    editData = {}
+    setEditData () {
+      this.editData = {
+        index: '',
+        id: '',
+        name: '',
+        sort: '',
+        url: '',
+        fileId: '',
+        imgURL: ''
+      }
+    }
+
+    editAdvert (index, row) {
+      // console.log(index)
+      this.editDialogVisible = true
+      // this.editData.index = index
+      this.editData.id = row.id
+      this.editData.name = row.name
+      this.editData.sort = row.sort
+      this.editData.url = row.url
+      this.editData.fileId = row.fileId
+      this.editData.imgURL = row.imgURL
+      this.getAdverts()
+    }
+
+    async confirmEdit () {
+      // 上传图片
+      let fileParams = new FormData()
+      fileParams.append('file', this.editFile)
+      fileParams.append('fileType', 'LOGO')
+      let { data: fileID } = await axios.post(`/api/supervise/files`, fileParams)
+      this.editData.fileId = fileID // 图片上传成功后更新fileId
+
+      console.log(this.editData)
+
+      let params = this.editData
+      let editRes = await axios.put(`/api/supervise/functions/${this.editData.id}`, params)
+      if (editRes) {
+        this.$message({
+          message: '编辑成功',
+          type: 'success'
+        })
+        this.updateLineData(this.editData.index, this.editData)
+        this.editDialogVisible = false
+        this.setEditData() // 清空表单数据
+      }
+    }
+
+    // 删除广告
+    removeAdvert (index, row) {
+      this.$confirm('确定删除吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let delRes = axios.delete(`/api/supervise/functions/${row.id}`)
+        // console.log(delRes)
+        if (delRes) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.advertsList.splice(index, 1)
+          // console.log(this.advertsList)
+          this.totalPages = this.advertsList.length
+        }
+      }).catch(() => {})
+    }
+
+    async getAdverts () {
+      let params = {
+        pageNum: this.currentPage,
+        pageSize: this.pageSize
+      }
+      let { data: adverts } = await axios.get(`/api/supervise/functions`, { params })
+      // console.log(adverts)
+      this.advertsList = adverts
+      this.totalPages = adverts.length
+      this.advertsList.forEach(item => {
+        this.getImgURL(item.fileId, data => {
+          if (data.substring(data.lastIndexOf('/') + 1, data.length) === 'null') {
+            item.imgURL = ''
+          } else {
+            item.imgURL = data
+          }
+        })
+      })
+    }
+
+    // 获取图片路径
+    async getImgURL (id, post) {
+      let params = {
+        resolution: 'SMALL_LOGO'
+      }
+      let { data: imgRes } = await axios.get(`/api/supervise/files/${id}`, { params })
+      let url = imgRes.replace('redirect:', '')
+      post(url)
+    }
+
+    mounted () {
+      this.getAdverts()
+      this.setEditData()
+      this.setAddData()
     }
   }
 </script>
@@ -310,9 +420,11 @@
       }
 
       .list {
+        margin-top: 20px;
         padding: 0 30px;
 
         .el-table{
+          margin-bottom: 10px;
           th{
             background-color: #F4F4F4;
             color: #555;

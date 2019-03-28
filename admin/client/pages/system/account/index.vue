@@ -2,6 +2,7 @@
   <div class="p10">
     <bread-crumb :path="$route.path"/>
     <div class="pharm-search">
+      <!--<el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>-->
       <el-input v-model="accountNameValue" size="small" placeholder="请输入用户名" style="width: 150px;"></el-input>
       <el-select size="small" v-model="accountState" placeholder="当前状态">
         <el-option
@@ -11,7 +12,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-button type="primary" size="small">搜索</el-button>
+      <el-button type="primary" size="small" @click="search">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
     <d2-crud
@@ -24,6 +25,7 @@
       @emit-detail="handleCustomEvent"
       @emit-stop="handleStop"
       @emit-run="handleRun"
+      @pagination-current-change="paginationCurrentChange"
       class="drug-table"
     />
   </div>
@@ -32,7 +34,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import axios from 'axios'
+  import axios from 'axios'
+  import moment from 'moment'
   @Component({
     components: {
       BreadCrumb
@@ -41,86 +44,59 @@
   export default class Account extends Vue {
     accountNameValue = ''
     accountState = ''
-    columns= [
+    columns = [
       {
         title: '序号',
-        key: 'accountId',
-        width: 60
+        key: 'id'
       },
       {
         title: '用户名',
-        key: 'userName'
-      },
-      {
-        title: '姓名',
         key: 'name'
       },
       {
+        title: '姓名',
+        key: 'username'
+      },
+      {
         title: '账号来源',
-        key: 'accountSource'
+        key: 'createdBy'
       },
       {
         title: '手机号码',
-        key: 'phone'
+        key: 'username'
       },
       {
         title: '处方单数',
-        key: 'prescriptions'
+        key: 'rxCount'
       },
       {
         title: '下单次数',
-        key: 'orderNumber'
+        key: 'orderCount'
       },
       {
         title: '咨询次数',
-        key: 'consultTimes'
+        key: 'chatCount'
       },
       {
         title: '最后一次登录时间',
-        key: 'lastLogin',
-        width: 240
+        key: 'loginDate'
       },
       {
         title: '状态',
-        key: 'curState'
+        key: 'activated'
       }
     ]
-    accountData= [
-      {
-        accountId: '1',
-        userName: '哈哈',
-        name: '11',
-        accountSource: '1',
-        phone: '13300000000',
-        prescriptions: '22',
-        orderNumber: '33',
-        consultTimes: '44',
-        lastLogin: '2019-03-15 15:39:33',
-        curState: '启用'
-      },
-      {
-        accountId: '2',
-        userName: '哈哈',
-        name: '11',
-        accountSource: '1',
-        phone: '13300000000',
-        prescriptions: '22',
-        orderNumber: '33',
-        consultTimes: '44',
-        lastLogin: '2019-03-15 15:39:33',
-        curState: '停用'
-      }
-    ]
-    loading= false;
-    pagination= {
+    accountData = []
+    loading = false;
+    pagination = {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options= {
       border: true
     }
-    rowHandle= {
+    rowHandle = {
       width: 250,
       custom: [
         {
@@ -133,7 +109,7 @@
           type: 'text',
           emit: 'emit-stop',
           show (index, row) {
-            if (row.curState === '启用') {
+            if (row.activated === '启用') {
               return true
             }
           }
@@ -143,7 +119,7 @@
           type: 'text',
           emit: 'emit-run',
           show (index, row) {
-            if (row.curState === '停用') {
+            if (row.activated === '停用') {
               return true
             }
           }
@@ -157,41 +133,83 @@
     }
     stateOptions = [
       {
-        value: '启用',
+        value: true,
         label: '启用'
       },
       {
-        value: '停用',
+        value: false,
         label: '停用'
       }
     ]
-    mounted () {
+    beforeMount () {
+      this.initData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.initData()
+      this.search()
+    }
+    async initData () {
+      let params = {
+        // name: '',
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+        // username: ''
+      }
+      let data = await axios.get(`/api/supervise/accounts`, {params: params})
+      this.accountData = data.data.list
+      this.pagination.total = data.data.total
+      this.accountData.forEach(e => {
+        e.loginDate = moment(e.loginDate).format('YYYY-MM-DD HH:mm:ss')
+      })
+      let newArray = this.accountData
+      for (let i = 0; i < newArray.length; i++) {
+        if (newArray[i].activated.toString() === 'true') {
+          newArray[i].activated = '启用'
+        } else {
+          newArray[i].activated = '停用'
+        }
+      }
     }
     handleCustomEvent ({index, row}) {
-      // this.$message.success(index.toString())
-      console.log(index)
-      console.log(row)
-      this.$router.push('/system/account/detail')
+      this.$router.push({path: '/system/account/detail', query: {id: row.id}})
     }
-    handleStop ({index, row}) {
-      let stop = this.rowHandle.custom
-      for (let i = 0; i < stop.length; i++) {
-        if (stop[i].text === '停用') {
-          row.curState = '停用'
-        }
-      }
+    async handleStop ({index, row}) {
+      await axios.post(`/api/supervise/accounts/${row.id}/activated?activated=` + false)
+      this.initData()
     }
-    handleRun ({index, row}) {
-      let run = this.rowHandle.custom
-      for (let i = 0; i < run.length; i++) {
-        if (run[i].text === '启用') {
-          row.curState = '启用'
-        }
-      }
+    async handleRun ({index, row}) {
+      await axios.post(`/api/supervise/accounts/${row.id}/activated?activated=` + true)
+      this.initData()
     }
     clear () {
       this.accountNameValue = ''
       this.accountState = ''
+      this.initData()
+    }
+    async search () {
+      console.log(this.accountState)
+      let params = {
+        name: this.accountNameValue,
+        activated: this.accountState,
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      await axios.get(`/api/supervise/accounts`, {params: params}).then(res => {
+        this.accountData = res.data.list
+        this.pagination.total = res.data.total
+        this.accountData.forEach(e => {
+          e.loginDate = moment(e.loginDate).format('YYYY-MM-DD HH:mm:ss')
+        })
+        let newArray = this.accountData
+        for (let i = 0; i < newArray.length; i++) {
+          if (newArray[i].activated.toString() === 'true') {
+            newArray[i].activated = '启用'
+          } else {
+            newArray[i].activated = '停用'
+          }
+        }
+      })
     }
   }
 </script>
