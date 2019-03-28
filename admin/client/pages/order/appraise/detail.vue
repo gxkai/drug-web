@@ -5,32 +5,32 @@
 
       <div class="title">
         <h3>评价详情</h3>
-        <el-button type="primary" size="small" @click="$router.go(-1)">返回</el-button>
+        <el-button type="primary" size="small" @click="$router.push('/order/appraise')">返回</el-button>
       </div>
 
       <div class="detail-con">
         <div class="form-info">
           <el-form ref="formInfo" :model="formInfo" label-width="150px">
             <el-form-item label="药品名称：">
-              <el-input v-model="formInfo.drugName" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.drugName" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="药品规格：">
-              <el-input v-model="formInfo.drugSpecifications" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.spec" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="买家名称：">
-              <el-input v-model="formInfo.buyerName" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.buyerName" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="评价等级：">
-              <el-input v-model="formInfo.appraiseLevel" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.score" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="评价内容：">
-              <el-input v-model="formInfo.appraiseCon" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.content" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="药房名称：">
-              <el-input v-model="formInfo.pharmacyName" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.shopName" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="评价时间：">
-              <el-input v-model="formInfo.appraiseTime" readonly placeholder="请输入"></el-input>
+              <el-input v-model="formInfo.appraiseDate" readonly placeholder="暂无"></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -43,6 +43,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -50,15 +52,18 @@
     }
   })
   export default class Rx extends Vue {
-    formInfo = {
-      drugName: '小儿氨酚黄那敏颗粒',
-      drugSpecifications: '0.125g(以对乙酰氨基酚计)*10',
-      buyerName: '顾旭凯',
-      appraiseLevel: '5',
-      appraiseCon: '111',
-      pharmacyName: '百佳惠',
-      appraiseTime: '2019-03-11 16:00:09'
-    };
+    formInfo = {};
+
+    async getDetail (id) {
+      let {data: detail} = await axios.get(`/api/supervise/drugAppraises/${id}`)
+      this.formInfo = detail
+      this.formInfo.appraiseDate = moment(this.formInfo.appraiseDate).format('YYYY-MM-DD hh:mm:ss')
+    }
+
+    mounted () {
+      let id = this.$route.query.id
+      this.getDetail(id)
+    }
   }
 </script>
 
