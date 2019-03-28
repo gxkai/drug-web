@@ -140,7 +140,7 @@
 
     // 搜索
     searchDrugInfo () {
-      this.getDrugInfo(this.drugNameValue.trim(), this.firmNameValue.trim())
+      this.getDrugInfo(this.firmNameValue.trim(), this.drugNameValue.trim())
     }
 
     async getDrugInfo (originName, name) {
