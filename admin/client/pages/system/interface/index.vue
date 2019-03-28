@@ -38,6 +38,8 @@
   })
   export default class Interface extends Vue {
     beginEndDate = ''
+    startDate = '' // 起始日期
+    endDate = '' // 结束日期
     columns = [
       {
         title: 'URL',
@@ -56,14 +58,7 @@
         key: 'date'
       }
     ]
-    interList = [
-      {
-        url: 'api/collects/drug/one',
-        method: 'get',
-        times: '1',
-        dateTime: '2019-03-08 00:00:00'
-      }
-    ]
+    interList = []
     loading = false
     pagination = {
       currentPage: 1,
@@ -76,19 +71,26 @@
 
     clear () {
       this.beginEndDate = ''
+      this.startDate = ''
+      this.endDate = ''
     }
 
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
-      this.getInterface()
+      this.getInterface(this.startDate, this.endDate)
     }
 
     searchInterface () {
-      for (let i = 0, len = this.beginEndDate.length; i < len; i++) {
-        this.beginEndDate[i] = moment(this.beginEndDate[i]).format('YYYY-MM-DD')
+      if (this.beginEndDate) {
+        for (let i = 0, len = this.beginEndDate.length; i < len; i++) {
+          this.beginEndDate[i] = moment(this.beginEndDate[i]).format('YYYY-MM-DD')
+        }
+
+        this.startDate = this.beginEndDate[0]
+        this.endDate = this.beginEndDate[1]
       }
 
-      this.getInterface(this.beginEndDate[0], this.beginEndDate[1])
+      this.getInterface(this.startDate, this.endDate)
     }
 
     async getInterface (start, end) {
