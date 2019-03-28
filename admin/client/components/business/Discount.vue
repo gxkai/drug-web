@@ -74,12 +74,12 @@
           style="width: 100%">
           <el-table-column
             width="50px"
-            prop="serialNumber"
+            prop="index"
             label="序号">
           </el-table-column>
           <el-table-column
             width="200px"
-            prop="pharmacyName"
+            prop="shopName"
             label="药店名称">
           </el-table-column>
           <el-table-column
@@ -88,12 +88,12 @@
             label="药品名称">
           </el-table-column>
           <el-table-column
-            width="120px"
-            prop="drugSpec"
+            width="220px"
+            prop="specName"
             label="药品规格">
           </el-table-column>
           <el-table-column
-            width="200px"
+            width="220px"
             prop="produce"
             label="生产厂商">
           </el-table-column>
@@ -114,7 +114,7 @@
           </el-table-column>
           <el-table-column
             width="170px"
-            prop="showStartTime"
+            prop="showDate"
             label="展示开始时间">
           </el-table-column>
           <el-table-column
@@ -153,10 +153,10 @@
         <div class="pagination">
           <el-pagination
             @current-change="handleCurrentChange"
-            :current-page="currentPageNum"
-            :page-size="pageNum"
+            :current-page="currentPage"
+            :page-size="pageSize"
             layout="prev, pager, next, jumper, total"
-            :total="tableData.length">
+            :total="totalPages">
           </el-pagination>
         </div>
       </div>
@@ -254,6 +254,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -286,216 +288,11 @@
       }
     ];
 
-    currentPageNum = 1; // 当前页
-    pageNum = 5; // 每页显示条数
+    currentPage = 1; // 当前页
+    pageSize = 5; // 每页显示条数
+    totalPages = 0
 
-    tableData = [
-      {
-        serialNumber: '1',
-        pharmacyName: '百家慧',
-        drugName: '感冒灵',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '活动中'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '待审核'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '活动中'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '待审核'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '2',
-        pharmacyName: '2',
-        drugSpec: 'qqqqq',
-        produce: '2',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '不通过'
-      },
-      {
-        serialNumber: '3',
-        pharmacyName: '3',
-        drugSpec: '合格',
-        produce: '3',
-        salesNum: '20',
-        salesPrice: '50',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '过期'
-      },
-      {
-        serialNumber: '4',
-        pharmacyName: '4',
-        drugSpec: '待审核',
-        produce: '2',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '待审核'
-      },
-      {
-        serialNumber: '5',
-        pharmacyName: '5',
-        drugSpec: '活动中',
-        produce: '5',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '活动中'
-      }
-    ]; // 所有列表数据
+    tableData = []; // 所有列表数据
     perPageData = []; // 存储每页显示的数据
 
     // 下架
@@ -555,13 +352,13 @@
     }
 
     handleCurrentChange (page) {
-      this.currentPageNum = page
+      this.currentPage = page
       this.setStatus()
     }
 
     setStatus () {
       this.perPageData = this.tableData
-      this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
+      this.perPageData = this.perPageData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
 
       this.perPageData.forEach((item, index) => {
         if (item.status === '活动中') {
@@ -574,13 +371,32 @@
       })
     }
 
-    mounted () {
+    async getDiscounts () {
+      let params = {
+        pageNum: this.currentPage,
+        pageSize: this.pageSize
+      }
+      let {data: res} = await axios.get(`/api/supervise/drugDiscounts`, {params})
+      console.log(res)
+      this.tableData = res.list
+      this.totalPages = res.total
+
+      this.tableData.forEach((item, index) => {
+        item.index = index + 1
+        item.showDate = moment(item.showDate).format('YYYY-MM-DD hh:mm:ss')
+      })
+
       this.setStatus()
+    }
+
+    mounted () {
+      this.getDiscounts()
+      // this.setStatus()
     }
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .discount-wrap{
     padding: 20px;
 
@@ -696,6 +512,8 @@
       }
     }
   }
+
+
 
   .el-dropdown-menu {
     overflow: hidden;
