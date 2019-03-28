@@ -12,14 +12,15 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-button type="primary" size="small">搜索</el-button>
+      <el-button type="primary" size="small" @click="searchDrugInfo">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="drugInfoList"
       :loading="loading"
       :pagination="pagination"
+      @pagination-current-change="paginationCurrentChange"
       :options="options"
       :rowHandle="rowHandle"
       @emit-detail="handleDetailEvent"
@@ -32,6 +33,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
 
   @Component({
     components: {
@@ -42,10 +44,10 @@
     drugNameValue = ''
     firmNameValue = ''
     drugState = ''
-    columns= [
+    columns = [
       {
         title: '药品名称',
-        key: 'drugName'
+        key: 'name'
       },
       {
         title: '通用名称',
@@ -53,43 +55,26 @@
       },
       {
         title: '规格',
-        key: 'drugSpec'
+        key: 'spec'
       },
       {
         title: '厂商简称',
-        key: 'firmName'
+        key: 'originName'
       },
       {
         title: '批准文号',
-        key: 'drugApproval'
+        key: 'sfda'
       },
       {
         title: '当前状态',
         key: 'curState'
       }
     ]
-    data= [
-      {
-        drugName: '九味羌活颗粒',
-        commonName: '九味羌活颗粒',
-        drugSpec: '15g*9',
-        firmName: '甘肃亚兰药业有限公司',
-        drugApproval: 'Z62020151',
-        curState: '审核通过'
-      },
-      {
-        drugName: '咳感康口服液(奇力)',
-        commonName: '咳感康口服液(奇力)',
-        drugSpec: '150ml*1',
-        firmName: '四川奇力制药有限公司',
-        drugApproval: 'Z62020151',
-        curState: '待审核'
-      }
-    ]
+    drugInfoList = []
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options= {
@@ -116,29 +101,63 @@
     }
     stateOptions = [
       {
+        value: '待审核',
+        label: '待审核'
+      },
+      {
         value: '审核通过',
         label: '审核通过'
       },
       {
-        value: '待审核',
-        label: '待审核'
+        value: '审核不通过',
+        label: '审核不通过'
       }
     ]
-    mounted () {
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getDrugInfo()
     }
+
     handleDetailEvent ({index, row}) {
-      this.$router.push('/drugCheck/drugInfo/detail')
-      // this.$message.success(index.toString())
-      console.log(index)
-      console.log(row)
+      this.$router.push({
+        path: '/drugCheck/drugInfo/detail',
+        query: {
+          id: row.id
+        }
+      })
     }
+
     handleCheckEvent () {
       this.$router.push('/drugCheck/drugInfo/check')
     }
+
     clear () {
       this.drugNameValue = ''
       this.firmNameValue = ''
       this.drugState = ''
+    }
+
+    // 搜索
+    searchDrugInfo () {
+      this.getDrugInfo(this.firmNameValue.trim(), this.drugNameValue.trim())
+    }
+
+    async getDrugInfo (originName, name) {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        originName,
+        name
+      }
+      let {data: drugInfo} = await axios.get(`/api/supervise/drugs`, {params})
+      console.log(drugInfo)
+      this.drugInfoList = drugInfo.list
+      this.pagination.total = drugInfo.total
+    }
+
+    mounted () {
+      this.getDrugInfo()
     }
   }
 </script>
@@ -146,6 +165,7 @@
 <style scoped lang="scss">
   .p10{
     padding: 0 10px;
+    background: #fff;
   }
   .druginfo-search{
     display: flex;

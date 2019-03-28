@@ -95,6 +95,8 @@
     "订单详情",
   "/order/appraise":
     "评价管理",
+  "/order/appraise/detail":
+    "评价详情",
   "/rx":
     "处方管理",
   "/rx/rx":

@@ -5,25 +5,27 @@
 
       <div class="appraise-con">
         <el-tabs v-model="activeTab" type="card">
-          <el-tab-pane label="药店评价" name="first" class="pharmacy-appraise">
+          <el-tab-pane label="药店评价" name="first" class="shop-appraise">
             <div class="filter">
               <el-row :gutter="20">
                 <el-col :span="5">
-                  <el-select v-model="value1" clearable filterable placeholder="药房名称">
+                  <el-select v-model="shopNameOfShopAppraise" @change="getShopIdOfShopAppraise" size="small" filterable placeholder="药房名称">
                     <el-option
-                      v-for="item in list"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="item in shopNameListOfShopAppraise"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.name">
                     </el-option>
                   </el-select>
                 </el-col>
                 <el-col :span="4">
-                  <el-input v-model="inputValue" placeholder="买家姓名"></el-input>
+                  <el-input v-model="buyerNameOfShopAppraise" size="small" placeholder="买家姓名"></el-input>
                 </el-col>
                 <el-col :span="6">
                   <el-date-picker
-                    v-model="dateValue"
+                    size="small"
+                    :clearable="isClearable"
+                    v-model="dateOfShopAppraise"
                     type="daterange"
                     range-separator="至"
                     start-placeholder="开始日期"
@@ -31,45 +33,48 @@
                   </el-date-picker>
                 </el-col>
                 <el-col :span="6" class="action-col">
-                  <el-button size="small" type="primary">搜索</el-button>
-                  <el-button size="small">清空</el-button>
+                  <el-button size="small" type="primary" @click="searchShopAppraise">搜索</el-button>
+                  <el-button size="small" @click="clearShopCondition">清空</el-button>
                 </el-col>
               </el-row>
             </div>
 
-            <div class="pharmacy-appraise__list">
+            <div class="shop-appraise__list">
               <d2-crud
-                :columns="pharmacyColumn"
-                :data="pharmacyData"
-                :pagination="pharmacyPagination"
+                :columns="shopAppraiseColumn"
+                :data="shopAppraiseList"
+                :pagination="shopAppraisePagination"
+                @pagination-current-change="pageChangeOfShopAppraise"
                 :options="optionData"
-                :rowHandle="pharmacyRowHandle"
-                @row-remove="pharmacyHandleRowRemove"/>
+                :rowHandle="shopRowHandle"
+                @row-remove="removeShopAppraise"/>
             </div>
           </el-tab-pane>
 
-          <el-tab-pane class="drug-appraise" label="药品评价" name="second">
+          <el-tab-pane label="药品评价" name="second" class="drug-appraise">
             <div class="filter">
               <el-row :gutter="20">
                 <el-col :span="5">
-                  <el-select v-model="value2" clearable filterable placeholder="药房名称">
+                  <el-select v-model="shopNameOfDrugAppraise" @change="getShopIdOfDrugAppraise" size="small" filterable placeholder="药房名称">
                     <el-option
-                      v-for="item in list"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="item in shopNameListOfDrugAppraise"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.name">
                     </el-option>
                     </el-select>
                   </el-col>
                 <el-col :span="4">
-                  <el-input v-model="drugNameValue" placeholder="药品名称"></el-input>
+                  <el-input v-model="drugNameValue" size="small" placeholder="药品名称"></el-input>
                 </el-col>
                 <el-col :span="4">
-                  <el-input v-model="buyerNameValue" placeholder="买家姓名"></el-input>
+                  <el-input v-model="buyerNameOfDrugAppraise" size="small" placeholder="买家姓名"></el-input>
                 </el-col>
                 <el-col :span="6">
                   <el-date-picker
-                    v-model="dateValue"
+                    size="small"
+                    :clearable="isClearable"
+                    v-model="dateOfDrugAppraise"
                     type="daterange"
                     range-separator="至"
                     start-placeholder="开始日期"
@@ -77,17 +82,18 @@
                   </el-date-picker>
                 </el-col>
                 <el-col :span="5" class="action-col">
-                  <el-button size="small" type="primary">搜索</el-button>
-                  <el-button size="small">清空</el-button>
+                  <el-button size="small" type="primary" @click="searchDrugAppraise">搜索</el-button>
+                  <el-button size="small" @click="clearDrugCondition">清空</el-button>
                 </el-col>
               </el-row>
             </div>
 
             <div class="drug-appraise__list">
               <d2-crud
-                :columns="drugColumn"
-                :data="drugData"
-                :pagination="drugPagination"
+                :columns="drugAppraiseColumn"
+                :data="drugAppraiseList"
+                :pagination="drugAppraisePagination"
+                @pagination-current-change="pageChangeOfDrugAppraise"
                 :loading="loading"
                 :options="optionData"
 
@@ -106,6 +112,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -114,41 +122,37 @@
   })
   export default class Appraise extends Vue {
     activeTab = 'first';
-    value2 = '';
-    value1 = '';
-    inputValue = '';
-    dateValue = '';
-    drugNameValue = '';
-    buyerNameValue = '';
+    isClearable = false
 
-    list = [
-      {
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }
-    ];
+    // 药店名称下拉列表
+    shopNameListOfShopAppraise = [];
+    shopNameListOfDrugAppraise = [];
+
+    // 获取所有药店名称选项
+    async getShopNames () {
+      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
+      this.shopNameListOfShopAppraise = option
+      this.shopNameListOfDrugAppraise = option
+    }
+
+    /**
+     * 药店评价信息
+     */
+    shopIdOfShopAppraise = ''
+    shopNameOfShopAppraise = ''
+    buyerNameOfShopAppraise = ''
+    dateOfShopAppraise = ''
+    shopAppraiseStartDate = ''
+    shopAppraiseEndDate = ''
 
     optionData= {
       border: true
     };
 
-    // 药店评价信息
-    pharmacyColumn = [
+    shopAppraiseColumn = [
       {
         title: '药店名称',
-        key: 'pharmacyName'
+        key: 'shopName'
       },
       {
         title: '买家姓名',
@@ -156,55 +160,70 @@
       },
       {
         title: '配送评分',
-        key: 'deliveryRating'
+        key: 'deliveryScore'
       },
       {
         title: '服务态度',
-        key: 'attitude'
+        key: 'serviceScore'
       },
       {
         title: '描述相符',
-        key: 'descMatch'
+        key: 'describeScore'
       },
       {
         title: '包装评分',
-        key: 'packageRating'
+        key: 'packageScore'
       },
       {
         title: '评价时间',
-        key: 'evaluationTime'
+        key: 'appraiseDate'
       }
     ];
 
-    pharmacyData = [
-      {
-        pharmacyName: '百佳惠',
-        buyerName: '顾旭凯',
-        deliveryRating: '5.0',
-        attitude: '5.0',
-        descMatch: '5.0',
-        packageRating: '5.0',
-        evaluationTime: '2019-03-11 16:00:09'
-      }
-    ];
+    shopAppraiseList = [];
 
-    pharmacyPagination = {
+    shopAppraisePagination = {
       currentPage: 1,
-      pageSize: 1,
-      total: this.pharmacyData.length
+      pageSize: 15,
+      total: 0
     };
 
-    pharmacyRowHandle = {
+    shopRowHandle = {
       remove: {
         text: '删除',
         type: 'text'
       }
     };
 
-    pharmacyHandleRowRemove ({ index, row }, done) {
+    pageChangeOfShopAppraise (page) {
+      this.shopAppraisePagination.currentPage = page
+      this.getShopAppraises(this.shopIdOfShopAppraise, this.buyerNameOfShopAppraise.trim(), this.shopAppraiseStartDate, this.shopAppraiseEndDate)
+    }
+
+    // 清空
+    clearShopCondition () {
+      this.shopIdOfShopAppraise = ''
+      this.shopNameOfShopAppraise = ''
+      this.buyerNameOfShopAppraise = ''
+      this.dateOfShopAppraise = ''
+      this.shopAppraiseStartDate = ''
+      this.shopAppraiseEndDate = ''
+    }
+
+    // 获取药店名对应id
+    getShopIdOfShopAppraise () {
+      this.shopNameListOfShopAppraise.forEach(item => {
+        if (this.shopNameOfShopAppraise === item.name) {
+          this.shopIdOfShopAppraise = item.id
+        }
+      })
+    }
+
+    // 删除
+    async removeShopAppraise ({ index, row }, done) {
+      await axios.delete(`/api/supervise/shopAppraises/${row.id}`)
+      this.shopAppraisePagination.total -= 1
       setTimeout(() => {
-        // console.log(index)
-        // console.log(row)
         this.$message({
           message: '删除成功',
           type: 'success'
@@ -213,81 +232,91 @@
       }, 300)
     }
 
-    // 药品评价信息
-    drugColumn = [
+    // 搜索
+    searchShopAppraise () {
+      if (this.dateOfShopAppraise) {
+        for (let i = 0, len = this.dateOfShopAppraise.length; i < len; i++) {
+          this.dateOfShopAppraise[i] = moment(this.dateOfShopAppraise[i]).format('YYYY-MM-DD')
+        }
+
+        this.shopAppraiseStartDate = this.dateOfShopAppraise[0] + '00:00:00'
+        this.shopAppraiseEndDate = this.dateOfShopAppraise[1] + '23:59:59'
+      }
+
+      this.getShopAppraises(this.shopIdOfShopAppraise, this.buyerNameOfShopAppraise.trim(), this.shopAppraiseStartDate, this.shopAppraiseEndDate)
+    }
+
+    // 获取所有药店评价信息
+    async getShopAppraises (shopId, buyerName, start, end) {
+      let params = {
+        pageNum: this.shopAppraisePagination.currentPage,
+        pageSize: this.shopAppraisePagination.pageSize,
+        shopId,
+        buyerName,
+        start,
+        end
+      }
+
+      let {data: shopRes} = await axios.get(`/api/supervise/shopAppraises`, {params})
+
+      this.shopAppraiseList = shopRes.list
+      this.shopAppraisePagination.total = shopRes.total
+
+      this.shopAppraiseList.forEach(item => {
+        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD hh:mm:ss')
+      })
+    }
+
+    /**
+     * 药品评价信息
+     */
+
+    shopIdOfDrugAppraise = ''
+    shopNameOfDrugAppraise = ''
+    buyerNameOfDrugAppraise = ''
+    drugNameValue = ''
+    dateOfDrugAppraise = ''
+    drugAppraiseStartDate = ''
+    drugAppraiseEndDate = ''
+
+    drugAppraiseColumn = [
       {
         title: '药房名称',
-        key: 'pharmacyName'
-        // width: '150'
+        key: 'shopName'
       },
       {
         title: '药品名称',
-        key: 'buyerName'
-        // width: '220'
+        key: 'drugName'
       },
       {
         title: '药品规格',
-        key: 'deliveryRating'
-        // width: '250'
+        key: 'spec'
       },
       {
         title: '买家姓名',
-        key: 'attitude'
-        // width: '100'
+        key: 'buyerName'
       },
       {
         title: '药品评分',
-        key: 'descMatch'
-        // width: '100'
+        key: 'score'
       },
       {
         title: '评价内容',
-        key: 'packageRating'
-        // width: '320'
+        key: 'content'
       },
       {
         title: '评论时间',
-        key: 'evaluationTime'
-        // width: '180'
+        key: 'appraiseDate'
       }
     ];
 
-    drugData = [
-      {
-        pharmacyName: '百佳惠',
-        buyerName: '小儿氨酚黄那敏颗粒',
-        deliveryRating: '0.125g(以对乙酰氨基酚计)*10',
-        attitude: '顾旭凯',
-        descMatch: '5.0',
-        packageRating: '111',
-        evaluationTime: '2019-03-11 16:00:09'
-      },
-      {
-        pharmacyName: '百佳惠',
-        buyerName: '小儿氨酚黄那敏颗粒',
-        deliveryRating: '0.125g(以对乙酰氨基酚计)*10',
-        attitude: '顾旭凯',
-        descMatch: '5.0',
-        packageRating: '111',
-        evaluationTime: '2019-03-11 16:00:09'
-      },
-      {
-        pharmacyName: '百佳惠',
-        buyerName: '小儿氨酚黄那敏颗粒',
-        deliveryRating: '0.125g(以对乙酰氨基酚计)*10',
-        attitude: '顾旭凯',
-        descMatch: '5.0',
-        packageRating: '111',
-        evaluationTime: '2019-03-11 16:00:09'
-      }
-    ];
+    drugAppraiseList = [];
 
     loading = false;
-
-    drugPagination = {
+    drugAppraisePagination = {
       currentPage: 1,
-      pageSize: 1,
-      total: this.drugData.length
+      pageSize: 15,
+      total: 0
     };
 
     drugRowHandle = {
@@ -305,7 +334,49 @@
       }
     };
 
-    removeDrugAppraise ({ index, row }, done) {
+    pageChangeOfDrugAppraise (page) {
+      this.drugAppraisePagination.currentPage = page
+      this.getDrugAppraises(this.shopIdOfDrugAppraise, this.drugNameValue, this.buyerNameOfDrugAppraise.trim(), this.drugAppraiseStartDate, this.drugAppraiseEndDate)
+    }
+
+    // 清空
+    clearDrugCondition () {
+      this.shopIdOfDrugAppraise = ''
+      this.shopNameOfDrugAppraise = ''
+      this.buyerNameOfDrugAppraise = ''
+      this.drugNameValue = ''
+      this.dateOfDrugAppraise = ''
+      this.drugAppraiseStartDate = ''
+      this.drugAppraiseEndDate = ''
+    }
+
+    // 获取药店名对应id
+    getShopIdOfDrugAppraise () {
+      this.shopNameListOfDrugAppraise.forEach(item => {
+        if (this.shopNameOfDrugAppraise === item.name) {
+          this.shopIdOfDrugAppraise = item.id
+        }
+      })
+    }
+
+    // 搜索
+    searchDrugAppraise () {
+      if (this.dateOfDrugAppraise) {
+        for (let i = 0, len = this.dateOfDrugAppraise.length; i < len; i++) {
+          this.dateOfDrugAppraise[i] = moment(this.dateOfDrugAppraise[i]).format('YYYY-MM-DD')
+        }
+
+        this.drugAppraiseStartDate = this.dateOfDrugAppraise[0] + ' 00:00:00'
+        this.drugAppraiseEndDate = this.dateOfDrugAppraise[1] + ' 23:59:59'
+      }
+
+      this.getDrugAppraises(this.shopIdOfDrugAppraise, this.drugNameValue, this.buyerNameOfDrugAppraise.trim(), this.drugAppraiseStartDate, this.drugAppraiseEndDate)
+    }
+
+    // 删除
+    async removeDrugAppraise ({ index, row }, done) {
+      await axios.delete(`/api/supervise/drugAppraises/${row.id}`)
+      this.drugAppraisePagination.total -= 1
       setTimeout(() => {
         this.$message({
           message: '删除成功',
@@ -315,12 +386,43 @@
       }, 300)
     }
 
+    // 获取所有药品评价信息
+    async getDrugAppraises (shopId, drugName, buyerName, start, end) {
+      let params = {
+        pageNum: this.drugAppraisePagination.currentPage,
+        pageSize: this.drugAppraisePagination.pageSize,
+        shopId,
+        drugName,
+        buyerName,
+        start,
+        end
+      }
+
+      let {data: drugRes} = await axios.get(`/api/supervise/drugAppraises`, {params})
+      console.log(drugRes)
+
+      this.drugAppraiseList = drugRes.list
+      this.drugAppraisePagination.total = drugRes.total
+
+      this.drugAppraiseList.forEach(item => {
+        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD hh:mm:ss')
+      })
+    }
+
     // 查看详情处理方法
-    viewDetail ({index, row}) {
-      this.$router.push('/order/appraise/detail')
+    viewDetail ({row}) {
+      this.$router.push({
+        path: '/order/appraise/detail',
+        query: {
+          id: row.id
+        }
+      })
     }
 
     mounted () {
+      this.getShopAppraises()
+      this.getDrugAppraises()
+      this.getShopNames()
     }
   }
 </script>
@@ -345,10 +447,6 @@
 
       .el-select{
         width: 100%;
-      }
-
-      .action-col{
-        line-height: 40px;
       }
 
       .drug-appraise__list{

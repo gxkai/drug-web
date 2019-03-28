@@ -2,20 +2,21 @@
   <div class="system-wrap">
     <div class="system">
       <bread-crumb :path="$route.path"/>
-      <!--<div class="filter">-->
-        <!--<el-row :gutter="20">-->
-          <!--<el-col :span="7">-->
-            <!--<el-input-->
-              <!--placeholder="用户名称"-->
-              <!--v-model="nameValue"-->
-              <!--clearable>-->
-            <!--</el-input>-->
+      <div class="filter">
+        <el-row :gutter="20">
+          <el-col :span="7">
+            <el-input
+              placeholder="请输入标题"
+              v-model="nameValue"
+              size="small"
+              clearable>
+            </el-input>
 
-            <!--<el-button size="small" type="primary" @click="searchMsg">搜索</el-button>-->
-            <!--<el-button size="small" @click="nameValue = ''">清空</el-button>-->
-          <!--</el-col>-->
-        <!--</el-row>-->
-      <!--</div>-->
+            <el-button size="small" type="primary" @click="searchMsg">搜索</el-button>
+            <el-button size="small" @click="nameValue = ''">清空</el-button>
+          </el-col>
+        </el-row>
+      </div>
 
       <div class="list">
         <d2-crud
@@ -99,10 +100,15 @@
       this.getMessage()
     }
 
-    async getMessage () {
+    searchMsg () {
+      this.getMessage(this.nameValue.trim())
+    }
+
+    async getMessage (title) {
       let params = {
         pageNum: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize
+        pageSize: this.pagination.pageSize,
+        title
       }
       let {data: message} = await axios.get('/api/supervise/messages', {params})
 

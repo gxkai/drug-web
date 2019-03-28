@@ -184,17 +184,17 @@
     }
 
     searchHospital () {
-      this.getHospitals(this.hospitalNameValue)
+      this.getHospitals(this.hospitalNameValue.trim())
     }
 
     async getHospitals (hName) {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name: hName.trim()
+        name: hName
       }
       let {data: hRes} = await axios.get(`/api/supervise/hospitals`, {params})
-      console.log(hRes)
+      // console.log(hRes)
 
       this.hospitalData = hRes.list
       this.pagination.total = hRes.total
