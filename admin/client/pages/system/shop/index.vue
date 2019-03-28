@@ -16,7 +16,7 @@
     </div>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="shopList"
       :loading="loading"
       :pagination="pagination"
       :options="options"
@@ -32,6 +32,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
 
   @Component({
     components: {
@@ -41,19 +42,19 @@
   export default class DrugShop extends Vue {
     shopNameValue = ''
     shopState = ''
-    columns= [
+    columns = [
       {
         title: '序号',
-        key: 'shopId',
+        key: 'shopIndex',
         width: 60
       },
       {
         title: '药店名字',
-        key: 'shopName'
+        key: 'name'
       },
       {
         title: '法人',
-        key: 'legalPerson'
+        key: 'legal'
       },
       {
         title: '电话号码',
@@ -78,48 +79,14 @@
       },
       {
         title: '状态',
-        key: 'curState'
+        key: 'state'
       }
     ]
-    data= [
-      {
-        shopId: '1',
-        shopName: '百家惠',
-        legalPerson: '11',
-        phone: '13300000000',
-        orderNumber: '22',
-        getNumber: '22',
-        sendNumber: '22',
-        lastLogin: '2019-03-15 15:39:33',
-        curState: '在业'
-      },
-      {
-        shopId: '2',
-        shopName: '百家惠',
-        legalPerson: '11',
-        phone: '13300000000',
-        orderNumber: '22',
-        getNumber: '22',
-        sendNumber: '22',
-        lastLogin: '2019-03-15 15:39:33',
-        curState: '停业'
-      },
-      {
-        shopId: '3',
-        shopName: '百家惠',
-        legalPerson: '11',
-        phone: '13300000000',
-        orderNumber: '22',
-        getNumber: '22',
-        sendNumber: '22',
-        lastLogin: '2019-03-15 15:39:33',
-        curState: '待审核'
-      }
-    ]
+    shopList = []
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options= {
@@ -162,26 +129,34 @@
     }
     stateOptions = [
       {
-        value: '在业',
-        label: '在业'
+        value: '正常',
+        label: '正常'
       },
       {
-        value: '停业',
-        label: '停业'
+        value: '休息',
+        label: '休息'
+      },
+      {
+        value: '违规',
+        label: '违规'
       },
       {
         value: '待审核',
         label: '待审核'
+      },
+      {
+        value: '不通过',
+        label: '不通过'
       }
     ]
-    mounted () {
-    }
+
     handleCustomEvent ({index, row}) {
       // this.$message.success(index.toString())
       console.log(index)
       console.log(row)
       this.$router.push('/system/shop')
     }
+
     handleStop ({index, row}) {
       let stop = this.rowHandle.custom
       for (let i = 0; i < stop.length; i++) {
@@ -190,6 +165,7 @@
         }
       }
     }
+
     handleRun ({index, row}) {
       let run = this.rowHandle.custom
       for (let i = 0; i < run.length; i++) {
@@ -198,9 +174,26 @@
         }
       }
     }
+
     clear () {
       this.shopNameValue = ''
       this.shopState = ''
+    }
+
+    async getShopInfo (state) {
+      let params = {
+        pageNum: 1,
+        pageSize: 15,
+        state
+      }
+      let {data: shopRes} = await axios.get(`/api/supervise/shops`, {params})
+      console.log(shopRes)
+      this.shopList = shopRes.list
+      this.pagination.total = shopRes.total
+    }
+
+    mounted () {
+      this.getShopInfo()
     }
   }
 </script>
