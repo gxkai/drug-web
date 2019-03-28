@@ -8,6 +8,7 @@
           <el-col :span="8">
             <span class="tit">药店名称：</span>
             <el-input
+              size="small"
               placeholder="请输入"
               v-model="pharmacyValue"
               clearable>
@@ -16,6 +17,7 @@
           <el-col :span="8">
             <span class="tit">药品名称：</span>
             <el-input
+              size="small"
               placeholder="请输入"
               v-model="drugValue"
               clearable>
@@ -23,7 +25,7 @@
           </el-col>
           <el-col :span="8" class="produce-col">
             <span class="tit">生产厂商：</span>
-            <el-select v-model="produceValue" clearable filterable placeholder="请选择">
+            <el-select size="small" v-model="produceValue" clearable filterable placeholder="请选择">
               <el-option
                 v-for="item in produceList"
                 :key="item.value"
@@ -37,9 +39,9 @@
         <el-row :gutter="20" class="filter-bottom">
           <el-col :span="8" class="status-col">
             <span class="tit">当前状态：</span>
-            <el-select v-model="produceValue" clearable filterable placeholder="请选择">
+            <el-select size="small" v-model="curState" clearable filterable placeholder="请选择">
               <el-option
-                v-for="item in produceList"
+                v-for="item in stateList"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -49,6 +51,7 @@
           <el-col :span="8">
             <span class="tit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</span>
             <el-date-picker
+              size="small"
               v-model="dateValue"
               type="datetimerange"
               range-separator="~"
@@ -68,31 +71,31 @@
           border
           style="width: 100%">
           <el-table-column
-            prop="serialNumber"
+            width="50px"
+            prop="id"
             label="序号">
-
             <template slot-scope="scope">
               <span>{{ scope.$index + 1 }}</span>
             </template>
           </el-table-column>
           <el-table-column
-            prop="pharmacyName"
+            prop="drugName"
             label="药品名称">
           </el-table-column>
           <el-table-column
-            prop="drugSpec"
+            prop="specName"
             label="药品规格">
           </el-table-column>
           <el-table-column
-            prop="produce"
+            prop="originName"
             label="生产厂商">
           </el-table-column>
           <el-table-column
-            prop="salesNum"
+            prop="sales"
             label="销量">
           </el-table-column>
           <el-table-column
-            prop="salesPrice"
+            prop="price"
             label="销售价">
           </el-table-column>
           <el-table-column
@@ -100,20 +103,20 @@
             label="申请日期">
           </el-table-column>
           <el-table-column
-            prop="showStartTime"
+            prop="startDate"
             label="展示开始时间">
           </el-table-column>
           <el-table-column
-            prop="showEndTime"
+            prop="endDate"
             label="展示结束时间">
           </el-table-column>
           <el-table-column
-            prop="status"
+            prop="applyState"
             label="当前状态">
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button @click="viewDetail(scope.row)" type="text" size="small">查看</el-button>
+              <el-button @click="viewDetail(scope.$index,scope.row)" type="text" size="small">查看</el-button>
 
               <el-dropdown trigger="click" v-if="scope.row.showMore">
                 <span class="el-dropdown-link">
@@ -157,7 +160,7 @@
             <el-form-item label="序号">
               <el-input v-model="viewData.serialNumber" readonly placeholder="请输入"></el-input>
             </el-form-item>
-            <el-form-item label="药店名称">
+            <el-form-item label="药品名称">
               <el-input v-model="viewData.pharmacyName" readonly placeholder="请输入"></el-input>
             </el-form-item>
             <el-form-item label="药品规格">
@@ -239,17 +242,19 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
+  import moment from 'moment'
   @Component({
     components: {
       BreadCrumb
     }
   })
   export default class Recommend extends Vue {
-    pharmacyValue = '';
-    produceValue = '';
-    drugValue = '';
-    dateValue = '';
+    pharmacyValue = ''
+    produceValue = ''
+    drugValue = ''
+    dateValue = ''
+    curState = ''
 
     produceList = [
       {
@@ -268,218 +273,28 @@
         value: '选项5',
         label: '北京烤鸭'
       }
-    ];
+    ]
 
-    currentPageNum = 1; // 当前页
-    pageNum = 5; // 每页显示条数
-
-    tableData = [
+    stateList = [
       {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '活动中'
+        value: '不通过',
+        label: '不通过'
       },
       {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '待审核'
+        value: '活动中',
+        label: '活动中'
       },
       {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '活动中'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '待审核'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '1',
-        pharmacyName: '1',
-        drugSpec: '1',
-        produce: '1',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '通过'
-      },
-      {
-        serialNumber: '2',
-        pharmacyName: '2',
-        drugSpec: 'qqqqq',
-        produce: '2',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '不通过'
-      },
-      {
-        serialNumber: '3',
-        pharmacyName: '3',
-        drugSpec: '合格',
-        produce: '3',
-        salesNum: '20',
-        salesPrice: '50',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '过期'
-      },
-      {
-        serialNumber: '4',
-        pharmacyName: '4',
-        drugSpec: '待审核',
-        produce: '2',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '待审核'
-      },
-      {
-        serialNumber: '5',
-        pharmacyName: '5',
-        drugSpec: '活动中',
-        produce: '5',
-        salesNum: '10',
-        salesPrice: '100',
-        applyDate: '2019-03-18',
-        showStartTime: '2019-03-18 09:26:35',
-        showEndTime: '2019-03-18 09:26:35',
-        status: '活动中'
+        value: '待审核',
+        label: '待审核'
       }
-    ]; // 所有列表数据
-    perPageData = []; // 存储每页显示的数据
+    ]
+
+    currentPageNum = 1 // 当前页
+    pageNum = 15 // 每页显示条数
+
+    tableData = [] // 所有列表数据
+    perPageData = [] // 存储每页显示的数据
 
     // 下架
     obtained (index, row) {
@@ -487,27 +302,29 @@
     }
 
     // 查看
-    viewDialogVisible = false;
+    viewDialogVisible = false
     isClickModal = false
-    viewData = {};
+    viewData = {}
 
-    viewDetail (row) {
+    viewDetail (index, row) {
+      console.log(index)
+      console.log(row)
       this.viewDialogVisible = true
-      this.viewData.serialNumber = row.serialNumber
-      this.viewData.pharmacyName = row.pharmacyName
-      this.viewData.drugSpec = row.drugSpec
-      this.viewData.produce = row.produce
-      this.viewData.salesNum = row.salesNum
-      this.viewData.salesPrice = row.salesPrice
+      this.viewData.serialNumber = index + 1
+      this.viewData.pharmacyName = row.drugName
+      this.viewData.drugSpec = row.specName
+      this.viewData.produce = row.originName
+      this.viewData.salesNum = row.sales
+      this.viewData.salesPrice = row.price
       this.viewData.applyDate = row.applyDate
-      this.viewData.showStartTime = row.showStartTime
-      this.viewData.showEndTime = row.showEndTime
-      this.viewData.status = row.status
+      this.viewData.showStartTime = row.startDate
+      this.viewData.showEndTime = row.endDate
+      this.viewData.status = row.applyState
     }
 
     // 通过原因
-    passReason = '';
-    passDialogVisible = false;
+    passReason = ''
+    passDialogVisible = false
     passAction (index, row) {
       this.passDialogVisible = true
     }
@@ -521,8 +338,8 @@
     }
 
     // 不通过原因
-    failReason = '';
-    failDialogVisible = false;
+    failReason = ''
+    failDialogVisible = false
     failPass (index, row) {
       this.failDialogVisible = true
     }
@@ -542,21 +359,40 @@
       this.setStatus()
     }
 
-    setStatus () {
+    async setStatus () {
+      let params = {
+        drugName: '',
+        shopId: '',
+        start: '',
+        pageNum: this.currentPageNum,
+        pageSize: this.pageNum
+      }
+      let getData = await axios.get(`/api/supervise/drugRecommendApplies`, {params: params})
+      console.log(getData)
+      this.tableData = getData.data.list
       this.perPageData = this.tableData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
 
       this.perPageData.forEach((item, index) => {
-        if (item.status === '活动中') {
+        // 时间戳
+        item.applyDate = moment(item.applyDate).format('YYYY-MM-DD HH:mm:ss')
+        item.startDate = moment(item.startDate).format('YYYY-MM-DD HH:mm:ss')
+        item.endDate = moment(item.endDate).format('YYYY-MM-DD HH:mm:ss')
+        // 当前状态
+        if (item.applyState === 'SUCCESS') {
+          item.applyState = '活动中'
           this.perPageData[index].showDown = true
         }
-
-        if (item.status === '待审核') {
+        if (item.applyState === 'PENDING') {
+          item.applyState = '待审核'
           this.perPageData[index].showMore = true
+        }
+        if (item.applyState === 'FAIL') {
+          item.applyState = '不通过'
+          // this.perPageData[index].showMore = true
         }
       })
     }
-
     mounted () {
       this.setStatus()
     }

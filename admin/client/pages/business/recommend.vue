@@ -6,7 +6,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import NewRecommend from '@/components/business/Recommend'
-
+  // import axios from 'axios'
   @Component({
     components: {
       'new-recommend': NewRecommend
