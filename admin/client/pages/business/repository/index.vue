@@ -11,7 +11,7 @@
         <d2-crud
           ref="d2Crud"
           :columns="columns"
-          :data="data"
+          :data="repositoryData"
           :loading="loading"
           :pagination="pagination"
           :options="options"
@@ -39,7 +39,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import UploadImage from '@/components/repository/UploadImage'
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -49,97 +50,32 @@
     columns = [
       {
         title: '序号',
-        key: 'serialNumber'
-        // width: '200'
+        key: 'index'
       },
       {
         title: '类别名称',
-        key: 'categoryName'
-        // width: '250'
+        key: 'name'
       },
       {
         title: '打开次数',
         key: 'openNum'
-        // width: '200'
       },
       {
         title: '图片',
         key: 'imageUrl'
-        // width: '450'
       }
-    ];
-    data = [
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      }
-    ];
-    loading= false;
+    ]
+    repositoryData = []
+    loading= false
     pagination= {
       currentPage: 1,
-      pageSize: 5,
-      total: this.data.length
-    };
-    options= {
+      pageSize: 15,
+      total: 0
+    }
+    options = {
       border: true
-    };
-    rowHandle= {
+    }
+    rowHandle = {
       edit: {
         text: '编辑',
         type: 'text',
@@ -160,7 +96,7 @@
         type: 'text',
         confirm: true
       }
-    };
+    }
 
     formOptions = {
       labelWidth: '80px',
@@ -169,11 +105,11 @@
     }
 
     addTemplate = {
-      serialNumber: {
+      index: {
         title: '序号',
         value: ''
       },
-      categoryName: {
+      name: {
         title: '类别名称',
         value: ''
       },
@@ -183,16 +119,21 @@
       },
       imageUrl: {
         title: '图片',
-        value: ''
+        value: '',
+        component: {
+          render (createElement) {
+            return createElement(UploadImage)
+          }
+        }
       }
-    };
+    }
 
     editTemplate = {
-      serialNumber: {
+      index: {
         title: '序号',
         value: ''
       },
-      categoryName: {
+      name: {
         title: '类别名称',
         value: ''
       },
@@ -204,7 +145,29 @@
         title: '图片',
         value: ''
       }
-    };
+    }
+
+    beforeMount () {
+      this.getData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.getData()
+    }
+    async getData () {
+      let params = {
+        name: '',
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/repositoryTypes`, {params: params})
+      this.repositoryData = data.data.list
+      this.repositoryData.forEach((item, index) => {
+        item.index = index + 1
+      })
+      this.pagination.total = data.data.total
+      console.log(data)
+    }
 
     handleDialogOpen ({ mode }) {
       // this.$message({
@@ -245,7 +208,8 @@
       done()
     }
 
-    handleRowRemove ({ index, row }, done) {
+    async handleRowRemove ({ index, row }, done) {
+      await axios.delete(`/api/supervise/repositoryType/${row.id}`)
       setTimeout(() => {
         console.log(index)
         console.log(row)
@@ -266,7 +230,6 @@
           message: '编辑成功',
           type: 'success'
         })
-
         // done可以传入一个对象来修改提交的某个字段
         done({
           address: '我是通过done事件传入的数据！'
@@ -277,7 +240,13 @@
 
     // 列表
     viewList ({index, row}) {
-      this.$router.push('/business/repository/repositoryCategoryList')
+      this.$router.push({
+        path: '/business/repository/child',
+        query: {
+          id: row.id,
+          name: row.name
+        }
+      })
     }
   }
 </script>

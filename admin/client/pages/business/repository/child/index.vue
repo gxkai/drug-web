@@ -3,7 +3,7 @@
     <div class="repository__type">
       <bread-crumb :path="$route.path"/>
       <div class="title">
-        <h3>分类1</h3>
+        <h3>{{ this.$route.query.name }}</h3>
         <el-button size="small" type="primary" @click="$router.go(-1)">返回</el-button>
       </div>
 
@@ -11,7 +11,7 @@
         <d2-crud
           ref="d2Crud"
           :columns="columns"
-          :data="data"
+          :data="childData"
           :loading="loading"
           :pagination="pagination"
           :options="options"
@@ -34,7 +34,9 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import DataTime from '@/components/repository/DataTime'
+  import axios from 'axios'
+  import moment from 'moment'
   @Component({
     components: {
       BreadCrumb
@@ -44,61 +46,47 @@
     columns = [
       {
         title: '序号',
-        key: 'serialNumber'
-        // width: '80'
+        key: 'index',
+        width: 50
       },
       {
         title: '标题',
         key: 'title'
-        // width: '250'
       },
       {
         title: '来源',
-        key: 'origin'
-        // width: '250'
+        key: 'source'
       },
       {
         title: '打开次数',
         key: 'openNum'
-        // width: '80'
       },
       {
         title: '内容',
-        key: 'content'
-        // width: '400'
+        key: 'content',
+        showOverflowTooltip: true,
+        minWidth: 200
       },
       {
         title: '是否置顶',
-        key: 'isToTop'
-        // width: '80'
+        key: 'home'
       },
       {
         title: '更新时间',
-        key: 'updateTime'
-        // width: '200'
+        key: 'lastModifiedDate'
       }
-    ];
-    data = [
-      {
-        serialNumber: '1',
-        title: '城市',
-        origin: '百度百科',
-        openNum: '20',
-        content: '艰苦奋斗',
-        isToTop: '是',
-        updateTime: '2019-03-13 13:25:35'
-      }
-    ];
-    loading= false;
+    ]
+    childData = []
+    loading = false
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
-    };
-    options= {
+    }
+    options = {
       border: true
-    };
-    rowHandle= {
+    }
+    rowHandle = {
       edit: {
         text: '编辑',
         type: 'text'
@@ -109,7 +97,7 @@
         type: 'text',
         confirm: true
       }
-    };
+    }
 
     formOptions = {
       labelWidth: '80px',
@@ -118,7 +106,7 @@
     }
 
     editTemplate = {
-      serialNumber: {
+      index: {
         title: '序号',
         value: ''
       },
@@ -126,7 +114,7 @@
         title: '标题',
         value: ''
       },
-      origin: {
+      source: {
         title: '来源',
         value: ''
       },
@@ -138,15 +126,73 @@
         title: '内容',
         value: ''
       },
-      isToTop: {
+      home: {
         title: '是否置顶',
-        value: ''
+        value: '',
+        component: {
+          name: 'el-select',
+          options: [
+            {
+              value: '是',
+              label: '是'
+            },
+            {
+              value: '否',
+              label: '否'
+            }
+          ]
+        }
       },
-      updateTime: {
+      lastModifiedDate: {
         title: '更新时间',
-        value: ''
+        value: '',
+        component: {
+          render (createElement) {
+            return createElement(DataTime)
+          }
+        }
       }
-    };
+    }
+
+    repalceHtml (str) {
+      let s1 = str.replace(/<\/?.+?>/g, '')
+      let s2 = s1.replace(/ /g, '')// 去html
+      let s3 = s2.replace(/&nbsp;/ig, '') // &nbsp;转为空格
+      let s4 = s3.replace(/\s*/g, '')// 去空格;
+      return s4
+    }
+
+    beforeMount () {
+      this.getData()
+    }
+
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.getData()
+    }
+    async getData () {
+      let id = this.$route.query.id
+      let params = {
+        repositoryTypeId: id,
+        title: '',
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/repositories`, {params: params})
+      this.childData = data.data.list
+      this.childData.forEach((item, index) => {
+        item.index = index + 1
+        item.content = this.repalceHtml(item.content)
+        item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD HH:mm:ss')
+        if (item.home.toString() === 'true') {
+          item.home = '是'
+        } else {
+          item.home = '否'
+        }
+      })
+      this.pagination.total = data.data.total
+      console.log(this.childData)
+    }
 
     handleDialogOpen ({ mode }) {
       // this.$message({
@@ -163,7 +209,8 @@
       done()
     }
 
-    handleRowRemove ({ index, row }, done) {
+    async handleRowRemove ({ index, row }, done) {
+      // await axios.post(`/api/supervise/repositories/${row.id}`)
       setTimeout(() => {
         console.log(index)
         console.log(row)

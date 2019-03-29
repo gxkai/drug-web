@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>正在查看订单【201902250000050】的详细信息</h3>
+        <h3>正在查看订单【{{ this.$route.query.number }}】的详细信息</h3>
         <el-button size="small" type="primary" @click="$router.go(-1)">返回</el-button>
       </div>
 
@@ -164,7 +164,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -192,7 +192,7 @@
         title: '金额(元)',
         key: 'amount'
       }
-    ];
+    ]
     orderDetailData = [
       {
         serialNumber: '1',
@@ -215,7 +215,7 @@
         number: '10',
         amount: '200'
       }
-    ];
+    ]
 
     trackColumns = [
       {
@@ -234,7 +234,7 @@
         title: '操作人',
         key: 'operator'
       }
-    ];
+    ]
 
     trackData = [
       {
@@ -249,7 +249,7 @@
         processDetail: '创建订单',
         operator: '客户2'
       }
-    ];
+    ]
 
     // 处方单详情
     formInfo = {
@@ -263,7 +263,7 @@
       hospital: '',
       department: '',
       diagnosis: ''
-    };
+    }
 
     rpColumns = [
       {
@@ -290,7 +290,7 @@
         title: '天数',
         key: 'daysNumber'
       }
-    ];
+    ]
 
     rpData = [
       {
@@ -301,18 +301,24 @@
         frequency: '3',
         daysNumber: '1'
       }
-    ];
+    ]
 
     optionData = {
       border: true
-    };
+    }
 
     loading = false;
     pagination = {
       currentPage: 1,
       pageSize: 5,
       total: this.trackData.length
-    };
+    }
+
+    async beforeMount () {
+      let id = this.$route.query.number
+      let orderInfo = await axios.get(`/api/supervise/orders/${id}`)
+      console.log(orderInfo)
+    }
   }
 </script>
 

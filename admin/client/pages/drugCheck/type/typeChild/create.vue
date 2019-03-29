@@ -88,7 +88,7 @@
       })
     }
 
-    filePath = {}
+    filePath = {} // 存放file
     handleAvatarSuccess (res, file) {
       this.form.imageUrl = URL.createObjectURL(file.raw)
       this.filePath = file.raw
@@ -101,17 +101,19 @@
       return isLt2M
     }
     back () {
-      this.$router.push('/drugCheck/type/typeChild')
+      this.$router.go(-1)
     }
+    fileId = ''
     async submit () {
       let fileParams = new FormData()
       fileParams.append('file', this.filePath)
       fileParams.append('fileType', 'LOGO')
       let imgres = await axios.post('/api/supervise/files', fileParams)
       console.log(imgres)
+      // this.fileId = imgres.data // 图片上传成功后更新fileId
 
       let pid = this.$route.query.pid
-      let getName = await axios.post(`/api/supervise/drugTypes/${pid}/children/exists`, {params: {type: this.form.typeName}})
+      let getName = await axios.post(`/api/supervise/drugTypes/${pid}/children/exists`, {type: this.form.typeName})
       if (getName.data >= 1) {
         this.$message({
           message: '子类名称已存在!',
@@ -119,6 +121,7 @@
         })
         return false
       }
+      console.log(this.form.typeSort)
       let drugType = {
         file: '',
         fileId: imgres.data,
@@ -130,7 +133,7 @@
         type: this.form.typeName
       }
       await axios.post(`/api/supervise/child/drugTypes`, drugType)
-      this.$router.push('/drugCheck/type')
+      // this.$router.push('/drugCheck/type')
     }
   }
 </script>

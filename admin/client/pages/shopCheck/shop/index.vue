@@ -2,12 +2,12 @@
   <div class="p10">
       <bread-crumb :path="$route.path"/>
       <div class="shop-search">
-        <el-select size="small" v-model="shopName" filterable placeholder="药房名称" style="width:auto;">
+        <el-select size="small" v-model="shopNameValue" filterable placeholder="药房名称" style="width:auto;" @change="getShopID">
           <el-option
             v-for="item in shopOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            :key="item.id"
+            :label="item.name"
+            :value="item.name">
           </el-option>
         </el-select>
         <el-select size="small" v-model="legalName" filterable placeholder="法人姓名">
@@ -55,7 +55,7 @@
     }
   })
   export default class Shop extends Vue {
-    shopName = ''
+    shopNameValue = ''
     shopId = ''
     legalName = ''
     drugState = ''
@@ -137,7 +137,7 @@
           type: 'text',
           emit: 'emit-detail',
           show (index, row) {
-            if (row.state === '正常' || row.state === '不通过' || row.state === '待审核' || row.state === '停业' || row.state === '休息中') {
+            if (row.state === '正常' || row.state === '不通过' || row.state === '待审核' || row.state === '停业' || row.state === '违规') {
               return true
             }
           }
@@ -166,6 +166,7 @@
     }
     beforeMount () {
       this.getShopData()
+      this.getShopNames()
     }
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
@@ -179,18 +180,8 @@
       }
       let data = await axios.get(`/api/supervise/shops`, {params: params})
       this.shopData = data.data.list
-      // this.tableData = data.data.list.map(i => {
-      //   this.$set(i, 'shopId', i.id)
-      //   return i
-      // })
-      // console.log(this.shopData)
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {
-        // 获取药房名称
-        // this.shopOptions.push({
-        //   value: item.shopName,
-        //   label: item.shopName
-        // })
         // 获取法人姓名
         this.arr.push({
           value: item.legal,
@@ -212,7 +203,7 @@
           return res
         }
         this.legalOptions = uniqObjInArray(this.arr)
-        // 状态boolean转string
+        // 状态
         if (item.state === 'NORMAL') {
           item.state = '正常'
         }
@@ -226,18 +217,21 @@
           item.state = '不通过'
         }
         if (item.state === 'VIOLATION') {
-          item.state = '休息中'
+          item.state = '违规'
         }
       })
-      let getAllShop = await axios.post(`/api/supervise/shops/filter`)
-      console.log(getAllShop.data)
-      getAllShop.data.forEach((item) => {
-        this.shopId = item.id
-        this.shopOptions.push({
-          value: item.name,
-          label: item.name
-        })
+    }
+    getShopID () {
+      this.shopOptions.forEach(item => {
+        if (this.shopNameValue === item.name) {
+          this.shopId = item.id
+        }
       })
+    }
+    // 获取所有药店名称选项
+    async getShopNames () {
+      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
+      this.shopOptions = option
     }
     handleCheckEvent () {
       this.$router.push('/shopCheck/shop/edit')
@@ -258,16 +252,22 @@
         }
       }
     }
-    handleDetailEvent () {
-      this.$router.push('/shopCheck/shop/detail')
+    handleDetailEvent ({index, row}) {
+      this.$router.push({
+        path: '/shopCheck/shop/detail',
+        query: {
+          id: row.id
+        }
+      })
     }
     clear () {
-      this.shopName = ''
+      this.shopNameValue = ''
       this.legalName = ''
       this.drugState = ''
       this.getShopData()
     }
     async search () {
+      // console.log(this.shopId)
       let params = {
         legal: this.legalName,
         shopId: this.shopId,
@@ -293,7 +293,7 @@
           item.state = '不通过'
         }
         if (item.state === 'VIOLATION') {
-          item.state = '休息中'
+          item.state = '违规'
         }
       })
     }
