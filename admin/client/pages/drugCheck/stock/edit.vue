@@ -2,36 +2,29 @@
   <div class="stock-create">
     <bread-crumb :path="$route.path"/>
     <div class="stock-form">
-      <el-form ref="form" :model="form" label-width="200px">
+      <el-form ref="form" :model="detailForm" label-width="200px">
         <el-form-item label="药品封面图" class="el-form-item-upload">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <!--<img v-if="detailForm.imageUrl" :src="detailForm.imageUrl" class="avatar">-->
+            <i class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
         <el-form-item label="药品名称">
-          <el-input v-model="form.drugName" placeholder="请输入药品名称"></el-input>
+          <el-input v-model="detailForm.name" placeholder="请输入药品名称"></el-input>
         </el-form-item>
         <el-form-item label="通用名称">
-          <el-select v-model="form.commonName" filterable placeholder="请选择">
-            <el-option
-              v-for="item in commonOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <el-input v-model="detailForm.commonName" placeholder="请输入药品名称"></el-input>
         </el-form-item>
         <el-form-item label="批准文号">
-          <el-input v-model="form.drugApproval" placeholder="请输入批准文号"></el-input>
+          <el-input v-model="detailForm.sfda" placeholder="请输入批准文号"></el-input>
         </el-form-item>
         <el-form-item label="厂商名称">
-          <el-select v-model="form.firmName" filterable placeholder="请选择">
+          <el-select v-model="detailForm.originName" filterable placeholder="请选择">
             <el-option
               v-for="item in firmOptions"
               :key="item.value"
@@ -41,19 +34,19 @@
           </el-select>
         </el-form-item>
         <el-form-item label="otc 非处方药">
-          <el-select v-model="form.otcValue" placeholder="请选择">
+          <el-select v-model="detailForm.otc" placeholder="请选择">
             <el-option
-              v-for="item in otcOptions"
-              :key="item.value"
+              v-for="(item, index) in otcOptions"
+              :key="index"
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="药品大类">
-          <el-select v-model="form.drugClass" filterable placeholder="请选择">
+          <el-select v-model="detailForm.drugTypeName" filterable placeholder="请选择">
             <el-option
-              v-for="item in classOptions"
+              v-for="item in drugTypeParent"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -61,9 +54,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="药品小类">
-          <el-select v-model="form.drugClass2" filterable placeholder="请选择">
+          <el-select v-model="detailForm.drugTypeChildName" filterable placeholder="请选择">
             <el-option
-              v-for="item in classOptions2"
+              v-for="item in drugTypeChild"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -71,7 +64,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="规格">
-          <el-select v-model="form.drugSpec" filterable placeholder="请选择">
+          <el-select v-model="detailForm.spec" filterable placeholder="请选择">
             <el-option
               v-for="item in specOptions"
               :key="item.value"
@@ -81,7 +74,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="剂型">
-          <el-select v-model="form.drugForm" filterable placeholder="请选择">
+          <el-select v-model="detailForm.form" filterable placeholder="请选择">
             <el-option
               v-for="item in formOptions"
               :key="item.value"
@@ -91,43 +84,43 @@
           </el-select>
         </el-form-item>
         <el-form-item label="是否医保">
-          <el-select v-model="form.insuranceValue" placeholder="请选择">
+          <el-select v-model="detailForm.medicaid" placeholder="请选择">
             <el-option
-              v-for="item in insuranceOptions"
-              :key="item.value"
+              v-for="(item, index) in insuranceOptions"
+              :key="index"
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="最小剂量">
-          <el-input v-model="form.minDose" placeholder="请输入最小剂量"></el-input>
+          <el-input v-model="detailForm.minDose" placeholder="请输入最小剂量"></el-input>
         </el-form-item>
         <el-form-item label="药品编码">
-          <el-input v-model="form.drugCode" placeholder="请输入药品编码"></el-input>
+          <el-input v-model="detailForm.code" placeholder="请输入药品编码"></el-input>
         </el-form-item>
         <el-form-item label="品牌">
-          <el-input v-model="form.drugBrand" placeholder="请输入品牌"></el-input>
+          <el-input v-model="detailForm.brand" placeholder="请输入品牌"></el-input>
         </el-form-item>
         <el-form-item label="适应性/功能主治">
           <el-input
             type="textarea"
             :autosize="{ minRows: 8, maxRows: 8}"
             placeholder="适应性/功能主治"
-            v-model="form.drugIntroduce">
+            v-model="detailForm.introduce">
           </el-input>
         </el-form-item>
         <el-form-item label="图片(最多上传四张)">
           <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             list-type="picture-card"
             :limit="4"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove">
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="form.dialogVisible">
-            <img width="100%" :src="form.dialogImageUrl" alt="">
+          <el-dialog :visible.sync="detailForm.dialogVisible">
+            <img width="100%" :src="detailForm.dialogImageUrl">
           </el-dialog>
         </el-form-item>
       </el-form>
@@ -142,6 +135,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
 
   @Component({
     components: {
@@ -149,25 +143,8 @@
     }
   })
   export default class StockEdit extends Vue {
-    form = {
-      imageUrl: require(`~/assets/img/hospital/img1.png`),
-      drugName: '',
-      commonName: '',
-      drugApproval: '',
-      firmName: '',
-      otcValue: '',
-      drugClass: '',
-      drugClass2: '',
-      drugSpec: '',
-      drugForm: '',
-      insuranceValue: '',
-      minDose: '',
-      drugCode: '',
-      drugBrand: '',
-      drugIntroduce: '',
-      dialogImageUrl: '',
-      dialogVisible: false
-    }
+    detailForm = {}
+
     commonOptions = [
       {
         value: '泰罗',
@@ -181,6 +158,7 @@
         value: '胶囊',
         label: '胶囊'
       }]
+
     firmOptions = [
       {
         value: '国药集团xx',
@@ -195,36 +173,31 @@
         label: '江西xx制药有效你公司'
       }
     ]
+
+    // 是否是处方药
     otcOptions = [
       {
-        value: '是',
+        value: true,
         label: '是'
       },
       {
-        value: '否',
+        value: false,
         label: '否'
       }
     ]
-    classOptions = [
-      {
-        value: '家庭常用',
-        label: '家庭常用'
-      },
-      {
-        value: '儿童用药',
-        label: '儿童用药'
-      }
-    ]
-    classOptions2 = [
-      {
-        value: '子类1',
-        label: '子类1'
-      },
-      {
-        value: '子类2',
-        label: '子类2'
-      }
-    ]
+
+    // 药品大类
+    drugTypeParent = []
+
+    // 获取药品大类
+    async getParentType () {
+      let {data: parent} = await axios.get(`/api/supervise/drugTypes/father`)
+      console.log(parent)
+      this.drugTypeParent = parent
+    }
+    // 药品小类
+    drugTypeChild = []
+
     specOptions = [
       {
         value: '规格1',
@@ -235,6 +208,7 @@
         label: '规格2'
       }
     ]
+
     formOptions = [
       {
         value: '剂型1',
@@ -245,13 +219,14 @@
         label: '剂型2'
       }
     ]
+
     insuranceOptions = [
       {
-        value: '是',
+        value: true,
         label: '是'
       },
       {
-        value: '否',
+        value: false,
         label: '否'
       }
     ]
@@ -259,6 +234,7 @@
     handleAvatarSuccess (res, file) {
       this.form.imageUrl = URL.createObjectURL(file.raw)
     }
+
     beforeAvatarUpload (file) {
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
@@ -266,18 +242,34 @@
       }
       return isLt2M
     }
+
     handleRemove (file, fileList) {
       console.log(file, fileList)
     }
+
     handlePictureCardPreview (file) {
       this.form.dialogImageUrl = file.url
       this.form.dialogVisible = true
     }
+
     submitSuccess () {
-      this.$router.push('/shopCheck/shop')
+      this.$router.push('/drugCheck/stock')
     }
+
     submitFail () {
-      this.$router.push('/shopCheck/shop')
+      this.$router.push('/drugCheck/stock')
+    }
+
+    async getDrugDetail (id) {
+      let {data: detail} = await axios.get(`/api/supervise/drugs/${id}`)
+      console.log(detail)
+      this.detailForm = detail
+    }
+
+    beforeMount () {
+      let id = this.$route.query.id
+      this.getDrugDetail(id)
+      this.getParentType()
     }
   }
 </script>

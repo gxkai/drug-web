@@ -7,12 +7,14 @@
         <el-row :gutter="20" class="filter-top">
           <el-col :span="8">
             <span class="tit">药店名称：</span>
-            <el-input
-              style="width: 250px"
-              size="small"
-              placeholder="请输入"
-              v-model="pharmacyValue">
-            </el-input>
+            <el-select v-model="shopNameID" size="small" @change="matchShopName" filterable placeholder="请选择" style="width: 250px">
+              <el-option
+                v-for="(item, index) in shopNameList"
+                :key="index"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
           </el-col>
           <el-col :span="8">
             <span class="tit">药品名称：</span>
@@ -20,31 +22,29 @@
               size="small"
               style="width: 250px"
               placeholder="请输入"
-              v-model="drugValue">
+              v-model="drugName">
             </el-input>
           </el-col>
           <el-col :span="8" class="produce-col">
             <span class="tit">生产厂商：</span>
-            <el-select v-model="produceValue" size="small" filterable placeholder="请选择" style="width: 250px">
-              <el-option
-                v-for="item in produceList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+            <el-input
+              size="small"
+              style="width: 250px"
+              placeholder="请输入"
+              v-model="produceName">
+            </el-input>
           </el-col>
         </el-row>
 
         <el-row :gutter="20" class="filter-bottom">
           <el-col :span="8" class="status-col">
             <span class="tit">当前状态：</span>
-            <el-select v-model="produceValue" size="small" filterable placeholder="请选择" style="width: 250px">
+            <el-select v-model="stateValue" size="small" filterable placeholder="请选择" style="width: 250px">
               <el-option
-                v-for="item in produceList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                v-for="(item, index) in currentStateList"
+                :key="index"
+                :label="item.name"
+                :value="item.id">
               </el-option>
             </el-select>
           </el-col>
@@ -58,11 +58,13 @@
               type="daterange"
               range-separator="至"
               start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              end-placeholder="结束日期"
+              @change="convertDate">
             </el-date-picker>
           </el-col>
-          <el-col :span="4" class="action-col">
-            <el-button type="primary" size="small">搜索</el-button>
+          <el-col :span="5" class="action-col">
+            <el-button size="small" @click="clearConditions">清空</el-button>
+            <el-button type="primary" size="small" @click="searchDiscountDrugs">搜索</el-button>
           </el-col>
         </el-row>
       </div>
@@ -74,8 +76,10 @@
           style="width: 100%">
           <el-table-column
             width="50px"
-            prop="index"
             label="序号">
+            <template slot-scope="scope">
+              {{ scope.$index + 1 }}
+            </template>
           </el-table-column>
           <el-table-column
             width="200px"
@@ -94,58 +98,59 @@
           </el-table-column>
           <el-table-column
             width="220px"
-            prop="produce"
+            prop="originName"
             label="生产厂商">
           </el-table-column>
           <el-table-column
             width="50px"
-            prop="salesNum"
+            prop="sales"
             label="销量">
           </el-table-column>
           <el-table-column
             width="80px"
-            prop="salesPrice"
+            prop="price"
             label="销售价">
           </el-table-column>
           <el-table-column
-            width="100px"
+            width="170px"
             prop="applyDate"
             label="申请日期">
           </el-table-column>
           <el-table-column
             width="170px"
-            prop="showDate"
+            prop="startDate"
             label="展示开始时间">
           </el-table-column>
           <el-table-column
             width="170px"
-            prop="showEndTime"
+            prop="endDate"
             label="展示结束时间">
           </el-table-column>
-          <el-table-column
-            prop="status"
-            label="当前状态">
-          </el-table-column>
-          <el-table-column label="操作" width="120px">
+          <el-table-column label="当前状态">
             <template slot-scope="scope">
-              <el-button @click="viewDetail(scope.row)" type="text">查看</el-button>
+              <span>{{ $t(scope.row.applyState) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="200px">
+            <template slot-scope="scope">
+              <el-button @click="viewDetail(scope.$index, scope.row)" type="text">查看</el-button>
 
-              <el-dropdown trigger="click" v-if="scope.row.showMore">
+              <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
                   更多
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
-                    <el-button type="text" @click="passAction(scope.$index, scope.row)">通过</el-button>
+                    <el-button type="text" @click="passAction(scope.$index, scope.row.id)">通过</el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    <el-button type="text" @click="failPass(scope.$index, scope.row)">不通过</el-button>
+                    <el-button type="text" @click="failAction(scope.$index, scope.row.id)">不通过</el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
 
-              <el-button type="text" @click="obtained(scope.$index, scope.row)" v-if="scope.row.showDown">下架</el-button>
+              <el-button type="text" @click="obtained(scope.row.id)">下架</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -170,34 +175,34 @@
         <div class="main">
           <el-form :model="viewData" label-width="100px">
             <el-form-item label="序号">
-              <el-input v-model="viewData.serialNumber" readonly placeholder="请输入"></el-input>
+              <el-input :value="viewData.index" placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="药店名称">
-              <el-input v-model="viewData.pharmacyName" readonly placeholder="请输入"></el-input>
+              <el-input :value="viewData.shopName" placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="药品规格">
-              <el-input v-model="viewData.drugSpec" readonly placeholder="请输入"></el-input>
+              <el-input :value="viewData.specName" placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="生产厂商">
-              <el-input v-model="viewData.produce" readonly placeholder="请输入"></el-input>
+              <el-input :value="viewData.originName" placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="销量">
-              <el-input v-model="viewData.salesNum" readonly placeholder="请输入"></el-input>
+              <el-input :value="viewData.sales" placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="销售价">
-              <el-input v-model="viewData.salesPrice" readonly placeholder="请输入"></el-input>
+              <el-input :value="viewData.price" placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="申请日期">
-              <el-input v-model="viewData.applyDate" readonly placeholder="请输入"></el-input>
+              <el-input :value="viewData.applyDate" placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="展示开始时间">
-              <el-input v-model="viewData.showStartTime" readonly placeholder="请输入"></el-input>
+              <el-input :value="viewData.startDate" placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="展示结束时间">
-              <el-input v-model="viewData.showEndTime" readonly placeholder="请输入"></el-input>
+              <el-input :value="viewData.endDate" placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="当前状态">
-              <el-input v-model="viewData.status" readonly placeholder="请输入"></el-input>
+              <el-input :value="$t(viewData.applyState)" placeholder="暂无"></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -205,26 +210,6 @@
         <div slot="footer" class="dialog-footer">
           <el-button @click="viewDialogVisible = false" type="primary">关 闭</el-button>
         </div>
-      </el-dialog>
-
-      <!--通过原因-->
-      <el-dialog
-        title="通过原因"
-        :visible.sync="passDialogVisible"
-        width="30%"
-        :close-on-click-modal='isClickModal'>
-        <div class="reason">
-          <el-input
-            type="textarea"
-            :rows="5"
-            placeholder="请输入通过原因"
-            v-model="passReason">
-          </el-input>
-        </div>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="passCancel">取 消</el-button>
-          <el-button type="primary" @click="passConfirm">确 定</el-button>
-        </span>
       </el-dialog>
 
       <!--不通过原因-->
@@ -264,40 +249,64 @@
   })
   export default class Discount extends Vue {
     disClearable = false
-    pharmacyValue = '';
-    produceValue = '';
-    drugValue = '';
-    dateValue = '';
+    shopNameID = ''; // 药店名id
+    shopName = ''; // 药店名称
+    drugName = ''; // 药品名称
+    produceName = ''; // 生产厂商
+    stateValue = '' // 状态值
+    dateValue = ''; // 日期区间
+    startDate = '' // 起始日期
+    endDate = '' // 截止日期
 
-    produceList = [
+    shopNameList = [] // 药店名称
+    currentStateList = [
       {
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
+        id: 'SUCCESS',
+        name: '通过'
+      },
+      {
+        id: 'FAIL',
+        name: '不通过'
+      },
+      {
+        id: 'PENDING',
+        name: '待审核'
       }
-    ];
+    ]
 
-    currentPage = 1; // 当前页
-    pageSize = 5; // 每页显示条数
-    totalPages = 0
-
-    tableData = []; // 所有列表数据
+    tableData = []; // 促销药品数据
     perPageData = []; // 存储每页显示的数据
 
-    // 下架
-    obtained (index, row) {
+    currentPage = 1; // 当前页
+    pageSize = 15; // 每页显示条数
+    totalPages = 0
 
+    // 清空
+    clearConditions () {
+      this.shopNameID = ''
+      this.shopNameValue = ''
+      this.drugName = ''
+      this.produceValue = ''
+      this.stateValue = ''
+      this.dateValue = ''
+      this.startDate = ''
+      this.endDate = ''
+    }
+
+    // 获取所有药店名称选项
+    async getShopNames () {
+      let {data: options} = await axios.post(`/api/supervise/shops/filter`)
+      this.shopNameList = options
+    }
+
+    // 下架
+    async obtained (id) {
+      await axios.delete(`/api/supervise/drugDiscountApplies${id}`)
+      this.totalPages -= 1
+      this.$message({
+        message: '该药品下架成功！',
+        type: 'success'
+      })
     }
 
     // 查看
@@ -305,40 +314,41 @@
     isClickModal = false
     viewData = {};
 
-    viewDetail (row) {
+    viewDetail (index, row) {
       this.viewDialogVisible = true
-      this.viewData.serialNumber = row.serialNumber
-      this.viewData.pharmacyName = row.pharmacyName
-      this.viewData.drugSpec = row.drugSpec
-      this.viewData.produce = row.produce
-      this.viewData.salesNum = row.salesNum
-      this.viewData.salesPrice = row.salesPrice
+      this.viewData.index = index + 1
+      this.viewData.shopName = row.shopName
+      this.viewData.drugName = row.drugName
+      this.viewData.specName = row.specName
+      this.viewData.originName = row.originName
+      this.viewData.sales = row.sales
+      this.viewData.price = row.price
       this.viewData.applyDate = row.applyDate
-      this.viewData.showStartTime = row.showStartTime
-      this.viewData.showEndTime = row.showEndTime
-      this.viewData.status = row.status
+      this.viewData.startDate = row.startDate
+      this.viewData.endDate = row.endDate
+      this.viewData.applyState = row.applyState
     }
 
-    // 通过原因
-    passReason = '';
-    passDialogVisible = false;
-    passAction (index, row) {
-      this.passDialogVisible = true
-    }
-    passCancel () {
-      this.passDialogVisible = false
-      this.passReason = ''
-    }
-    passConfirm () {
-      this.passDialogVisible = false
-      this.passReason = ''
+    // 通过
+    async passAction (index, id) {
+      let applyState = 'SUCCESS'
+      await axios.put(`/api/supervise/drugDiscountApplies/${id}?applyState=${applyState}`)
+      this.perPageData[index].applyState = applyState
+      this.$message({
+        message: '审核通过',
+        type: 'success'
+      })
     }
 
     // 不通过原因
     failReason = '';
     failDialogVisible = false;
-    failPass (index, row) {
+    failIndex = ''
+    failId = ''
+    failAction (index, id) {
       this.failDialogVisible = true
+      this.failIndex = index
+      this.failId = id
     }
 
     failCancel () {
@@ -346,52 +356,91 @@
       this.failDialogVisible = false
     }
 
-    failConfirm () {
+    async failConfirm () {
+      let applyState = 'FAIL'
+
+      if (!this.failReason) {
+        this.$message({
+          message: '请填写不通过原因',
+          type: 'warning'
+        })
+        return
+      }
+      let params = {
+        remark: this.failReason
+      }
+      await axios.put(`/api/supervise/drugDiscountApplies/${this.failId}?applyState=${applyState}`, params)
+      this.perPageData[this.failIndex].applyState = applyState
+      this.$message({
+        message: '审核不通过',
+        type: 'success'
+      })
       this.failReason = ''
       this.failDialogVisible = false
     }
 
     handleCurrentChange (page) {
       this.currentPage = page
-      this.setStatus()
+      this.getDiscounts()
     }
 
-    setStatus () {
+    // 获取每页数据
+    getPerData () {
       this.perPageData = this.tableData
       this.perPageData = this.perPageData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+    }
 
-      this.perPageData.forEach((item, index) => {
-        if (item.status === '活动中') {
-          this.perPageData[index].showDown = true
-        }
-
-        if (item.status === '待审核') {
-          this.perPageData[index].showMore = true
+    matchShopName () {
+      this.shopNameList.forEach(item => {
+        if (this.shopNameID === item.id) {
+          this.shopNameValue = item.name
         }
       })
+    }
+
+    convertDate () {
+      if (this.dateValue) {
+        for (let i = 0, len = this.dateValue.length; i < len; i++) {
+          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD')
+        }
+        this.startDate = this.dateValue[0] + ' 00:00:00'
+        this.endDate = this.dateValue[1] + ' 23:59:59'
+      }
+    }
+
+    // 搜索
+    searchDiscountDrugs () {
+      this.getDiscounts()
     }
 
     async getDiscounts () {
       let params = {
         pageNum: this.currentPage,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        shopId: this.shopNameID,
+        shopName: this.shopNameValue,
+        drugName: this.drugName.trim(),
+        state: this.stateValue,
+        start: this.startDate,
+        ebd: this.endDate
       }
-      let {data: res} = await axios.get(`/api/supervise/drugDiscounts`, {params})
+      let {data: res} = await axios.get(`/api/supervise/drugDiscountApplies`, {params})
       console.log(res)
       this.tableData = res.list
       this.totalPages = res.total
 
       this.tableData.forEach((item, index) => {
-        item.index = index + 1
-        item.showDate = moment(item.showDate).format('YYYY-MM-DD hh:mm:ss')
+        item.applyDate = moment(item.applyDate).format('YYYY-MM-DD hh:mm:ss')
+        item.startDate = moment(item.startDate).format('YYYY-MM-DD hh:mm:ss')
+        item.endDate = moment(item.endDate).format('YYYY-MM-DD hh:mm:ss')
       })
 
-      this.setStatus()
+      this.getPerData()
     }
 
-    mounted () {
+    beforeMount () {
       this.getDiscounts()
-      // this.setStatus()
+      this.getShopNames()
     }
   }
 </script>
@@ -435,6 +484,7 @@
         &-top{
           margin: 20px 0;
         }
+
       }
 
       .list {
@@ -461,7 +511,11 @@
       }
 
       .cell{
+        .el-button{
+          font-size: 13px;
+        }
         button:last-child{
+          margin-left: 8px;
           &:before{
             content: '|';
             color: #EEE;
@@ -479,10 +533,6 @@
           }
         }
 
-        .el-button+.el-button{
-          margin-left: 0;
-        }
-
         .el-dropdown{
           font-size: 12px;
           color: #409eff;
@@ -497,7 +547,7 @@
 
           &-link{
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
           }
 
           .el-icon--right{
@@ -518,8 +568,10 @@
   .el-dropdown-menu {
     overflow: hidden;
     &__item {
+      text-align: center;
       .el-button--text {
         color: #606266;
+        font-size: 13px;
       }
     }
   }

@@ -119,7 +119,7 @@
     };
 
     formOptions = {
-      labelWidth: '50px',
+      labelWidth: '100px',
       labelPosition: 'left',
       saveLoading: false
     }

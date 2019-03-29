@@ -88,7 +88,7 @@
             label="药品名称">
           </el-table-column>
           <el-table-column
-            width="120px"
+            width="200px"
             prop="drugSpec"
             label="药品规格">
           </el-table-column>
@@ -580,7 +580,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .recommend-wrap{
     padding: 20px;
 

@@ -2,20 +2,20 @@
   <div class="p10">
     <bread-crumb :path="$route.path"/>
     <div class="pharm-search">
-      <el-select v-model="shopNameValue" size="small" placeholder="药店名称" style="width: 250px;" @change="getShopID">
+      <el-select v-model="shopId" size="small" placeholder="药店名称" style="width: 250px;">
         <el-option
-          v-for="item in shopNameOptions"
-          :key="item.id"
+          v-for="(item, index) in shopNameOptions"
+          :key="index"
           :label="item.name"
-          :value="item.name">
+          :value="item.id">
         </el-option>
       </el-select>
-      <el-select size="small" v-model="shopState" placeholder="当前状态" @change="getStatusID">
+      <el-select size="small" v-model="shopStateId" placeholder="当前状态">
         <el-option
-          v-for="item in stateOptions"
-          :key="item.id"
+          v-for="(item, index) in stateOptions"
+          :key="index"
           :label="item.label"
-          :value="item.value">
+          :value="item.id">
         </el-option>
       </el-select>
       <el-button type="primary" size="small" @click="searchShopInfo">搜索</el-button>
@@ -52,7 +52,6 @@
     shopNameOptions = []
     shopNameValue = ''
     shopId = ''
-    shopState = ''
     shopStateId = ''
     columns = [
       {
@@ -167,22 +166,6 @@
       }
     ]
 
-    getShopID () {
-      this.shopNameOptions.forEach(item => {
-        if (this.shopNameValue === item.name) {
-          this.shopId = item.id
-        }
-      })
-    }
-
-    getStatusID () {
-      this.stateOptions.forEach(item => {
-        if (this.shopState === item.value) {
-          this.shopStateId = item.id
-        }
-      })
-    }
-
     // 获取所有药店名称选项
     async getShopNames () {
       let {data: option} = await axios.post(`/api/supervise/shops/filter`)
@@ -243,8 +226,6 @@
 
     clear () {
       this.shopId = ''
-      this.shopNameValue = ''
-      this.shopState = ''
       this.shopStateId = ''
     }
 
@@ -265,20 +246,20 @@
 
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
-      this.getShopInfo(this.shopId, this.shopStateId)
+      this.getShopInfo()
     }
 
     // 搜索
     searchShopInfo () {
-      this.getShopInfo(this.shopId, this.shopStateId)
+      this.getShopInfo()
     }
 
-    async getShopInfo (shopId, state) {
+    async getShopInfo () {
       let params = {
         pageNum: 1,
         pageSize: 15,
-        shopId,
-        state
+        shopId: this.shopId,
+        state: this.shopStateId
       }
       let {data: shopRes} = await axios.get(`/api/supervise/shops`, {params})
       console.log(shopRes)

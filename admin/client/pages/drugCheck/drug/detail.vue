@@ -2,7 +2,7 @@
   <div class="drug-detail">
     <bread-crumb :path="$route.path"/>
     <el-form ref="form" :model="form" label-width="150px">
-      <el-form-item label="药品名称">
+      <el-form-item label="药房名称">
         <el-input v-model="form.shopName" disabled placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="药品名称">
@@ -139,12 +139,12 @@
       margin-right: 100px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(4, 50px) 150px repeat(3, 50px);
+      grid-template-rows: repeat(4, 50px) 50px repeat(3, 50px);
       .el-form-item{
         &:nth-child(10){
-          grid-row: 5 / 6;
+          grid-row: 9 / 6;
+          grid-column: 1 / 3;
         }
-
       }
     }
     .back-btn{

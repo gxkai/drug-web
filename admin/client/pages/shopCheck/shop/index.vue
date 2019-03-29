@@ -4,16 +4,16 @@
       <div class="shop-search">
         <el-select size="small" v-model="shopName" filterable placeholder="药房名称" style="width:auto;">
           <el-option
-            v-for="item in shopOptions"
-            :key="item.value"
+            v-for="(item, index) in shopOptions"
+            :key="index"
             :label="item.label"
             :value="item.value">
           </el-option>
         </el-select>
         <el-select size="small" v-model="legalName" filterable placeholder="法人姓名">
           <el-option
-            v-for="item in legalOptions"
-            :key="item.value"
+            v-for="(item, index) in legalOptions"
+            :key="index"
             :label="item.label"
             :value="item.value">
           </el-option>
@@ -180,7 +180,6 @@
       this.pagination.total = data.data.total
 
       this.shopData.forEach((item) => {
-        // console.log(item.legal)
         // 获取药房名称
         this.shopOptions.push({
           value: item.shopName,
@@ -188,8 +187,8 @@
         })
         // 获取法人姓名
         this.legalOptions.push({
-          value: item.legal.trim(),
-          label: item.legal.trim()
+          value: item.legal,
+          label: item.legal
         })
         if (item.state === 'NORMAL') {
           item.state = '正常'
