@@ -4,7 +4,10 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>分类1</h3>
-        <el-button size="small" type="primary" @click="$router.go(-1)">返回</el-button>
+        <div class="action-btns">
+          <el-button size="small" type="primary" @click="addRow">新增</el-button>
+          <el-button size="small" @click="$router.go(-1)">返回</el-button>
+        </div>
       </div>
 
       <div class="list">
@@ -16,6 +19,10 @@
           :pagination="pagination"
           :options="options"
           :rowHandle="rowHandle"
+
+          add-title="我的新增"
+          @row-add="handleRowAdd"
+          :add-template="addTemplate"
 
           edit-title="我的修改"
           :edit-template="editTemplate"
@@ -112,10 +119,41 @@
     };
 
     formOptions = {
-      labelWidth: '80px',
+      labelWidth: '100px',
       labelPosition: 'left',
       saveLoading: false
     }
+
+    addTemplate = {
+      serialNumber: {
+        title: '序号',
+        value: ''
+      },
+      title: {
+        title: '标题',
+        value: ''
+      },
+      origin: {
+        title: '来源',
+        value: ''
+      },
+      openNum: {
+        title: '打开次数',
+        value: ''
+      },
+      content: {
+        title: '内容',
+        value: ''
+      },
+      isToTop: {
+        title: '是否置顶',
+        value: ''
+      },
+      updateTime: {
+        title: '更新时间',
+        value: ''
+      }
+    };
 
     editTemplate = {
       serialNumber: {
@@ -148,6 +186,12 @@
       }
     };
 
+    addRow () {
+      this.$refs.d2Crud.showDialog({
+        mode: 'add'
+      })
+    }
+
     handleDialogOpen ({ mode }) {
       // this.$message({
       //   message: '打开模态框，模式为：' + mode,
@@ -172,6 +216,23 @@
           type: 'success'
         })
         done()
+      }, 300)
+    }
+
+    handleRowAdd (row, done) {
+      this.formOptions.saveLoading = true
+      setTimeout(() => {
+        console.log(row)
+        this.$message({
+          message: '保存成功',
+          type: 'success'
+        })
+
+        // done可以传入一个对象来修改提交的某个字段
+        done({
+          address: '我是通过done事件传入的数据！'
+        })
+        this.formOptions.saveLoading = false
       }, 300)
     }
 

@@ -126,10 +126,6 @@
         title: '常见问题标题',
         value: ''
       },
-      readTimes: {
-        title: '阅读次数',
-        value: ''
-      },
       answer: {
         title: '回复',
         value: ''
@@ -162,7 +158,6 @@
 
       let params = {
         question: row.question,
-        readTimes: row.readTimes,
         answer: row.answer
       }
       let addRes = await axios.post(`/api/supervise/faqs`, params)

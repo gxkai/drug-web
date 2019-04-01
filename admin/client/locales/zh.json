@@ -15,8 +15,13 @@
     "pwd": "修改密码",
     "exit": "退出"
   },
+
   "MALE": "男",
   "FEMALE": "女",
+  "SUCCESS": "通过",
+  "FAIL": "不通过",
+  "PENDING": "待审核",
+
   "tagline":
     "Application boilerplate based on Vue.js 2.x, Koa 2.x, Element-UI, Axios, Vue i18n and Nuxt.js",
   "/":
@@ -129,6 +134,8 @@
     "搜索词管理",
   "/business/repository":
     "知识库管理",
+  "/business/repository/repositoryCategoryList":
+    "分类列表",
   "/business/faq":
     "常见问题",
   "/system":

@@ -2,6 +2,9 @@
   <div class="drug-detail">
     <bread-crumb :path="$route.path"/>
     <el-form ref="form" :model="form" label-width="150px">
+      <el-form-item label="药房名称">
+        <el-input v-model="form.shopName" disabled placeholder="暂无"></el-input>
+      </el-form-item>
       <el-form-item label="药品名称">
         <el-input v-model="form.drugName" disabled placeholder="暂无"></el-input>
       </el-form-item>
@@ -90,6 +93,7 @@
   })
   export default class DrugDetail extends Vue {
     form = {
+      shopName: '百家慧',
       drugName: '裸花紫珠颗粒',
       commonName: '裸花紫珠颗粒',
       drugApproval: 'Z20060378',
@@ -135,12 +139,12 @@
       margin-right: 100px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(4, 50px) 150px repeat(3, 50px);
+      grid-template-rows: repeat(4, 50px) 50px repeat(3, 50px);
       .el-form-item{
-        &:nth-child(9){
+        &:nth-child(10){
+          grid-row: 9 / 6;
           grid-column: 1 / 3;
         }
-
       }
     }
     .back-btn{
