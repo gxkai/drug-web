@@ -9,12 +9,12 @@
             <div class="filter">
               <el-row :gutter="20">
                 <el-col :span="5">
-                  <el-select v-model="shopNameOfShopAppraise" @change="getShopIdOfShopAppraise" size="small" filterable placeholder="药房名称">
+                  <el-select v-model="shopIdOfShopAppraise" size="small" filterable placeholder="药房名称">
                     <el-option
-                      v-for="item in shopNameListOfShopAppraise"
-                      :key="item.id"
+                      v-for="(item, index) in shopNameListOfShopAppraise"
+                      :key="index"
                       :label="item.name"
-                      :value="item.name">
+                      :value="item.id">
                     </el-option>
                   </el-select>
                 </el-col>
@@ -55,12 +55,12 @@
             <div class="filter">
               <el-row :gutter="20">
                 <el-col :span="5">
-                  <el-select v-model="shopNameOfDrugAppraise" @change="getShopIdOfDrugAppraise" size="small" filterable placeholder="药房名称">
+                  <el-select v-model="shopIdOfDrugAppraise" size="small" filterable placeholder="药房名称">
                     <el-option
-                      v-for="item in shopNameListOfDrugAppraise"
-                      :key="item.id"
+                      v-for="(item, index) in shopNameListOfDrugAppraise"
+                      :key="index"
                       :label="item.name"
-                      :value="item.name">
+                      :value="item.id">
                     </el-option>
                     </el-select>
                   </el-col>
@@ -139,7 +139,6 @@
      * 药店评价信息
      */
     shopIdOfShopAppraise = ''
-    shopNameOfShopAppraise = ''
     buyerNameOfShopAppraise = ''
     dateOfShopAppraise = ''
     shopAppraiseStartDate = ''
@@ -197,26 +196,16 @@
 
     pageChangeOfShopAppraise (page) {
       this.shopAppraisePagination.currentPage = page
-      this.getShopAppraises(this.shopIdOfShopAppraise, this.buyerNameOfShopAppraise.trim(), this.shopAppraiseStartDate, this.shopAppraiseEndDate)
+      this.getShopAppraises()
     }
 
     // 清空
     clearShopCondition () {
       this.shopIdOfShopAppraise = ''
-      this.shopNameOfShopAppraise = ''
       this.buyerNameOfShopAppraise = ''
       this.dateOfShopAppraise = ''
       this.shopAppraiseStartDate = ''
       this.shopAppraiseEndDate = ''
-    }
-
-    // 获取药店名对应id
-    getShopIdOfShopAppraise () {
-      this.shopNameListOfShopAppraise.forEach(item => {
-        if (this.shopNameOfShopAppraise === item.name) {
-          this.shopIdOfShopAppraise = item.id
-        }
-      })
     }
 
     // 删除
@@ -232,29 +221,31 @@
       }, 300)
     }
 
-    // 搜索
-    searchShopAppraise () {
+    convertDate () {
       if (this.dateOfShopAppraise) {
         for (let i = 0, len = this.dateOfShopAppraise.length; i < len; i++) {
           this.dateOfShopAppraise[i] = moment(this.dateOfShopAppraise[i]).format('YYYY-MM-DD')
         }
-
         this.shopAppraiseStartDate = this.dateOfShopAppraise[0] + '00:00:00'
         this.shopAppraiseEndDate = this.dateOfShopAppraise[1] + '23:59:59'
       }
+    }
 
-      this.getShopAppraises(this.shopIdOfShopAppraise, this.buyerNameOfShopAppraise.trim(), this.shopAppraiseStartDate, this.shopAppraiseEndDate)
+    // 搜索
+    searchShopAppraise () {
+      this.convertDate()
+      this.getShopAppraises()
     }
 
     // 获取所有药店评价信息
-    async getShopAppraises (shopId, buyerName, start, end) {
+    async getShopAppraises () {
       let params = {
         pageNum: this.shopAppraisePagination.currentPage,
         pageSize: this.shopAppraisePagination.pageSize,
-        shopId,
-        buyerName,
-        start,
-        end
+        shopId: this.shopIdOfShopAppraise,
+        buyerName: this.buyerNameOfShopAppraise.trim(),
+        start: this.shopAppraiseStartDate,
+        end: this.shopAppraiseEndDate
       }
 
       let {data: shopRes} = await axios.get(`/api/supervise/shopAppraises`, {params})
@@ -272,7 +263,6 @@
      */
 
     shopIdOfDrugAppraise = ''
-    shopNameOfDrugAppraise = ''
     buyerNameOfDrugAppraise = ''
     drugNameValue = ''
     dateOfDrugAppraise = ''
@@ -336,27 +326,17 @@
 
     pageChangeOfDrugAppraise (page) {
       this.drugAppraisePagination.currentPage = page
-      this.getDrugAppraises(this.shopIdOfDrugAppraise, this.drugNameValue, this.buyerNameOfDrugAppraise.trim(), this.drugAppraiseStartDate, this.drugAppraiseEndDate)
+      this.getDrugAppraises()
     }
 
     // 清空
     clearDrugCondition () {
       this.shopIdOfDrugAppraise = ''
-      this.shopNameOfDrugAppraise = ''
       this.buyerNameOfDrugAppraise = ''
       this.drugNameValue = ''
       this.dateOfDrugAppraise = ''
       this.drugAppraiseStartDate = ''
       this.drugAppraiseEndDate = ''
-    }
-
-    // 获取药店名对应id
-    getShopIdOfDrugAppraise () {
-      this.shopNameListOfDrugAppraise.forEach(item => {
-        if (this.shopNameOfDrugAppraise === item.name) {
-          this.shopIdOfDrugAppraise = item.id
-        }
-      })
     }
 
     // 搜索
@@ -370,7 +350,7 @@
         this.drugAppraiseEndDate = this.dateOfDrugAppraise[1] + ' 23:59:59'
       }
 
-      this.getDrugAppraises(this.shopIdOfDrugAppraise, this.drugNameValue, this.buyerNameOfDrugAppraise.trim(), this.drugAppraiseStartDate, this.drugAppraiseEndDate)
+      this.getDrugAppraises()
     }
 
     // 删除
@@ -387,15 +367,15 @@
     }
 
     // 获取所有药品评价信息
-    async getDrugAppraises (shopId, drugName, buyerName, start, end) {
+    async getDrugAppraises () {
       let params = {
         pageNum: this.drugAppraisePagination.currentPage,
         pageSize: this.drugAppraisePagination.pageSize,
-        shopId,
-        drugName,
-        buyerName,
-        start,
-        end
+        shopId: this.shopIdOfDrugAppraise,
+        drugName: this.drugNameValue.trim(),
+        buyerName: this.buyerNameOfDrugAppraise.trim(),
+        start: this.drugAppraiseStartDate,
+        end: this.drugAppraiseEndDate
       }
 
       let {data: drugRes} = await axios.get(`/api/supervise/drugAppraises`, {params})

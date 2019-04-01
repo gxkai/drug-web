@@ -3,22 +3,29 @@
     <bread-crumb :path="$route.path"/>
     <div class="stock--content__search">
       <el-button type="primary" size="small" icon="el-icon-plus" @click="stockAdd">新增</el-button>
-      <el-button type="primary" size="small" icon="el-icon-refresh">重置ES</el-button>
+      <el-button type="primary" size="small" icon="el-icon-refresh" @click="resetEs">重置ES</el-button>
       <el-input v-model="commonNameValue" size="small" placeholder="通用名称" style="width: 200px;"></el-input>
-      <el-input v-model="filmNameValue" size="small" placeholder="厂商名称" style="width: 200px;"></el-input>
-      <el-cascader :options="drugsOptions" size="small" change-on-select></el-cascader>
-      <el-button type="primary" size="small">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+      <el-input v-model="originNameValue" size="small" placeholder="厂商名称" style="width: 200px;"></el-input>
+      <el-cascader
+                   size="small"
+                   expand-trigger="hover"
+                   :options="drugTypesParent"
+                   v-model="childTypes"
+                   @change="changeTypes">
+      </el-cascader>
+      <el-button type="primary" size="small" @click="searchDrugs">搜索</el-button>
+      <el-button size="small" @click="clearConditions">清空</el-button>
     </div>
     <d2-crud
       :columns="columns"
-      :data="data"
+      :data="drugList"
       :loading="loading"
       :pagination="pagination"
+      @pagination-current-change="paginationCurrentChange"
       :options="options"
       :rowHandle="rowHandle"
-      @custom-edit="handleCustomEvent"
-      @row-remove="handleRowRemove"
+      @custom-edit="editDrugInfo"
+      @row-remove="removeDrug"
       class="drug-table"
      />
   </div>
@@ -27,6 +34,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
 
   @Component({
     components: {
@@ -35,11 +43,11 @@
   })
   export default class Stock extends Vue {
     commonNameValue = ''
-    filmNameValue = ''
+    originNameValue = ''
     columns= [
       {
         title: '药品名称',
-        key: 'drugName'
+        key: 'name'
       },
       {
         title: '通用名称',
@@ -47,43 +55,31 @@
       },
       {
         title: '规格',
-        key: 'drugSpec'
+        key: 'spec'
       },
       {
         title: '厂商简称',
-        key: 'filmName'
+        key: 'originName'
       },
       {
         title: '药品类型',
-        key: 'drugType'
+        key: 'drugTypeName'
       }
     ];
-    data= [
-      {
-        drugName: '养血安神片(糖衣)',
-        commonName: '养血安神片(糖衣)',
-        drugSpec: '0.25g*100',
-        filmName: '亚宝药业集团股份有限公司',
-        drugType: '其他'
-      },
-      {
-        drugName: '川贝枇杷糖浆',
-        commonName: '川贝枇杷糖浆',
-        drugSpec: '180ml*1',
-        filmName: '江西盛翔制药有限公司',
-        drugType: '感冒'
-      }
-    ]
-    loading= false;
-    pagination= {
+    drugList = []
+    drugTypesParent = [] // 药品类型
+    childTypes = [] // 所选药品类型
+
+    loading = false;
+    pagination = {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
-    options= {
+    options = {
       border: true
     }
-    rowHandle= {
+    rowHandle = {
       remove: {
         text: '删除',
         type: 'text',
@@ -97,73 +93,25 @@
         }
       ]
     }
-    drugsOptions = [
-      {
-        value: 'childDrugs',
-        label: '儿科用药',
-        children: [
-          {
-            value: 'childBug',
-            label: '小儿驱虫'
-          },
-          {
-            value: 'childEat',
-            label: '小儿消化不良'
-          }
-        ]
-      },
-      {
-        value: 'bellyDrugs',
-        label: '肠胃用药',
-        children: [
-          {
-            value: 'bellyBug',
-            label: '肠胃驱虫'
-          },
-          {
-            value: 'bellyEat',
-            label: '消化不良'
-          }
-        ]
-      },
-      {
-        value: 'bellyDrugsq',
-        label: '肠胃用药q',
-        children: [
-          {
-            value: 'bellyBugq',
-            label: '肠胃驱虫q'
-          },
-          {
-            value: 'bellyEatq',
-            label: '消化不良q'
-          }
-        ]
-      },
-      {
-        value: 'bellyDrugsw',
-        label: '肠胃用药w',
-        children: [
-          {
-            value: 'bellyBugw',
-            label: '肠胃驱虫w'
-          },
-          {
-            value: 'bellyEatw',
-            label: '消化不良w'
-          }
-        ]
-      }
-    ]
-    mounted () {
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getDrugs()
     }
-    handleCustomEvent ({index, row}) {
-      // this.$message.success(index.toString())
-      console.log(index)
-      console.log(row)
-      this.$router.push('/drugCheck/stock/edit')
+
+    editDrugInfo ({index, row}) {
+      this.$router.push({
+        path: '/drugCheck/stock/edit',
+        query: {
+          id: row.id
+        }
+      })
     }
-    handleRowRemove ({ index, row }, done) {
+
+    // 删除
+    async removeDrug ({ index, row }, done) {
+      await axios.delete(`/api/supervise/drugs/${row.id}`)
+      this.pagination.total -= 1
       setTimeout(() => {
         this.$message({
           message: '删除成功',
@@ -172,13 +120,50 @@
         done()
       }, 300)
     }
+
     stockAdd () {
       this.$router.push('/drugCheck/stock/create')
     }
-    clear () {
+
+    async resetEs () {
+      await axios.post(`/api/supervise/drugs/reset`)
+      this.$message({
+        message: '重置成功',
+        type: 'success'
+      })
+    }
+
+    clearConditions () {
       this.commonNameValue = ''
-      this.filmNameValue = ''
-      this.drugsOptions = []
+      this.originNameValue = ''
+      // this.childTypes = [] // 所选药品类型
+    }
+
+    changeTypes () {
+
+    }
+
+    searchDrugs () {
+      this.getDrugs()
+    }
+
+    async getDrugs () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        name: this.commonNameValue.trim(),
+        originName: this.originNameValue.trim()
+        // drugTypeParent,
+        // drugType
+      }
+      let {data: drugRes} = await axios.get(`/api/supervise/drugs`, {params})
+      console.log(drugRes)
+      this.drugList = drugRes.list
+      this.pagination.total = drugRes.total
+    }
+
+    mounted () {
+      this.getDrugs()
     }
   }
 </script>

@@ -274,10 +274,10 @@
       this.form.dialogVisible = true
     }
     submitSuccess () {
-      this.$router.push('/shopCheck/shop')
+      this.$router.push('/drugCheck/stock')
     }
     submitFail () {
-      this.$router.push('/shopCheck/shop')
+      this.$router.push('/drugCheck/stock')
     }
   }
 </script>
