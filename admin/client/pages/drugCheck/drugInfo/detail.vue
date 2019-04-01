@@ -18,20 +18,20 @@
         <el-form-item label="药品大类：">
           <el-select v-model="detailList.drugTypeName" @change="changeParentType" clearable placeholder="请选择">
             <el-option
-              v-for="item in parentType"
-              :key="item.id"
+              v-for="(item, index) in parentType"
+              :key="index"
               :label="item.type"
-              :value="item.type">
+              :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="药品小类：">
-          <el-select v-model="detailList.drugTypeChildName" @change="changeChildType" clearable placeholder="请选择">
+          <el-select v-model="detailList.drugTypeChildName" clearable placeholder="请选择">
             <el-option
-              v-for="item in childType"
-              :key="item.id"
+              v-for="(item, index) in childType"
+              :key="index"
               :label="item.type"
-              :value="item.type">
+              :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -182,12 +182,7 @@
     // 改变药品大类
     changeParentType () {
       this.isFirst = false
-      this.parentType.forEach(item => {
-        if (item.type === this.detailList.drugTypeName) {
-          this.detailList.drugTypeId = item.id
-        }
-      })
-      this.getChildType(this.detailList.drugTypeId)
+      this.getChildType(this.detailList.drugTypeName)
     }
 
     // 获取小类
@@ -198,15 +193,6 @@
         this.detailList.drugTypeChildName = this.childType[0].type
         this.detailList.drugTypeChildId = this.childType[0].id
       }
-    }
-
-    // 改变药品小类
-    changeChildType () {
-      this.childType.forEach(item => {
-        if (item.type === this.detailList.drugTypeChildName) {
-          this.detailList.drugTypeChildId = item.id
-        }
-      })
     }
 
     async getDetail (id) {
@@ -244,10 +230,9 @@
       }
     }
 
-    mounted () {
+    beforeMount () {
       let id = this.$route.query.id
       this.getDetail(id)
-
       this.getParentType()
       this.getChildType(this.detailList.drugTypeId)
     }
