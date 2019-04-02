@@ -169,7 +169,7 @@
               <span>{{item.state}}</span>
             </div>
             <div class="item item8">
-              <el-button type="text" size="medium" @click="viewDetail(index, item.number)">查看详情</el-button>
+              <el-button type="text" size="medium" @click="viewDetail(index, item.id)">查看详情</el-button>
               <el-button type="text" size="medium" @click="finishedAdjust(index)">调剂完成</el-button>
             </div>
           </div>
@@ -254,7 +254,7 @@
       this.orderListData = orderData.data.list
       this.perPageData = this.orderListData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
-
+      // console.log(this.orderListData)
       this.perPageData.forEach((item) => {
         // console.log(item)
         // 获取药品图片
@@ -286,11 +286,11 @@
     }
 
     // 查看详情
-    viewDetail (index, number) {
+    viewDetail (index, id) {
       this.$router.push({
         path: '/order/order/detail',
         query: {
-          number: number
+          id: id
         }
       })
     }

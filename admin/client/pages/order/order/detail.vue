@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>正在查看订单【{{ this.$route.query.number }}】的详细信息</h3>
+        <h3>正在查看订单【{{ this.orderNumberTit }}】的详细信息</h3>
         <el-button size="small" type="primary" @click="$router.go(-1)">返回</el-button>
       </div>
 
@@ -31,10 +31,10 @@
             <div class="left-info">
               <ul>
                 <li>
-                  <h4>商品总价：4567.89</h4>
+                  <h4>商品总价：{{ totalAmount }}</h4>
                 </li>
                 <li>
-                  <h4>订单总价：4567.89</h4>
+                  <h4>订单总价：{{ payAmount }}</h4>
                 </li>
                 <li>
                   <p>商品成本：0.00</p>
@@ -43,10 +43,10 @@
                   <p>付费方式：农商行</p>
                 </li>
                 <li>
-                  <p>医保扣除：0.00</p>
+                  <p>医保扣除：{{ medicaidAmount }}</p>
                 </li>
                 <li>
-                  <p>上线付款：100.00</p>
+                  <p>线上付款：0.00</p>
                 </li>
                 <li>
                   <p>折扣扣除：0.00</p>
@@ -56,13 +56,13 @@
             <div class="right-info">
               <ul>
                 <li>
-                  <p>收货人：张三丰</p>
+                  <p>收货人：{{ consignee }}</p>
                 </li>
                 <li>
-                  <p>收货地址：江苏省 苏州市 昆山市 海创大厦C  22F</p>
+                  <p>收货地址：{{ address }}</p>
                 </li>
                 <li>
-                  <p>联系电话：13888888888 / 0512-55555555</p>
+                  <p>联系电话：{{ phone }}</p>
                 </li>
               </ul>
             </div>
@@ -70,7 +70,7 @@
 
           <div class="remark">
             <span>备注：</span>
-            <span>1111</span>
+            <span>{{ remark }}</span>
           </div>
         </div>
 
@@ -84,8 +84,8 @@
             :options="optionData"/>
           <div class="total">
             <span>合计</span>
-            <span>大写金额：贰佰圆整</span>
-            <span>小写金额：200.00</span>
+            <span>大写金额：{{ payAmount2 }}</span>
+            <span>小写金额：{{ payAmount }}</span>
           </div>
         </div>
 
@@ -113,6 +113,7 @@
                 </el-form-item>
                 <el-form-item label="处方日期：">
                   <el-date-picker
+                    disabled
                     v-model="formInfo.rxDate"
                     type="date"
                     placeholder="选择日期"
@@ -165,20 +166,27 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import axios from 'axios'
+  import moment from 'moment'
   @Component({
     components: {
       BreadCrumb
     }
   })
   export default class Order extends Vue {
+    orderNumberTit = ''
     orderDetailColumns = [
       {
         title: '序号',
-        key: 'serialNumber'
+        key: 'index',
+        width: 60
       },
       {
-        title: '商品名称+规格',
-        key: 'productNameSpec'
+        title: '商品名称',
+        key: 'name'
+      },
+      {
+        title: '规格',
+        key: 'spec'
       },
       {
         title: '单价(元)',
@@ -186,45 +194,23 @@
       },
       {
         title: '数量',
-        key: 'number'
+        key: 'quantity'
       },
       {
         title: '金额(元)',
-        key: 'amount'
+        key: 'total'
       }
     ]
-    orderDetailData = [
-      {
-        serialNumber: '1',
-        productNameSpec: '川贝枇杷糖浆，180ml*1',
-        price: '20',
-        number: '10',
-        amount: '200'
-      },
-      {
-        serialNumber: '2',
-        productNameSpec: '川贝枇杷糖浆，180ml*1',
-        price: '20',
-        number: '10',
-        amount: '200'
-      },
-      {
-        serialNumber: '3',
-        productNameSpec: '川贝枇杷糖浆，180ml*1',
-        price: '20',
-        number: '10',
-        amount: '200'
-      }
-    ]
+    orderDetailData = []
 
     trackColumns = [
       {
         title: '处理时间',
-        key: 'processTime'
+        key: 'createdDate'
       },
       {
         title: '处理信息',
-        key: 'processInfo'
+        key: 'message'
       },
       {
         title: '处理明细',
@@ -236,20 +222,7 @@
       }
     ]
 
-    trackData = [
-      {
-        processTime: '2019-03-19 10:00:45',
-        processInfo: '客户1创建订单',
-        processDetail: '创建订单',
-        operator: '客户1'
-      },
-      {
-        processTime: '2019-03-18 10:00:45',
-        processInfo: '客户2创建订单',
-        processDetail: '创建订单',
-        operator: '客户2'
-      }
-    ]
+    trackData = []
 
     // 处方单详情
     formInfo = {
@@ -268,11 +241,16 @@
     rpColumns = [
       {
         title: '组号',
-        key: 'groupNumber'
+        key: 'index',
+        width: 60
       },
       {
-        title: '药品名（规格）',
-        key: 'drugNameSpec'
+        title: '药品名',
+        key: 'name'
+      },
+      {
+        title: '规格',
+        key: 'spec'
       },
       {
         title: '用量',
@@ -280,7 +258,7 @@
       },
       {
         title: '用量单位',
-        key: 'dosageUnit'
+        key: 'unit'
       },
       {
         title: '频次',
@@ -288,20 +266,11 @@
       },
       {
         title: '天数',
-        key: 'daysNumber'
+        key: 'days'
       }
     ]
 
-    rpData = [
-      {
-        groupNumber: '1',
-        drugNameSpec: '感冒灵颗粒（15g*16袋）',
-        dosage: '15g/次',
-        dosageUnit: 'g',
-        frequency: '3',
-        daysNumber: '1'
-      }
-    ]
+    rpData = []
 
     optionData = {
       border: true
@@ -314,10 +283,84 @@
       total: this.trackData.length
     }
 
-    async beforeMount () {
-      let id = this.$route.query.number
+    consignee = '' // 收货人
+    address = ''// 收货地址
+    phone = '' // 联系电话
+
+    totalAmount = '' // 总金额
+    medicaidAmount = '' // 医保金额
+    payAmount = '' // 支付金额
+    payAmount2 = '' // 大写金额
+
+    remark = '' // 备注
+
+    beforeMount () {
+      this.getDetail()
+    }
+    async getDetail () {
+      let id = this.$route.query.id
       let orderInfo = await axios.get(`/api/supervise/orders/${id}`)
       console.log(orderInfo)
+      this.orderNumberTit = orderInfo.data.number
+  
+      this.consignee = orderInfo.data.consignee // 收货人
+      this.address = orderInfo.data.address// 收货地址
+      this.phone = orderInfo.data.phone // 联系电话
+
+      this.totalAmount = orderInfo.data.totalAmount // 总金额
+      this.medicaidAmount = orderInfo.data.medicaidAmount // 医保金额
+      this.payAmount = orderInfo.data.payAmount // 支付金额
+
+      this.remark = orderInfo.data.remark // 备注
+
+      this.orderDetailData = orderInfo.data.drugInfoAdminDTOList // 订单详情
+      this.orderDetailData.forEach((item, index) => {
+        item.index = index + 1
+      })
+
+      this.trackData = orderInfo.data.orderLogList
+      this.trackData.forEach(e => {
+        e.createdDate = moment(e.createdDate).format('YYYY-MM-DD HH:mm:ss')
+      })
+
+      if (orderInfo.data.rxId !== null) {
+        let rxInfo = await axios.get(`/api/supervise/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
+        console.log(rxInfo)
+      }
+      // rxId 是 KCgfjEXqQRi1SOIC_JQvdw --- 假数据
+      let rxInfo = await axios.get(`/api/supervise/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
+      // console.log(rxInfo.data)
+      this.formInfo.idNumber = rxInfo.data.number
+      this.formInfo.rxDate = moment(rxInfo.data.rxDate).format('YYYY-MM-DD HH:mm:ss')
+      this.formInfo.name = rxInfo.data.accountName
+      if (rxInfo.data.gender === 'MALE') {
+        this.formInfo.sex = '男'
+      } else {
+        this.formInfo.sex = '女'
+      }
+      this.formInfo.age = rxInfo.data.age
+      this.formInfo.address = rxInfo.data.place
+      this.formInfo.telNumber = rxInfo.data.phone
+      this.formInfo.hospital = rxInfo.data.hospital
+      this.formInfo.department = rxInfo.data.office
+      this.formInfo.diagnosis = rxInfo.data.illness
+      // list
+      this.rpData = rxInfo.data.list
+      this.rpData.forEach((item, index) => {
+        item.index = index + 1
+      })
+      this.payAmount2 = this.DX(this.payAmount)
+    }
+    DX (n) {
+      if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(n)) { return '数据非法' }
+      let unit = '千百拾亿千百拾万千百拾元角分'
+      let str = ''
+      n += '00'
+      let p = n.indexOf('.')
+      if (p >= 0) { n = n.substring(0, p) + n.substr(p + 1, 2) }
+      unit = unit.substr(unit.length - n.length)
+      for (var i = 0; i < n.length; i++) { str += '零壹贰叁肆伍陆柒捌玖'.charAt(n.charAt(i)) + unit.charAt(i) }
+      return str.replace(/零(千|百|拾|角)/g, '零').replace(/(零)+/g, '零').replace(/零(万|亿|元)/g, '$1').replace(/(亿)万|壹(拾)/g, '$1$2').replace(/^元零?|零分/g, '').replace(/元$/g, '元整')
     }
   }
 </script>

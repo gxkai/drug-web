@@ -8,8 +8,7 @@
             class="avatar-uploader"
             action="https://jsonplaceholder.typicode.com/posts/"
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
+            :on-success="handleAvatarSuccess">
             <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -78,22 +77,25 @@
         label: '否'
       }
     ]
+
     beforeMount () {
       this.initData()
-      this.editData()
     }
     async initData () {
       await axios.get(`/api/supervise/drugTypes/father`).then(res => {
-        // console.log(res.data)
         this.fatherType = res.data
       })
-    }
-    async editData () {
       let id = this.$route.query.id
-      await axios.get(`/api/supervise/drugTypes/${id}`).then(res => {
-        console.log(res.data)
-        // this.form = res.data
-      })
+      let pid = this.$route.query.pid
+      let editData = await axios.get(`/api/supervise/drugTypes/${pid}/children/${id}`)
+  
+      this.form.typeName = editData.data.type
+      this.form.fatherTypeName = this.$route.query.ptype
+      this.form.isShow = editData.data.showed
+      this.form.typeSort = editData.data.sort
+
+      let img1 = await axios.get(`/api/supervise/files/${editData.data.fileId}`, {params: {local: '', resolution: ''}})
+      this.form.imageUrl = img1.data.replace('redirect:', '')
     }
 
     filePath = {}
@@ -101,47 +103,33 @@
       this.form.imageUrl = URL.createObjectURL(file.raw)
       this.filePath = file.raw
     }
-    beforeAvatarUpload (file) {
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
-      }
-      return isLt2M
-    }
 
-    // 获取图片路径
-    // async getImageUrl (id, post) {
-    //   console.log(id)
-    //   console.log(post)
-    //   let params = {
-    //     resolution: 'SMALL_LOGO'
-    //   }
-    //   let img = await axios.get(`/api/supervise/files/${id}`, {params: {resolution: 'SMALL_LOGO'}})
-    //   console.log(img)
-    //   let url = img.data.replace(/redirect:/, '')
-    //   post(url)
-    // }
-
+    fileId = ''
     async submit () {
       let fileParams = new FormData()
       fileParams.append('file', this.filePath)
       fileParams.append('fileType', 'LOGO')
       let imgres = await axios.post('/api/supervise/files', fileParams)
-      console.log(imgres)
+      this.fileId = imgres.data // 图片上传成功后更新fileId
 
-      let id = this.$route.query.id
       let drugTypeChildADTO = {
-        file: '',
-        fileId: this.$route.query.fileId,
-        id: id,
+        file: this.form.imageUrl,
+        fileId: this.fileId,
+        id: this.$route.query.id,
         pid: this.$route.query.pid,
-        ptype: this.form.fatherTypeName,
+        ptype: this.$route.query.ptype,
         showed: this.form.isShow,
         sort: this.form.typeSort,
         type: this.form.typeName
+
       }
-      await axios.put(`/api/supervise/child/drugTypes/${id}`, drugTypeChildADTO)
-      this.$router.push('/drugCheck/type')
+      await axios.put(`/api/supervise/child/drugTypes/${this.$route.query.id}`, drugTypeChildADTO)
+      this.$router.push({
+        path: '/drugCheck/type/typeChild',
+        query: {
+          id: this.$route.query.pid
+        }
+      })
     }
     back () {
       this.$router.go(-1)

@@ -91,23 +91,23 @@
     legalOptions = []
     stateOptions = [
       {
-        value: 'NORMAL',
+        value: '正常',
         label: '正常'
       },
       {
-        value: 'REST',
+        value: '停业',
         label: '停业'
       },
       {
-        value: 'TO_CHECK',
+        value: '待审核',
         label: '待审核'
       },
       {
-        value: 'NO_PASS',
+        value: '不通过',
         label: '不通过'
       },
       {
-        value: 'VIOLATION',
+        value: '休息中',
         label: '休息中'
       }
     ]
@@ -267,7 +267,6 @@
       this.getShopData()
     }
     async search () {
-      // console.log(this.shopId)
       let params = {
         legal: this.legalName,
         shopId: this.shopId,
@@ -276,7 +275,7 @@
         pageSize: 15
       }
       let data = await axios.get(`/api/supervise/shops`, {params: params})
-      // console.log(data)
+      console.log(data.data.list)
       this.shopData = data.data.list
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {

@@ -20,6 +20,7 @@
 
           edit-title="我的修改"
           :edit-template="editTemplate"
+          @row-edit="handleRowEdit"
 
           add-title="我的新增"
           :add-template="addTemplate"
@@ -39,7 +40,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  import UploadImage from '@/components/repository/UploadImage'
+  // import UploadImage from '@/components/repository/UploadImage'
   import axios from 'axios'
   @Component({
     components: {
@@ -50,7 +51,8 @@
     columns = [
       {
         title: '序号',
-        key: 'index'
+        key: 'index',
+        width: 60
       },
       {
         title: '类别名称',
@@ -58,11 +60,11 @@
       },
       {
         title: '打开次数',
-        key: 'openNum'
+        key: 'readTimes'
       },
       {
         title: '图片',
-        key: 'imageUrl'
+        key: 'icon'
       }
     ]
     repositoryData = []
@@ -105,26 +107,21 @@
     }
 
     addTemplate = {
-      index: {
-        title: '序号',
-        value: ''
-      },
+      // index: {
+      //   title: '序号',
+      //   value: ''
+      // },
       name: {
         title: '类别名称',
         value: ''
       },
-      openNum: {
+      readTimes: {
         title: '打开次数',
         value: ''
       },
-      imageUrl: {
+      icon: {
         title: '图片',
-        value: '',
-        component: {
-          render (createElement) {
-            return createElement(UploadImage)
-          }
-        }
+        value: ''
       }
     }
 
@@ -137,11 +134,11 @@
         title: '类别名称',
         value: ''
       },
-      openNum: {
+      readTimes: {
         title: '打开次数',
         value: ''
       },
-      imageUrl: {
+      icon: {
         title: '图片',
         value: ''
       }
@@ -166,10 +163,9 @@
         item.index = index + 1
       })
       this.pagination.total = data.data.total
-      console.log(data)
     }
 
-    handleDialogOpen ({ mode }) {
+    handleDialogOpen ({ mode, row }) {
       // this.$message({
       //   message: '打开模态框，模式为：' + mode,
       //   type: 'success'
@@ -183,7 +179,24 @@
       })
     }
 
-    handleRowAdd (row, done) {
+    async handleRowAdd (row, done) {
+      let getName = await axios.get(`/api/supervise/repositoryTypes/createCount`, {params: {name: row.name}})
+      if (getName.data >= 1) {
+        this.$message({
+          message: '名称已存在!',
+          type: 'warning'
+        })
+        return false
+      }
+      let params = {
+        index: row.index,
+        name: row.name,
+        readTimes: row.readTimes,
+        icon: row.icon
+      }
+      await axios.post(`/api/supervise/repositoryTypes`, params)
+      this.getData()
+
       this.formOptions.saveLoading = true
       setTimeout(() => {
         console.log(row)
@@ -191,11 +204,7 @@
           message: '保存成功',
           type: 'success'
         })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
+        done()
         this.formOptions.saveLoading = false
       }, 300)
     }
@@ -209,7 +218,7 @@
     }
 
     async handleRowRemove ({ index, row }, done) {
-      await axios.delete(`/api/supervise/repositoryType/${row.id}`)
+      await axios.delete(`/api/supervise/repositoryType/${row.id}`, {params: {id: row.id}})
       setTimeout(() => {
         console.log(index)
         console.log(row)
@@ -221,7 +230,26 @@
       }, 300)
     }
 
-    handleRowEdit ({ index, row }, done) {
+    async handleRowEdit ({ index, row }, done) {
+      console.log(row)
+      let getName = await axios.get(`/api/supervise/repositoryTypes/${row.id}/editCount`, {params: {name: row.name}})
+      if (getName.data >= 1) {
+        this.$message({
+          message: '通用名已存在!',
+          type: 'warning'
+        })
+        return false
+      }
+      console.log(row)
+      let repositoryType = {
+        index: row.index,
+        name: row.name,
+        readTimes: row.readTimes,
+        icon: row.icon
+      }
+      await axios.put(`/api/supervise/repositoryType/${row.id}`, repositoryType)
+      this.getData()
+
       this.formOptions.saveLoading = true
       setTimeout(() => {
         console.log(index)
@@ -230,10 +258,7 @@
           message: '编辑成功',
           type: 'success'
         })
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
+        done()
         this.formOptions.saveLoading = false
       }, 300)
     }

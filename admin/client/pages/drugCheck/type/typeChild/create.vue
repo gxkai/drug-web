@@ -8,8 +8,7 @@
             class="avatar-uploader"
             action="https://jsonplaceholder.typicode.com/posts/"
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
+            :on-success="handleAvatarSuccess">
             <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -20,7 +19,7 @@
         <el-form-item label="父类名称">
           <el-select v-model="form.fatherTypeName" placeholder="请选择父类名称" style="width:100%;">
             <el-option
-              v-for="item in form.fatherType"
+              v-for="item in fatherType"
               :key="item.type"
               :label="item.type"
               :value="item.type">
@@ -30,7 +29,7 @@
         <el-form-item label="是否显示">
           <el-select v-model="form.isShow" placeholder="请选择是否显示" style="width:100%;">
             <el-option
-              v-for="item in form.selectOptions"
+              v-for="item in selectOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value">
@@ -61,30 +60,30 @@
   })
   export default class TypeChildCreate extends Vue {
     form = {
+      id: '',
       imageUrl: '',
       typeName: '',
       fatherTypeName: '',
       isShow: '',
-      typeSort: '',
-      fatherType: [],
-      selectOptions: [
-        {
-          value: true,
-          label: '是'
-        },
-        {
-          value: false,
-          label: '否'
-        }
-      ]
+      typeSort: ''
     }
+    fatherType = []
+    selectOptions = [
+      {
+        value: true,
+        label: '是'
+      },
+      {
+        value: false,
+        label: '否'
+      }
+    ]
     beforeMount () {
       this.initData()
     }
     async initData () {
       await axios.get(`/api/supervise/drugTypes/father`).then(res => {
-        // console.log(res)
-        this.form.fatherType = res.data
+        this.fatherType = res.data
       })
     }
 
@@ -93,38 +92,29 @@
       this.form.imageUrl = URL.createObjectURL(file.raw)
       this.filePath = file.raw
     }
-    beforeAvatarUpload (file) {
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
-      }
-      return isLt2M
-    }
-    back () {
-      this.$router.go(-1)
-    }
+
     fileId = ''
     async submit () {
       let fileParams = new FormData()
       fileParams.append('file', this.filePath)
       fileParams.append('fileType', 'LOGO')
       let imgres = await axios.post('/api/supervise/files', fileParams)
-      console.log(imgres)
-      // this.fileId = imgres.data // 图片上传成功后更新fileId
+      this.fileId = imgres.data // 图片上传成功后更新fileId
 
       let pid = this.$route.query.pid
-      let getName = await axios.post(`/api/supervise/drugTypes/${pid}/children/exists`, {type: this.form.typeName})
-      if (getName.data >= 1) {
-        this.$message({
-          message: '子类名称已存在!',
-          type: 'warning'
-        })
-        return false
-      }
-      console.log(this.form.typeSort)
+      // 子类判重
+      // let getName = await axios.post(`/api/supervise/drugTypes/${pid}/children/exists`, {id: '', type: this.form.typeName})
+      // if (getName.data >= 1) {
+      //   this.$message({
+      //     message: '子类名称已存在!',
+      //     type: 'warning'
+      //   })
+      //   return false
+      // }
+
       let drugType = {
         file: '',
-        fileId: imgres.data,
+        fileId: this.fileId,
         id: '',
         pid: pid,
         ptype: this.form.fatherTypeName,
@@ -133,7 +123,15 @@
         type: this.form.typeName
       }
       await axios.post(`/api/supervise/child/drugTypes`, drugType)
-      // this.$router.push('/drugCheck/type')
+      this.$router.push({
+        path: '/drugCheck/type/typeChild',
+        query: {
+          id: pid
+        }
+      })
+    }
+    back () {
+      this.$router.go(-1)
     }
   }
 </script>
