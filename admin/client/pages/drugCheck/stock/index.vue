@@ -8,10 +8,11 @@
       <el-input v-model="originNameValue" size="small" placeholder="厂商名称" style="width: 200px;"></el-input>
       <el-cascader
                    size="small"
-                   expand-trigger="hover"
-                   :options="drugTypesParent"
-                   v-model="childTypes"
-                   @change="changeTypes">
+                   expand-trigger="click"
+                   :options="compostList"
+                   :props="selectProps"
+                   v-model="selectedTypes"
+                   @change="getTypeCondition">
       </el-cascader>
       <el-button type="primary" size="small" @click="searchDrugs">搜索</el-button>
       <el-button size="small" @click="clearConditions">清空</el-button>
@@ -67,8 +68,14 @@
       }
     ];
     drugList = []
-    drugTypesParent = [] // 药品类型
-    childTypes = [] // 所选药品类型
+    drugTypesList = [] // 药品类型
+    compostList = [] // 组合类
+    selectedTypes = [] // 所选药品类型
+    selectProps = {
+      label: 'type',
+      value: 'id',
+      children: 'children'
+    }
 
     loading = false;
     pagination = {
@@ -99,6 +106,7 @@
       this.getDrugs()
     }
 
+    // 编辑
     editDrugInfo ({index, row}) {
       this.$router.push({
         path: '/drugCheck/stock/edit',
@@ -106,6 +114,25 @@
           id: row.id
         }
       })
+    }
+
+    // 获取药品类型
+    async getDrugTypes () {
+      let {data: parentTypes} = await axios.get(`/api/supervise/drugTypes/father`)
+      this.drugTypesList = parentTypes
+      this.compostList = this.drugTypesList
+
+      // 获取每个大类下的子类
+      for (let i = 0, len = this.drugTypesList.length; i < len; i++) {
+        let {data: childTypes} = await axios.get(`/api/supervise/drugType/${this.drugTypesList[i].id}/children`)
+        this.compostList[i].children = childTypes
+      }
+    }
+
+    // 获取药品类别条件
+    getTypeCondition (data) {
+      console.log(data)
+      this.selectedTypes = data
     }
 
     // 删除
@@ -136,11 +163,7 @@
     clearConditions () {
       this.commonNameValue = ''
       this.originNameValue = ''
-      // this.childTypes = [] // 所选药品类型
-    }
-
-    changeTypes () {
-
+      this.selectedTypes = []
     }
 
     searchDrugs () {
@@ -152,18 +175,18 @@
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
         name: this.commonNameValue.trim(),
-        originName: this.originNameValue.trim()
-        // drugTypeParent,
-        // drugType
+        originName: this.originNameValue.trim(),
+        drugTypeParent: this.selectedTypes[0],
+        drugType: this.selectedTypes[1]
       }
       let {data: drugRes} = await axios.get(`/api/supervise/drugs`, {params})
-      console.log(drugRes)
       this.drugList = drugRes.list
       this.pagination.total = drugRes.total
     }
 
-    mounted () {
+    beforeMount () {
       this.getDrugs()
+      this.getDrugTypes()
     }
   }
 </script>
