@@ -11,7 +11,7 @@
         <d2-crud
           ref="d2Crud"
           :columns="columns"
-          :data="data"
+          :data="repositoryData"
           :loading="loading"
           :pagination="pagination"
           :options="options"
@@ -20,6 +20,7 @@
 
           edit-title="我的修改"
           :edit-template="editTemplate"
+          @row-edit="handleRowEdit"
 
           add-title="我的新增"
           :add-template="addTemplate"
@@ -39,7 +40,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  // import UploadImage from '@/components/repository/UploadImage'
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
@@ -49,97 +51,33 @@
     columns = [
       {
         title: '序号',
-        key: 'serialNumber'
-        // width: '200'
+        key: 'index',
+        width: 60
       },
       {
         title: '类别名称',
-        key: 'categoryName'
-        // width: '250'
+        key: 'name'
       },
       {
         title: '打开次数',
-        key: 'openNum'
-        // width: '200'
+        key: 'readTimes'
       },
       {
         title: '图片',
-        key: 'imageUrl'
-        // width: '450'
+        key: 'icon'
       }
-    ];
-    data = [
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      },
-      {
-        serialNumber: '1',
-        categoryName: '1',
-        openNum: '100',
-        imageUrl: ''
-      }
-    ];
-    loading= false;
+    ]
+    repositoryData = []
+    loading= false
     pagination= {
       currentPage: 1,
-      pageSize: 5,
-      total: this.data.length
-    };
-    options= {
+      pageSize: 15,
+      total: 0
+    }
+    options = {
       border: true
-    };
-    rowHandle= {
+    }
+    rowHandle = {
       edit: {
         text: '编辑',
         type: 'text',
@@ -160,7 +98,7 @@
         type: 'text',
         confirm: true
       }
-    };
+    }
 
     formOptions = {
       labelWidth: '80px',
@@ -169,44 +107,65 @@
     }
 
     addTemplate = {
-      serialNumber: {
-        title: '序号',
-        value: ''
-      },
-      categoryName: {
+      // index: {
+      //   title: '序号',
+      //   value: ''
+      // },
+      name: {
         title: '类别名称',
         value: ''
       },
-      openNum: {
+      readTimes: {
         title: '打开次数',
         value: ''
       },
-      imageUrl: {
+      icon: {
         title: '图片',
         value: ''
       }
-    };
+    }
 
     editTemplate = {
-      serialNumber: {
+      index: {
         title: '序号',
         value: ''
       },
-      categoryName: {
+      name: {
         title: '类别名称',
         value: ''
       },
-      openNum: {
+      readTimes: {
         title: '打开次数',
         value: ''
       },
-      imageUrl: {
+      icon: {
         title: '图片',
         value: ''
       }
-    };
+    }
 
-    handleDialogOpen ({ mode }) {
+    beforeMount () {
+      this.getData()
+    }
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.getData()
+    }
+    async getData () {
+      let params = {
+        name: '',
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/repositoryTypes`, {params: params})
+      this.repositoryData = data.data.list
+      this.repositoryData.forEach((item, index) => {
+        item.index = index + 1
+      })
+      this.pagination.total = data.data.total
+    }
+
+    handleDialogOpen ({ mode, row }) {
       // this.$message({
       //   message: '打开模态框，模式为：' + mode,
       //   type: 'success'
@@ -220,7 +179,24 @@
       })
     }
 
-    handleRowAdd (row, done) {
+    async handleRowAdd (row, done) {
+      let getName = await axios.get(`/api/supervise/repositoryTypes/createCount`, {params: {name: row.name}})
+      if (getName.data >= 1) {
+        this.$message({
+          message: '名称已存在!',
+          type: 'warning'
+        })
+        return false
+      }
+      let params = {
+        index: row.index,
+        name: row.name,
+        readTimes: row.readTimes,
+        icon: row.icon
+      }
+      await axios.post(`/api/supervise/repositoryTypes`, params)
+      this.getData()
+
       this.formOptions.saveLoading = true
       setTimeout(() => {
         console.log(row)
@@ -228,11 +204,7 @@
           message: '保存成功',
           type: 'success'
         })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
+        done()
         this.formOptions.saveLoading = false
       }, 300)
     }
@@ -245,7 +217,8 @@
       done()
     }
 
-    handleRowRemove ({ index, row }, done) {
+    async handleRowRemove ({ index, row }, done) {
+      await axios.delete(`/api/supervise/repositoryType/${row.id}`, {params: {id: row.id}})
       setTimeout(() => {
         console.log(index)
         console.log(row)
@@ -257,7 +230,26 @@
       }, 300)
     }
 
-    handleRowEdit ({ index, row }, done) {
+    async handleRowEdit ({ index, row }, done) {
+      console.log(row)
+      let getName = await axios.get(`/api/supervise/repositoryTypes/${row.id}/editCount`, {params: {name: row.name}})
+      if (getName.data >= 1) {
+        this.$message({
+          message: '通用名已存在!',
+          type: 'warning'
+        })
+        return false
+      }
+      console.log(row)
+      let repositoryType = {
+        index: row.index,
+        name: row.name,
+        readTimes: row.readTimes,
+        icon: row.icon
+      }
+      await axios.put(`/api/supervise/repositoryType/${row.id}`, repositoryType)
+      this.getData()
+
       this.formOptions.saveLoading = true
       setTimeout(() => {
         console.log(index)
@@ -266,18 +258,20 @@
           message: '编辑成功',
           type: 'success'
         })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
+        done()
         this.formOptions.saveLoading = false
       }, 300)
     }
 
     // 列表
     viewList ({index, row}) {
-      this.$router.push('/business/repository/repositoryCategoryList')
+      this.$router.push({
+        path: '/business/repository/child',
+        query: {
+          id: row.id,
+          name: row.name
+        }
+      })
     }
   }
 </script>
