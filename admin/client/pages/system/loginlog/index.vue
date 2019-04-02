@@ -103,8 +103,8 @@
         })
       }
       let params = {
-        end: this.endDate,
-        start: this.startDate,
+        endDate: this.endDate,
+        startDate: this.startDate,
         username: this.inputValue,
         pageNum: this.pagination.currentPage,
         pageSize: 15

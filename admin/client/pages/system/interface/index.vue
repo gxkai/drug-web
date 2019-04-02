@@ -77,7 +77,7 @@
 
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
-      this.getInterface(this.startDate, this.endDate)
+      this.getInterface()
     }
 
     searchInterface () {
@@ -86,21 +86,22 @@
           this.beginEndDate[i] = moment(this.beginEndDate[i]).format('YYYY-MM-DD')
         }
 
-        this.startDate = this.beginEndDate[0]
-        this.endDate = this.beginEndDate[1]
+        this.startDate = this.beginEndDate[0] + ' 00:00:00'
+        this.endDate = this.beginEndDate[1] + ' 23:59:59'
       }
 
-      this.getInterface(this.startDate, this.endDate)
+      this.getInterface()
     }
 
-    async getInterface (start, end) {
+    async getInterface () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        start,
-        end
+        startDate: this.startDate,
+        endDate: this.endDate
       }
       let {data: interData} = await axios.get(`/api/supervise/restStatistics`, {params})
+      console.log(interData)
 
       this.interList = interData.list
       this.pagination.total = interData.total
@@ -110,7 +111,7 @@
       })
     }
 
-    mounted () {
+    beforeMount () {
       this.getInterface()
     }
   }

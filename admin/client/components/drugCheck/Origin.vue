@@ -1,7 +1,7 @@
 <template>
   <div class="common--content">
     <div class="common--content__search">
-      <el-input v-model="commonNameValue" size="small" placeholder="请输入规格名称" style="width: 200px;"></el-input>
+      <el-input v-model="originNameValue" size="small" placeholder="请输入规格名称" style="width: 200px;"></el-input>
       <el-button type="primary" size="small" @click="searchSpec">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
@@ -27,7 +27,7 @@
 
   @Component
   export default class Spec extends Vue {
-    commonNameValue = ''
+    originNameValue = ''
     columns = [
       {
         title: '序号',
@@ -62,7 +62,7 @@
     }
 
     clear () {
-      this.commonNameValue = ''
+      this.originNameValue = ''
     }
 
     searchSpec () {
@@ -87,9 +87,9 @@
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name: this.commonNameValue.trim()
+        name: this.originNameValue.trim()
       }
-      let {data: specs} = await axios.get(`/api/supervise/specs`, {params})
+      let {data: specs} = await axios.get(`/api/supervise/origins`, {params})
 
       this.specList = specs.list
       this.pagination.total = specs.total
