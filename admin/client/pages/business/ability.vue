@@ -15,6 +15,9 @@
           <el-table-column
             prop="id"
             label="序号">
+            <template slot-scope="scope">
+              <span>{{ scope.$index + 1 }}</span>
+            </template>
           </el-table-column>
           <el-table-column
             prop="name"
@@ -63,9 +66,9 @@
         :close-on-click-modal='isClickModal'>
         <div class="main">
           <el-form :model="viewData" label-width="100px">
-            <el-form-item label="序号">
-              <el-input v-model="viewData.id" readonly placeholder="请输入"></el-input>
-            </el-form-item>
+            <!--<el-form-item label="序号">-->
+              <!--<el-input v-model="viewData.id" readonly placeholder="请输入"></el-input>-->
+            <!--</el-form-item>-->
             <el-form-item label="模块">
               <el-input v-model="viewData.name" readonly placeholder="请输入"></el-input>
             </el-form-item>

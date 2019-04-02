@@ -49,7 +49,7 @@
           <el-input v-model="form.orDelivery" disabled placeholder="请选择"></el-input>
         </el-form-item>
         <el-form-item label="配送距离：">
-          <el-input v-model="form.delDistance" placeholder="3公里 默认 监管可以修改"></el-input>
+          <el-input v-model="form.delDistance" disabled placeholder="3公里 默认 监管可以修改"></el-input>
         </el-form-item>
         <el-form-item label="商家介绍：" class="el-form-item-textarea">
           <el-input
@@ -78,9 +78,21 @@
         <section>
           <strong>上传证件资料</strong>
           <div>
-            <span v-for="item in cardImg" :key="item.id">
-              <img :src="item.imageUrl">
-              <i>{{ item.text }}</i>
+            <span>
+              <img :src="cardImage1">
+              <i>经营许可证</i>
+            </span>
+            <span>
+              <img :src="cardImage2">
+              <i>营业执照</i>
+            </span>
+            <span>
+              <img :src="cardImage3">
+              <i>GSP证书</i>
+            </span>
+            <span>
+              <img :src="cardImage4">
+              <i>手持身份证照片</i>
             </span>
           </div>
         </section>
@@ -95,76 +107,97 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-
+  import axios from 'axios'
   @Component({
     components: {
       BreadCrumb
     }
   })
   export default class ShopDetail extends Vue {
-    form = {
-      shopName: '百家惠',
-      shopPhone: '17789563214',
-      legalName: '百家惠',
-      idNumber: '111',
-      shopEmail: '12345@qq.com',
-      legalPhone: '17774123658',
-      taxNumber: '1234568555',
-      shopLicence: 'qwer1234',
-      shopLng: '120.897081',
-      shopLat: '31.405473',
-      orMedicine: '是',
-      orOverall: '是',
-      orDelivery: '是',
-      delDistance: '',
-      shopIntroduce: ''
-    }
+    form = {}
     center = {lng: 0, lat: 0}
     zoom = 3
-    imageUrl = require(`~/assets/img/hospital/img1.png`)
-    shopImg = [
-      {
-        id: '0',
-        imageUrl: require(`~/assets/img/hospital/img1.png`)
-      },
-      {
-        id: '1',
-        imageUrl: require(`~/assets/img/hospital/img1.png`)
-      },
-      {
-        id: '2',
-        imageUrl: require(`~/assets/img/hospital/img1.png`)
-      }
-    ]
-    cardImg = [
-      {
-        id: '0',
-        imageUrl: require(`~/assets/img/hospital/img1.png`),
-        text: '经营许可证'
-      },
-      {
-        id: '1',
-        imageUrl: require(`~/assets/img/hospital/img1.png`),
-        text: '营业执照'
-      },
-      {
-        id: '2',
-        imageUrl: require(`~/assets/img/hospital/img1.png`),
-        text: 'GSP证书'
-      },
-      {
-        id: '3',
-        imageUrl: require(`~/assets/img/hospital/img1.png`),
-        text: '手持身份证照片'
-      }
-    ]
-    goback () {
-      this.$router.push('/shopCheck/shop')
+    imageUrl = ''
+    shopImg = []
+    cardImage1 = ''
+    cardImage2 = ''
+    cardImage3 = ''
+    cardImage4 = ''
+
+    beforeMount () {
+      this.getShopInfo()
     }
-    handler ({BMap, map}) {
-      console.log(BMap, map)
-      this.center.lng = 120.897081
-      this.center.lat = 31.405473
+    async getShopInfo () {
+      let id = this.$route.query.id
+      let data = await axios.get(`/api/supervise/shop/${id}`)
+      let params = {
+        local: '',
+        resolution: ''
+      }
+      // 药品封面照
+      let img1 = await axios.get(`/api/supervise/files/${data.data.identityImg}`, {params: params})
+      this.imageUrl = img1.data.replace('redirect:', '')
+      // 店内照片
+      data.data.innerImages.forEach((item, index) => {
+        axios.get(`/api/supervise/files/${item}`, {params: params}).then(res => {
+          this.shopImg.push({
+            id: index,
+            imageUrl: res.data.replace('redirect:', '')
+          })
+        })
+      })
+
+      let img2 = await axios.get(`/api/supervise/files/${data.data.licenseImg}`, {params: params})
+      this.cardImage1 = img2.data.replace('redirect:', '')
+      let img3 = await axios.get(`/api/supervise/files/${data.data.certificateImg}`, {params: params})
+      this.cardImage2 = img3.data.replace('redirect:', '')
+      let img4 = await axios.get(`/api/supervise/files/${data.data.gspImg}`, {params: params})
+      this.cardImage3 = img4.data.replace('redirect:', '')
+      let img5 = await axios.get(`/api/supervise/files/${data.data.identityImg}`, {params: params})
+      this.cardImage4 = img5.data.replace('redirect:', '')
+
+      if (data.data.medicaid.toString() === 'true') {
+        data.data.medicaid = '是'
+      } else {
+        data.data.medicaid = '否'
+      }
+      if (data.data.gathered.toString() === 'true') {
+        data.data.gathered = '是'
+      } else {
+        data.data.gathered = '否'
+      }
+      if (data.data.distribution.toString() === 'true') {
+        data.data.distribution = '是'
+      } else {
+        data.data.distribution = '否'
+      }
+
+      this.form.shopName = data.data.shopName
+      this.form.shopPhone = data.data.phone
+      this.form.legalPhone = data.data.legalPhone
+      this.form.legalName = data.data.legal
+      this.form.idNumber = data.data.identityNumber
+      this.form.shopEmail = data.data.mail
+      this.form.taxNumber = data.data.taxCode
+      this.form.shopLicence = data.data.certificate
+      this.form.shopLng = data.data.lng
+      this.form.shopLat = data.data.lat
+      this.form.orMedicine = data.data.medicaid
+      this.form.orOverall = data.data.gathered
+      this.form.orDelivery = data.data.distribution
+      this.form.delDistance = data.data.distance
+      this.form.shopIntroduce = data.data.distance
+    }
+    goback () {
+      this.$router.go(-1)
+    }
+    async handler ({BMap, map}) {
+      // console.log(BMap, map)
+      await axios.get(`/api/supervise/shop/${this.$route.query.id}`).then(res => {
+        console.log(res)
+        this.center.lng = res.data.lng
+        this.center.lat = res.data.lat
+      })
       this.zoom = 15
     }
   }

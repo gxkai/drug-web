@@ -130,16 +130,10 @@
       this.$router.push('/drugCheck/type/typeChild/create?pid=' + id)
     }
     editCustom ({index, row}) {
-      console.log(row)
       let query = {
-        file: '',
-        fileId: row.fileId,
         id: row.id,
         pid: row.pid,
-        ptype: row.pname,
-        showed: row.showed,
-        sort: row.sort,
-        type: row.type
+        ptype: row.pname
       }
       this.$router.push({path: '/drugCheck/type/typeChild/edit', query: query})
     }

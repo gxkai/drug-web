@@ -2,18 +2,18 @@
   <div class="p10">
       <bread-crumb :path="$route.path"/>
       <div class="shop-search">
-        <el-select size="small" v-model="shopName" filterable placeholder="药房名称" style="width:auto;">
+        <el-select size="small" v-model="shopNameValue" filterable placeholder="药房名称" style="width:auto;" @change="getShopID">
           <el-option
-            v-for="(item, index) in shopOptions"
-            :key="index"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in shopOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.name">
           </el-option>
         </el-select>
         <el-select size="small" v-model="legalName" filterable placeholder="法人姓名">
           <el-option
-            v-for="(item, index) in legalOptions"
-            :key="index"
+            v-for="item in legalOptions"
+            :key="item.value"
             :label="item.label"
             :value="item.value">
           </el-option>
@@ -26,7 +26,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-button type="primary" size="small">搜索</el-button>
+        <el-button type="primary" size="small" @click="search">搜索</el-button>
         <el-button size="small" @click="clear">清空</el-button>
       </div>
       <d2-crud
@@ -55,7 +55,8 @@
     }
   })
   export default class Shop extends Vue {
-    shopName = ''
+    shopNameValue = ''
+    shopId = ''
     legalName = ''
     drugState = ''
     columns = [
@@ -86,6 +87,7 @@
     ]
     shopData = []
     shopOptions = []
+    arr = []
     legalOptions = []
     stateOptions = [
       {
@@ -135,7 +137,7 @@
           type: 'text',
           emit: 'emit-detail',
           show (index, row) {
-            if (row.state === '正常' || row.state === '不通过' || row.state === '待审核' || row.state === '停业' || row.state === '休息中') {
+            if (row.state === '正常' || row.state === '不通过' || row.state === '待审核' || row.state === '停业' || row.state === '违规') {
               return true
             }
           }
@@ -164,11 +166,12 @@
     }
     beforeMount () {
       this.getShopData()
+      this.getShopNames()
     }
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
       this.getShopData()
-      // this.search()
+      this.search()
     }
     async getShopData () {
       let params = {
@@ -178,18 +181,29 @@
       let data = await axios.get(`/api/supervise/shops`, {params: params})
       this.shopData = data.data.list
       this.pagination.total = data.data.total
-
       this.shopData.forEach((item) => {
-        // 获取药房名称
-        this.shopOptions.push({
-          value: item.shopName,
-          label: item.shopName
-        })
         // 获取法人姓名
-        this.legalOptions.push({
+        this.arr.push({
           value: item.legal,
           label: item.legal
         })
+        // 法人姓名去重
+        function uniqObjInArray (objarray) {
+          let len = objarray.length
+          let tempJson = {}
+          let res = []
+          for (let i = 0; i < len; i++) {
+            tempJson[JSON.stringify(objarray[i])] = true
+          }
+          // console.log(tempJson)
+          let keyItems = Object.keys(tempJson)
+          for (let j = 0; j < keyItems.length; j++) {
+            res.push(JSON.parse(keyItems[j]))
+          }
+          return res
+        }
+        this.legalOptions = uniqObjInArray(this.arr)
+        // 状态
         if (item.state === 'NORMAL') {
           item.state = '正常'
         }
@@ -203,9 +217,21 @@
           item.state = '不通过'
         }
         if (item.state === 'VIOLATION') {
-          item.state = '休息中'
+          item.state = '违规'
         }
       })
+    }
+    getShopID () {
+      this.shopOptions.forEach(item => {
+        if (this.shopNameValue === item.name) {
+          this.shopId = item.id
+        }
+      })
+    }
+    // 获取所有药店名称选项
+    async getShopNames () {
+      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
+      this.shopOptions = option
     }
     handleCheckEvent () {
       this.$router.push('/shopCheck/shop/edit')
@@ -226,13 +252,49 @@
         }
       }
     }
-    handleDetailEvent () {
-      this.$router.push('/shopCheck/shop/detail')
+    handleDetailEvent ({index, row}) {
+      this.$router.push({
+        path: '/shopCheck/shop/detail',
+        query: {
+          id: row.id
+        }
+      })
     }
     clear () {
-      this.shopName = ''
+      this.shopNameValue = ''
       this.legalName = ''
       this.drugState = ''
+      this.getShopData()
+    }
+    async search () {
+      let params = {
+        legal: this.legalName,
+        shopId: this.shopId,
+        state: this.drugState,
+        pageNum: this.pagination.currentPage,
+        pageSize: 15
+      }
+      let data = await axios.get(`/api/supervise/shops`, {params: params})
+      console.log(data.data.list)
+      this.shopData = data.data.list
+      this.pagination.total = data.data.total
+      this.shopData.forEach((item) => {
+        if (item.state === 'NORMAL') {
+          item.state = '正常'
+        }
+        if (item.state === 'REST') {
+          item.state = '停业'
+        }
+        if (item.state === 'TO_CHECK') {
+          item.state = '待审核'
+        }
+        if (item.state === 'NO_PASS') {
+          item.state = '不通过'
+        }
+        if (item.state === 'VIOLATION') {
+          item.state = '违规'
+        }
+      })
     }
   }
 </script>
