@@ -425,7 +425,7 @@
         ebd: this.endDate
       }
       let {data: res} = await axios.get(`/api/supervise/drugDiscountApplies`, {params})
-      console.log(res)
+      // console.log(res)
       this.tableData = res.list
       this.totalPages = res.total
 

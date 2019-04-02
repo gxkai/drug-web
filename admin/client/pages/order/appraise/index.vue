@@ -226,8 +226,8 @@
         for (let i = 0, len = this.dateOfShopAppraise.length; i < len; i++) {
           this.dateOfShopAppraise[i] = moment(this.dateOfShopAppraise[i]).format('YYYY-MM-DD')
         }
-        this.shopAppraiseStartDate = this.dateOfShopAppraise[0] + '00:00:00'
-        this.shopAppraiseEndDate = this.dateOfShopAppraise[1] + '23:59:59'
+        this.shopAppraiseStartDate = this.dateOfShopAppraise[0] + ' 00:00:00'
+        this.shopAppraiseEndDate = this.dateOfShopAppraise[1] + ' 23:59:59'
       }
     }
 
