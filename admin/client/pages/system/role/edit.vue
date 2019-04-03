@@ -58,6 +58,7 @@
     async initData () {
       let id = this.$route.query.id
       let data = await axios.get(`/api/supervise/roles/${id}`, {params: {id: id}})
+      console.log(data.data)
       this.form.roleName = data.data.name
       this.form.roleDescription = data.data.description
       let newArr = data.data.treeList
@@ -89,7 +90,9 @@
     }
     async submit () {
       // 被选中的节点组成的数组
+      console.log(this.$refs.tree.getCheckedNodes())
       let treeList = this.$refs.tree.getCheckedNodes()
+      console.log(treeList)
       for (let i = 0; i < treeList.length; i++) {
         treeList[i].checked = true
       }
