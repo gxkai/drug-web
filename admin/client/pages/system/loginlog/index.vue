@@ -97,8 +97,6 @@
       this.pagination.total = data.data.total
       this.loginlogData.forEach(e => {
         e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
-        // e.end = ''
-        // e.start = ''
       })
     }
     async search () {
