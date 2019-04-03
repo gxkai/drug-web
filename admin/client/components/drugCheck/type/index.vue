@@ -39,7 +39,12 @@
     }
 
     handleSelectionChange (selection) {
-      // console.log(selection)
+      if (selection.length > 5) {
+        this.$alert('最多选择5种药品大类', '提示', {
+          confirmButtonText: '确定'
+        })
+        return
+      }
       this.$emit('listenToChildEvent', selection)
     }
 

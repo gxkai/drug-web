@@ -1,13 +1,14 @@
 <template>
   <div class="common--content">
     <el-tabs v-model="tabActiveName" type="card" v-if="parentTypeInfo">
-      <el-tab-pane :label="item.type" :name="item.id" v-for="(item, index) in parentTypeInfo" :key="index">
+      <el-tab-pane :label="item.type" :name="item.activeName" v-for="(item, index) in parentTypeInfo" :key="index">
         <d2-crud
           ref="d2Crud"
           :columns="columns"
           :data="childTypeList[index] || []"
           :options="options"
           selection-row
+          :selection-row="selectionRow"
           @selection-change="handleSelectionChange"
           class="drug-table"
         />
@@ -26,8 +27,9 @@
     },
     computed: {
       parentTypeInfo () {
-        this.childTypeList = []
-        this.tabActiveName = this.parentData[0].id
+        // this.childTypeList = []
+        this.setActiveName(this.parentData)
+        this.tabActiveName = 'first'
         this.fetchData(this.parentData)
         return this.parentData
       }
@@ -38,32 +40,74 @@
       {
         title: '序号',
         key: 'index',
-        width: 50
+        width: 50,
+        align: 'center'
       },
       {
         title: '类型名称',
-        key: 'type'
+        key: 'type',
+        align: 'center'
       }
     ]
     options = {
       border: true
     }
+    selectionRow = {
+      align: 'center'
+    }
     childTypeList = []
-    selectedChildType = []
+    selectedTypeList = []
+
+    tabActiveName = ''
+    setActiveName (parentData) {
+      parentData.forEach((item, index) => {
+        item.activeName = this.getActiveName(index)
+      })
+    }
+
+    getActiveName (index) {
+      switch (index) {
+        case 0:
+          return 'first'
+        case 1:
+          return 'second'
+        case 2:
+          return 'third'
+        case 3:
+          return 'fourth'
+        case 4:
+          return 'fifth'
+      }
+    }
 
     handleSelectionChange (selection) {
-      // console.log(selection)
-      // this.selectedChildType.push(selection)
-      // this.$emit('listenToChildEvent', this.selectedChildType)
+      if (this.parentTypeInfo.length > 1) {
+        // console.log(this.selectedTypeList)
+        if (this.selectedTypeList.length === 0) {
+          this.selectedTypeList.push(selection)
+        } else {
+          this.selectedTypeList.forEach((item, index) => {
+            if (item[0].parent === selection[0].parent) {
+              this.selectedTypeList[index] = selection
+            } else {
+              this.selectedTypeList.push(selection)
+            }
+          })
+        }
+        let set = Array.from(new Set(this.selectedTypeList)) // 去重
+        this.$emit('listenToChildEvent', set)
+      } else {
+        this.$emit('listenToChildEvent', selection)
+      }
     }
 
     async fetchData (parentTypeInfo) {
+      console.log(parentTypeInfo)
       for (let i = 0, len = parentTypeInfo.length; i < len; i++) {
         let {data: childData} = await axios.get(`/api/supervise/drugType/${parentTypeInfo[i].id}/children`)
-        // console.log(`对应子类如下：`)
-        // console.log(childData)
         childData.forEach((item, index) => {
           item.index = index + 1
+          item.parent = parentTypeInfo[i].id
         })
         this.childTypeList.push(childData)
       }
