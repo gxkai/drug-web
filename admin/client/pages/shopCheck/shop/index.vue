@@ -179,6 +179,7 @@
         pageSize: 15
       }
       let data = await axios.get(`/api/supervise/shops`, {params: params})
+      // console.log(data.data)
       this.shopData = data.data.list
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {
@@ -233,8 +234,14 @@
       let {data: option} = await axios.post(`/api/supervise/shops/filter`)
       this.shopOptions = option
     }
-    handleCheckEvent () {
-      this.$router.push('/shopCheck/shop/edit')
+    handleCheckEvent ({index, row}) {
+      // console.log(row)
+      this.$router.push({
+        path: '/shopCheck/shop/check',
+        query: {
+          id: row.id
+        }
+      })
     }
     async handleStopEvent ({index, row}) {
       await axios.post(`/api/supervise/shops/${row.id}/?state=REST`)

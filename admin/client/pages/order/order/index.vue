@@ -171,7 +171,7 @@
             </div>
             <div class="item item8">
               <el-button type="text" size="medium" @click="viewDetail(index, item.id)">查看详情</el-button>
-              <el-button type="text" size="medium" @click="finishedAdjust(index)">调剂完成</el-button>
+              <el-button type="text" size="medium" @click="finishedAdjust(index,item.id)">调剂完成</el-button>
             </div>
           </div>
 
@@ -207,20 +207,16 @@
     orderType = ''
     typeList = [
       {
-        value: 'ALIPAY',
-        label: 'ALIPAY'
+        value: 'SIMPLE',
+        label: '普通订单'
       },
       {
-        value: 'WECHAT_PAY',
-        label: 'WECHAT_PAY'
+        value: 'RX',
+        label: '处方订单'
       },
       {
-        value: 'CASH',
-        label: 'CASH'
-      },
-      {
-        value: 'KRCB',
-        label: 'KRCB'
+        value: 'HOSPITAL',
+        label: '医院订单'
       }
     ]
     orderState = ''
@@ -309,7 +305,7 @@
       this.orderListData = orderData.data.list
       this.perPageData = this.orderListData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
-      console.log(this.orderListData)
+      // console.log(this.orderListData)
       this.perPageData.forEach((item) => {
         // console.log(item.consignee)
         if (item.consignee !== null) {
@@ -317,7 +313,7 @@
             name: item.consignee.trim()
           })
         }
-        item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
+        item.createdDate = item.createdDate === null ? item.createdDate : moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
         // 获取药品图片
         item.orderItemDrugInfoDTOList.forEach(e => {
           axios.get(`/api/supervise/files/${e.fileId}`, {params: {local: '', resolution: ''}}).then(res => {
@@ -338,6 +334,13 @@
         } else {
           item.medicaid = '是'
         }
+        if (item.type === 'SIMPLE') {
+          item.type = '普通订单'
+        } else if (item.type === 'RX') {
+          item.type = '处方订单'
+        } else if (item.type === 'HOSPITAL') {
+          item.type = '医院订单'
+        }
       })
     }
 
@@ -357,7 +360,8 @@
     }
 
     // 调剂完成
-    finishedAdjust (index) {
+    async finishedAdjust (index, id) {
+      await axios.get(`/api/supervise/order/regulate`, {params: {id: id}})
     }
 
     messageNotice () {
@@ -380,9 +384,10 @@
 
     // 搜索查询
     async search () {
+      console.log(this.orderType)
       let params = {
         number: this.orderID,
-        payType: this.orderType,
+        type: this.orderType,
         state: this.orderState,
         shopId: this.shopId,
         username: this.userValue,
@@ -392,10 +397,11 @@
         endDate: this.endDate
       }
       let orderData = await axios.get(`/api/supervise/orders`, {params: params})
+      // console.log(orderData.data)
       this.orderListData = orderData.data.list
       this.perPageData = this.orderListData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
-      console.log(this.orderListData)
+      // console.log(this.orderListData)
       this.perPageData.forEach((item) => {
         // console.log(item)
         item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
@@ -408,6 +414,24 @@
             })
           })
         })
+        // 转换
+        if (item.deliveryType === 'SELF') {
+          item.deliveryType = '自提'
+        } else {
+          item.deliveryType = '配送'
+        }
+        if (item.medicaid.toString() === 'false') {
+          item.medicaid = '否'
+        } else {
+          item.medicaid = '是'
+        }
+        if (item.type === 'SIMPLE') {
+          item.type = '普通订单'
+        } else if (item.type === 'RX') {
+          item.type = '处方订单'
+        } else if (item.type === 'HOSPITAL') {
+          item.type = '医院订单'
+        }
       })
     }
   }
