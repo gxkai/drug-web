@@ -37,12 +37,12 @@
           <el-col :span="24" class="filter-bottom">
             <el-col :span="8">
               <span>药店名称：</span>
-              <el-select v-model="shopNameValue" clearable filterable placeholder="请选择">
+              <el-select v-model="shopNameValue" clearable filterable placeholder="请选择" @change="getShopID">
                 <el-option
                   v-for="item in shopNameList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.name"
+                  :label="item.name"
+                  :value="item.name">
                 </el-option>
               </el-select>
             </el-col>
@@ -52,9 +52,9 @@
               <el-select v-model="userValue" clearable filterable placeholder="请选择">
                 <el-option
                   v-for="item in userList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.username"
+                  :label="item.username"
+                  :value="item.username">
                 </el-option>
               </el-select>
             </el-col>
@@ -65,14 +65,15 @@
                 type="datetimerange"
                 range-separator="至"
                 start-placeholder="开始日期"
-                end-placeholder="结束日期">
+                end-placeholder="结束日期"
+                @change="convertDate">
               </el-date-picker>
             </el-col>
           </el-col>
 
           <el-col :span="23" class="action-col">
-            <el-button size="medium" type="primary">搜索</el-button>
-            <el-button size="medium">重置</el-button>
+            <el-button size="medium" type="primary" @click="search">搜索</el-button>
+            <el-button size="medium" @click="reset">重置</el-button>
           </el-col>
         </el-row>
       </div>
@@ -129,14 +130,14 @@
               <span>{{ item.shopName }}</span>
             </div>
             <div class="item item8">
-              <span>{{ item.buyerName }}</span>
+              <span>{{ item.name }}</span>
             </div>
             <div class="item item9">
               <span>{{ item.deliveryType }}</span>
             </div>
             <div class="item item10">
               <p>姓名：{{ item.consignee }}</p>
-              <p>电话：{{ item.buyerPhone }}</p>
+              <p>电话：{{ item.phone }}</p>
               <p>地址：{{ item.address }}</p>
             </div>
             <div class="item item11">
@@ -195,6 +196,7 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import axios from 'axios'
+  import moment from 'moment'
   @Component({
     components: {
       BreadCrumb
@@ -205,32 +207,62 @@
     orderType = ''
     typeList = [
       {
-        value: '处方',
-        label: '处方'
+        value: 'ALIPAY',
+        label: 'ALIPAY'
+      },
+      {
+        value: 'WECHAT_PAY',
+        label: 'WECHAT_PAY'
+      },
+      {
+        value: 'CASH',
+        label: 'CASH'
+      },
+      {
+        value: 'KRCB',
+        label: 'KRCB'
       }
     ]
     orderState = ''
     stateList = [
       {
-        value: '状态2',
-        label: '状态2'
+        value: 'TO_PAY',
+        label: '待付款'
+      },
+      {
+        value: 'TO_CHECK',
+        label: '已付款'
+      },
+      {
+        value: 'COMPLETED',
+        label: '调剂完成'
+      },
+      {
+        value: 'TO_DELIVERY',
+        label: '待取货/待送达'
+      },
+      {
+        value: 'TO_APPRAISE',
+        label: '待评价'
+      },
+      {
+        value: 'PAY_FAIL',
+        label: '退款中'
+      },
+      {
+        value: 'CLOSED',
+        label: '退款完成'
       }
     ]
     shopNameValue = ''
-    shopNameList = [
-      {
-        value: '选项1',
-        label: '黄金糕'
-      }
-    ]
+    shopId = ''
+    shopNameList = []
     userValue = ''
-    userList = [
-      {
-        value: '选项1',
-        label: '黄金糕'
-      }
-    ]
-    dateValue = ''
+    userList = []
+
+    dateValue = '' // 日期区间
+    startDate = '' // 起始日期
+    endDate = '' // 截止日期
 
     // 分页
     currentPageNum = 1
@@ -241,9 +273,32 @@
 
     perPageData = [] // 存储每页显示的数据
 
+    convertDate () {
+      if (this.dateValue) {
+        for (let i = 0, len = this.dateValue.length; i < len; i++) {
+          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD')
+        }
+        this.startDate = this.dateValue[0] + ' 00:00:00'
+        this.endDate = this.dateValue[1] + ' 23:59:59'
+      }
+    }
+
     beforeMount () {
       this.getOrderList()
       this.messageNotice()
+      this.getShopNames()
+    }
+    getShopID () {
+      this.shopNameList.forEach(item => {
+        if (this.shopNameValue === item.name) {
+          this.shopId = item.id
+        }
+      })
+    }
+    // 获取所有药店名称选项
+    async getShopNames () {
+      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
+      this.shopNameList = option
     }
     async getOrderList () {
       let params = {
@@ -254,9 +309,15 @@
       this.orderListData = orderData.data.list
       this.perPageData = this.orderListData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
-      // console.log(this.orderListData)
+      console.log(this.orderListData)
       this.perPageData.forEach((item) => {
-        // console.log(item)
+        // console.log(item.consignee)
+        if (item.consignee !== null) {
+          this.userList.push({
+            name: item.consignee.trim()
+          })
+        }
+        item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
         // 获取药品图片
         item.orderItemDrugInfoDTOList.forEach(e => {
           axios.get(`/api/supervise/files/${e.fileId}`, {params: {local: '', resolution: ''}}).then(res => {
@@ -304,6 +365,49 @@
         message: '您有一笔新订单，请及时确认！',
         position: 'bottom-right',
         customClass: 'notice-msg'
+      })
+    }
+
+    // 重置
+    reset () {
+      this.orderID = ''
+      this.orderType = ''
+      this.orderState = ''
+      this.shopNameValue = ''
+      this.userValue = ''
+      this.dateValue = ''
+    }
+
+    // 搜索查询
+    async search () {
+      let params = {
+        number: this.orderID,
+        payType: this.orderType,
+        state: this.orderState,
+        shopId: this.shopId,
+        username: this.userValue,
+        pageNum: this.currentPageNum,
+        pageSize: this.pageNum,
+        startDate: this.startDate,
+        endDate: this.endDate
+      }
+      let orderData = await axios.get(`/api/supervise/orders`, {params: params})
+      this.orderListData = orderData.data.list
+      this.perPageData = this.orderListData
+      this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
+      console.log(this.orderListData)
+      this.perPageData.forEach((item) => {
+        // console.log(item)
+        item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
+        // 获取药品图片
+        item.orderItemDrugInfoDTOList.forEach(e => {
+          axios.get(`/api/supervise/files/${e.fileId}`, {params: {local: '', resolution: ''}}).then(res => {
+            item.orderItemDrugInfoDTOList.map(i => {
+              this.$set(i, 'srcUrl', res.data.replace('redirect:', ''))
+              return i
+            })
+          })
+        })
       })
     }
   }

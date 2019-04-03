@@ -63,7 +63,7 @@
         key: 'readTimes'
       },
       {
-        title: '图片',
+        title: '图标',
         key: 'icon'
       }
     ]
@@ -107,39 +107,23 @@
     }
 
     addTemplate = {
-      // index: {
-      //   title: '序号',
-      //   value: ''
-      // },
       name: {
         title: '类别名称',
         value: ''
       },
-      readTimes: {
-        title: '打开次数',
-        value: ''
-      },
       icon: {
-        title: '图片',
+        title: '图标',
         value: ''
       }
     }
 
     editTemplate = {
-      index: {
-        title: '序号',
-        value: ''
-      },
       name: {
         title: '类别名称',
         value: ''
       },
-      readTimes: {
-        title: '打开次数',
-        value: ''
-      },
       icon: {
-        title: '图片',
+        title: '图标',
         value: ''
       }
     }
@@ -166,10 +150,6 @@
     }
 
     handleDialogOpen ({ mode, row }) {
-      // this.$message({
-      //   message: '打开模态框，模式为：' + mode,
-      //   type: 'success'
-      // })
     }
 
     // 普通的新增
@@ -191,7 +171,6 @@
       let params = {
         index: row.index,
         name: row.name,
-        readTimes: row.readTimes,
         icon: row.icon
       }
       await axios.post(`/api/supervise/repositoryTypes`, params)
@@ -240,14 +219,7 @@
         })
         return false
       }
-      console.log(row)
-      let repositoryType = {
-        index: row.index,
-        name: row.name,
-        readTimes: row.readTimes,
-        icon: row.icon
-      }
-      await axios.put(`/api/supervise/repositoryType/${row.id}`, repositoryType)
+      await axios.put(`/api/supervise/repositoryType/${row.id}`, {name: row.name, icon: row.icon})
       this.getData()
 
       this.formOptions.saveLoading = true

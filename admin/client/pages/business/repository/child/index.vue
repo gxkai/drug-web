@@ -34,7 +34,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  import DataTime from '@/components/repository/DataTime'
+  // import DataTime from '@/components/repository/DataTime'
   import axios from 'axios'
   import moment from 'moment'
   @Component({
@@ -59,13 +59,18 @@
       },
       {
         title: '打开次数',
-        key: 'openNum'
+        key: 'readTimes'
       },
       {
         title: '内容',
         key: 'content',
         showOverflowTooltip: true,
-        minWidth: 200
+        minWidth: 200,
+        className: 'columnsContent'
+        // formatter (row, column, cellValue, index) {
+        //   console.log(row)
+        //   console.log(cellValue)
+        // }
       },
       {
         title: '是否置顶',
@@ -91,7 +96,6 @@
         text: '编辑',
         type: 'text'
       },
-
       remove: {
         text: '删除',
         type: 'text',
@@ -106,10 +110,6 @@
     }
 
     editTemplate = {
-      index: {
-        title: '序号',
-        value: ''
-      },
       title: {
         title: '标题',
         value: ''
@@ -118,13 +118,14 @@
         title: '来源',
         value: ''
       },
-      openNum: {
-        title: '打开次数',
-        value: ''
-      },
       content: {
         title: '内容',
-        value: ''
+        value: '',
+        component: {
+          name: 'el-input',
+          type: 'textarea',
+          rows: 8
+        }
       },
       home: {
         title: '是否置顶',
@@ -142,15 +143,6 @@
             }
           ]
         }
-      },
-      lastModifiedDate: {
-        title: '更新时间',
-        value: '',
-        component: {
-          render (createElement) {
-            return createElement(DataTime)
-          }
-        }
       }
     }
 
@@ -158,8 +150,8 @@
       let s1 = str.replace(/<\/?.+?>/g, '')
       let s2 = s1.replace(/ /g, '')// 去html
       let s3 = s2.replace(/&nbsp;/ig, '') // &nbsp;转为空格
-      let s4 = s3.replace(/\s*/g, '')// 去空格;
-      return s4
+      // let s4 = s3.replace(/\s*/g, '')// 去空格;
+      return s3
     }
 
     beforeMount () {
@@ -195,10 +187,6 @@
     }
 
     handleDialogOpen ({ mode }) {
-      // this.$message({
-      //   message: '打开模态框，模式为：' + mode,
-      //   type: 'success'
-      // })
     }
 
     handleDialogCancel (done) {
@@ -210,7 +198,7 @@
     }
 
     async handleRowRemove ({ index, row }, done) {
-      // await axios.post(`/api/supervise/repositories/${row.id}`)
+      await axios.post(`/api/supervise/repositories/${row.id}`)
       setTimeout(() => {
         console.log(index)
         console.log(row)
@@ -222,20 +210,28 @@
       }, 300)
     }
 
-    handleRowEdit ({ index, row }, done) {
+    async handleRowEdit ({ index, row }, done) {
+      if (row.home === '是') {
+        row.home = true
+      } else {
+        row.home = false
+      }
+      let repository = {
+        title: row.title,
+        source: row.source,
+        home: row.home,
+        content: row.content,
+        repositoryTypeId: row.repositoryTypeId
+      }
+      await axios.put(`/api/supervise/repositories/${row.id}`, repository)
+      this.getData()
       this.formOptions.saveLoading = true
       setTimeout(() => {
-        console.log(index)
-        console.log(row)
         this.$message({
           message: '编辑成功',
           type: 'success'
         })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done({
-          address: '我是通过done事件传入的数据！'
-        })
+        done()
         this.formOptions.saveLoading = false
       }, 300)
     }
@@ -243,6 +239,9 @@
 </script>
 
 <style lang="scss">
+  .el-tooltip__popper.is-dark{
+    width: 60% !important;
+  }
   .type-wrap{
     padding: 20px;
     .repository__type{
@@ -267,6 +266,9 @@
           th{
             background-color: #F4F4F4;
             color: #555;
+          }
+          td.columnsContent{
+            /*border: 1px solid red;*/
           }
         }
       }
