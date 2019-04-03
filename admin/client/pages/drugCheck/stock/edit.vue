@@ -1,7 +1,7 @@
 <template>
-  <div class="stock-create">
+  <div class="drug-stock-create">
     <bread-crumb :path="$route.path"/>
-    <div class="stock-form">
+    <div class="drug-stock-form">
       <el-form ref="form" :model="detailForm" label-width="200px">
         <el-form-item label="药品封面图" class="el-form-item-upload">
           <el-upload
@@ -44,7 +44,7 @@
           <p style="display: none;">{{ detailForm.drugTypeParent }}</p>
         </el-form-item>
         <el-form-item label="药品小类">
-          <el-button class="select-btn" v-if="detailForm.drugTypeChildName" type="middle" @click="childTypeDialogVisible = true">{{ detailForm.drugTypeChildName }}</el-button>
+          <el-button class="select-btn child-type" v-if="detailForm.drugTypeChildName" type="middle" @click="childTypeDialogVisible = true">{{ detailForm.drugTypeChildName }}</el-button>
           <el-button class="select-btn" v-else type="middle" @click="childTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
         </el-form-item>
         <el-form-item label="规格">
@@ -133,7 +133,7 @@
       :close-on-click-modal='isCloseOnClickModal'
       :visible.sync="parentTypeDialogVisible"
       width="50%">
-      <drug-parentType v-on:listenToChildEvent="getSelectedInfo"></drug-parentType>
+      <drug-parentType v-on:listenToChildEvent="getParentTypeInfo"></drug-parentType>
       <span slot="footer" class="dialog-footer">
         <el-button @click="parentTypeDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="confirmSelectparentType">确 定</el-button>
@@ -146,7 +146,7 @@
       :close-on-click-modal='isCloseOnClickModal'
       :visible.sync="childTypeDialogVisible"
       width="50%">
-      <drug-childType v-bind:parentData="childData" v-on:listenToChildEvent="getSelectedInfo"></drug-childType>
+      <drug-childType v-bind:parentData="parentType" v-on:listenToChildEvent="getChildTypeInfo"></drug-childType>
       <span slot="footer" class="dialog-footer">
         <el-button @click="childTypeDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="confirmSelectChildType">确 定</el-button>
@@ -180,6 +180,7 @@
     </el-dialog>
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -217,8 +218,11 @@
     detailForm = {}
     detailImg = []
     coverURL = ''
+    selectedInfo = ''
+    parentType = []
     childData = []
-    selectedInfo = {}
+    typeInfo = []
+    childInfo = []
 
     // 是否是处方药
     otcOptions = [
@@ -246,16 +250,19 @@
 
     // 获取已选信息
     getSelectedInfo (data) {
-      console.log(data)
+      // console.log(data)
       this.selectedInfo = data
     }
 
-    reset () {
-      this.specDialogVisible = false
-      this.formDialogVisible = false
-      this.originDialogVisible = false
-      this.commonDialogVisible = false
-      this.selectedInfo = {}
+    // 获取已选类别信息
+    getParentTypeInfo (data) {
+      console.log(data)
+      this.typeInfo = data
+    }
+
+    getChildTypeInfo (data) {
+      console.log(data)
+      this.childInfo = data
     }
 
     // 选择通用名
@@ -264,74 +271,105 @@
         this.commonDialogVisible = false
         return
       }
-      // this.childData = this.selectedInfo
-      this.detailForm.commonNameId = this.selectedInfo.id
-      this.detailForm.commonName = this.selectedInfo.name
-      this.reset()
+      this.childData = this.selectedInfo
+      this.detailForm.commonNameId = this.childData.id
+      this.detailForm.commonName = this.childData.name
+      this.commonDialogVisible = false
+      this.selectedInfo = ''
     }
 
     // 选择厂商
     confirmSelectOrigin () {
-      if (this.childData.length) {
-        this.detailForm.originId = this.childData.id
-        this.detailForm.originName = this.childData.fullName
-        this.reset()
-      } else {
+      if (!this.selectedInfo) {
         this.originDialogVisible = false
+        return
       }
+      this.childData = this.selectedInfo
+      this.detailForm.originId = this.childData.id
+      this.detailForm.originName = this.childData.fullName
+      this.originDialogVisible = false
+      this.selectedInfo = ''
     }
 
     // 选择药品大类
     confirmSelectparentType () {
-      if (this.childData.length) {
-        this.detailForm.drugTypeName = ''
-        this.detailForm.drugTypeParent = ''
-        for (let i = 0, len = this.childData.length; i < len; i++) {
-          if (i === len - 1) {
-            this.detailForm.drugTypeName += `${this.childData[i].type}`
-            this.detailForm.drugTypeParent += `${this.childData[i].id}`
-            break
-          }
-          this.detailForm.drugTypeName += `${this.childData[i].type} / `
-          this.detailForm.drugTypeParent += `${this.childData[i].id},`
-        }
-
-        this.reset()
-      } else {
+      if (!this.typeInfo.length) {
         this.parentTypeDialogVisible = false
+        return
       }
+      this.parentType = this.typeInfo
+      // console.log(111)
+      // console.log(this.parentType)
+      this.detailForm.drugTypeName = ''
+      this.detailForm.drugTypeParent = ''
+      for (let i = 0, len = this.parentType.length; i < len; i++) {
+        if (i === len - 1) {
+          this.detailForm.drugTypeName += `${this.parentType[i].type}`
+          this.detailForm.drugTypeParent += `${this.parentType[i].id}`
+          break
+        }
+        this.detailForm.drugTypeName += `${this.parentType[i].type} / `
+        this.detailForm.drugTypeParent += `${this.parentType[i].id},`
+      }
+      this.parentTypeDialogVisible = false
     }
 
     // 选择药品小类
     confirmSelectChildType () {
-      if (this.childData.length) {
-        // console.log(this.childData)
-        this.reset()
-      } else {
+      console.log(this.childInfo)
+      if (!this.childInfo.length) {
         this.childTypeDialogVisible = false
+        return
       }
+
+      let name = ''
+      // let id = ''
+
+      this.childData = this.childInfo
+      this.detailForm.drugTypeChildName = ''
+      this.detailForm.drugTypeId = ''
+
+      this.childData.forEach(item => {
+        if (item.length === undefined) {
+          name += `${item.type} / `
+          // id += `${item.id},`
+        } else {
+          item.forEach(ele => {
+            name += `${ele.type} / `
+            // id += `${ele.id},`
+          })
+        }
+      })
+
+      this.detailForm.drugTypeChildName = name.substring(0, name.length - 3)
+      console.log(this.detailForm.drugTypeChildName)
+      this.childTypeDialogVisible = false
     }
 
     // 选择规格
     confirmSelectSpec () {
-      if (this.childData.length) {
-        this.detailForm.specId = this.childData.id
-        this.detailForm.spec = this.childData.name
-        this.reset()
-      } else {
+      if (!this.selectedInfo) {
         this.specDialogVisible = false
+        return
       }
+      this.childData = this.selectedInfo
+      this.detailForm.specId = this.childData.id
+      this.detailForm.spec = this.childData.name
+      this.specDialogVisible = false
+      this.selectedInfo = ''
     }
 
     // 选择剂型
     confirmSelectForm () {
-      if (this.childData.length) {
-        this.detailForm.formId = this.childData.id
-        this.detailForm.form = this.childData.name
-        this.reset()
-      } else {
+      if (!this.selectedInfo) {
         this.formDialogVisible = false
+        return
       }
+      this.childData = this.selectedInfo
+      this.detailForm.formId = this.childData.id
+      this.detailForm.form = this.childData.name
+      this.formDialogVisible = false
+      this.selectedInfo = ''
     }
 
     handleAvatarSuccess (res, file) {
@@ -395,7 +433,7 @@
     async getDrugDetail (id) {
       let {data: detail} = await axios.get(`/api/supervise/drugs/${id}`)
       console.log(detail)
-      this.childData.push({
+      this.parentType.push({
         id: detail.drugTypeParent,
         type: detail.drugTypeName
       })
@@ -442,11 +480,25 @@
   }
 </script>
 
+<style lang="scss">
+  .child-type{
+    height: 40px;
+    span {
+      width: 40%;
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      position: absolute;
+      top: 13px;
+    }
+  }
+</style>
 
 <style scoped lang="scss">
-  .stock-create{
+  .drug-stock-create{
     padding: 10px;
-    .stock-form{
+    .drug-stock-form{
       padding:0 100px 0 0;
       .el-form{
         display: grid;
@@ -457,6 +509,7 @@
             width: 100%;
             color: #606266;
             text-align: left;
+            padding-left: 15px;
             border-color: #DCDFE6;
             background-color: #FFF;
 
@@ -464,6 +517,7 @@
               border-color: #C0C4CC;
             }
           }
+
           .el-select{
             width: 100%;
           }
@@ -480,6 +534,7 @@
       }
     }
   }
+
   .avatar-uploader{
     margin-right: 30px;
     position: relative;
@@ -498,7 +553,7 @@
     padding: 50px;
   }
   /*
-  element reset
+    element reset
    */
   /deep/.avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
