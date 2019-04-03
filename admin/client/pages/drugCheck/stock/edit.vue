@@ -39,24 +39,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="药品大类">
-          <el-select v-model="detailForm.drugTypeName" value-key="id" @change="changeParentType" filterable placeholder="请选择">
-            <el-option
-              v-for="item in drugTypeParent"
-              :key="item.id"
-              :label="item.type"
-              :value="item">
-            </el-option>
-          </el-select>
+          <el-button class="select-btn" v-if="detailForm.drugTypeName" type="middle" @click="parentTypeDialogVisible = true">{{ detailForm.drugTypeName }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="parentTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
+          <p style="display: none;">{{ detailForm.drugTypeParent }}</p>
         </el-form-item>
         <el-form-item label="药品小类">
-          <el-select v-model="detailForm.drugTypeChildName" value-key="id" filterable placeholder="请选择">
-            <el-option
-              v-for="item in drugTypeChild"
-              :key="item.id"
-              :label="item.type"
-              :value="item">
-            </el-option>
-          </el-select>
+          <el-button class="select-btn" v-if="detailForm.drugTypeChildName" type="middle" @click="childTypeDialogVisible = true">{{ detailForm.drugTypeChildName }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="childTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
         </el-form-item>
         <el-form-item label="规格">
           <el-button class="select-btn" v-if="detailForm.spec" type="middle" @click="specDialogVisible = true">{{ detailForm.spec }}</el-button>
@@ -138,6 +127,32 @@
       </span>
     </el-dialog>
 
+    <!--选择药品大类-->
+    <el-dialog
+      title="药品大类"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="parentTypeDialogVisible"
+      width="50%">
+      <drug-parentType v-on:listenToChildEvent="getSelectedInfo"></drug-parentType>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="parentTypeDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectparentType">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!--选择药品小类-->
+    <el-dialog
+      title="药品小类"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="childTypeDialogVisible"
+      width="50%">
+      <drug-childType v-bind:parentData="childData" v-on:listenToChildEvent="getSelectedInfo"></drug-childType>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="childTypeDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectChildType">确 定</el-button>
+      </span>
+    </el-dialog>
+
     <!--选择规格-->
     <el-dialog
       title="规格"
@@ -173,6 +188,8 @@
   import Spec from '@/components/drugCheck/Spec'
   import Form from '@/components/drugCheck/Form'
   import Origin from '@/components/drugCheck/Origin'
+  import ParentType from '@/components/drugCheck/type/index'
+  import ChildType from '@/components/drugCheck/type/child'
   import axios from 'axios'
 
   @Component({
@@ -181,7 +198,9 @@
       'common-name': CommonName,
       'drug-spec': Spec,
       'drug-form': Form,
-      'drug-origin': Origin
+      'drug-origin': Origin,
+      'drug-parentType': ParentType,
+      'drug-childType': ChildType
     }
   })
   export default class StockEdit extends Vue {
@@ -190,13 +209,15 @@
     specDialogVisible = false
     formDialogVisible = false
     originDialogVisible = false
-    drugID = ''
+    parentTypeDialogVisible = false
+    childTypeDialogVisible = false
+
     dialogVisible = false
     dialogImageUrl = ''
     detailForm = {}
-    isFirst = true
     detailImg = []
     coverURL = ''
+    childData = []
     selectedInfo = {}
 
     // 是否是处方药
@@ -223,32 +244,7 @@
       }
     ]
 
-    // 药品大类
-    drugTypeParent = []
-    drugTypeParent = []
-    // 获取药品大类
-    async getParentType () {
-      let {data: parent} = await axios.get(`/api/supervise/drugTypes/father`)
-      this.drugTypeParent = parent
-    }
-
-    changeParentType (data) {
-      this.isFirst = false
-      this.getChildType(data.id)
-    }
-
-    // 药品小类
-    drugTypeChild = []
-    async getChildType (id) {
-      let {data: childTypes} = await axios.get(`/api/supervise/drugType/${id}/children`)
-      if (!this.isFirst && childTypes) {
-        this.drugTypeChild = childTypes
-        this.detailForm.drugTypeChildName = this.drugTypeChild[0].type
-        this.detailForm.drugTypeId = this.drugTypeChild[0].id
-      }
-    }
-
-    // 获取已选通用名信息
+    // 获取已选信息
     getSelectedInfo (data) {
       console.log(data)
       this.selectedInfo = data
@@ -264,7 +260,11 @@
 
     // 选择通用名
     confirmSelectCommonName () {
-      this.commonDialogVisible = true
+      if (!this.selectedInfo) {
+        this.commonDialogVisible = false
+        return
+      }
+      // this.childData = this.selectedInfo
       this.detailForm.commonNameId = this.selectedInfo.id
       this.detailForm.commonName = this.selectedInfo.name
       this.reset()
@@ -272,26 +272,66 @@
 
     // 选择厂商
     confirmSelectOrigin () {
-      this.originDialogVisible = true
-      this.detailForm.originId = this.selectedInfo.id
-      this.detailForm.originName = this.selectedInfo.name
-      this.reset()
+      if (this.childData.length) {
+        this.detailForm.originId = this.childData.id
+        this.detailForm.originName = this.childData.fullName
+        this.reset()
+      } else {
+        this.originDialogVisible = false
+      }
+    }
+
+    // 选择药品大类
+    confirmSelectparentType () {
+      if (this.childData.length) {
+        this.detailForm.drugTypeName = ''
+        this.detailForm.drugTypeParent = ''
+        for (let i = 0, len = this.childData.length; i < len; i++) {
+          if (i === len - 1) {
+            this.detailForm.drugTypeName += `${this.childData[i].type}`
+            this.detailForm.drugTypeParent += `${this.childData[i].id}`
+            break
+          }
+          this.detailForm.drugTypeName += `${this.childData[i].type} / `
+          this.detailForm.drugTypeParent += `${this.childData[i].id},`
+        }
+
+        this.reset()
+      } else {
+        this.parentTypeDialogVisible = false
+      }
+    }
+
+    // 选择药品小类
+    confirmSelectChildType () {
+      if (this.childData.length) {
+        // console.log(this.childData)
+        this.reset()
+      } else {
+        this.childTypeDialogVisible = false
+      }
     }
 
     // 选择规格
     confirmSelectSpec () {
-      this.specDialogVisible = false
-      this.detailForm.specId = this.selectedInfo.id
-      this.detailForm.spec = this.selectedInfo.name
-      this.reset()
+      if (this.childData.length) {
+        this.detailForm.specId = this.childData.id
+        this.detailForm.spec = this.childData.name
+        this.reset()
+      } else {
+        this.specDialogVisible = false
+      }
     }
 
     // 选择剂型
     confirmSelectForm () {
-      this.formDialogVisible = false
-      this.detailForm.formId = this.selectedInfo.id
-      this.detailForm.form = this.selectedInfo.name
-      this.reset()
+      if (this.childData.length) {
+        this.detailForm.formId = this.childData.id
+        this.detailForm.form = this.childData.name
+        this.reset()
+      } else {
+        this.formDialogVisible = false
+      }
     }
 
     handleAvatarSuccess (res, file) {
@@ -355,6 +395,10 @@
     async getDrugDetail (id) {
       let {data: detail} = await axios.get(`/api/supervise/drugs/${id}`)
       console.log(detail)
+      this.childData.push({
+        id: detail.drugTypeParent,
+        type: detail.drugTypeName
+      })
       this.detailForm = detail
 
       let params = {
@@ -392,10 +436,8 @@
     }
 
     beforeMount () {
-      this.drugID = this.$route.query.id
-      this.getDrugDetail(this.drugID)
-      this.getParentType()
-      this.getChildType(this.detailForm.drugTypeParent)
+      let id = this.$route.query.id
+      this.getDrugDetail(id)
     }
   }
 </script>

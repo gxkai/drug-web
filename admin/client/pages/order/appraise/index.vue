@@ -254,7 +254,7 @@
       this.shopAppraisePagination.total = shopRes.total
 
       this.shopAppraiseList.forEach(item => {
-        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD hh:mm:ss')
+        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD HH:mm:ss')
       })
     }
 
@@ -385,7 +385,7 @@
       this.drugAppraisePagination.total = drugRes.total
 
       this.drugAppraiseList.forEach(item => {
-        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD hh:mm:ss')
+        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD HH:mm:ss')
       })
     }
 

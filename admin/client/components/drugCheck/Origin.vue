@@ -1,7 +1,8 @@
 <template>
-  <div class="common--content">
-    <div class="common--content__search">
-      <el-input v-model="originNameValue" size="small" placeholder="请输入规格名称" style="width: 200px;"></el-input>
+  <div class="origin--content">
+    <div class="origin--content__search">
+      <el-input v-model="originSimpleNameValue" size="small" placeholder="请输入厂商简称" style="width: 200px;"></el-input>
+      <el-input v-model="originFullNameValue" size="small" placeholder="请输入厂商全称" style="width: 200px;"></el-input>
       <el-button type="primary" size="small" @click="searchSpec">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
@@ -9,12 +10,13 @@
       <d2-crud
         ref="d2Crud"
         :columns="columns"
-        :data="specList"
+        :data="OriginList"
         :pagination="pagination"
         @pagination-current-change="paginationCurrentChange"
         :options="options"
         :rowHandle="rowHandle"
         @current-change="handleCurrentChange"
+        @emit-select="handleCurrentChange"
         class="drug-table"
       />
     </div>
@@ -26,8 +28,9 @@
   import axios from 'axios'
 
   @Component
-  export default class Spec extends Vue {
-    originNameValue = ''
+  export default class Origin extends Vue {
+    originSimpleNameValue = ''
+    originFullNameValue = ''
     columns = [
       {
         title: '序号',
@@ -36,11 +39,15 @@
         align: 'center'
       },
       {
-        title: '规格名称',
+        title: '厂商简称',
         key: 'name'
+      },
+      {
+        title: '厂商全称',
+        key: 'fullName'
       }
     ]
-    specList = []
+    OriginList = []
     pagination = {
       currentPage: 1,
       pageSize: 15,
@@ -56,13 +63,15 @@
       columnHeader: '选择',
       custom: [
         {
-          icon: 'el-icon-check'
+          icon: 'el-icon-check',
+          emit: 'emit-select'
         }
       ]
     }
 
     clear () {
-      this.originNameValue = ''
+      this.originSimpleNameValue = ''
+      this.originFullNameValue = ''
     }
 
     searchSpec () {
@@ -78,22 +87,17 @@
       this.$emit('listenToChildEvent', currentRow)
     }
 
-    // async getOrigins () {
-    //   let originData = await axios.get(`/api/supervise/origins/all`)
-    //   this.originList = originData
-    // }
-
     async getAllSpecs () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name: this.originNameValue.trim()
+        name: this.originSimpleNameValue.trim(),
+        fullName: this.originFullNameValue.trim()
       }
-      let {data: specs} = await axios.get(`/api/supervise/origins`, {params})
-
-      this.specList = specs.list
-      this.pagination.total = specs.total
-      this.specList.forEach((item, index) => {
+      let {data: originData} = await axios.get(`/api/supervise/origins`, {params})
+      this.OriginList = originData.list
+      this.pagination.total = originData.total
+      this.OriginList.forEach((item, index) => {
         item.index = index + 1
       })
     }
@@ -105,7 +109,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .common--content{
+  .origin--content{
     padding: 10px;
     max-height: 500px;
     overflow-y: scroll;
@@ -121,19 +125,23 @@
   /deep/.drug-table{
     .el-table{
       .el-button{
+        width: 15px;
+        height: 15px;
+        line-height: initial;
+        padding: 0;
         color: #FFF;
         font-size: 12px;
-        padding: 4px 0 4px 4px;
+        border-radius: 2px;
 
         &:hover, &:focus{
-          border-color: #DCDFE6;
+          border-color: #409EFF;
           background-color: #FFF;
         }
       }
 
       .current-row .el-button{
         background: #409EFF;
-        border-color: #C6e2FF;
+        border-color: #409EFF;
       }
 
       th{
