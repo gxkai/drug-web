@@ -226,30 +226,35 @@
         label: '待付款'
       },
       {
-        value: 'TO_CHECK',
-        label: '已付款'
+        value: 'PAY_FAIL',
+        label: '付款失败'
       },
       {
-        value: 'COMPLETED',
-        label: '调剂完成'
+        value: 'TO_CHECK',
+        label: '待审批'
       },
       {
         value: 'TO_DELIVERY',
-        label: '待取货/待送达'
+        label: '调剂中'
+      },
+      {
+        value: 'TO_RECEIVED',
+        label: '待收货'
       },
       {
         value: 'TO_APPRAISE',
         label: '待评价'
       },
       {
-        value: 'PAY_FAIL',
-        label: '退款中'
+        value: 'COMPLETED',
+        label: '交易成功'
       },
       {
         value: 'CLOSED',
-        label: '退款完成'
+        label: '交易关闭'
       }
     ]
+
     shopNameValue = ''
     shopId = ''
     shopNameList = []

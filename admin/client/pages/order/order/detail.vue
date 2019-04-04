@@ -12,7 +12,7 @@
         <!--订单进度条-->
         <div class="step-bar">
           <el-steps :active="orderStatus" align-center>
-            <el-step :title="item.title" :description="item.description" v-for="item in stepsOptions"></el-step>
+            <el-step :title="item.orderState" :description="item.createdDate" v-for="(item,index) in stepsOptions" :key="index"></el-step>
           </el-steps>
         </div>
 
@@ -168,36 +168,7 @@
   export default class Order extends Vue {
     // 进度条 默认为1
     orderStatus = 1
-    stepsOptions = [
-      {
-        title: '待付款',
-        description: '2018.03.04 12：30'
-      },
-      {
-        title: '待审批',
-        description: '2018.03.04 12：30'
-      },
-      {
-        title: '调剂中',
-        description: '2018.03.04 12：30'
-      },
-      {
-        title: '待收货',
-        description: '2018.03.04 12：30'
-      },
-      {
-        title: '待评价',
-        description: '2018.03.04 12：30'
-      },
-      {
-        title: '交易成功',
-        description: '2018.03.04 12：30'
-      },
-      {
-        title: '交易关闭',
-        description: '2018.03.04 12：30'
-      }
-    ]
+    stepsOptions = []
     orderNumberTit = ''
     orderDetailColumns = [
       {
@@ -328,15 +299,22 @@
       console.log(orderInfo.data)
       this.orderNumberTit = orderInfo.data.number
 
+      this.stepsOptions = orderInfo.data.orderStates
+      this.stepsOptions.forEach(item => {
+        item.orderState = this.isAbled(item.orderState)
+        item.createdDate = item.createdDate === null ? item.createdDate : moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
+      })
+
       // 进度条
       let orderStatus = {
         'TO_PAY': 1, // 待付款
-        'TO_CHECK': 2, // 待审批
-        'TO_DELIVERY': 3, // 调剂中
-        'TO_RECEIVED': 4, // 待收货
-        'TO_APPRAISE': 5, // 待评价
-        'COMPLETED': 6, // 交易成功
-        'CLOSED': 7 // 交易关闭
+        'PAY_FAIL': 2, // 付款失败
+        'TO_CHECK': 3, // 待审批
+        'TO_DELIVERY': 4, // 调剂中
+        'TO_RECEIVED': 5, // 待收货
+        'TO_APPRAISE': 6, // 待评价
+        'COMPLETED': 7, // 交易成功
+        'CLOSED': 8 // 交易关闭
       }
       for (let i in orderStatus) {
         if (i === orderInfo.data.state) {
@@ -409,6 +387,8 @@
     isAbled (state) {
       if (state === 'TO_PAY') {
         return '待付款'
+      } else if (state === 'PAY_FAIL') {
+        return '付款失败'
       } else if (state === 'TO_CHECK') {
         return '待审批'
       } else if (state === 'TO_DELIVERY') {
@@ -422,6 +402,7 @@
       } else if (state === 'CLOSED') {
         return '交易关闭'
       }
+      //
     }
   }
 </script>
