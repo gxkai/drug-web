@@ -34,8 +34,9 @@
     roleNameValue = ''
     columns = [
       {
-        title: 'ID',
-        key: 'id'
+        title: '序号',
+        key: 'index',
+        width: 80
       },
       {
         title: '角色名称',
@@ -88,6 +89,9 @@
       // console.log(data)
       this.roleData = data.data
       this.pagination.total = data.data.length
+      this.roleData.forEach((item, index) => {
+        item.index = index + 1
+      })
     }
     handleEdit ({index, row}) {
       this.$router.push({path: '/system/role/edit', query: {id: row.id}})

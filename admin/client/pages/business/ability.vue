@@ -13,6 +13,7 @@
           border
           style="width: 100%">
           <el-table-column
+            width="60px"
             prop="id"
             label="序号">
             <template slot-scope="scope">

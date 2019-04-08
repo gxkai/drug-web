@@ -47,7 +47,8 @@
     columns = [
       {
         title: '序号',
-        key: 'id'
+        key: 'index',
+        width: 60
       },
       {
         title: '用户名',
@@ -151,25 +152,21 @@
     }
     async initData () {
       let params = {
-        // name: '',
         pageNum: this.pagination.currentPage,
         pageSize: 15
-        // username: ''
       }
       let data = await axios.get(`/api/supervise/accounts`, {params: params})
       this.accountData = data.data.list
       this.pagination.total = data.data.total
-      this.accountData.forEach(e => {
+      this.accountData.forEach((e, i) => {
         e.loginDate = moment(e.loginDate).format('YYYY-MM-DD HH:mm:ss')
-      })
-      let newArray = this.accountData
-      for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].activated.toString() === 'true') {
-          newArray[i].activated = '启用'
+        e.index = i + 1
+        if (e.activated.toString() === 'true') {
+          e.activated = '启用'
         } else {
-          newArray[i].activated = '停用'
+          e.activated = '停用'
         }
-      }
+      })
     }
     handleCustomEvent ({index, row}) {
       this.$router.push({path: '/system/account/detail', query: {id: row.id}})
@@ -198,17 +195,15 @@
       await axios.get(`/api/supervise/accounts`, {params: params}).then(res => {
         this.accountData = res.data.list
         this.pagination.total = res.data.total
-        this.accountData.forEach(e => {
+        this.accountData.forEach((e, i) => {
           e.loginDate = moment(e.loginDate).format('YYYY-MM-DD HH:mm:ss')
-        })
-        let newArray = this.accountData
-        for (let i = 0; i < newArray.length; i++) {
-          if (newArray[i].activated.toString() === 'true') {
-            newArray[i].activated = '启用'
+          e.index = i + 1
+          if (e.activated.toString() === 'true') {
+            e.activated = '启用'
           } else {
-            newArray[i].activated = '停用'
+            e.activated = '停用'
           }
-        }
+        })
       })
     }
   }

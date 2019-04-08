@@ -82,22 +82,18 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="200px"
             prop="shopName"
             label="药店名称">
           </el-table-column>
           <el-table-column
-            width="200px"
             prop="drugName"
             label="药品名称">
           </el-table-column>
           <el-table-column
-            width="220px"
             prop="specName"
             label="药品规格">
           </el-table-column>
           <el-table-column
-            width="220px"
             prop="originName"
             label="生产厂商">
           </el-table-column>
@@ -107,35 +103,32 @@
             label="销量">
           </el-table-column>
           <el-table-column
-            width="80px"
+            width="65px"
             prop="price"
             label="销售价">
           </el-table-column>
           <el-table-column
-            width="170px"
             prop="applyDate"
             label="申请日期">
           </el-table-column>
           <el-table-column
-            width="170px"
             prop="startDate"
             label="展示开始时间">
           </el-table-column>
           <el-table-column
-            width="170px"
             prop="endDate"
             label="展示结束时间">
           </el-table-column>
-          <el-table-column label="当前状态">
+          <el-table-column label="当前状态" width="80px">
             <template slot-scope="scope">
               <span>{{ $t(scope.row.applyState) }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="200px">
+          <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button @click="viewDetail(scope.$index, scope.row)" type="text">查看</el-button>
 
-              <el-dropdown trigger="click">
+              <el-dropdown trigger="click"  v-if="scope.row.applyState==='PENDING'">
                 <span class="el-dropdown-link">
                   更多
                   <i class="el-icon-arrow-down el-icon--right"></i>
@@ -150,7 +143,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
 
-              <el-button type="text" @click="obtained(scope.row.id)">下架</el-button>
+              <el-button type="text" @click="obtained(scope.row.id)" v-if="scope.row.applyState==='SUCCESS'">下架</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -421,8 +414,8 @@
         shopName: this.shopNameValue,
         drugName: this.drugName.trim(),
         state: this.stateValue,
-        start: this.startDate,
-        ebd: this.endDate
+        startDate: this.startDate,
+        endDate: this.endDate
       }
       let {data: res} = await axios.get(`/api/supervise/drugRecommendApplies`, {params})
       console.log(res)

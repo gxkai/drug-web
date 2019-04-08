@@ -38,9 +38,9 @@
     commonNameValue = ''
     columns = [
       {
-        title: 'ID',
-        key: 'id',
-        width: 240
+        title: '序号',
+        key: 'index',
+        width: 80
       },
       {
         title: '类型名称',
@@ -108,19 +108,27 @@
       }
       let data = await axios.get(`/api/supervise/drugType/${id}/children`, {params: params})
       this.typeChildData = data.data
+      this.typeChildData.forEach((item, index) => {
+        item.index = index + 1
+        if (item.showed.toString() === 'true') {
+          item.showed = '是'
+        } else {
+          item.showed = '否'
+        }
+      })
       this.pagination.total = data.data.length
       this.tableData = data.data.map(i => {
         this.$set(i, 'pname', pname)
         return i
       })
-      let newArray = this.typeChildData
-      for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].showed.toString() === 'true') {
-          newArray[i].showed = '是'
-        } else {
-          newArray[i].showed = '否'
-        }
-      }
+      // let newArray = this.typeChildData
+      // for (let i = 0; i < newArray.length; i++) {
+      //   if (newArray[i].showed.toString() === 'true') {
+      //     newArray[i].showed = '是'
+      //   } else {
+      //     newArray[i].showed = '否'
+      //   }
+      // }
     }
     clear () {
       this.commonNameValue = ''

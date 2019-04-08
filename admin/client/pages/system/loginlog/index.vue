@@ -61,7 +61,7 @@
         key: 'date'
       }
     ]
-    loginlogData= []
+    loginlogData = []
     loading= false
     pagination= {
       currentPage: 1,
@@ -74,10 +74,10 @@
     convertDate () {
       if (this.dateValue) {
         for (let i = 0, len = this.dateValue.length; i < len; i++) {
-          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD')
+          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD HH:mm:ss')
         }
-        this.startDate = this.dateValue[0] + ' 00:00:00'
-        this.endDate = this.dateValue[1] + ' 23:59:59'
+        this.startDate = this.dateValue[0]
+        this.endDate = this.dateValue[1]
       }
     }
     beforeMount () {
@@ -87,7 +87,7 @@
       this.pagination.currentPage = currentPage
       this.initData()
     }
-    async initData () {
+    async initData (date) {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: 15
@@ -99,25 +99,36 @@
         e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
       })
     }
+  
     async search () {
       if (this.endDate === '' && this.startDate === '' && this.inputValue === '') {
         this.$message({
           message: '查询条件不能为空',
           type: 'warning'
         })
+        return false
       }
       let params = {
-        // end: this.endDate,
-        // start: this.startDate,
+        end: this.endDate,
+        start: this.startDate,
         username: this.inputValue,
         pageNum: this.pagination.currentPage,
         pageSize: 15
       }
       let searchData = await axios.get(`/api/supervise/loginLogs`, {params: params})
+      // console.log(searchData.data)
       this.loginlogData = searchData.data.list
       this.pagination.total = searchData.data.total
       this.loginlogData.forEach(e => {
-        e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
+        if (e.date !== null) {
+          e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
+        }
+        console.log(e.date)
+        console.log(this.startDate)
+        console.log(this.endDate)
+        if (e.date >= this.startDate && e.date <= this.endDate) {
+          // this.initData(e.date)
+        }
       })
     }
     clear () {
