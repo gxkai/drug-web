@@ -398,7 +398,6 @@
     // 展示图片上传
     childUploadSuccess (res, file, fileList) {
       this.detailImg = fileList
-      console.log(this.detailImg)
     }
 
     // 删除展示图
@@ -430,14 +429,13 @@
         const len = middle.length
         let fileId = ''
         for (let i = 0; i < len; i++) {
-          if (middle[i].raw === undefined) { // 当前图片不需修改，直接存储fileId
+          if (middle[i].raw === undefined) { // 当前图片未重新选择，直接存储原有fileId即可
             fileId += middle[i].fileId
           } else {
             let detailParams = new FormData()
             detailParams.append('file', middle[i].raw)
             detailParams.append('fileType', 'LOGO')
             let {data: detailFileId} = await axios.post('/api/supervise/files', detailParams)
-            console.log(`detailFileId: ${detailFileId}`)
             fileId += `${detailFileId},` // 图片上传成功后更新fileId
           }
         }
@@ -520,7 +518,6 @@
         let childImgs = this.detailForm.imgs.split(',')
         for (let i = 0, len = childImgs.length; i < len; i++) {
           let {data: detailImg} = await axios.get(`/api/supervise/files/${childImgs[i]}`, {params})
-          console.log(detailImg)
           let url = detailImg.replace('redirect:', '')
           if (url.substring(url.lastIndexOf('/') + 1, url.length) !== 'null') {
             this.detailImg.push({
@@ -531,18 +528,6 @@
         }
       }
     }
-
-    // // 获取展示图片路径
-    // async getImgs (fileId, post) {
-    //   let params = {
-    //     resolution: 'LARGE_LOGO'
-    //   }
-    //   let {data: cover} = await axios.get(`/api/supervise/files/${fileId}`, {params})
-    //   let url = cover.replace('redirect:', '')
-    //   if (url.substring(url.lastIndexOf('/') + 1, url.length) !== 'null') {
-    //     post(url)
-    //   }
-    // }
 
     beforeMount () {
       this.drugID = this.$route.query.id
