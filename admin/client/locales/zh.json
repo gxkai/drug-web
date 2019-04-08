@@ -49,7 +49,7 @@
     "店铺审核",
   "/shopCheck/shop":
     "药房审核",
-  "/shopCheck/shop/edit":
+  "/shopCheck/shop/check":
     "药房审核编辑",
   "/shopCheck/shop/detail":
     "药房详情",

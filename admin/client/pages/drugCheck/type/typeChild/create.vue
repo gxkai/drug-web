@@ -109,27 +109,28 @@
       let imgres = await axios.post('/api/supervise/files', fileParams)
       this.fileId = imgres.data // 图片上传成功后更新fileId
       // 获取图片文件
-      // let params = {
-      //   local: '',
-      //   resolution: ''
-      // }
-      // let img1 = await axios.get(`/api/supervise/files/${this.fileId}`, {params: params})
-      // console.log(img1.data.replace('redirect:', ''))
+      let params = {
+        local: '',
+        resolution: ''
+      }
+      let img1 = await axios.get(`/api/supervise/files/${this.fileId}`, {params: params})
+      console.log(img1.data.replace('redirect:', ''))
 
       // 子类判重
-      let getName = await axios.post(`/api/supervise/drugTypes/${this.form.fatherPid}/children/exists`, {type: this.form.typeName})
-      console.log(getName)
-      if (getName.data >= 1) {
-        this.$message({
-          message: '子类名称已存在!',
-          type: 'warning'
-        })
-        return false
-      }
+      // let getName = await axios.post(`/api/supervise/drugTypes/${this.form.fatherPid}/children/exists`, {type: this.form.typeName})
+      // console.log(getName)
+      // if (getName.data >= 1) {
+      //   this.$message({
+      //     message: '子类名称已存在!',
+      //     type: 'warning'
+      //   })
+      //   return false
+      // }
 
       let drugType = {
         file: '',
         fileId: this.fileId,
+        id: '',
         pid: this.form.fatherPid,
         ptype: this.form.fatherTypeName,
         showed: this.form.isShow,

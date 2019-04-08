@@ -4,6 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>搜索词管理</h3>
+        <el-button @click="addRow" type="primary" size="small">新增</el-button>
       </div>
 
       <div class="list">
@@ -15,8 +16,17 @@
           :pagination="pagination"
           :options="options"
           :rowHandle="rowHandle"
+
           @view-emit="view"
           @firstPush-emit="firstPush"
+
+          add-title="我的新增"
+          :add-template="addTemplate"
+          :form-options="formOptions"
+          @row-add="handleRowAdd"
+          @dialog-cancel="handleDialogCancel"
+
+          @row-remove="handleRowRemove"
         />
       </div>
 
@@ -100,7 +110,27 @@
           type: 'text',
           emit: 'firstPush-emit'
         }
-      ]
+      ],
+      remove: {
+        text: '删除',
+        type: 'text',
+        confirm: true
+      }
+    }
+    addTemplate = {
+      name: {
+        title: '搜索词',
+        value: ''
+      },
+      type: {
+        title: '类型',
+        value: ''
+      }
+    }
+    formOptions = {
+      labelWidth: '80px',
+      labelPosition: 'left',
+      saveLoading: false
     }
 
     beforeMount () {
@@ -123,12 +153,20 @@
       // 添加序号
       this.keywordsData.forEach((item, index) => {
         item.index = index + 1
+        if (item.type === 'ADMIN') {
+          item.type = '后台推荐'
+        } else if (item.type === 'ACCOUNT') {
+          item.type = '用户搜索'
+        }
+        if (item.searchTimes === null) {
+          item.searchTimes = 0
+        }
       })
       this.pagination.total = data.data.total
     }
 
     firstPush ({index, row}) {
-      this.$router.push('/drugCheck/drug')
+      this.$router.push('/drugCheck/stock')
     }
 
     viewData = {}
@@ -141,6 +179,64 @@
       this.viewData.searchTimes = row.searchTimes
       this.viewData.type = row.type
       this.dialogVisible = true
+    }
+
+    // 新增关键词
+    addRow () {
+      this.$refs.d2Crud.showDialog({
+        mode: 'add'
+      })
+    }
+    async handleRowAdd (row, done) {
+      // 判重
+      console.log(row)
+      let getName = await axios.post(`/api/supervise/keywords/exists?name=` + row.name)
+      console.log(getName)
+      if (getName.data === true) {
+        this.$message({
+          message: '关键词已存在!',
+          type: 'warning'
+        })
+        return false
+      }
+      let drugKeyword = {
+        name: row.name,
+        sort: row.sort,
+        type: 'ADMIN' // 类型：account用户搜索/admin后台推荐
+      }
+      await axios.post(`/api/supervise/keywords`, drugKeyword)
+      this.initData()
+
+      this.formOptions.saveLoading = true
+      setTimeout(() => {
+        console.log(row)
+        this.$message({
+          message: '保存成功',
+          type: 'success'
+        })
+        done()
+        this.formOptions.saveLoading = false
+      }, 300)
+    }
+    handleDialogCancel (done) {
+      this.$message({
+        message: '取消保存',
+        type: 'warning'
+      })
+      done()
+    }
+
+    // 删除
+    async handleRowRemove ({ index, row }, done) {
+      console.log(row.id)
+      await axios.delete(`/api/supervise/keywords/${row.id}`)
+      setTimeout(() => {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+        done()
+      }, 300)
     }
   }
 </script>
@@ -167,6 +263,12 @@
         padding: 0 20px;
         margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;
+        position: relative;
+        .el-button{
+          position: absolute;
+          right: 30px;
+          bottom: 20px;
+        }
       }
 
       .list {

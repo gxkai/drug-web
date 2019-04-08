@@ -17,7 +17,7 @@
           <el-input v-model="form.typeName" placeholder="请输入分类名称"></el-input>
         </el-form-item>
         <el-form-item label="父类名称">
-          <el-select v-model="form.fatherTypeName" placeholder="请选择父类名称" style="width:100%;">
+          <el-select v-model="form.fatherTypeName" placeholder="请选择父类名称" style="width:100%;" @change="getfatherPid">
             <el-option
               v-for="item in fatherType"
               :key="item.type"
@@ -60,8 +60,10 @@
   })
   export default class TypeChildEdit extends Vue {
     form = {
+      id: '',
       imageUrl: '',
       typeName: '',
+      fatherPid: '',
       fatherTypeName: '',
       isShow: '',
       typeSort: ''
@@ -80,25 +82,40 @@
 
     beforeMount () {
       this.initData()
+      this.getFatherType()
     }
-    async initData () {
+
+    getfatherPid () {
+      this.fatherType.forEach(item => {
+        if (this.form.fatherTypeName === item.type) {
+          this.form.fatherPid = item.id
+        }
+      })
+      // console.log(this.fatherType)
+    }
+    async getFatherType () {
       await axios.get(`/api/supervise/drugTypes/father`).then(res => {
         this.fatherType = res.data
       })
+    }
+
+    async initData () {
       let id = this.$route.query.id
       let pid = this.$route.query.pid
       let editData = await axios.get(`/api/supervise/drugTypes/${pid}/children/${id}`)
-  
+      console.log(editData.data)
       this.form.typeName = editData.data.type
+      this.form.fatherPid = editData.data.pid
       this.form.fatherTypeName = this.$route.query.ptype
       this.form.isShow = editData.data.showed
       this.form.typeSort = editData.data.sort
 
-      let img1 = await axios.get(`/api/supervise/files/${editData.data.fileId}`, {params: {local: '', resolution: ''}})
-      this.form.imageUrl = img1.data.replace('redirect:', '')
+      // 获取图片
+      let childImg = await axios.get(`/api/supervise/files/${editData.data.fileId}`, {params: {local: '', resolution: ''}})
+      this.form.imageUrl = childImg.data.replace('redirect:', '')
     }
 
-    filePath = {}
+    filePath = {} // 存放文件
     handleAvatarSuccess (res, file) {
       this.form.imageUrl = URL.createObjectURL(file.raw)
       this.filePath = file.raw
@@ -111,25 +128,24 @@
       fileParams.append('fileType', 'LOGO')
       let imgres = await axios.post('/api/supervise/files', fileParams)
       this.fileId = imgres.data // 图片上传成功后更新fileId
+      // 获取图片
+      let img1 = await axios.get(`/api/supervise/files/${this.fileId}`, {params: {local: '', resolution: ''}})
+      console.log(img1.data.replace('redirect:', ''))
+
+      let id = this.$route.query.id
 
       let drugTypeChildADTO = {
-        file: this.form.imageUrl,
+        file: '',
         fileId: this.fileId,
-        id: this.$route.query.id,
-        pid: this.$route.query.pid,
-        ptype: this.$route.query.ptype,
+        id: id,
+        pid: this.form.fatherPid,
+        ptype: this.form.fatherTypeName,
         showed: this.form.isShow,
         sort: this.form.typeSort,
         type: this.form.typeName
-
       }
-      await axios.put(`/api/supervise/child/drugTypes/${this.$route.query.id}`, drugTypeChildADTO)
-      this.$router.push({
-        path: '/drugCheck/type/typeChild',
-        query: {
-          id: this.$route.query.pid
-        }
-      })
+      await axios.put(`/api/supervise/child/drugTypes/${id}`, drugTypeChildADTO)
+      this.$router.push({path: '/drugCheck/type/typeChild', query: {id: this.form.fatherPid, type: this.form.fatherTypeName}})
     }
     back () {
       this.$router.go(-1)

@@ -33,7 +33,8 @@
     columns= [
       {
         title: '序号',
-        key: 'id'
+        key: 'index',
+        width: 60
       },
       {
         title: '名字',
@@ -75,21 +76,21 @@
           emit: 'emit-edit'
         },
         {
-          text: '不可用',
+          text: '停用',
           type: 'text',
           emit: 'emit-stop',
           show (index, row) {
-            if (row.activated === '可用') {
+            if (row.activated === '启用') {
               return true
             }
           }
         },
         {
-          text: '可用',
+          text: '启用',
           type: 'text',
           emit: 'emit-run',
           show (index, row) {
-            if (row.activated === '不可用') {
+            if (row.activated === '停用') {
               return true
             }
           }
@@ -118,17 +119,24 @@
         pageSize: 15
       }
       let data = await axios.get(`/api/supervise/admins`, {params: params})
-      // console.log(data)
       this.adminData = data.data.list
+      console.log(this.adminData)
       this.pagination.total = data.data.total
-      let newArray = this.adminData
-      for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].activated.toString() === 'true') {
-          newArray[i].activated = '可用'
+      this.adminData.forEach((item, index) => {
+        item.index = index + 1
+        if (item.activated.toString() === 'true') {
+          item.activated = '启用'
         } else {
-          newArray[i].activated = '不可用'
+          item.activated = '停用'
         }
-      }
+        if (item.roleId === 'ROLE_ADMIN_PHARMACIST') {
+          item.roleId = '客服'
+        } else if (item.roleId === 'ROLE_ADMIN_PHARMACIST') {
+          item.roleId = '药师'
+        } else {
+          item.roleId = '监管用户'
+        }
+      })
     }
     handleEditEvent ({index, row}) {
       this.$router.push({path: '/system/admin/edit', query: {id: row.id}})
