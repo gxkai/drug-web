@@ -489,7 +489,7 @@
       }
 
       .list {
-        padding: 0 15x;
+        padding: 0 15px;
 
         .el-table{
           th{
