@@ -78,10 +78,6 @@
       }
     }
     editTemplate = {
-      id: {
-        title: 'ID',
-        value: ''
-      },
       type: {
         title: '类型名称',
         value: ''
@@ -107,7 +103,6 @@
       saveLoading: false
     }
     addRules = {
-      // id: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
       type: [ { required: true, message: '请输入类型名称', trigger: 'blur' } ],
       sort: [ { required: true, message: '请输入排序', trigger: 'blur' } ]
     }

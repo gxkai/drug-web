@@ -91,24 +91,24 @@
     legalOptions = []
     stateOptions = [
       {
-        value: '正常',
+        value: 'NORMAL',
         label: '正常'
       },
       {
-        value: '停业',
+        value: 'REST',
         label: '停业'
       },
       {
-        value: '待审核',
+        value: 'TO_CHECK',
         label: '待审核'
       },
       {
-        value: '不通过',
+        value: 'NO_PASS',
         label: '不通过'
       },
       {
-        value: '休息中',
-        label: '休息中'
+        value: 'VIOLATION',
+        label: '违规'
       }
     ]
     loading = false
@@ -236,21 +236,13 @@
     handleCheckEvent () {
       this.$router.push('/shopCheck/shop/edit')
     }
-    handleStopEvent ({index, row}) {
-      let stop = this.rowHandle.custom
-      for (let i = 0; i < stop.length; i++) {
-        if (stop[i].text === '开业') {
-          row.curState = '停业'
-        }
-      }
+    async handleStopEvent ({index, row}) {
+      await axios.post(`/api/supervise/shops/${row.id}/?state=REST`)
+      this.getShopData()
     }
-    handleRunEvent ({index, row}) {
-      let run = this.rowHandle.custom
-      for (let i = 0; i < run.length; i++) {
-        if (run[i].text === '停业') {
-          row.curState = '正常'
-        }
-      }
+    async handleRunEvent ({index, row}) {
+      await axios.post(`/api/supervise/shops/${row.id}/?state=NORMAL`)
+      this.getShopData()
     }
     handleDetailEvent ({index, row}) {
       this.$router.push({

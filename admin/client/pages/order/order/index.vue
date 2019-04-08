@@ -37,12 +37,12 @@
           <el-col :span="24" class="filter-bottom">
             <el-col :span="8">
               <span>药店名称：</span>
-              <el-select v-model="shopNameValue" clearable filterable placeholder="请选择">
+              <el-select v-model="shopNameValue" clearable filterable placeholder="请选择" @change="getShopID">
                 <el-option
                   v-for="item in shopNameList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.name"
+                  :label="item.name"
+                  :value="item.name">
                 </el-option>
               </el-select>
             </el-col>
@@ -52,9 +52,9 @@
               <el-select v-model="userValue" clearable filterable placeholder="请选择">
                 <el-option
                   v-for="item in userList"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.username"
+                  :label="item.username"
+                  :value="item.username">
                 </el-option>
               </el-select>
             </el-col>
@@ -63,17 +63,17 @@
               <el-date-picker
                 v-model="dateValue"
                 type="datetimerange"
-                :clearable="isClearAble"
                 range-separator="至"
                 start-placeholder="开始日期"
-                end-placeholder="结束日期">
+                end-placeholder="结束日期"
+                @change="convertDate">
               </el-date-picker>
             </el-col>
           </el-col>
 
           <el-col :span="23" class="action-col">
-            <el-button size="medium" type="primary">搜索</el-button>
-            <el-button size="medium">重置</el-button>
+            <el-button size="medium" type="primary" @click="search">搜索</el-button>
+            <el-button size="medium" @click="reset">重置</el-button>
           </el-col>
         </el-row>
       </div>
@@ -86,65 +86,66 @@
             </div>
             <div class="item item2">
               <p>
-                订单编号：{{ item.number }}，下单时间：{{ item.createdDate }}，<span>备注：{{ item.accountRemark }}</span>
+                订单编号：{{ item.number }}
+              </p>
+              <p>
+                下单时间：{{ item.createdDate }}
               </p>
             </div>
             <div class="item item3">
-              <table>
-                <tr class="tits">
-                  <td></td>
-                  <td>药品名称</td>
-                  <td>单价</td>
-                  <td>件数</td>
-                  <td>12位条形码</td>
-                </tr>
-                <tr class="item-info" v-for="item2 in item.orderItemDrugInfoDTOList" :key="item2.drugId">
-                  <td>
-                    <img class="drug-icon" :src="item2.srcUrl">
-                  </td>
-                  <td class="text-over">{{ item2.drugName }}</td>
-                  <td>{{ item2.price }}</td>
-                  <td>{{ item2.quantity }}</td>
-                  <td>{{ item2.barCode }}</td>
-                </tr>
-              </table>
-            </div>
-
-            <div class="item item4 item-bg">
-              <span>备货门店</span>
-            </div>
-            <div class="item item5 item-bg">
-              <span>用户信息</span>
-            </div>
-            <div class="item item6 item-bg">
-              <span>提货方式</span>
-            </div>
-            <div class="item item7 item-bg">
-              <span>提货人信息</span>
-            </div>
-            <div class="item item8 item-bg">
-              <span>订单类型</span>
-            </div>
-            <div class="item item9">
-              <span class="text-over">{{ item.shopName }}</span>
-            </div>
-            <div class="item item10">
-              <span>{{ item.buyerName }}</span>
-            </div>
-            <div class="item item11">
-              <span>{{ item.deliveryType }}</span>
-            </div>
-            <div class="item item12">
-              <p>姓名：{{ item.consignee }}</p>
-              <p>电话：{{ item.buyerPhone }}</p>
-              <p class="text-over">地址：{{ item.address }}</p>
-            </div>
-            <div class="item item13">
-              <span>{{$t(item.type)}}</span>
+              <div class="item-info" v-for="item2 in item.orderItemDrugInfoDTOList" :key="item2.drugId">
+                <img :src="item2.srcUrl">
+                <p>
+                  药品名称：{{ item2.drugName }}
+                </p>
+                <p>
+                  <span>单价：{{ item2.price }}</span>
+                  <span>，件数：{{ item2.quantity }}</span>
+                </p>
+                <p>12位条形码：{{ item2.barCode }}</p>
+              </div>
             </div>
           </div>
 
           <div class="wrapper wrapper2">
+            <div class="item item1 item-bg">
+              <span>备货门店</span>
+            </div>
+            <div class="item item2 item-bg">
+              <span>用户信息</span>
+            </div>
+            <div class="item item3 item-bg">
+              <span>提货方式</span>
+            </div>
+            <div class="item item4 item-bg">
+              <span>提货人信息</span>
+            </div>
+            <div class="item item5 item-bg">
+              <span>订单类型</span>
+            </div>
+            <div class="item item6">
+              <span>备注：{{ item.accountRemark }}</span>
+            </div>
+            <div class="item item7">
+              <span>{{ item.shopName }}</span>
+            </div>
+            <div class="item item8">
+              <span>{{ item.name }}</span>
+            </div>
+            <div class="item item9">
+              <span>{{ item.deliveryType }}</span>
+            </div>
+            <div class="item item10">
+              <p>姓名：{{ item.consignee }}</p>
+              <p>电话：{{ item.phone }}</p>
+              <p>地址：{{ item.address }}</p>
+            </div>
+            <div class="item item11">
+              <span>{{item.type}}</span>
+            </div>
+          </div>
+
+          <div class="wrapper wrapper3">
             <div class="item item1 item-bg">
               <span>是否医保结算</span>
             </div>
@@ -162,7 +163,7 @@
             </div>
             <div class="item item6">
               <p>{{item.totalAmount}}</p>
-              <p>(含医保: {{item.medicaidAmount}} )</p>
+              <p>（含医保：{{item.medicaidAmount}}）</p>
               <p>{{item.totalAmount}}</p>
             </div>
             <div class="item item7">
@@ -202,37 +203,66 @@
     }
   })
   export default class Order extends Vue {
-    isClearAble = false
     orderID = ''
     orderType = ''
     typeList = [
       {
-        value: '处方',
-        label: '处方'
+        value: 'ALIPAY',
+        label: 'ALIPAY'
+      },
+      {
+        value: 'WECHAT_PAY',
+        label: 'WECHAT_PAY'
+      },
+      {
+        value: 'CASH',
+        label: 'CASH'
+      },
+      {
+        value: 'KRCB',
+        label: 'KRCB'
       }
     ]
     orderState = ''
     stateList = [
       {
-        value: '状态2',
-        label: '状态2'
+        value: 'TO_PAY',
+        label: '待付款'
+      },
+      {
+        value: 'TO_CHECK',
+        label: '已付款'
+      },
+      {
+        value: 'COMPLETED',
+        label: '调剂完成'
+      },
+      {
+        value: 'TO_DELIVERY',
+        label: '待取货/待送达'
+      },
+      {
+        value: 'TO_APPRAISE',
+        label: '待评价'
+      },
+      {
+        value: 'PAY_FAIL',
+        label: '退款中'
+      },
+      {
+        value: 'CLOSED',
+        label: '退款完成'
       }
     ]
     shopNameValue = ''
-    shopNameList = [
-      {
-        value: '选项1',
-        label: '黄金糕'
-      }
-    ]
+    shopId = ''
+    shopNameList = []
     userValue = ''
-    userList = [
-      {
-        value: '选项1',
-        label: '黄金糕'
-      }
-    ]
-    dateValue = ''
+    userList = []
+
+    dateValue = '' // 日期区间
+    startDate = '' // 起始日期
+    endDate = '' // 截止日期
 
     // 分页
     currentPageNum = 1
@@ -243,9 +273,32 @@
 
     perPageData = [] // 存储每页显示的数据
 
+    convertDate () {
+      if (this.dateValue) {
+        for (let i = 0, len = this.dateValue.length; i < len; i++) {
+          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD')
+        }
+        this.startDate = this.dateValue[0] + ' 00:00:00'
+        this.endDate = this.dateValue[1] + ' 23:59:59'
+      }
+    }
+
     beforeMount () {
       this.getOrderList()
       this.messageNotice()
+      this.getShopNames()
+    }
+    getShopID () {
+      this.shopNameList.forEach(item => {
+        if (this.shopNameValue === item.name) {
+          this.shopId = item.id
+        }
+      })
+    }
+    // 获取所有药店名称选项
+    async getShopNames () {
+      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
+      this.shopNameList = option
     }
     async getOrderList () {
       let params = {
@@ -256,9 +309,14 @@
       this.orderListData = orderData.data.list
       this.perPageData = this.orderListData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
-      // console.log(this.orderListData)
+      console.log(this.orderListData)
       this.perPageData.forEach((item) => {
-        // console.log(item)
+        // console.log(item.consignee)
+        if (item.consignee !== null) {
+          this.userList.push({
+            name: item.consignee.trim()
+          })
+        }
         item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
         // 获取药品图片
         item.orderItemDrugInfoDTOList.forEach(e => {
@@ -307,6 +365,49 @@
         message: '您有一笔新订单，请及时确认！',
         position: 'bottom-right',
         customClass: 'notice-msg'
+      })
+    }
+
+    // 重置
+    reset () {
+      this.orderID = ''
+      this.orderType = ''
+      this.orderState = ''
+      this.shopNameValue = ''
+      this.userValue = ''
+      this.dateValue = ''
+    }
+
+    // 搜索查询
+    async search () {
+      let params = {
+        number: this.orderID,
+        payType: this.orderType,
+        state: this.orderState,
+        shopId: this.shopId,
+        username: this.userValue,
+        pageNum: this.currentPageNum,
+        pageSize: this.pageNum,
+        startDate: this.startDate,
+        endDate: this.endDate
+      }
+      let orderData = await axios.get(`/api/supervise/orders`, {params: params})
+      this.orderListData = orderData.data.list
+      this.perPageData = this.orderListData
+      this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
+      console.log(this.orderListData)
+      this.perPageData.forEach((item) => {
+        // console.log(item)
+        item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
+        // 获取药品图片
+        item.orderItemDrugInfoDTOList.forEach(e => {
+          axios.get(`/api/supervise/files/${e.fileId}`, {params: {local: '', resolution: ''}}).then(res => {
+            item.orderItemDrugInfoDTOList.map(i => {
+              this.$set(i, 'srcUrl', res.data.replace('redirect:', ''))
+              return i
+            })
+          })
+        })
       })
     }
   }
@@ -361,26 +462,16 @@
           background: #EBEEF5;
           border: $tableBorder;
           grid-column-gap: 1px;
-          grid-template-columns: 65% 35%;
+          grid-template-columns: 20% 1fr 30%;
 
           p{
-            margin: 0;
-            padding: 5px 0;
+            margin: 10px 0 0;
           }
 
           .wrapper {
             display: grid;
-            grid-template-rows: 50px 70px auto;
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: 50px 90px 190px;
             background: #FFF;
-
-            .text-over{
-              display: block;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              width: 100px;
-            }
 
             .item{
               display: flex;
@@ -396,136 +487,118 @@
 
               &-info{
                 img{
-                  width: 50px;
-                  height: 50px;
+                  width: 100px;
                 }
               }
             }
           }
 
           .wrapper1 {
-            .item{
-              &1{
-                grid-area: 1 / 1 / 1 / 5;
-              }
-
-              &2{
-                grid-column: 1 / 10;
-                border-bottom: $tableBorder;
-              }
-
-              &3{
-                grid-area: 3 / 1 / 3 / 5;
-                justify-content: normal;
-
-                td{
-                  width: 25%;
-                  text-align: center;
-                  &:first-child{
-                    width: 15%;
-                  }
-                }
-
-                .tits{
-                  display: flex;
-                  justify-content: space-between;
-                  text-align: right;
-
-                  td{
-                    font-weight: 600;
-                  }
-                }
-                .item-info{
-                  display: flex;
-                  flex-flow: nowrap;
-                  align-items: center;
-                  padding: 10px 0;
-                  .drug-icon{
-                  }
-                  .drug-info{
-                    flex: 2;
-                  }
-                }
-              }
-
-              &4{
-                grid-area: 1 / 5 / 1 / 5;
-              }
-
-              &5{
-                grid-area: 1 / 6 / 2 / 6;
-              }
-
-              &6{
-                grid-area: 1 / 7 / 2 / 7;
-              }
-
-              &7{
-                grid-area: 1 / 8 / 1 / 8;
-              }
-
-              &8{
-                grid-area: 1 / 9 / 1 / 9;
-                border-bottom: $tableBorder;
-              }
-
-              &9{
-                grid-area: 3 / 5 / 3 / 5;
-              }
-
-              &10{
-                grid-area: 3 / 6 / 3 / 6;
-              }
-
-              &11{
-                grid-area: 3 / 7 / 3 / 7;
-              }
-
-              &12{
-                grid-area: 3 / 8 / 3 / 8;
-              }
-
-              &13{
-                grid-area: 3 / 9 / 3 / 9;
-              }
-
-              &3, &9, &10, &11, &12{
-                border-right: $tableBorder;
-              }
-
-              &1, &4, &5, &6, &7{
-                border-right: $tableBorder;
-                border-bottom: $tableBorder;
-              }
+            .item1{
+              /*align-items: center;*/
+            }
+            .item1,.item2 {
+              border-bottom: $tableBorder;
             }
           }
 
           .wrapper2 {
             display: grid;
-            grid-template-rows: 50px auto;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: 1fr 1fr 1fr 50% 1fr;
+
+            .item{
+              /*align-items: center;*/
+            }
 
             .item1{
               grid-area: 1/1/2/2;
-            }
-            .item2{
-              grid-area: 1/2/2/3;
-            }
-            .item3{
-              grid-area: 1/3/2/4;
-            }
-            .item4{
-              grid-area: 1/4/2/5;
-            }
-
-            .item1, .item2, .item3, .item4{
               border:{
                 bottom: $tableBorder;
                 right: $tableBorder;
               }
             }
+            .item2{
+              grid-area: 1/2/2/3;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item3{
+              grid-area: 1/3/2/4;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item4{
+              grid-area: 1/4/2/5;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item5{
+              grid-area: 1/5/2/6;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item6{
+              grid-area: 2/1/3/6;
+              border-bottom: $tableBorder;
+            }
+            .item7, .item8, .item9, .item10{
+              border-right: $tableBorder;
+            }
 
-            .item5, .item6, .item7, .item8{
+            /*.item{*/
+            /*&:nth-child(5){*/
+            /*align-items: start;*/
+            /*}*/
+            /*&:nth-child(8){*/
+            /*align-items: start;*/
+            /*}*/
+            /*}*/
+          }
+
+          .wrapper3 {
+            display: grid;
+            grid-template-rows: 50px 280px;
+            grid-template-columns: repeat(4, 1fr);
+
+            /*.item{*/
+            /*align-items: center;*/
+            /*}*/
+
+            .item1{
+              grid-area: 1/1/2/2;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item2{
+              grid-area: 1/2/2/3;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item3{
+              grid-area: 1/3/2/4;
+              border:{
+                bottom: $tableBorder;
+                right: $tableBorder;
+              }
+            }
+            .item4{
+              grid-area: 1/4/2/5;
+              border-bottom: $tableBorder;
+            }
+
+            .item5, .item6, .item7{
               border-right: $tableBorder;
             }
 

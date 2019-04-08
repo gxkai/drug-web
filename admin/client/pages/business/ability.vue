@@ -145,8 +145,7 @@
                 class="avatar-uploader"
                 action=""
                 :show-file-list="false"
-                :on-success="addAvatarSuccess"
-                :before-upload="addBeforeUpload">
+                :on-success="addAvatarSuccess">
                 <img v-if="addData.imgURL" :src="addData.imgURL" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
@@ -211,20 +210,6 @@
 
     // 新增图片上传
     addFile = {}
-
-    addBeforeUpload (file) {
-      // // console.log(file)
-      // const isJPG = file.type === 'image/jpeg'
-      // const isLt2M = file.size / 1024 / 1024 < 2
-      //
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG 格式!')
-      // }
-      // if (!isLt2M) {
-      //   this.$message.error('上传头像图片大小不能超过 2MB!')
-      // }
-      // return isJPG && isLt2M
-    }
 
     addAvatarSuccess (res, file) {
       this.addData.imgURL = URL.createObjectURL(file.raw)

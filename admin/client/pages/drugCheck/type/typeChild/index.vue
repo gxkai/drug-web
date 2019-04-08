@@ -91,6 +91,7 @@
     }
     beforeMount () {
       this.fetchData()
+      // console.log(this.$route.query)
     }
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
@@ -126,8 +127,15 @@
       this.commonNameValue = ''
     }
     addRow () {
-      let id = this.$route.query.id
-      this.$router.push('/drugCheck/type/typeChild/create?pid=' + id)
+      // let id = this.$route.query.id
+      this.$router.push('/drugCheck/type/typeChild/create')
+      // this.$router.push({
+      //   path: '/drugCheck/type/typeChild/create',
+      //   query: {
+      //     id: this.$route.query.id,
+      //     type: this.$route.query.type
+      //   }
+      // })
     }
     editCustom ({index, row}) {
       let query = {
