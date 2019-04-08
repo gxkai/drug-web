@@ -113,7 +113,11 @@
 
 <style lang="scss">
   .list-wrap{
-    padding: 20px;
+    padding: 10px;
+
+    .breadcrumb-wrap{
+      padding-left: 15px;
+    }
 
     .list{
       min-height: 850px;
@@ -131,7 +135,7 @@
       }
 
       .main {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{

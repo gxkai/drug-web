@@ -135,13 +135,17 @@
 
 <style lang="scss">
   .rx-wrap{
-    padding: 20px;
+    padding: 10px;
 
     .rx{
       min-height: 850px;
       background: #FFF;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
+
+      .breadcrumb-wrap {
+        padding-left: 15px;
+      }
 
       .title{
         padding: 0 20px;
@@ -150,7 +154,7 @@
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{

@@ -31,7 +31,11 @@
 
 <style lang="scss">
   .detail-wrap{
-    padding: 20px;
+    padding: 10px;
+
+    .breadcrumb-wrap{
+      padding-left: 15px;
+    }
 
     .detail{
       min-height: 850px;
@@ -49,7 +53,7 @@
       }
 
       .main {
-        padding: 30px;
+        padding: 15px;
 
         .el-table{
           th{

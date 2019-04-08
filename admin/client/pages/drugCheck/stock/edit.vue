@@ -443,6 +443,7 @@
       }
 
       let params = {
+        id: this.drugID,
         fileId: this.coverFileId,
         imgs: this.detailFileId,
         name: this.detailForm.name,
@@ -466,7 +467,7 @@
         introduce: this.detailForm.introduce
       }
 
-      await axios.put(`/api/supervise/drugs/${this.drugID}`, params)
+      await axios.put(`/api/supervise/drugs`, params)
     }
 
     // 返回
@@ -554,8 +555,14 @@
 <style scoped lang="scss">
   .drug-stock-create{
     padding: 10px;
+    background: #FFF;
+
+    .breadcrumb-wrap{
+      padding-left: 15px;
+    }
+
     .drug-stock-form{
-      padding:0 100px 0 0;
+      padding: 20px 100px 0 0;
       .el-form{
         display: grid;
         grid-template-columns: 1fr 1fr;

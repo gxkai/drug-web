@@ -192,7 +192,11 @@
 
 <style lang="scss">
   .chat-wrap{
-    padding: 20px;
+    padding: 10px;
+
+    .breadcrumb-wrap{
+      padding-left: 15px;
+    }
 
     .chat{
       min-height: 850px;
@@ -227,7 +231,7 @@
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{

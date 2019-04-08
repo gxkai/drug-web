@@ -5,6 +5,7 @@
       <el-date-picker
         size="small"
         v-model="beginEndDate"
+        :clearable="isClearAble"
         type="daterange"
         range-separator="至"
         start-placeholder="开始日期"
@@ -37,6 +38,7 @@
     }
   })
   export default class Interface extends Vue {
+    isClearAble = false
     beginEndDate = ''
     startDate = '' // 起始日期
     endDate = '' // 结束日期
@@ -107,7 +109,7 @@
       this.pagination.total = interData.total
 
       this.interList.forEach(item => {
-        item.date = moment(item.date).format('YYYY-MM-DD hh:mm:ss')
+        item.date = moment(item.date).format('YYYY-MM-DD HH:mm:ss')
       })
     }
 

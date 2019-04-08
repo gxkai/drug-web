@@ -404,7 +404,11 @@
 
 <style lang="scss">
   .advert-wrap{
-    padding: 20px;
+    padding: 10px;
+
+    .breadcrumb-wrap{
+      padding-left: 15px;
+    }
 
     .advert{
       min-height: 850px;
@@ -440,7 +444,7 @@
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{

@@ -97,7 +97,7 @@
       this.dosageFormList = formData.list
       this.pagination.total = formData.total
       this.dosageFormList.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
     }
 

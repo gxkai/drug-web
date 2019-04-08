@@ -1,84 +1,80 @@
 <template>
   <div class="drug-detail">
     <bread-crumb :path="$route.path"/>
-    <el-form ref="form" :model="form" label-width="150px">
+    <el-form ref="form" :model="detailForm" label-width="150px">
       <el-form-item label="药房名称">
-        <el-input v-model="form.shopName" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.shopName" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="药品名称">
-        <el-input v-model="form.drugName" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.drugName" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="通用名称">
-        <el-input v-model="form.commonName" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.commonName" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="批准文号">
-        <el-input v-model="form.drugApproval" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.sfda" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="厂商简称">
-        <el-input v-model="form.firmName" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.originName" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="otc非处方药">
-        <el-input v-model="form.otcValue" disabled placeholder="暂无"></el-input>
-      </el-form-item>
-      <el-form-item label="是否医保">
-        <el-input v-model="form.insuranceValue" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.otc ? '是' : '否'" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="药品大类">
-        <el-input v-model="form.drugClass" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.typeParent" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="药品小类">
-        <el-input v-model="form.drugClass2" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.type" readOnly placeholder="暂无"></el-input>
+      </el-form-item>
+      <el-form-item label="是否医保">
+        <el-input v-model="detailForm.medicaided" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="适应性/功能主治">
         <el-input
-          disabled
+          readOnly
           type="textarea"
           :autosize="{ minRows: 6, maxRows: 10}"
           placeholder="暂无"
-          v-model="form.drugIntroduce">
+          v-model="detailForm.introduce">
         </el-input>
       </el-form-item>
       <el-form-item label="价格">
-        <el-input v-model="form.drugPrice" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.price" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="库存">
-        <el-input v-model="form.drugStock" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.stock" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="库存预警量">
-        <el-input v-model="form.drugWarning" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.stockWarn" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="商品推荐">
-        <el-input v-model="form.drugRecommend" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.recommend ? '是' : '否'" readOnly placeholder="暂无"></el-input>
       </el-form-item>
       <el-form-item label="剂型">
-        <el-input v-model="form.drugForm" disabled placeholder="暂无"></el-input>
+        <el-input v-model="detailForm.formName" readOnly placeholder="暂无"></el-input>
       </el-form-item>
-      <el-form-item label="最小计量">
-        <el-input v-model="form.minDose" disabled placeholder="暂无"></el-input>
-      </el-form-item>
-      <!--<el-form-item label="药品图片">-->
-        <!--<img :src="form.drugImage" style="max-width: 200px;height: auto;">-->
-      <!--</el-form-item>-->
     </el-form>
-
 
     <div class="check-image">
       <section>
         <strong>药品封面照</strong>
-        <div><img :src="imageUrl"></div>
+        <div>
+          <img v-if="coverURL" :src="coverURL">
+          <img v-else :src="emptyUrl">
+        </div>
       </section>
       <section>
         <strong>展示图</strong>
         <div>
-            <span v-for="item in drugImg" :key="item.id">
-              <img :src="item.imageUrl">
+            <span v-for="(item, index) in drugImgList" :key="index">
+              <img v-if="item.imgURL !== 'null'" :src="item.imgURL">
+              <img v-else :src="emptyUrl">
             </span>
         </div>
       </section>
     </div>
     <div class="back-btn">
       <el-button @click="goBack">返回</el-button>
-      <el-button type="primary" @click="goBack">提交</el-button>
     </div>
   </div>
 </template>
@@ -86,48 +82,85 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+
   @Component({
     components: {
       BreadCrumb
     }
   })
   export default class DrugDetail extends Vue {
-    form = {
-      shopName: '百家慧',
-      drugName: '裸花紫珠颗粒',
-      commonName: '裸花紫珠颗粒',
-      drugApproval: 'Z20060378',
-      firmName: '江西普正制药有限公司',
-      otcValue: '否',
-      insuranceValue: '否',
-      drugClass: '',
-      drugClass2: '',
-      drugIntroduce: '',
-      drugPrice: '22',
-      drugStock: '22',
-      drugWarning: '22',
-      drugRecommend: '否',
-      drugForm: '颗粒剂',
-      minDose: ''
-      // drugImage: require(`~/assets/img/hospital/img1.png`)
-    }
-    imageUrl = require(`~/assets/img/hospital/img1.png`)
-    drugImg = [
+    detailForm = {}
+    emptyUrl = require('../../../assets/img/hospital/img1.png')
+    coverURL = ''
+    drugImgList = [
       {
-        id: '0',
-        imageUrl: require(`~/assets/img/hospital/img1.png`)
+        imgURL: require('../../../assets/img/hospital/img1.png')
       },
       {
-        id: '1',
-        imageUrl: require(`~/assets/img/hospital/img1.png`)
+        imgURL: require('../../../assets/img/hospital/img1.png')
       },
       {
-        id: '2',
-        imageUrl: require(`~/assets/img/hospital/img1.png`)
+        imgURL: require('../../../assets/img/hospital/img1.png')
       }
     ]
+
     goBack () {
       this.$router.push('/drugCheck/drug')
+    }
+
+    async getDetailInfo (id) {
+      let {data: detail} = await axios.get(`/api/supervise/shopDrugs/${id}`)
+      console.log(detail)
+      this.detailForm = detail
+      if (this.detailForm.medicaided !== null) {
+        if (this.detailForm.medicaided) {
+          this.detailForm.medicaided = '否'
+        } else {
+          this.detailForm.medicaided = '是'
+        }
+      }
+
+      let params = {
+        resolution: 'LARGE_LOGO'
+      }
+
+      // 获取封面图片
+      if (this.detailForm.fileId) {
+        let {data: cover} = await axios.get(`/api/supervise/files/${this.detailForm.fileId}`, {params})
+        let imgURL = cover.replace('redirect:', '')
+        let nullURL = imgURL.substring(imgURL.lastIndexOf('/') + 1, imgURL.length)
+        if (nullURL !== 'null') {
+          this.coverURL = imgURL
+        } else {
+          this.coverURL = nullURL
+        }
+      }
+
+      // 获取展示图
+      if (this.detailForm.imgs) {
+        this.drugImgList = []
+        let childImgs = this.detailForm.imgs.split(',')
+        for (let i = 0, len = childImgs.length; i < len; i++) {
+          let {data: detailImg} = await axios.get(`/api/supervise/files/${childImgs[i]}`, {params})
+          let url = detailImg.replace('redirect:', '')
+          let empty = url.substring(url.lastIndexOf('/') + 1, url.length)
+          if (empty !== 'null') {
+            this.drugImgList.push({
+              imgURL: url
+            })
+          } else {
+            this.drugImgList.push({
+              imgURL: empty
+            })
+          }
+        }
+      }
+    }
+
+    beforeMount () {
+      let id = this.$route.query.id
+      this.getDetailInfo(id)
     }
   }
 </script>
@@ -135,6 +168,12 @@
 <style scoped lang="scss">
   /deep/.drug-detail{
     padding: 10px;
+    background: #fff;
+
+    .breadcrumb-wrap{
+      padding-left: 15px;
+    }
+
     .el-form{
       margin-right: 100px;
       display: grid;
@@ -148,9 +187,8 @@
       }
     }
     .back-btn{
-      display: flex;
-      justify-content: center;
-      padding: 50px;
+      text-align: center;
+      margin: 30px auto;
     }
   }
   .check-image{

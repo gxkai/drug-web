@@ -215,7 +215,7 @@
       this.faqList = faq.list
       this.pagination.total = faq.total
       this.faqList.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD hh:mm:ss')
         item.readTimes = item.readTimes || 0
       })

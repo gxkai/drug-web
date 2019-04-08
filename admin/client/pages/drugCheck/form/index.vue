@@ -46,8 +46,8 @@
     commonNameValue = ''
     dosageFormColumns = [
       {
-        title: 'ID',
-        key: 'id',
+        title: '序号',
+        key: 'index',
         width: 320
       },
       {
@@ -192,9 +192,12 @@
 
       this.dosageFormList = formData.list
       this.pagination.total = formData.total
+      this.dosageFormList.forEach((item, index) => {
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
+      })
     }
 
-    mounted () {
+    beforeMount () {
       this.getAllForms()
     }
   }

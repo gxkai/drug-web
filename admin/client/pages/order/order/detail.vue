@@ -276,7 +276,7 @@
     pagination = {
       currentPage: 1,
       pageSize: 5,
-      total: this.trackData.length
+      total: 0
     }
 
     consignee = '' // 收货人
@@ -321,7 +321,7 @@
           this.orderStatus = orderStatus[i]
         }
       }
-  
+
       this.consignee = orderInfo.data.consignee // 收货人
       this.address = orderInfo.data.address// 收货地址
       this.phone = orderInfo.data.phone // 联系电话
@@ -334,7 +334,7 @@
 
       this.orderDetailData = orderInfo.data.drugInfoAdminDTOList // 订单详情
       this.orderDetailData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
 
       this.trackData = orderInfo.data.orderLogList

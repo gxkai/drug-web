@@ -382,7 +382,11 @@
 
 <style lang="scss">
   .ability-wrap{
-    padding: 20px;
+    padding: 10px;
+
+    .breadcrumb-wrap{
+      padding-left: 15px;
+    }
 
     .ability{
       min-height: 850px;
@@ -409,7 +413,7 @@
 
       .list {
         margin-top: 20px;
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           margin-bottom: 10px;

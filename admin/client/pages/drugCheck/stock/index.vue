@@ -2,20 +2,25 @@
   <div class="stock--content">
     <bread-crumb :path="$route.path"/>
     <div class="stock--content__search">
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="stockAdd">新增</el-button>
-      <el-button type="primary" size="small" icon="el-icon-refresh" @click="resetEs">重置ES</el-button>
-      <el-input v-model="commonNameValue" size="small" placeholder="通用名称" style="width: 200px;"></el-input>
-      <el-input v-model="originNameValue" size="small" placeholder="厂商名称" style="width: 200px;"></el-input>
-      <el-cascader
-                   size="small"
-                   expand-trigger="click"
-                   :options="compostList"
-                   :props="selectProps"
-                   v-model="selectedTypes"
-                   @change="getTypeCondition">
-      </el-cascader>
-      <el-button type="primary" size="small" @click="searchDrugs">搜索</el-button>
-      <el-button size="small" @click="clearConditions">清空</el-button>
+      <div class="left">
+        <el-input v-model="commonNameValue" size="small" placeholder="通用名称" style="width: 200px;"></el-input>
+        <el-input v-model="originNameValue" size="small" placeholder="厂商名称" style="width: 200px;"></el-input>
+        <el-cascader
+          size="small"
+          placeholder="药品类型"
+          expand-trigger="click"
+          :options="compostList"
+          :props="selectProps"
+          v-model="selectedTypes"
+          @change="getTypeCondition">
+        </el-cascader>
+        <el-button type="primary" size="small" icon="el-icon-refresh" @click="resetEs">重置ES</el-button>
+        <el-button type="primary" size="small" @click="searchDrugs">搜索</el-button>
+        <el-button size="small" @click="clearConditions">清空</el-button>
+      </div>
+      <div class="right">
+        <el-button type="primary" @click="stockAdd" style="background: #169bd5;">新增</el-button>
+      </div>
     </div>
     <d2-crud
       :columns="columns"
@@ -194,10 +199,13 @@
 <style scoped lang="scss">
   .stock--content{
     padding: 0 10px;
+    background: #FFF;
+
     &__search{
       display: flex;
-      justify-content: Flex-start;
       align-items: center;
+      justify-content: space-between;
+
       .el-input{
         margin: 0 10px;
       }

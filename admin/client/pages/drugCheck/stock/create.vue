@@ -27,6 +27,16 @@
           <el-button class="select-btn" v-if="detailForm.originName" type="middle" @click="originDialogVisible = true">{{ detailForm.originName }}</el-button>
           <el-button class="select-btn" v-else type="middle" @click="originDialogVisible = true" style="color: #C0C4CC">请选择厂商</el-button>
         </el-form-item>
+        <el-form-item label="药品大类">
+          <el-button class="select-btn" v-if="parentTypeNameString" type="middle" @click="parentTypeDialogVisible = true">{{ parentTypeNameString }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="parentTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
+          <p style="display: none;">{{ parentTypeIdString }}</p>
+        </el-form-item>
+        <el-form-item label="药品小类">
+          <el-button class="select-btn child-type" v-if="childTypeNameString" type="middle" @click="childTypeDialogVisible = true">{{ childTypeNameString }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="childTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
+          <p style="display: none;">{{ childTypeIdString }}</p>
+        </el-form-item>
         <el-form-item label="otc 非处方药">
           <el-select v-model="detailForm.otc" placeholder="请选择">
             <el-option
@@ -36,16 +46,6 @@
               :value="item.value">
             </el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="药品大类">
-          <el-button class="select-btn" v-if="detailForm.drugTypeName" type="middle" @click="parentTypeDialogVisible = true">{{ detailForm.drugTypeName }}</el-button>
-          <el-button class="select-btn" v-else type="middle" @click="parentTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
-          <p style="display: none;">{{ detailForm.drugTypeParent }}</p>
-        </el-form-item>
-        <el-form-item label="药品小类">
-          <el-button class="select-btn child-type" v-if="detailForm.drugTypeChildName" type="middle" @click="childTypeDialogVisible = true">{{ detailForm.drugTypeChildName }}</el-button>
-          <el-button class="select-btn" v-else type="middle" @click="childTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
-          <p style="display: none;">{{ detailForm.drugTypeId }}</p>
         </el-form-item>
         <el-form-item label="规格">
           <el-button class="select-btn" v-if="detailForm.spec" type="middle" @click="specDialogVisible = true">{{ detailForm.spec }}</el-button>
@@ -97,7 +97,7 @@
       </el-form>
       <div class="check-form-btn">
         <el-button @click="backToList">返回</el-button>
-        <el-button type="primary" @click="submitAdd">提交</el-button>
+        <el-button type="primary" @click="submitEdit">提交</el-button>
       </div>
     </div>
 
@@ -212,17 +212,31 @@
     originDialogVisible = false
     parentTypeDialogVisible = false
     childTypeDialogVisible = false
-
     dialogVisible = false
-    dialogImageUrl = ''
     detailForm = {}
-    detailImg = []
+
+    // 封面图
+    coverFileId = ''
     coverURL = ''
+    coverURLJudeg = ''
+    coverObj = ''
+
+    // 展示图
+    dialogImageUrl = ''
+    detailImg = []
+    detailFileId = ''
+
+    // 下拉弹框
     selectedInfo = ''
     typeInfo = [] // 存储大类信息
     parentType = [] // 暂存大类信息
     childInfo = [] // 存储小类信息
     childData = [] // 暂存已选信息
+    drugID = ''
+    parentTypeNameString = ''
+    parentTypeIdString = ''
+    childTypeNameString = ''
+    childTypeIdString = ''
 
     // 是否是处方药
     otcOptions = [
@@ -253,16 +267,6 @@
       this.selectedInfo = data
     }
 
-    // 获取已选药品大类信息
-    getParentTypeInfo (data) {
-      this.typeInfo = data
-    }
-
-    // 获取已选药品小类信息
-    getChildTypeInfo (data) {
-      this.childInfo = data
-    }
-
     // 选择通用名
     confirmSelectCommonName () {
       if (!this.selectedInfo) {
@@ -289,6 +293,12 @@
       this.selectedInfo = ''
     }
 
+    // 获取已选药品大类信息
+    getParentTypeInfo (data) {
+      console.log(data)
+      this.typeInfo = data
+    }
+
     // 选择药品大类
     confirmSelectparentType () {
       if (!this.typeInfo.length) {
@@ -299,8 +309,8 @@
       let pName = ''
       let PId = ''
       this.parentType = this.typeInfo
-      this.detailForm.drugTypeName = ''
-      this.detailForm.drugTypeParent = ''
+      this.parentTypeNameString = ''
+      this.parentTypeIdString = ''
       for (let i = 0, len = this.parentType.length; i < len; i++) {
         if (i === len - 1) {
           pName += `${this.parentType[i].type}`
@@ -311,9 +321,15 @@
         PId += `${this.parentType[i].id},`
       }
 
-      this.detailForm.drugTypeName = pName
-      this.detailForm.drugTypeParent = PId
+      this.parentTypeNameString = pName
+      this.parentTypeIdString = PId
       this.parentTypeDialogVisible = false
+    }
+
+    // 获取已选药品小类信息
+    getChildTypeInfo (data) {
+      console.log(data)
+      this.childInfo = data
     }
 
     // 选择药品小类
@@ -327,8 +343,8 @@
       }
 
       this.childData = this.childInfo
-      this.detailForm.drugTypeChildName = ''
-      this.detailForm.drugTypeId = ''
+      this.childTypeNameString = ''
+      this.childTypeIdString = ''
 
       this.childData.forEach(item => {
         if (item.length === undefined) {
@@ -342,8 +358,8 @@
         }
       })
 
-      this.detailForm.drugTypeChildName = cName.substring(0, cName.length - 1)
-      this.detailForm.drugTypeId = cId.substring(0, cId.length - 1)
+      this.childTypeNameString = cName.substring(0, cName.length - 1)
+      this.childTypeIdString = cId.substring(0, cId.length - 1)
       this.childTypeDialogVisible = false
     }
 
@@ -373,37 +389,62 @@
       this.selectedInfo = ''
     }
 
-    handleAvatarSuccess (res, file) {
-      this.form.imageUrl = URL.createObjectURL(file.raw)
+    // 封面图片上传
+    coverUploadSuccess (res, file) {
+      this.coverURL = URL.createObjectURL(file.raw)
+      this.coverObj = file.raw // 上传图片提交该对象
     }
 
+    // 展示图片上传
+    childUploadSuccess (res, file, fileList) {
+      this.detailImg = fileList
+    }
+
+    // 删除展示图
     handleRemove (file, fileList) {
       console.log(file, fileList)
     }
 
-    // 图片放大
+    // 查看图片放大
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     }
 
-    // 展示图片上传
-    childUploadSuccess (res, file, fileList) {
-      // console.log(res)
-      // console.log(file)
-      // console.log(fileList)
-    }
-
     // 提交
-    async submitAdd () {
-      // 图片上传
-      // let fileParams = new FormData()
-      // fileParams.append('file', this.filePath)
-      // fileParams.append('fileType', 'LOGO')
-      // let imgres = await axios.post('/api/supervise/files', fileParams)
-      // this.fileId = imgres.data // 图片上传成功后更新fileId
+    async submitEdit () {
+      // 封面图片上传
+      if (this.coverURLJudeg !== this.coverURL) {
+        let coverParams = new FormData()
+        coverParams.append('file', this.coverObj)
+        coverParams.append('fileType', 'LOGO')
+        let {data: coverFileId} = await axios.post('/api/supervise/files', coverParams)
+        // console.log(coverFileId)
+        this.coverFileId = coverFileId // 图片上传成功后更新fileId
+      }
+
+      // 展示图上传
+      if (this.detailImg.length > 0) {
+        const middle = this.detailImg
+        const len = middle.length
+        let fileId = ''
+        for (let i = 0; i < len; i++) {
+          if (middle[i].raw === undefined) { // 当前图片未重新选择，直接存储原有fileId即可
+            fileId += middle[i].fileId
+          } else {
+            let detailParams = new FormData()
+            detailParams.append('file', middle[i].raw)
+            detailParams.append('fileType', 'LOGO')
+            let {data: detailFileId} = await axios.post('/api/supervise/files', detailParams)
+            fileId += `${detailFileId},` // 图片上传成功后更新fileId
+          }
+        }
+        this.detailFileId = fileId.substring(0, fileId.length - 1)
+      }
 
       let params = {
+        fileId: this.coverFileId,
+        imgs: this.detailFileId,
         name: this.detailForm.name,
         commonNameId: this.detailForm.commonNameId,
         commonName: this.detailForm.commonName,
@@ -411,10 +452,10 @@
         originId: this.detailForm.originId,
         originName: this.detailForm.originName,
         otc: this.detailForm.otc,
-        drugTypeParent: this.detailForm.drugTypeParent,
-        drugTypeName: this.detailForm.drugTypeName,
-        drugTypeId: this.detailForm.drugTypeId,
-        drugTypeChildName: this.detailForm.drugTypeChildName,
+        drugTypeParent: this.parentTypeIdString,
+        drugTypeName: this.parentTypeNameString,
+        drugTypeId: this.childTypeIdString,
+        drugTypeChildName: this.childTypeNameString,
         specId: this.detailForm.specId,
         spec: this.detailForm.spec,
         formId: this.detailForm.formId,
@@ -424,16 +465,20 @@
         brand: this.detailForm.brand,
         introduce: this.detailForm.introduce
       }
-      await axios.post('/api/supervise/drugs', params)
+
+      await axios.post(`/api/supervise/drugs`, params)
+      this.$message({
+        message: '添加成功',
+        type: 'success'
+      })
+      setTimeout(() => {
+        this.$router.push('drugCheck/stock')
+      }, 1000)
     }
 
     // 返回
     backToList () {
       this.$router.push('/drugCheck/stock')
-    }
-
-    beforeMount () {
-
     }
   }
 </script>
@@ -456,8 +501,10 @@
 <style scoped lang="scss">
   .drug-stock-create{
     padding: 10px;
+    background: #FFF;
+
     .drug-stock-form{
-      padding:0 100px 0 0;
+      padding: 20px 100px 0 0;
       .el-form{
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -526,13 +573,13 @@
   /deep/.avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 224px;
+    width: 148px;
     height: 148px;
     line-height: 148px;
     text-align: center;
   }
   /deep/.avatar {
-    width: 224px;
+    width: 148px;
     height: 148px;
     display: block;
   }

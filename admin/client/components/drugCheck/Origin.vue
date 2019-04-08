@@ -98,7 +98,7 @@
       this.OriginList = originData.list
       this.pagination.total = originData.total
       this.OriginList.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
     }
 

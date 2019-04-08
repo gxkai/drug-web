@@ -239,7 +239,7 @@
       this.pagination.total = res.total
 
       this.pharmacistList.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         item.activated = this.isAvaliable(item.activated)
         item.roleName = '药师'
         item.lastLoginDate = item.lastLoginDate ? moment(item.lastLoginDate).format('YYYY-MM-DD hh:mm:ss') : ''

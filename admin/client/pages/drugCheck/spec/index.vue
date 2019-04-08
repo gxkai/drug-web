@@ -46,8 +46,8 @@
     commonNameValue = ''
     columns = [
       {
-        title: 'ID',
-        key: 'id',
+        title: '序号',
+        key: 'index',
         width: 320
       },
       {
@@ -135,8 +135,7 @@
 
     // 删除
     async handleRowRemove ({ index, row }, done) {
-      let delRes = await axios.delete(`/api/supervise/specs/${row.id}`)
-      console.log(delRes)
+      await axios.delete(`/api/supervise/specs/${row.id}`)
       setTimeout(() => {
         this.$message({
           message: '删除成功',
@@ -144,6 +143,7 @@
         })
         done()
         this.pagination.total -= 1
+        // this.getAllSpecs()
       }, 300)
     }
 
@@ -173,20 +173,22 @@
     }
 
     searchSpec () {
-      this.getAllSpecs(this.commonNameValue)
+      this.getAllSpecs()
     }
 
-    async getAllSpecs (specName) {
+    async getAllSpecs () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name: specName
+        name: this.commonNameValue.trim()
       }
       let {data: specs} = await axios.get(`/api/supervise/specs`, {params})
-      console.log(specs)
-
       this.specList = specs.list
       this.pagination.total = specs.total
+
+      this.specList.forEach((item, index) => {
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
+      })
     }
 
     mounted () {

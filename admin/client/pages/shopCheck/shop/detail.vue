@@ -217,8 +217,14 @@
 <style scoped lang="scss">
 .shop-edit{
   padding: 10px;
+  background: #FFF;
+
+  .breadcrumb-wrap{
+    padding-left: 15px;
+  }
+
   .check-form{
-    padding:0 100px 0 0;
+    padding: 20px 100px 0 0;
     .el-form{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;

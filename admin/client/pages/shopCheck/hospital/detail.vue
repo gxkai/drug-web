@@ -109,8 +109,16 @@
 <style scoped lang="scss">
 .hospital-detail{
   padding: 10px;
+  background: #FFF;
+
+  .breadcrumb-wrap{
+    padding-left: 15px;
+  }
+
   .hospital-form{
     padding-right: 200px;
+    padding-top: 20px;
+
     form.el-form{
       display: grid;
       grid-template-columns: 40% 60%;

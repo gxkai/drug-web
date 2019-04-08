@@ -123,7 +123,7 @@
       console.log(this.adminData)
       this.pagination.total = data.data.total
       this.adminData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         if (item.activated.toString() === 'true') {
           item.activated = '启用'
         } else {

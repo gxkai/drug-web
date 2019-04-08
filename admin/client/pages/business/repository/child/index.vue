@@ -211,7 +211,7 @@
       let data = await axios.get(`/api/supervise/repositories`, {params: params})
       this.childData = data.data.list
       this.childData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         item.text = this.repalceHtml(item.content)// 内容格式化
         item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD HH:mm:ss')
         if (item.home.toString() === 'true') {

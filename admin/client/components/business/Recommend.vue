@@ -11,7 +11,7 @@
               <el-option
                 v-for="(item, index) in shopNameList"
                 :key="index"
-                :label="item.name"
+                :label="item.shopName"
                 :value="item.id">
               </el-option>
             </el-select>
@@ -295,8 +295,8 @@
 
     // 获取所有药店名称选项
     async getShopNames () {
-      let {data: options} = await axios.post(`/api/supervise/shops/filter`)
-      this.shopNameList = options
+      let {data: options} = await axios.get(`/api/supervise/shops`)
+      this.shopNameList = options.list
     }
 
     // 下架
@@ -446,7 +446,11 @@
 
 <style lang="scss">
   .discount-wrap{
-    padding: 20px;
+    padding: 10px;
+
+    .breadcrumb-wrap{
+      padding-left: 15px;
+    }
 
     .discount{
       min-height: 850px;
@@ -487,7 +491,7 @@
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{

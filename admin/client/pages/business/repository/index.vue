@@ -145,7 +145,7 @@
       this.repositoryData = data.data.list
       console.log(this.repositoryData)
       this.repositoryData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         if (item.readTimes === null) {
           item.readTimes = 0
         }

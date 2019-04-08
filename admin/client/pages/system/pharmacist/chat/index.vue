@@ -99,7 +99,7 @@
       this.chatList = chat.list
       this.pagination.total = chat.total
       this.chatList.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         item.userLastDate = item.userLastDate ? moment(item.userLastDate).format('YYYY-MM-DD hh:mm:ss') : ''
         item.accountLastDate = item.accountLastDate ? moment(item.accountLastDate).format('YYYY-MM-DD hh:mm:ss') : ''
       })

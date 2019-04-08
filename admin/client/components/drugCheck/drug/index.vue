@@ -1,6 +1,5 @@
 <template>
   <div class="drug--content">
-    <bread-crumb :path="$route.path"/>
     <div class="drug--content__search">
       <el-select size="small" v-model="shopValue" filterable placeholder="药房名称">
         <el-option
@@ -25,30 +24,26 @@
     </div>
     <div>
       <d2-crud
+        :options="options"
         :columns="columns"
         :data="drugList"
         :loading="loading"
         :pagination="pagination"
         @pagination-current-change="paginationCurrentChange"
-        :options="options"
-        :rowHandle="rowHandle"
-        @emit-detail="handleDetailEvent"
+        selection-row
+        :selection-row="selectionRow"
+        @selection-change="handleSelectionChange"
         class="drug-table"
-       />
+      />
     </div>
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
-  import BreadCrumb from '@/components/Breadcrumb'
   import axios from 'axios'
 
-  @Component({
-    components: {
-      BreadCrumb
-    }
-  })
+  @Component
   export default class Drug extends Vue {
     shopValue = ''
     drugNameValue = ''
@@ -120,15 +115,8 @@
     options= {
       border: true
     }
-    rowHandle = {
-      custom: [
-        {
-          text: '查看详情',
-          type: 'text',
-          size: 'small',
-          emit: 'emit-detail'
-        }
-      ]
+    selectionRow = {
+      align: 'center'
     }
 
     // 获取所有药店名称选项
@@ -160,6 +148,17 @@
 
     search () {
       this.getAllDrugs()
+    }
+
+    // 多选
+    handleSelectionChange (selection) {
+      if (selection.length > 10) {
+        this.$alert('最多选择10种药品', '提示', {
+          confirmButtonText: '确定'
+        })
+        return
+      }
+      this.$emit('listenToChildEvent', selection)
     }
 
     async getAllDrugs () {

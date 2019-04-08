@@ -91,7 +91,7 @@
       this.specList = specs.list
       this.pagination.total = specs.total
       this.specList.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
     }
 

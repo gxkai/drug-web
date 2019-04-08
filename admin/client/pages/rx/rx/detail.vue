@@ -1,11 +1,10 @@
 <template>
-  <div class="detail-wrap">
+  <div class="rd-detail-wrap">
     <div class="detail">
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
         <h3>处方单详情</h3>
-        <el-button type="primary" size="small" @click="$router.go(-1)">返回</el-button>
       </div>
 
       <div class="detail-con">
@@ -69,6 +68,10 @@
             </el-form-item>
           </el-form>
         </div>
+      </div>
+
+      <div class="back">
+        <el-button @click="$router.push('/rx/rx')">返回</el-button>
       </div>
     </div>
   </div>
@@ -158,13 +161,17 @@
 </script>
 
 <style lang="scss">
-  .detail-wrap{
-    padding: 20px;
+  .rd-detail-wrap{
+    padding: 10px;
 
     .el-table{
       th{
         background: #F4F4F4;
       }
+    }
+
+    .breadcrumb-wrap{
+      padding-left: 15px;
     }
 
     .detail{
@@ -174,11 +181,8 @@
       border: 1px solid #E9E9E9;
 
       .title{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 0 20px 15px;
-        margin: 0 10px;
+        margin: 10px;
         border-bottom: 1px solid #E9E9E9;
 
         h3{
@@ -189,7 +193,7 @@
       }
 
       &-con {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .form-info{
           padding: 20px 150px 0 0;
@@ -232,6 +236,11 @@
             margin-bottom: 0;
           }
         }
+      }
+
+      .back{
+        text-align: center;
+        margin-bottom: 30px;
       }
     }
   }
