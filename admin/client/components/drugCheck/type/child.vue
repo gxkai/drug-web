@@ -27,7 +27,8 @@
     },
     computed: {
       parentTypeInfo () {
-        // this.childTypeList = []
+        this.childTypeList = []
+        this.selectedTypeList = []
         this.setActiveName(this.parentData)
         this.tabActiveName = 'first'
         this.fetchData(this.parentData)
@@ -81,28 +82,29 @@
     }
 
     handleSelectionChange (selection) {
-      if (this.parentTypeInfo.length > 1) {
-        // console.log(this.selectedTypeList)
-        if (this.selectedTypeList.length === 0) {
-          this.selectedTypeList.push(selection)
+      if (selection.length) {
+        if (this.parentTypeInfo.length > 1) {
+          // console.log(this.selectedTypeList)
+          if (this.selectedTypeList.length === 0) {
+            this.selectedTypeList.push(selection)
+          } else {
+            this.selectedTypeList.forEach((item, index) => {
+              if (item[0].parent === selection[0].parent) {
+                this.selectedTypeList[index] = selection
+              } else {
+                this.selectedTypeList.push(selection)
+              }
+            })
+          }
+          let set = Array.from(new Set(this.selectedTypeList)) // 去重
+          this.$emit('listenToChildEvent', set)
         } else {
-          this.selectedTypeList.forEach((item, index) => {
-            if (item[0].parent === selection[0].parent) {
-              this.selectedTypeList[index] = selection
-            } else {
-              this.selectedTypeList.push(selection)
-            }
-          })
+          this.$emit('listenToChildEvent', selection)
         }
-        let set = Array.from(new Set(this.selectedTypeList)) // 去重
-        this.$emit('listenToChildEvent', set)
-      } else {
-        this.$emit('listenToChildEvent', selection)
       }
     }
 
     async fetchData (parentTypeInfo) {
-      console.log(parentTypeInfo)
       for (let i = 0, len = parentTypeInfo.length; i < len; i++) {
         let {data: childData} = await axios.get(`/api/supervise/drugType/${parentTypeInfo[i].id}/children`)
         childData.forEach((item, index) => {

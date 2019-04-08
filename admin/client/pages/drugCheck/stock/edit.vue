@@ -8,8 +8,7 @@
             class="avatar-uploader"
             action=""
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
+            :on-success="coverUploadSuccess">
             <img v-if="coverURL" :src="coverURL" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
@@ -28,6 +27,16 @@
           <el-button class="select-btn" v-if="detailForm.originName" type="middle" @click="originDialogVisible = true">{{ detailForm.originName }}</el-button>
           <el-button class="select-btn" v-else type="middle" @click="originDialogVisible = true" style="color: #C0C4CC">请选择厂商</el-button>
         </el-form-item>
+        <el-form-item label="药品大类">
+          <el-button class="select-btn" v-if="parentTypeNameString" type="middle" @click="parentTypeDialogVisible = true">{{ parentTypeNameString }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="parentTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
+          <p style="display: none;">{{ parentTypeIdString }}</p>
+        </el-form-item>
+        <el-form-item label="药品小类">
+          <el-button class="select-btn child-type" v-if="childTypeNameString" type="middle" @click="childTypeDialogVisible = true">{{ childTypeNameString }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="childTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
+          <p style="display: none;">{{ childTypeIdString }}</p>
+        </el-form-item>
         <el-form-item label="otc 非处方药">
           <el-select v-model="detailForm.otc" placeholder="请选择">
             <el-option
@@ -37,15 +46,6 @@
               :value="item.value">
             </el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="药品大类">
-          <el-button class="select-btn" v-if="detailForm.drugTypeName" type="middle" @click="parentTypeDialogVisible = true">{{ detailForm.drugTypeName }}</el-button>
-          <el-button class="select-btn" v-else type="middle" @click="parentTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
-          <p style="display: none;">{{ detailForm.drugTypeParent }}</p>
-        </el-form-item>
-        <el-form-item label="药品小类">
-          <el-button class="select-btn child-type" v-if="detailForm.drugTypeChildName" type="middle" @click="childTypeDialogVisible = true">{{ detailForm.drugTypeChildName }}</el-button>
-          <el-button class="select-btn" v-else type="middle" @click="childTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
         </el-form-item>
         <el-form-item label="规格">
           <el-button class="select-btn" v-if="detailForm.spec" type="middle" @click="specDialogVisible = true">{{ detailForm.spec }}</el-button>
@@ -96,8 +96,8 @@
         </el-form-item>
       </el-form>
       <div class="check-form-btn">
-        <el-button @click="submitFail">返回</el-button>
-        <el-button type="primary" @click="submitSuccess">提交</el-button>
+        <el-button @click="backToList">返回</el-button>
+        <el-button type="primary" @click="submitEdit">提交</el-button>
       </div>
     </div>
 
@@ -212,17 +212,31 @@
     originDialogVisible = false
     parentTypeDialogVisible = false
     childTypeDialogVisible = false
-
     dialogVisible = false
-    dialogImageUrl = ''
     detailForm = {}
-    detailImg = []
+
+    // 封面图
+    coverFileId = ''
     coverURL = ''
+    coverURLJudeg = ''
+    coverObj = ''
+
+    // 展示图
+    dialogImageUrl = ''
+    detailImg = []
+    detailFileId = ''
+
+    // 下拉弹框
     selectedInfo = ''
-    parentType = []
-    childData = []
-    typeInfo = []
-    childInfo = []
+    typeInfo = [] // 存储大类信息
+    parentType = [] // 暂存大类信息
+    childInfo = [] // 存储小类信息
+    childData = [] // 暂存已选信息
+    drugID = ''
+    parentTypeNameString = ''
+    parentTypeIdString = ''
+    childTypeNameString = ''
+    childTypeIdString = ''
 
     // 是否是处方药
     otcOptions = [
@@ -250,19 +264,7 @@
 
     // 获取已选信息
     getSelectedInfo (data) {
-      // console.log(data)
       this.selectedInfo = data
-    }
-
-    // 获取已选类别信息
-    getParentTypeInfo (data) {
-      console.log(data)
-      this.typeInfo = data
-    }
-
-    getChildTypeInfo (data) {
-      console.log(data)
-      this.childInfo = data
     }
 
     // 选择通用名
@@ -291,58 +293,73 @@
       this.selectedInfo = ''
     }
 
+    // 获取已选药品大类信息
+    getParentTypeInfo (data) {
+      console.log(data)
+      this.typeInfo = data
+    }
+
     // 选择药品大类
     confirmSelectparentType () {
       if (!this.typeInfo.length) {
         this.parentTypeDialogVisible = false
         return
       }
+
+      let pName = ''
+      let PId = ''
       this.parentType = this.typeInfo
-      // console.log(111)
-      // console.log(this.parentType)
-      this.detailForm.drugTypeName = ''
-      this.detailForm.drugTypeParent = ''
+      this.parentTypeNameString = ''
+      this.parentTypeIdString = ''
       for (let i = 0, len = this.parentType.length; i < len; i++) {
         if (i === len - 1) {
-          this.detailForm.drugTypeName += `${this.parentType[i].type}`
-          this.detailForm.drugTypeParent += `${this.parentType[i].id}`
+          pName += `${this.parentType[i].type}`
+          PId += `${this.parentType[i].id}`
           break
         }
-        this.detailForm.drugTypeName += `${this.parentType[i].type} / `
-        this.detailForm.drugTypeParent += `${this.parentType[i].id},`
+        pName += `${this.parentType[i].type},`
+        PId += `${this.parentType[i].id},`
       }
+
+      this.parentTypeNameString = pName
+      this.parentTypeIdString = PId
       this.parentTypeDialogVisible = false
+    }
+
+    // 获取已选药品小类信息
+    getChildTypeInfo (data) {
+      console.log(data)
+      this.childInfo = data
     }
 
     // 选择药品小类
     confirmSelectChildType () {
-      console.log(this.childInfo)
+      let cName = ''
+      let cId = ''
+
       if (!this.childInfo.length) {
         this.childTypeDialogVisible = false
         return
       }
 
-      let name = ''
-      // let id = ''
-
       this.childData = this.childInfo
-      this.detailForm.drugTypeChildName = ''
-      this.detailForm.drugTypeId = ''
+      this.childTypeNameString = ''
+      this.childTypeIdString = ''
 
       this.childData.forEach(item => {
         if (item.length === undefined) {
-          name += `${item.type} / `
-          // id += `${item.id},`
+          cName += `${item.type},`
+          cId += `${item.id},`
         } else {
           item.forEach(ele => {
-            name += `${ele.type} / `
-            // id += `${ele.id},`
+            cName += `${ele.type},`
+            cId += `${ele.id},`
           })
         }
       })
 
-      this.detailForm.drugTypeChildName = name.substring(0, name.length - 3)
-      console.log(this.detailForm.drugTypeChildName)
+      this.childTypeNameString = cName.substring(0, cName.length - 1)
+      this.childTypeIdString = cId.substring(0, cId.length - 1)
       this.childTypeDialogVisible = false
     }
 
@@ -372,110 +389,164 @@
       this.selectedInfo = ''
     }
 
-    handleAvatarSuccess (res, file) {
-      this.form.imageUrl = URL.createObjectURL(file.raw)
+    // 封面图片上传
+    coverUploadSuccess (res, file) {
+      this.coverURL = URL.createObjectURL(file.raw)
+      this.coverObj = file.raw // 上传图片提交该对象
     }
 
-    beforeAvatarUpload (file) {
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
-      }
-      return isLt2M
+    // 展示图片上传
+    childUploadSuccess (res, file, fileList) {
+      this.detailImg = fileList
+      console.log(this.detailImg)
     }
 
+    // 删除展示图
     handleRemove (file, fileList) {
       console.log(file, fileList)
     }
 
-    // 图片放大
+    // 查看图片放大
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     }
 
-    // 展示图片上传
-    childUploadSuccess (res, file, fileList) {
-      // console.log(res)
-      // console.log(file)
-      // console.log(fileList)
-    }
-
     // 提交
-    submitSuccess () {
-      // let params = {
-      //   name: '',
-      //   commonNameId: '',
-      //   // commonName: '',
-      //   sfda: '',
-      //   originId: '',
-      //   originName: '',
-      //   otc: '',
-      //   drugTypeParent: '',
-      //   drugTypeName: '',
-      //   drugTypeId: '',
-      //   drugTypeChildName: '',
-      //   spec: '',
-      //   formId: '',
-      //   form: '',
-      //   medicaid: '',
-      //   code: '',
-      //   brand: '',
-      //   introduce: ''
-      // }
-      // this.$router.push('/drugCheck/stock')
+    async submitEdit () {
+      // 封面图片上传
+      if (this.coverURLJudeg !== this.coverURL) {
+        let coverParams = new FormData()
+        coverParams.append('file', this.coverObj)
+        coverParams.append('fileType', 'LOGO')
+        let {data: coverFileId} = await axios.post('/api/supervise/files', coverParams)
+        // console.log(coverFileId)
+        this.coverFileId = coverFileId // 图片上传成功后更新fileId
+      }
+
+      // 展示图上传
+      if (this.detailImg.length > 0) {
+        const middle = this.detailImg
+        const len = middle.length
+        let fileId = ''
+        for (let i = 0; i < len; i++) {
+          if (middle[i].raw === undefined) { // 当前图片不需修改，直接存储fileId
+            fileId += middle[i].fileId
+          } else {
+            let detailParams = new FormData()
+            detailParams.append('file', middle[i].raw)
+            detailParams.append('fileType', 'LOGO')
+            let {data: detailFileId} = await axios.post('/api/supervise/files', detailParams)
+            console.log(`detailFileId: ${detailFileId}`)
+            fileId += `${detailFileId},` // 图片上传成功后更新fileId
+          }
+        }
+        this.detailFileId = fileId.substring(0, fileId.length - 1)
+      }
+
+      let params = {
+        fileId: this.coverFileId,
+        imgs: this.detailFileId,
+        name: this.detailForm.name,
+        commonNameId: this.detailForm.commonNameId,
+        commonName: this.detailForm.commonName,
+        sfda: this.detailForm.sfda,
+        originId: this.detailForm.originId,
+        originName: this.detailForm.originName,
+        otc: this.detailForm.otc,
+        drugTypeParent: this.parentTypeIdString,
+        drugTypeName: this.parentTypeNameString,
+        drugTypeId: this.childTypeIdString,
+        drugTypeChildName: this.childTypeNameString,
+        specId: this.detailForm.specId,
+        spec: this.detailForm.spec,
+        formId: this.detailForm.formId,
+        form: this.detailForm.form,
+        medicaid: this.detailForm.medicaid,
+        code: this.detailForm.code,
+        brand: this.detailForm.brand,
+        introduce: this.detailForm.introduce
+      }
+
+      await axios.put(`/api/supervise/drugs/${this.drugID}`, params)
     }
 
-    submitFail () {
+    // 返回
+    backToList () {
       this.$router.push('/drugCheck/stock')
     }
 
-    async getDrugDetail (id) {
-      let {data: detail} = await axios.get(`/api/supervise/drugs/${id}`)
+    async getDrugDetail () {
+      let {data: detail} = await axios.get(`/api/supervise/drugs/${this.drugID}`)
       console.log(detail)
-      this.parentType.push({
-        id: detail.drugTypeParent,
-        type: detail.drugTypeName
-      })
       this.detailForm = detail
+      this.coverFileId = detail.fileId
+      this.detailFileId = detail.imgs
+      this.parentType = detail.drugDrugTypeParentList
+
+      let childTypeList = detail.drugDrugTypeList
+      let cName = ''
+      let cId = ''
+      childTypeList.forEach(item => {
+        cName += `${item.type},`
+        cId += `${item.id},`
+      })
+
+      this.childTypeNameString = cName.substring(0, cName.length - 1)
+      this.childTypeIdString = cId.substring(0, cId.length - 1)
+
+      let pName = ''
+      let pId = ''
+      this.parentType.forEach(item => {
+        pName += `${item.type},`
+        pId += `${item.id},`
+      })
+
+      this.parentTypeNameString = pName.substring(0, pName.length - 1)
+      this.parentTypeIdString = pId.substring(0, pId.length - 1)
 
       let params = {
         resolution: 'LARGE_LOGO'
       }
       // 获取封面图片
-      let {data: cover} = await axios.get(`/api/supervise/files/${this.detailForm.fileId}`, {params})
-      this.coverURL = cover.replace('redirect:', '')
+      if (this.detailForm.fileId) {
+        let {data: cover} = await axios.get(`/api/supervise/files/${this.detailForm.fileId}`, {params})
+        this.coverURL = cover.replace('redirect:', '')
+        this.coverURLJudeg = this.coverURL
+      }
 
       // 获取展示图
-      let childImgs = this.detailForm.imgs.split(',')
-      for (let i = 0, len = childImgs.length; i < len; i++) {
-        // let {data: detailImg} = await axios.get(`/api/supervise/files/${childImgs[i]}`, {params})
-        // let url = detailImg.replace('redirect:', '')
-        // console.log(detailImg)
-        this.detailImg.push({url: this.coverURL})
-        // if (url.substring(url.lastIndexOf('/') + 1, url.length) !== 'null') {
-        //
-        //   this.detailImg.push({url: url})
-        //   // console.log(this.detailImg)
-        // }
+      if (this.detailForm.imgs) {
+        let childImgs = this.detailForm.imgs.split(',')
+        for (let i = 0, len = childImgs.length; i < len; i++) {
+          let {data: detailImg} = await axios.get(`/api/supervise/files/${childImgs[i]}`, {params})
+          console.log(detailImg)
+          let url = detailImg.replace('redirect:', '')
+          if (url.substring(url.lastIndexOf('/') + 1, url.length) !== 'null') {
+            this.detailImg.push({
+              url: url,
+              fileId: childImgs[i]
+            })
+          }
+        }
       }
     }
 
-    // 获取展示图片
-    async getImgs (fileId, post) {
-      let params = {
-        resolution: 'LARGE_LOGO'
-      }
-      let {data: cover} = await axios.get(`/api/supervise/files/${fileId}`, {params})
-      let url = cover.replace('redirect:', '')
-      if (url.substring(url.lastIndexOf('/') + 1, url.length) !== 'null') {
-        post(url)
-      }
-    }
+    // // 获取展示图片路径
+    // async getImgs (fileId, post) {
+    //   let params = {
+    //     resolution: 'LARGE_LOGO'
+    //   }
+    //   let {data: cover} = await axios.get(`/api/supervise/files/${fileId}`, {params})
+    //   let url = cover.replace('redirect:', '')
+    //   if (url.substring(url.lastIndexOf('/') + 1, url.length) !== 'null') {
+    //     post(url)
+    //   }
+    // }
 
     beforeMount () {
-      let id = this.$route.query.id
-      this.getDrugDetail(id)
+      this.drugID = this.$route.query.id
+      this.getDrugDetail()
     }
   }
 </script>

@@ -101,17 +101,17 @@
     }
 
     searchMsg () {
-      this.getMessage(this.nameValue.trim())
+      this.getMessage()
     }
 
-    async getMessage (title) {
+    async getMessage () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        title
+        title: this.nameValue.trim()
       }
       let {data: message} = await axios.get('/api/supervise/messages', {params})
-
+      console.log(message)
       this.msgList = message.list
       this.msgList.forEach(e => {
         e.createdDate = moment(e.createdDate).format('YYYY-MM-DD HH:mm:ss')
