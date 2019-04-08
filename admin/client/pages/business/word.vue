@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>搜索词管理</h3>
-        <el-button @click="addRow">新增</el-button>
+        <el-button @click="addRow" type="primary" size="small">新增</el-button>
       </div>
 
       <div class="list">
@@ -263,6 +263,12 @@
         padding: 0 20px;
         margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;
+        position: relative;
+        .el-button{
+          position: absolute;
+          right: 30px;
+          bottom: 20px;
+        }
       }
 
       .list {

@@ -50,7 +50,8 @@ module.exports = {
       'moment',
       'chart.js',
       '@d2-projects/d2-crud',
-      'deepmerge' // vue-chartjs dep
+      'deepmerge', // vue-chartjs dep
+      'vue-quill-editor'
     ],
     extractCSS: true,
     filenames: {
@@ -94,7 +95,8 @@ module.exports = {
     {src: '@/plugins/v-charts', ssr: false},
     {src: '@/plugins/clipboard', ssr: false},
     {src: '@/plugins/error-handler', ssr: false},
-    {src: '@/plugins/vue-baidu-map', ssr: false}
+    {src: '@/plugins/vue-baidu-map', ssr: false},
+    {src: '@/plugins/vue-quill-editor', ssr: false}
   ],
   modules: [
     '@nuxtjs/webpackmonitor',

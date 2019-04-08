@@ -4,28 +4,91 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>{{ this.$route.query.name }}</h3>
-        <el-button size="small" type="primary" @click="$router.go(-1)">返回</el-button>
+        <el-button size="small" type="primary" @click="dialogFormVisible = true">新增</el-button>
       </div>
 
       <div class="list">
         <d2-crud
-          ref="d2Crud"
           :columns="columns"
           :data="childData"
           :loading="loading"
           :pagination="pagination"
           :options="options"
           :rowHandle="rowHandle"
-
-          edit-title="我的修改"
-          :edit-template="editTemplate"
-          @row-edit="handleRowEdit"
-
-          :form-options="formOptions"
-          @dialog-open="handleDialogOpen"
-          @dialog-cancel="handleDialogCancel"
+          @editHandle="editHandle"
         />
       </div>
+
+      <!--新增知识库-->
+      <el-dialog title="新增知识库" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+          <el-form-item label="标题" :label-width="formLabelWidth">
+            <el-input v-model="form.title" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="来源" :label-width="formLabelWidth">
+            <el-input v-model="form.source" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="内容" :label-width="formLabelWidth">
+            <div class="edit_container">
+              <quill-editor ref="myTextEditor"
+                            :content="form.content"
+                            :config="editorOption"
+                            @change="onEditorChange($event)">
+              </quill-editor>
+            </div>
+          </el-form-item>
+          <el-form-item label="是否置顶" :label-width="formLabelWidth">
+            <el-select v-model="form.home" placeholder="是否置顶">
+              <el-option
+                v-for="item in homeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="onSubmit">确 定</el-button>
+        </div>
+      </el-dialog>
+
+      <!--编辑知识库-->
+      <el-dialog title="编辑知识库" :visible.sync="dialogEdit">
+        <el-form :model="editForm">
+          <el-form-item label="标题" :label-width="formLabelWidth">
+            <el-input v-model="editForm.title" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="来源" :label-width="formLabelWidth">
+            <el-input v-model="editForm.source" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="内容" :label-width="formLabelWidth">
+            <div class="edit_container">
+              <quill-editor ref="myTextEditor"
+                            :content="editForm.content"
+                            :config="editorOption2"
+                            @change="onEditorChange2($event)">
+              </quill-editor>
+            </div>
+          </el-form-item>
+          <el-form-item label="是否置顶" :label-width="formLabelWidth">
+            <el-select v-model="editForm.home" placeholder="是否置顶">
+              <el-option
+                v-for="item in homeOptions2"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogEdit = false">取 消</el-button>
+          <el-button type="primary" @click="editSubmit">确 定</el-button>
+        </div>
+      </el-dialog>
+
     </div>
   </div>
 </template>
@@ -34,7 +97,6 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import DataTime from '@/components/repository/DataTime'
   import axios from 'axios'
   import moment from 'moment'
   @Component({
@@ -63,14 +125,10 @@
       },
       {
         title: '内容',
-        key: 'content',
+        key: 'text',
         showOverflowTooltip: true,
         minWidth: 200,
         className: 'columnsContent'
-        // formatter (row, column, cellValue, index) {
-        //   console.log(row)
-        //   console.log(cellValue)
-        // }
       },
       {
         title: '是否置顶',
@@ -92,59 +150,39 @@
       border: true
     }
     rowHandle = {
-      edit: {
-        text: '编辑',
-        type: 'text'
-      },
       remove: {
         text: '删除',
         type: 'text',
         confirm: true
-      }
+      },
+      custom: [
+        {
+          text: '编辑',
+          size: 'text',
+          emit: 'editHandle'
+        }
+      ]
     }
 
-    formOptions = {
-      labelWidth: '80px',
-      labelPosition: 'left',
-      saveLoading: false
+    // 增加弹窗
+    dialogFormVisible = false
+    form = {
+      title: '',
+      source: '',
+      content: '',
+      home: ''
     }
-
-    editTemplate = {
-      title: {
-        title: '标题',
-        value: ''
+    formLabelWidth = '80px'
+    homeOptions = [
+      {
+        value: true,
+        label: '是'
       },
-      source: {
-        title: '来源',
-        value: ''
-      },
-      content: {
-        title: '内容',
-        value: '',
-        component: {
-          name: 'el-input',
-          type: 'textarea',
-          rows: 8
-        }
-      },
-      home: {
-        title: '是否置顶',
-        value: '',
-        component: {
-          name: 'el-select',
-          options: [
-            {
-              value: '是',
-              label: '是'
-            },
-            {
-              value: '否',
-              label: '否'
-            }
-          ]
-        }
+      {
+        value: false,
+        label: '否'
       }
-    }
+    ]
 
     repalceHtml (str) {
       let s1 = str.replace(/<\/?.+?>/g, '')
@@ -174,29 +212,38 @@
       this.childData = data.data.list
       this.childData.forEach((item, index) => {
         item.index = index + 1
-        item.content = this.repalceHtml(item.content)
+        item.text = this.repalceHtml(item.content)// 内容格式化
         item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD HH:mm:ss')
         if (item.home.toString() === 'true') {
           item.home = '是'
         } else {
           item.home = '否'
         }
+        if (item.readTimes === null) {
+          item.readTimes = '0'
+        }
       })
       this.pagination.total = data.data.total
-      console.log(this.childData)
     }
 
-    handleDialogOpen ({ mode }) {
+    // 富文本编辑器 && 新增功能
+    editorOption = {}
+    onEditorChange ({ editor, html, text }) {
+      this.form.content = html
     }
-
-    handleDialogCancel (done) {
-      this.$message({
-        message: '取消保存',
-        type: 'warning'
-      })
-      done()
+    async onSubmit () {
+      let repository = {
+        title: this.form.title,
+        source: this.form.source,
+        home: this.form.home,
+        content: this.form.content,
+        repositoryTypeId: this.$route.query.id
+      }
+      await axios.post(`/api/supervise/repositories`, repository)
+      this.dialogFormVisible = false
+      this.getData()
     }
-
+    // 删除
     async handleRowRemove ({ index, row }, done) {
       await axios.post(`/api/supervise/repositories/${row.id}`)
       setTimeout(() => {
@@ -210,30 +257,58 @@
       }, 300)
     }
 
-    async handleRowEdit ({ index, row }, done) {
-      if (row.home === '是') {
-        row.home = true
+    // 编辑弹窗
+    dialogEdit = false
+    editForm = {
+      title: '',
+      source: '',
+      content: '',
+      home: '',
+      id: ''
+    }
+    homeOptions2 = [
+      {
+        value: true,
+        label: '是'
+      },
+      {
+        value: false,
+        label: '否'
+      }
+    ]
+
+    editHandle ({index, row}) {
+      console.log(row)
+      this.dialogEdit = true
+      this.editForm.title = row.title
+      this.editForm.source = row.source
+      this.editForm.home = row.home
+      this.editForm.content = row.content
+      this.editForm.id = row.id
+    }
+
+    editorOption2 = {}
+    onEditorChange2 ({ editor, html, text }) {
+      this.editForm.content = html
+    }
+
+    async editSubmit () {
+      if (this.editForm.home === '是') {
+        this.editForm.home = true
       } else {
-        row.home = false
+        this.editForm.home = false
       }
+      // console.log(this.editForm.id)
       let repository = {
-        title: row.title,
-        source: row.source,
-        home: row.home,
-        content: row.content,
-        repositoryTypeId: row.repositoryTypeId
+        title: this.editForm.title,
+        source: this.editForm.source,
+        home: this.editForm.home,
+        content: this.editForm.content,
+        repositoryTypeId: this.$route.query.id
       }
-      await axios.put(`/api/supervise/repositories/${row.id}`, repository)
+      await axios.put(`/api/supervise/repositories/${this.editForm.id}`, repository)
+      this.dialogEdit = false
       this.getData()
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        this.$message({
-          message: '编辑成功',
-          type: 'success'
-        })
-        done()
-        this.formOptions.saveLoading = false
-      }, 300)
     }
   }
 </script>

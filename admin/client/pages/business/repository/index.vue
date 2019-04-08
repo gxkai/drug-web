@@ -143,8 +143,12 @@
       }
       let data = await axios.get(`/api/supervise/repositoryTypes`, {params: params})
       this.repositoryData = data.data.list
+      console.log(this.repositoryData)
       this.repositoryData.forEach((item, index) => {
         item.index = index + 1
+        if (item.readTimes === null) {
+          item.readTimes = 0
+        }
       })
       this.pagination.total = data.data.total
     }
