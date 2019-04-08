@@ -421,8 +421,8 @@
         shopName: this.shopNameValue,
         drugName: this.drugName.trim(),
         state: this.stateValue,
-        start: this.startDate,
-        ebd: this.endDate
+        startDate: this.startDate,
+        endDate: this.endDate
       }
       let {data: res} = await axios.get(`/api/supervise/drugDiscountApplies`, {params})
       // console.log(res)

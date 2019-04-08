@@ -14,6 +14,7 @@
         :options="options"
         :rowHandle="rowHandle"
         @current-change="handleCurrentChange"
+        @emit-select="handleCurrentChange"
         @pagination-current-change="paginationCurrentChange"
         class="drug-table"
       />
@@ -28,6 +29,7 @@
   @Component
   export default class CommonName extends Vue {
     commonNameValue = ''
+    currentData = {}
     columns = [
       {
         title: '序号',
@@ -57,13 +59,13 @@
       columnHeader: '选择',
       custom: [
         {
-          icon: 'el-icon-check'
+          icon: 'el-icon-check',
+          emit: 'emit-select'
         }
       ]
     }
 
     handleCurrentChange (currentRow) {
-      console.log(currentRow)
       this.$emit('listenToChildEvent', currentRow)
     }
 
@@ -131,19 +133,23 @@
   /deep/.drug-table{
       .el-table{
         .el-button{
+          width: 15px;
+          height: 15px;
+          line-height: initial;
+          padding: 0;
           color: #FFF;
           font-size: 12px;
-          padding: 4px 0 4px 4px;
+          border-radius: 2px;
 
           &:hover, &:focus{
-            border-color: #DCDFE6;
+            border-color: #409EFF;
             background-color: #FFF;
           }
         }
 
         .current-row .el-button{
           background: #409EFF;
-          border-color: #C6e2FF;
+          border-color: #409EFF;
         }
 
         th{

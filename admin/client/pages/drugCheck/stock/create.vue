@@ -1,317 +1,498 @@
 <template>
-  <div class="stock-create">
+  <div class="drug-stock-create">
     <bread-crumb :path="$route.path"/>
-    <div class="stock-form">
-      <el-form ref="form" :model="form" label-width="200px">
+    <div class="drug-stock-form">
+      <el-form ref="form" :model="detailForm" label-width="200px">
         <el-form-item label="药品封面图" class="el-form-item-upload">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-            <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
+            :on-success="coverUploadSuccess">
+            <img v-if="coverURL" :src="coverURL" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
         <el-form-item label="药品名称">
-          <el-input v-model="form.drugName" placeholder="请输入药品名称"></el-input>
+          <el-input v-model="detailForm.name" placeholder="请输入药品名称"></el-input>
         </el-form-item>
         <el-form-item label="通用名称">
-          <el-select v-model="form.commonName" filterable placeholder="请选择">
-            <el-option
-              v-for="item in commonOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <el-button class="select-btn" v-if="detailForm.commonName" type="middle" @click="commonDialogVisible = true">{{ detailForm.commonName }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="commonDialogVisible = true" style="color: #C0C4CC">请选择通用名称</el-button>
         </el-form-item>
         <el-form-item label="批准文号">
-          <el-input v-model="form.drugApproval" placeholder="请输入批准文号"></el-input>
+          <el-input v-model="detailForm.sfda" placeholder="请输入批准文号"></el-input>
         </el-form-item>
         <el-form-item label="厂商名称">
-          <el-select v-model="form.firmName" filterable placeholder="请选择">
-            <el-option
-              v-for="item in firmOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <el-button class="select-btn" v-if="detailForm.originName" type="middle" @click="originDialogVisible = true">{{ detailForm.originName }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="originDialogVisible = true" style="color: #C0C4CC">请选择厂商</el-button>
         </el-form-item>
         <el-form-item label="otc 非处方药">
-          <el-select v-model="form.otcValue" placeholder="请选择">
+          <el-select v-model="detailForm.otc" placeholder="请选择">
             <el-option
-              v-for="item in otcOptions"
-              :key="item.value"
+              v-for="(item, index) in otcOptions"
+              :key="index"
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="药品大类">
-          <el-select v-model="form.drugClass" filterable placeholder="请选择">
-            <el-option
-              v-for="item in classOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <el-button class="select-btn" v-if="detailForm.drugTypeName" type="middle" @click="parentTypeDialogVisible = true">{{ detailForm.drugTypeName }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="parentTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
+          <p style="display: none;">{{ detailForm.drugTypeParent }}</p>
         </el-form-item>
         <el-form-item label="药品小类">
-          <el-select v-model="form.drugClass2" filterable placeholder="请选择">
-            <el-option
-              v-for="item in classOptions2"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <el-button class="select-btn child-type" v-if="detailForm.drugTypeChildName" type="middle" @click="childTypeDialogVisible = true">{{ detailForm.drugTypeChildName }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="childTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
+          <p style="display: none;">{{ detailForm.drugTypeId }}</p>
         </el-form-item>
         <el-form-item label="规格">
-          <el-select v-model="form.drugSpec" filterable placeholder="请选择">
-            <el-option
-              v-for="item in specOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <el-button class="select-btn" v-if="detailForm.spec" type="middle" @click="specDialogVisible = true">{{ detailForm.spec }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="specDialogVisible = true" style="color: #C0C4CC">请选择规格</el-button>
         </el-form-item>
         <el-form-item label="剂型">
-          <el-select v-model="form.drugForm" filterable placeholder="请选择">
-            <el-option
-              v-for="item in formOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <el-button class="select-btn" v-if="detailForm.form" type="middle" @click="formDialogVisible = true">{{ detailForm.form }}</el-button>
+          <el-button class="select-btn" v-else type="middle" @click="formDialogVisible = true" style="color: #C0C4CC">请选择剂型</el-button>
         </el-form-item>
         <el-form-item label="是否医保">
-          <el-select v-model="form.insuranceValue" placeholder="请选择">
+          <el-select v-model="detailForm.medicaid" placeholder="请选择">
             <el-option
-              v-for="item in insuranceOptions"
-              :key="item.value"
+              v-for="(item, index) in medicaidList"
+              :key="index"
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="最小剂量">
-          <el-input v-model="form.minDose" placeholder="请输入最小剂量"></el-input>
-        </el-form-item>
         <el-form-item label="药品编码">
-          <el-input v-model="form.drugCode" placeholder="请输入药品编码"></el-input>
+          <el-input v-model="detailForm.code" placeholder="请输入药品编码"></el-input>
         </el-form-item>
         <el-form-item label="品牌">
-          <el-input v-model="form.drugBrand" placeholder="请输入品牌"></el-input>
+          <el-input v-model="detailForm.brand" placeholder="请输入品牌"></el-input>
         </el-form-item>
         <el-form-item label="适应性/功能主治">
           <el-input
             type="textarea"
             :autosize="{ minRows: 8, maxRows: 8}"
             placeholder="适应性/功能主治"
-            v-model="form.drugIntroduce">
+            v-model="detailForm.introduce">
           </el-input>
         </el-form-item>
         <el-form-item label="图片(最多上传四张)">
           <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             list-type="picture-card"
             :limit="4"
+            :file-list="detailImg"
             :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove">
+            :on-remove="handleRemove"
+            :on-success="childUploadSuccess">
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="form.dialogVisible">
-            <img width="100%" :src="form.dialogImageUrl" alt="">
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl">
           </el-dialog>
         </el-form-item>
       </el-form>
       <div class="check-form-btn">
-        <el-button @click="submitFail">返回</el-button>
-        <el-button type="primary" @click="submitSuccess">提交</el-button>
+        <el-button @click="backToList">返回</el-button>
+        <el-button type="primary" @click="submitAdd">提交</el-button>
       </div>
     </div>
+
+    <!--选择通用名称-->
+    <el-dialog
+      title="通用名称"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="commonDialogVisible"
+      width="50%">
+      <common-name v-on:listenToChildEvent="getSelectedInfo"></common-name>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="commonDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectCommonName">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!--选择厂商-->
+    <el-dialog
+      title="厂商"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="originDialogVisible"
+      width="50%">
+      <drug-origin v-on:listenToChildEvent="getSelectedInfo"></drug-origin>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="originDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!--选择药品大类-->
+    <el-dialog
+      title="药品大类"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="parentTypeDialogVisible"
+      width="50%">
+      <drug-parentType v-on:listenToChildEvent="getParentTypeInfo"></drug-parentType>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="parentTypeDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectparentType">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!--选择药品小类-->
+    <el-dialog
+      title="药品小类"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="childTypeDialogVisible"
+      width="50%">
+      <drug-childType v-bind:parentData="parentType" v-on:listenToChildEvent="getChildTypeInfo"></drug-childType>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="childTypeDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectChildType">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!--选择规格-->
+    <el-dialog
+      title="规格"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="specDialogVisible"
+      width="50%">
+      <drug-spec v-on:listenToChildEvent="getSelectedInfo"></drug-spec>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="specDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectSpec">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!--选择剂型-->
+    <el-dialog
+      title="剂型"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="formDialogVisible"
+      width="50%">
+      <drug-form v-on:listenToChildEvent="getSelectedInfo"></drug-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="formDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectForm">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import CommonName from '@/components/drugCheck/CommonName'
+  import Spec from '@/components/drugCheck/Spec'
+  import Form from '@/components/drugCheck/Form'
+  import Origin from '@/components/drugCheck/Origin'
+  import ParentType from '@/components/drugCheck/type/index'
+  import ChildType from '@/components/drugCheck/type/child'
+  import axios from 'axios'
 
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      'common-name': CommonName,
+      'drug-spec': Spec,
+      'drug-form': Form,
+      'drug-origin': Origin,
+      'drug-parentType': ParentType,
+      'drug-childType': ChildType
     }
   })
-  export default class StockCreate extends Vue {
-    form = {
-      imageUrl: '',
-      drugName: '',
-      commonName: '',
-      drugApproval: '',
-      firmName: '',
-      otcValue: '',
-      drugClass: '',
-      drugClass2: '',
-      drugSpec: '',
-      drugForm: '',
-      insuranceValue: '',
-      minDose: '',
-      drugCode: '',
-      drugBrand: '',
-      drugIntroduce: '',
-      dialogImageUrl: '',
-      dialogVisible: false
-    }
-    commonOptions = [
-      {
-        value: '泰罗',
-        label: '泰罗'
-      },
-      {
-        value: '苦瓜片',
-        label: '苦瓜片'
-      },
-      {
-        value: '胶囊',
-        label: '胶囊'
-      }]
-    firmOptions = [
-      {
-        value: '国药集团xx',
-        label: '国药集团xx'
-      },
-      {
-        value: '四川xx制药',
-        label: '四川xx制药'
-      },
-      {
-        value: '江西xx制药有效你公司',
-        label: '江西xx制药有效你公司'
-      }
-    ]
+  export default class StockEdit extends Vue {
+    isCloseOnClickModal = false
+    commonDialogVisible = false
+    specDialogVisible = false
+    formDialogVisible = false
+    originDialogVisible = false
+    parentTypeDialogVisible = false
+    childTypeDialogVisible = false
+
+    dialogVisible = false
+    dialogImageUrl = ''
+    detailForm = {}
+    detailImg = []
+    coverURL = ''
+    selectedInfo = ''
+    typeInfo = [] // 存储大类信息
+    parentType = [] // 暂存大类信息
+    childInfo = [] // 存储小类信息
+    childData = [] // 暂存已选信息
+
+    // 是否是处方药
     otcOptions = [
       {
-        value: '是',
+        value: true,
         label: '是'
       },
       {
-        value: '否',
+        value: false,
         label: '否'
       }
     ]
-    classOptions = [
+
+    // 是否医保
+    medicaidList = [
       {
-        value: '家庭常用',
-        label: '家庭常用'
-      },
-      {
-        value: '儿童用药',
-        label: '儿童用药'
-      }
-    ]
-    classOptions2 = [
-      {
-        value: '子类1',
-        label: '子类1'
-      },
-      {
-        value: '子类2',
-        label: '子类2'
-      }
-    ]
-    specOptions = [
-      {
-        value: '规格1',
-        label: '规格1'
-      },
-      {
-        value: '规格2',
-        label: '规格2'
-      }
-    ]
-    formOptions = [
-      {
-        value: '剂型1',
-        label: '剂型1'
-      },
-      {
-        value: '剂型2',
-        label: '剂型2'
-      }
-    ]
-    insuranceOptions = [
-      {
-        value: '是',
+        value: true,
         label: '是'
       },
       {
-        value: '否',
+        value: false,
         label: '否'
       }
     ]
+
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+    }
+
+    // 获取已选药品大类信息
+    getParentTypeInfo (data) {
+      this.typeInfo = data
+    }
+
+    // 获取已选药品小类信息
+    getChildTypeInfo (data) {
+      this.childInfo = data
+    }
+
+    // 选择通用名
+    confirmSelectCommonName () {
+      if (!this.selectedInfo) {
+        this.commonDialogVisible = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.detailForm.commonNameId = this.childData.id
+      this.detailForm.commonName = this.childData.name
+      this.commonDialogVisible = false
+      this.selectedInfo = ''
+    }
+
+    // 选择厂商
+    confirmSelectOrigin () {
+      if (!this.selectedInfo) {
+        this.originDialogVisible = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.detailForm.originId = this.childData.id
+      this.detailForm.originName = this.childData.fullName
+      this.originDialogVisible = false
+      this.selectedInfo = ''
+    }
+
+    // 选择药品大类
+    confirmSelectparentType () {
+      if (!this.typeInfo.length) {
+        this.parentTypeDialogVisible = false
+        return
+      }
+
+      let pName = ''
+      let PId = ''
+      this.parentType = this.typeInfo
+      this.detailForm.drugTypeName = ''
+      this.detailForm.drugTypeParent = ''
+      for (let i = 0, len = this.parentType.length; i < len; i++) {
+        if (i === len - 1) {
+          pName += `${this.parentType[i].type}`
+          PId += `${this.parentType[i].id}`
+          break
+        }
+        pName += `${this.parentType[i].type},`
+        PId += `${this.parentType[i].id},`
+      }
+
+      this.detailForm.drugTypeName = pName
+      this.detailForm.drugTypeParent = PId
+      this.parentTypeDialogVisible = false
+    }
+
+    // 选择药品小类
+    confirmSelectChildType () {
+      let cName = ''
+      let cId = ''
+
+      if (!this.childInfo.length) {
+        this.childTypeDialogVisible = false
+        return
+      }
+
+      this.childData = this.childInfo
+      this.detailForm.drugTypeChildName = ''
+      this.detailForm.drugTypeId = ''
+
+      this.childData.forEach(item => {
+        if (item.length === undefined) {
+          cName += `${item.type},`
+          cId += `${item.id},`
+        } else {
+          item.forEach(ele => {
+            cName += `${ele.type},`
+            cId += `${ele.id},`
+          })
+        }
+      })
+
+      this.detailForm.drugTypeChildName = cName.substring(0, cName.length - 1)
+      this.detailForm.drugTypeId = cId.substring(0, cId.length - 1)
+      this.childTypeDialogVisible = false
+    }
+
+    // 选择规格
+    confirmSelectSpec () {
+      if (!this.selectedInfo) {
+        this.specDialogVisible = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.detailForm.specId = this.childData.id
+      this.detailForm.spec = this.childData.name
+      this.specDialogVisible = false
+      this.selectedInfo = ''
+    }
+
+    // 选择剂型
+    confirmSelectForm () {
+      if (!this.selectedInfo) {
+        this.formDialogVisible = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.detailForm.formId = this.childData.id
+      this.detailForm.form = this.childData.name
+      this.formDialogVisible = false
+      this.selectedInfo = ''
+    }
 
     handleAvatarSuccess (res, file) {
       this.form.imageUrl = URL.createObjectURL(file.raw)
     }
-    beforeAvatarUpload (file) {
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
-      }
-      return isLt2M
-    }
+
     handleRemove (file, fileList) {
       console.log(file, fileList)
     }
+
+    // 图片放大
     handlePictureCardPreview (file) {
-      this.form.dialogImageUrl = file.url
-      this.form.dialogVisible = true
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
     }
-    submitSuccess () {
+
+    // 展示图片上传
+    childUploadSuccess (res, file, fileList) {
+      // console.log(res)
+      // console.log(file)
+      // console.log(fileList)
+    }
+
+    // 提交
+    async submitAdd () {
+      // 图片上传
+      // let fileParams = new FormData()
+      // fileParams.append('file', this.filePath)
+      // fileParams.append('fileType', 'LOGO')
+      // let imgres = await axios.post('/api/supervise/files', fileParams)
+      // this.fileId = imgres.data // 图片上传成功后更新fileId
+
+      let params = {
+        name: this.detailForm.name,
+        commonNameId: this.detailForm.commonNameId,
+        commonName: this.detailForm.commonName,
+        sfda: this.detailForm.sfda,
+        originId: this.detailForm.originId,
+        originName: this.detailForm.originName,
+        otc: this.detailForm.otc,
+        drugTypeParent: this.detailForm.drugTypeParent,
+        drugTypeName: this.detailForm.drugTypeName,
+        drugTypeId: this.detailForm.drugTypeId,
+        drugTypeChildName: this.detailForm.drugTypeChildName,
+        specId: this.detailForm.specId,
+        spec: this.detailForm.spec,
+        formId: this.detailForm.formId,
+        form: this.detailForm.form,
+        medicaid: this.detailForm.medicaid,
+        code: this.detailForm.code,
+        brand: this.detailForm.brand,
+        introduce: this.detailForm.introduce
+      }
+      await axios.post('/api/supervise/drugs', params)
+    }
+
+    // 返回
+    backToList () {
       this.$router.push('/drugCheck/stock')
     }
-    submitFail () {
-      this.$router.push('/drugCheck/stock')
+
+    beforeMount () {
+
     }
   }
 </script>
 
+<style lang="scss">
+  .child-type{
+    height: 40px;
+    span {
+      width: 40%;
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      position: absolute;
+      top: 13px;
+    }
+  }
+</style>
 
 <style scoped lang="scss">
-  .stock-create{
+  .drug-stock-create{
     padding: 10px;
-    .stock-form{
+    .drug-stock-form{
       padding:0 100px 0 0;
       .el-form{
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 170px repeat(7, 50px) 200px 200px;
+        grid-template-rows: 170px repeat(6, 50px) 200px 200px;
         .el-form-item{
+          .select-btn{
+            width: 100%;
+            color: #606266;
+            text-align: left;
+            padding-left: 15px;
+            border-color: #DCDFE6;
+            background-color: #FFF;
+
+            &:hover{
+              border-color: #C0C4CC;
+            }
+          }
+
           .el-select{
             width: 100%;
           }
           &:nth-child(1){
             grid-column: 1 / 3;
           }
-          &:nth-child(1){
+          &:nth-child(14){
             grid-column: 1 / 3;
           }
           &:nth-child(15){
-            grid-column: 1 / 3;
-          }
-          &:nth-child(16){
             grid-column: 1 / 3;
           }
         }
       }
     }
   }
+
   .avatar-uploader{
     margin-right: 30px;
     position: relative;
@@ -330,7 +511,7 @@
     padding: 50px;
   }
   /*
-  element reset
+    element reset
    */
   /deep/.avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;

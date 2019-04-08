@@ -4,12 +4,19 @@
     <div class="file-search">
       <el-date-picker
         size="small"
-        v-model="dateValue"
-        type="datetimerange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        @change="convertDate">
+        style="width: 200px;"
+        v-model="startDate"
+        value-format="yyyy-MM-DD HH:mm:ss"
+        type="datetime"
+        placeholder="开始日期">
+      </el-date-picker>
+      <el-date-picker
+        size="small"
+        style="width: 200px;"
+        v-model="endDate"
+        value-format="yyyy-MM-DD HH:mm:ss"
+        type="datetime"
+        placeholder="结束日期">
       </el-date-picker>
       <el-input size="small" v-model="inputValue" placeholder="请输入用户名"></el-input>
       <el-button type="primary" size="small" @click="search">搜索</el-button>
@@ -38,10 +45,8 @@
     }
   })
   export default class LoginLog extends Vue {
-    dateValue = '' // 日期区间
-    startDate = '' // 起始日期
-    endDate = '' // 截止日期
-
+    startDate = ''
+    endDate = ''
     inputValue = ''
     columns= [
       {
@@ -71,15 +76,6 @@
     options= {
       border: true
     }
-    convertDate () {
-      if (this.dateValue) {
-        for (let i = 0, len = this.dateValue.length; i < len; i++) {
-          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD')
-        }
-        this.startDate = this.dateValue[0] + ' 00:00:00'
-        this.endDate = this.dateValue[1] + ' 23:59:59'
-      }
-    }
     beforeMount () {
       this.initData()
     }
@@ -107,21 +103,22 @@
         })
       }
       let params = {
-        // end: this.endDate,
-        // start: this.startDate,
+        endDate: this.endDate,
+        startDate: this.startDate,
         username: this.inputValue,
         pageNum: this.pagination.currentPage,
         pageSize: 15
       }
-      let searchData = await axios.get(`/api/supervise/loginLogs`, {params: params})
-      this.loginlogData = searchData.data.list
-      this.pagination.total = searchData.data.total
-      this.loginlogData.forEach(e => {
-        e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
+      await axios.get(`/api/supervise/loginLogs`, {params: params}).then(res => {
+        this.loginlogData = res.data.list
+        this.pagination.total = res.data.total
+        this.loginlogData.forEach(e => {
+          e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
+          // console.log(e.date)
+        })
       })
     }
     clear () {
-      this.dateValue = ''
       this.startDate = ''
       this.endDate = ''
       this.inputValue = ''

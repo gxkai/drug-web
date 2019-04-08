@@ -1,7 +1,7 @@
 <template>
   <div class="common--content">
     <div class="common--content__search">
-      <el-input v-model="commonNameValue" size="small" placeholder="请输入药剂名称" style="width: 200px;"></el-input>
+      <el-input v-model="formNameValue" size="small" placeholder="请输入药剂名称" style="width: 200px;"></el-input>
       <el-button type="primary" size="small" @click="searchDosageForm">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
@@ -14,6 +14,7 @@
         @pagination-current-change="paginationCurrentChange"
         :options="options"
         :rowHandle="rowHandle"
+        @emit-select="handleCurrentChange"
         @current-change="handleCurrentChange"
         class="drug-table"
       />
@@ -27,7 +28,7 @@
 
   @Component
   export default class Form extends Vue {
-    commonNameValue = ''
+    formNameValue = ''
     dosageFormColumns = [
       {
         title: '序号',
@@ -60,13 +61,14 @@
       columnHeader: '选择',
       custom: [
         {
-          icon: 'el-icon-check'
+          icon: 'el-icon-check',
+          emit: 'emit-select'
         }
       ]
     }
 
     clear () {
-      this.commonNameValue = ''
+      this.formNameValue = ''
     }
 
     handleCurrentChange (currentRow) {
@@ -87,7 +89,7 @@
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name: this.commonNameValue.trim()
+        name: this.formNameValue.trim()
       }
       let {data: formData} = await axios.get(`/api/supervise/forms`, {params})
       console.log(formData)
@@ -120,19 +122,23 @@
   /deep/.drug-table{
     .el-table{
       .el-button{
+        width: 15px;
+        height: 15px;
+        line-height: initial;
+        padding: 0;
         color: #FFF;
         font-size: 12px;
-        padding: 4px 0 4px 4px;
+        border-radius: 2px;
 
         &:hover, &:focus{
-          border-color: #DCDFE6;
+          border-color: #409EFF;
           background-color: #FFF;
         }
       }
 
       .current-row .el-button{
         background: #409EFF;
-        border-color: #C6e2FF;
+        border-color: #409EFF;
       }
       th{
         background-color: #F4F4F4 !important;

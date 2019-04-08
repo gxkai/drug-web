@@ -1,7 +1,7 @@
 <template>
   <div class="common--content">
     <div class="common--content__search">
-      <el-input v-model="commonNameValue" size="small" placeholder="请输入规格名称" style="width: 200px;"></el-input>
+      <el-input v-model="specNameValue" size="small" placeholder="请输入规格名称" style="width: 200px;"></el-input>
       <el-button type="primary" size="small" @click="searchSpec">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
@@ -15,6 +15,7 @@
         :options="options"
         :rowHandle="rowHandle"
         @current-change="handleCurrentChange"
+        @emit-select="handleCurrentChange"
         class="drug-table"
       />
     </div>
@@ -27,7 +28,7 @@
 
   @Component
   export default class Spec extends Vue {
-    commonNameValue = ''
+    specNameValue = ''
     columns = [
       {
         title: '序号',
@@ -56,13 +57,14 @@
       columnHeader: '选择',
       custom: [
         {
-          icon: 'el-icon-check'
+          icon: 'el-icon-check',
+          emit: 'emit-select'
         }
       ]
     }
 
     clear () {
-      this.commonNameValue = ''
+      this.specNameValue = ''
     }
 
     searchSpec () {
@@ -82,7 +84,7 @@
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name: this.commonNameValue.trim()
+        name: this.specNameValue.trim()
       }
       let {data: specs} = await axios.get(`/api/supervise/specs`, {params})
 
@@ -116,19 +118,23 @@
   /deep/.drug-table{
     .el-table{
       .el-button{
+        width: 15px;
+        height: 15px;
+        line-height: initial;
+        padding: 0;
         color: #FFF;
         font-size: 12px;
-        padding: 4px 0 4px 4px;
+        border-radius: 2px;
 
         &:hover, &:focus{
-          border-color: #DCDFE6;
+          border-color: #409EFF;
           background-color: #FFF;
         }
       }
 
       .current-row .el-button{
         background: #409EFF;
-        border-color: #C6e2FF;
+        border-color: #409EFF;
       }
 
       th{

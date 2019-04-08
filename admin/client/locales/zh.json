@@ -21,6 +21,9 @@
   "SUCCESS": "通过",
   "FAIL": "不通过",
   "PENDING": "待审核",
+  "SIMPLE": "自费",
+  "RX": "处方",
+  "HOSPITAL": "医院",
 
   "tagline":
     "Application boilerplate based on Vue.js 2.x, Koa 2.x, Element-UI, Axios, Vue i18n and Nuxt.js",

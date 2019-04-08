@@ -244,8 +244,8 @@
         pageSize: this.shopAppraisePagination.pageSize,
         shopId: this.shopIdOfShopAppraise,
         buyerName: this.buyerNameOfShopAppraise.trim(),
-        start: this.shopAppraiseStartDate,
-        end: this.shopAppraiseEndDate
+        startDate: this.shopAppraiseStartDate,
+        endDate: this.shopAppraiseEndDate
       }
 
       let {data: shopRes} = await axios.get(`/api/supervise/shopAppraises`, {params})
@@ -254,7 +254,7 @@
       this.shopAppraisePagination.total = shopRes.total
 
       this.shopAppraiseList.forEach(item => {
-        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD hh:mm:ss')
+        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD HH:mm:ss')
       })
     }
 
@@ -374,8 +374,8 @@
         shopId: this.shopIdOfDrugAppraise,
         drugName: this.drugNameValue.trim(),
         buyerName: this.buyerNameOfDrugAppraise.trim(),
-        start: this.drugAppraiseStartDate,
-        end: this.drugAppraiseEndDate
+        startDate: this.drugAppraiseStartDate,
+        endDate: this.drugAppraiseEndDate
       }
 
       let {data: drugRes} = await axios.get(`/api/supervise/drugAppraises`, {params})
@@ -385,7 +385,7 @@
       this.drugAppraisePagination.total = drugRes.total
 
       this.drugAppraiseList.forEach(item => {
-        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD hh:mm:ss')
+        item.appraiseDate = moment(item.appraiseDate).format('YYYY-MM-DD HH:mm:ss')
       })
     }
 
