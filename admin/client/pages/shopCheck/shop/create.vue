@@ -43,7 +43,7 @@
           <el-input v-model="form.orDelivery" placeholder="请选择"></el-input>
         </el-form-item>
         <el-form-item label="配送距离：">
-          <el-input v-model="form.delDistance" placeholder="3公里 默认 监管可以修改"></el-input>
+          <el-input v-model="form.delDistance" placeholder="3公里"></el-input>
         </el-form-item>
         <el-form-item label="商家介绍：" class="el-form-item-textarea">
           <el-input

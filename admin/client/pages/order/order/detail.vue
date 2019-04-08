@@ -11,15 +11,8 @@
       <div class="main-content">
         <!--订单进度条-->
         <div class="step-bar">
-          <el-steps :active="2" align-center>
-            <el-step title="待付款" description="2018.03.04 12：30"></el-step>
-            <el-step title="已付款" description="2018.03.04 12：30  "></el-step>
-            <el-step title="调剂完成" description="2018.03.04 12：30"></el-step>
-            <el-step title="待取货/待送达" description="2018.03.04 12：30"></el-step>
-            <el-step title="待评价" description="2018.03.04 12：30"></el-step>
-            <el-step title="完成" description="2018.03.04 12：30"></el-step>
-            <el-step title="退款中" description="2018.03.04 12：30"></el-step>
-            <el-step title="退款完成" description="2018.03.04 12：30"></el-step>
+          <el-steps :active="orderStatus" align-center>
+            <el-step :title="item.orderState" :description="item.createdDate" v-for="(item,index) in stepsOptions" :key="index"></el-step>
           </el-steps>
         </div>
 
@@ -173,6 +166,9 @@
     }
   })
   export default class Order extends Vue {
+    // 进度条 默认为1
+    orderStatus = 1
+    stepsOptions = []
     orderNumberTit = ''
     orderDetailColumns = [
       {
@@ -210,11 +206,11 @@
       },
       {
         title: '处理信息',
-        key: 'message'
+        key: 'state'
       },
       {
         title: '处理明细',
-        key: 'processDetail'
+        key: 'message'
       },
       {
         title: '操作人',
@@ -300,8 +296,31 @@
     async getDetail () {
       let id = this.$route.query.id
       let orderInfo = await axios.get(`/api/supervise/orders/${id}`)
-      console.log(orderInfo)
+      console.log(orderInfo.data)
       this.orderNumberTit = orderInfo.data.number
+
+      this.stepsOptions = orderInfo.data.orderStates
+      this.stepsOptions.forEach(item => {
+        item.orderState = this.isAbled(item.orderState)
+        item.createdDate = item.createdDate === null ? item.createdDate : moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
+      })
+
+      // 进度条
+      let orderStatus = {
+        'TO_PAY': 1, // 待付款
+        'PAY_FAIL': 2, // 付款失败
+        'TO_CHECK': 3, // 待审批
+        'TO_DELIVERY': 4, // 调剂中
+        'TO_RECEIVED': 5, // 待收货
+        'TO_APPRAISE': 6, // 待评价
+        'COMPLETED': 7, // 交易成功
+        'CLOSED': 8 // 交易关闭
+      }
+      for (let i in orderStatus) {
+        if (i === orderInfo.data.state) {
+          this.orderStatus = orderStatus[i]
+        }
+      }
   
       this.consignee = orderInfo.data.consignee // 收货人
       this.address = orderInfo.data.address// 收货地址
@@ -321,6 +340,7 @@
       this.trackData = orderInfo.data.orderLogList
       this.trackData.forEach(e => {
         e.createdDate = moment(e.createdDate).format('YYYY-MM-DD HH:mm:ss')
+        e.state = this.isAbled(e.state)
       })
 
       if (orderInfo.data.rxId !== null) {
@@ -349,7 +369,7 @@
       this.rpData.forEach((item, index) => {
         item.index = index + 1
       })
-      this.payAmount2 = this.DX(this.payAmount)
+      this.payAmount2 = this.DX(this.payAmount) // 大写金额转换
     }
     // 大写金额
     DX (n) {
@@ -362,6 +382,27 @@
       unit = unit.substr(unit.length - n.length)
       for (let i = 0; i < n.length; i++) { str += '零壹贰叁肆伍陆柒捌玖'.charAt(n.charAt(i)) + unit.charAt(i) }
       return str.replace(/零(千|百|拾|角)/g, '零').replace(/(零)+/g, '零').replace(/零(万|亿|元)/g, '$1').replace(/(亿)万|壹(拾)/g, '$1$2').replace(/^元零?|零分/g, '').replace(/元$/g, '元整')
+    }
+    // 转换当前状态
+    isAbled (state) {
+      if (state === 'TO_PAY') {
+        return '待付款'
+      } else if (state === 'PAY_FAIL') {
+        return '付款失败'
+      } else if (state === 'TO_CHECK') {
+        return '待审批'
+      } else if (state === 'TO_DELIVERY') {
+        return '调剂中'
+      } else if (state === 'TO_RECEIVED') {
+        return '待收货'
+      } else if (state === 'TO_APPRAISE') {
+        return '待评价'
+      } else if (state === 'COMPLETED') {
+        return '交易成功'
+      } else if (state === 'CLOSED') {
+        return '交易关闭'
+      }
+      //
     }
   }
 </script>

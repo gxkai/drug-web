@@ -22,8 +22,8 @@
           <el-input v-model="form.legalPhone" disabled placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="税务登记号：">
-        <el-input v-model="form.taxNumber" disabled placeholder="暂无"></el-input>
-      </el-form-item>
+          <el-input v-model="form.taxNumber" disabled placeholder="暂无"></el-input>
+        </el-form-item>
         <el-form-item label="经营许可证号：">
           <el-input v-model="form.shopLicence" disabled placeholder="暂无"></el-input>
         </el-form-item>
@@ -97,9 +97,25 @@
           </div>
         </section>
       </div>
+
       <div class="check-form-btn">
-        <el-button @click="goback">返回</el-button>
+        <el-button @click="dialogFormVisible = true">不通过</el-button>
+        <el-button type="primary" @click="submitSuccess">通过</el-button>
       </div>
+
+      <el-dialog title="不通过原因" :visible.sync="dialogFormVisible">
+        <el-input
+          type="textarea"
+          :rows="6"
+          placeholder="请输入内容"
+          v-model="failTextarea">
+        </el-input>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="noPass">确 定</el-button>
+        </div>
+      </el-dialog>
+
     </div>
   </div>
 </template>
@@ -113,7 +129,7 @@
       BreadCrumb
     }
   })
-  export default class ShopDetail extends Vue {
+  export default class ShopEdit extends Vue {
     form = {}
     center = {lng: 0, lat: 0}
     zoom = 3
@@ -124,12 +140,17 @@
     cardImage3 = ''
     cardImage4 = ''
 
+    dialogFormVisible = false
+    failTextarea = ''
+    formLabelWidth = '120px'
+
     beforeMount () {
       this.getShopInfo()
     }
     async getShopInfo () {
       let id = this.$route.query.id
       let data = await axios.get(`/api/supervise/shop/${id}`)
+      console.log(data.data)
 
       let params = {
         local: '',
@@ -198,112 +219,120 @@
       this.form.delDistance = data.data.distance
       this.form.shopIntroduce = data.data.introduction
     }
+
     goback () {
       this.$router.go(-1)
     }
     async handler ({BMap, map}) {
       // console.log(BMap, map)
       await axios.get(`/api/supervise/shop/${this.$route.query.id}`).then(res => {
-        console.log(res)
         this.center.lng = res.data.lng
         this.center.lat = res.data.lat
       })
       this.zoom = 15
+    }
+    async submitSuccess () {
+      await axios.post(`/api/supervise/shops/${this.$route.query.id}/?state=NORMAL`, {state: 'NORMAL'})
+      this.$router.push('/shopCheck/shop')
+    }
+    async noPass () {
+      await axios.post(`/api/supervise/shops/${this.$route.query.id}/?state=NO_PASS`, {state: 'NO_PASS', remark: this.failTextarea})
+      this.$router.push('/shopCheck/shop')
     }
   }
 </script>
 
 
 <style scoped lang="scss">
-.shop-edit{
-  padding: 10px;
-  .check-form{
-    padding:0 100px 0 0;
-    .el-form{
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: repeat(5, 50px) 300px repeat(2, 50px) 200px;
-      .el-form-item{
-        &:nth-child(1),&:nth-child(3),&:nth-child(5),&:nth-child(7),&:nth-child(9),&:nth-child(12),&:nth-child(14){
-          grid-column: 1 / 3;
-        }
-        &:nth-child(2),&:nth-child(4),&:nth-child(6),&:nth-child(8),&:nth-child(10),&:nth-child(13),&:nth-child(15){
-          grid-column: 3 / 5;
-        }
-        &.el-form-item-textarea{
-          grid-column: 1 / 5;
-        }
-        &.el-form-item-map{
-          grid-column: 1 / 5;
-          .bm-view {
-            width: 100%;
-            height: 260px;
+  .shop-edit{
+    padding: 10px;
+    .check-form{
+      padding:0 100px 0 0;
+      .el-form{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: repeat(5, 50px) 300px repeat(2, 50px) 200px;
+        .el-form-item{
+          &:nth-child(1),&:nth-child(3),&:nth-child(5),&:nth-child(7),&:nth-child(9),&:nth-child(12),&:nth-child(14){
+            grid-column: 1 / 3;
+          }
+          &:nth-child(2),&:nth-child(4),&:nth-child(6),&:nth-child(8),&:nth-child(10),&:nth-child(13),&:nth-child(15){
+            grid-column: 3 / 5;
+          }
+          &.el-form-item-textarea{
+            grid-column: 1 / 5;
+          }
+          &.el-form-item-map{
+            grid-column: 1 / 5;
+            .bm-view {
+              width: 100%;
+              height: 260px;
+            }
           }
         }
       }
     }
-  }
-  .shop-check-img{
-    margin-left: 50px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 220px 220px;
-    section{
-      img{
-        max-width: 100%;
-        height: 160px;
-      }
-      strong{
-        display: block;
-        line-height: 3;
-        font-size: 16px;
-        text-indent: 50px;
-      }
-      &:nth-child(1){
-         grid-column: 1 / 2;
-        >div{
-          text-align: center;
+    .shop-check-img{
+      margin-left: 50px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 220px 220px;
+      section{
+        img{
+          max-width: 100%;
+          height: 160px;
         }
-       }
-      &:nth-child(2){
-        grid-column: 2 / 5;
-        >div{
-          display: flex;
-          span{
-            flex: 0 0 33.33%;
+        strong{
+          display: block;
+          line-height: 3;
+          font-size: 16px;
+          text-indent: 50px;
+        }
+        &:nth-child(1){
+          grid-column: 1 / 2;
+          >div{
             text-align: center;
           }
         }
-      }
-      &:nth-child(3){
-        grid-column: 1 / 5;
-        >div{
-          display: flex;
-          span{
-            position: relative;
-            width: 25%;
-            text-align: center;
-            i{
-              width: 100%;
-              position: absolute;
-              left: 0;
-              bottom: 30%;
-              z-index: 99;
-              font-size: 16px;
-              color: #333333;
-              font-style: normal;
+        &:nth-child(2){
+          grid-column: 2 / 5;
+          >div{
+            display: flex;
+            span{
+              flex: 0 0 33.33%;
+              text-align: center;
+            }
+          }
+        }
+        &:nth-child(3){
+          grid-column: 1 / 5;
+          >div{
+            display: flex;
+            span{
+              position: relative;
+              width: 25%;
+              text-align: center;
+              i{
+                width: 100%;
+                position: absolute;
+                left: 0;
+                bottom: 30%;
+                z-index: 99;
+                font-size: 16px;
+                color: #333333;
+                font-style: normal;
+              }
             }
           }
         }
       }
     }
   }
-}
 
-.check-form-btn{
-  display: flex;
-  justify-content: center;
-  padding: 50px;
-}
+  .check-form-btn{
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+  }
 
 </style>
