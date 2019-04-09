@@ -105,7 +105,7 @@
                   <td class="text-over">{{ item2.drugName }}</td>
                   <td>{{ item2.price }}</td>
                   <td>{{ item2.quantity }}</td>
-                  <td>{{ item2.barCode }}</td>
+                  <td class="text-over">{{ item2.barCode }}</td>
                 </tr>
               </table>
             </div>
@@ -136,8 +136,8 @@
             </div>
             <div class="item item12">
               <p>姓名：{{ item.consignee }}</p>
-              <p>电话：{{ item.buyerPhone }}</p>
-              <p class="text-over">地址：{{ item.address }}</p>
+              <p class="text-over" :title="item.buyerPhone">电话：{{ item.buyerPhone }}</p>
+              <p class="text-over" :title="item.address">地址：{{ item.address }}</p>
             </div>
             <div class="item item13">
               <span>{{$t(item.type)}}</span>
@@ -458,6 +458,10 @@
         padding: 20px 0;
         border-bottom: 1px solid #E9E9E9;
 
+        span{
+          font-size: 15px;
+        }
+
         .el-col-8{
           text-align: center;
         }
@@ -491,7 +495,7 @@
           background: #EBEEF5;
           border: $tableBorder;
           grid-column-gap: 1px;
-          grid-template-columns: 65% 35%;
+          grid-template-columns: 70% 30%;
 
           p{
             margin: 0;
@@ -501,7 +505,7 @@
           .wrapper {
             display: grid;
             grid-template-rows: 50px 70px auto;
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-columns: repeat(9, 1fr);
             background: #FFF;
 
             .text-over{
@@ -517,6 +521,10 @@
               flex-flow: column;
               justify-content: center;
               padding: 10px;
+
+              p, span{
+                font-size: 13px;
+              }
 
               &-bg{
                 color: #555;
@@ -536,20 +544,21 @@
           .wrapper1 {
             .item{
               &1{
-                grid-area: 1 / 1 / 1 / 5;
+                grid-area: 1 / 1 / 1 / 6;
               }
 
               &2{
-                grid-column: 1 / 10;
+                grid-column: 1 / 11;
                 border-bottom: $tableBorder;
               }
 
               &3{
-                grid-area: 3 / 1 / 3 / 5;
+                grid-area: 3 / 1 / 3 / 6;
                 justify-content: normal;
 
                 td{
                   width: 25%;
+                  font-size: 13px;
                   text-align: center;
                   &:first-child{
                     width: 15%;
@@ -579,48 +588,54 @@
               }
 
               &4{
-                grid-area: 1 / 5 / 1 / 5;
+                grid-area: 1 / 6 / 1 / 6;
               }
 
               &5{
-                grid-area: 1 / 6 / 2 / 6;
-              }
-
-              &6{
                 grid-area: 1 / 7 / 2 / 7;
               }
 
+              &6{
+                grid-area: 1 / 8 / 2 / 8;
+              }
+
               &7{
-                grid-area: 1 / 8 / 1 / 8;
+                grid-area: 1 / 9 / 1 / 9;
               }
 
               &8{
-                grid-area: 1 / 9 / 1 / 9;
+                grid-area: 1 / 10 / 1 / 10;
                 border-bottom: $tableBorder;
               }
 
               &9{
-                grid-area: 3 / 5 / 3 / 5;
-              }
-
-              &10{
                 grid-area: 3 / 6 / 3 / 6;
               }
 
-              &11{
+              &10{
                 grid-area: 3 / 7 / 3 / 7;
               }
 
-              &12{
+              &11{
                 grid-area: 3 / 8 / 3 / 8;
               }
 
-              &13{
+              &12{
                 grid-area: 3 / 9 / 3 / 9;
+              }
+
+              &13{
+                grid-area: 3 / 10 / 3 / 10;
               }
 
               &3, &9, &10, &11, &12{
                 border-right: $tableBorder;
+              }
+
+              &1, &4, &5, &6, &8{
+                span{
+                  font-size: 14px;
+                }
               }
 
               &4, &5, &6, &8, &9, &10, &11, &13{
