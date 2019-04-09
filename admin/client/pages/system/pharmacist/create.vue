@@ -1,42 +1,43 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="pharm-create">
-      <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="用户名：">
-          <el-input v-model="form.username" placeholder="请输入"></el-input>
-        </el-form-item>
-        <el-form-item label="药师名：">
-          <el-input v-model="form.name" placeholder="请输入"></el-input>
-        </el-form-item>
-        <el-form-item label="角色：">
-          <el-input v-model="form.roleName" placeholder="请输入"></el-input>
-        </el-form-item>
-        <el-form-item label="状态：">
-          <el-select v-model="form.status" placeholder="请选择">
-            <el-option
-              v-for="item in stateOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="评分：">
-          <el-rate
-            v-model="form.score"
-            class="rate-score"
+  <div class="add-wrap">
+    <div class="add-form">
+      <bread-crumb :path="$route.path"/>
+      <div class="pharm-create">
+        <el-form ref="form" :model="form" label-width="100px">
+          <el-form-item label="用户名：">
+            <el-input v-model="form.username" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="药师名：">
+            <el-input v-model="form.name" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="角色：">
+            <el-input v-model="form.roleName" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="状态：">
+            <el-select v-model="form.status" placeholder="请选择">
+              <el-option
+                v-for="item in stateOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="评分：">
+            <el-rate
+              v-model="form.score"
+              class="rate-score"
             >
-          </el-rate>
-        </el-form-item>
-      </el-form>
-    </div>
+            </el-rate>
+          </el-form-item>
+        </el-form>
+      </div>
 
-    <div class="pharm-btn">
-      <el-button @click="goback">返回</el-button>
-      <el-button type="primary" @click="submit">提交</el-button>
+      <div class="pharm-btn">
+        <el-button @click="goback">返回</el-button>
+        <el-button type="primary" @click="submit">提交</el-button>
+      </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -97,31 +98,45 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
-  }
-  .pharm-create{
-    margin-right: 100px;
-    .el-form{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(3, 50px);
-      .el-form-item{
-        &:nth-child(1){
-          grid-column: 1 / 3;
+  .add{
+    &-wrap{
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    &-form{
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+
+      .pharm-create{
+        margin-top: 20px;
+        margin-right: 100px;
+        .el-form{
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: repeat(3, 50px);
+          .el-form-item{
+            &:nth-child(1){
+              grid-column: 1 / 3;
+            }
+            .el-select{
+              width: 100%;
+            }
+            .rate-score{
+              margin-top: 10px;
+            }
+          }
         }
-        .el-select{
-          width: 100%;
-        }
-        .rate-score{
-          margin-top: 10px;
-        }
+      }
+      .pharm-btn{
+        display: flex;
+        justify-content: center;
+        padding: 50px;
       }
     }
   }
-  .pharm-btn{
-    display: flex;
-    justify-content: center;
-    padding: 50px;
-  }
+
 </style>

@@ -1,57 +1,49 @@
 <template>
-  <div class="drug--wrap">
-    <div class="drug--content">
-      <bread-crumb :path="$route.path"/>
-      <div class="drug--content__search">
-        <el-select size="small" v-model="shopValue" filterable placeholder="药房名称">
-          <el-option
-            v-for="(item, index) in shopNameList"
-            :key="index"
-            :label="item.shopName"
-            :value="item">
-          </el-option>
-        </el-select>
-        <el-input v-model="drugNameValue" size="small" placeholder="药品名称" style="width: 160px;"></el-input>
-        <el-input v-model="companyNameValue" size="small" placeholder="厂商简称" style="width: 160px;"></el-input>
-        <el-select size="small" v-model="drugState" placeholder="药品状态">
-          <el-option
-            v-for="item in stateOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-button type="primary" size="small" @click="search">搜索</el-button>
-        <el-button size="small" @click="clear">清空</el-button>
-      </div>
-      <div>
-        <d2-crud
-          :columns="columns"
-          :data="drugList"
-          :loading="loading"
-          :pagination="pagination"
-          @pagination-current-change="paginationCurrentChange"
-          :options="options"
-          :rowHandle="rowHandle"
-          @emit-detail="handleDetailEvent"
-          class="drug-table"
-        />
-      </div>
+  <div class="drug--content">
+    <div class="drug--content__search">
+      <el-select size="small" v-model="shopValue" filterable placeholder="药房名称">
+        <el-option
+          v-for="(item, index) in shopNameList"
+          :key="index"
+          :label="item.shopName"
+          :value="item">
+        </el-option>
+      </el-select>
+      <el-input v-model="drugNameValue" size="small" placeholder="药品名称" style="width: 160px;"></el-input>
+      <el-input v-model="companyNameValue" size="small" placeholder="厂商简称" style="width: 160px;"></el-input>
+      <el-select size="small" v-model="drugState" placeholder="药品状态">
+        <el-option
+          v-for="item in stateOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <el-button type="primary" size="small" @click="search">搜索</el-button>
+      <el-button size="small" @click="clear">清空</el-button>
+    </div>
+    <div>
+      <d2-crud
+        :options="options"
+        :columns="columns"
+        :data="drugList"
+        :loading="loading"
+        :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
+        selection-row
+        :selection-row="selectionRow"
+        @selection-change="handleSelectionChange"
+        class="drug-table"
+      />
     </div>
   </div>
 </template>
-
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
-  import BreadCrumb from '@/components/Breadcrumb'
   import axios from 'axios'
 
-  @Component({
-    components: {
-      BreadCrumb
-    }
-  })
+  @Component
   export default class Drug extends Vue {
     shopValue = ''
     drugNameValue = ''
@@ -123,14 +115,8 @@
     options= {
       border: true
     }
-    rowHandle = {
-      custom: [
-        {
-          text: '查看详情',
-          type: 'text',
-          emit: 'emit-detail'
-        }
-      ]
+    selectionRow = {
+      align: 'center'
     }
 
     // 获取所有药店名称选项
@@ -162,6 +148,17 @@
 
     search () {
       this.getAllDrugs()
+    }
+
+    // 多选
+    handleSelectionChange (selection) {
+      if (selection.length > 10) {
+        this.$alert('最多选择10种药品', '提示', {
+          confirmButtonText: '确定'
+        })
+        return
+      }
+      this.$emit('listenToChildEvent', selection)
     }
 
     async getAllDrugs () {
@@ -197,39 +194,23 @@
 </script>
 
 <style scoped lang="scss">
-  .drug{
-    &--wrap{
-      padding: 0 10px;
-      margin-bottom: 30px;
-    }
-    &--content{
-      min-height: 850px;
-      padding: 10px;
-      background: #FFF;
-      border-radius: 5px;
-      border: 1px solid #E9E9E9;
-
-      &__search{
-        display: flex;
-        align-items: center;
-        justify-content: Flex-start;
-        border-bottom: 1px solid #e9e9e9;
-        padding-bottom: 15px;
-        padding-left: 10px;
-
-        .el-input{
-          margin-right: 10px;
-          width: 160px;
-        }
-        .el-select{
-          margin-right: 10px;
-          width: 160px;
-        }
+  .drug--content{
+    padding: 0 10px;
+    &__search{
+      display: flex;
+      justify-content: Flex-start;
+      align-items: center;
+      .el-input{
+        margin-right: 10px;
+        width: 160px;
+      }
+      .el-select{
+        margin-right: 10px;
+        width: 160px;
       }
     }
   }
   /deep/.drug-table{
-    padding: 0 10px;
     .el-table{
       th{
         background-color: #F4F4F4 !important;

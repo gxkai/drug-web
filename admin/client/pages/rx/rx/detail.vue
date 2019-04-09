@@ -1,11 +1,10 @@
 <template>
-  <div class="detail-wrap">
+  <div class="rd-detail-wrap">
     <div class="detail">
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
         <h3>处方单详情</h3>
-        <el-button type="primary" size="small" @click="$router.go(-1)">返回</el-button>
       </div>
 
       <div class="detail-con">
@@ -69,6 +68,10 @@
             </el-form-item>
           </el-form>
         </div>
+      </div>
+
+      <div class="back">
+        <el-button @click="$router.push('/rx/rx')">返回</el-button>
       </div>
     </div>
   </div>
@@ -139,7 +142,7 @@
       // console.log(rxDetail)
 
       this.formInfo = rxDetail
-      this.formInfo.rxDate = moment(this.formInfo.rxDate).format('YYYY-MM-DD hh:mm:ss')
+      this.formInfo.rxDate = moment(this.formInfo.rxDate).format('YYYY-MM-DD HH:mm:ss')
       this.rpList = rxDetail.list
       this.rpList.forEach((item, index) => {
         item.index = index + 1
@@ -158,8 +161,9 @@
 </script>
 
 <style lang="scss">
-  .detail-wrap{
-    padding: 20px;
+  .rd-detail-wrap{
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .el-table{
       th{
@@ -170,26 +174,21 @@
     .detail{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
       .title{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px 15px;
-        margin: 0 10px;
+        padding: 0 15px;
         border-bottom: 1px solid #E9E9E9;
 
         h3{
           color: #666;
-          font-size: 18px;
-          margin: 0;
         }
       }
 
       &-con {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .form-info{
           padding: 20px 150px 0 0;
@@ -209,7 +208,7 @@
         }
 
         .track-info{
-          padding: 20px 150px 30px 70px;
+          padding: 20px 150px 10px 70px;
 
           .el-form{
             display: grid;
@@ -232,6 +231,11 @@
             margin-bottom: 0;
           }
         }
+      }
+
+      .back{
+        text-align: center;
+        margin: 30px auto;
       }
     }
   }

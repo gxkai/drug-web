@@ -11,6 +11,9 @@
       <div class="detail-con">
         <div class="form-info">
           <el-form ref="formInfo" :model="formInfo" label-width="150px">
+            <el-form-item label="药房名称：">
+              <el-input v-model="formInfo.shopName" readonly placeholder="暂无"></el-input>
+            </el-form-item>
             <el-form-item label="药品名称：">
               <el-input v-model="formInfo.drugName" readonly placeholder="暂无"></el-input>
             </el-form-item>
@@ -20,14 +23,16 @@
             <el-form-item label="买家名称：">
               <el-input v-model="formInfo.buyerName" readonly placeholder="暂无"></el-input>
             </el-form-item>
+            <el-form-item label="评价内容：">
+              <el-input
+                type="textarea"
+                :rows="3"
+                placeholder="暂无"
+                v-model="formInfo.content">
+              </el-input>
+            </el-form-item>
             <el-form-item label="评价等级：">
               <el-input v-model="formInfo.score" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-            <el-form-item label="评价内容：">
-              <el-input v-model="formInfo.content" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-            <el-form-item label="药房名称：">
-              <el-input v-model="formInfo.shopName" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="评价时间：">
               <el-input v-model="formInfo.appraiseDate" readonly placeholder="暂无"></el-input>
@@ -57,7 +62,7 @@
     async getDetail (id) {
       let {data: detail} = await axios.get(`/api/supervise/drugAppraises/${id}`)
       this.formInfo = detail
-      this.formInfo.appraiseDate = moment(this.formInfo.appraiseDate).format('YYYY-MM-DD hh:mm:ss')
+      this.formInfo.appraiseDate = moment(this.formInfo.appraiseDate).format('YYYY-MM-DD HH:mm:ss')
     }
 
     mounted () {
@@ -69,7 +74,8 @@
 
 <style lang="scss">
   .detail-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .el-table{
       th{
@@ -80,6 +86,7 @@
     .detail{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -87,8 +94,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px 10px;
-        margin: 0 10px;
+        padding: 0 15px;
         border-bottom: 1px solid #E9E9E9;
 
         h3{
@@ -98,7 +104,7 @@
       }
 
       &-con {
-        padding: 0 30px;
+        padding: 15px;
 
         .form-info{
           padding: 20px 300px 0 0;
@@ -112,6 +118,16 @@
               }
               &:nth-child(2n){
                 grid-column: 3 / 5;
+              }
+
+              &:nth-child(5) {
+                grid-row: 3 / 4;
+                grid-column: 1 / 5;
+              }
+
+              &:nth-child(7) {
+                grid-column: 1 / 3;
+                grid-row: 4 / 4;
               }
             }
           }

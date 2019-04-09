@@ -382,11 +382,13 @@
 
 <style lang="scss">
   .ability-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .ability{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -402,14 +404,13 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px;
-        margin: 0 10px;
+        padding: 0 15px;
+        margin-bottom: 15px;
         border-bottom: 1px solid #E9E9E9;
       }
 
       .list {
-        margin-top: 20px;
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           margin-bottom: 10px;

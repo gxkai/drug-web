@@ -1,32 +1,35 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="file-search">
-      <el-select v-model="fileType" placeholder="文件类型" size="small">
-        <el-option
-          v-for="item in fileOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-input-number size="small" v-model="fileNum" controls-position="right" @change="handleChange" :min="0" :max="100"></el-input-number>
-      <el-button type="primary" size="small" @click="search">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+  <div class="file-wrap">
+    <div class="file-list">
+      <bread-crumb :path="$route.path"/>
+      <div class="file-search">
+        <el-select v-model="fileType" placeholder="文件类型" size="small">
+          <el-option
+            v-for="item in fileOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-input-number size="small" v-model="fileNum" controls-position="right" @change="handleChange" :min="0" :max="100"></el-input-number>
+        <el-button type="primary" size="small" @click="search">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
+      </div>
+      <d2-crud
+        :columns="columns"
+        :data="fileData"
+        :loading="loading"
+        :pagination="pagination"
+        :options="options"
+        :rowHandle="rowHandle"
+        @emit-download="handleDownload"
+        @row-remove="handleRowRemove"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="fileData"
-      :loading="loading"
-      :pagination="pagination"
-      :options="options"
-      :rowHandle="rowHandle"
-      @emit-download="handleDownload"
-      @row-remove="handleRowRemove"
-      class="drug-table"
-    />
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -83,7 +86,6 @@
       ],
       remove: {
         type: 'text',
-        size: 'small',
         confirm: true
       }
     }
@@ -170,13 +172,29 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
+  .file {
+    &-wrap {
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    &-list {
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+    }
   }
   /deep/.file-search{
     display: flex;
     justify-content: Flex-start;
     align-items: center;
+    border-bottom: 1px solid #e9e9e9;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+
     .el-select{
       width: 150px;
       margin-right: 10px;
@@ -188,7 +206,7 @@
   /deep/.drug-table{
     margin-top: 10px;
     .d2-crud-body{
-      padding: 0 !important;
+      padding: 0 10px !important;
       .el-table{
         th{
           background-color: #F4F4F4 !important;

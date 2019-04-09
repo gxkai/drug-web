@@ -97,7 +97,7 @@
       this.dosageFormList = formData.list
       this.pagination.total = formData.total
       this.dosageFormList.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
     }
 
@@ -109,7 +109,8 @@
 
 <style lang="scss" scoped>
   .common--content{
-    padding: 10px;
+    padding: 0 10px;
+    margin-bottom: 30px;
     &__search{
       display: flex;
       justify-content: Flex-start;
