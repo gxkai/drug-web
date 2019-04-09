@@ -4,22 +4,22 @@
     <div class="file-search">
       <el-date-picker
         size="small"
-        v-model="dateValue"
-        type="datetimerange"
+        v-model="beginEndDate"
+        type="daterange"
         range-separator="至"
         start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        @change="convertDate">
+        end-placeholder="结束日期">
       </el-date-picker>
-      <el-input size="small" v-model="inputValue" placeholder="请输入用户名"></el-input>
+      <el-input size="small" v-model="inputValue" placeholder="请输入用户名" style="width: 200px;margin-right: 10px;"></el-input>
       <el-button type="primary" size="small" @click="search">搜索</el-button>
       <el-button size="small" @click="clear">清空</el-button>
     </div>
     <d2-crud
       :columns="columns"
-      :data="loginlogData"
+      :data="loginlogList"
       :loading="loading"
       :pagination="pagination"
+      @pagination-current-change="paginationCurrentChange"
       :options="options"
       class="drug-table"
     />
@@ -37,11 +37,10 @@
       BreadCrumb
     }
   })
-  export default class LoginLog extends Vue {
-    dateValue = '' // 日期区间
+  export default class Interface extends Vue {
+    beginEndDate = ''
     startDate = '' // 起始日期
-    endDate = '' // 截止日期
-
+    endDate = '' // 结束日期
     inputValue = ''
     columns= [
       {
@@ -61,82 +60,60 @@
         key: 'date'
       }
     ]
-    loginlogData = []
-    loading= false
-    pagination= {
+    loginlogList = []
+    loading = false
+    pagination = {
       currentPage: 1,
       pageSize: 15,
       total: 0
     }
-    options= {
+    options = {
       border: true
     }
-    convertDate () {
-      if (this.dateValue) {
-        for (let i = 0, len = this.dateValue.length; i < len; i++) {
-          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD HH:mm:ss')
-        }
-        this.startDate = this.dateValue[0]
-        this.endDate = this.dateValue[1]
-      }
-    }
-    beforeMount () {
-      this.initData()
-    }
-    paginationCurrentChange (currentPage) {
-      this.pagination.currentPage = currentPage
-      this.initData()
-    }
-    async initData (date) {
-      let params = {
-        pageNum: this.pagination.currentPage,
-        pageSize: 15
-      }
-      let data = await axios.get(`/api/supervise/loginLogs`, {params: params})
-      this.loginlogData = data.data.list
-      this.pagination.total = data.data.total
-      this.loginlogData.forEach(e => {
-        e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
-      })
-    }
-  
-    async search () {
-      if (this.endDate === '' && this.startDate === '' && this.inputValue === '') {
-        this.$message({
-          message: '查询条件不能为空',
-          type: 'warning'
-        })
-        return false
-      }
-      let params = {
-        end: this.endDate,
-        start: this.startDate,
-        username: this.inputValue,
-        pageNum: this.pagination.currentPage,
-        pageSize: 15
-      }
-      let searchData = await axios.get(`/api/supervise/loginLogs`, {params: params})
-      // console.log(searchData.data)
-      this.loginlogData = searchData.data.list
-      this.pagination.total = searchData.data.total
-      this.loginlogData.forEach(e => {
-        if (e.date !== null) {
-          e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
-        }
-        console.log(e.date)
-        console.log(this.startDate)
-        console.log(this.endDate)
-        if (e.date >= this.startDate && e.date <= this.endDate) {
-          // this.initData(e.date)
-        }
-      })
-    }
+
     clear () {
-      this.dateValue = ''
+      this.beginEndDate = ''
       this.startDate = ''
       this.endDate = ''
       this.inputValue = ''
-      this.initData()
+      this.getData()
+    }
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getData()
+    }
+    beforeMount () {
+      this.getData()
+    }
+    async getData () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        username: this.inputValue,
+        startDate: this.startDate,
+        endDate: this.endDate
+      }
+      let {data: loginData} = await axios.get(`/api/supervise/loginLogs`, {params})
+      console.log(loginData)
+
+      this.loginlogList = loginData.list
+      this.pagination.total = loginData.total
+
+      this.loginlogList.forEach(item => {
+        item.date = moment(item.date).format('YYYY-MM-DD hh:mm:ss')
+      })
+    }
+    // 查询
+    async search () {
+      if (this.beginEndDate) {
+        for (let i = 0, len = this.beginEndDate.length; i < len; i++) {
+          this.beginEndDate[i] = moment(this.beginEndDate[i]).format('YYYY-MM-DD')
+        }
+        this.startDate = this.beginEndDate[0] + ' 00:00:00'
+        this.endDate = this.beginEndDate[1] + ' 23:59:59'
+      }
+      this.getData()
     }
   }
 </script>
@@ -144,16 +121,13 @@
 <style scoped lang="scss">
   .p10{
     padding: 0 10px;
+    background: #FFF;
   }
   /deep/.file-search{
     display: flex;
     justify-content: Flex-start;
     align-items: center;
     .el-date-editor{
-      margin-right: 10px;
-    }
-    .el-input{
-      width: 150px;
       margin-right: 10px;
     }
   }

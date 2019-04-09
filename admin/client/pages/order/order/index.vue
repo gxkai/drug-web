@@ -8,11 +8,11 @@
           <el-col :span="24" class="filter-top">
             <el-col :span="8">
               <span>订单编号：</span>
-              <el-input v-model="orderID" placeholder="请输入"></el-input>
+              <el-input v-model="orderID" placeholder="请输入" size="small"></el-input>
             </el-col>
             <el-col :span="8">
               <span>订单类型：</span>
-              <el-select v-model="orderType" clearable filterable placeholder="请选择">
+              <el-select v-model="orderType" clearable filterable placeholder="请选择" size="small">
                 <el-option
                   v-for="item in typeList"
                   :key="item.value"
@@ -23,7 +23,7 @@
             </el-col>
             <el-col :span="8">
               <span>订单状态：</span>
-              <el-select v-model="orderState" clearable filterable placeholder="请选择">
+              <el-select v-model="orderState" clearable filterable placeholder="请选择" size="small">
                 <el-option
                   v-for="item in stateList"
                   :key="item.value"
@@ -37,19 +37,19 @@
           <el-col :span="24" class="filter-bottom">
             <el-col :span="8">
               <span>药店名称：</span>
-              <el-select v-model="shopNameValue" clearable filterable placeholder="请选择" @change="getShopID">
+              <el-select v-model="shopNameValue" clearable filterable placeholder="请选择" @change="getShopID" size="small">
                 <el-option
                   v-for="item in shopNameList"
-                  :key="item.name"
-                  :label="item.name"
-                  :value="item.name">
+                  :key="item.id"
+                  :label="item.shopName"
+                  :value="item.shopName">
                 </el-option>
               </el-select>
             </el-col>
 
             <el-col :span="8">
               <span>用户信息：</span>
-              <el-select v-model="userValue" clearable filterable placeholder="请选择">
+              <el-select v-model="userValue" clearable filterable placeholder="请选择" size="small">
                 <el-option
                   v-for="item in userList"
                   :key="item.username"
@@ -61,6 +61,7 @@
             <el-col :span="8">
               <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</span>
               <el-date-picker
+                size="small"
                 v-model="dateValue"
                 type="datetimerange"
                 range-separator="至"
@@ -72,8 +73,8 @@
           </el-col>
 
           <el-col :span="23" class="action-col">
-            <el-button size="medium" type="primary" @click="search">搜索</el-button>
-            <el-button size="medium" @click="reset">重置</el-button>
+            <el-button size="small" type="primary" @click="search">搜索</el-button>
+            <el-button size="small" @click="reset">重置</el-button>
           </el-col>
         </el-row>
       </div>
@@ -224,10 +225,6 @@
         label: '待付款'
       },
       {
-        value: 'PAY_FAIL',
-        label: '付款失败'
-      },
-      {
         value: 'TO_CHECK',
         label: '待审批'
       },
@@ -246,6 +243,14 @@
       {
         value: 'COMPLETED',
         label: '交易成功'
+      },
+      {
+        value: 'REFUNDING',
+        label: '退款中'
+      },
+      {
+        value: 'REFUND_COMPLETE',
+        label: '退款成功'
       },
       {
         value: 'CLOSED',
@@ -289,17 +294,16 @@
     }
     getShopID () {
       this.shopNameList.forEach(item => {
-        if (this.shopNameValue === item.name) {
+        if (this.shopNameValue === item.shopName) {
           this.shopId = item.id
         }
       })
     }
     // 获取所有药店名称选项
     async getShopNames () {
-      // let state = 'NORMAL'
-      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
-      console.log(option)
-      this.shopNameList = option
+      let {data: option} = await axios.get(`/api/supervise/shops`)
+      // console.log(option.list)
+      this.shopNameList = option.list
     }
     async getOrderList () {
       let params = {
@@ -308,11 +312,10 @@
       }
       let orderData = await axios.get(`/api/supervise/orders`, {params: params})
       this.orderListData = orderData.data.list
+      console.log(this.orderListData)
       this.perPageData = this.orderListData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
-      // console.log(this.orderListData)
       this.perPageData.forEach((item) => {
-        // console.log(item.consignee)
         if (item.consignee !== null) {
           this.userList.push({
             name: item.consignee.trim()
@@ -385,17 +388,18 @@
       this.shopNameValue = ''
       this.userValue = ''
       this.dateValue = ''
+      this.getOrderList()
     }
 
     // 搜索查询
     async search () {
-      console.log(this.orderType)
+      // console.log(this.orderType)
       let params = {
         number: this.orderID,
         type: this.orderType,
         state: this.orderState,
         shopId: this.shopId,
-        username: this.userValue,
+        buyerName: this.userValue,
         pageNum: this.currentPageNum,
         pageSize: this.pageNum,
         startDate: this.startDate,

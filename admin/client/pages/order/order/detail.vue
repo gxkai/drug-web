@@ -308,13 +308,14 @@
       // 进度条
       let orderStatus = {
         'TO_PAY': 1, // 待付款
-        'PAY_FAIL': 2, // 付款失败
-        'TO_CHECK': 3, // 待审批
-        'TO_DELIVERY': 4, // 调剂中
-        'TO_RECEIVED': 5, // 待收货
-        'TO_APPRAISE': 6, // 待评价
-        'COMPLETED': 7, // 交易成功
-        'CLOSED': 8 // 交易关闭
+        'TO_CHECK': 2, // 待审批
+        'TO_DELIVERY': 3, // 调剂中
+        'TO_RECEIVED': 4, // 待收货
+        'TO_APPRAISE': 5, // 待评价
+        'COMPLETED': 6, // 交易成功
+        'REFUNDING': 7, // 退款中
+        'REFUND_COMPLETE': 8, // 退款成功
+        'CLOSED': 9 // 交易关闭
       }
       for (let i in orderStatus) {
         if (i === orderInfo.data.state) {
@@ -387,8 +388,6 @@
     isAbled (state) {
       if (state === 'TO_PAY') {
         return '待付款'
-      } else if (state === 'PAY_FAIL') {
-        return '付款失败'
       } else if (state === 'TO_CHECK') {
         return '待审批'
       } else if (state === 'TO_DELIVERY') {
@@ -399,10 +398,13 @@
         return '待评价'
       } else if (state === 'COMPLETED') {
         return '交易成功'
+      } else if (state === 'REFUNDING') {
+        return '退款中'
+      } else if (state === 'REFUND_COMPLETE') {
+        return '退款成功'
       } else if (state === 'CLOSED') {
         return '交易关闭'
       }
-      //
     }
   }
 </script>
