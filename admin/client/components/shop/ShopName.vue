@@ -74,11 +74,11 @@
       this.fetchData()
     }
 
-    async fetchData (name) {
+    async fetchData (shopName) {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: 15,
-        name
+        shopName
       }
       let data = await axios.get(`/api/supervise/shops`, {params: params})
       this.shopNameData = data.data.list
