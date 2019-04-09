@@ -7,14 +7,17 @@
         <el-row :gutter="20" class="filter-top">
           <el-col :span="8">
             <span class="tit">药店名称：</span>
-            <el-select v-model="shopNameID" size="small" @change="matchShopName" filterable placeholder="请选择" style="width: 250px">
-              <el-option
-                v-for="(item, index) in shopNameList"
-                :key="index"
-                :label="item.name"
-                :value="item.id">
-              </el-option>
-            </el-select>
+            <!--请选择药房名称-->
+            <el-button class="select-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
+            <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
+            <!--<el-select v-model="shopNameID" size="small" @change="matchShopName" filterable placeholder="请选择" style="width: 250px">-->
+              <!--<el-option-->
+                <!--v-for="(item, index) in shopNameList"-->
+                <!--:key="index"-->
+                <!--:label="item.name"-->
+                <!--:value="item.id">-->
+              <!--</el-option>-->
+            <!--</el-select>-->
           </el-col>
           <el-col :span="8">
             <span class="tit">药品名称：</span>
@@ -159,6 +162,19 @@
         </div>
       </div>
 
+      <!--选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
+
       <!-- 查看模态框 -->
       <el-dialog
         title="查看"
@@ -234,20 +250,33 @@
   import BreadCrumb from '@/components/Breadcrumb'
   import axios from 'axios'
   import moment from 'moment'
-
+  import ShopName from '@/components/shop/ShopName'
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      ShopName
     }
   })
   export default class Discount extends Vue {
+    // 弹窗
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+    // 药房
+    isCloseOnClickModal = false
+    shopNameDialog = false
+
+    shopNameValue = ''
+    shopId = ''
+
     disClearable = false
-    shopNameID = ''; // 药店名id
-    shopName = ''; // 药店名称
-    drugName = ''; // 药品名称
-    produceName = ''; // 生产厂商
+
+    shopNameID = '' // 药店名id
+    shopName = '' // 药店名称
+  
+    drugName = '' // 药品名称
+    produceName = '' // 生产厂商
     stateValue = '' // 状态值
-    dateValue = ''; // 日期区间
+    dateValue = '' // 日期区间
     startDate = '' // 起始日期
     endDate = '' // 截止日期
 
@@ -279,18 +308,37 @@
       this.shopNameID = ''
       this.shopNameValue = ''
       this.drugName = ''
-      this.produceValue = ''
+      this.produceName = ''
       this.stateValue = ''
       this.dateValue = ''
       this.startDate = ''
       this.endDate = ''
+      this.getRecommend()
+    }
+
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+    }
+
+    // 获取药店名称
+    confirmSelect () {
+      if (!this.selectedInfo) {
+        this.shopNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.shopId = this.childData.id
+      this.shopNameValue = this.childData.shopName
+      this.shopNameDialog = false
+      this.selectedInfo = ''
     }
 
     // 获取所有药店名称选项
-    async getShopNames () {
-      let {data: options} = await axios.post(`/api/supervise/shops/filter`)
-      this.shopNameList = options
-    }
+    // async getShopNames () {
+    //   let {data: options} = await axios.post(`/api/supervise/shops/filter`)
+    //   this.shopNameList = options
+    // }
 
     // 下架
     async obtained (id) {
@@ -383,13 +431,13 @@
       this.perPageData = this.perPageData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
 
-    matchShopName () {
-      this.shopNameList.forEach(item => {
-        if (this.shopNameID === item.id) {
-          this.shopNameValue = item.name
-        }
-      })
-    }
+    // matchShopName () {
+    //   this.shopNameList.forEach(item => {
+    //     if (this.shopNameID === item.id) {
+    //       this.shopNameValue = item.name
+    //     }
+    //   })
+    // }
 
     convertDate () {
       if (this.dateValue) {
@@ -412,6 +460,7 @@
         pageSize: this.pageSize,
         shopId: this.shopNameID,
         shopName: this.shopNameValue,
+        originName: this.produceName,
         drugName: this.drugName.trim(),
         state: this.stateValue,
         startDate: this.startDate,
@@ -432,13 +481,18 @@
 
     beforeMount () {
       this.getRecommend()
-      this.getShopNames()
+      // this.getShopNames()
     }
   }
 </script>
 
-<style lang="scss">
-  .discount-wrap{
+<style lang="scss" scoped>
+  .select-btn{
+    width: 250px;
+    text-align: left;
+    font-size: 14px;
+  }
+  /deep/.discount-wrap{
     padding: 20px;
 
     .discount{

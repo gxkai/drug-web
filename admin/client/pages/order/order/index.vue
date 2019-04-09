@@ -37,14 +37,17 @@
           <el-col :span="24" class="filter-bottom">
             <el-col :span="8">
               <span>药店名称：</span>
-              <el-select v-model="shopNameValue" clearable filterable placeholder="请选择" @change="getShopID" size="small">
-                <el-option
-                  v-for="item in shopNameList"
-                  :key="item.id"
-                  :label="item.shopName"
-                  :value="item.shopName">
-                </el-option>
-              </el-select>
+              <!--请选择药房名称-->
+              <el-button class="select-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
+              <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
+              <!--<el-select v-model="shopNameValue" clearable filterable placeholder="请选择" @change="getShopID" size="small">-->
+                <!--<el-option-->
+                  <!--v-for="item in shopNameList"-->
+                  <!--:key="item.id"-->
+                  <!--:label="item.shopName"-->
+                  <!--:value="item.shopName">-->
+                <!--</el-option>-->
+              <!--</el-select>-->
             </el-col>
 
             <el-col :span="8">
@@ -78,6 +81,19 @@
           </el-col>
         </el-row>
       </div>
+
+      <!--选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
 
       <div class="order-list">
         <div class="container" v-for="(item, index) in perPageData" :key="index">
@@ -194,14 +210,25 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import ShopName from '@/components/shop/ShopName'
   import axios from 'axios'
   import moment from 'moment'
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      ShopName
     }
   })
   export default class Order extends Vue {
+    // 弹窗
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+    // 药房
+    isCloseOnClickModal = false
+    shopNameDialog = false
+    shopNameValue = ''
+    shopId = ''
+
     orderID = ''
     orderType = ''
     typeList = [
@@ -258,9 +285,9 @@
       }
     ]
 
-    shopNameValue = ''
-    shopId = ''
-    shopNameList = []
+    // shopNameValue = ''
+    // shopId = ''
+    // shopNameList = []
     userValue = ''
     userList = []
 
@@ -287,24 +314,42 @@
       }
     }
 
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+    }
+
+    // 获取药店名称
+    confirmSelect () {
+      if (!this.selectedInfo) {
+        this.shopNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.shopId = this.childData.id
+      this.shopNameValue = this.childData.shopName
+      this.shopNameDialog = false
+      this.selectedInfo = ''
+    }
+
     beforeMount () {
       this.getOrderList()
       this.messageNotice()
-      this.getShopNames()
+      // this.getShopNames()
     }
-    getShopID () {
-      this.shopNameList.forEach(item => {
-        if (this.shopNameValue === item.shopName) {
-          this.shopId = item.id
-        }
-      })
-    }
+    // getShopID () {
+    //   this.shopNameList.forEach(item => {
+    //     if (this.shopNameValue === item.shopName) {
+    //       this.shopId = item.id
+    //     }
+    //   })
+    // }
     // 获取所有药店名称选项
-    async getShopNames () {
-      let {data: option} = await axios.get(`/api/supervise/shops`)
-      // console.log(option.list)
-      this.shopNameList = option.list
-    }
+    // async getShopNames () {
+    // let {data: option} = await axios.get(`/api/supervise/shops`)
+    // console.log(option.list)
+    // this.shopNameList = option.list
+    // }
     async getOrderList () {
       let params = {
         pageNum: this.currentPageNum,
@@ -446,8 +491,14 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   $tableBorder: 1px solid #EBEEF5;
+
+  .select-btn{
+    width: 65%;
+    text-align: left;
+    font-size: 14px;
+  }
 
   .order-wrap{
     padding: 20px;

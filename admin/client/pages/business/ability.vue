@@ -37,7 +37,7 @@
             label="图片">
             <template slot-scope="scope">
               <img v-if="scope.row.imgURL" :src="scope.row.imgURL" style="width: 50px;height: 50px">
-              <img v-else src="../../assets/img/hospital/img1.png" style="width: 50px;height: 50px">
+              <!--<img v-else src="../../assets/img/hospital/img1.png" style="width: 50px;height: 50px">-->
             </template>
           </el-table-column>
           <el-table-column label="操作">
@@ -194,7 +194,6 @@
 
     // 新增广告
     addData = {}
-
     setAddData () {
       this.addData = {
         // index: '',
@@ -206,12 +205,10 @@
         imgURL: ''
       }
     }
-
-    addDialogVisible = false;
+    addDialogVisible = false
 
     // 新增图片上传
     addFile = {}
-
     addAvatarSuccess (res, file) {
       this.addData.imgURL = URL.createObjectURL(file.raw)
       this.addFile = file.raw
@@ -258,12 +255,6 @@
 
     // 编辑广告
     editBeforeUpload (file) {
-      // const isJPG = file.type === 'image/jpeg'
-      //
-      // if (!isJPG) {
-      //   this.$message.error('图片只能是 JPG 格式!')
-      // }
-      // return isJPG
     }
 
     editFile = {} // 存放file
@@ -287,7 +278,7 @@
     }
 
     editAdvert (index, row) {
-      // console.log(index)
+      console.log(row)
       this.editDialogVisible = true
       // this.editData.index = index
       this.editData.id = row.id
@@ -304,7 +295,7 @@
       let fileParams = new FormData()
       fileParams.append('file', this.editFile)
       fileParams.append('fileType', 'LOGO')
-      let { data: fileID } = await axios.post(`/api/supervise/files`, fileParams)
+      let { data: fileID } = await axios.put(`/api/supervise/files`, fileParams)
       this.editData.fileId = fileID // 图片上传成功后更新fileId
 
       console.log(this.editData)
