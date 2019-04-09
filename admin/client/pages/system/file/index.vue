@@ -136,7 +136,7 @@
         resolution: ''
       }
       let data = await axios.get(`/api/supervise/files/${row.id}`, {params: params})
-      // console.log(data)
+      console.log(data)
       let alink = document.createElement('a')
       alink.href = row.name
       alink.download = data.data.replace(/redirect:/, '')

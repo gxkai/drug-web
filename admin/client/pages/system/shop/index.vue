@@ -7,7 +7,7 @@
           <el-option
             v-for="(item, index) in shopNameOptions"
             :key="index"
-            :label="item.name"
+            :label="item.shopName"
             :value="item.id">
           </el-option>
         </el-select>
@@ -170,8 +170,8 @@
 
     // 获取所有药店名称选项
     async getShopNames () {
-      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
-      this.shopNameOptions = option
+      let {data: option} = await axios.get(`/api/supervise/shops`)
+      this.shopNameOptions = option.list
     }
 
     handleDetail ({index, row}) {
