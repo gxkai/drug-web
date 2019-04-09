@@ -65,7 +65,7 @@
 
 <style lang="scss" scoped>
   .type--content{
-    padding: 10px;
+    padding: 0 10px;
     &__search{
       display: flex;
       justify-content: Flex-start;

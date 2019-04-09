@@ -1,41 +1,44 @@
 <template>
-  <div class="stock--content">
-    <bread-crumb :path="$route.path"/>
-    <div class="stock--content__search">
-      <div class="left">
-        <el-input v-model="commonNameValue" size="small" placeholder="通用名称" style="width: 200px;"></el-input>
-        <el-input v-model="originNameValue" size="small" placeholder="厂商名称" style="width: 200px;"></el-input>
-        <el-cascader
-          size="small"
-          placeholder="药品类型"
-          expand-trigger="click"
-          :options="compostList"
-          :props="selectProps"
-          v-model="selectedTypes"
-          @change="getTypeCondition">
-        </el-cascader>
-        <el-button type="primary" size="small" icon="el-icon-refresh" @click="resetEs">重置ES</el-button>
-        <el-button type="primary" size="small" @click="searchDrugs">搜索</el-button>
-        <el-button size="small" @click="clearConditions">清空</el-button>
+  <div class="stock--wrap">
+    <div class="stock--content">
+      <bread-crumb :path="$route.path"/>
+      <div class="stock--content__search">
+        <div class="left">
+          <el-input v-model="commonNameValue" size="small" placeholder="通用名称" style="width: 200px;"></el-input>
+          <el-input v-model="originNameValue" size="small" placeholder="厂商名称" style="width: 200px;"></el-input>
+          <el-cascader
+            size="small"
+            placeholder="药品类型"
+            expand-trigger="click"
+            :options="compostList"
+            :props="selectProps"
+            v-model="selectedTypes"
+            @change="getTypeCondition">
+          </el-cascader>
+          <el-button type="primary" size="small" icon="el-icon-refresh" @click="resetEs">重置ES</el-button>
+          <el-button type="primary" size="small" @click="searchDrugs">搜索</el-button>
+          <el-button size="small" @click="clearConditions">清空</el-button>
+        </div>
+        <div class="right">
+          <el-button type="primary" @click="stockAdd" style="background: #169bd5;">新增</el-button>
+        </div>
       </div>
-      <div class="right">
-        <el-button type="primary" @click="stockAdd" style="background: #169bd5;">新增</el-button>
-      </div>
+      <d2-crud
+        :columns="columns"
+        :data="drugList"
+        :loading="loading"
+        :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
+        :options="options"
+        :rowHandle="rowHandle"
+        @custom-edit="editDrugInfo"
+        @row-remove="removeDrug"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="drugList"
-      :loading="loading"
-      :pagination="pagination"
-      @pagination-current-change="paginationCurrentChange"
-      :options="options"
-      :rowHandle="rowHandle"
-      @custom-edit="editDrugInfo"
-      @row-remove="removeDrug"
-      class="drug-table"
-     />
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -185,8 +188,17 @@
         drugType: this.selectedTypes[1]
       }
       let {data: drugRes} = await axios.get(`/api/supervise/drugs`, {params})
+      console.log(drugRes)
       this.drugList = drugRes.list
       this.pagination.total = drugRes.total
+
+      this.drugList.forEach(item => {
+        let typeName = ''
+        item.drugDrugTypeList.forEach(typeItem => {
+          typeName += `${typeItem.type},`
+        })
+        item.drugTypeName = typeName.substring(0, typeName.length - 1)
+      })
     }
 
     beforeMount () {
@@ -197,24 +209,40 @@
 </script>
 
 <style scoped lang="scss">
-  .stock--content{
-    padding: 0 10px;
-    background: #FFF;
+  .stock{
+    &--wrap{
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+    &--content{
+      min-height: 850px;
+      background: #FFF;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
 
-    &__search{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      &__search{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #e9e9e9;
+        padding-bottom: 15px;
 
-      .el-input{
-        margin: 0 10px;
-      }
-      .el-cascader{
-        margin-right: 10px;
+        .right{
+          padding-right: 10px;
+        }
+
+        .el-input{
+          margin: 0 10px;
+        }
+        .el-cascader{
+          margin-right: 10px;
+        }
       }
     }
   }
   /deep/.drug-table{
+    padding: 0 10px;
     .el-table{
       th{
         background-color: #F4F4F4 !important;

@@ -222,12 +222,13 @@
 
 <style lang="scss" scoped>
   .hospital-wrap{
-    padding: 5px 10px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .main-wrap{
       min-height: 850px;
       background: #FFF;
-      padding: 15px;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -235,6 +236,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        border-bottom: 1px solid #E9E9E9;
+        padding-bottom: 15px;
+
+        .right{
+          padding-right: 10px;
+        }
 
         .el-input{
           margin: 0 10px;
@@ -244,25 +251,26 @@
           padding-left: 10px;
         }
       }
-      /deep/.drug-table{
-        margin-top: 10px;
-        .d2-crud-body{
-          padding: 0 !important;
-          .el-table{
-            th{
-              background-color: #F4F4F4 !important;
-              color: #555 !important;
-            }
-            td{
-              .cell{
-                /deep/.el-button+.el-button{
-                  margin-left: 5px;
-                  &::before{
-                    content: '|';
-                    padding-right: 5px;
-                    color: #eee;
-                  }
-                }
+    }
+  }
+
+  /deep/.drug-table{
+    margin-top: 10px;
+    .d2-crud-body{
+      padding: 0 10px !important;
+      .el-table{
+        th{
+          background-color: #F4F4F4 !important;
+          color: #555 !important;
+        }
+        td{
+          .cell{
+            /deep/.el-button+.el-button{
+              margin-left: 5px;
+              &::before{
+                content: '|';
+                padding-right: 5px;
+                color: #eee;
               }
             }
           }

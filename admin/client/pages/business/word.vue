@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>搜索词管理</h3>
-        <el-button @click="addRow" type="primary" size="small">新增</el-button>
+        <el-button @click="addRow" type="primary" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
@@ -284,15 +284,13 @@
 
 <style lang="scss">
   .word-wrap{
-    padding: 20px;
-
-    .breadcrumb-wrap{
-      padding-left: 15px;
-    }
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .word{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -305,19 +303,18 @@
       }
 
       .title{
-        padding: 0 20px;
-        margin: 0 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
         border-bottom: 1px solid #E9E9E9;
-        position: relative;
         .el-button{
-          position: absolute;
-          right: 30px;
-          bottom: 20px;
+          color: #FFF;
         }
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{

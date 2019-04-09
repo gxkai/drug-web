@@ -1,34 +1,41 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="pharm-search">
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
-      <el-input v-model="pharmNameValue" size="small" placeholder="请输入药师名称" style="width: 200px;"></el-input>
-      <el-select size="small" v-model="pharmState" placeholder="当前状态">
-        <el-option
-          v-for="item in stateOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-button type="primary" size="small" @click="searchPharm">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+  <div class="pharmacist-wrap">
+    <div class="main-con">
+      <bread-crumb :path="$route.path"/>
+      <div class="pharm-search">
+        <div class="left">
+          <el-input v-model="pharmNameValue" size="small" placeholder="请输入药师名称" style="width: 200px;"></el-input>
+          <el-select size="small" v-model="pharmState" placeholder="当前状态">
+            <el-option
+              v-for="item in stateOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-button type="primary" size="small" @click="searchPharm">搜索</el-button>
+          <el-button size="small" @click="clear">清空</el-button>
+        </div>
+
+        <div class="right">
+          <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
+        </div>
+      </div>
+      <d2-crud
+        :columns="pharmacistColumns"
+        :data="pharmacistList"
+        :loading="loading"
+        :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
+        :options="options"
+        :rowHandle="rowHandle"
+        @emit-detail="handleDetail"
+        @emit-run="handleRun"
+        @emit-stop="handleStop"
+        @emit-reset="resetPassword"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="pharmacistColumns"
-      :data="pharmacistList"
-      :loading="loading"
-      :pagination="pagination"
-      @pagination-current-change="paginationCurrentChange"
-      :options="options"
-      :rowHandle="rowHandle"
-      @emit-detail="handleDetail"
-      @emit-run="handleRun"
-      @emit-stop="handleStop"
-      @emit-reset="resetPassword"
-      class="drug-table"
-    />
   </div>
 </template>
 <script>
@@ -242,7 +249,7 @@
         item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         item.activated = this.isAvaliable(item.activated)
         item.roleName = '药师'
-        item.lastLoginDate = item.lastLoginDate ? moment(item.lastLoginDate).format('YYYY-MM-DD hh:mm:ss') : ''
+        item.lastLoginDate = item.lastLoginDate ? moment(item.lastLoginDate).format('YYYY-MM-DD HH:mm:ss') : ''
       })
     }
 
@@ -263,26 +270,45 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
+  .pharmacist-wrap{
     padding: 0 10px;
-  }
-  .pharm-search{
-    display: flex;
-    justify-content: Flex-start;
-    align-items: center;
-    .el-input{
-      margin: 0 10px;
+    margin-bottom: 30px;
+
+    .main-con{
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+
+      .pharm-search{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #e9e9e9;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+
+        .right{
+          padding-right: 10px;
+        }
+
+        .el-input{
+          margin: 0 10px;
+        }
+        .el-select{
+          width: 150px;
+          margin-left: 5px;
+          margin-right: 10px;
+        }
+      }
     }
-    .el-select{
-      width: 150px;
-      margin-left: 5px;
-      margin-right: 10px;
-    }
   }
+
   /deep/.drug-table{
     margin-top: 10px;
     .d2-crud-body{
-      padding: 0 !important;
+      padding: 0 10px !important;
       .el-table{
         th{
           background-color: #F4F4F4 !important;

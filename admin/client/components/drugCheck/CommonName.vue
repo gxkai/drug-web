@@ -120,7 +120,7 @@
   .common--content{
     max-height: 500px;
     overflow-y: scroll;
-    padding: 10px;
+    padding: 0 10px;
     &__search{
       display: flex;
       justify-content: Flex-start;

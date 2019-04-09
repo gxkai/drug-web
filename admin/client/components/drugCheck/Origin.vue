@@ -110,7 +110,7 @@
 
 <style lang="scss" scoped>
   .origin--content{
-    padding: 10px;
+    padding: 0 10px;
     max-height: 500px;
     overflow-y: scroll;
     &__search{

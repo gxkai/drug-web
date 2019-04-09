@@ -1,35 +1,37 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="file-search">
-      <el-date-picker
-        size="small"
-        style="width: 200px;"
-        v-model="startDate"
-        value-format="yyyy-MM-DD HH:mm:ss"
-        type="datetime"
-        placeholder="开始日期">
-      </el-date-picker>
-      <el-date-picker
-        size="small"
-        style="width: 200px;"
-        v-model="endDate"
-        value-format="yyyy-MM-DD HH:mm:ss"
-        type="datetime"
-        placeholder="结束日期">
-      </el-date-picker>
-      <el-input size="small" v-model="inputValue" placeholder="请输入用户名"></el-input>
-      <el-button type="primary" size="small" @click="search">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+  <div class="log-wrap">
+    <div class="log-list">
+      <bread-crumb :path="$route.path"/>
+      <div class="file-search">
+        <el-date-picker
+          size="small"
+          style="width: 200px;"
+          v-model="startDate"
+          value-format="yyyy-MM-DD HH:mm:ss"
+          type="datetime"
+          placeholder="开始日期">
+        </el-date-picker>
+        <el-date-picker
+          size="small"
+          style="width: 200px;"
+          v-model="endDate"
+          value-format="yyyy-MM-DD HH:mm:ss"
+          type="datetime"
+          placeholder="结束日期">
+        </el-date-picker>
+        <el-input size="small" v-model="inputValue" placeholder="请输入用户名"></el-input>
+        <el-button type="primary" size="small" @click="search">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
+      </div>
+      <d2-crud
+        :columns="columns"
+        :data="loginlogData"
+        :loading="loading"
+        :pagination="pagination"
+        :options="options"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="loginlogData"
-      :loading="loading"
-      :pagination="pagination"
-      :options="options"
-      class="drug-table"
-    />
   </div>
 </template>
 <script>
@@ -128,13 +130,29 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
+  .log {
+    &-wrap {
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    &-list {
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+    }
   }
   /deep/.file-search{
     display: flex;
     justify-content: Flex-start;
     align-items: center;
+    border-bottom: 1px solid #e9e9e9;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+
     .el-date-editor{
       margin-right: 10px;
     }

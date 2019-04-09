@@ -472,7 +472,7 @@
 
       .filter{
         padding: 0 20px 30px;
-        margin: 0 10px 20px;
+        margin: 0 10px 15px;
         text-align: center;
         border-bottom: 1px solid #E9E9E9;
 

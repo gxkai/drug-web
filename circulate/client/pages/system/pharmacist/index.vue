@@ -242,7 +242,7 @@
         item.index = index + 1
         item.activated = this.isAvaliable(item.activated)
         item.roleName = '药师'
-        item.lastLoginDate = item.lastLoginDate ? moment(item.lastLoginDate).format('YYYY-MM-DD hh:mm:ss') : ''
+        item.lastLoginDate = item.lastLoginDate ? moment(item.lastLoginDate).format('YYYY-MM-DD HH:mm:ss') : ''
       })
     }
 

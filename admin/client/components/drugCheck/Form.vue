@@ -109,7 +109,8 @@
 
 <style lang="scss" scoped>
   .common--content{
-    padding: 10px;
+    padding: 0 10px;
+    margin-bottom: 30px;
     &__search{
       display: flex;
       justify-content: Flex-start;

@@ -1,8 +1,8 @@
 <template>
   <div class="shop-edit">
-    <bread-crumb :path="$route.path"/>
     <div class="check-form">
-      <el-form ref="form" :model="form" label-width="150px">
+      <bread-crumb :path="$route.path"/>
+      <el-form ref="form" class="detail-form" :model="form" label-width="150px">
         <el-form-item label="药店名称：">
           <el-input v-model="form.shopName" disabled placeholder="暂无"></el-input>
         </el-form-item>
@@ -216,19 +216,22 @@
 
 <style scoped lang="scss">
 .shop-edit{
-  padding: 10px;
-  background: #FFF;
+  padding: 0 10px;
+  margin-bottom: 30px;
 
-  .breadcrumb-wrap{
-    padding-left: 15px;
-  }
 
   .check-form{
-    padding: 20px 100px 0 0;
+    min-height: 850px;
+    background: #FFF;
+    border-radius: 5px;
+    border: 1px solid #E9E9E9;
+    padding: 10px 100px 10px 10px;
+
     .el-form{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-template-rows: repeat(5, 50px) 300px repeat(2, 50px) 200px;
+      padding-top: 20px;
       .el-form-item{
         &:nth-child(1),&:nth-child(3),&:nth-child(5),&:nth-child(7),&:nth-child(9),&:nth-child(12),&:nth-child(14){
           grid-column: 1 / 3;

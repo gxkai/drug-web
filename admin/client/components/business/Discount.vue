@@ -431,9 +431,9 @@
       this.totalPages = res.total
 
       this.tableData.forEach((item, index) => {
-        item.applyDate = moment(item.applyDate).format('YYYY-MM-DD hh:mm:ss')
-        item.startDate = moment(item.startDate).format('YYYY-MM-DD hh:mm:ss')
-        item.endDate = moment(item.endDate).format('YYYY-MM-DD hh:mm:ss')
+        item.applyDate = moment(item.applyDate).format('YYYY-MM-DD HH:mm:ss')
+        item.startDate = moment(item.startDate).format('YYYY-MM-DD HH:mm:ss')
+        item.endDate = moment(item.endDate).format('YYYY-MM-DD HH:mm:ss')
       })
 
       this.getPerData()
@@ -448,11 +448,13 @@
 
 <style lang="scss">
   .discount-wrap{
-    padding: 10px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .discount{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -473,8 +475,8 @@
       }
 
       .filter{
-        padding: 0 20px 30px;
-        margin: 0 10px 20px;
+        padding: 0 20px 20px;
+        margin-bottom: 15px;
         text-align: center;
         border-bottom: 1px solid #E9E9E9;
 
@@ -485,11 +487,10 @@
         &-top{
           margin: 20px 0;
         }
-
       }
 
       .list {
-        padding: 0 15px;
+        padding: 0 10px;
 
         .el-table{
           th{

@@ -142,7 +142,7 @@
       // console.log(rxDetail)
 
       this.formInfo = rxDetail
-      this.formInfo.rxDate = moment(this.formInfo.rxDate).format('YYYY-MM-DD hh:mm:ss')
+      this.formInfo.rxDate = moment(this.formInfo.rxDate).format('YYYY-MM-DD HH:mm:ss')
       this.rpList = rxDetail.list
       this.rpList.forEach((item, index) => {
         item.index = index + 1
@@ -162,7 +162,8 @@
 
 <style lang="scss">
   .rd-detail-wrap{
-    padding: 10px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .el-table{
       th{
@@ -170,25 +171,19 @@
       }
     }
 
-    .breadcrumb-wrap{
-      padding-left: 15px;
-    }
-
     .detail{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
       .title{
-        padding: 0 20px 15px;
-        margin: 10px;
+        padding: 0 15px;
         border-bottom: 1px solid #E9E9E9;
 
         h3{
           color: #666;
-          font-size: 18px;
-          margin: 0;
         }
       }
 
@@ -213,7 +208,7 @@
         }
 
         .track-info{
-          padding: 20px 150px 30px 70px;
+          padding: 20px 150px 10px 70px;
 
           .el-form{
             display: grid;
@@ -240,7 +235,7 @@
 
       .back{
         text-align: center;
-        margin-bottom: 30px;
+        margin: 30px auto;
       }
     }
   }

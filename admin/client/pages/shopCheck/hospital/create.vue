@@ -148,7 +148,7 @@
 
 <style scoped lang="scss">
   .hospital-detail{
-    padding: 10px;
+    padding: 0 10px;
     background: #FFF;
 
     .breadcrumb-wrap{

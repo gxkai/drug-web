@@ -111,10 +111,6 @@
         title: '常见问题标题',
         value: ''
       },
-      readTimes: {
-        title: '阅读次数',
-        value: ''
-      },
       answer: {
         title: '回复',
         value: ''
@@ -216,7 +212,7 @@
       this.pagination.total = faq.total
       this.faqList.forEach((item, index) => {
         item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
-        item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD hh:mm:ss')
+        item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD HH:mm:ss')
         item.readTimes = item.readTimes || 0
       })
     }
@@ -229,16 +225,18 @@
 
 <style lang="scss">
   .faq-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
+
     .faq{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
       .title-add{
-        padding: 0 20px;
-        margin: 0 10px;
+        padding: 0 15px;
         border-bottom: 1px solid #E9E9E9;
 
         .add-col{
@@ -248,7 +246,7 @@
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{

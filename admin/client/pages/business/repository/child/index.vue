@@ -318,10 +318,11 @@
     width: 60% !important;
   }
   .type-wrap{
-    padding: 20px;
+    padding: 0 10px;
     .repository__type{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -329,21 +330,17 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px;
-        margin: 0 10px;
+        padding: 0 15px;
         border-bottom: 1px solid #E9E9E9;
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{
             background-color: #F4F4F4;
             color: #555;
-          }
-          td.columnsContent{
-            /*border: 1px solid red;*/
           }
         }
       }

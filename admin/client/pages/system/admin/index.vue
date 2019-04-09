@@ -1,24 +1,28 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="pharm-search">
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
+  <div class="admin-wrap">
+    <div class="admin-list">
+      <bread-crumb :path="$route.path"/>
+      <div class="pharm-search">
+        <h3>监管用户管理</h3>
+        <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
+      </div>
+      <d2-crud
+        :columns="columns"
+        :data="adminData"
+        :loading="loading"
+        :pagination="pagination"
+        :options="options"
+        :rowHandle="rowHandle"
+        @emit-edit="handleEditEvent"
+        @emit-stop="handleStop"
+        @emit-run="handleRun"
+        @emit-reset="handleReset"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="adminData"
-      :loading="loading"
-      :pagination="pagination"
-      :options="options"
-      :rowHandle="rowHandle"
-      @emit-edit="handleEditEvent"
-      @emit-stop="handleStop"
-      @emit-run="handleRun"
-      @emit-reset="handleReset"
-      class="drug-table"
-    />
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -160,18 +164,33 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
+  .admin{
+    &-wrap{
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    &-list{
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+
+      .pharm-search{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #e9e9e9;
+        padding: 0 15px;
+      }
+    }
   }
-  .pharm-search{
-    display: flex;
-    justify-content: Flex-start;
-    align-items: center;
-  }
+
   /deep/.drug-table{
-    margin-top: 10px;
+    margin-top: 15px;
     .d2-crud-body{
-      padding: 0 !important;
+      padding: 0  15px !important;
       .el-table{
         th{
           background-color: #F4F4F4 !important;

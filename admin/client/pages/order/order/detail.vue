@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-wrap">
+  <div class="order-detail-wrap">
     <div class="detail">
       <bread-crumb :path="$route.path"/>
 
@@ -69,7 +69,7 @@
 
         <!--订单详情-->
         <div class="order-detail">
-          <h5>订单详情：</h5>
+          <h4>订单详情：</h4>
           <d2-crud
             ref="orderDetailCrud"
             :columns="orderDetailColumns"
@@ -409,8 +409,9 @@
 
 <style lang="scss">
 
-  .detail-wrap{
-    padding: 20px;
+  .order-detail-wrap{
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     h2, h3, h4, h5{
       margin: 0;
@@ -419,7 +420,7 @@
     .detail{
       min-height: 850px;
       background: #FFF;
-      padding-bottom: 20px;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -435,7 +436,6 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 10px 15px;
-        margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;
       }
 
@@ -548,7 +548,7 @@
         .order-detail{
           width: 95%;
 
-          h5{
+          h4{
             margin-top: 30px;
           }
 

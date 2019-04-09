@@ -444,17 +444,18 @@
   $tableBorder: 1px solid #EBEEF5;
 
   .order-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .order{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
       .filter{
-        margin: 20px 15px;
-        padding-bottom: 20px;
+        padding: 20px 0;
         border-bottom: 1px solid #E9E9E9;
 
         .el-col-8{
@@ -482,7 +483,7 @@
       }
 
       &-list{
-        padding: 0 15px;
+        padding: 0 10px;
         .container {
           font-size: 15px;
           margin-top: 30px;
@@ -622,6 +623,10 @@
                 border-right: $tableBorder;
               }
 
+              &4, &5, &6, &8, &9, &10, &11, &13{
+                text-align: center;
+              }
+
               &1, &4, &5, &6, &7{
                 border-right: $tableBorder;
                 border-bottom: $tableBorder;
@@ -634,6 +639,9 @@
             grid-template-rows: 50px auto;
             grid-template-columns: repeat(4, 1fr);
 
+            .item{
+              text-align: center;
+            }
             .item1{
               grid-area: 1/1/2/2;
             }

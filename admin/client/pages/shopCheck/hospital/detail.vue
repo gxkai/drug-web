@@ -1,7 +1,7 @@
 <template>
   <div class="hospital-detail">
-    <bread-crumb :path="$route.path"/>
     <div class="hospital-form">
+      <bread-crumb :path="$route.path"/>
       <el-form ref="detailForm" :model="detailForm" label-width="150px">
         <el-form-item label="医院编码：">
           <el-input v-model="detailForm.code" readonly placeholder="暂无"></el-input>
@@ -57,6 +57,7 @@
     </div>
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -105,24 +106,24 @@
   }
 </script>
 
-
 <style scoped lang="scss">
 .hospital-detail{
-  padding: 10px;
-  background: #FFF;
-
-  .breadcrumb-wrap{
-    padding-left: 15px;
-  }
+  padding: 0 10px;
+  margin-bottom: 30px;
 
   .hospital-form{
-    padding-right: 200px;
-    padding-top: 20px;
+    min-height: 850px;
+    background: #FFF;
+    border-radius: 5px;
+    border: 1px solid #E9E9E9;
+    padding: 10px 200px 10px 10px;
 
     form.el-form{
       display: grid;
       grid-template-columns: 40% 60%;
       grid-template-rows: repeat(7, 50px) 300px 200px;
+      margin-top: 20px;
+
       .el-form-item{
         grid-column: 1 / 2;
         &.hospitalImg{

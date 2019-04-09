@@ -1,48 +1,55 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="chatDetail">
-      <ul>
-        <li v-for="(item, index) in detailList" :key="index">
-          <div class="account" v-if="item.type === 'ACCOUNT'">
-            <p class="date">{{ item.createdDate }}</p>
-            <div class="main" :class="item.messageType === 'PIC' ? 'pic' : ''">
-              <span class="name">{{ item.accountName }}</span>
-              <span v-if="item.messageType === 'TEXT'" class="text">
-                {{ item.message }}
-              </span>
-              <span v-else class="img">
-                <img :src="item.picUrl">
-              </span>
+  <div class="detail--wrap">
+    <div class="main-con">
+      <bread-crumb :path="$route.path"/>
+      <div class="chatDetail">
+        <ul>
+          <li v-for="(item, index) in detailList" :key="index">
+            <div class="account" v-if="item.type === 'ACCOUNT'">
+              <p class="date">{{ item.createdDate }}</p>
+              <div class="main" :class="item.messageType === 'PIC' ? 'pic' : ''">
+                <span class="name">{{ item.accountName }}</span>
+                <span v-if="item.messageType === 'TEXT'" class="text">
+                  {{ item.message }}
+                </span>
+                <span v-else class="img">
+                  <img :src="item.picUrl">
+                </span>
+              </div>
             </div>
-          </div>
 
-          <div class="pharmacist" v-else>
-            <p class="date">{{ item.createdDate }}</p>
-            <div class="main" :class="item.messageType === 'PIC' ? 'pic' : ''">
-              <span v-if="item.messageType === 'TEXT'" class="text">
-                {{ item.message }}
-              </span>
-              <span v-else class="img">
-                <img :src="item.picUrl">
-              </span>
-              <span class="name">{{ item.userName }}</span>
+            <div class="pharmacist" v-else>
+              <p class="date">{{ item.createdDate }}</p>
+              <div class="main" :class="item.messageType === 'PIC' ? 'pic' : ''">
+                <span v-if="item.messageType === 'TEXT'" class="text">
+                  {{ item.message }}
+                </span>
+                <span v-else class="img">
+                  <img :src="item.picUrl">
+                </span>
+                <span class="name">{{ item.userName }}</span>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="pagination">
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-size="pageSize"
-        layout="prev, pager, next, jumper, total"
-        :total="totalPages">
-      </el-pagination>
+          </li>
+        </ul>
+      </div>
+      <div class="pagination">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-size="pageSize"
+          layout="prev, pager, next, jumper, total"
+          :total="totalPages">
+        </el-pagination>
+      </div>
+
+      <div class="back">
+        <el-button @click="$router.push('/system/pharmacist/chat')">返回</el-button>
+      </div>
     </div>
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -78,7 +85,7 @@
       this.totalPages = detail.total
 
       this.detailList.forEach(item => {
-        item.createdDate = moment(item.createdDate).format('YYYY-MM-DD hh:mm:ss')
+        item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
       })
     }
 
@@ -90,8 +97,21 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
+  .detail--wrap{
     padding: 0 10px;
+    margin-bottom: 30px;
+
+    .main-con{
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+
+      .back{
+        text-align: center;
+      }
+    }
   }
 
   /deep/.pagination{
@@ -105,6 +125,7 @@
     width: 80%;
     height: 600px;
     padding: 10px;
+    margin-left: 10px;
     overflow-y: scroll;
     background: #eee;
     ul{
