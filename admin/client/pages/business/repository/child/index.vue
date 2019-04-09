@@ -211,7 +211,7 @@
       let data = await axios.get(`/api/supervise/repositories`, {params: params})
       this.childData = data.data.list
       this.childData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         item.text = this.repalceHtml(item.content)// 内容格式化
         item.lastModifiedDate = moment(item.lastModifiedDate).format('YYYY-MM-DD HH:mm:ss')
         if (item.home.toString() === 'true') {
@@ -318,10 +318,11 @@
     width: 60% !important;
   }
   .type-wrap{
-    padding: 20px;
+    padding: 0 10px;
     .repository__type{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -329,21 +330,17 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px;
-        margin: 0 10px;
+        padding: 0 15px;
         border-bottom: 1px solid #E9E9E9;
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{
             background-color: #F4F4F4;
             color: #555;
-          }
-          td.columnsContent{
-            /*border: 1px solid red;*/
           }
         }
       }

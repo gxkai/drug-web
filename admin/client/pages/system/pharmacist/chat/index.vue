@@ -1,17 +1,19 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <d2-crud
-      :columns="columns"
-      :data="chatList"
-      :loading="loading"
-      :pagination="pagination"
-      @pagination-current-change="paginationCurrentChange"
-      :options="options"
-      :rowHandle="rowHandle"
-      @emit-detail="handleDetail"
-      class="drug-table"
-    />
+  <div class="chat--wrap">
+    <div class="chat--con">
+      <bread-crumb :path="$route.path"/>
+      <d2-crud
+        :columns="columns"
+        :data="chatList"
+        :loading="loading"
+        :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
+        :options="options"
+        :rowHandle="rowHandle"
+        @emit-detail="handleDetail"
+        class="drug-table"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -99,9 +101,9 @@
       this.chatList = chat.list
       this.pagination.total = chat.total
       this.chatList.forEach((item, index) => {
-        item.index = index + 1
-        item.userLastDate = item.userLastDate ? moment(item.userLastDate).format('YYYY-MM-DD hh:mm:ss') : ''
-        item.accountLastDate = item.accountLastDate ? moment(item.accountLastDate).format('YYYY-MM-DD hh:mm:ss') : ''
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
+        item.userLastDate = item.userLastDate ? moment(item.userLastDate).format('YYYY-MM-DD HH:mm:ss') : ''
+        item.accountLastDate = item.accountLastDate ? moment(item.accountLastDate).format('YYYY-MM-DD HH:mm:ss') : ''
       })
     }
 
@@ -121,8 +123,19 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
+  .chat{
+    &--wrap{
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    &--con{
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+    }
   }
   /deep/.drug-table{
     .d2-crud-body{

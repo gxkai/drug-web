@@ -151,7 +151,8 @@
     shopAppraiseColumn = [
       {
         title: '药店名称',
-        key: 'shopName'
+        key: 'shopName',
+        width: 200
       },
       {
         title: '买家姓名',
@@ -175,7 +176,8 @@
       },
       {
         title: '评价时间',
-        key: 'appraiseDate'
+        key: 'appraiseDate',
+        width: 200
       }
     ];
 
@@ -272,15 +274,18 @@
     drugAppraiseColumn = [
       {
         title: '药房名称',
-        key: 'shopName'
+        key: 'shopName',
+        width: 200
       },
       {
         title: '药品名称',
-        key: 'drugName'
+        key: 'drugName',
+        width: 200
       },
       {
         title: '药品规格',
-        key: 'spec'
+        key: 'spec',
+        width: 230
       },
       {
         title: '买家姓名',
@@ -292,11 +297,13 @@
       },
       {
         title: '评价内容',
-        key: 'content'
+        key: 'content',
+        width: 250
       },
       {
         title: '评论时间',
-        key: 'appraiseDate'
+        key: 'appraiseDate',
+        width: 200
       }
     ];
 
@@ -310,6 +317,7 @@
     };
 
     drugRowHandle = {
+      width: 180,
       custom: [
         {
           text: '查看详情',
@@ -409,7 +417,8 @@
 
 <style lang="scss">
   .appraise-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .el-table {
       th {
@@ -421,15 +430,25 @@
     .appraise{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
-      padding: 20px;
 
       .el-select{
         width: 100%;
       }
 
       .drug-appraise__list{
+        .el-table__row{
+          .el-table_2_column_14{
+            .cell{
+              width: 250px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+        }
         .cell{
           button:last-child:before{
             content: '|';

@@ -1,34 +1,37 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="druginfo-search">
-      <el-input v-model="drugNameValue" size="small" placeholder="请输入药品名称" style="width: 150px;"></el-input>
-      <el-input v-model="firmNameValue" size="small" placeholder="请输入厂商简称" style="width: 150px;"></el-input>
-      <el-select size="small" v-model="drugState" placeholder="药品状态">
-        <el-option
-          v-for="item in stateOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-button type="primary" size="small" @click="searchDrugInfo">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+  <div class="drugInfo-wrap">
+    <div class="drugInfo-list">
+      <bread-crumb :path="$route.path"/>
+      <div class="drugInfo-search">
+        <el-input v-model="drugNameValue" size="small" placeholder="请输入药品名称" style="width: 150px;"></el-input>
+        <el-input v-model="firmNameValue" size="small" placeholder="请输入厂商简称" style="width: 150px;"></el-input>
+        <el-select size="small" v-model="drugState" placeholder="药品状态">
+          <el-option
+            v-for="item in stateOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-button type="primary" size="small" @click="searchDrugInfo">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
+      </div>
+      <d2-crud
+        :columns="columns"
+        :data="drugInfoList"
+        :loading="loading"
+        :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
+        :options="options"
+        :rowHandle="rowHandle"
+        @emit-detail="handleDetailEvent"
+        @emit-check="handleCheckEvent"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="drugInfoList"
-      :loading="loading"
-      :pagination="pagination"
-      @pagination-current-change="paginationCurrentChange"
-      :options="options"
-      :rowHandle="rowHandle"
-      @emit-detail="handleDetailEvent"
-      @emit-check="handleCheckEvent"
-      class="drug-table"
-     />
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -163,27 +166,42 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
-    background: #fff;
-  }
-  .druginfo-search{
-    display: flex;
-    justify-content: Flex-start;
-    align-items: center;
-    .el-input{
-      margin: 0 5px;
+  .drugInfo{
+    &-wrap{
+      padding: 0 10px;
+      margin-bottom: 30px;
     }
-    .el-select{
-      width: 150px;
-      margin-left: 5px;
-      margin-right: 10px;
+
+    &-list{
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+    }
+
+    &-search{
+      display: flex;
+      justify-content: Flex-start;
+      align-items: center;
+      border-bottom: 1px solid #e9e9e9;
+      padding-bottom: 15px;
+
+      .el-input{
+        margin: 0 5px;
+      }
+      .el-select{
+        width: 150px;
+        margin-left: 5px;
+        margin-right: 10px;
+      }
     }
   }
+
   /deep/.drug-table{
-    margin-top: 10px;
+    margin-top: 15px;
     .d2-crud-body{
-      padding: 0 !important;
+      padding: 0 10px !important;
       .el-table{
         th{
           background-color: #F4F4F4 !important;

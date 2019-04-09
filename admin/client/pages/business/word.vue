@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>搜索词管理</h3>
-        <el-button @click="addRow" type="primary" size="small">新增</el-button>
+        <el-button @click="addRow" type="primary" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
@@ -25,7 +25,6 @@
           :form-options="formOptions"
           @row-add="handleRowAdd"
           @dialog-cancel="handleDialogCancel"
-
           @row-remove="handleRowRemove"
         />
       </div>
@@ -55,6 +54,18 @@
           <el-button @click="dialogVisible = false" type="primary">关 闭</el-button>
         </div>
       </el-dialog>
+
+      <el-dialog
+        title="首推药品"
+        :visible.sync="firstPushDialogVisible"
+        width="50%"
+        :close-on-click-modal='isClickModal'>
+        <FirstDrug v-on:listenToChildEvent="getSelectedInfo"></FirstDrug>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="firstPushDialogVisible = false" type="primary">关 闭</el-button>
+          <el-button @click="confirmPush" type="primary">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -63,13 +74,23 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import FirstDrug from '@/components/drugCheck/drug/index'
   import axios from 'axios'
+
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      FirstDrug
     }
   })
   export default class Word extends Vue {
+    viewData = {}
+    selectedDrugs = []
+    middelList = []
+    isClickModal = false
+    dialogVisible = false
+    firstPushDialogVisible = false
+
     columns = [
       {
         title: '序号',
@@ -136,6 +157,7 @@
     beforeMount () {
       this.initData()
     }
+
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
       this.initData()
@@ -145,14 +167,13 @@
       let params = {
         name: '',
         pageNum: this.pagination.currentPage,
-        pageSize: 15
+        pageSize: this.pagination.pageSize
       }
       let data = await axios.get(`/api/supervise/keywords`, {params: params})
-      console.log(data)
       this.keywordsData = data.data.list
       // 添加序号
       this.keywordsData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         if (item.type === 'ADMIN') {
           item.type = '后台推荐'
         } else if (item.type === 'ACCOUNT') {
@@ -166,12 +187,31 @@
     }
 
     firstPush ({index, row}) {
-      this.$router.push('/drugCheck/stock')
+      this.firstPushDialogVisible = true
     }
 
-    viewData = {}
-    isClickModal = false
-    dialogVisible = false
+    getSelectedInfo (data) {
+      console.log(data)
+      this.selectedDrugs = data
+    }
+
+    async confirmPush () {
+      let pushID = ''
+      this.middelList = this.selectedDrugs
+      this.middelList.forEach(item => {
+        pushID += `${item.id},`
+      })
+      pushID = pushID.substring(0, pushID.length - 1)
+      let params = {
+        ids: pushID
+      }
+      await axios.get(`/api/supervise/keywords`, {params})
+      this.$message({
+        message: '药品首推成功',
+        type: 'success'
+      })
+      this.firstPushDialogVisible = false
+    }
 
     view ({index, row}) {
       this.viewData.index = row.index
@@ -218,6 +258,7 @@
         this.formOptions.saveLoading = false
       }, 300)
     }
+
     handleDialogCancel (done) {
       this.$message({
         message: '取消保存',
@@ -243,11 +284,13 @@
 
 <style lang="scss">
   .word-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .word{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -260,19 +303,18 @@
       }
 
       .title{
-        padding: 0 20px;
-        margin: 0 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
         border-bottom: 1px solid #E9E9E9;
-        position: relative;
         .el-button{
-          position: absolute;
-          right: 30px;
-          bottom: 20px;
+          color: #FFF;
         }
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{
@@ -283,6 +325,9 @@
       }
 
       .cell{
+        .el-button+.el-button {
+          margin-left: 8px;
+        }
         button:nth-child(2):before{
           content: '|';
           color: #EEE;

@@ -1,25 +1,32 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="pharm-search">
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
-      <el-input v-model="roleNameValue" size="small" placeholder="请输入角色名称" style="width: 150px;"></el-input>
-      <el-button type="primary" size="small" @click="search">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+  <div class="role-wrap">
+    <div class="role-list">
+      <bread-crumb :path="$route.path"/>
+      <div class="pharm-search">
+        <div class="left">
+          <el-input v-model="roleNameValue" size="small" placeholder="请输入角色名称" style="width: 150px;"></el-input>
+          <el-button type="primary" size="small" @click="search">搜索</el-button>
+          <el-button size="small" @click="clear">清空</el-button>
+        </div>
+        <div class="right">
+          <el-button type="primary" style="background: #169bd5;" @click="addRow">新增</el-button>
+        </div>
+      </div>
+      <d2-crud
+        :columns="columns"
+        :data="roleData"
+        :loading="loading"
+        :pagination="pagination"
+        :options="options"
+        :rowHandle="rowHandle"
+        @emit-edit="handleEdit"
+        @row-remove="handleRowRemove"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="roleData"
-      :loading="loading"
-      :pagination="pagination"
-      :options="options"
-      :rowHandle="rowHandle"
-      @emit-edit="handleEdit"
-      @row-remove="handleRowRemove"
-      class="drug-table"
-    />
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -67,7 +74,6 @@
       ],
       remove: {
         type: 'text',
-        size: 'small',
         confirm: true
       }
     }
@@ -133,26 +139,45 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
-  }
-  .pharm-search{
-    display: flex;
-    justify-content: Flex-start;
-    align-items: center;
-    .el-input{
-      margin: 0 10px;
+  .role{
+    &-wrap{
+      padding: 0 10px;
+      margin-bottom: 30px;
     }
-    .el-select{
-      width: 150px;
-      margin-left: 5px;
-      margin-right: 10px;
+    &-list{
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+
+      .pharm-search{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e9e9e9;
+        padding-bottom: 15px;
+
+        .right{
+          padding-right: 10px;
+        }
+
+        .el-input{
+          margin: 0 10px;
+        }
+        .el-select{
+          width: 150px;
+          margin-left: 5px;
+          margin-right: 10px;
+        }
+      }
     }
   }
+
   /deep/.drug-table{
-    margin-top: 10px;
+    margin-top: 15px;
     .d2-crud-body{
-      padding: 0 !important;
+      padding: 0 10px!important;
       .el-table{
         th{
           background-color: #F4F4F4 !important;

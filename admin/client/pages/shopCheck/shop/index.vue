@@ -1,83 +1,65 @@
 <template>
-  <div class="p10">
-      <bread-crumb :path="$route.path"/>
-      <div class="shop-search">
-        <el-input v-model="shopNameValue" size="small" placeholder="请输入药房名称"></el-input>
-        <!--请选择药房名称-->
-        <!--<el-button class="select-btn" v-if="shopNameValue" size="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>-->
-        <!--<el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>-->
-
-        <el-select size="small" v-model="legalName" filterable placeholder="法人姓名">
-          <el-option
-            v-for="item in legalOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-select size="small" v-model="drugState" placeholder="选择状态">
-          <el-option
-            v-for="item in stateOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-button type="primary" size="small" @click="search">搜索</el-button>
-        <el-button size="small" @click="clear">清空</el-button>
+  <div class="shop--check__wrap">
+      <div class="main-wrap">
+        <bread-crumb :path="$route.path"/>
+        <div class="shop-search">
+          <el-select size="small" v-model="shopNameValue" filterable placeholder="药房名称" style="width:auto;">
+            <el-option
+              v-for="(item, index) in shopOptions"
+              :key="index"
+              :label="item.shopName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+          <el-select size="small" v-model="legalName" filterable placeholder="法人姓名">
+            <el-option
+              v-for="item in legalOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select size="small" v-model="drugState" placeholder="选择状态">
+            <el-option
+              v-for="item in stateOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-button type="primary" size="small" @click="search">搜索</el-button>
+          <el-button size="small" @click="clear">清空</el-button>
+        </div>
+        <d2-crud
+          :columns="columns"
+          :data="shopData"
+          :loading="loading"
+          :pagination="pagination"
+          :options="options"
+          :rowHandle="rowHandle"
+          @emit-check="handleCheckEvent"
+          @emit-detail="handleDetailEvent"
+          @emit-run="handleRunEvent"
+          @emit-stop="handleStopEvent"
+          class="drug-table"
+        />
       </div>
-
-    <!--选择药房名称-->
-    <el-dialog
-      title="药房名称"
-      :close-on-click-modal='isCloseOnClickModal'
-      :visible.sync="shopNameDialog"
-      width="50%">
-      <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="shopNameDialog = false">取 消</el-button>
-        <el-button type="primary" @click="confirmSelect">确 定</el-button>
-      </span>
-    </el-dialog>
-
-      <d2-crud
-        :columns="columns"
-        :data="shopData"
-        :loading="loading"
-        :pagination="pagination"
-        :options="options"
-        :rowHandle="rowHandle"
-        @emit-check="handleCheckEvent"
-        @emit-detail="handleDetailEvent"
-        @emit-run="handleRunEvent"
-        @emit-stop="handleStopEvent"
-        class="drug-table"
-       />
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  import ShopName from '@/components/shop/ShopName'
   import axios from 'axios'
   @Component({
     components: {
-      BreadCrumb,
-      ShopName
+      BreadCrumb
     }
   })
   export default class Shop extends Vue {
-    // 药房弹窗
-    isCloseOnClickModal = false
-    shopNameDialog = false
     shopNameValue = ''
     shopId = ''
-
-    // 下拉弹框
-    selectedInfo = '' // 子组件传过来的数据
-    childData = [] // 暂存已选的数据
-
     legalName = ''
     drugState = ''
     columns = [
@@ -107,7 +89,7 @@
       }
     ]
     shopData = []
-    // shopOptions = []
+    shopOptions = []
     arr = []
     legalOptions = []
     stateOptions = [
@@ -187,7 +169,7 @@
     }
     beforeMount () {
       this.getShopData()
-      // this.getShopNames()
+      this.getShopNames()
     }
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
@@ -200,6 +182,7 @@
         pageSize: 15
       }
       let data = await axios.get(`/api/supervise/shops`, {params: params})
+      // console.log(data.data)
       this.shopData = data.data.list
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {
@@ -242,19 +225,14 @@
         }
       })
     }
-    // getShopID () {
-    //   this.shopOptions.forEach(item => {
-    //     if (this.shopNameValue === item.shopName) {
-    //       this.shopId = item.id
-    //     }
-    //   })
-    // }
+
     // 获取所有药店名称选项
-    // async getShopNames () {
-    //   let {data: option} = await axios.get(`/api/supervise/shops`)
-    //   this.shopOptions = option.list
-    // }
+    async getShopNames () {
+      let {data: option} = await axios.get(`/api/supervise/shops`)
+      this.shopOptions = option.list
+    }
     handleCheckEvent ({index, row}) {
+      // console.log(row)
       this.$router.push({
         path: '/shopCheck/shop/check',
         query: {
@@ -262,25 +240,6 @@
         }
       })
     }
-
-    // 获取已选信息
-    getSelectedInfo (data) {
-      this.selectedInfo = data
-      console.log(this.selectedInfo)
-    }
-    // 获取药店名称
-    confirmSelect () {
-      if (!this.selectedInfo) {
-        this.shopNameDialog = false
-        return
-      }
-      this.childData = this.selectedInfo
-      this.shopId = this.childData.id
-      this.shopNameValue = this.childData.shopName
-      this.shopNameDialog = false
-      this.selectedInfo = ''
-    }
-
     async handleStopEvent ({index, row}) {
       await axios.post(`/api/supervise/shops/${row.id}/?state=REST`)
       this.getShopData()
@@ -306,7 +265,7 @@
     async search () {
       let params = {
         legal: this.legalName,
-        shopId: this.shopId,
+        shopId: this.shopNameValue,
         state: this.drugState,
         pageNum: this.pagination.currentPage,
         pageSize: 15
@@ -336,52 +295,60 @@
   }
 </script>
 
-
 <style lang="scss" scoped>
-.p10{
-  padding:5px 10px;
-}
-.select-btn{
-  margin-right: 10px;
-  text-align: left;
-  font-size: 14px;
-  width: 200px;
-}
-.shop-search{
-  display: flex;
-  justify-content: Flex-start;
-  align-items: center;
-  .el-input{
-    margin-right: 10px;
-    width: 160px;
-  }
-  .el-select{
-    margin-right: 10px;
-    width: 160px;
-  }
-}
-/deep/.drug-table{
-  margin-top: 10px;
-  .d2-crud-body{
-      padding: 0 !important;
-    .el-table{
-      th{
-        background-color: #F4F4F4 !important;
-        color: #555 !important;
+  .shop--check__wrap{
+    padding: 0 10px;
+    margin-bottom: 30px;
+
+    .main-wrap{
+      min-height: 850px;
+      background: #FFF;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+
+      .shop-search{
+        display: flex;
+        justify-content: Flex-start;
+        align-items: center;
+        border-bottom: 1px solid #e9e9e9;
+        padding-bottom: 15px;
+        padding-left: 10px;
+
+        .el-input{
+          margin-right: 10px;
+          width: 160px;
+        }
+        .el-select{
+          margin-right: 10px;
+          width: 160px;
+        }
       }
-      td{
-        .cell{
-          /deep/.el-button+.el-button{
-            margin-left: 5px;
-            &::before{
-              content: '|';
-              padding-right: 5px;
-              color: #eee;
+    }
+  }
+
+  /deep/.drug-table{
+    margin-top: 15px;
+    .d2-crud-body{
+      padding: 0 10px!important;
+      .el-table{
+        th.is-leaf{
+          background-color: #F4F4F4 !important;
+          color: #555 !important;
+        }
+        td{
+          .cell{
+            /deep/.el-button+.el-button{
+              margin-left: 5px;
+              &::before{
+                content: '|';
+                padding-right: 5px;
+                color: #eee;
+              }
             }
           }
         }
       }
     }
   }
-}
 </style>

@@ -91,7 +91,7 @@
       this.specList = specs.list
       this.pagination.total = specs.total
       this.specList.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
     }
 
@@ -103,7 +103,7 @@
 
 <style lang="scss" scoped>
   .common--content{
-    padding: 10px;
+    padding: 0 10px;
     max-height: 500px;
     overflow-y: scroll;
     &__search{

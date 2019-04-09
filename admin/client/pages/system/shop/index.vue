@@ -1,40 +1,42 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="pharm-search">
-      <el-select v-model="shopId" size="small" placeholder="药店名称" style="width: 250px;">
-        <el-option
-          v-for="(item, index) in shopNameOptions"
-          :key="index"
-          :label="item.name"
-          :value="item.id">
-        </el-option>
-      </el-select>
-      <el-select size="small" v-model="shopStateId" placeholder="当前状态">
-        <el-option
-          v-for="(item, index) in stateOptions"
-          :key="index"
-          :label="item.label"
-          :value="item.id">
-        </el-option>
-      </el-select>
-      <el-button type="primary" size="small" @click="searchShopInfo">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+  <div class="shop-wrap">
+    <div class="shop-list">
+      <bread-crumb :path="$route.path"/>
+      <div class="pharm-search">
+        <el-select v-model="shopId" size="small" placeholder="药店名称" style="width: 250px;">
+          <el-option
+            v-for="(item, index) in shopNameOptions"
+            :key="index"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <el-select size="small" v-model="shopStateId" placeholder="当前状态">
+          <el-option
+            v-for="(item, index) in stateOptions"
+            :key="index"
+            :label="item.label"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <el-button type="primary" size="small" @click="searchShopInfo">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
+      </div>
+      <d2-crud
+        :columns="columns"
+        :data="shopList"
+        :loading="loading"
+        :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
+        :options="options"
+        :rowHandle="rowHandle"
+        @emit-detail="handleDetail"
+        @emit-stop="handleDisable"
+        @emit-run="handleEnable"
+        @emit-reset="setPassword"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="shopList"
-      :loading="loading"
-      :pagination="pagination"
-      @pagination-current-change="paginationCurrentChange"
-      :options="options"
-      :rowHandle="rowHandle"
-      @emit-detail="handleDetail"
-      @emit-stop="handleDisable"
-      @emit-run="handleEnable"
-      @emit-reset="setPassword"
-      class="drug-table"
-    />
   </div>
 </template>
 <script>
@@ -280,13 +282,26 @@
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
+  .shop{
+    &-wrap {
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+    &-list{
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+    }
   }
   .pharm-search{
     display: flex;
     justify-content: Flex-start;
     align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e9e9e9;
     .el-input{
       margin: 0 5px;
     }
@@ -299,7 +314,7 @@
   /deep/.drug-table{
     margin-top: 10px;
     .d2-crud-body{
-      padding: 0 !important;
+      padding: 0 10px !important;
       .el-table{
         th{
           background-color: #F4F4F4 !important;
