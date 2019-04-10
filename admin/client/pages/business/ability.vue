@@ -37,7 +37,7 @@
             label="图片">
             <template slot-scope="scope">
               <img v-if="scope.row.imgURL" :src="scope.row.imgURL" style="width: 50px;height: 50px">
-              <!--<img v-else src="../../assets/img/hospital/img1.png" style="width: 50px;height: 50px">-->
+              <img v-else src="../../assets/img/hospital/img1.png" style="width: 50px;height: 50px">
             </template>
           </el-table-column>
           <el-table-column label="操作">

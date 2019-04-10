@@ -138,7 +138,7 @@
       let data = await axios.get(`/api/supervise/files/${row.id}`, {params: params})
       console.log(data)
       console.log(data.data.replace('redirect:', ''))
-      this.downloadImgByBlob(data.data.replace('redirect:', ''))
+      // this.downloadImgByBlob(data.data.replace('redirect:', ''))
       // var x = new XMLHttpRequest()
       // x.open('GET', data.data.replace('redirect:', ''), true)
       // x.responseType = 'blob'
@@ -150,40 +150,27 @@
       //   a.click()
       // }
       // x.send()
-    // let a = document.createElement('a')
-    // a.href = row.name
-    // a.download = data.data.replace('redirect:', '')
-    // a.click()
+      let a = document.createElement('a')
+      a.href = row.name
+      a.download = data.data.replace('redirect:', '')
+      a.click()
 
     // console.log(a)
     // this.downloadIamge(data.data.replace(/redirect:/, ''), 'pic')
     }
-    downloadImgByBlob (url) {
-      var img = new Image()
-      img.setAttribute('crossOrigin', 'Anonymous')
-      img.onload = function () {
-        var canvas = document.createElement('canvas')
-        canvas.width = img.width
-        canvas.height = img.height
-        var ctx = canvas.getContext('2d')
-        // 将img中的内容画到画布上
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-      }
-      img.src = url
-      // 必须设置，否则canvas中的内容无法转换为blob
-    }
-
-    // downloadIamge (imgsrc, name) { // 下载图片地址和图片名
-    //   let image = new Image()
-    //   image.onload = function () {
-    //     let a = document.createElement('a')
-    //     let event = new MouseEvent('click')
-    //     a.download = imgsrc
-    //     a.href = name
-    //     a.dispatchEvent(event) // 触发a的单击事件
+    // downloadImgByBlob (url) {
+    //   var img = new Image()
+    //   img.setAttribute('crossOrigin', 'Anonymous')
+    //   img.onload = function () {
+    //     var canvas = document.createElement('canvas')
+    //     canvas.width = img.width
+    //     canvas.height = img.height
+    //     var ctx = canvas.getContext('2d')
+    //     // 将img中的内容画到画布上
+    //     ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
     //   }
-    //   image.src = imgsrc
-    //   console.log(image)
+    //   img.src = url
+    //   // 必须设置，否则canvas中的内容无法转换为blob
     // }
 
     clear () {

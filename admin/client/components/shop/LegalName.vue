@@ -10,12 +10,10 @@
         ref="d2Crud"
         :columns="columns"
         :data="legalNameData"
-        :pagination="pagination"
         :options="options"
         :rowHandle="rowHandle"
         @current-change="handleCurrentChange"
         @emit-select="handleCurrentChange"
-        @pagination-current-change="paginationCurrentChange"
         class="drug-table"
       />
     </div>
@@ -68,23 +66,14 @@
       this.$emit('listenToChildEvent', currentRow)
     }
 
-    paginationCurrentChange (currentPage) {
-      this.pagination.currentPage = currentPage
-      this.fetchData()
-    }
-
     async fetchData () {
-      let params = {
-        pageNum: this.pagination.currentPage,
-        pageSize: 15
-      }
-      let data = await axios.get(`/api/supervise/shops/legal`, {params: params})
+      let data = await axios.get(`/api/supervise/shops/legal`)
       console.log(data)
-      // this.legalNameData = data.data.list
-      // this.pagination.total = data.data.total
-      // this.legalNameData.forEach((item, index) => {
-      //   item.index = index + 1
-      // })
+      this.legalNameData = data.data
+      this.pagination.total = data.total
+      this.legalNameData.forEach((item, index) => {
+        item.index = index + 1
+      })
     }
 
     clear () {
@@ -100,7 +89,7 @@
         })
         return false
       }
-      // this.fetchData(this.legalNameValue)
+      this.fetchData()
     }
   
     beforeMount () {

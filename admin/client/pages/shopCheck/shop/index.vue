@@ -1,20 +1,14 @@
 <template>
-  <div class="p10">
+  <div class="shop-wrap">
+    <div class="shop-list">
       <bread-crumb :path="$route.path"/>
       <div class="shop-search">
-        <!--<el-input v-model="shopNameValue" size="small" placeholder="请输入药房名称"></el-input>-->
         <!--请选择药房名称-->
         <el-button class="select-btn" v-if="shopNameValue" size="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
         <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
-
-        <el-select size="small" v-model="legalName" filterable placeholder="法人姓名">
-          <el-option
-            v-for="item in legalOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+        <!--请选择法人姓名-->
+        <el-button class="select-btn" v-if="legalName" type="small" @click="legalNameDialog = true">{{ legalName }}</el-button>
+        <el-button class="select-btn" v-else type="small" @click="legalNameDialog = true" style="color: #C0C4CC">法人姓名</el-button>
         <el-select size="small" v-model="drugState" placeholder="选择状态">
           <el-option
             v-for="item in stateOptions"
@@ -27,18 +21,31 @@
         <el-button size="small" @click="clear">清空</el-button>
       </div>
 
-    <!--选择药房名称-->
-    <el-dialog
-      title="药房名称"
-      :close-on-click-modal='isCloseOnClickModal'
-      :visible.sync="shopNameDialog"
-      width="50%">
-      <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="shopNameDialog = false">取 消</el-button>
-        <el-button type="primary" @click="confirmSelect">确 定</el-button>
-      </span>
-    </el-dialog>
+      <!--选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <!--选择法人姓名-->
+      <el-dialog
+        title="法人姓名"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="legalNameDialog"
+        width="50%">
+        <legalName v-on:listenToChildEvent="getSelectedInfo"></legalName>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="legalNameDialog = false">取 消</el-button>
+            <el-button type="primary" @click="confirmSelectLegal">确 定</el-button>
+          </span>
+      </el-dialog>
 
       <d2-crud
         :columns="columns"
@@ -55,6 +62,7 @@
        />
 
   </div>
+  </div>
 </template>
 
 <script>
@@ -62,11 +70,13 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import ShopName from '@/components/shop/ShopName'
+  import LegalName from '@/components/shop/LegalName'
   import axios from 'axios'
   @Component({
     components: {
       BreadCrumb,
-      ShopName
+      ShopName,
+      LegalName
     }
   })
   export default class Shop extends Vue {
@@ -79,8 +89,10 @@
     // 下拉弹框
     selectedInfo = '' // 子组件传过来的数据
     childData = [] // 暂存已选的数据
-
+    // 法人
     legalName = ''
+    legalNameDialog = false
+
     drugState = ''
     columns = [
       {
@@ -110,8 +122,8 @@
     ]
     shopData = []
     // shopOptions = []
-    arr = []
-    legalOptions = []
+    // arr = []
+    // legalOptions = []
     stateOptions = [
       {
         value: 'NORMAL',
@@ -205,28 +217,6 @@
       this.shopData = data.data.list
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {
-        // 获取法人姓名
-        this.arr.push({
-          value: item.legal,
-          label: item.legal
-        })
-        // 法人姓名去重
-        function uniqObjInArray (objarray) {
-          let len = objarray.length
-          let tempJson = {}
-          let res = []
-          for (let i = 0; i < len; i++) {
-            tempJson[JSON.stringify(objarray[i])] = true
-          }
-          // console.log(tempJson)
-          let keyItems = Object.keys(tempJson)
-          for (let j = 0; j < keyItems.length; j++) {
-            res.push(JSON.parse(keyItems[j]))
-          }
-          return res
-        }
-        this.legalOptions = uniqObjInArray(this.arr)
-        // 状态
         if (item.state === 'NORMAL') {
           item.state = '正常'
         }
@@ -282,6 +272,17 @@
       this.shopId = this.childData.id
       this.shopNameValue = this.childData.shopName
       this.shopNameDialog = false
+      this.selectedInfo = ''
+    }
+    // 获取法人姓名
+    confirmSelectLegal () {
+      if (!this.selectedInfo) {
+        this.legalNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.legalName = this.childData.legal
+      this.legalNameDialog = false
       this.selectedInfo = ''
     }
 
@@ -342,11 +343,27 @@
 
 <style lang="scss" scoped>
 
+  .shop {
+    &-wrap {
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    &-list {
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+    }
+  }
+
 .p10{
   padding:5px 10px;
 }
 .select-btn{
   margin-right: 10px;
+  margin-left: 0;
   text-align: left;
   font-size: 14px;
   width: 200px;
