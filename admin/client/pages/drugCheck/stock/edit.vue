@@ -67,7 +67,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="药品编码">
-            <el-input v-model="detailForm.code" readonly placeholder="药品编码"></el-input>
+            <el-input v-model="drugCode" readonly placeholder="药品编码"></el-input>
           </el-form-item>
           <el-form-item label="品牌">
             <el-input v-model="detailForm.brand" placeholder="请输入品牌"></el-input>
@@ -216,6 +216,7 @@
     childTypeDialogVisible = false
     dialogVisible = false
     detailForm = {}
+    drugCode = ''
 
     // 封面图
     coverFileId = ''
@@ -484,6 +485,10 @@
       this.coverFileId = detail.fileId
       this.detailFileId = detail.imgs
       this.parentType = detail.drugDrugTypeParentList
+      detail.code.forEach(item => {
+        this.drugCode += `${item},`
+      })
+      this.drugCode = this.drugCode.substring(0, this.drugCode.length - 1)
 
       let childTypeList = detail.drugDrugTypeList
       let cName = ''

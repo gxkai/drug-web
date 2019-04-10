@@ -4,7 +4,8 @@
       <bread-crumb :path="$route.path"/>
       <div class="drugInfo-search">
         <el-input v-model="drugNameValue" size="small" placeholder="请输入药品名称" style="width: 150px;"></el-input>
-        <el-input v-model="firmNameValue" size="small" placeholder="请输入厂商简称" style="width: 150px;"></el-input>
+        <el-button class="select-btn value-btn" v-if="originNameValue" type="small" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
+        <el-button class="select-btn" v-else type="small" @click="originDialogVisible = true">厂商简称</el-button>
         <el-select size="small" v-model="drugState" placeholder="药品状态">
           <el-option
             v-for="item in stateOptions"
@@ -29,6 +30,19 @@
         class="drug-table"
       />
     </div>
+
+    <!--选择厂商-->
+    <el-dialog
+      title="厂商"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="originDialogVisible"
+      width="50%">
+      <drug-origin v-on:listenToChildEvent="getSelectedInfo"></drug-origin>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="originDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -36,17 +50,24 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import Origin from '@/components/drugCheck/Origin'
   import axios from 'axios'
 
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      'drug-origin': Origin
     }
   })
   export default class DrugInfo extends Vue {
     drugNameValue = ''
-    firmNameValue = ''
+    originNameValue = ''
     drugState = ''
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+    isCloseOnClickModal = false
+    originDialogVisible = false
+
     columns = [
       {
         title: '药品名称',
@@ -117,6 +138,22 @@
       }
     ]
 
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+    }
+
+    // 选择厂商
+    confirmSelectOrigin () {
+      if (!this.selectedInfo) {
+        this.originDialogVisible = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.originNameValue = this.childData.fullName
+      this.originDialogVisible = false
+    }
+
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
       this.getDrugInfo()
@@ -137,23 +174,24 @@
 
     clear () {
       this.drugNameValue = ''
-      this.firmNameValue = ''
+      this.originNameValue = ''
       this.drugState = ''
     }
 
     // 搜索
     searchDrugInfo () {
-      this.getDrugInfo(this.firmNameValue.trim(), this.drugNameValue.trim())
+      this.getDrugInfo()
     }
 
-    async getDrugInfo (originName, name) {
+    async getDrugInfo () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        originName,
-        name
+        originName: this.originNameValue.trim(),
+        name: this.drugNameValue.trim()
       }
       let {data: drugInfo} = await axios.get(`/api/supervise/drugs`, {params})
+      console.log(111)
       console.log(drugInfo)
       this.drugInfoList = drugInfo.list
       this.pagination.total = drugInfo.total
@@ -186,6 +224,21 @@
       align-items: center;
       border-bottom: 1px solid #e9e9e9;
       padding-bottom: 15px;
+
+      .select-btn{
+        width: 150px;
+        height: 32px;
+        line-height: inherit;
+        color: #C0C4CC;
+        text-align: left;
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .value-btn{
+        color: #606266;
+      }
 
       .el-input{
         margin: 0 5px;

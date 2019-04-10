@@ -10,14 +10,6 @@
             <!--请选择药房名称-->
             <el-button class="select-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
             <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
-            <!--<el-select v-model="shopNameID" size="small" @change="matchShopName" filterable placeholder="请选择" style="width: 250px">-->
-            <!--<el-option-->
-            <!--v-for="(item, index) in shopNameList"-->
-            <!--:key="index"-->
-            <!--:label="item.name"-->
-            <!--:value="item.id">-->
-            <!--</el-option>-->
-            <!--</el-select>-->
           </el-col>
           <el-col :span="8">
             <span class="tit">药品名称：</span>
@@ -493,11 +485,13 @@
     font-size: 14px;
   }
   /deep/.discount-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .discount{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -518,8 +512,8 @@
       }
 
       .filter{
-        padding: 0 20px 30px;
-        margin: 0 10px 20px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
         text-align: center;
         border-bottom: 1px solid #E9E9E9;
 
@@ -534,7 +528,7 @@
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{
@@ -561,7 +555,7 @@
           font-size: 13px;
         }
         button:last-child{
-          margin-left: 8px;
+          /*margin-left: 8px;*/
           &:before{
             content: '|';
             color: #EEE;

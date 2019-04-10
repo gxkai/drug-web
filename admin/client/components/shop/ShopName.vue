@@ -29,7 +29,6 @@
   @Component
   export default class ShopName extends Vue {
     shopNameValue = ''
-    currentData = {}
     columns = [
       {
         title: '序号',
@@ -74,18 +73,20 @@
       this.fetchData()
     }
 
-    async fetchData (shopName) {
+    async fetchData () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: 15,
-        shopName
+        shopName: this.shopNameValue.trim()
       }
-      let data = await axios.get(`/api/supervise/shops`, {params: params})
+      let data = await axios.get(`/api/supervise/shops`, {params})
       this.shopNameData = data.data.list
       this.pagination.total = data.data.total
       this.shopNameData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
+
+      console.log(111)
     }
 
     clear () {
@@ -93,17 +94,17 @@
       this.fetchData()
     }
 
-    async search () {
-      if (this.shopNameValue === '') {
-        this.$message({
-          message: '请输入药房名称',
-          type: 'warning'
-        })
-        return false
-      }
-      this.fetchData(this.shopNameValue)
+    search () {
+      // if (this.shopNameValue.trim() === '') {
+      //   this.$message({
+      //     message: '请输入药房名称',
+      //     type: 'warning'
+      //   })
+      //   return false
+      // }
+      this.fetchData()
     }
-  
+
     beforeMount () {
       this.fetchData()
     }
