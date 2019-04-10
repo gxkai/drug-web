@@ -63,37 +63,37 @@
     "医院管理编辑",
   "/shopCheck/hospital/create":
     "医院新增",
-  "/drugCheck":
-    "药品审核",
-  "/drugCheck/commonName":
-    "通用名管理",
-  "/drugCheck/form":
+  "/drugManage":
+    "药品管理",
+  "/drugManage/earlyWarning":
+    "预警列表",
+  "/drugManage/form":
     "剂型管理",
-  "/drugCheck/spec":
+  "/drugManage/spec":
     "规格管理",
-  "/drugCheck/type":
+  "/drugManage/type":
     "类型管理",
-  "/drugCheck/type/typeChild":
+  "/drugManage/type/typeChild":
     "子类管理",
-  "/drugCheck/type/typeChild/create":
+  "/drugManage/type/typeChild/create":
     "子类创建",
-  "/drugCheck/type/typeChild/edit":
+  "/drugManage/type/typeChild/edit":
     "子类编辑",
-  "/drugCheck/stock":
+  "/drugManage/stock":
     "药品库管理",
-  "/drugCheck/stock/create":
+  "/drugManage/stock/create":
     "药品库新增",
-  "/drugCheck/stock/edit":
+  "/drugManage/stock/edit":
     "药品库编辑",
-  "/drugCheck/drug":
+  "/drugManage/drug":
     "药店药品列表管理",
-  "/drugCheck/drug/detail":
+  "/drugManage/drug/detail":
     "查看详情",
-  "/drugCheck/drugInfo":
+  "/drugManage/drugInfo":
     "待审核列表",
-  "/drugCheck/drugInfo/check":
+  "/drugManage/drugInfo/check":
     "药品审核",
-  "/drugCheck/drugInfo/detail":
+  "/drugManage/drugInfo/detail":
     "查看详情",
   "/order":
     "订单管理",

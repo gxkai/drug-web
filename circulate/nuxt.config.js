@@ -107,14 +107,14 @@ module.exports = {
   },
   proxy: {
     '/hpi/': 'http://172.16.11.138:3000/hpi/',
-    '/api/': 'http://172.16.11.140:8091/api/'
+    '/api/': 'http://172.16.11.140:8090/api/'
   },
   // koa-proxies for dev, options reference https://github.com/nodejitsu/node-http-proxy#options
   development: {
     proxies: [
       {
         path: '/api/',
-        target: 'http://172.16.11.140:8091/api/',
+        target: 'http://172.16.11.140:8090/api/',
         logs: true,
         prependPath: false,
         changeOrigin: true,
