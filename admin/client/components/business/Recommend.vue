@@ -493,11 +493,13 @@
     font-size: 14px;
   }
   /deep/.discount-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .discount{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
