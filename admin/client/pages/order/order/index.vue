@@ -330,19 +330,7 @@
       this.messageNotice()
       // this.getShopNames()
     }
-    // getShopID () {
-    //   this.shopNameList.forEach(item => {
-    //     if (this.shopNameValue === item.shopName) {
-    //       this.shopId = item.id
-    //     }
-    //   })
-    // }
-    // 获取所有药店名称选项
-    // async getShopNames () {
-    // let {data: option} = await axios.get(`/api/supervise/shops`)
-    // console.log(option.list)
-    // this.shopNameList = option.list
-    // }
+
     async getOrderList () {
       let params = {
         pageNum: this.currentPageNum,
@@ -444,13 +432,10 @@
         endDate: this.endDate
       }
       let orderData = await axios.get(`/api/supervise/orders`, {params: params})
-      // console.log(orderData.data)
       this.orderListData = orderData.data.list
       this.perPageData = this.orderListData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
-      // console.log(this.orderListData)
       this.perPageData.forEach((item) => {
-        // console.log(item)
         item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
         // 获取药品图片
         item.orderItemDrugInfoDTOList.forEach(e => {
@@ -494,11 +479,13 @@
   }
 
   .order-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .order{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
