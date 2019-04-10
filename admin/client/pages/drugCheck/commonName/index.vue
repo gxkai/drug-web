@@ -53,9 +53,9 @@
     commonNameValue = ''
     columns = [
       {
-        title: 'ID',
-        key: 'id',
-        width: 320
+        title: '序号',
+        key: 'index',
+        width: 60
       },
       {
         title: '通用名',
@@ -85,10 +85,6 @@
       }
     }
     editTemplate = {
-      id: {
-        title: 'ID',
-        value: ''
-      },
       name: {
         title: '通用名',
         value: ''
@@ -106,7 +102,7 @@
       saveLoading: false
     }
     addRules = {
-      commonId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
+      // commonId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
       commonName: [ { required: true, message: '请输入通用名', trigger: 'blur' } ]
     }
     beforeMount () {
@@ -125,6 +121,9 @@
       let data = await axios.get(`/api/supervise/common/names`, {params: params})
       this.commonNameData = data.data.list
       this.pagination.total = data.data.total
+      this.commonNameData.forEach((item, index) => {
+        item.index = index + 1
+      })
     }
     clear () {
       this.commonNameValue = ''

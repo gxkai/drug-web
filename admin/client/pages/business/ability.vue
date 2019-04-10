@@ -13,6 +13,7 @@
           border
           style="width: 100%">
           <el-table-column
+            width="60px"
             prop="id"
             label="序号">
             <template slot-scope="scope">
@@ -193,7 +194,6 @@
 
     // 新增广告
     addData = {}
-
     setAddData () {
       this.addData = {
         // index: '',
@@ -205,12 +205,10 @@
         imgURL: ''
       }
     }
-
-    addDialogVisible = false;
+    addDialogVisible = false
 
     // 新增图片上传
     addFile = {}
-
     addAvatarSuccess (res, file) {
       this.addData.imgURL = URL.createObjectURL(file.raw)
       this.addFile = file.raw
@@ -257,12 +255,6 @@
 
     // 编辑广告
     editBeforeUpload (file) {
-      // const isJPG = file.type === 'image/jpeg'
-      //
-      // if (!isJPG) {
-      //   this.$message.error('图片只能是 JPG 格式!')
-      // }
-      // return isJPG
     }
 
     editFile = {} // 存放file
@@ -286,7 +278,7 @@
     }
 
     editAdvert (index, row) {
-      // console.log(index)
+      console.log(row)
       this.editDialogVisible = true
       // this.editData.index = index
       this.editData.id = row.id
@@ -303,7 +295,7 @@
       let fileParams = new FormData()
       fileParams.append('file', this.editFile)
       fileParams.append('fileType', 'LOGO')
-      let { data: fileID } = await axios.post(`/api/supervise/files`, fileParams)
+      let { data: fileID } = await axios.put(`/api/supervise/files`, fileParams)
       this.editData.fileId = fileID // 图片上传成功后更新fileId
 
       console.log(this.editData)
