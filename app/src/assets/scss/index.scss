@@ -1,0 +1,23 @@
+@import "./variables";
+@import "./init";
+@import "./vant";
+
+* {
+  font-family: HiraginoSansGB-W3;
+  font-size: $size-normal;
+  box-sizing: border-box;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0;
+  font-style: normal;
+}
+input, textarea {
+  border: none;
+  -webkit-appearance: none;
+  outline: none;
+  resize: none;
+}
+
+.hairline-bottom {
+  border-bottom: 1Px solid rgba(0,0,0,0.1);
+}
