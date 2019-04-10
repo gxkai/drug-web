@@ -11,8 +11,10 @@
             :value="item">
           </el-option>
         </el-select>
-        <el-input v-model="drugNameValue" size="small" placeholder="药品名称" style="width: 160px;"></el-input>
-        <el-input v-model="companyNameValue" size="small" placeholder="厂商简称" style="width: 160px;"></el-input>
+        <el-input v-model="drugNameValue" size="small" placeholder="药品名称" style="width: 200px;"></el-input>
+        <el-button class="origin-btn selected-btn" size="small" v-if="originNameValue" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
+        <el-button class="origin-btn" size="small" v-else @click="originDialogVisible = true">请选择厂商名称</el-button>
+        <!--<el-input type="button" v-model="companyNameValue" size="small" placeholder="厂商简称" style="width: 160px;"></el-input>-->
         <el-select size="small" v-model="drugState" placeholder="药品状态">
           <el-option
             v-for="item in stateOptions"
@@ -38,6 +40,19 @@
         />
       </div>
     </div>
+
+    <!--选择厂商-->
+    <el-dialog
+      title="厂商"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="originDialogVisible"
+      width="50%">
+      <drug-origin v-on:listenToChildEvent="getOriginName"></drug-origin>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="originDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -45,17 +60,22 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import Origin from '@/components/drugCheck/Origin'
   import axios from 'axios'
 
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      'drug-origin': Origin
     }
   })
   export default class Drug extends Vue {
+    isCloseOnClickModal = false
+    originDialogVisible = false
     shopValue = ''
     drugNameValue = ''
     companyNameValue = ''
+    originNameValue = ''
     drugState = ''
     columns= [
       {
@@ -133,6 +153,22 @@
       ]
     }
 
+    // 获取已选信息
+    getOriginName (data) {
+      console.log(data)
+      this.companyNameValue = data.name
+    }
+
+    // 选择厂商
+    confirmSelectOrigin () {
+      if (!this.companyNameValue) {
+        this.originDialogVisible = false
+        return
+      }
+      this.originNameValue = this.companyNameValue
+      this.originDialogVisible = false
+    }
+
     // 获取所有药店名称选项
     async getShopNames () {
       let {data: options} = await axios.get(`/api/supervise/shops`)
@@ -156,7 +192,7 @@
     clear () {
       this.shopValue = ''
       this.drugNameValue = ''
-      this.companyNameValue = ''
+      this.originNameValue = ''
       this.drugState = ''
     }
 
@@ -168,7 +204,7 @@
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        company: this.companyNameValue.trim(),
+        company: this.originNameValue.trim(),
         grounding: this.drugState,
         shop: this.shopValue.shopName,
         shopId: this.shopValue.id,
@@ -217,13 +253,28 @@
         padding-bottom: 15px;
         padding-left: 10px;
 
+        .origin-btn{
+          width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin-right: 10px;
+          color: #c0c4cc;
+          text-align: left;
+          font-size: 13px;
+        }
+
+        .selected-btn{
+          color: #606266;
+        }
+
         .el-input{
           margin-right: 10px;
-          width: 160px;
+          width: 200px;
         }
         .el-select{
           margin-right: 10px;
-          width: 160px;
+          width: 200px;
         }
       }
     }

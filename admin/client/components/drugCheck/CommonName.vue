@@ -26,17 +26,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import axios from 'axios'
-  @Component({
-    props: {
-      commonData: {}
-    },
-    computed: {
-      getCommonInfo () {
-        this.getInfo(this.commonData)
-        return this.commonData
-      }
-    }
-  })
+  @Component
   export default class CommonName extends Vue {
     commonNameValue = ''
     currentData = {}

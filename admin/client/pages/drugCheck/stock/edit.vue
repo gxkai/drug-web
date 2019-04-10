@@ -108,7 +108,7 @@
         :close-on-click-modal='isCloseOnClickModal'
         :visible.sync="commonDialogVisible"
         width="50%">
-        <common-name v-bind:commonData="detailForm.commonName" v-on:listenToChildEvent="getSelectedInfo"></common-name>
+        <common-name v-on:listenToChildEvent="getSelectedInfo"></common-name>
         <span slot="footer" class="dialog-footer">
           <el-button @click="commonDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="confirmSelectCommonName">确 定</el-button>
@@ -239,7 +239,6 @@
     parentTypeIdString = ''
     childTypeNameString = ''
     childTypeIdString = ''
-    commonInfo = {}
 
     // 是否是处方药
     otcOptions = [
@@ -485,11 +484,6 @@
       this.coverFileId = detail.fileId
       this.detailFileId = detail.imgs
       this.parentType = detail.drugDrugTypeParentList
-
-      this.commonInfo = {
-        commonName: detail.commonName,
-        commonNameId: detail.commonNameId
-      }
 
       let childTypeList = detail.drugDrugTypeList
       let cName = ''
