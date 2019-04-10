@@ -108,11 +108,11 @@
         :close-on-click-modal='isCloseOnClickModal'
         :visible.sync="commonDialogVisible"
         width="50%">
-        <common-name v-on:listenToChildEvent="getSelectedInfo"></common-name>
+        <common-name v-bind:commonData="detailForm.commonName" v-on:listenToChildEvent="getSelectedInfo"></common-name>
         <span slot="footer" class="dialog-footer">
-        <el-button @click="commonDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmSelectCommonName">确 定</el-button>
-      </span>
+          <el-button @click="commonDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelectCommonName">确 定</el-button>
+        </span>
       </el-dialog>
 
       <!--选择厂商-->
@@ -136,7 +136,7 @@
         width="50%">
         <drug-parentType v-on:listenToChildEvent="getParentTypeInfo"></drug-parentType>
         <span slot="footer" class="dialog-footer">
-        <el-button @click="parentTypeDialogVisible = false">取 消</el-button>
+        <el-button v-bind:parentData="parentType" @click="parentTypeDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="confirmSelectparentType">确 定</el-button>
       </span>
       </el-dialog>
@@ -239,6 +239,7 @@
     parentTypeIdString = ''
     childTypeNameString = ''
     childTypeIdString = ''
+    commonInfo = {}
 
     // 是否是处方药
     otcOptions = [
@@ -484,6 +485,11 @@
       this.coverFileId = detail.fileId
       this.detailFileId = detail.imgs
       this.parentType = detail.drugDrugTypeParentList
+
+      this.commonInfo = {
+        commonName: detail.commonName,
+        commonNameId: detail.commonNameId
+      }
 
       let childTypeList = detail.drugDrugTypeList
       let cName = ''

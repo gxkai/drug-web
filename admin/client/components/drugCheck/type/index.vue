@@ -18,7 +18,11 @@
   import Component from 'class-component'
   import axios from 'axios'
 
-  @Component
+  @Component({
+    props: {
+      parentData: {}
+    }
+  })
   export default class TypeDrugs extends Vue {
     columns = [
       {

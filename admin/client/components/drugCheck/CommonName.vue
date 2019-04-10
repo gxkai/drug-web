@@ -26,7 +26,17 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import axios from 'axios'
-  @Component
+  @Component({
+    props: {
+      commonData: {}
+    },
+    computed: {
+      getCommonInfo () {
+        this.getInfo(this.commonData)
+        return this.commonData
+      }
+    }
+  })
   export default class CommonName extends Vue {
     commonNameValue = ''
     currentData = {}
@@ -65,6 +75,10 @@
       ]
     }
 
+    getInfo (data) {
+      console.log(data)
+    }
+
     handleCurrentChange (currentRow) {
       this.$emit('listenToChildEvent', currentRow)
     }
@@ -74,7 +88,8 @@
       this.fetchData()
     }
 
-    async fetchData () {
+    async fetchData (aa) {
+      console.log(aa)
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: 15
