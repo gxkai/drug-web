@@ -1,27 +1,30 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="file-search">
-      <el-date-picker
-        size="small"
-        v-model="beginEndDate"
-        type="daterange"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期">
-      </el-date-picker>
-      <el-button type="primary" size="small" @click="searchInterface">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+  <div class="interface-wrap">
+    <div class="interface-form">
+      <bread-crumb :path="$route.path"/>
+      <div class="file-search">
+        <el-date-picker
+          size="small"
+          v-model="beginEndDate"
+          :clearable="isClearAble"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+        <el-button type="primary" size="small" @click="searchInterface">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
+      </div>
+      <d2-crud
+        :columns="columns"
+        :data="interList"
+        :loading="loading"
+        :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
+        :options="options"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="interList"
-      :loading="loading"
-      :pagination="pagination"
-      @pagination-current-change="paginationCurrentChange"
-      :options="options"
-      class="drug-table"
-    />
   </div>
 </template>
 <script>
@@ -37,6 +40,7 @@
     }
   })
   export default class Interface extends Vue {
+    isClearAble = false
     beginEndDate = ''
     startDate = '' // 起始日期
     endDate = '' // 结束日期
@@ -77,7 +81,7 @@
 
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
-      this.getInterface()
+      this.getInterface(this.startDate, this.endDate)
     }
 
     searchInterface () {
@@ -86,46 +90,60 @@
           this.beginEndDate[i] = moment(this.beginEndDate[i]).format('YYYY-MM-DD')
         }
 
-        this.startDate = this.beginEndDate[0] + ' 00:00:00'
-        this.endDate = this.beginEndDate[1] + ' 23:59:59'
+        this.startDate = this.beginEndDate[0]
+        this.endDate = this.beginEndDate[1]
       }
 
-      this.getInterface()
+      this.getInterface(this.startDate, this.endDate)
     }
 
-    async getInterface () {
+    async getInterface (start, end) {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        startDate: this.startDate,
-        endDate: this.endDate
+        start,
+        end
       }
       let {data: interData} = await axios.get(`/api/supervise/restStatistics`, {params})
-      console.log(interData)
 
       this.interList = interData.list
       this.pagination.total = interData.total
 
       this.interList.forEach(item => {
-        item.date = moment(item.date).format('YYYY-MM-DD hh:mm:ss')
+        item.date = moment(item.date).format('YYYY-MM-DD HH:mm:ss')
       })
     }
 
-    beforeMount () {
+    mounted () {
       this.getInterface()
     }
   }
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
-    background: #FFF;
+  .interface {
+    &-wrap {
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    &-form {
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+    }
   }
   /deep/.file-search{
     display: flex;
     justify-content: Flex-start;
     align-items: center;
+    border-bottom: 1px solid #e9e9e9;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+
     .el-date-editor{
       margin-right: 10px;
     }
@@ -133,7 +151,7 @@
   /deep/.drug-table{
     margin-top: 10px;
     .d2-crud-body{
-      padding: 0 !important;
+      padding: 0 10px !important;
       .el-table{
         th{
           background-color: #F4F4F4 !important;

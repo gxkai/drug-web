@@ -224,7 +224,7 @@
       this.pagination.total = feedbacks.total
 
       this.feedbackList.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
         item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
         item.processed = item.remark ? '已处理' : '未处理'
       })
@@ -238,7 +238,8 @@
 
 <style lang="scss">
   .feedback-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .feedCon{
       textarea{
@@ -253,6 +254,7 @@
     .feedback{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -265,13 +267,12 @@
       }
 
       .title{
-        padding: 0 20px;
-        margin: 0 10px;
+        padding: 0 15px;
         border-bottom: 1px solid #E9E9E9;
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{

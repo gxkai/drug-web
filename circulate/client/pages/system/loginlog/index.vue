@@ -1,35 +1,29 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="file-search">
-      <el-date-picker
-        size="small"
-        style="width: 200px;"
-        v-model="startDate"
-        value-format="yyyy-MM-DD HH:mm:ss"
-        type="datetime"
-        placeholder="开始日期">
-      </el-date-picker>
-      <el-date-picker
-        size="small"
-        style="width: 200px;"
-        v-model="endDate"
-        value-format="yyyy-MM-DD HH:mm:ss"
-        type="datetime"
-        placeholder="结束日期">
-      </el-date-picker>
-      <el-input size="small" v-model="inputValue" placeholder="请输入用户名"></el-input>
-      <el-button type="primary" size="small" @click="search">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+  <div class="log-wrap">
+    <div class="log-list">
+      <bread-crumb :path="$route.path"/>
+      <div class="file-search">
+        <el-date-picker
+          size="small"
+          v-model="beginEndDate"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+        <el-input size="small" v-model="inputValue" placeholder="请输入用户名" style="width: 200px;margin-right: 10px;"></el-input>
+        <el-button type="primary" size="small" @click="search">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
+      </div>
+      <d2-crud
+        :columns="columns"
+        :data="loginlogList"
+        :loading="loading"
+        :pagination="pagination"
+        :options="options"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="loginlogData"
-      :loading="loading"
-      :pagination="pagination"
-      :options="options"
-      class="drug-table"
-    />
   </div>
 </template>
 <script>
@@ -44,9 +38,10 @@
       BreadCrumb
     }
   })
-  export default class LoginLog extends Vue {
-    startDate = ''
-    endDate = ''
+  export default class Interface extends Vue {
+    beginEndDate = ''
+    startDate = '' // 起始日期
+    endDate = '' // 结束日期
     inputValue = ''
     columns= [
       {
@@ -66,75 +61,93 @@
         key: 'date'
       }
     ]
-    loginlogData= []
-    loading= false
-    pagination= {
+    loginlogList = []
+    loading = false
+    pagination = {
       currentPage: 1,
       pageSize: 15,
       total: 0
     }
-    options= {
+    options = {
       border: true
     }
-    beforeMount () {
-      this.initData()
-    }
-    paginationCurrentChange (currentPage) {
-      this.pagination.currentPage = currentPage
-      this.initData()
-    }
-    async initData () {
-      let params = {
-        pageNum: this.pagination.currentPage,
-        pageSize: 15
-      }
-      let data = await axios.get(`/api/supervise/loginLogs`, {params: params})
-      this.loginlogData = data.data.list
-      this.pagination.total = data.data.total
-      this.loginlogData.forEach(e => {
-        e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
-      })
-    }
-    async search () {
-      if (this.endDate === '' && this.startDate === '' && this.inputValue === '') {
-        this.$message({
-          message: '查询条件不能为空',
-          type: 'warning'
-        })
-      }
-      let params = {
-        endDate: this.endDate,
-        startDate: this.startDate,
-        username: this.inputValue,
-        pageNum: this.pagination.currentPage,
-        pageSize: 15
-      }
-      await axios.get(`/api/supervise/loginLogs`, {params: params}).then(res => {
-        this.loginlogData = res.data.list
-        this.pagination.total = res.data.total
-        this.loginlogData.forEach(e => {
-          e.date = moment(e.date).format('YYYY-MM-DD HH:mm:ss')
-          // console.log(e.date)
-        })
-      })
-    }
+
     clear () {
+      this.beginEndDate = ''
       this.startDate = ''
       this.endDate = ''
       this.inputValue = ''
-      this.initData()
+      this.getData()
+    }
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getData()
+    }
+    beforeMount () {
+      this.getData()
+    }
+    async getData () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        username: this.inputValue,
+        startDate: this.startDate,
+        endDate: this.endDate
+      }
+      let {data: loginData} = await axios.get(`/api/supervise/loginLogs`, {params})
+      console.log(loginData)
+
+      this.loginlogList = loginData.list
+      this.pagination.total = loginData.total
+
+      this.loginlogList.forEach(item => {
+        item.date = moment(item.date).format('YYYY-MM-DD hh:mm:ss')
+      })
+    }
+    // 查询
+    async search () {
+      if (this.beginEndDate) {
+        for (let i = 0, len = this.beginEndDate.length; i < len; i++) {
+          this.beginEndDate[i] = moment(this.beginEndDate[i]).format('YYYY-MM-DD')
+        }
+        this.startDate = this.beginEndDate[0] + ' 00:00:00'
+        this.endDate = this.beginEndDate[1] + ' 23:59:59'
+      }
+      this.getData()
     }
   }
 </script>
 
 <style scoped lang="scss">
-  .p10{
+
+  .p10 {
     padding: 0 10px;
+    background: #FFF;
+  }
+  .log {
+    &-wrap {
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    &-list {
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+    }
   }
   /deep/.file-search{
     display: flex;
     justify-content: Flex-start;
     align-items: center;
+    border-bottom: 1px solid #e9e9e9;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+
     .el-date-editor{
       margin-right: 10px;
     }

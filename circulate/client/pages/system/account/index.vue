@@ -1,35 +1,38 @@
 <template>
-  <div class="p10">
-    <bread-crumb :path="$route.path"/>
-    <div class="pharm-search">
-      <!--<el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>-->
-      <el-input v-model="accountNameValue" size="small" placeholder="请输入用户名" style="width: 150px;"></el-input>
-      <el-select size="small" v-model="accountState" placeholder="当前状态">
-        <el-option
-          v-for="item in stateOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-button type="primary" size="small" @click="search">搜索</el-button>
-      <el-button size="small" @click="clear">清空</el-button>
+  <div class="account-wrap">
+    <div class="account-list">
+      <bread-crumb :path="$route.path"/>
+      <div class="pharm-search">
+        <!--<el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>-->
+        <el-input v-model="accountNameValue" size="small" placeholder="请输入用户名" style="width: 150px;"></el-input>
+        <el-select size="small" v-model="accountState" placeholder="当前状态">
+          <el-option
+            v-for="item in stateOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-button type="primary" size="small" @click="search">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
+      </div>
+      <d2-crud
+        :columns="columns"
+        :data="accountData"
+        :loading="loading"
+        :pagination="pagination"
+        :options="options"
+        :rowHandle="rowHandle"
+        @emit-detail="handleCustomEvent"
+        @emit-stop="handleStop"
+        @emit-run="handleRun"
+        @pagination-current-change="paginationCurrentChange"
+        class="drug-table"
+      />
     </div>
-    <d2-crud
-      :columns="columns"
-      :data="accountData"
-      :loading="loading"
-      :pagination="pagination"
-      :options="options"
-      :rowHandle="rowHandle"
-      @emit-detail="handleCustomEvent"
-      @emit-stop="handleStop"
-      @emit-run="handleRun"
-      @pagination-current-change="paginationCurrentChange"
-      class="drug-table"
-    />
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -47,7 +50,8 @@
     columns = [
       {
         title: '序号',
-        key: 'id'
+        key: 'index',
+        width: 60
       },
       {
         title: '用户名',
@@ -151,25 +155,21 @@
     }
     async initData () {
       let params = {
-        // name: '',
         pageNum: this.pagination.currentPage,
         pageSize: 15
-        // username: ''
       }
       let data = await axios.get(`/api/supervise/accounts`, {params: params})
       this.accountData = data.data.list
       this.pagination.total = data.data.total
-      this.accountData.forEach(e => {
+      this.accountData.forEach((e, i) => {
         e.loginDate = moment(e.loginDate).format('YYYY-MM-DD HH:mm:ss')
-      })
-      let newArray = this.accountData
-      for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].activated.toString() === 'true') {
-          newArray[i].activated = '启用'
+        e.index = i + 1
+        if (e.activated.toString() === 'true') {
+          e.activated = '启用'
         } else {
-          newArray[i].activated = '停用'
+          e.activated = '停用'
         }
-      }
+      })
     }
     handleCustomEvent ({index, row}) {
       this.$router.push({path: '/system/account/detail', query: {id: row.id}})
@@ -198,43 +198,58 @@
       await axios.get(`/api/supervise/accounts`, {params: params}).then(res => {
         this.accountData = res.data.list
         this.pagination.total = res.data.total
-        this.accountData.forEach(e => {
+        this.accountData.forEach((e, i) => {
           e.loginDate = moment(e.loginDate).format('YYYY-MM-DD HH:mm:ss')
-        })
-        let newArray = this.accountData
-        for (let i = 0; i < newArray.length; i++) {
-          if (newArray[i].activated.toString() === 'true') {
-            newArray[i].activated = '启用'
+          e.index = i + 1
+          if (e.activated.toString() === 'true') {
+            e.activated = '启用'
           } else {
-            newArray[i].activated = '停用'
+            e.activated = '停用'
           }
-        }
+        })
       })
     }
   }
 </script>
 
 <style scoped lang="scss">
-  .p10{
-    padding: 0 10px;
-  }
-  .pharm-search{
-    display: flex;
-    justify-content: Flex-start;
-    align-items: center;
-    .el-input{
-      margin: 0 5px;
+  .account{
+    &-wrap{
+      padding: 0 10px;
+      margin-bottom: 30px;
     }
-    .el-select{
-      width: 150px;
-      margin-left: 5px;
-      margin-right: 10px;
+
+    &-list{
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+
+      .pharm-search{
+        display: flex;
+        justify-content: Flex-start;
+        align-items: center;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #e9e9e9;
+
+        .el-input{
+          margin: 0 5px;
+        }
+        .el-select{
+          width: 150px;
+          margin-left: 5px;
+          margin-right: 10px;
+        }
+      }
     }
   }
+
   /deep/.drug-table{
     margin-top: 10px;
     .d2-crud-body{
-      padding: 0 !important;
+      padding: 0 10px!important;
       .el-table{
         th{
           background-color: #F4F4F4 !important;

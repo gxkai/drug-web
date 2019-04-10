@@ -65,6 +65,10 @@
       ]
     }
 
+    getInfo (data) {
+      console.log(data)
+    }
+
     handleCurrentChange (currentRow) {
       this.$emit('listenToChildEvent', currentRow)
     }
@@ -74,7 +78,8 @@
       this.fetchData()
     }
 
-    async fetchData () {
+    async fetchData (aa) {
+      console.log(aa)
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: 15
@@ -84,7 +89,7 @@
       this.pagination.total = data.data.total
 
       this.commonNameData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
     }
 
@@ -120,7 +125,7 @@
   .common--content{
     max-height: 500px;
     overflow-y: scroll;
-    padding: 10px;
+    padding: 0 10px;
     &__search{
       display: flex;
       justify-content: Flex-start;

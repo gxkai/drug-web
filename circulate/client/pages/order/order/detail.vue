@@ -1,11 +1,10 @@
 <template>
-  <div class="detail-wrap">
+  <div class="order-detail-wrap">
     <div class="detail">
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
         <h3>正在查看订单【{{ this.orderNumberTit }}】的详细信息</h3>
-        <el-button size="small" type="primary" @click="$router.go(-1)">返回</el-button>
       </div>
 
       <div class="main-content">
@@ -68,8 +67,8 @@
         </div>
 
         <!--订单详情-->
-        <div class="index-detail">
-          <h5>订单详情：</h5>
+        <div class="order-detail">
+          <h4>订单详情：</h4>
           <d2-crud
             ref="orderDetailCrud"
             :columns="orderDetailColumns"
@@ -127,7 +126,7 @@
                 </el-form-item>
                 <el-form-item label="联系电话：">
                   <el-input v-model="formInfo.telNumber" readonly placeholder="请输入"></el-input>
-                </el-form-item><br>
+                </el-form-item>
                 <el-form-item label="医院：">
                   <el-input v-model="formInfo.hospital" readonly placeholder="请输入"></el-input>
                 </el-form-item>
@@ -149,6 +148,10 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="back">
+        <el-button @click="$router.push('/order/order')">返回</el-button>
       </div>
     </div>
   </div>
@@ -276,7 +279,7 @@
     pagination = {
       currentPage: 1,
       pageSize: 5,
-      total: this.trackData.length
+      total: 0
     }
 
     consignee = '' // 收货人
@@ -308,20 +311,21 @@
       // 进度条
       let orderStatus = {
         'TO_PAY': 1, // 待付款
-        'PAY_FAIL': 2, // 付款失败
-        'TO_CHECK': 3, // 待审批
-        'TO_DELIVERY': 4, // 调剂中
-        'TO_RECEIVED': 5, // 待收货
-        'TO_APPRAISE': 6, // 待评价
-        'COMPLETED': 7, // 交易成功
-        'CLOSED': 8 // 交易关闭
+        'TO_CHECK': 2, // 待审批
+        'TO_DELIVERY': 3, // 调剂中
+        'TO_RECEIVED': 4, // 待收货
+        'TO_APPRAISE': 5, // 待评价
+        'COMPLETED': 6, // 交易成功
+        'REFUNDING': 7, // 退款中
+        'REFUND_COMPLETE': 8, // 退款成功
+        'CLOSED': 9 // 交易关闭
       }
       for (let i in orderStatus) {
         if (i === orderInfo.data.state) {
           this.orderStatus = orderStatus[i]
         }
       }
-  
+
       this.consignee = orderInfo.data.consignee // 收货人
       this.address = orderInfo.data.address// 收货地址
       this.phone = orderInfo.data.phone // 联系电话
@@ -334,10 +338,12 @@
 
       this.orderDetailData = orderInfo.data.drugInfoAdminDTOList // 订单详情
       this.orderDetailData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
 
       this.trackData = orderInfo.data.orderLogList
+      console.log('跟踪记录')
+      console.log(this.trackData)
       this.trackData.forEach(e => {
         e.createdDate = moment(e.createdDate).format('YYYY-MM-DD HH:mm:ss')
         e.state = this.isAbled(e.state)
@@ -387,8 +393,6 @@
     isAbled (state) {
       if (state === 'TO_PAY') {
         return '待付款'
-      } else if (state === 'PAY_FAIL') {
-        return '付款失败'
       } else if (state === 'TO_CHECK') {
         return '待审批'
       } else if (state === 'TO_DELIVERY') {
@@ -399,18 +403,22 @@
         return '待评价'
       } else if (state === 'COMPLETED') {
         return '交易成功'
+      } else if (state === 'REFUNDING') {
+        return '退款中'
+      } else if (state === 'REFUND_COMPLETE') {
+        return '退款成功'
       } else if (state === 'CLOSED') {
         return '交易关闭'
       }
-      //
     }
   }
 </script>
 
 <style lang="scss">
 
-  .detail-wrap{
-    padding: 20px;
+  .order-detail-wrap{
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     h2, h3, h4, h5{
       margin: 0;
@@ -419,7 +427,7 @@
     .detail{
       min-height: 850px;
       background: #FFF;
-      padding-bottom: 20px;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -431,11 +439,8 @@
       }
 
       .title{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        margin-top: 20px;
         padding: 0 10px 15px;
-        margin: 0 10px;
         border-bottom: 1px solid #E9E9E9;
       }
 
@@ -545,10 +550,10 @@
           }
         }
 
-        .index-detail{
+        .order-detail{
           width: 95%;
 
-          h5{
+          h4{
             margin-top: 30px;
           }
 
@@ -610,9 +615,14 @@
 
           .rp-wrap{
             width: 88%;
-            margin: auto;
+            margin: 20px auto;
           }
         }
+      }
+
+      .back{
+        text-align: center;
+        margin: 20px auto 30px;
       }
     }
   }

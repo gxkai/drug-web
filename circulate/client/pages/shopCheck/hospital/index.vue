@@ -1,26 +1,32 @@
 <template>
-  <div class="p10">
-      <bread-crumb :path="$route.path"/>
-      <div class="hospital-search">
-        <el-button type="primary" size="small" icon="el-icon-plus" @click="addRow">新增</el-button>
-        <el-input v-model="hospitalNameValue" size="small" placeholder="请输入医院名称" style="width: 200px;"></el-input>
-        <el-button type="primary" size="small" @click="searchHospital">搜索</el-button>
-        <el-button size="small" @click="clear">清空</el-button>
+  <div class="hospital-wrap">
+      <div class="main-wrap">
+        <bread-crumb :path="$route.path"/>
+        <div class="hospital-search">
+          <div class="left">
+            <el-input v-model="hospitalNameValue" size="small" placeholder="请输入医院名称" style="width: 200px;"></el-input>
+            <el-button type="primary" size="small" @click="searchHospital">搜索</el-button>
+            <el-button size="small" @click="clear">清空</el-button>
+          </div>
+          <div class="right">
+            <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
+          </div>
+        </div>
+        <d2-crud
+          :columns="columns"
+          :data="hospitalData"
+          :loading="loading"
+          :pagination="pagination"
+          @pagination-current-change="paginationCurrentChange"
+          :options="options"
+          :rowHandle="rowHandle"
+          @emit-detail="handleDetailEvent"
+          @emit-stop="handleStopEvent"
+          @emit-run="handleRunEvent"
+          @emit-edit="handleEditEvent"
+          class="drug-table"
+        />
       </div>
-      <d2-crud
-        :columns="columns"
-        :data="hospitalData"
-        :loading="loading"
-        :pagination="pagination"
-        @pagination-current-change="paginationCurrentChange"
-        :options="options"
-        :rowHandle="rowHandle"
-        @emit-detail="handleDetailEvent"
-        @emit-stop="handleStopEvent"
-        @emit-run="handleRunEvent"
-        @emit-edit="handleEditEvent"
-        class="drug-table"
-      />
   </div>
 </template>
 <script>
@@ -215,21 +221,43 @@
 </script>
 
 <style lang="scss" scoped>
-  .p10{
-    padding:5px 10px;
-  }
-  .hospital-search{
-    display: flex;
-    justify-content: Flex-start;
-    align-items: center;
-    .el-input{
-      margin: 0 10px;
+  .hospital-wrap{
+    padding: 0 10px;
+    margin-bottom: 30px;
+
+    .main-wrap{
+      min-height: 850px;
+      background: #FFF;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+
+      .hospital-search{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #E9E9E9;
+        padding-bottom: 15px;
+
+        .right{
+          padding-right: 10px;
+        }
+
+        .el-input{
+          margin: 0 10px;
+        }
+
+        .right{
+          padding-left: 10px;
+        }
+      }
     }
   }
+
   /deep/.drug-table{
     margin-top: 10px;
     .d2-crud-body{
-      padding: 0 !important;
+      padding: 0 10px !important;
       .el-table{
         th{
           background-color: #F4F4F4 !important;

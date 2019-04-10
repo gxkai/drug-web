@@ -7,14 +7,9 @@
         <el-row :gutter="20" class="filter-top">
           <el-col :span="8">
             <span class="tit">药店名称：</span>
-            <el-select v-model="shopNameID" size="small" @change="matchShopName" filterable placeholder="请选择" style="width: 250px">
-              <el-option
-                v-for="(item, index) in shopNameList"
-                :key="index"
-                :label="item.name"
-                :value="item.id">
-              </el-option>
-            </el-select>
+            <!--请选择药房名称-->
+            <el-button class="select-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
+            <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
           </el-col>
           <el-col :span="8">
             <span class="tit">药品名称：</span>
@@ -27,19 +22,15 @@
           </el-col>
           <el-col :span="8" class="produce-col">
             <span class="tit">生产厂商：</span>
-            <el-input
-              size="small"
-              style="width: 250px"
-              placeholder="请输入"
-              v-model="produceName">
-            </el-input>
+            <el-button class="select-btn" v-if="produceName" type="middle" @click="originDialogVisible = true">{{ produceName }}</el-button>
+            <el-button class="select-btn" v-else type="middle" @click="originDialogVisible = true" style="color: #C0C4CC">请选择厂商</el-button>
           </el-col>
         </el-row>
 
         <el-row :gutter="20" class="filter-bottom">
           <el-col :span="8" class="status-col">
             <span class="tit">当前状态：</span>
-            <el-select v-model="stateValue" size="small" filterable placeholder="请选择" style="width: 250px">
+            <el-select v-model="stateValue" size="small" filterable placeholder="请选择" style="width: 65%">
               <el-option
                 v-for="(item, index) in currentStateList"
                 :key="index"
@@ -82,22 +73,18 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="200px"
             prop="shopName"
             label="药店名称">
           </el-table-column>
           <el-table-column
-            width="200px"
             prop="drugName"
             label="药品名称">
           </el-table-column>
           <el-table-column
-            width="220px"
             prop="specName"
             label="药品规格">
           </el-table-column>
           <el-table-column
-            width="220px"
             prop="originName"
             label="生产厂商">
           </el-table-column>
@@ -107,35 +94,32 @@
             label="销量">
           </el-table-column>
           <el-table-column
-            width="80px"
+            width="65px"
             prop="price"
             label="销售价">
           </el-table-column>
           <el-table-column
-            width="170px"
             prop="applyDate"
             label="申请日期">
           </el-table-column>
           <el-table-column
-            width="170px"
             prop="startDate"
             label="展示开始时间">
           </el-table-column>
           <el-table-column
-            width="170px"
             prop="endDate"
             label="展示结束时间">
           </el-table-column>
-          <el-table-column label="当前状态">
+          <el-table-column label="当前状态" width="80px">
             <template slot-scope="scope">
               <span>{{ $t(scope.row.applyState) }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="200px">
+          <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button @click="viewDetail(scope.$index, scope.row)" type="text">查看</el-button>
 
-              <el-dropdown trigger="click">
+              <el-dropdown trigger="click"  v-if="scope.row.applyState==='PENDING'">
                 <span class="el-dropdown-link">
                   更多
                   <i class="el-icon-arrow-down el-icon--right"></i>
@@ -150,7 +134,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
 
-              <el-button type="text" @click="obtained(scope.row.id)">下架</el-button>
+              <el-button type="text" @click="obtained(scope.row.id)" v-if="scope.row.applyState==='SUCCESS'">下架</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -165,6 +149,32 @@
           </el-pagination>
         </div>
       </div>
+
+      <!--选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <!--选择厂商-->
+      <el-dialog
+        title="厂商"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="originDialogVisible"
+        width="50%">
+        <drug-origin v-on:listenToChildEvent="getSelectedInfo"></drug-origin>
+        <span slot="footer" class="dialog-footer">
+        <el-button @click="originDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
+      </span>
+      </el-dialog>
 
       <!-- 查看模态框 -->
       <el-dialog
@@ -241,20 +251,40 @@
   import BreadCrumb from '@/components/Breadcrumb'
   import axios from 'axios'
   import moment from 'moment'
-
+  import ShopName from '@/components/shop/ShopName'
+  import Origin from '@/components/drugCheck/Origin'
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      ShopName,
+      'drug-origin': Origin
     }
   })
   export default class Discount extends Vue {
+    // 弹窗
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+    // 药房
+    isCloseOnClickModal = false
+    shopNameDialog = false
+
+    shopNameValue = ''
+    shopId = ''
+
+    // 厂商弹窗
+    originId = ''
+    produceName = ''
+    originDialogVisible = false
+
     disClearable = false
-    shopNameID = ''; // 药店名id
-    shopName = ''; // 药店名称
-    drugName = ''; // 药品名称
-    produceName = ''; // 生产厂商
+
+    shopNameID = '' // 药店名id
+    shopName = '' // 药店名称
+
+    drugName = '' // 药品名称
+    // produceName = '' // 生产厂商
     stateValue = '' // 状态值
-    dateValue = ''; // 日期区间
+    dateValue = '' // 日期区间
     startDate = '' // 起始日期
     endDate = '' // 截止日期
 
@@ -286,17 +316,43 @@
       this.shopNameID = ''
       this.shopNameValue = ''
       this.drugName = ''
-      this.produceValue = ''
+      this.produceName = ''
       this.stateValue = ''
       this.dateValue = ''
       this.startDate = ''
       this.endDate = ''
+      this.getRecommend()
     }
 
-    // 获取所有药店名称选项
-    async getShopNames () {
-      let {data: options} = await axios.post(`/api/supervise/shops/filter`)
-      this.shopNameList = options
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+    }
+
+    // 获取药店名称
+    confirmSelect () {
+      if (!this.selectedInfo) {
+        this.shopNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.shopId = this.childData.id
+      this.shopNameValue = this.childData.shopName
+      this.shopNameDialog = false
+      // this.selectedInfo = ''
+    }
+
+    // 选择厂商
+    confirmSelectOrigin () {
+      if (!this.selectedInfo) {
+        this.originDialogVisible = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.originId = this.childData.id
+      this.produceName = this.childData.fullName
+      this.originDialogVisible = false
+      // this.selectedInfo = ''
     }
 
     // 下架
@@ -390,14 +446,6 @@
       this.perPageData = this.perPageData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
 
-    matchShopName () {
-      this.shopNameList.forEach(item => {
-        if (this.shopNameID === item.id) {
-          this.shopNameValue = item.name
-        }
-      })
-    }
-
     convertDate () {
       if (this.dateValue) {
         for (let i = 0, len = this.dateValue.length; i < len; i++) {
@@ -417,12 +465,13 @@
       let params = {
         pageNum: this.currentPage,
         pageSize: this.pageSize,
-        shopId: this.shopNameID,
+        shopId: this.shopId,
         shopName: this.shopNameValue,
+        originName: this.produceName,
         drugName: this.drugName.trim(),
         state: this.stateValue,
-        start: this.startDate,
-        ebd: this.endDate
+        startDate: this.startDate,
+        endDate: this.endDate
       }
       let {data: res} = await axios.get(`/api/supervise/drugRecommendApplies`, {params})
       console.log(res)
@@ -439,18 +488,26 @@
 
     beforeMount () {
       this.getRecommend()
-      this.getShopNames()
     }
   }
 </script>
 
-<style lang="scss">
-  .discount-wrap{
-    padding: 20px;
+<style lang="scss" scoped>
+  .select-btn{
+    text-align: left;
+    font-size: 14px;
+    width: 65%;
+    height: 32px;
+    line-height: 9px;
+  }
+  /deep/.discount-wrap{
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .discount{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
@@ -471,8 +528,8 @@
       }
 
       .filter{
-        padding: 0 20px 30px;
-        margin: 0 10px 15px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
         text-align: center;
         border-bottom: 1px solid #E9E9E9;
 
@@ -487,7 +544,7 @@
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{
@@ -514,7 +571,7 @@
           font-size: 13px;
         }
         button:last-child{
-          margin-left: 8px;
+          /*margin-left: 8px;*/
           &:before{
             content: '|';
             color: #EEE;

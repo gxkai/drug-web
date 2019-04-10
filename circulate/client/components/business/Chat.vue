@@ -1,262 +1,301 @@
 <template>
-  <div class="chat-wrap">
-    <div class="chat">
+  <div class="advisory--wrap">
+    <div class="advisory--con">
       <bread-crumb :path="$route.path"/>
-
       <div class="title">
         <h3>药师管理</h3>
       </div>
-
-      <div class="list">
-        <el-table
-          :data="perPageData"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="serialNumber"
-            label="序号">
-          </el-table-column>
-          <el-table-column
-            prop="username"
-            label="用户名">
-          </el-table-column>
-          <el-table-column
-            prop="pharmacistName"
-            label="药师名">
-          </el-table-column>
-          <el-table-column
-            prop="role"
-            label="角色">
-          </el-table-column>
-          <el-table-column
-            prop="status"
-            label="状态">
-          </el-table-column>
-          <el-table-column
-            prop="lastLoginTime"
-            label="最后一次登录时间">
-          </el-table-column>
-          <el-table-column
-            prop="consultingNumber"
-            label="咨询次数">
-          </el-table-column>
-          <el-table-column
-            prop="score"
-            label="评分">
-          </el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button @click="viewChat(scope.row)" type="text" size="small">查看</el-button>
-              <el-button @click="disableAction(scope.row)" type="text" size="small" v-if="scope.row.showStop">停用</el-button>
-              <el-button @click="enableAction(scope.row)" type="text" size="small" v-if="scope.row.showStart">启用</el-button>
-              <el-button @click="resetPwd(scope.row)" type="text" size="small">重置密码</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-
-        <div class="pagination">
-          <el-pagination
-            @current-change="handleCurrentChange"
-            :current-page="currentPageNum"
-            :page-size="pageNum"
-            layout="prev, pager, next, jumper, total"
-            :total="tableData.length">
-          </el-pagination>
-        </div>
-      </div>
+      <d2-crud
+        :columns="pharmacistColumns"
+        :data="pharmacistList"
+        :loading="loading"
+        :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
+        :options="options"
+        :rowHandle="rowHandle"
+        @emit-detail="handleDetail"
+        @emit-run="handleRun"
+        @emit-stop="handleStop"
+        @emit-reset="resetPassword"
+        class="drug-table"
+      />
     </div>
   </div>
 </template>
-
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
       BreadCrumb
     }
   })
-  export default class Chat extends Vue {
-    currentPageNum = 1; // 当前页
-    pageNum = 2; // 每页显示条数
-
-    // 所有列表数据
-    tableData = [
+  export default class Pharmacist extends Vue {
+    pharmNameValue = ''
+    pharmState = ''
+    pharmacistColumns = [
       {
-        serialNumber: '1',
-        username: '王明',
-        pharmacistName: '王凯',
-        role: '药师',
-        status: '启用',
-        lastLoginTime: '2019-03-14 21:10:45',
-        consultingNumber: '10',
-        score: '5.0'
+        title: '序号',
+        key: 'index',
+        width: 60
       },
       {
-        serialNumber: '2',
-        username: '王明',
-        pharmacistName: '王凯',
-        role: '药师',
-        status: '停用',
-        lastLoginTime: '2019-03-14 21:10:45',
-        consultingNumber: '10',
-        score: '5.0'
+        title: '账号',
+        key: 'username'
       },
       {
-        serialNumber: '3',
-        username: '王明',
-        pharmacistName: '王凯',
-        role: '药师',
-        status: '停用',
-        lastLoginTime: '2019-03-14 21:10:45',
-        consultingNumber: '10',
-        score: '5.0'
+        title: '药师名',
+        key: 'name'
       },
       {
-        serialNumber: '4',
-        username: '王明',
-        pharmacistName: '王凯',
-        role: '药师',
-        status: '启用',
-        lastLoginTime: '2019-03-14 21:10:45',
-        consultingNumber: '10',
-        score: '5.0'
+        title: '角色',
+        key: 'roleName'
       },
       {
-        serialNumber: '5',
-        username: '王明',
-        pharmacistName: '王凯',
-        role: '药师',
-        status: '启用',
-        lastLoginTime: '2019-03-14 21:10:45',
-        consultingNumber: '10',
-        score: '5.0'
+        title: '状态',
+        key: 'activated'
       },
       {
-        serialNumber: '6',
-        username: '王明',
-        pharmacistName: '王凯',
-        role: '药师',
-        status: '停用',
-        lastLoginTime: '2019-03-14 21:10:45',
-        consultingNumber: '10',
-        score: '5.0'
+        title: '最后一次登录时间',
+        key: 'lastLoginDate'
+      },
+      {
+        title: '咨询次数',
+        key: 'chatTimes'
+      },
+      {
+        title: '评分',
+        key: 'score'
       }
-    ];
-    perPageData = []; // 存储每页显示的数据
+    ]
+    pharmacistList = []
 
-    // 查看聊天
-    viewChat (row) {
-      this.$router.push('/business/chat/list')
+    loading = false;
+    pagination = {
+      currentPage: 1,
+      pageSize: 15,
+      total: 0
     }
-
-    disableAction (row) {
-
+    options= {
+      border: true
     }
-
-    enableAction (row) {
-
-    }
-
-    resetPwd (row) {
-
-    }
-
-    handleCurrentChange (page) {
-      this.currentPageNum = page
-      this.setStatus()
-    }
-
-    setStatus () {
-      this.perPageData = this.tableData
-      this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
-
-      this.perPageData.forEach((item, index) => {
-        if (item.status === '启用') {
-          this.perPageData[index].showStop = true
+    rowHandle= {
+      width: 300,
+      custom: [
+        {
+          text: '查看聊天',
+          type: 'text',
+          emit: 'emit-detail'
+        },
+        {
+          text: '启用',
+          type: 'text',
+          emit: 'emit-run',
+          show (index, row) {
+            if (row.activated === '停用') {
+              return true
+            }
+          }
+        },
+        {
+          text: '停用',
+          type: 'text',
+          emit: 'emit-stop',
+          show (index, row) {
+            if (row.activated === '启用') {
+              return true
+            }
+          }
+        },
+        {
+          text: '重置密码',
+          type: 'text',
+          emit: 'emit-reset'
         }
+      ]
+    }
 
-        if (item.status === '停用') {
-          this.perPageData[index].showStart = true
+    stateOptions = [
+      {
+        value: '启用',
+        label: '启用'
+      },
+      {
+        value: '停用',
+        label: '停用'
+      }
+    ]
+
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
+      this.getPharmacist()
+    }
+
+    handleDetail ({index, row}) {
+      this.$router.push({
+        path: '/business/chat/list',
+        query: {
+          id: row.id
         }
       })
     }
 
+    clear () {
+      this.pharmNameValue = ''
+      this.pharmState = ''
+    }
+
+    // 停用
+    handleStop ({index, row}) {
+      let stop = this.rowHandle.custom
+      for (let i = 0; i < stop.length; i++) {
+        if (stop[i].text === '停用') {
+          row.activated = '停用'
+          row.curState = false
+          this.saveStatus(row)
+        }
+      }
+    }
+
+    // 启用
+    handleRun ({index, row}) {
+      let run = this.rowHandle.custom
+      for (let i = 0; i < run.length; i++) {
+        if (run[i].text === '启用') {
+          row.activated = '启用'
+          row.curState = true
+          this.saveStatus(row)
+        }
+      }
+    }
+
+    async saveStatus (row) {
+      let params = {
+        activated: row.curState
+      }
+      let save = await axios.put(`/api/supervise/admins/${row.id}`, params)
+      console.log(save)
+    }
+
+    // 新增
+    addRow () {
+      this.$router.push('/system/pharmacist/create')
+    }
+
+    // 重置密码
+    resetPassword ({row}) {
+      this.$confirm('确定重置密码吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.put(`/api/supervise/admins/${row.id}/reset`)
+        this.$message({
+          message: '密码重置成功！',
+          type: 'success'
+        })
+      }).catch(() => {})
+    }
+
+    // 搜索
+    searchPharm () {
+      let activated = true
+
+      if (this.pharmState) {
+        if (this.pharmState === '启用') {
+          activated = true
+        } else {
+          activated = false
+        }
+      }
+
+      this.getPharmacist(this.pharmNameValue.trim(), activated)
+    }
+
+    async getPharmacist (name, activated) {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        name,
+        activated
+      }
+      let {data: res} = await axios.get(`/api/supervise/admins?roleId=ROLE_ADMIN_PHARMACIST`, {params})
+      console.log(res)
+
+      this.pharmacistList = res.list
+      this.pagination.total = res.total
+
+      this.pharmacistList.forEach((item, index) => {
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
+        item.activated = this.isAvaliable(item.activated)
+        item.roleName = '药师'
+        item.lastLoginDate = item.lastLoginDate ? moment(item.lastLoginDate).format('YYYY-MM-DD HH:mm:ss') : ''
+      })
+    }
+
+    isAvaliable (status) {
+      if (status) {
+        return '启用'
+      }
+      return '停用'
+    }
+
     mounted () {
-      this.setStatus()
+      this.getPharmacist()
+      if (localStorage.getItem('chatID')) {
+        localStorage.removeItem('chatID')
+      }
     }
   }
 </script>
 
-<style lang="scss">
-  .chat-wrap{
-    padding: 20px;
+<style scoped lang="scss">
+  .advisory{
+    &--wrap{
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
 
-    .chat{
+    &--con{
       min-height: 850px;
+      padding: 10px;
       background: #FFF;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
-      .el-dialog__body{
-        padding: 20px;
-        border:{
-          top: 1px solid #e9e9e9;
-          bottom: 1px solid #e9e9e9;
-        }
-      }
-
       .title{
-        padding: 0 20px;
-        margin: 0 10px 20px;
-        border-bottom: 1px solid #E9E9E9;
+        border-bottom: 1px solid #e9e9e9;
 
         h3{
-          margin-bottom: 10px;
+          padding-left: 15px;
         }
       }
+    }
+  }
 
-      textarea{
-        border: none;
-        outline: none;
-        resize: none;
-        font-size: 15px;
-        color: #949494;
-      }
-
-      .list {
-        padding: 0 30px;
-
-        .el-table{
-          th{
-            background-color: #F4F4F4;
-            color: #555;
-          }
-          &__body {
-            td{
-              padding: 6px 0;
+  /deep/.drug-table{
+    margin-top: 10px;
+    .d2-crud-body{
+      padding: 0 15px;
+      .el-table{
+        th{
+          background-color: #F4F4F4 !important;
+          color: #555 !important;
+        }
+        td{
+          .cell{
+            /deep/.el-button+.el-button{
+              margin-left: 5px;
+              &::before{
+                content: '|';
+                padding-right: 5px;
+                color: #eee;
+              }
             }
-          }
-        }
-
-        .pagination{
-          margin: 30px 0;
-          .el-pagination__total{
-            float: right;
-          }
-        }
-      }
-
-      .cell{
-        .el-button+.el-button{
-          &:before{
-            content: '|';
-            color: #EEE;
-            position: relative;
-            left: -6px;
-            top: -1px;
           }
         }
       }
