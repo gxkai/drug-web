@@ -2,17 +2,16 @@
   <div class="order-wrap">
     <div class="order">
       <bread-crumb :path="$route.path"/>
-
       <div class="filter">
         <el-row :gutter="20">
           <el-col :span="24" class="filter-top">
             <el-col :span="8">
               <span>订单编号：</span>
-              <el-input v-model="orderID" placeholder="请输入"></el-input>
+              <el-input v-model="orderID" placeholder="请输入" size="small"></el-input>
             </el-col>
             <el-col :span="8">
               <span>订单类型：</span>
-              <el-select v-model="orderType" clearable filterable placeholder="请选择">
+              <el-select v-model="orderType" clearable filterable placeholder="请选择" size="small">
                 <el-option
                   v-for="item in typeList"
                   :key="item.value"
@@ -23,7 +22,7 @@
             </el-col>
             <el-col :span="8">
               <span>订单状态：</span>
-              <el-select v-model="orderState" clearable filterable placeholder="请选择">
+              <el-select v-model="orderState" clearable filterable placeholder="请选择" size="small">
                 <el-option
                   v-for="item in stateList"
                   :key="item.value"
@@ -37,19 +36,14 @@
           <el-col :span="24" class="filter-bottom">
             <el-col :span="8">
               <span>药店名称：</span>
-              <el-select v-model="shopNameValue" clearable filterable placeholder="请选择" @change="getShopID">
-                <el-option
-                  v-for="item in shopNameList"
-                  :key="item.name"
-                  :label="item.name"
-                  :value="item.name">
-                </el-option>
-              </el-select>
+              <!--请选择药房名称-->
+              <el-button class="select-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
+              <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
             </el-col>
 
             <el-col :span="8">
               <span>用户信息：</span>
-              <el-select v-model="userValue" clearable filterable placeholder="请选择">
+              <el-select v-model="userValue" clearable filterable placeholder="请选择" size="small">
                 <el-option
                   v-for="item in userList"
                   :key="item.username"
@@ -61,6 +55,7 @@
             <el-col :span="8">
               <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</span>
               <el-date-picker
+                size="small"
                 v-model="dateValue"
                 type="datetimerange"
                 range-separator="至"
@@ -72,11 +67,24 @@
           </el-col>
 
           <el-col :span="23" class="action-col">
-            <el-button size="medium" type="primary" @click="search">搜索</el-button>
-            <el-button size="medium" @click="reset">重置</el-button>
+            <el-button size="small" type="primary" @click="search">搜索</el-button>
+            <el-button size="small" @click="reset">重置</el-button>
           </el-col>
         </el-row>
       </div>
+
+      <!--选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
 
       <div class="order-list">
         <div class="container" v-for="(item, index) in perPageData" :key="index">
@@ -105,7 +113,7 @@
                   <td class="text-over">{{ item2.drugName }}</td>
                   <td>{{ item2.price }}</td>
                   <td>{{ item2.quantity }}</td>
-                  <td class="text-over">{{ item2.barCode }}</td>
+                  <td>{{ item2.barCode }}</td>
                 </tr>
               </table>
             </div>
@@ -136,8 +144,10 @@
             </div>
             <div class="item item12">
               <p>姓名：{{ item.consignee }}</p>
-              <p class="text-over" :title="item.buyerPhone">电话：{{ item.buyerPhone }}</p>
-              <p class="text-over" :title="item.address">地址：{{ item.address }}</p>
+              <p>电话：{{ item.buyerPhone }}</p>
+              <p class="text-over">地址：{{ item.address }}</p>
+              <!--<p class="text-over" :title="item.buyerPhone">电话：{{ item.buyerPhone }}</p>-->
+              <!--<p class="text-over" :title="item.address">地址：{{ item.address }}</p>-->
             </div>
             <div class="item item13">
               <span>{{$t(item.type)}}</span>
@@ -193,14 +203,25 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import ShopName from '@/components/shop/ShopName'
   import axios from 'axios'
   import moment from 'moment'
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      ShopName
     }
   })
   export default class Order extends Vue {
+    // 弹窗
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+    // 药房
+    isCloseOnClickModal = false
+    shopNameDialog = false
+    shopNameValue = ''
+    shopId = ''
+
     orderID = ''
     orderType = ''
     typeList = [
@@ -224,10 +245,6 @@
         label: '待付款'
       },
       {
-        value: 'PAY_FAIL',
-        label: '付款失败'
-      },
-      {
         value: 'TO_CHECK',
         label: '待审批'
       },
@@ -248,14 +265,22 @@
         label: '交易成功'
       },
       {
+        value: 'REFUNDING',
+        label: '退款中'
+      },
+      {
+        value: 'REFUND_COMPLETE',
+        label: '退款成功'
+      },
+      {
         value: 'CLOSED',
         label: '交易关闭'
       }
     ]
 
-    shopNameValue = ''
-    shopId = ''
-    shopNameList = []
+    // shopNameValue = ''
+    // shopId = ''
+    // shopNameList = []
     userValue = ''
     userList = []
 
@@ -282,23 +307,42 @@
       }
     }
 
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+    }
+
+    // 获取药店名称
+    confirmSelect () {
+      if (!this.selectedInfo) {
+        this.shopNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.shopId = this.childData.id
+      this.shopNameValue = this.childData.shopName
+      this.shopNameDialog = false
+      this.selectedInfo = ''
+    }
+
     beforeMount () {
       this.getOrderList()
       this.messageNotice()
-      this.getShopNames()
+      // this.getShopNames()
     }
-    getShopID () {
-      this.shopNameList.forEach(item => {
-        if (this.shopNameValue === item.name) {
-          this.shopId = item.id
-        }
-      })
-    }
+    // getShopID () {
+    //   this.shopNameList.forEach(item => {
+    //     if (this.shopNameValue === item.shopName) {
+    //       this.shopId = item.id
+    //     }
+    //   })
+    // }
     // 获取所有药店名称选项
-    async getShopNames () {
-      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
-      this.shopNameList = option
-    }
+    // async getShopNames () {
+    // let {data: option} = await axios.get(`/api/supervise/shops`)
+    // console.log(option.list)
+    // this.shopNameList = option.list
+    // }
     async getOrderList () {
       let params = {
         pageNum: this.currentPageNum,
@@ -306,11 +350,10 @@
       }
       let orderData = await axios.get(`/api/supervise/orders`, {params: params})
       this.orderListData = orderData.data.list
+      console.log(this.orderListData)
       this.perPageData = this.orderListData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
-      // console.log(this.orderListData)
       this.perPageData.forEach((item) => {
-        // console.log(item.consignee)
         if (item.consignee !== null) {
           this.userList.push({
             name: item.consignee.trim()
@@ -383,17 +426,18 @@
       this.shopNameValue = ''
       this.userValue = ''
       this.dateValue = ''
+      this.getOrderList()
     }
 
     // 搜索查询
     async search () {
-      console.log(this.orderType)
+      // console.log(this.orderType)
       let params = {
         number: this.orderID,
         type: this.orderType,
         state: this.orderState,
         shopId: this.shopId,
-        username: this.userValue,
+        buyerName: this.userValue,
         pageNum: this.currentPageNum,
         pageSize: this.pageNum,
         startDate: this.startDate,
@@ -440,27 +484,28 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   $tableBorder: 1px solid #EBEEF5;
 
+  .select-btn{
+    width: 65%;
+    text-align: left;
+    font-size: 14px;
+  }
+
   .order-wrap{
-    padding: 0 10px;
-    margin-bottom: 30px;
+    padding: 20px;
 
     .order{
       min-height: 850px;
       background: #FFF;
-      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
       .filter{
-        padding: 20px 0;
+        margin: 20px 15px;
+        padding-bottom: 20px;
         border-bottom: 1px solid #E9E9E9;
-
-        span{
-          font-size: 15px;
-        }
 
         .el-col-8{
           text-align: center;
@@ -487,7 +532,7 @@
       }
 
       &-list{
-        padding: 0 10px;
+        padding: 0 15px;
         .container {
           font-size: 15px;
           margin-top: 30px;
@@ -495,7 +540,7 @@
           background: #EBEEF5;
           border: $tableBorder;
           grid-column-gap: 1px;
-          grid-template-columns: 70% 30%;
+          grid-template-columns: 65% 35%;
 
           p{
             margin: 0;
@@ -505,7 +550,7 @@
           .wrapper {
             display: grid;
             grid-template-rows: 50px 70px auto;
-            grid-template-columns: repeat(9, 1fr);
+            grid-template-columns: repeat(8, 1fr);
             background: #FFF;
 
             .text-over{
@@ -521,10 +566,6 @@
               flex-flow: column;
               justify-content: center;
               padding: 10px;
-
-              p, span{
-                font-size: 13px;
-              }
 
               &-bg{
                 color: #555;
@@ -544,21 +585,20 @@
           .wrapper1 {
             .item{
               &1{
-                grid-area: 1 / 1 / 1 / 6;
+                grid-area: 1 / 1 / 1 / 5;
               }
 
               &2{
-                grid-column: 1 / 11;
+                grid-column: 1 / 10;
                 border-bottom: $tableBorder;
               }
 
               &3{
-                grid-area: 3 / 1 / 3 / 6;
+                grid-area: 3 / 1 / 3 / 5;
                 justify-content: normal;
 
                 td{
                   width: 25%;
-                  font-size: 13px;
                   text-align: center;
                   &:first-child{
                     width: 15%;
@@ -588,58 +628,48 @@
               }
 
               &4{
-                grid-area: 1 / 6 / 1 / 6;
+                grid-area: 1 / 5 / 1 / 5;
               }
 
               &5{
-                grid-area: 1 / 7 / 2 / 7;
+                grid-area: 1 / 6 / 2 / 6;
               }
 
               &6{
-                grid-area: 1 / 8 / 2 / 8;
+                grid-area: 1 / 7 / 2 / 7;
               }
 
               &7{
-                grid-area: 1 / 9 / 1 / 9;
+                grid-area: 1 / 8 / 1 / 8;
               }
 
               &8{
-                grid-area: 1 / 10 / 1 / 10;
+                grid-area: 1 / 9 / 1 / 9;
                 border-bottom: $tableBorder;
               }
 
               &9{
-                grid-area: 3 / 6 / 3 / 6;
+                grid-area: 3 / 5 / 3 / 5;
               }
 
               &10{
-                grid-area: 3 / 7 / 3 / 7;
+                grid-area: 3 / 6 / 3 / 6;
               }
 
               &11{
-                grid-area: 3 / 8 / 3 / 8;
+                grid-area: 3 / 7 / 3 / 7;
               }
 
               &12{
-                grid-area: 3 / 9 / 3 / 9;
+                grid-area: 3 / 8 / 3 / 8;
               }
 
               &13{
-                grid-area: 3 / 10 / 3 / 10;
+                grid-area: 3 / 9 / 3 / 9;
               }
 
               &3, &9, &10, &11, &12{
                 border-right: $tableBorder;
-              }
-
-              &1, &4, &5, &6, &8{
-                span{
-                  font-size: 14px;
-                }
-              }
-
-              &4, &5, &6, &8, &9, &10, &11, &13{
-                text-align: center;
               }
 
               &1, &4, &5, &6, &7{
@@ -654,9 +684,6 @@
             grid-template-rows: 50px auto;
             grid-template-columns: repeat(4, 1fr);
 
-            .item{
-              text-align: center;
-            }
             .item1{
               grid-area: 1/1/2/2;
             }
