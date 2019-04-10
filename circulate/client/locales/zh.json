@@ -86,7 +86,7 @@
   "/drugCheck/stock/edit":
     "药品库编辑",
   "/drugCheck/drug":
-    "药品列表管理",
+    "药店药品列表管理",
   "/drugCheck/drug/detail":
     "查看详情",
   "/drugCheck/drugInfo":

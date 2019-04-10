@@ -1,23 +1,14 @@
 <template>
-  <div class="p10">
+  <div class="shop-wrap">
+    <div class="shop-list">
       <bread-crumb :path="$route.path"/>
       <div class="shop-search">
-        <el-select size="small" v-model="shopNameValue" filterable placeholder="药房名称" style="width:auto;" @change="getShopID">
-          <el-option
-            v-for="item in shopOptions"
-            :key="item.id"
-            :label="item.name"
-            :value="item.name">
-          </el-option>
-        </el-select>
-        <el-select size="small" v-model="legalName" filterable placeholder="法人姓名">
-          <el-option
-            v-for="item in legalOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+        <!--请选择药房名称-->
+        <el-button class="select-btn" v-if="shopNameValue" size="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
+        <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
+        <!--请选择法人姓名-->
+        <el-button class="select-btn" v-if="legalName" type="small" @click="legalNameDialog = true">{{ legalName }}</el-button>
+        <el-button class="select-btn" v-else type="small" @click="legalNameDialog = true" style="color: #C0C4CC">法人姓名</el-button>
         <el-select size="small" v-model="drugState" placeholder="选择状态">
           <el-option
             v-for="item in stateOptions"
@@ -29,6 +20,33 @@
         <el-button type="primary" size="small" @click="search">搜索</el-button>
         <el-button size="small" @click="clear">清空</el-button>
       </div>
+
+      <!--选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <!--选择法人姓名-->
+      <el-dialog
+        title="法人姓名"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="legalNameDialog"
+        width="50%">
+        <legalName v-on:listenToChildEvent="getSelectedInfo"></legalName>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="legalNameDialog = false">取 消</el-button>
+            <el-button type="primary" @click="confirmSelectLegal">确 定</el-button>
+          </span>
+      </el-dialog>
+
       <d2-crud
         :columns="columns"
         :data="shopData"
@@ -42,22 +60,39 @@
         @emit-stop="handleStopEvent"
         class="drug-table"
        />
+
+  </div>
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import ShopName from '@/components/shop/ShopName'
+  import LegalName from '@/components/shop/LegalName'
   import axios from 'axios'
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      ShopName,
+      LegalName
     }
   })
   export default class Shop extends Vue {
+    // 药房弹窗
+    isCloseOnClickModal = false
+    shopNameDialog = false
     shopNameValue = ''
     shopId = ''
+
+    // 下拉弹框
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+    // 法人
     legalName = ''
+    legalNameDialog = false
+
     drugState = ''
     columns = [
       {
@@ -86,9 +121,9 @@
       }
     ]
     shopData = []
-    shopOptions = []
-    arr = []
-    legalOptions = []
+    // shopOptions = []
+    // arr = []
+    // legalOptions = []
     stateOptions = [
       {
         value: 'NORMAL',
@@ -114,7 +149,7 @@
     loading = false
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options = {
@@ -166,7 +201,7 @@
     }
     beforeMount () {
       this.getShopData()
-      this.getShopNames()
+      // this.getShopNames()
     }
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
@@ -179,63 +214,30 @@
         pageSize: 15
       }
       let data = await axios.get(`/api/supervise/shops`, {params: params})
-      // console.log(data.data)
       this.shopData = data.data.list
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {
-        // 获取法人姓名
-        this.arr.push({
-          value: item.legal,
-          label: item.legal
-        })
-        // 法人姓名去重
-        function uniqObjInArray (objarray) {
-          let len = objarray.length
-          let tempJson = {}
-          let res = []
-          for (let i = 0; i < len; i++) {
-            tempJson[JSON.stringify(objarray[i])] = true
-          }
-          // console.log(tempJson)
-          let keyItems = Object.keys(tempJson)
-          for (let j = 0; j < keyItems.length; j++) {
-            res.push(JSON.parse(keyItems[j]))
-          }
-          return res
-        }
-        this.legalOptions = uniqObjInArray(this.arr)
-        // 状态
-        if (item.state === 'NORMAL') {
-          item.state = '正常'
-        }
-        if (item.state === 'REST') {
-          item.state = '停业'
-        }
-        if (item.state === 'TO_CHECK') {
-          item.state = '待审核'
-        }
-        if (item.state === 'NO_PASS') {
-          item.state = '不通过'
-        }
-        if (item.state === 'VIOLATION') {
-          item.state = '违规'
-        }
+        item.state = this.convertStatus(item.state)
       })
     }
-    getShopID () {
-      this.shopOptions.forEach(item => {
-        if (this.shopNameValue === item.name) {
-          this.shopId = item.id
-        }
-      })
+
+    // 状态转换
+    convertStatus (status) {
+      switch (status) {
+        case 'NORMAL':
+          return '正常'
+        case 'REST':
+          return '停业'
+        case 'VIOLATION':
+          return '违规'
+        case 'TO_CHECK':
+          return '待审核'
+        case 'NO_PASS':
+          return '未通过'
+      }
     }
-    // 获取所有药店名称选项
-    async getShopNames () {
-      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
-      this.shopOptions = option
-    }
+
     handleCheckEvent ({index, row}) {
-      // console.log(row)
       this.$router.push({
         path: '/shopCheck/shop/check',
         query: {
@@ -243,6 +245,36 @@
         }
       })
     }
+
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+      console.log(this.selectedInfo)
+    }
+    // 获取药店名称
+    confirmSelect () {
+      if (!this.selectedInfo) {
+        this.shopNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.shopId = this.childData.id
+      this.shopNameValue = this.childData.shopName
+      this.shopNameDialog = false
+      this.selectedInfo = ''
+    }
+    // 获取法人姓名
+    confirmSelectLegal () {
+      if (!this.selectedInfo) {
+        this.legalNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.legalName = this.childData.name
+      this.legalNameDialog = false
+      this.selectedInfo = ''
+    }
+
     async handleStopEvent ({index, row}) {
       await axios.post(`/api/supervise/shops/${row.id}/?state=REST`)
       this.getShopData()
@@ -278,35 +310,43 @@
       this.shopData = data.data.list
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {
-        if (item.state === 'NORMAL') {
-          item.state = '正常'
-        }
-        if (item.state === 'REST') {
-          item.state = '停业'
-        }
-        if (item.state === 'TO_CHECK') {
-          item.state = '待审核'
-        }
-        if (item.state === 'NO_PASS') {
-          item.state = '不通过'
-        }
-        if (item.state === 'VIOLATION') {
-          item.state = '违规'
-        }
+        item.state = this.convertStatus(item.state)
       })
     }
   }
 </script>
 
-
 <style lang="scss" scoped>
-.p10{
-  padding:5px 10px;
+
+  .shop {
+    &-wrap {
+      padding: 0 10px;
+      margin-bottom: 30px;
+    }
+
+    &-list {
+      min-height: 850px;
+      padding: 10px;
+      background: #FFF;
+      border-radius: 5px;
+      border: 1px solid #E9E9E9;
+    }
+  }
+
+.select-btn{
+  margin-right: 10px;
+  margin-left: 0;
+  text-align: left;
+  font-size: 14px;
+  width: 200px;
 }
 .shop-search{
   display: flex;
   justify-content: Flex-start;
   align-items: center;
+  border-bottom: 1px solid #e9e9e9;
+  padding-bottom: 15px;
+
   .el-input{
     margin-right: 10px;
     width: 160px;
@@ -316,28 +356,71 @@
     width: 160px;
   }
 }
-/deep/.drug-table{
-  margin-top: 10px;
-  .d2-crud-body{
-      padding: 0 !important;
-    .el-table{
-      th{
+/deep/.drug-table {
+  margin-top: 15px;
+  .d2-crud-body {
+    padding: 0  10px!important;
+    .el-table {
+      th {
         background-color: #F4F4F4 !important;
         color: #555 !important;
-      }
-      td{
-        .cell{
-          /deep/.el-button+.el-button{
-            margin-left: 5px;
-            &::before{
-              content: '|';
-              padding-right: 5px;
-              color: #eee;
+
+        .shop--check__wrap {
+          padding: 0 10px;
+          margin-bottom: 30px;
+
+          .main-wrap {
+            min-height: 850px;
+            background: #FFF;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #E9E9E9;
+
+            .shop-search {
+              display: flex;
+              justify-content: Flex-start;
+              align-items: center;
+              border-bottom: 1px solid #e9e9e9;
+              padding-bottom: 15px;
+              padding-left: 10px;
+
+              .el-input {
+                margin-right: 10px;
+                width: 160px;
+              }
+              .el-select {
+                margin-right: 10px;
+                width: 160px;
+              }
             }
           }
         }
       }
     }
   }
+  /*/deep/ .drug-table {*/
+    /*margin-top: 15px;*/
+    /*.d2-crud-body {*/
+      /*padding: 0 10px !important;*/
+      /*.el-table {*/
+        /*th.is-leaf {*/
+          /*background-color: #F4F4F4 !important;*/
+          /*color: #555 !important;*/
+        /*}*/
+        /*td {*/
+          /*.cell {*/
+            /*/deep/ .el-button + .el-button {*/
+              /*margin-left: 5px;*/
+              /*&::before {*/
+                /*content: '|';*/
+                /*padding-right: 5px;*/
+                /*color: #eee;*/
+              /*}*/
+            /*}*/
+          /*}*/
+        /*}*/
+      /*}*/
+    /*}*/
+  /*}*/
 }
 </style>

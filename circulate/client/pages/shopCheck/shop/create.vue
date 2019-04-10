@@ -216,7 +216,7 @@
 
 <style scoped lang="scss">
   .shop-edit{
-    padding: 10px;
+    padding: 0 10px;
     .check-form{
       padding:0 100px 0 0;
       .el-form{

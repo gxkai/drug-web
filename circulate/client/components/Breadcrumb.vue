@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="breadcrumb-wrap">
     <el-row class="breadcrumb">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item v-for="(path, index) in paths_" :key="index">

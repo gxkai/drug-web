@@ -127,17 +127,18 @@
 
 <style lang="scss">
   .system-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .system{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
       .filter{
-        padding: 15px 20px;
-        margin: 0 10px;
+        padding: 15px;
         border-bottom: 1px solid #E9E9E9;
 
         .el-input{
@@ -147,7 +148,7 @@
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{

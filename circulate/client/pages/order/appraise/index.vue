@@ -3,26 +3,49 @@
     <div class="appraise">
       <bread-crumb :path="$route.path"/>
 
+      <!--药店评价--选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
+
+
+      <!--药品评价---选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog2"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo2"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog2 = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect2">确 定</el-button>
+        </span>
+      </el-dialog>
+
       <div class="appraise-con">
         <el-tabs v-model="activeTab" type="card">
           <el-tab-pane label="药店评价" name="first" class="shop-appraise">
             <div class="filter">
               <el-row :gutter="20">
-                <el-col :span="5">
-                  <el-select v-model="shopIdOfShopAppraise" size="small" filterable placeholder="药房名称">
-                    <el-option
-                      v-for="(item, index) in shopNameListOfShopAppraise"
-                      :key="index"
-                      :label="item.name"
-                      :value="item.id">
-                    </el-option>
-                  </el-select>
+                <el-col :span="4">
+                  <!--请选择药房名称-->
+                  <el-button class="select-btn" v-if="shopNameValue" size="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
+                  <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
                 </el-col>
                 <el-col :span="4">
                   <el-input v-model="buyerNameOfShopAppraise" size="small" placeholder="买家姓名"></el-input>
                 </el-col>
                 <el-col :span="6">
                   <el-date-picker
+                    style="width: 100%;"
                     size="small"
                     :clearable="isClearable"
                     v-model="dateOfShopAppraise"
@@ -32,7 +55,7 @@
                     end-placeholder="结束日期">
                   </el-date-picker>
                 </el-col>
-                <el-col :span="6" class="action-col">
+                <el-col :span="4" class="action-col">
                   <el-button size="small" type="primary" @click="searchShopAppraise">搜索</el-button>
                   <el-button size="small" @click="clearShopCondition">清空</el-button>
                 </el-col>
@@ -54,16 +77,11 @@
           <el-tab-pane label="药品评价" name="second" class="drug-appraise">
             <div class="filter">
               <el-row :gutter="20">
-                <el-col :span="5">
-                  <el-select v-model="shopIdOfDrugAppraise" size="small" filterable placeholder="药房名称">
-                    <el-option
-                      v-for="(item, index) in shopNameListOfDrugAppraise"
-                      :key="index"
-                      :label="item.name"
-                      :value="item.id">
-                    </el-option>
-                    </el-select>
-                  </el-col>
+                <el-col :span="4">
+                  <!--请选择药房名称-->
+                  <el-button class="select-btn" v-if="shopNameValue2" size="small" @click="shopNameDialog2 = true">{{ shopNameValue2 }}</el-button>
+                  <el-button class="select-btn" v-else type="small" @click="shopNameDialog2 = true" style="color: #C0C4CC">药房名称</el-button>
+                </el-col>
                 <el-col :span="4">
                   <el-input v-model="drugNameValue" size="small" placeholder="药品名称"></el-input>
                 </el-col>
@@ -72,6 +90,7 @@
                 </el-col>
                 <el-col :span="6">
                   <el-date-picker
+                    style="width: 100%;"
                     size="small"
                     :clearable="isClearable"
                     v-model="dateOfDrugAppraise"
@@ -112,27 +131,71 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import ShopName from '@/components/shop/ShopName'
   import axios from 'axios'
   import moment from 'moment'
 
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      ShopName
     }
   })
   export default class Appraise extends Vue {
+    // 药店评价--药房弹窗
+    isCloseOnClickModal = false
+    shopNameDialog = false
+    shopNameValue = ''
+    shopId = ''
+
+    // 下拉弹框
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+
+    // 药品评价 药房弹窗
+    shopNameDialog2 = false
+    shopNameValue2 = ''
+    shopId2 = ''
+    selectedInfo2 = ''
+    childData2 = []
+
     activeTab = 'first';
     isClearable = false
 
-    // 药店名称下拉列表
-    shopNameListOfShopAppraise = [];
-    shopNameListOfDrugAppraise = [];
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+      console.log(this.selectedInfo)
+    }
+    // 获取药店名称---药店评价
+    confirmSelect () {
+      if (!this.selectedInfo) {
+        this.shopNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.shopId = this.childData.id
+      this.shopNameValue = this.childData.shopName
+      this.shopNameDialog = false
+      this.selectedInfo = ''
+    }
 
-    // 获取所有药店名称选项
-    async getShopNames () {
-      let {data: option} = await axios.post(`/api/supervise/shops/filter`)
-      this.shopNameListOfShopAppraise = option
-      this.shopNameListOfDrugAppraise = option
+    // 获取已选信息
+    getSelectedInfo2 (data) {
+      this.selectedInfo2 = data
+      console.log(this.selectedInfo2)
+    }
+    // 获取药店名称---药品评价
+    confirmSelect2 () {
+      if (!this.selectedInfo2) {
+        this.shopNameDialog2 = false
+        return
+      }
+      this.childData2 = this.selectedInfo2
+      this.shopId2 = this.childData2.id
+      this.shopNameValue2 = this.childData2.shopName
+      this.shopNameDialog2 = false
+      this.selectedInfo2 = ''
     }
 
     /**
@@ -146,12 +209,13 @@
 
     optionData= {
       border: true
-    };
+    }
 
     shopAppraiseColumn = [
       {
         title: '药店名称',
-        key: 'shopName'
+        key: 'shopName',
+        width: 200
       },
       {
         title: '买家姓名',
@@ -175,7 +239,8 @@
       },
       {
         title: '评价时间',
-        key: 'appraiseDate'
+        key: 'appraiseDate',
+        width: 200
       }
     ];
 
@@ -201,11 +266,12 @@
 
     // 清空
     clearShopCondition () {
-      this.shopIdOfShopAppraise = ''
+      this.shopNameValue = ''
       this.buyerNameOfShopAppraise = ''
       this.dateOfShopAppraise = ''
       this.shopAppraiseStartDate = ''
       this.shopAppraiseEndDate = ''
+      this.getShopAppraises()
     }
 
     // 删除
@@ -242,7 +308,7 @@
       let params = {
         pageNum: this.shopAppraisePagination.currentPage,
         pageSize: this.shopAppraisePagination.pageSize,
-        shopId: this.shopIdOfShopAppraise,
+        shopId: this.shopId,
         buyerName: this.buyerNameOfShopAppraise.trim(),
         startDate: this.shopAppraiseStartDate,
         endDate: this.shopAppraiseEndDate
@@ -272,15 +338,18 @@
     drugAppraiseColumn = [
       {
         title: '药房名称',
-        key: 'shopName'
+        key: 'shopName',
+        width: 200
       },
       {
         title: '药品名称',
-        key: 'drugName'
+        key: 'drugName',
+        width: 200
       },
       {
         title: '药品规格',
-        key: 'spec'
+        key: 'spec',
+        width: 230
       },
       {
         title: '买家姓名',
@@ -292,11 +361,13 @@
       },
       {
         title: '评价内容',
-        key: 'content'
+        key: 'content',
+        width: 250
       },
       {
         title: '评论时间',
-        key: 'appraiseDate'
+        key: 'appraiseDate',
+        width: 200
       }
     ];
 
@@ -310,6 +381,7 @@
     };
 
     drugRowHandle = {
+      width: 180,
       custom: [
         {
           text: '查看详情',
@@ -337,6 +409,8 @@
       this.dateOfDrugAppraise = ''
       this.drugAppraiseStartDate = ''
       this.drugAppraiseEndDate = ''
+      this.shopNameValue2 = ''
+      this.getDrugAppraises()
     }
 
     // 搜索
@@ -345,11 +419,9 @@
         for (let i = 0, len = this.dateOfDrugAppraise.length; i < len; i++) {
           this.dateOfDrugAppraise[i] = moment(this.dateOfDrugAppraise[i]).format('YYYY-MM-DD')
         }
-
         this.drugAppraiseStartDate = this.dateOfDrugAppraise[0] + ' 00:00:00'
         this.drugAppraiseEndDate = this.dateOfDrugAppraise[1] + ' 23:59:59'
       }
-
       this.getDrugAppraises()
     }
 
@@ -371,7 +443,7 @@
       let params = {
         pageNum: this.drugAppraisePagination.currentPage,
         pageSize: this.drugAppraisePagination.pageSize,
-        shopId: this.shopIdOfDrugAppraise,
+        shopId: this.shopId2,
         drugName: this.drugNameValue.trim(),
         buyerName: this.buyerNameOfDrugAppraise.trim(),
         startDate: this.drugAppraiseStartDate,
@@ -379,7 +451,7 @@
       }
 
       let {data: drugRes} = await axios.get(`/api/supervise/drugAppraises`, {params})
-      console.log(drugRes)
+      // console.log(drugRes)
 
       this.drugAppraiseList = drugRes.list
       this.drugAppraisePagination.total = drugRes.total
@@ -402,14 +474,20 @@
     mounted () {
       this.getShopAppraises()
       this.getDrugAppraises()
-      this.getShopNames()
     }
   }
 </script>
 
 <style lang="scss">
+  .select-btn{
+    text-align: left;
+    font-size: 14px;
+    width: 100%;
+    height: 32px;
+  }
   .appraise-wrap{
-    padding: 20px;
+    padding: 0 10px;
+    margin-bottom: 30px;
 
     .el-table {
       th {
@@ -421,15 +499,25 @@
     .appraise{
       min-height: 850px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
-      padding: 20px;
 
       .el-select{
         width: 100%;
       }
 
       .drug-appraise__list{
+        .el-table__row{
+          .el-table_2_column_14{
+            .cell{
+              width: 250px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+        }
         .cell{
           button:last-child:before{
             content: '|';

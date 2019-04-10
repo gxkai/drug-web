@@ -18,7 +18,11 @@
   import Component from 'class-component'
   import axios from 'axios'
 
-  @Component
+  @Component({
+    props: {
+      parentData: {}
+    }
+  })
   export default class TypeDrugs extends Vue {
     columns = [
       {
@@ -65,7 +69,7 @@
 
 <style lang="scss" scoped>
   .type--content{
-    padding: 10px;
+    padding: 0 10px;
     &__search{
       display: flex;
       justify-content: Flex-start;
