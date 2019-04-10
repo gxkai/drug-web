@@ -65,6 +65,10 @@
       ]
     }
 
+    getInfo (data) {
+      console.log(data)
+    }
+
     handleCurrentChange (currentRow) {
       this.$emit('listenToChildEvent', currentRow)
     }
@@ -74,7 +78,8 @@
       this.fetchData()
     }
 
-    async fetchData () {
+    async fetchData (aa) {
+      console.log(aa)
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: 15

@@ -5,7 +5,6 @@
 
       <div class="title">
         <h3>正在查看订单【{{ this.orderNumberTit }}】的详细信息</h3>
-        <el-button size="small" type="primary" @click="$router.go(-1)">返回</el-button>
       </div>
 
       <div class="main-content">
@@ -127,7 +126,7 @@
                 </el-form-item>
                 <el-form-item label="联系电话：">
                   <el-input v-model="formInfo.telNumber" readonly placeholder="请输入"></el-input>
-                </el-form-item><br>
+                </el-form-item>
                 <el-form-item label="医院：">
                   <el-input v-model="formInfo.hospital" readonly placeholder="请输入"></el-input>
                 </el-form-item>
@@ -149,6 +148,10 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="back">
+        <el-button @click="$router.push('/order/order')">返回</el-button>
       </div>
     </div>
   </div>
@@ -339,6 +342,8 @@
       })
 
       this.trackData = orderInfo.data.orderLogList
+      console.log('跟踪记录')
+      console.log(this.trackData)
       this.trackData.forEach(e => {
         e.createdDate = moment(e.createdDate).format('YYYY-MM-DD HH:mm:ss')
         e.state = this.isAbled(e.state)
@@ -434,9 +439,7 @@
       }
 
       .title{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        margin-top: 20px;
         padding: 0 10px 15px;
         border-bottom: 1px solid #E9E9E9;
       }
@@ -612,9 +615,14 @@
 
           .rp-wrap{
             width: 88%;
-            margin: auto;
+            margin: 20px auto;
           }
         }
+      }
+
+      .back{
+        text-align: center;
+        margin: 20px auto 30px;
       }
     }
   }

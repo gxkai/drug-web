@@ -67,7 +67,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="药品编码">
-            <el-input v-model="detailForm.code" readonly placeholder="药品编码"></el-input>
+            <el-input v-model="drugCode" readonly placeholder="药品编码"></el-input>
           </el-form-item>
           <el-form-item label="品牌">
             <el-input v-model="detailForm.brand" placeholder="请输入品牌"></el-input>
@@ -110,9 +110,9 @@
         width="50%">
         <common-name v-on:listenToChildEvent="getSelectedInfo"></common-name>
         <span slot="footer" class="dialog-footer">
-        <el-button @click="commonDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmSelectCommonName">确 定</el-button>
-      </span>
+          <el-button @click="commonDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelectCommonName">确 定</el-button>
+        </span>
       </el-dialog>
 
       <!--选择厂商-->
@@ -136,7 +136,7 @@
         width="50%">
         <drug-parentType v-on:listenToChildEvent="getParentTypeInfo"></drug-parentType>
         <span slot="footer" class="dialog-footer">
-        <el-button @click="parentTypeDialogVisible = false">取 消</el-button>
+        <el-button v-bind:parentData="parentType" @click="parentTypeDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="confirmSelectparentType">确 定</el-button>
       </span>
       </el-dialog>
@@ -216,6 +216,7 @@
     childTypeDialogVisible = false
     dialogVisible = false
     detailForm = {}
+    drugCode = ''
 
     // 封面图
     coverFileId = ''
@@ -484,6 +485,10 @@
       this.coverFileId = detail.fileId
       this.detailFileId = detail.imgs
       this.parentType = detail.drugDrugTypeParentList
+      detail.code.forEach(item => {
+        this.drugCode += `${item},`
+      })
+      this.drugCode = this.drugCode.substring(0, this.drugCode.length - 1)
 
       let childTypeList = detail.drugDrugTypeList
       let cName = ''

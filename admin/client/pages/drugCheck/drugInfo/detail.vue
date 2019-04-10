@@ -52,7 +52,7 @@
             <el-input v-model="detailForm.drugNotice" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="条形码：">
-            <el-input v-model="detailForm.code" placeholder="请输入"></el-input>
+            <el-input v-model="detailForm.barCode" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="功能主治：">
             <el-input

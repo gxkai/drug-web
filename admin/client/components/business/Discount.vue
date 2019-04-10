@@ -7,14 +7,9 @@
         <el-row :gutter="20" class="filter-top">
           <el-col :span="8">
             <span class="tit">药店名称：</span>
-            <el-select v-model="shopNameID" size="small" @change="matchShopName" filterable placeholder="请选择" style="width: 250px">
-              <el-option
-                v-for="(item, index) in shopNameList"
-                :key="index"
-                :label="item.shopName"
-                :value="item.id">
-              </el-option>
-            </el-select>
+            <!--请选择药房名称-->
+            <el-button class="select-btn value-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
+            <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true">药店名称</el-button>
           </el-col>
           <el-col :span="8">
             <span class="tit">药品名称：</span>
@@ -27,12 +22,8 @@
           </el-col>
           <el-col :span="8" class="produce-col">
             <span class="tit">生产厂商：</span>
-            <el-input
-              size="small"
-              style="width: 250px"
-              placeholder="请输入"
-              v-model="produceName">
-            </el-input>
+            <el-button class="select-btn value-btn" v-if="originNameValue" type="small" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
+            <el-button class="select-btn" v-else type="small" @click="originDialogVisible = true">生产厂商</el-button>
           </el-col>
         </el-row>
 
@@ -231,6 +222,32 @@
           <el-button type="primary" @click="failConfirm">确 定</el-button>
         </span>
       </el-dialog>
+
+      <!--选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
+
+      <!--选择厂商-->
+      <el-dialog
+        title="厂商"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="originDialogVisible"
+        width="50%">
+        <drug-origin v-on:listenToChildEvent="getSelectedInfo"></drug-origin>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="originDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -239,26 +256,37 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import ShopName from '@/components/shop/ShopName'
+  import Origin from '@/components/drugCheck/Origin'
   import axios from 'axios'
   import moment from 'moment'
 
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      ShopName,
+      'drug-origin': Origin
     }
   })
   export default class Discount extends Vue {
+    // 弹窗
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+    // 药房
+    isCloseOnClickModal = false
+    shopNameDialog = false
+    shopNameId = ''
+    shopNameValue = '' // 药店信息
+    originDialogVisible = false
+
     disClearable = false
-    shopNameID = ''; // 药店名id
-    shopName = ''; // 药店名称
     drugName = ''; // 药品名称
-    produceName = ''; // 生产厂商
+    originNameValue = ''; // 生产厂商
     stateValue = '' // 状态值
     dateValue = ''; // 日期区间
     startDate = '' // 起始日期
     endDate = '' // 截止日期
 
-    shopNameList = [] // 药店名称
     currentStateList = [
       {
         id: 'SUCCESS',
@@ -281,6 +309,34 @@
     pageSize = 15; // 每页显示条数
     totalPages = 0
 
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+    }
+
+    // 获取药店名称
+    confirmSelect () {
+      if (!this.selectedInfo) {
+        this.shopNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.shopNameId = this.childData.id
+      this.shopNameValue = this.childData.shopName
+      this.shopNameDialog = false
+    }
+
+    // 选择厂商
+    confirmSelectOrigin () {
+      if (!this.selectedInfo) {
+        this.originDialogVisible = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.originNameValue = this.childData.fullName
+      this.originDialogVisible = false
+    }
+
     // 清空
     clearConditions () {
       this.shopNameID = ''
@@ -291,13 +347,6 @@
       this.dateValue = ''
       this.startDate = ''
       this.endDate = ''
-    }
-
-    // 获取所有药店名称选项
-    async getShopNames () {
-      let {data: options} = await axios.get(`/api/supervise/shops`)
-      console.log(options)
-      this.shopNameList = options.list
     }
 
     // 下架
@@ -391,14 +440,6 @@
       this.perPageData = this.perPageData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
 
-    matchShopName () {
-      this.shopNameList.forEach(item => {
-        if (this.shopNameID === item.id) {
-          this.shopNameValue = item.name
-        }
-      })
-    }
-
     convertDate () {
       if (this.dateValue) {
         for (let i = 0, len = this.dateValue.length; i < len; i++) {
@@ -420,6 +461,7 @@
         pageSize: this.pageSize,
         shopId: this.shopNameID,
         shopName: this.shopNameValue,
+        originName: this.originNameValue,
         drugName: this.drugName.trim(),
         state: this.stateValue,
         startDate: this.startDate,
@@ -441,7 +483,6 @@
 
     beforeMount () {
       this.getDiscounts()
-      this.getShopNames()
     }
   }
 </script>
@@ -457,6 +498,19 @@
       padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
+
+      .select-btn{
+        width: 250px;
+        color: #C0C4CC;
+        text-align: left;
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .value-btn{
+        color: #606266;
+      }
 
       .el-dialog__body{
         padding: 20px;

@@ -528,8 +528,8 @@
       }
 
       .filter{
-        padding: 0 20px 30px;
-        margin: 0 10px 20px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
         text-align: center;
         border-bottom: 1px solid #E9E9E9;
 
@@ -544,7 +544,7 @@
       }
 
       .list {
-        padding: 0 30px;
+        padding: 0 15px;
 
         .el-table{
           th{
@@ -571,7 +571,7 @@
           font-size: 13px;
         }
         button:last-child{
-          margin-left: 8px;
+          /*margin-left: 8px;*/
           &:before{
             content: '|';
             color: #EEE;

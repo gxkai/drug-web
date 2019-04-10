@@ -333,9 +333,6 @@
     }
   }
 
-.p10{
-  padding:5px 10px;
-}
 .select-btn{
   margin-right: 10px;
   margin-left: 0;
@@ -347,6 +344,9 @@
   display: flex;
   justify-content: Flex-start;
   align-items: center;
+  border-bottom: 1px solid #e9e9e9;
+  padding-bottom: 15px;
+
   .el-input{
     margin-right: 10px;
     width: 160px;
@@ -357,9 +357,9 @@
   }
 }
 /deep/.drug-table {
-  margin-top: 10px;
+  margin-top: 15px;
   .d2-crud-body {
-    padding: 0 !important;
+    padding: 0  10px!important;
     .el-table {
       th {
         background-color: #F4F4F4 !important;
