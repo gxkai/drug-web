@@ -3,14 +3,8 @@
     <div class="shop-list">
       <bread-crumb :path="$route.path"/>
       <div class="pharm-search">
-        <el-select v-model="shopId" size="small" placeholder="药店名称" style="width: 250px;">
-          <el-option
-            v-for="(item, index) in shopNameOptions"
-            :key="index"
-            :label="item.shopName"
-            :value="item.id">
-          </el-option>
-        </el-select>
+        <el-button class="select-btn" v-if="shopNameValue" size="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
+        <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
         <el-select size="small" v-model="shopStateId" placeholder="当前状态">
           <el-option
             v-for="(item, index) in stateOptions"
@@ -22,6 +16,20 @@
         <el-button type="primary" size="small" @click="searchShopInfo">搜索</el-button>
         <el-button size="small" @click="clear">清空</el-button>
       </div>
+
+      <!--选择药房名称-->
+      <el-dialog
+        title="药房名称"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="shopNameDialog"
+        width="50%">
+        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="shopNameDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
+
       <d2-crud
         :columns="columns"
         :data="shopList"
@@ -43,17 +51,27 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import ShopName from '@/components/shop/ShopName'
   import axios from 'axios'
 
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      ShopName
     }
   })
   export default class DrugShop extends Vue {
-    shopNameOptions = []
+    // 药房弹窗
+    isCloseOnClickModal = false
+    shopNameDialog = false
     shopNameValue = ''
     shopId = ''
+
+    // 下拉弹框
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+
+    shopNameOptions = []
     shopStateId = ''
     columns = [
       {
@@ -168,10 +186,22 @@
       }
     ]
 
-    // 获取所有药店名称选项
-    async getShopNames () {
-      let {data: option} = await axios.get(`/api/supervise/shops`)
-      this.shopNameOptions = option.list
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+      console.log(this.selectedInfo)
+    }
+    // 获取药店名称
+    confirmSelect () {
+      if (!this.selectedInfo) {
+        this.shopNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.shopId = this.childData.id
+      this.shopNameValue = this.childData.shopName
+      this.shopNameDialog = false
+      this.selectedInfo = ''
     }
 
     handleDetail ({index, row}) {
@@ -229,6 +259,7 @@
     clear () {
       this.shopId = ''
       this.shopStateId = ''
+      this.getShopInfo()
     }
 
     convertStatus (status) {
@@ -267,7 +298,6 @@
       console.log(shopRes)
       this.shopList = shopRes.list
       this.pagination.total = shopRes.total
-
       this.shopList.forEach((item, index) => {
         item.shopIndex = index + 1
         item.state = this.convertStatus(item.state)
@@ -276,12 +306,19 @@
 
     mounted () {
       this.getShopInfo()
-      this.getShopNames()
     }
   }
 </script>
 
 <style scoped lang="scss">
+  .select-btn{
+    margin-right: 10px;
+    margin-left: 0;
+    text-align: left;
+    font-size: 14px;
+    width: 200px;
+    height: 32px;
+  }
   .shop{
     &-wrap {
       padding: 0 10px;

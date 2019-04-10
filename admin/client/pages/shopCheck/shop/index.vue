@@ -217,36 +217,25 @@
       this.shopData = data.data.list
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {
-        if (item.state === 'NORMAL') {
-          item.state = '正常'
-        }
-        if (item.state === 'REST') {
-          item.state = '停业'
-        }
-        if (item.state === 'TO_CHECK') {
-          item.state = '待审核'
-        }
-        if (item.state === 'NO_PASS') {
-          item.state = '不通过'
-        }
-        if (item.state === 'VIOLATION') {
-          item.state = '违规'
-        }
+        item.state = this.convertStatus(item.state)
       })
     }
 
-    // getShopID () {
-    //   this.shopOptions.forEach(item => {
-    //     if (this.shopNameValue === item.shopName) {
-    //       this.shopId = item.id
-    //     }
-    //   })
-    // }
-    // 获取所有药店名称选项
-    // async getShopNames () {
-    //   let {data: option} = await axios.get(`/api/supervise/shops`)
-    //   this.shopOptions = option.list
-    // }
+    // 状态转换
+    convertStatus (status) {
+      switch (status) {
+        case 'NORMAL':
+          return '正常'
+        case 'REST':
+          return '停业'
+        case 'VIOLATION':
+          return '违规'
+        case 'TO_CHECK':
+          return '待审核'
+        case 'NO_PASS':
+          return '未通过'
+      }
+    }
 
     handleCheckEvent ({index, row}) {
       this.$router.push({
@@ -281,7 +270,7 @@
         return
       }
       this.childData = this.selectedInfo
-      this.legalName = this.childData.legal
+      this.legalName = this.childData.name
       this.legalNameDialog = false
       this.selectedInfo = ''
     }
@@ -321,21 +310,7 @@
       this.shopData = data.data.list
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {
-        if (item.state === 'NORMAL') {
-          item.state = '正常'
-        }
-        if (item.state === 'REST') {
-          item.state = '停业'
-        }
-        if (item.state === 'TO_CHECK') {
-          item.state = '待审核'
-        }
-        if (item.state === 'NO_PASS') {
-          item.state = '不通过'
-        }
-        if (item.state === 'VIOLATION') {
-          item.state = '违规'
-        }
+        item.state = this.convertStatus(item.state)
       })
     }
   }

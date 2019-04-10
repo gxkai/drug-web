@@ -30,16 +30,18 @@
     columns = [
       {
         title: '序号',
-        key: 'index',
+        key: 'id',
         width: 50,
         align: 'center'
       },
       {
         title: '法人姓名',
-        key: 'legal'
+        key: 'name'
       }
     ]
-    legalNameData = []
+    legalNameData = [] // 数组对象
+    legalArr = [] // 原始数据
+    searchArr = [] // 筛选之后的
     loading = false
     pagination = {
       currentPage: 1,
@@ -66,13 +68,20 @@
       this.$emit('listenToChildEvent', currentRow)
     }
 
-    async fetchData () {
-      let data = await axios.get(`/api/supervise/shops/legal`)
-      console.log(data)
-      this.legalNameData = data.data
+    async fetchData (name) {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: 15,
+        name
+      }
+      let data = await axios.get(`/api/supervise/shops/legal`, {params: params})
+      this.legalArr = data.data.list
       this.pagination.total = data.total
-      this.legalNameData.forEach((item, index) => {
-        item.index = index + 1
+      this.legalArr.forEach((item, index) => {
+        this.legalNameData.push({
+          name: item,
+          id: index + 1
+        })
       })
     }
 
@@ -89,7 +98,8 @@
         })
         return false
       }
-      this.fetchData()
+      this.legalNameData = []
+      this.fetchData(this.legalNameValue)
     }
   
     beforeMount () {
