@@ -10,14 +10,6 @@
             <!--请选择药房名称-->
             <el-button class="select-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
             <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
-            <!--<el-select v-model="shopNameID" size="small" @change="matchShopName" filterable placeholder="请选择" style="width: 250px">-->
-            <!--<el-option-->
-            <!--v-for="(item, index) in shopNameList"-->
-            <!--:key="index"-->
-            <!--:label="item.name"-->
-            <!--:value="item.id">-->
-            <!--</el-option>-->
-            <!--</el-select>-->
           </el-col>
           <el-col :span="8">
             <span class="tit">药品名称：</span>
@@ -30,19 +22,15 @@
           </el-col>
           <el-col :span="8" class="produce-col">
             <span class="tit">生产厂商：</span>
-            <el-input
-              size="small"
-              style="width: 250px"
-              placeholder="请输入"
-              v-model="produceName">
-            </el-input>
+            <el-button class="select-btn" v-if="produceName" type="middle" @click="originDialogVisible = true">{{ produceName }}</el-button>
+            <el-button class="select-btn" v-else type="middle" @click="originDialogVisible = true" style="color: #C0C4CC">请选择厂商</el-button>
           </el-col>
         </el-row>
 
         <el-row :gutter="20" class="filter-bottom">
           <el-col :span="8" class="status-col">
             <span class="tit">当前状态：</span>
-            <el-select v-model="stateValue" size="small" filterable placeholder="请选择" style="width: 250px">
+            <el-select v-model="stateValue" size="small" filterable placeholder="请选择" style="width: 65%">
               <el-option
                 v-for="(item, index) in currentStateList"
                 :key="index"
@@ -175,6 +163,19 @@
         </span>
       </el-dialog>
 
+      <!--选择厂商-->
+      <el-dialog
+        title="厂商"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="originDialogVisible"
+        width="50%">
+        <drug-origin v-on:listenToChildEvent="getSelectedInfo"></drug-origin>
+        <span slot="footer" class="dialog-footer">
+        <el-button @click="originDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
+      </span>
+      </el-dialog>
+
       <!-- 查看模态框 -->
       <el-dialog
         title="查看"
@@ -251,10 +252,12 @@
   import axios from 'axios'
   import moment from 'moment'
   import ShopName from '@/components/shop/ShopName'
+  import Origin from '@/components/drugCheck/Origin'
   @Component({
     components: {
       BreadCrumb,
-      ShopName
+      ShopName,
+      'drug-origin': Origin
     }
   })
   export default class Discount extends Vue {
@@ -268,13 +271,18 @@
     shopNameValue = ''
     shopId = ''
 
+    // 厂商弹窗
+    originId = ''
+    produceName = ''
+    originDialogVisible = false
+
     disClearable = false
 
     shopNameID = '' // 药店名id
     shopName = '' // 药店名称
 
     drugName = '' // 药品名称
-    produceName = '' // 生产厂商
+    // produceName = '' // 生产厂商
     stateValue = '' // 状态值
     dateValue = '' // 日期区间
     startDate = '' // 起始日期
@@ -331,14 +339,21 @@
       this.shopId = this.childData.id
       this.shopNameValue = this.childData.shopName
       this.shopNameDialog = false
-      this.selectedInfo = ''
+      // this.selectedInfo = ''
     }
 
-    // 获取所有药店名称选项
-    // async getShopNames () {
-    //   let {data: options} = await axios.post(`/api/supervise/shops/filter`)
-    //   this.shopNameList = options
-    // }
+    // 选择厂商
+    confirmSelectOrigin () {
+      if (!this.selectedInfo) {
+        this.originDialogVisible = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.originId = this.childData.id
+      this.produceName = this.childData.fullName
+      this.originDialogVisible = false
+      // this.selectedInfo = ''
+    }
 
     // 下架
     async obtained (id) {
@@ -431,14 +446,6 @@
       this.perPageData = this.perPageData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
 
-    // matchShopName () {
-    //   this.shopNameList.forEach(item => {
-    //     if (this.shopNameID === item.id) {
-    //       this.shopNameValue = item.name
-    //     }
-    //   })
-    // }
-
     convertDate () {
       if (this.dateValue) {
         for (let i = 0, len = this.dateValue.length; i < len; i++) {
@@ -458,7 +465,7 @@
       let params = {
         pageNum: this.currentPage,
         pageSize: this.pageSize,
-        shopId: this.shopNameID,
+        shopId: this.shopId,
         shopName: this.shopNameValue,
         originName: this.produceName,
         drugName: this.drugName.trim(),
@@ -481,16 +488,17 @@
 
     beforeMount () {
       this.getRecommend()
-      // this.getShopNames()
     }
   }
 </script>
 
 <style lang="scss" scoped>
   .select-btn{
-    width: 250px;
     text-align: left;
     font-size: 14px;
+    width: 65%;
+    height: 32px;
+    line-height: 9px;
   }
   /deep/.discount-wrap{
     padding: 0 10px;
