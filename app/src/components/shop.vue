@@ -102,14 +102,13 @@
 <style scoped type="text/scss" lang="scss">
 .wrapper {
   background-color: white;
-  padding: 20px 0;
+  padding: 20px 40px;
   display: grid;
   grid-template-columns: auto 1fr;
   grid-column-gap: 20px;
   .left {
     justify-self: center;
     position: relative;
-    padding-left: 15px;
     span {
       position: absolute;
       top: 0;

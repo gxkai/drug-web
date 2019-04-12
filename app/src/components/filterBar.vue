@@ -44,8 +44,9 @@
 <style scoped type="text/scss" lang="scss">
   .filter-bar {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     height: 80px;
     align-items: center;
+    padding: 0 40px;
   }
 </style>

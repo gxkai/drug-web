@@ -43,7 +43,7 @@
     align-items: center;
     .horizon-line {
       width: 44px;
-      height: 1px;
+      height: 1PX;
       background-color: $gray-light;
     }
   }

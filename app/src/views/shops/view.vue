@@ -9,6 +9,8 @@
       <new-white-space/>
       <score-bar/>
       <new-white-space/>
+      <title-bar title="药品分类"/>
+      <new-white-space/>
       <category-wrapper :shopId="shopId"/>
       <new-white-space/>
       <title-bar title="商家推荐"/>

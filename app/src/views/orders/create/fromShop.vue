@@ -87,22 +87,4 @@ export default {
 };
 </script>
 <style scoped type="text/scss" lang="scss">
-/deep/ .van-tabs {
-  &__wrap {
-    height: 100px !important;
-  }
-  &--line {
-    padding-top: 100px;
-  }
-  .van-tab {
-    color: black !important;
-    &--active {
-      color: $theme !important;
-    }
-    span {
-      line-height: 100px !important;
-      font-size: 25px !important;
-    }
-  }
-}
 </style>
