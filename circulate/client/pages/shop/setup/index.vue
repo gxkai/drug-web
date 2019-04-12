@@ -165,23 +165,20 @@
 
         <!--获取经纬度-->
         <el-dialog title="获取经纬度" :visible.sync="dialogMapVisible">
-          <!--<baidu-map  :center="center" :zoom="zoom" @ready="handler"class="bm-view">-->
-            <!--<bm-view class="map"></bm-view>-->
-            <!--<bm-control :offset="{width: '10px', height: '10px'}">-->
-              <!--<bm-auto-complete v-model="addKeyword" :sugStyle="{zIndex: 1}">-->
+          <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view">
+            <bm-view class="map"></bm-view>
+            <bm-control :offset="{width: '10px', height: '10px'}">
+              <bm-auto-complete v-model="addKeyword" :sugStyle="{zIndex: 1}">
                 <!--<search-field placeholder="请输入地名关键字"></search-field> &lt;!&ndash; 这里指代一个自定义搜索框组件 &ndash;&gt;-->
-              <!--</bm-auto-complete>-->
-            <!--</bm-control>-->
-            <!--<bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>-->
-          <!--</baidu-map>-->
-          <baidu-map :center="center" :zoom="zoom" @ready="handler" @click="getPoint" class="bm-view">
-            <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
-            <!--<bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>-->
-            <bm-local-search :keyword="addKeyword" :auto-viewport="true" :zoom="zoom" style="display: none">
-              <input type="text">
-            </bm-local-search>
-            <!--<bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>-->
+              </bm-auto-complete>
+            </bm-control>
+            <bm-local-search :keyword="addKeyword" :auto-viewport="true" ></bm-local-search>
           </baidu-map>
+          <!--<baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view">-->
+            <!--<bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>-->
+            <!--<bm-local-search :keyword="addKeyword" :auto-viewport="true" :zoom="zoom">-->
+            <!--</bm-local-search>-->
+          <!--</baidu-map>-->
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogMapVisible = false">取 消</el-button>
             <el-button type="primary" @click="getLngLat">确 定</el-button>
@@ -309,22 +306,20 @@
       this.center.lat = this.shopForm.lat
       this.zoom = 15
     }
-    // getPoint (e) { // 点击地图获取一些信息，
-    //   this.show = true
-    //   this.center.lng = this.addData.lng
-    //   this.center.lat = this.addData.lat
-    //   // this.zoom = 15
-    //   this.zoom = e.target.getZoom()
-    //   /* global BMap */
-    //   let geocoder = new BMap.Geocoder() // 创建地址解析器的实例
-    //   geocoder.getLocation(e.point, rs => {
-    //     // console.log(rs)
-    //     this.addData.lng = e.point.lng
-    //     this.addData.lat = e.point.lat
-    //   })
-    // }
+    getPoint (e) { // 点击地图获取一些信息，
+      this.show = true
+      this.center.lng = this.addData.lng
+      this.center.lat = this.addData.lat
+      this.zoom = e.target.getZoom()
+      // let geocoder = new BMap.Geocoder() // 创建地址解析器的实例
+      // geocoder.getLocation(e.point, rs => {
+      //   console.log(rs)
+      //   this.addData.lng = e.point.lng
+      //   this.addData.lat = e.point.lat
+      // })
+    }
     getLngLat () {
-  
+
     }
 
     //
