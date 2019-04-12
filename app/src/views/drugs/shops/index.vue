@@ -6,9 +6,7 @@
       <template slot="center">
         <new-white-space/>
         <new-drug :item="drugSpec" @click.native="onSpec" :info="info" disabled/>
-        <div class="introduction-wrapper">
-          {{`适应症:${info.introduce}`}}
-        </div>
+        <attention-wrapper :content="`适应症:${info.introduce}`"/>
         <new-white-space/>
         <van-tabs v-model="active">
           <van-tab title="商家报价">
@@ -51,17 +49,10 @@
           </van-tab>
           <van-tab title="商品信息">
             <new-white-space/>
-            <info-cell title="商品名称" :desc="info.name"/>
-            <info-cell title="品牌名称" :desc="info.brandName"/>
-            <info-cell title="拼音名称" :desc="info.pinyinName"/>
-            <info-cell title="英文名称" :desc="info.enName"/>
-            <info-cell title="国药准字" :desc="info.sfda"/>
-            <info-cell title="有效期" :desc="info.validity"/>
+            <info-wrapper :item="info"/>
           </van-tab>
           <van-tab title="注意事项">
-            <div class="attention-wrapper">
-              {{info.attention}}
-            </div>
+            <attention-wrapper :content="info.attention"/>
           </van-tab>
         </van-tabs>
       </template>
@@ -143,31 +134,20 @@
       }
     }
   }
-  /deep/ .van-tag {
-    font-size: 20px!important;
-    padding: 5px 10px;
-    margin-left: 10px;
-  }
-
-  /deep/ .van-radio .van-icon-checked {
-    color: $theme!important;
-  }
-  .introduction-wrapper,.attention-wrapper {
-    font-size: $size-mini;
-    color: $gray-light;
-    background-color: white;
-    padding: 24px 40px;
-  }
 </style>
 <script>
   import infoCell from '@/components/drugs/shops/infoCell';
+  import infoWrapper from '@/components/drugs/shops/infoWrapper';
+  import attentionWrapper from '@/components/drugs/shops/attentionWrapper';
   import popupCart from '@/components/shopDrugs/popup';
   import popupSpec from '@/components/drugs/shops/popupSpec';
   export default {
     components: {
       infoCell,
       popupCart,
-      popupSpec
+      popupSpec,
+      infoWrapper,
+      attentionWrapper
     },
     data() {
       return {

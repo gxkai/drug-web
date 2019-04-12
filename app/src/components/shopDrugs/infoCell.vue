@@ -35,7 +35,7 @@
   .info-cell {
     background-color: white;
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 140px 1fr;
     padding: 10px 41px;
     div {
       span {

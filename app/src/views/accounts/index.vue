@@ -2,97 +2,7 @@
   <div>
     <new-layout>
       <template slot="center">
-        <div class="wrapper1">
-          <van-icon
-            name="xiaoxi-1"
-            :info="messageCount"
-            color="white"
-            size="0.5166rem"
-            class="bell"
-            @click="loadPageMessageTypes"
-          ></van-icon>
-          <div class="name">
-            {{ account.name || "" }}
-          </div>
-          <div class="order-wrapper">
-            <header>
-              <div class="left">
-                <span>
-                  我的订单
-                </span>
-              </div>
-              <div class="center" @click="loadPageOrders(0)">
-                <span>
-                  全部订单
-                </span>
-              </div>
-              <div class="right" @click="loadPageOrders(0)">
-                <van-icon
-                  name="arrow"
-                  color="#666666"
-                  size="0.4166rem"
-                  class="arrow"
-                ></van-icon>
-              </div>
-            </header>
-            <div class="wrapper">
-              <div class="item item1">
-                <new-icon
-                  name="daifukuan"
-                  color="#9CA2F9"
-                  size="0.8166rem"
-                  :info="count.toPayCount"
-                  @click="loadPageOrders(1)"
-                />
-                <span>
-                  待付款
-                </span>
-              </div>
-              <div class="item item2">
-                <new-icon
-                  name="peijizhong-"
-                  color="#88c79a"
-                  size="0.8166rem"
-                  :info="count.toDeliveryCount"
-                  @click="loadPageOrders(2)"
-                />
-                <span>
-                  调剂中
-                </span>
-              </div>
-              <div class="item item3">
-                <new-icon
-                  name="daishouhuo-"
-                  color="#88C79A"
-                  size="0.8166rem"
-                  :info="count.toReceivedCount"
-                  @click="loadPageOrders(3)"
-                />
-                <span>
-                  待收货
-                </span>
-              </div>
-              <div class="item item4">
-                <new-icon
-                  name="daipingjia-"
-                  color="#7DCAF7"
-                  size="0.8166rem"
-                  :info="count.toAppraiseCount"
-                  @click="loadPageOrders(4)"
-                />
-                <span>
-                  待评价
-                </span>
-              </div>
-            </div>
-            <van-uploader :after-read="onRead">
-              <img
-                class="headImg"
-                v-lazy="getImgURL(account.fileId, 'LARGE_LOGO')"
-              />
-            </van-uploader>
-          </div>
-        </div>
+        <header-wrapper/>
         <div class="cell-wrapper">
           <info-cell
             v-for="(item, index) in cells"
@@ -105,15 +15,7 @@
         </div>
       </template>
       <template slot="bottom">
-        <van-tabbar :value="4" :fixed="false">
-          <van-tabbar-item icon="shouye-" to="/home">首页</van-tabbar-item>
-          <van-tabbar-item icon="chufang-" to="/rxs">处方单</van-tabbar-item>
-          <van-tabbar-item icon="fenlei-" to="/drugTypes">分类</van-tabbar-item>
-          <van-tabbar-item icon="gouwuche-" to="/carts"
-            >购物车
-          </van-tabbar-item>
-          <van-tabbar-item icon="wo-" to="/accounts">我</van-tabbar-item>
-        </van-tabbar>
+        <footer-entry :value="4"/>
       </template>
     </new-layout>
   </div>
@@ -127,101 +29,21 @@
     margin-left: 10px;
   }
 }
-.wrapper1 {
-  width: 720px;
-  background: url("../../assets/img/accounts/个人中心背景.png");
-  height: 400px;
-  position: relative;
-  padding-top: 20px;
-  .bell {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-  }
-  .name {
-    text-align: center;
-    color: white;
-    font-size: $size-large;
-  }
-  .order-wrapper {
-    background-color: white;
-    height: 240px;
-    margin-top: 130px !important;
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.33);
-    border-radius: 20px;
-    padding: 10px;
-    header {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      .left {
-        span {
-          font-size: $size-small;
-        }
-      }
-      .center {
-        justify-self: right;
-        span {
-          color: $gray;
-          font-size: $size-small;
-        }
-      }
-      .right {
-        margin-top: 5px;
-      }
-    }
-    .wrapper {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      height: 100%;
-      align-items: center;
-      .item {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        span {
-          margin-top: 20px;
-          font-size: $size-small;
-          color: $gray-light;
-        }
-      }
-    }
-    .van-uploader {
-      position: absolute;
-      top: 0;
-      left: calc(50% - 149px / 2);
-      .headImg {
-        width: 149px;
-        height: 149px;
-        margin-top: 100px;
-        background-color: #ffeeed;
-        box-shadow: 0px 8px 10px 0px rgba(232, 75, 69, 0.7);
-        border: solid 6px #ffffff;
-        border-radius: 50%;
-        z-index: 999;
-      }
-    }
-  }
-}
 </style>
 
 <script>
 import { setAccount } from '@/storage';
 import infoCell from '@/components/accounts/infoCell';
+import footerEntry from '@/components/footerEntry';
+import headerWrapper from '@/components/accounts/headerWrapper';
 export default {
   components: {
-    infoCell
+    infoCell,
+    footerEntry,
+    headerWrapper
   },
   data() {
     return {
-      count: {
-        toPayCount: 0,
-        toDeliveryCount: 0,
-        toReceivedCount: 0,
-        toAppraiseCount: 0
-      },
-      messageCount: 0,
       cells: [
         {
           icon: 'wo-',
@@ -270,8 +92,6 @@ export default {
   mounted() {},
   methods: {
     async initData() {
-      this.count = await this.$http.get('/api/orders/count');
-      this.messageCount = await this.$http.get('/api/messages/count');
     },
     async onRead(file) {
       let self = this;

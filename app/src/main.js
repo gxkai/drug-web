@@ -15,7 +15,7 @@ import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
 import filters from './filters';
 import './icons/iconfont.css';
-// import './plugins/vconsole';
+import './plugins/vconsole';
 import _ from 'lodash';
 import directive from './directives';
 import VueI18n from 'vue-i18n';

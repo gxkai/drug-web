@@ -5,29 +5,7 @@
         <van-collapse v-model="activeNames">
         <div v-for="(drug,index) in drugs" :key="index">
           <new-white-space/>
-          <div class="drug-wrapper">
-            <div class="left">
-              <img v-lazy="getImgURL(carts[index].fileId, 'LARGE_LOGO')"/>
-            </div>
-            <div class="right">
-              <div class="line1">
-                <span>名称：</span>
-                <span>{{carts[index].name}}</span>
-              </div>
-              <div class="line1">
-                <span>用量：</span>
-                <span>{{carts[index].dosage}}</span>
-              </div>
-              <div class="line1">
-                <span>厂商：</span>
-                <span>{{carts[index].originName}}</span>
-              </div>
-              <div class="line2">
-                <span>{{`￥${carts[index].price}`}}</span>
-                <span>{{`(医保报销金额￥${carts[index].medicaidPrice})`}}</span>
-              </div>
-            </div>
-          </div>
+          <drug-wrapper :item="carts[index]"/>
           <van-collapse-item :name="index+''" class="origin-wrapper">
             <div slot="title" class="title"><van-icon name="yaodian-" size="0.44rem"/><span>{{`${drugs[index].drugs.length}个厂商报价`}}</span></div>
             <ul>
@@ -58,29 +36,7 @@
           </van-collapse-item>
         </div>
         </van-collapse>
-        <footer>
-          <div class="left">
-            <van-icon name="qian-" color="#ef1010" size=".8rem"/>
-          </div>
-          <div class="right">
-            <div class="line1">
-              <span>
-              {{`${quantity}件商品：共计`}}
-            </span>
-              <span>
-              {{`￥${amount}`}}
-            </span>
-              <span>
-              {{`医保报销￥${totalMedicaidPrice}`}}
-            </span>
-            </div>
-            <div class="line2">
-              <span>
-                （实际医保报销金额，请以提交订单显示为准）
-              </span>
-            </div>
-          </div>
-        </footer>
+        <footer-wrapper :quantity="quantity" :amount="amount" :totalMedicaidPrice="totalMedicaidPrice"/>
       </template>
       <template slot="bottom">
         <van-goods-action style="position: static">
@@ -126,35 +82,6 @@
       }
     }
   }
-  footer {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    background-color: white;
-    padding: 20px 10px;
-    grid-column-gap: 10px;
-    .right {
-      .line1 {
-        span {
-          font-size: $size-mini;
-          &:nth-child(1) {
-            color: #010000;
-          }
-          &:nth-child(2) {
-            color: #ff0011;
-          }
-          &:nth-child(3) {
-            color: $gray-light;
-          }
-        }
-      }
-      .line2 {
-        margin-top: 10px;
-        span {
-          font-size: 18px;
-        }
-      }
-    }
-  }
   .origin-wrapper {
     .title {
       span {
@@ -191,47 +118,16 @@
       }
     }
   }
-  .drug-wrapper {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-column-gap: 20px;
-    background-color: white;
-    padding: 10px 15px;
-    align-items: center;
-    .left {
-      img {
-        width: 230px;
-        height: 190px;
-      }
-    }
-    .right {
-      display: grid;
-      grid-row-gap: 10px;
-      .line1 {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        span {
-          word-break: break-word;
-          font-size: $size-mini;
-        }
-      }
-      .line2 {
-        span {
-          &:nth-child(1) {
-            font-size: $size-mini;
-            color: #ff0000;
-          }
-          &:nth-child(2) {
-            font-size: 18px;
-            color: $gray;
-          }
-        }
-      }
-    }
-  }
 </style>
 <script>
+  import footerWrapper from '@/components/rxs/shops/drugs/footWrapper';
+  import drugWrapper from '@/components/rxs/shops/drugs/drugWrapper';
+
   export default {
+    components: {
+      footerWrapper,
+      drugWrapper
+    },
     data() {
       return {
         rxId: this.$route.query.rxId,

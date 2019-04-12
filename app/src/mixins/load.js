@@ -50,8 +50,8 @@ export default {
     loadPageDrugAppraisesSuccess() {
       this.loadPage('/drugAppraises/success');
     },
-    loadPageDrugs(typeId, keyword) {
-      this.loadPage('/drugs', {typeId: typeId, keyword: keyword});
+    loadPageDrugs(typeId, keyword, shopId, interfaceType) {
+      this.loadPage('/drugs', {typeId: typeId, keyword: keyword, shopId: shopId, interfaceType: interfaceType});
     },
     loadPageDrugsShops(id) {
       this.loadPage('/drugs/shops', {drugId: id});
@@ -156,7 +156,7 @@ export default {
       this.loadPage('/shops/view', {shopId: id});
     },
     loadPageShopsDrugs(shopId, typeId) {
-      this.loadPage('/shops/drugs', {shopId: shopId, typeId: typeId});
+      this.loadPageDrugs(typeId, '', shopId, 'SHOP_DRUG');
     }
   }
 };

@@ -7,16 +7,17 @@
       <div v-if="show">
         <baidu-map
           class="baidu-map"
-          center="昆山市"
+          :center="center"
           :zoom="zoom"
           @click="getClickInfo"
           @moveend="syncCenterAndZoom"
           :scroll-wheel-zoom="false"
         >
           <bm-view style="width: 100%; height:100%; flex: 1"></bm-view>
-          <bm-marker :position="{lng: center.lng, lat: center.lat}"
+          <bm-marker :position="center"
                      :dragging="false"
-                     animation="BMAP_ANIMATION_BOUNCE"
+                     animation="BMAP_ANIMATION_DROP"
+                     :zIndex="100"
           >
           </bm-marker>
         </baidu-map>
@@ -42,48 +43,25 @@
   .baidu-map {
     display: flex; flex-direction: column; height: 439px;width: 688px;margin: 0 auto;
   }
-  .wrapper {
-    background-color: white;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    grid-column-gap: 20px;
-    padding: 20px;
-    .left {
-      word-break: break-word;
-      span {
-        display: block;
-        border-radius: 50%;
-        width: 10px;
-        height: 10px;
-        background-color: #d7000e;
-      }
-    }
-    .right {
-      word-break: break-word;
-      .line2 {
-        margin-top: 15px;
-        font-size: $size-mini;
-        color: $gray-light;
-      }
-    }
-  }
 </style>
 <script>
   import addressCell from '@/components/addresses/addressCell';
-  import BMap from 'BMap';
-
+  import overlay from '@/components/baidumap/overlay';
   export default {
     name: '',
     mixins: [],
     components: {
-      addressCell
+      addressCell,
+      overlay
     },
     watch: {
       keyword(n) {
         if (n === '') {
           this.show = true;
         }
+      },
+      async center(n) {
+        this.nearbyPositions = await this.getNearbyPosition(n);
       }
     },
     computed: {},
@@ -91,27 +69,32 @@
       return {
         placeholder: '\ue643搜索小区/写字楼',
         center: {
-          lat: 31,
-          lng: 120
+          lat: 0,
+          lng: 0
         },
         name: '',
         address: '',
-        zoom: 20,
+        zoom: 18,
         show: true,
         nearbyPositions: [],
         keyword: '',
         keyPositions: [],
-        choosePosition: this.$route.params.location
+        position: this.$route.params.location
       };
     },
     created() {
     },
     mounted() {
-      this.getLocation();
     },
     beforeRouteLeave(to, from, next) {
-      to.params.position = this.choosePosition;
+      to.params.position = this.position;
       next();
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.position = vm.$route.params.position;
+        vm.getLocation();
+      });
     },
     methods: {
       search() {
@@ -119,26 +102,20 @@
         this.show = false;
       },
       async getClickInfo(e) {
-        const params = {
+        const point = {
           lat: e.point.lat,
           lng: e.point.lng
         };
-        const data = await this.$api.getPois(params);
-        this.center = data.pois[0].location;
-        this.name = data.pois[0].name;
-        this.nearbyPositions = data.pois;
+        this.center = await this.getCurrentPosition(point);
       },
       async syncCenterAndZoom(e) {
         const { lng, lat } = e.target.getCenter();
         this.zoom = e.target.getZoom();
-        const params = {
+        const point = {
           lat: lat,
           lng: lng
         };
-        const data = await this.$api.getPois(params);
-        this.center = data.pois[0].location;
-        this.name = data.pois[0].name;
-        this.nearbyPositions = data.pois;
+        this.center = await this.getCurrentPosition(point);
       },
       setPosition(position) {
         const data = {
@@ -146,46 +123,19 @@
           lat: position.location.lat,
           lng: position.location.lng
         };
-        this.choosePosition = data;
-        this.$router.go(-1);
-      },
-      setPosition2() {
-        const data = {
-          name: this.name,
-          lat: this.center.lat,
-          lng: this.center.lng
-        };
-        this.choosePosition = data;
+        this.position = data;
         this.$router.go(-1);
       },
       async getLocation() {
-        if (this.choosePosition === undefined) {
-          new BMap.Geolocation().getCurrentPosition(async (r) => {
-            const params = {
-              lat: r.latitude,
-              lng: r.longitude
-            };
-            this.$toast.loading({duration: 0, forbidClick: true});
-            const data = await this.$api.getPois(params);
-            this.center = data.pois[0].location;
-            this.name = data.pois[0].name;
-            data.pois.splice(0, 1);
-            this.nearbyPositions = data.pois;
-          });
+        console.log(`position:${this.position}`);
+        if (this.position === undefined) {
+          this.center = await this.getCurrentPosition();
         } else {
-          this.$toast.loading({duration: 0, forbidClick: true});
-          const data = await this.$api.getPois(this.choosePosition);
-          this.center = data.pois[0].location;
-          this.name = data.pois[0].name;
-          data.pois.splice(0, 1);
-          this.nearbyPositions = data.pois;
+          this.center = await this.getCurrentPosition(this.position);
         }
       },
-      getKeyLocation() {
-        new BMap.Geolocation().getCurrentPosition(async (r) => {
-          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/places?query=${this.keyword}&lng=${r.longitude}&lat=${r.latitude}`);
-          this.keyPositions = data.result;
-        });
+      async getKeyLocation() {
+        this.keyPositions = await this.getKeyPosition(this.keyword);
       }
     }
   };

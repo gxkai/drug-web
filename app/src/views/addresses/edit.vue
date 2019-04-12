@@ -53,8 +53,8 @@
     },
     beforeRouteLeave(to, from, next) {
       if (this.address.lat !== undefined) {
-        let location = { lat: this.address.lat, lng: this.address.lng, name: this.address.address };
-        to.params.location = location;
+        let position = { lat: this.address.lat, lng: this.address.lng, name: this.address.address };
+        to.params.position = position;
       }
       next();
     },
@@ -68,7 +68,6 @@
         this.address = await this.$http.get(`/api/addresses/${this.address.id}`);
       },
       async save() {
-        this.$toast.loading();
         if (this.address.id !== undefined) {
           await this.$http.put(`/api/addresses/${this.address.id}`, this.address);
         } else {
