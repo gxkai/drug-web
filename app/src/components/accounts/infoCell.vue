@@ -3,7 +3,7 @@
     <div class="left">
               <van-icon :name="leftIcon" v-show="leftIcon !== undefined" color="#d7000e" size="0.46rem"/>
               <span>
-                {{title}}：
+                {{title}}
               </span>
     </div>
     <div class="right">

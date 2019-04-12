@@ -47,23 +47,25 @@
         </div>
       </div>
       <div class="right">
-        <img src="../assets/img/components/医院标记.png"/>
       </div>
+      <img src="@/assets/img/components/医院标记.png" class="hospital-tag"/>
     </div>
 </template>
 <style scoped type="text/scss" lang="scss">
   .wrapper {
+    .hospital-tag {
+      position: absolute;
+      width: 86px;
+      right: 0;
+    }
+    position: relative;
     background-color: white;
-    padding: 20px 0;
+    padding: 20px 40px;
     display: grid;
-    grid-template-columns: 300px 1fr 86px;
+    grid-template-columns: auto 1fr 86px;
+    grid-column-gap: 20px;
     .left {
       justify-self: center;
-    }
-    .right {
-      img {
-        width: 100%;
-      }
     }
     .center {
       display: grid;

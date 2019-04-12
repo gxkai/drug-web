@@ -107,7 +107,7 @@ const index = {
   },
   post(url, data, config) {
     return new Promise((resolve, reject) => {
-      _this.$toast.loading();
+      _this.$toast.loading({forbidClick: true, duration: 0});
       axios.post(url, data, config)
         .then(res => {
           resolve(res.data);

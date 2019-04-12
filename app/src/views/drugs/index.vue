@@ -2,7 +2,7 @@
   <div>
     <new-layout>
       <template slot="top">
-        <new-search-bar v-model="keyword" @search="search" :placeholder="placeholder"/>
+        <new-search-bar v-model="keyword" @search="search" :placeholder="placeholder" class="hairline-bottom"/>
         <new-filter-bar :filters="filters" :active.sync="active" @click.native="onFilterBar"/>
       </template>
       <template slot="center">
@@ -41,19 +41,19 @@
     </van-popup>
     <van-popup v-model="showName" position="right" class="popup-wrapper">
       <info-cell title="返回" @click.native="showName=false"/>
-      <names :result.sync="namesResult" :params="params" type="name"/>
+      <type-pop :result.sync="namesResult" :params="params" type="name"/>
     </van-popup>
     <van-popup v-model="showOrigin" position="right" class="popup-wrapper">
       <info-cell title="返回" @click.native="showOrigin=false"/>
-      <names :result.sync="originsResult" :params="params" type="origin"/>
+      <type-pop :result.sync="originsResult" :params="params" type="origin"/>
     </van-popup>
     <van-popup v-model="showSpec" position="right" class="popup-wrapper">
       <info-cell title="返回" @click.native="showSpec=false"/>
-      <names :result.sync="specsResult" :params="params" type="spec"/>
+      <type-pop :result.sync="specsResult" :params="params" type="spec"/>
     </van-popup>
     <van-popup v-model="showForm" position="right" class="popup-wrapper">
       <info-cell title="返回" @click.native="showForm=false"/>
-      <names :result.sync="formsResult" :params="params" type="form"/>
+      <type-pop :result.sync="formsResult" :params="params" type="form"/>
     </van-popup>
   </div>
 </template>
@@ -81,7 +81,7 @@
 <script>
   import list from '@/mixins/list';
   import infoCell from '@/components/drugs/infoCell';
-  import names from '@/components/drugs/names';
+  import typePop from '@/components/drugs/typePop';
 
   export default {
     name: 'goodsList',
@@ -102,12 +102,14 @@
         sort: 'SYNTHESIZE_DESC',
         placeholder: '\ue643 药品名',
         filters: ['默认', '价格最低', '销量最多', '更多筛选'],
-        active: 0
+        active: 0,
+        interfaceType: this.$route.query.interfaceType,
+        shopId: this.$route.query.shopId
       };
     },
     components: {
       infoCell,
-      names
+      typePop
     },
     computed: {
       params() {
@@ -188,7 +190,15 @@
       async onLoad() {
         this.loadMore();
         console.log(this.getParams(this.params));
-        const data = await this.$http.get('/api/drugs', this.getParams(this.params));
+        let url;
+        switch (this.interfaceType) {
+          case 'SHOP_DRUG':
+            url = `/api/shops/${this.shopId}/drugs`;
+            break;
+          default:
+            url = `/api/drugs`;
+        }
+        const data = await this.$http.get(url, this.getParams(this.params));
         this.pushToList(data.list);
       },
       onConfirm() {

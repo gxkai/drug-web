@@ -16,22 +16,6 @@
   </new-layout>
 </template>
 <style scoped type="text/scss" lang="scss">
-  .none {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    span {
-      color: $gray;
-      font-size: $size-mini;
-    }
-    padding: 10px 0;
-  }
-  .filter-bar {
-    display: flex;
-    justify-content: space-evenly;
-    height: 80px;
-    align-items: center;
-  }
 </style>
 <script>
   export default {

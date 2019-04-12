@@ -14,7 +14,7 @@
           :scroll-wheel-zoom="false"
         >
           <bm-view style="width: 100%; height:100%; flex: 1"></bm-view>
-          <bm-marker :position="{lng: center.lng, lat: center.lat}"
+          <bm-marker :position="center"
                      :dragging="false"
                      animation="BMAP_ANIMATION_BOUNCE"
           >
@@ -71,8 +71,6 @@
 </style>
 <script>
   import addressCell from '@/components/addresses/addressCell';
-  import BMap from 'BMap';
-
   export default {
     name: '',
     mixins: [],
@@ -84,6 +82,9 @@
         if (n === '') {
           this.show = true;
         }
+      },
+      async center(n) {
+        this.nearbyPositions = await this.getNearbyPosition(n);
       }
     },
     computed: {},
@@ -91,8 +92,6 @@
       return {
         placeholder: '\ue643搜索小区/写字楼',
         center: {
-          lat: 31,
-          lng: 120
         },
         name: '',
         address: '',
@@ -101,7 +100,7 @@
         nearbyPositions: [],
         keyword: '',
         keyPositions: [],
-        choosePosition: this.$route.params.location
+        position: this.$route.params.location
       };
     },
     created() {
@@ -110,7 +109,7 @@
       this.getLocation();
     },
     beforeRouteLeave(to, from, next) {
-      to.params.position = this.choosePosition;
+      to.params.position = this.position;
       next();
     },
     methods: {
@@ -119,26 +118,20 @@
         this.show = false;
       },
       async getClickInfo(e) {
-        const params = {
+        const point = {
           lat: e.point.lat,
           lng: e.point.lng
         };
-        const data = await this.$api.getPois(params);
-        this.center = data.pois[0].location;
-        this.name = data.pois[0].name;
-        this.nearbyPositions = data.pois;
+        this.center = await this.getCurrentPosition(point);
       },
       async syncCenterAndZoom(e) {
         const { lng, lat } = e.target.getCenter();
         this.zoom = e.target.getZoom();
-        const params = {
+        const point = {
           lat: lat,
           lng: lng
         };
-        const data = await this.$api.getPois(params);
-        this.center = data.pois[0].location;
-        this.name = data.pois[0].name;
-        this.nearbyPositions = data.pois;
+        this.center = await this.getCurrentPosition(point);
       },
       setPosition(position) {
         const data = {
@@ -146,46 +139,18 @@
           lat: position.location.lat,
           lng: position.location.lng
         };
-        this.choosePosition = data;
-        this.$router.go(-1);
-      },
-      setPosition2() {
-        const data = {
-          name: this.name,
-          lat: this.center.lat,
-          lng: this.center.lng
-        };
-        this.choosePosition = data;
+        this.position = data;
         this.$router.go(-1);
       },
       async getLocation() {
-        if (this.choosePosition === undefined) {
-          new BMap.Geolocation().getCurrentPosition(async (r) => {
-            const params = {
-              lat: r.latitude,
-              lng: r.longitude
-            };
-            this.$toast.loading({duration: 0, forbidClick: true});
-            const data = await this.$api.getPois(params);
-            this.center = data.pois[0].location;
-            this.name = data.pois[0].name;
-            data.pois.splice(0, 1);
-            this.nearbyPositions = data.pois;
-          });
+        if (this.position === undefined) {
+          this.center = await this.getCurrentPosition();
         } else {
-          this.$toast.loading({duration: 0, forbidClick: true});
-          const data = await this.$api.getPois(this.choosePosition);
-          this.center = data.pois[0].location;
-          this.name = data.pois[0].name;
-          data.pois.splice(0, 1);
-          this.nearbyPositions = data.pois;
+          this.center = await this.getCurrentPosition(this.position);
         }
       },
-      getKeyLocation() {
-        new BMap.Geolocation().getCurrentPosition(async (r) => {
-          const data = await this.$http.get(`${process.env.OUTSIDE_ROOT}/baidu/places?query=${this.keyword}&lng=${r.longitude}&lat=${r.latitude}`);
-          this.keyPositions = data.result;
-        });
+      async getKeyLocation() {
+        this.keyPositions = await this.getKeyPosition(this.keyword);
       }
     }
   };

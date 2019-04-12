@@ -49,6 +49,8 @@
         font-size: $size-mini;
         color: $gray;
         margin-left: 10px;
+        min-width: 100px;
+        display: inline-block;
       }
     }
     .right {

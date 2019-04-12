@@ -440,17 +440,6 @@ const shopRouter = [
       showBackBottomRight: true
     },
     component: () => import('@/views/shops/index.vue')
-  },
-  {
-    path: '/shops/drugs',
-    name: '/shops/drugs',
-    meta: {
-      navigation: true,
-      name: '药房药品列表',
-      showBackTopLeft: false,
-      showBackBottomRight: true
-    },
-    component: () => import('@/views/shops/drugs/index.vue')
   }
 ];
 

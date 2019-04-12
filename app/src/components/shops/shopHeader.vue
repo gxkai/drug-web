@@ -50,6 +50,7 @@
           'collected': collected
         };
         await this.$http.post('/api/collects/shop', data);
+        this.collected = collected;
         this.$toast(`${collected ? '收藏成功' : '取消收藏成功'}`);
       }
     }

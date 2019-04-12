@@ -52,7 +52,7 @@ export default {
   justify-content: center;
   padding: 10px 0;
   input {
-    width: 600px;
+    width: 700px;
     background-color: #f6f6f6;
     border-radius: 10px;
     border: none;
