@@ -141,37 +141,49 @@ if (SHOW_EXAMPLES) {
     },
     {
       id: '60',
-      name: '药品管理',
+      name: '药品审核',
       icon: 'el-icon-goods',
       children: [
         {
           id: '60-1',
-          name: '预警列表',
-          url: '/drugManage/earlyWarning',
+          name: '通用名管理',
+          url: '/drugCheck/commonName',
           icon: 'el-icon-share'
         },
         {
           id: '60-2',
-          name: '售磬列表',
-          url: '/drugManage/sellOut',
+          name: '剂型管理',
+          url: '/drugCheck/form',
           icon: 'el-icon-share'
         },
         {
           id: '60-3',
-          name: '药品列表',
-          url: '/drugManage/drug',
+          name: '规格管理',
+          url: '/drugCheck/spec',
           icon: 'el-icon-share'
         },
         {
           id: '60-4',
-          name: '热销排行榜',
-          url: '/drugManage/salesRank',
+          name: '类型管理',
+          url: '/drugCheck/type',
           icon: 'el-icon-share'
         },
         {
           id: '60-5',
-          name: '添加药品',
-          url: '/drugManage/drugAdd',
+          name: '药品库管理',
+          url: '/drugCheck/stock',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-6',
+          name: '药品列表管理',
+          url: '/drugCheck/drug',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-7',
+          name: '药品信息审核',
+          url: '/drugCheck/drugInfo',
           icon: 'el-icon-share'
         }
       ]

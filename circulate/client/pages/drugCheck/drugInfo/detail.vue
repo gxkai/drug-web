@@ -568,6 +568,26 @@
 
       .drug-stock-form{
         margin-right: 150px;
+        .el-form{
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: repeat(6, 50px) 120px;
+          .el-form-item{
+            &:last-child{
+              grid-column: 1/3;
+            }
+          }
+          .drug-class{
+            width: 100%;
+            height: 40px;
+            text-align: left;
+            padding: 12px 15px;
+          }
+        }
+      }
+
+      .drug-stock-form{
+        margin-right: 150px;
         padding-top: 20px;
         .el-form{
           display: grid;
