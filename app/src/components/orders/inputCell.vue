@@ -1,0 +1,58 @@
+<template>
+  <div class="info-cell hairline-bottom">
+    <div class="left">
+              <span>
+                {{label}}：
+              </span>
+    </div>
+    <div class="right">
+              <input :value="value" @input="$emit('input', $event.target.value)" :placeholder="placeholder">
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: '',
+    mixins: [],
+    props: {
+      label: {},
+      value: {},
+      placeholder: {}
+    },
+    watch: {},
+    computed: {},
+    data() {
+      return {};
+    },
+    created() {
+    },
+    mounted() {
+    },
+    methods: {}
+  };
+</script>
+
+<style scoped type="text/scss" lang="scss">
+  .info-cell {
+    background-color: white;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    padding: 22px 34px;
+    align-items: center;
+    .left {
+      span {
+        font-size: $size-small;
+      }
+    }
+    .right {
+      input {
+        font-size: $size-small;
+        border: none;
+        outline: none;
+        -webkit-appearance: none;
+        width: 100%;
+      }
+    }
+  }
+</style>
