@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="stock--content__search">
         <div class="left">
-          <el-input v-model="commonNameValue" size="small" placeholder="通用名称" style="width: 200px;"></el-input>
+          <el-input v-model="stockName" size="small" placeholder="通用名称" style="width: 200px;"></el-input>
           <el-button class="select-btn value-btn" size="small" v-if="originNameValue" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
           <el-button class="select-btn" size="small" v-else @click="originDialogVisible = true">厂商名称</el-button>
           <el-cascader
@@ -16,12 +16,8 @@
             v-model="selectedTypes"
             @change="getTypeCondition">
           </el-cascader>
-          <el-button type="primary" size="small" icon="el-icon-refresh" @click="resetEs">重置ES</el-button>
           <el-button type="primary" size="small" @click="searchDrugs">搜索</el-button>
           <el-button size="small" @click="clearConditions">清空</el-button>
-        </div>
-        <div class="right">
-          <el-button type="primary" @click="stockAdd" style="background: #169bd5;">新增</el-button>
         </div>
       </div>
       <d2-crud
@@ -31,9 +27,6 @@
         :pagination="pagination"
         @pagination-current-change="paginationCurrentChange"
         :options="options"
-        :rowHandle="rowHandle"
-        @custom-edit="editDrugInfo"
-        @row-remove="removeDrug"
         class="drug-table"
       />
     </div>
@@ -67,12 +60,12 @@
     }
   })
   export default class Stock extends Vue {
-    commonNameValue = ''
+    stockName = ''
     originNameValue = ''
     isCloseOnClickModal = false
     originDialogVisible = false
 
-    columns= [
+    columns = [
       {
         title: '药品名称',
         key: 'name'
@@ -93,7 +86,7 @@
         title: '药品类型',
         key: 'drugTypeName'
       }
-    ];
+    ]
     drugList = []
     drugTypesList = [] // 药品类型
     compostList = [] // 组合类
@@ -116,26 +109,11 @@
     options = {
       border: true
     }
-    rowHandle = {
-      remove: {
-        text: '删除',
-        type: 'text',
-        confirm: true
-      },
-      custom: [
-        {
-          text: '编辑',
-          type: 'text',
-          emit: 'custom-edit'
-        }
-      ]
-    }
 
     // 获取已选信息
     getSelectedInfo (data) {
       this.selectedInfo = data
     }
-
     // 选择厂商
     confirmSelectOrigin () {
       if (!this.selectedInfo) {
@@ -152,25 +130,14 @@
       this.getDrugs()
     }
 
-    // 编辑
-    editDrugInfo ({index, row}) {
-      this.$router.push({
-        path: '/drugCheck/stock/edit',
-        query: {
-          id: row.id
-        }
-      })
-    }
-
     // 获取药品类型
     async getDrugTypes () {
-      let {data: parentTypes} = await axios.get(`/api/supervise/drugTypes/father`)
+      let {data: parentTypes} = await axios.get(`/api/shop/drugTypes/father`)
       this.drugTypesList = parentTypes
       this.compostList = this.drugTypesList
-
       // 获取每个大类下的子类
       for (let i = 0, len = this.drugTypesList.length; i < len; i++) {
-        let {data: childTypes} = await axios.get(`/api/supervise/drugType/${this.drugTypesList[i].id}/children`)
+        let {data: childTypes} = await axios.get(`/api/shop/drugType/${this.drugTypesList[i].id}/children`)
         this.compostList[i].children = childTypes
       }
     }
@@ -181,35 +148,11 @@
       this.selectedTypes = data
     }
 
-    // 删除
-    async removeDrug ({ index, row }, done) {
-      await axios.delete(`/api/supervise/drugs/${row.id}`)
-      this.pagination.total -= 1
-      setTimeout(() => {
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
-    }
-
-    stockAdd () {
-      this.$router.push('/drugCheck/stock/create')
-    }
-
-    async resetEs () {
-      await axios.post(`/api/supervise/drugs/reset`)
-      this.$message({
-        message: '重置成功',
-        type: 'success'
-      })
-    }
-
     clearConditions () {
-      this.commonNameValue = ''
+      this.stockName = ''
       this.originNameValue = ''
       this.selectedTypes = []
+      this.getDrugs()
     }
 
     searchDrugs () {
@@ -220,16 +163,15 @@
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name: this.commonNameValue.trim(),
+        name: this.stockName.trim(),
         originName: this.originNameValue.trim(),
         drugTypeParent: this.selectedTypes[0],
         drugType: this.selectedTypes[1]
       }
-      let {data: drugRes} = await axios.get(`/api/supervise/drugs`, {params})
+      let {data: drugRes} = await axios.get(`/api/shop/drugs`, {params})
       console.log(drugRes)
       this.drugList = drugRes.list
       this.pagination.total = drugRes.total
-
       this.drugList.forEach(item => {
         let typeName = ''
         item.drugDrugTypeList.forEach(typeItem => {

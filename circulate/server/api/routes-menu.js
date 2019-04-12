@@ -59,6 +59,19 @@ if (SHOW_EXAMPLES) {
       ]
     },
     {
+      id: '30',
+      name: '店铺管理',
+      icon: 'el-icon-goods',
+      children: [
+        {
+          id: '30-1',
+          name: '我要开店',
+          url: '/shop/setup',
+          icon: 'el-icon-share'
+        }
+      ]
+    },
+    {
       id: '40',
       name: '统计分析',
       icon: 'el-icon-goods',
@@ -325,6 +338,12 @@ if (SHOW_EXAMPLES) {
           id: '100-9',
           name: '系统参数',
           url: '/system/system',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '100-10',
+          name: '对账单',
+          url: '/system/statement',
           icon: 'el-icon-share'
         }
       ]
