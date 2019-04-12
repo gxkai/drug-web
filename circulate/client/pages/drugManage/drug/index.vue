@@ -1,64 +1,76 @@
 <template>
-  <div class="drug--wrap">
-    <div class="drug--content">
+  <div class="drug-wrap">
+    <div class="drug-list">
       <bread-crumb :path="$route.path"/>
-      <div class="drug--content__search">
-        <!--请选择药房名称-->
-        <el-button class="select-btn value-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
-        <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true">药店名称</el-button>
-
-        <el-input v-model="drugNameValue" size="small" placeholder="药品名称" style="width: 200px;"></el-input>
-        <el-button class="select-btn value-btn" size="small" v-if="originNameValue" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
-        <el-button class="select-btn" size="small" v-else @click="originDialogVisible = true">厂商简称</el-button>
-        <el-select size="small" v-model="drugState" placeholder="药品状态">
-          <el-option
-            v-for="item in stateOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-button type="primary" size="small" @click="search">搜索</el-button>
-        <el-button size="small" @click="clear">清空</el-button>
+      <div class="title">
+        <h3>药品列表</h3>
       </div>
-      <div>
-        <d2-crud
-          :columns="columns"
-          :data="drugList"
-          :loading="loading"
-          :pagination="pagination"
-          @pagination-current-change="paginationCurrentChange"
-          :options="options"
-          :rowHandle="rowHandle"
-          @emit-detail="handleDetailEvent"
-          class="drug-table"
-        />
-      </div>
+      <d2-crud
+        ref="d2Crud"
+        :columns="columns"
+        :data="drugList"
+        :loading="loading"
+        :pagination="pagination"
+        :options="options"
+        :rowHandle="rowHandle"
+        @dialog-cancel="handleDialogCancel"
+        @pagination-current-change="paginationCurrentChange"
+        @emit-view="viewDetail"
+        @emit-obtained="obtainedDrug"
+        @emit-storage="storageDrug"
+        class="drug-table"
+      />
     </div>
 
-    <!--选择药房名称-->
+    <!--查看-->
     <el-dialog
-      title="药房名称"
-      :close-on-click-modal='isCloseOnClickModal'
-      :visible.sync="shopNameDialog"
-      width="50%">
-      <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
+      title="查看"
+      :visible.sync="viewDialogVisible"
+      width="30%">
+      <div class="main">
+        <el-form :model="viewData" label-width="100px">
+          <el-form-item label="药品名称">
+            <el-input v-model="viewData.drugName" readonly placeholder="暂无"></el-input>
+          </el-form-item>
+          <el-form-item label="通用名称">
+            <el-input v-model="viewData.commonName" readonly placeholder="暂无"></el-input>
+          </el-form-item>
+          <el-form-item label="规格">
+            <el-input v-model="viewData.specName" readonly placeholder="暂无"></el-input>
+          </el-form-item>
+          <el-form-item label="厂商简介">
+            <el-input v-model="viewData.originName" readonly placeholder="暂无"></el-input>
+          </el-form-item>
+          <el-form-item label="当前库存">
+            <el-input v-model="viewData.stock" readonly placeholder="暂无"></el-input>
+          </el-form-item>
+          <el-form-item label="当前状态">
+            <el-input v-model="viewData.drugState" readonly placeholder="暂无"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="shopNameDialog = false">取 消</el-button>
-          <el-button type="primary" @click="confirmSelect">确 定</el-button>
-        </span>
+        <el-button @click="viewDialogVisible = false">关 闭</el-button>
+      </span>
     </el-dialog>
 
-    <!--选择厂商-->
+    <!--入库-->
     <el-dialog
-      title="厂商"
-      :close-on-click-modal='isCloseOnClickModal'
-      :visible.sync="originDialogVisible"
-      width="50%">
-      <drug-origin v-on:listenToChildEvent="getSelectedInfo"></drug-origin>
+      title="入库"
+      :visible.sync="storageDialogVisible"
+      width="30%">
+      <div class="main">
+        <el-form label-width="50px">
+          <el-form-item label="库存">
+            <el-input-number size="small" v-model="storageNum" placeholder="请输入库存数量"
+                             controls-position="right" :min="0" :max="100000"
+                             style="width: 300px;"></el-input-number>
+          </el-form-item>
+        </el-form>
+      </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="originDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
+        <el-button @click="storageDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submit">提 交</el-button>
       </span>
     </el-dialog>
   </div>
@@ -68,234 +80,238 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  import ShopName from '@/components/shop/ShopName'
-  import Origin from '@/components/drugCheck/Origin'
   import axios from 'axios'
 
   @Component({
     components: {
-      BreadCrumb,
-      ShopName,
-      'drug-origin': Origin
+      BreadCrumb
     }
   })
-  export default class Drug extends Vue {
-    isCloseOnClickModal = false
-    originDialogVisible = false
-    shopNameDialog = false
-    shopNameId = ''
-    shopNameValue = '' // 药店信息
-    drugNameValue = ''
-    originNameValue = ''
-    drugState = ''
-    columns= [
-      {
-        title: '药店名称',
-        key: 'shopName',
-        width: '220'
-      },
+  export default class SalesRank extends Vue {
+    rowData = {}
+    drugList = [] // 排行榜列表
+    viewData = []
+    viewDialogVisible = false
+    storageNum = '' // 库存量
+    storageDialogVisible = false
+
+    columns = [
       {
         title: '药品名称',
-        key: 'name',
-        width: '220'
+        key: 'drugName'
       },
       {
         title: '通用名称',
-        key: 'commonName',
-        width: '220'
+        key: 'commonName'
       },
       {
         title: '规格',
-        key: 'spec',
-        width: '250'
+        key: 'specName'
       },
       {
-        title: '厂商简称',
-        key: 'originName',
-        width: '250'
+        title: '厂商简介',
+        key: 'originName'
       },
       {
-        title: '价格',
-        key: 'price',
-        width: '60'
+        title: '当前库存',
+        key: 'stock'
       },
       {
-        title: '库存',
-        key: 'stock',
-        width: '60'
-      },
-      {
-        title: '药品状态',
-        key: 'transGrounding',
-        width: '100'
+        title: '当前状态',
+        key: 'drugState'
       }
     ]
-    drugList = []
-    selectedInfo = '' // 子组件传过来的数据
-    childData = [] // 暂存已选的数据
-
-    // 药品状态
-    stateOptions = [
-      {
-        value: true,
-        label: '上架'
-      },
-      {
-        value: false,
-        label: '下架'
-      }
-    ]
-
-    loading= false;
-    pagination= {
+    loading = false;
+    pagination = {
       currentPage: 1,
       pageSize: 15,
       total: 0
     }
-    options= {
+    options = {
       border: true
     }
     rowHandle = {
       custom: [
         {
-          text: '查看详情',
+          text: '查看',
           type: 'text',
-          emit: 'emit-detail'
+          emit: 'emit-view'
+        },
+        {
+          text: '下架',
+          type: 'text',
+          emit: 'emit-obtained',
+          show (index, row) {
+            if (row.drugState === '在售') {
+              return true
+            }
+          }
+        },
+        {
+          text: '入库',
+          type: 'text',
+          emit: 'emit-storage',
+          show (index, row) {
+            if (row.drugState === '下架') {
+              return true
+            }
+          }
         }
       ]
     }
 
-    // 获取已选信息
-    getSelectedInfo (data) {
-      this.selectedInfo = data
-    }
-
-    // 获取药店名称
-    confirmSelect () {
-      if (!this.selectedInfo) {
-        this.shopNameDialog = false
-        return
-      }
-      this.childData = this.selectedInfo
-      this.shopNameId = this.childData.id
-      this.shopNameValue = this.childData.shopName
-      this.shopNameDialog = false
-    }
-
-    // 选择厂商
-    confirmSelectOrigin () {
-      if (!this.selectedInfo) {
-        this.originDialogVisible = false
-        return
-      }
-      this.childData = this.selectedInfo
-      this.originNameValue = this.childData.fullName
-      this.originDialogVisible = false
+    handleDialogCancel (done) {
+      this.$message({
+        message: '取消保存',
+        type: 'warning'
+      })
+      done()
     }
 
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
-      this.getAllDrugs()
+      this.fetchData()
     }
 
-    handleDetailEvent ({row}) {
-      this.$router.push({
-        path: '/drugCheck/drug/detail',
-        query: {
-          id: row.id
+    // 查看
+    viewDetail ({row}) {
+      this.viewDialogVisible = true
+      this.viewData = row
+    }
+
+    // 下架
+    obtainedDrug ({index, row}) {
+      let obtained = this.rowHandle.custom
+      obtained.forEach(item => {
+        if (item.text === '下架') {
+          row.drugState = '下架'
+          row.grounding = false
         }
       })
+
+      this.saveDrugState(row)
     }
 
-    clear () {
-      this.shopNameId = ''
-      this.shopNameValue = '' // 药店信息
-      this.drugNameValue = ''
-      this.originNameValue = ''
-      this.drugState = ''
+    // 入库
+    async postToStock (number) {
+      let params = new FormData()
+      params.append('number', number)
+
+      await axios.put(`/api/shop/stocks/${this.rowData.drugId}`, params)
+      this.fetchData()
+      this.$message({
+        message: '入库成功',
+        type: 'success'
+      })
+      let storage = this.rowHandle.custom
+      storage.forEach(item => {
+        if (item.text === '入库') {
+          this.rowData.drugState = '在售'
+          this.rowData.grounding = true
+        }
+      })
+      this.saveDrugState(this.rowData)
     }
 
-    search () {
-      this.getAllDrugs()
+    storageDrug ({row}) {
+      this.rowData = row
+      if (row.stock <= row.stockWarn) {
+        this.$confirm('当前药品库存不足，请添加库存', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          closeOnClickModal: false,
+          type: 'warning'
+        }).then(() => {
+          this.storageDialogVisible = true
+        }).catch(() => {})
+        return
+      }
+
+      this.postToStock(row.stock)
     }
 
-    async getAllDrugs () {
+    // 提交
+    submit () {
+      this.postToStock(this.rowData.stock + this.storageNum)
+      this.storageDialogVisible = false
+    }
+
+    async saveDrugState (drug) {
+      // 上下架验证
+      let verifyParams = new FormData()
+      verifyParams.append('ids', drug.drugId)
+      await axios.post(`/api/shop/shopDrugs/grounding/verify`, verifyParams)
+
+      // 上下架
+      let actionParams = new FormData()
+      actionParams.append('ids', drug.drugId)
+      actionParams.append('shopType', 'SIMPLE')
+      actionParams.append('state', drug.grounding)
+
+      await axios.post(`/api/shop/shopDrugs/grounding`, actionParams)
+      console.log('成功')
+    }
+
+    async fetchData () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        company: this.originNameValue.trim(),
-        grounding: this.drugState,
-        shop: this.shopNameValue,
-        shopId: this.shopNameId,
-        name: this.drugNameValue.trim()
+        shopId: 'BKDKbvDHTjKclO0Lu4sAQA'
       }
 
-      let {data: drugData} = await axios.get(`/api/supervise/shopDrugs`, {params})
-      console.log(drugData)
-      this.drugList = drugData.list
-      this.pagination.total = drugData.total
+      let {data: drug} = await axios.get(`/api/shop/shopDrugs`, {params})
+      console.log(drug)
+      this.drugList = drug.list
+      this.pagination.total = drug.total
 
       this.drugList.forEach(item => {
         if (item.grounding) {
-          item.transGrounding = '上架'
+          item.drugState = '在售'
         } else {
-          item.transGrounding = '下架'
+          item.drugState = '下架'
         }
       })
     }
 
     beforeMount () {
-      this.getAllDrugs()
+      this.fetchData()
     }
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
   .drug{
-    &--wrap{
+    &-wrap{
       padding: 0 10px;
       margin-bottom: 30px;
     }
-    &--content{
+
+    &-list{
       min-height: 850px;
-      padding: 10px;
       background: #FFF;
+      padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
-      &__search{
-        display: flex;
-        align-items: center;
-        justify-content: Flex-start;
-        border-bottom: 1px solid #e9e9e9;
-        padding-bottom: 15px;
-        padding-left: 10px;
+      .title{
+        padding: 0 15px;
+        border-bottom: 1px solid #E9E9E9;
+      }
+    }
 
-        .select-btn{
-          width: 200px;
-          height: 32px;
-          line-height: inherit;
-          margin-right: 10px;
-          color: #c0c4cc;
-          text-align: left;
-          font-size: 13px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
+    &-search {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e9e9e9;
+      padding-bottom: 15px;
 
-        .value-btn{
-          color: #606266;
-        }
+      .right{
+        padding-right: 10px;
+      }
 
-        .el-input{
-          margin-right: 10px;
-          width: 200px;
-        }
-        .el-select{
-          margin-right: 10px;
-          width: 200px;
-        }
+      .el-input {
+        margin: 0 10px;
       }
     }
   }
