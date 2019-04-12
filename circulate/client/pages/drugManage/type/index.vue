@@ -72,7 +72,7 @@
       })
     }
     handleChild ({index, row}) {
-      this.$router.push({path: '/drugCheck/type/typeChild', query: {id: row.id, type: row.type}})
+      this.$router.push({path: '/drugManage/type/typeChild', query: {id: row.id, type: row.type}})
     }
   }
 </script>

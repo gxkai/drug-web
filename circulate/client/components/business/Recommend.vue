@@ -357,7 +357,7 @@
 
     // 下架
     async obtained (id) {
-      await axios.delete(`/api/supervise/drugRecommendApplies/${id}`)
+      await axios.delete(`/api/shop/drugRecommendApplies/${id}`)
       this.totalPages -= 1
       this.$message({
         message: '该药品下架成功！',
@@ -388,7 +388,7 @@
     // 通过
     async passAction (index, id) {
       let applyState = 'SUCCESS'
-      await axios.get(`/api/supervise/drugRecommendApplies/${id}?applyState=${applyState}`)
+      await axios.get(`/api/shop/drugRecommendApplies/${id}?applyState=${applyState}`)
       this.perPageData[index].applyState = applyState
       this.$message({
         message: '审核通过',
@@ -425,7 +425,7 @@
       let params = {
         remark: this.failReason
       }
-      await axios.get(`/api/supervise/drugRecommendApplies/${this.failId}?applyState=${applyState}`, params)
+      await axios.get(`/api/shop/drugRecommendApplies/${this.failId}?applyState=${applyState}`, params)
       this.perPageData[this.failIndex].applyState = applyState
       this.$message({
         message: '审核不通过',
@@ -473,7 +473,7 @@
         startDate: this.startDate,
         endDate: this.endDate
       }
-      let {data: res} = await axios.get(`/api/supervise/drugRecommendApplies`, {params})
+      let {data: res} = await axios.get(`/api/shop/drugRecommendApplies`, {params})
       console.log(res)
       this.tableData = res.list
       this.totalPages = res.total

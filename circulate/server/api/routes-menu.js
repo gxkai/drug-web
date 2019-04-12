@@ -59,6 +59,19 @@ if (SHOW_EXAMPLES) {
       ]
     },
     {
+      id: '30',
+      name: '店铺管理',
+      icon: 'el-icon-goods',
+      children: [
+        {
+          id: '30-1',
+          name: '我要开店',
+          url: '/shop/setup',
+          icon: 'el-icon-share'
+        }
+      ]
+    },
+    {
       id: '40',
       name: '统计分析',
       icon: 'el-icon-goods',
@@ -128,49 +141,67 @@ if (SHOW_EXAMPLES) {
     },
     {
       id: '60',
-      name: '药品审核',
+      name: '药品管理',
       icon: 'el-icon-goods',
       children: [
         {
           id: '60-1',
-          name: '通用名管理',
-          url: '/drugCheck/commonName',
+          name: '预警列表',
+          url: '/drugManage/earlyWarning',
           icon: 'el-icon-share'
         },
         {
           id: '60-2',
-          name: '剂型管理',
-          url: '/drugCheck/form',
+          name: '售磬列表',
+          url: '/drugManage/sellOut',
           icon: 'el-icon-share'
         },
         {
           id: '60-3',
-          name: '规格管理',
-          url: '/drugCheck/spec',
+          name: '药品列表',
+          url: '/drugManage/drug',
           icon: 'el-icon-share'
         },
         {
           id: '60-4',
-          name: '类型管理',
-          url: '/drugCheck/type',
+          name: '热销排行榜',
+          url: '/drugManage/salesRank',
           icon: 'el-icon-share'
         },
         {
           id: '60-5',
-          name: '药品库管理',
-          url: '/drugCheck/stock',
+          name: '添加药品',
+          url: '/drugManage/drugAdd',
           icon: 'el-icon-share'
         },
         {
           id: '60-6',
-          name: '药品列表管理',
-          url: '/drugCheck/drug',
+          name: '通用名管理',
+          url: '/drugManage/commonName',
           icon: 'el-icon-share'
         },
         {
           id: '60-7',
-          name: '药品信息审核',
-          url: '/drugCheck/drugInfo',
+          name: '剂型管理',
+          url: '/drugManage/form',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-8',
+          name: '规格管理',
+          url: '/drugManage/spec',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-9',
+          name: '类型管理',
+          url: '/drugManage/type',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-10',
+          name: '药品库管理',
+          url: '/drugManage/stock',
           icon: 'el-icon-share'
         }
       ]
@@ -337,6 +368,12 @@ if (SHOW_EXAMPLES) {
           id: '100-9',
           name: '系统参数',
           url: '/system/system',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '100-10',
+          name: '对账单',
+          url: '/system/statement',
           icon: 'el-icon-share'
         }
       ]
