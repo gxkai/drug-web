@@ -1,9 +1,9 @@
 <template>
-  <div class="add-wrap">
-    <div class="add-form">
+  <div class="adjust-wrap">
+    <div class="adjust-form">
       <bread-crumb :path="$route.path"/>
-      <div class="add-search">
-        <h3>添加药品</h3>
+      <div class="adjust-search">
+        <h3>在售药品调价</h3>
         <div class="action">
           <!--选择药品-->
           <el-button class="select-btn value-btn" v-if="drugValue.name" size="small" @click="drugDialog = true">{{ drugValue.name }}</el-button>
@@ -67,31 +67,16 @@
           <el-input v-model="drugInfoForm.stockWarn" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="是否推荐：">
-          <el-radio-group v-model="drugInfoForm.introduce">
+          <el-radio-group v-model="drugInfoForm.introduce" disabled>
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-form-item label="当前销量：">
+          <el-input v-model="drugInfoForm.stockWarn" readonly placeholder="暂无"></el-input>
+        </el-form-item>
       </el-form>
 
-      <div class="check-image">
-        <section>
-          <strong>药品封面照</strong>
-          <div>
-            <img v-if="coverURL" :src="coverURL">
-            <img v-else :src="emptyUrl">
-          </div>
-        </section>
-        <section>
-          <strong>展示图</strong>
-          <div>
-            <span v-for="(item, index) in drugImgList" :key="index">
-              <img v-if="item.imgURL !== 'null'" :src="item.imgURL">
-              <img v-else :src="emptyUrl">
-            </span>
-          </div>
-        </section>
-      </div>
       <div class="submit">
         <el-button type="primary" @click="submitAdd">提交</el-button>
       </div>
@@ -117,7 +102,7 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import Drug from '@/components/drugCheck/drugRadio/index'
-  import axios from 'axios'
+  // import axios from 'axios'
 
   @Component({
     components: {
@@ -134,20 +119,6 @@
     drugDialog = false
     parentTypeName = ''
     childTypeName = ''
-
-    emptyUrl = require('../../../assets/img/hospital/img1.png')
-    coverURL = ''
-    drugImgList = [
-      {
-        imgURL: require('../../../assets/img/hospital/img1.png')
-      },
-      {
-        imgURL: require('../../../assets/img/hospital/img1.png')
-      },
-      {
-        imgURL: require('../../../assets/img/hospital/img1.png')
-      }
-    ]
 
     getSelectedInfo (data) {
       this.selectedInfo = data
@@ -200,42 +171,6 @@
           this.drugInfoForm.medicaid = '是'
         }
       }
-
-      let params = {
-        resolution: 'LARGE_LOGO'
-      }
-
-      // 获取封面图片
-      if (this.drugInfoForm.fileId) {
-        let {data: cover} = await axios.get(`/api/shop/files/${this.drugInfoForm.fileId}`, {params})
-        let imgURL = cover.replace('redirect:', '')
-        let nullURL = imgURL.substring(imgURL.lastIndexOf('/') + 1, imgURL.length)
-        if (nullURL !== 'null') {
-          this.coverURL = imgURL
-        } else {
-          this.coverURL = nullURL
-        }
-      }
-
-      // 获取展示图
-      if (this.drugInfoForm.imgs) {
-        this.drugImgList = []
-        let childImgs = this.drugInfoForm.imgs.split(',')
-        for (let i = 0, len = childImgs.length; i < len; i++) {
-          let {data: detailImg} = await axios.get(`/api/shop/files/${childImgs[i]}`, {params})
-          let url = detailImg.replace('redirect:', '')
-          let empty = url.substring(url.lastIndexOf('/') + 1, url.length)
-          if (empty !== 'null') {
-            this.drugImgList.push({
-              imgURL: url
-            })
-          } else {
-            this.drugImgList.push({
-              imgURL: empty
-            })
-          }
-        }
-      }
     }
 
     submitAdd () {
@@ -248,7 +183,7 @@
 </script>
 
 <style scoped lang="scss">
-  /deep/.add{
+  /deep/.adjust{
     &-wrap{
       padding: 0 10px;
       margin-bottom: 30px;
@@ -314,34 +249,10 @@
       }
     }
   }
-  .check-image{
-    margin: 20px 50px 0;
-    display: grid;
-    grid-template-columns: 25% 75%;
-    grid-template-rows: 250px;
-    section{
-      img{
-        max-width: 70%;
-        height: auto;
-      }
-      strong{
-        display: block;
-        line-height: 3;
-        font-size: 16px;
-      }
-      &:nth-child(2){
-        >div{
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          grid-template-rows: 200px;
-        }
-      }
-    }
-  }
 
   .submit{
     text-align: center;
-    margin: 30px auto;
+    margin-top: 60px;
   }
 </style>
 

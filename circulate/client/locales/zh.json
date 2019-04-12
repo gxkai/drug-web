@@ -75,6 +75,8 @@
   "热销排行榜",
   "/drugManage/drugAdd":
   "添加药品",
+  "/drugManage/drugAdjustment":
+  "在售药品调价",
   "/drugManage/commonName":
   "通用名管理",
   "/drugManage/form":
@@ -87,8 +89,6 @@
   "子类管理",
   "/drugManage/stock":
   "药品库管理",
-  "/drugManage/drug":
-  "药店药品列表管理",
   "/drugManage/drug/detail":
   "查看详情",
   "/drugManage/drugInfo":
