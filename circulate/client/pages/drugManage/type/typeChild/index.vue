@@ -2,7 +2,9 @@
   <div class="common-wrap">
     <div class="common-list">
       <bread-crumb :path="$route.path"/>
-
+      <div class="title">
+        <h3>药品子类</h3>
+      </div>
       <d2-crud
         ref="d2Crud"
         :columns="columns"
@@ -112,6 +114,10 @@
       padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
+      .title{
+        padding: 0 15px;
+        border-bottom: 1px solid #E9E9E9;
+      }
     }
 
     &-search {

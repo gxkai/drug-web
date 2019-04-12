@@ -30,7 +30,7 @@
         <el-button type="primary" size="small">搜索</el-button>
         <el-button size="small" @click="clear">清空</el-button>
 
-        <el-button type="primary" size="small" style="background:#108EE9">添加</el-button>
+        <el-button type="primary" size="small" style="background:#108EE9" @click="addRecommend">添加</el-button>
         <el-button type="primary" size="small" style="background:#108EE9">批量添加</el-button>
       </div>
 
@@ -96,14 +96,9 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
-                    <el-button type="text" @click="reSubmit(scope.$index, scope.row.id)">再次提交</el-button>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
                     <el-button type="text" @click="moveShelf(scope.$index, scope.row.id)">提前下架</el-button>
                   </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-button type="text" @click="deleteItem(scope.$index, scope.row.id)">删除</el-button>
-                  </el-dropdown-item>
+
                 </el-dropdown-menu>
               </el-dropdown>
 
@@ -116,10 +111,23 @@
                   <el-dropdown-item>
                     <el-button type="text" @click="failReason(scope.$index, scope.row.id)">查看不通过原因</el-button>
                   </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button type="text" @click="reSubmit(scope.$index, scope.row.id)">再次提交</el-button>
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
 
-              <!--<el-button type="text" @click="obtained(scope.row.id)" v-if="scope.row.applyState==='SUCCESS'">下架</el-button>-->
+              <el-dropdown trigger="click" v-if="scope.row.applyState==='OVERDUE'">
+                <span class="el-dropdown-link">
+                  更多
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>
+                    <el-button type="text" @click="deleteItem(scope.$index, scope.row.id)">删除</el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </template>
           </el-table-column>
           
@@ -135,9 +143,6 @@
           </el-pagination>
         </div>
       </div>
-
-
-
 
     </div>
   </div>
@@ -201,6 +206,11 @@
         this.startDate = this.dateValue[0] + ' 00:00:00'
         this.endDate = this.dateValue[1] + ' 23:59:59'
       }
+    }
+
+    // 添加
+    addRecommend () {
+      this.$router.push('/business/recommend/create')
     }
 
     tableData = [] // 促销药品数据
