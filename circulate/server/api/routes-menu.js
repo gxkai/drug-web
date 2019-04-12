@@ -176,30 +176,36 @@ if (SHOW_EXAMPLES) {
         },
         {
           id: '60-6',
+          name: '在售药品调价',
+          url: '/drugManage/drugAdjustment',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-7',
           name: '通用名管理',
           url: '/drugManage/commonName',
           icon: 'el-icon-share'
         },
         {
-          id: '60-7',
+          id: '60-8',
           name: '剂型管理',
           url: '/drugManage/form',
           icon: 'el-icon-share'
         },
         {
-          id: '60-8',
+          id: '60-9',
           name: '规格管理',
           url: '/drugManage/spec',
           icon: 'el-icon-share'
         },
         {
-          id: '60-9',
+          id: '60-10',
           name: '类型管理',
           url: '/drugManage/type',
           icon: 'el-icon-share'
         },
         {
-          id: '60-10',
+          id: '60-11',
           name: '药品库管理',
           url: '/drugManage/stock',
           icon: 'el-icon-share'
@@ -316,6 +322,24 @@ if (SHOW_EXAMPLES) {
       name: '系统设置',
       icon: 'el-icon-goods',
       children: [
+        {
+          id: '100-55',
+          name: '我的消息',
+          url: '/system/message',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '100-56',
+          name: '用户管理',
+          url: '/system/userManage',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '100-57',
+          name: '我的账户',
+          url: '/system/myAccount',
+          icon: 'el-icon-share'
+        },
         {
           id: '100-1',
           name: '药师管理',
