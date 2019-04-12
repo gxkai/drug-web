@@ -1,22 +1,32 @@
 <template>
-  <div class="edit-wrap">
+  <div class="add-wrap">
     <div class="drug-stock-create">
       <bread-crumb :path="$route.path"/>
       <div class="drug-stock-form">
-        <el-form ref="form" :model="detailForm" label-width="150px">
-          <el-form-item label="药品名称：">
-            <el-input v-model="detailForm.name" placeholder="请输入"></el-input>
+        <el-form ref="form" :model="detailForm" label-width="200px">
+          <el-form-item label="药品封面图" class="el-form-item-upload">
+            <el-upload
+              class="avatar-uploader"
+              action=""
+              :show-file-list="false"
+              :on-success="coverUploadSuccess">
+              <img v-if="coverURL" :src="coverURL" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="药品名称">
+            <el-input v-model="detailForm.name" placeholder="请输入药品名称"></el-input>
           </el-form-item>
           <el-form-item label="通用名称">
             <el-button class="select-btn" v-if="detailForm.commonName" type="middle" @click="commonDialogVisible = true">{{ detailForm.commonName }}</el-button>
             <el-button class="select-btn" v-else type="middle" @click="commonDialogVisible = true" style="color: #C0C4CC">请选择通用名称</el-button>
           </el-form-item>
-          <el-form-item label="厂商简称">
+          <el-form-item label="批准文号">
+            <el-input v-model="detailForm.sfda" placeholder="请输入批准文号"></el-input>
+          </el-form-item>
+          <el-form-item label="厂商名称">
             <el-button class="select-btn" v-if="detailForm.originName" type="middle" @click="originDialogVisible = true">{{ detailForm.originName }}</el-button>
             <el-button class="select-btn" v-else type="middle" @click="originDialogVisible = true" style="color: #C0C4CC">请选择厂商</el-button>
-          </el-form-item>
-          <el-form-item label="批准文号：">
-            <el-input v-model="detailForm.sfda" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="药品大类">
             <el-button class="select-btn" v-if="parentTypeNameString" type="middle" @click="parentTypeDialogVisible = true">{{ parentTypeNameString }}</el-button>
@@ -28,11 +38,15 @@
             <el-button class="select-btn" v-else type="middle" @click="childTypeDialogVisible = true" style="color: #C0C4CC">请选择药品大类</el-button>
             <p style="display: none;">{{ childTypeIdString }}</p>
           </el-form-item>
-          <el-form-item label="药品类型：">
-            <el-radio-group v-model="detailForm.otc">
-              <el-radio :label="false">处方药</el-radio>
-              <el-radio :label="true">OTC</el-radio>
-            </el-radio-group>
+          <el-form-item label="otc 非处方药">
+            <el-select v-model="detailForm.otc" placeholder="请选择">
+              <el-option
+                v-for="(item, index) in otcOptions"
+                :key="index"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="规格">
             <el-button class="select-btn" v-if="detailForm.spec" type="middle" @click="specDialogVisible = true">{{ detailForm.spec }}</el-button>
@@ -42,61 +56,46 @@
             <el-button class="select-btn" v-if="detailForm.form" type="middle" @click="formDialogVisible = true">{{ detailForm.form }}</el-button>
             <el-button class="select-btn" v-else type="middle" @click="formDialogVisible = true" style="color: #C0C4CC">请选择剂型</el-button>
           </el-form-item>
-          <el-form-item label="是否医保：">
-            <el-radio-group v-model="detailForm.medicaid">
-              <el-radio :label="true">是</el-radio>
-              <el-radio :label="false">否</el-radio>
-            </el-radio-group>
+          <el-form-item label="是否医保">
+            <el-select v-model="detailForm.medicaid" placeholder="请选择">
+              <el-option
+                v-for="(item, index) in medicaidList"
+                :key="index"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="注意事项：">
-            <el-input v-model="detailForm.drugNotice" placeholder="请输入"></el-input>
+          <el-form-item label="药品编码">
+            <el-input v-model="detailForm.code" placeholder="请输入药品编码"></el-input>
           </el-form-item>
-          <el-form-item label="条形码：">
-            <el-input v-model="detailForm.barCode" placeholder="请输入"></el-input>
+          <el-form-item label="品牌">
+            <el-input v-model="detailForm.brand" placeholder="请输入品牌"></el-input>
           </el-form-item>
-          <el-form-item label="功能主治：">
+          <el-form-item label="适应性/功能主治">
             <el-input
               type="textarea"
-              :rows="5"
-              placeholder="请输入内容"
+              :autosize="{ minRows: 8, maxRows: 8}"
+              placeholder="适应性/功能主治"
               v-model="detailForm.introduce">
             </el-input>
           </el-form-item>
+          <el-form-item label="图片(最多上传四张)">
+            <el-upload
+              action=""
+              list-type="picture-card"
+              :limit="4"
+              :file-list="detailImg"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+              :on-success="childUploadSuccess">
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl">
+            </el-dialog>
+          </el-form-item>
         </el-form>
-
-        <div class="check-image">
-          <section>
-            <strong>药品封面照</strong>
-            <div>
-              <el-upload
-                class="avatar-uploader"
-                action=""
-                :show-file-list="false"
-                :on-success="coverUploadSuccess">
-                <img v-if="coverURL" :src="coverURL" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </div>
-          </section>
-          <section>
-            <strong>展示图</strong>
-            <div >
-              <el-upload
-                action=""
-                list-type="picture-card"
-                :limit="4"
-                :file-list="detailImg"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-success="childUploadSuccess">
-                <i class="el-icon-plus"></i>
-              </el-upload>
-              <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="dialogImageUrl">
-              </el-dialog>
-            </div>
-          </section>
-        </div>
         <div class="check-form-btn">
           <el-button @click="backToList">返回</el-button>
           <el-button type="primary" @click="submitEdit">提交</el-button>
@@ -207,7 +206,7 @@
       'drug-childType': ChildType
     }
   })
-  export default class DrugInfoEdit extends Vue {
+  export default class StockEdit extends Vue {
     isCloseOnClickModal = false
     commonDialogVisible = false
     specDialogVisible = false
@@ -422,7 +421,7 @@
         coverParams.append('file', this.coverObj)
         coverParams.append('fileType', 'LOGO')
         let {data: coverFileId} = await axios.post('/api/supervise/files', coverParams)
-        console.log(coverFileId)
+        // console.log(coverFileId)
         this.coverFileId = coverFileId // 图片上传成功后更新fileId
       }
 
@@ -433,7 +432,7 @@
         let fileId = ''
         for (let i = 0; i < len; i++) {
           if (middle[i].raw === undefined) { // 当前图片未重新选择，直接存储原有fileId即可
-            fileId += `${middle[i].fileId},`
+            fileId += middle[i].fileId
           } else {
             let detailParams = new FormData()
             detailParams.append('file', middle[i].raw)
@@ -442,7 +441,6 @@
             fileId += `${detailFileId},` // 图片上传成功后更新fileId
           }
         }
-        console.log(fileId)
         this.detailFileId = fileId.substring(0, fileId.length - 1)
       }
 
@@ -470,72 +468,19 @@
         introduce: this.detailForm.introduce
       }
 
-      await axios.put(`/api/supervise/drugs/${this.drugID}`, params)
+      await axios.post(`/api/supervise/drugs`, params)
+      this.$message({
+        message: '添加成功',
+        type: 'success'
+      })
+      setTimeout(() => {
+        this.$router.push('/drugCheck/stock')
+      }, 1000)
     }
 
     // 返回
     backToList () {
-      this.$router.push('/drugCheck/drugInfo')
-    }
-
-    async getDrugDetail () {
-      let {data: detail} = await axios.get(`/api/supervise/drugs/${this.drugID}`)
-      console.log(detail)
-      this.detailForm = detail
-      this.coverFileId = detail.fileId
-      this.detailFileId = detail.imgs
-      this.parentType = detail.drugDrugTypeParentList
-
-      let childTypeList = detail.drugDrugTypeList
-      let cName = ''
-      let cId = ''
-      childTypeList.forEach(item => {
-        cName += `${item.type},`
-        cId += `${item.id},`
-      })
-
-      this.childTypeNameString = cName.substring(0, cName.length - 1)
-      this.childTypeIdString = cId.substring(0, cId.length - 1)
-
-      let pName = ''
-      let pId = ''
-      this.parentType.forEach(item => {
-        pName += `${item.type},`
-        pId += `${item.id},`
-      })
-
-      this.parentTypeNameString = pName.substring(0, pName.length - 1)
-      this.parentTypeIdString = pId.substring(0, pId.length - 1)
-
-      let params = {
-        resolution: 'LARGE_LOGO'
-      }
-      // 获取封面图片
-      if (this.detailForm.fileId) {
-        let {data: cover} = await axios.get(`/api/supervise/files/${this.detailForm.fileId}`, {params})
-        this.coverURL = cover.replace('redirect:', '')
-        this.coverURLJudeg = this.coverURL
-      }
-
-      // 获取展示图
-      if (this.detailForm.imgs) {
-        let childImgs = this.detailForm.imgs.split(',')
-        for (let i = 0, len = childImgs.length; i < len; i++) {
-          let {data: detailImg} = await axios.get(`/api/supervise/files/${childImgs[i]}`, {params})
-          let url = detailImg.replace('redirect:', '')
-          if (url.substring(url.lastIndexOf('/') + 1, url.length) !== 'null') {
-            this.detailImg.push({
-              url: url,
-              fileId: childImgs[i]
-            })
-          }
-        }
-      }
-    }
-
-    beforeMount () {
-      this.drugID = this.$route.query.id
-      this.getDrugDetail()
+      this.$router.push('/drugCheck/stock')
     }
   }
 </script>
@@ -556,7 +501,7 @@
 </style>
 
 <style scoped lang="scss">
-  .edit-wrap{
+  .add-wrap{
     padding: 0 10px;
     margin-bottom: 30px;
 
@@ -567,37 +512,12 @@
       border: 1px solid #E9E9E9;
 
       .drug-stock-form{
-        margin-right: 150px;
+        padding: 20px 100px 0 0;
         .el-form{
           display: grid;
           grid-template-columns: 1fr 1fr;
-          grid-template-rows: repeat(6, 50px) 120px;
+          grid-template-rows: 170px repeat(6, 50px) 200px 200px;
           .el-form-item{
-            &:last-child{
-              grid-column: 1/3;
-            }
-          }
-          .drug-class{
-            width: 100%;
-            height: 40px;
-            text-align: left;
-            padding: 12px 15px;
-          }
-        }
-      }
-
-      .drug-stock-form{
-        margin-right: 150px;
-        padding-top: 20px;
-        .el-form{
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: repeat(6, 55px) 120px;
-          .el-form-item{
-            &:last-child{
-              grid-column: 1/3;
-            }
-
             .select-btn{
               width: 100%;
               color: #606266;
@@ -614,25 +534,21 @@
             .el-select{
               width: 100%;
             }
+            &:nth-child(1){
+              grid-column: 1 / 3;
+            }
+            &:nth-child(14){
+              grid-column: 1 / 3;
+            }
+            &:nth-child(15){
+              grid-column: 1 / 3;
+            }
           }
         }
       }
     }
   }
 
-  .check-image{
-    margin: 20px 50px 0;
-    display: grid;
-    grid-template-columns: 25% 75%;
-    grid-template-rows: 250px;
-    section{
-      strong{
-        display: block;
-        line-height: 3;
-        font-size: 16px;
-      }
-    }
-  }
 
   .avatar-uploader{
     margin-right: 30px;
