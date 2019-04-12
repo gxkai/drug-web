@@ -2,27 +2,15 @@
   <div class="type-wrap">
     <div class="type-list">
       <bread-crumb :path="$route.path"/>
-      <div class="type-add">
-        <el-button type="primary" style="background: #169bd5;" @click="addRow">新增</el-button>
-      </div>
       <div>
         <d2-crud
           ref="d2Crud"
           :columns="columns"
-          :data="data"
+          :data="typeData"
           :loading="loading"
           :options="options"
           :rowHandle="rowHandle"
-          :edit-template="editTemplate"
-          :form-options="formOptions"
           @type-child-emit="handleChild"
-          @row-edit="handleRowEdit"
-          @row-remove="handleRowRemove"
-          @row-add="handleRowAdd"
-          add-title="我的新增"
-          :add-template="addTemplate"
-          :add-rules="addRules"
-          @dialog-cancel="handleDialogCancel"
           class="drug-table"
         />
       </div>
@@ -45,7 +33,8 @@
       {
         title: '序号',
         key: 'index',
-        width: 80
+        width: 100,
+        align: 'center'
       },
       {
         title: '类型名称',
@@ -56,7 +45,7 @@
         key: 'sort'
       }
     ]
-    data = []
+    typeData = []
     loading = false;
     options = {
       border: true
@@ -69,134 +58,18 @@
           type: 'text',
           emit: 'type-child-emit'
         }
-      ],
-      edit: {
-        text: '编辑',
-        type: 'text'
-      },
-      remove: {
-        text: '删除',
-        type: 'text',
-        confirm: true
-      }
-    }
-    editTemplate = {
-      type: {
-        title: '类型名称',
-        value: ''
-      },
-      sort: {
-        title: '排序',
-        value: ''
-      }
-    }
-    addTemplate = {
-      type: {
-        title: '类型名称',
-        value: ''
-      },
-      sort: {
-        title: '排序',
-        value: ''
-      }
-    }
-    formOptions = {
-      labelWidth: '80px',
-      labelPosition: 'right',
-      saveLoading: false
-    }
-    addRules = {
-      type: [ { required: true, message: '请输入类型名称', trigger: 'blur' } ],
-      sort: [ { required: true, message: '请输入排序', trigger: 'blur' } ]
+      ]
     }
     beforeMount () {
       this.initData()
     }
     async initData () {
-      await axios.get(`/api/supervise/drugTypes/father`).then(res => {
-        this.data = res.data
-        this.data.forEach((item, index) => {
+      await axios.get(`/api/shop/drugTypes/father`).then(res => {
+        this.typeData = res.data
+        this.typeData.forEach((item, index) => {
           item.index = index + 1
         })
       })
-      console.log(this.data)
-    }
-    async handleRowEdit ({ index, row }, done) {
-      let getName = await axios.get(`/api/supervise/drugTypes/exists`, {params: {type: row.type}})
-      if (getName.data >= 1) {
-        this.$message({
-          message: '类型名称已存在!',
-          type: 'warning'
-        })
-        return false
-      }
-      let drugTypeADTO = {
-        fileId: row.fileId,
-        pid: row.pid,
-        showed: row.showed,
-        sort: row.sort,
-        type: row.type
-      }
-      await axios.put(`/api/supervise/drugTypes/${row.id}`, drugTypeADTO)
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        this.$message({
-          message: '编辑成功',
-          type: 'success'
-        })
-        done()
-        this.formOptions.saveLoading = false
-      }, 300)
-    }
-    handleDialogCancel (done) {
-      this.$message({
-        message: '取消保存',
-        type: 'warning'
-      })
-      done()
-    }
-    async handleRowRemove ({ index, row }, done) {
-      await axios.post(`/api/supervise/drugTypes/${row.id}`)
-      setTimeout(() => {
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
-    }
-    addRow () {
-      this.$refs.d2Crud.showDialog({
-        mode: 'add'
-      })
-    }
-    async handleRowAdd (row, done) {
-      let getName = await axios.get(`/api/supervise/drugTypes/exists`, {params: {type: row.type}})
-      if (getName.data >= 1) {
-        this.$message({
-          message: '类型名称已存在!',
-          type: 'warning'
-        })
-        return false
-      }
-      let drugTypeAdminDTO = {
-        fileId: row.fileId,
-        pid: row.pid,
-        showed: row.showed,
-        sort: row.sort,
-        type: row.type
-      }
-      await axios.post(`/api/supervise/drugTypes`, drugTypeAdminDTO)
-      this.initData()
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        this.$message({
-          message: '保存成功',
-          type: 'success'
-        })
-        done()
-        this.formOptions.saveLoading = false
-      }, 300)
     }
     handleChild ({index, row}) {
       this.$router.push({path: '/drugCheck/type/typeChild', query: {id: row.id, type: row.type}})

@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="common-search">
         <div class="left">
-          <el-input v-model="commonNameValue" size="small" placeholder="请输入药剂名称" style="width: 200px;"></el-input>
+          <el-input v-model="formNameValue" size="small" placeholder="请输入药剂名称" style="width: 200px;"></el-input>
           <el-button type="primary" size="small" @click="searchDosageForm">搜索</el-button>
           <el-button size="small" @click="clear">清空</el-button>
         </div>
@@ -36,12 +36,12 @@
     }
   })
   export default class Form extends Vue {
-    commonNameValue = ''
+    formNameValue = ''
     dosageFormColumns = [
       {
         title: '序号',
         key: 'index',
-        width: 80,
+        width: 100,
         align: 'center'
       },
       {
@@ -63,19 +63,9 @@
     options = {
       border: true
     }
-
-    clear () {
-      this.commonNameValue = ''
-    }
-
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
       this.getAllForms()
-    }
-
-    // 搜索
-    searchDosageForm () {
-      this.getAllForms(this.commonNameValue.trim())
     }
     async getAllForms (name) {
       let params = {
@@ -83,9 +73,8 @@
         pageSize: this.pagination.pageSize,
         name
       }
-      let {data: formData} = await axios.get(`/api/supervise/forms`, {params})
+      let {data: formData} = await axios.get(`/api/shop/forms`, {params})
       // console.log(formData)
-
       this.dosageFormList = formData.list
       this.pagination.total = formData.total
       this.dosageFormList.forEach((item, index) => {
@@ -93,6 +82,15 @@
       })
     }
     beforeMount () {
+      this.getAllForms()
+    }
+    // 搜索
+    searchDosageForm () {
+      this.getAllForms(this.formNameValue.trim())
+    }
+    // 清除
+    clear () {
+      this.formNameValue = ''
       this.getAllForms()
     }
   }

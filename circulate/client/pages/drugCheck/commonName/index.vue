@@ -40,7 +40,7 @@
       {
         title: '序号',
         key: 'index',
-        width: 80,
+        width: 100,
         align: 'center'
       },
       {
@@ -76,16 +76,17 @@
       this.commonNameData = data.data.list
       this.pagination.total = data.data.total
       this.commonNameData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
     }
     // 清空
     clear () {
       this.commonNameValue = ''
+      this.getData()
     }
     // 查询
-    async search () {
-      this.fetchData(this.commonNameValue)
+    search () {
+      this.getData(this.commonNameValue.trim())
     }
   }
 </script>
