@@ -2,12 +2,12 @@
   <div class="common-wrap">
     <div class="common-list">
       <bread-crumb :path="$route.path"/>
-      <h3 class="h3-title">日汇总</h3>
+      <h3 class="h3-title">日明细</h3>
 
       <div style="margin-left: 10px;">
-        <el-select v-model="dayValue" placeholder="请选择" size="small">
+        <el-select v-model="detailValue" placeholder="请选择" size="small">
           <el-option
-            v-for="item in dayOptions"
+            v-for="item in detailOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -17,7 +17,7 @@
 
       <d2-crud
         :columns="columns"
-        :data="dayData"
+        :data="detailData"
         :loading="loading"
         :pagination="pagination"
         :options="options"
@@ -43,9 +43,9 @@
       BreadCrumb
     }
   })
-  export default class DaySummary extends Vue {
-    dayValue = ''
-    dayOptions = [
+  export default class DayDetails extends Vue {
+    detailValue = ''
+    detailOptions = [
       {
         value: '2019年4月1日汇总',
         label: '2019年4月1日汇总'
@@ -60,8 +60,8 @@
         align: 'center'
       },
       {
-        title: '结算日期',
-        key: 'settlement'
+        title: '时间',
+        key: 'time'
       },
       {
         title: '收入',
@@ -76,17 +76,17 @@
         key: 'balance'
       }
     ]
-    dayData = [
+    detailData = [
       {
         index: 1,
-        settlement: '2019-04-01',
+        time: '2019-04-01 12:00:00',
         income: 1000,
         expend: 100,
         balance: 2000
       },
       {
         index: 2,
-        settlement: '2019-04-01',
+        time: '2019-04-01 12:00:00',
         income: 1000,
         expend: 100,
         balance: 2000
@@ -96,7 +96,7 @@
     pagination = {
       currentPage: 1,
       pageSize: 15,
-      total: this.dayData.length
+      total: this.detailData.length
     }
     options = {
       border: true
@@ -116,7 +116,7 @@
     // 查看明细
     handleDetail ({index, row}) {
       console.log(row)
-      this.$router.push('/system/statement/day/detail')
+      this.$router.push('/system/statement/day/simpleDetail')
     }
 
     paginationCurrentChange (currentPage) {
@@ -144,7 +144,9 @@
         margin: 15px 0;
       }
     }
+
   }
+
   /deep/.drug-table{
     padding: 0 10px;
     .el-table{

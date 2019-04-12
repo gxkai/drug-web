@@ -49,7 +49,7 @@
       }
     ]
     commonNameData = []
-    loading = false;
+    loading = false
     pagination = {
       currentPage: 1,
       pageSize: 15,
