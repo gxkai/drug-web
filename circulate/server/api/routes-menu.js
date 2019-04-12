@@ -173,6 +173,36 @@ if (SHOW_EXAMPLES) {
           name: '添加药品',
           url: '/drugManage/drugAdd',
           icon: 'el-icon-share'
+        },
+        {
+          id: '60-6',
+          name: '通用名管理',
+          url: '/drugManage/commonName',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-7',
+          name: '剂型管理',
+          url: '/drugManage/form',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-8',
+          name: '规格管理',
+          url: '/drugManage/spec',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-9',
+          name: '类型管理',
+          url: '/drugManage/type',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-10',
+          name: '药品库管理',
+          url: '/drugManage/stock',
+          icon: 'el-icon-share'
         }
       ]
     },
