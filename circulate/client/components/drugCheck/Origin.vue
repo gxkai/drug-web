@@ -94,7 +94,7 @@
         name: this.originSimpleNameValue.trim(),
         fullName: this.originFullNameValue.trim()
       }
-      let {data: originData} = await axios.get(`/api/supervise/origins`, {params})
+      let {data: originData} = await axios.get(`/api/shop/origins`, {params})
       this.OriginList = originData.list
       this.pagination.total = originData.total
       this.OriginList.forEach((item, index) => {

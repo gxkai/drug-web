@@ -2,31 +2,17 @@
   <div class="common-wrap">
     <div class="common-list">
       <bread-crumb :path="$route.path"/>
-      <div class="common-search">
-        <div class="left">
-          <el-input v-model="commonNameValue" size="small" placeholder="请输入类型名称" style="width: 200px;"></el-input>
-          <el-button type="primary" size="small" @click="search">搜索</el-button>
-          <el-button size="small" @click="clear">清空</el-button>
-        </div>
-        <div class="right">
-          <el-button type="primary" style="background: #169bd5;" @click="addRow">新增</el-button>
-        </div>
-      </div>
-      <div>
-        <d2-crud
-          ref="d2Crud"
-          :columns="columns"
-          :data="typeChildData"
-          :loading="loading"
-          :pagination="pagination"
-          :options="options"
-          :rowHandle="rowHandle"
-          :form-options="formOptions"
-          @edit-custom="editCustom"
-          @row-remove="handleRowRemove"
-          class="drug-table"
-        />
-      </div>
+
+      <d2-crud
+        ref="d2Crud"
+        :columns="columns"
+        :data="typeChildData"
+        :loading="loading"
+        :pagination="pagination"
+        :options="options"
+        class="drug-table"
+      />
+
     </div>
   </div>
 </template>
@@ -42,12 +28,12 @@
     }
   })
   export default class TypeChild extends Vue {
-    commonNameValue = ''
     columns = [
       {
         title: '序号',
         key: 'index',
-        width: 80
+        width: 100,
+        align: 'center'
       },
       {
         title: '类型名称',
@@ -76,44 +62,25 @@
     options = {
       border: true
     }
-    rowHandle = {
-      columnHeader: '操作',
-      custom: [
-        {
-          text: '编辑',
-          type: 'text',
-          emit: 'edit-custom'
-        }
-      ],
-      remove: {
-        text: '删除',
-        type: 'text',
-        confirm: true
-      }
-    }
-    formOptions = {
-      labelWidth: '80px',
-      labelPosition: 'right',
-      saveLoading: false
-    }
+
     beforeMount () {
-      this.fetchData()
+      this.getChildData()
     }
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
-      this.fetchData()
+      this.getChildData()
       this.search()
     }
-    async fetchData () {
+    async getChildData (type) {
       let id = this.$route.query.id
       let pname = this.$route.query.type
       const params = {
-        name: '',
-        pname: this.$route.query.type,
+        type,
+        pname: pname,
         pageNum: this.pagination.currentPage,
         pageSize: 15
       }
-      let data = await axios.get(`/api/supervise/drugType/${id}/children`, {params: params})
+      let data = await axios.get(`/api/shop/drugType/${id}/children`, {params: params})
       this.typeChildData = data.data
       this.typeChildData.forEach((item, index) => {
         item.index = index + 1
@@ -127,57 +94,6 @@
       this.tableData = data.data.map(i => {
         this.$set(i, 'pname', pname)
         return i
-      })
-      // let newArray = this.typeChildData
-      // for (let i = 0; i < newArray.length; i++) {
-      //   if (newArray[i].showed.toString() === 'true') {
-      //     newArray[i].showed = '是'
-      //   } else {
-      //     newArray[i].showed = '否'
-      //   }
-      // }
-    }
-    clear () {
-      this.commonNameValue = ''
-    }
-    addRow () {
-      this.$router.push('/drugCheck/type/typeChild/create')
-    }
-    editCustom ({index, row}) {
-      // console.log(row)
-      let query = {
-        id: row.id,
-        pid: row.pid,
-        ptype: row.pname
-      }
-      this.$router.push({path: '/drugCheck/type/typeChild/edit', query: query})
-    }
-    async handleRowRemove ({ index, row }, done) {
-      await axios.post(`/api/supervise/drugTypes/${row.id}`)
-      setTimeout(() => {
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
-    }
-    async search () {
-      if (this.commonNameValue === '') {
-        this.$message({
-          message: '请输入类型名称',
-          type: 'warning'
-        })
-      }
-      let params = {
-        name: this.commonNameValue
-        // pageNum: this.pagination.currentPage,
-        // pageSize: this.pagination.pageSize,
-        // pname: this.$route.query.type
-      }
-      let id = this.$route.query.id
-      await axios.get(`/api/supervise/drugType/${id}/children`, {params: params}).then(res => {
-        console.log(res.data)
       })
     }
   }
