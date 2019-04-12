@@ -140,6 +140,8 @@
         let {data: childTypes} = await axios.get(`/api/shop/drugType/${this.drugTypesList[i].id}/children`)
         this.compostList[i].children = childTypes
       }
+
+      console.log(this.compostList)
     }
 
     // 获取药品类别条件
@@ -156,6 +158,7 @@
     }
 
     searchDrugs () {
+      this.pagination.currentPage = 1
       this.getDrugs()
     }
 

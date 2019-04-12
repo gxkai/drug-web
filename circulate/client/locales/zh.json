@@ -75,6 +75,8 @@
     "热销排行榜",
   "/drugManage/drugAdd":
     "添加药品",
+  "/drugManage/drugAdjustment":
+    "在售药品调价",
   "/drugManage/commonName":
     "通用名管理",
   "/drugManage/form":
@@ -145,6 +147,15 @@
     "常见问题",
   "/system":
     "系统设置",
+  "/system/message":
+    "我的消息",
+  "/system/userManage":
+    "用户管理",
+  "/system/myAccount":
+    "我的账户",
+  "/system/myAccount/record":
+    "交易记录",
+
   "/system/pharmacist":
     "药师管理",
   "/system/pharmacist/create":
