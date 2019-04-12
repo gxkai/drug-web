@@ -1,14 +1,14 @@
 <template>
-  <div class="warning-wrap">
-    <div class="warning-list">
+  <div class="rank-wrap">
+    <div class="rank-list">
       <bread-crumb :path="$route.path"/>
       <div class="title">
-        <h3>预警列表</h3>
+        <h3>热销排行榜</h3>
       </div>
       <d2-crud
         ref="d2Crud"
         :columns="columns"
-        :data="warningList"
+        :data="rankList"
         :loading="loading"
         :pagination="pagination"
         :options="options"
@@ -16,6 +16,7 @@
         @dialog-cancel="handleDialogCancel"
         @pagination-current-change="paginationCurrentChange"
         @emit-view="viewDetail"
+        @emit-obtained="obtainedDrug"
         @emit-storage="storageDrug"
         class="drug-table"
       />
@@ -35,16 +36,16 @@
             <el-input v-model="viewData.commonName" readonly placeholder="暂无"></el-input>
           </el-form-item>
           <el-form-item label="规格">
-            <el-input v-model="viewData.specName" readonly placeholder="暂无"></el-input>
+            <el-input v-model="viewData.drugSpec" readonly placeholder="暂无"></el-input>
           </el-form-item>
           <el-form-item label="厂商简介">
-            <el-input v-model="viewData.originName" readonly placeholder="暂无"></el-input>
+            <el-input v-model="viewData.origin" readonly placeholder="暂无"></el-input>
           </el-form-item>
           <el-form-item label="当前库存">
             <el-input v-model="viewData.stock" readonly placeholder="暂无"></el-input>
           </el-form-item>
-          <el-form-item label="库存预警量">
-            <el-input v-model="viewData.stockWarn" readonly placeholder="暂无"></el-input>
+          <el-form-item label="当前状态">
+            <el-input v-model="viewData.status" readonly placeholder="暂无"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -58,11 +59,14 @@
       title="入库"
       :visible.sync="storageDialogVisible"
       width="30%">
-      <div class="storage">
-        库存：
-        <el-input-number size="small" v-model="storageNum" placeholder="请输入库存数量"
-                         controls-position="right" :min="0" :max="100000"
-                         style="width: 200px;"></el-input-number>
+      <div class="main">
+        <el-form label-width="50px">
+          <el-form-item label="库存">
+            <el-input-number size="small" v-model="storageNum" placeholder="请输入库存数量"
+                             controls-position="right" :min="0" :max="100000"
+                             style="width: 300px;"></el-input-number>
+          </el-form-item>
+        </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="storageDialogVisible = false">取 消</el-button>
@@ -76,16 +80,36 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  import axios from 'axios'
+  // import axios from 'axios'
+
   @Component({
     components: {
       BreadCrumb
     }
   })
-  export default class EarlyWarning extends Vue {
-    warningList = [] // 预警列表
-    viewData = []
+  export default class SalesRank extends Vue {
     rowData = {}
+    rankList = [
+      {
+        drugName: '涩肠止泻散',
+        commonName: '涩肠止泻散',
+        drugSpec: '4g*6',
+        origin: '正大清杨',
+        sales: 20,
+        stock: 20,
+        status: '在售'
+      },
+      {
+        drugName: '涩肠止泻散',
+        commonName: '涩肠止泻散',
+        drugSpec: '4g*6',
+        origin: '正大清杨',
+        sales: 10,
+        stock: 0,
+        status: '下架'
+      }
+    ] // 排行榜列表
+    viewData = []
     viewDialogVisible = false
     storageNum = '' // 库存量
     storageDialogVisible = false
@@ -101,26 +125,30 @@
       },
       {
         title: '规格',
-        key: 'specName'
+        key: 'drugSpec'
       },
       {
         title: '厂商简介',
-        key: 'originName'
+        key: 'origin'
+      },
+      {
+        title: '销量',
+        key: 'sales'
       },
       {
         title: '当前库存',
         key: 'stock'
       },
       {
-        title: '库存预警量',
-        key: 'stockWarn'
+        title: '当前状态',
+        key: 'status'
       }
     ]
     loading = false;
     pagination = {
       currentPage: 1,
       pageSize: 15,
-      total: 0
+      total: 15
     }
     options = {
       border: true
@@ -133,9 +161,24 @@
           emit: 'emit-view'
         },
         {
+          text: '下架',
+          type: 'text',
+          emit: 'emit-obtained',
+          show (index, row) {
+            if (row.status === '在售') {
+              return true
+            }
+          }
+        },
+        {
           text: '入库',
           type: 'text',
-          emit: 'emit-storage'
+          emit: 'emit-storage',
+          show (index, row) {
+            if (row.status === '下架') {
+              return true
+            }
+          }
         }
       ]
     }
@@ -159,52 +202,62 @@
       this.viewData = row
     }
 
-    // 入库
-    async postToStock (number) {
-      console.log(number)
-      let params = new FormData()
-      params.append('number', number)
+    // 下架
+    obtainedDrug ({index, row}) {
+      let obtained = this.rowHandle.custom
+      obtained.forEach(item => {
+        if (item.text === '下架') {
+          row.status = '下架'
+        }
+      })
+    }
 
-      await axios.put(`/api/shop/stocks/${this.rowData.id}`, params)
-      this.fetchData()
+    // 入库
+    postToStock () {
+      // 保存状态接口
       this.$message({
         message: '入库成功',
         type: 'success'
       })
+      let storage = this.rowHandle.custom
+      storage.forEach(item => {
+        if (item.text === '入库') {
+          this.rowData.status = '在售'
+        }
+      })
     }
 
     storageDrug ({row}) {
-      if (row.stock <= row.stockWarn) {
-        this.rowData = row
+      this.rowData = row
+      if (!row.stock) {
         this.$confirm('当前药品库存不足，请添加库存', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          closeOnClickModal: false,
           type: 'warning'
         }).then(() => {
           this.storageDialogVisible = true
         }).catch(() => {})
         return
       }
-      this.postToStock(row.stock)
+
+      this.postToStock()
     }
 
     // 提交
     submit () {
-      this.postToStock(this.rowData.stock + this.storageNum)
+      this.postToStock()
       this.storageDialogVisible = false
     }
 
     async fetchData () {
-      let params = {
-        pageNum: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize,
-        shopId: 'BKDKbvDHTjKclO0Lu4sAQA'
-      }
-      let {data: warn} = await axios.get(`/api/shop/stocks`, {params})
-      console.log(warn)
-      this.warningList = warn.list
-      this.pagination.total = warn.total
+      // let params = {
+      //   pageNum: this.pagination.currentPage,
+      //   pageSize: this.pagination.pageSize
+      // }
+      // let {data: sell} = await axios.get(`/api/shop/stocks/sellOut`, {params})
+      // console.log(sell)
+      // this.rankList = sell.list
+      // this.pagination.total = sell.total
     }
 
     beforeMount () {
@@ -214,15 +267,10 @@
 </script>
 
 <style lang="scss" scoped>
-  .warning{
+  .rank{
     &-wrap{
       padding: 0 10px;
       margin-bottom: 30px;
-
-      .storage{
-        padding-left: 20px;
-        font-size: 15px;
-      }
     }
 
     &-list{

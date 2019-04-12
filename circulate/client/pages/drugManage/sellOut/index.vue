@@ -1,14 +1,14 @@
 <template>
-  <div class="warning-wrap">
-    <div class="warning-list">
+  <div class="soldOut-wrap">
+    <div class="soldOut-list">
       <bread-crumb :path="$route.path"/>
       <div class="title">
-        <h3>预警列表</h3>
+        <h3>售磬列表</h3>
       </div>
       <d2-crud
         ref="d2Crud"
         :columns="columns"
-        :data="warningList"
+        :data="sellOutList"
         :loading="loading"
         :pagination="pagination"
         :options="options"
@@ -40,11 +40,8 @@
           <el-form-item label="厂商简介">
             <el-input v-model="viewData.originName" readonly placeholder="暂无"></el-input>
           </el-form-item>
-          <el-form-item label="当前库存">
-            <el-input v-model="viewData.stock" readonly placeholder="暂无"></el-input>
-          </el-form-item>
-          <el-form-item label="库存预警量">
-            <el-input v-model="viewData.stockWarn" readonly placeholder="暂无"></el-input>
+          <el-form-item label="当前状态">
+            <el-input v-model="viewData.status" readonly placeholder="暂无"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -77,15 +74,16 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import axios from 'axios'
+
   @Component({
     components: {
       BreadCrumb
     }
   })
-  export default class EarlyWarning extends Vue {
-    warningList = [] // 预警列表
-    viewData = []
+  export default class SoldOUt extends Vue {
+    sellOutList = [] // 预警列表
     rowData = {}
+    viewData = []
     viewDialogVisible = false
     storageNum = '' // 库存量
     storageDialogVisible = false
@@ -108,12 +106,8 @@
         key: 'originName'
       },
       {
-        title: '当前库存',
-        key: 'stock'
-      },
-      {
-        title: '库存预警量',
-        key: 'stockWarn'
+        title: '当前状态',
+        key: 'status'
       }
     ]
     loading = false;
@@ -160,10 +154,15 @@
     }
 
     // 入库
-    async postToStock (number) {
-      console.log(number)
+    storageDrug ({row}) {
+      this.rowData = row
+      this.storageDialogVisible = true
+    }
+
+    // 提交
+    async submit () {
       let params = new FormData()
-      params.append('number', number)
+      params.append('number', this.storageNum)
 
       await axios.put(`/api/shop/stocks/${this.rowData.id}`, params)
       this.fetchData()
@@ -171,27 +170,6 @@
         message: '入库成功',
         type: 'success'
       })
-    }
-
-    storageDrug ({row}) {
-      if (row.stock <= row.stockWarn) {
-        this.rowData = row
-        this.$confirm('当前药品库存不足，请添加库存', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          closeOnClickModal: false,
-          type: 'warning'
-        }).then(() => {
-          this.storageDialogVisible = true
-        }).catch(() => {})
-        return
-      }
-      this.postToStock(row.stock)
-    }
-
-    // 提交
-    submit () {
-      this.postToStock(this.rowData.stock + this.storageNum)
       this.storageDialogVisible = false
     }
 
@@ -201,10 +179,14 @@
         pageSize: this.pagination.pageSize,
         shopId: 'BKDKbvDHTjKclO0Lu4sAQA'
       }
-      let {data: warn} = await axios.get(`/api/shop/stocks`, {params})
-      console.log(warn)
-      this.warningList = warn.list
-      this.pagination.total = warn.total
+      let {data: sell} = await axios.get(`/api/shop/stocks/sellOut`, {params})
+      console.log(sell)
+      this.sellOutList = sell.list
+      this.pagination.total = sell.total
+
+      this.sellOutList.forEach(item => {
+        item.status = '售磬'
+      })
     }
 
     beforeMount () {
@@ -214,7 +196,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .warning{
+  .soldOut{
     &-wrap{
       padding: 0 10px;
       margin-bottom: 30px;
@@ -254,6 +236,7 @@
       }
     }
   }
+
   /deep/.drug-table{
     padding: 0 10px;
     .el-table{
