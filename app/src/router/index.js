@@ -170,7 +170,7 @@ const addressRouter = [
     path: '/addresses',
     name: '/addresses',
     meta: {
-      navigation: true,
+      navigation: false,
       name: '地址列表',
       showBackTopLeft: false,
       showBackBottomRight: true

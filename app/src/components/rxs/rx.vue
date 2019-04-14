@@ -71,8 +71,8 @@
                 <span>
                     {{ item.number }}
                 </span>
-        <img src="../.././assets/img/rxs/处方有效.png" v-if="item.state==='ENABLED'">
-        <img src="../.././assets/img/rxs/处方无效.png" v-else>
+        <img src="../.././assets/img/rxs/enabled.png" v-if="item.state==='ENABLED'">
+        <img src="../.././assets/img/rxs/disabled.png" v-else>
       </div>
     </div>
 </template>

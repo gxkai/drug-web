@@ -22,6 +22,7 @@ import VueI18n from 'vue-i18n';
 import mixinIndx from './mixins';
 import mixinLoad from './mixins/load';
 import toastRegistry from './components/toast/index';
+import Es6Promise from 'es6-promise';
 import { Step,
   Steps,
   Actionsheet,
@@ -65,6 +66,7 @@ import { Step,
   Picker } from 'vant';
 import router from './router';
 import Navigation from 'vue-navigation';
+Es6Promise.polyfill();
 Vue.use(toastRegistry);
 Vue.use(VueI18n);
 Vue.use(directive);

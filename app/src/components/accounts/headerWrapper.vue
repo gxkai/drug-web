@@ -39,7 +39,7 @@
     data() {
       return {
         messageCount: 0,
-        backgroundImage: require('@/assets/img/accounts/个人中心背景.png')
+        backgroundImage: require('@/assets/img/accounts/background.png')
       };
     },
     async created() {

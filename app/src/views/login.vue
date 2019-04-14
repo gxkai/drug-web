@@ -83,7 +83,7 @@
     data() {
       return {
         note: {
-          backgroundImage: 'url(' + require('@/assets/img/login/登陆背景图.png') + ')',
+          backgroundImage: 'url(' + require('@/assets/img/login/backgroundImage.png') + ')',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover'
         },
