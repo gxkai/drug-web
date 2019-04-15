@@ -170,7 +170,7 @@ const addressRouter = [
     path: '/addresses',
     name: '/addresses',
     meta: {
-      navigation: true,
+      navigation: false,
       name: '地址列表',
       showBackTopLeft: false,
       showBackBottomRight: true
@@ -404,6 +404,17 @@ const orderRouter = [
       showBackBottomRight: true
     },
     component: () => import('@/views/orders/index.vue')
+  },
+  {
+    path: '/orders/view/rcb',
+    name: '/orders/view/rcb',
+    meta: {
+      navigation: true,
+      name: '农商行跳转',
+      showBackTopLeft: false,
+      showBackBottomRight: false
+    },
+    component: () => import('@/views/orders/rcb.vue')
   }
 ];
 
@@ -588,7 +599,7 @@ const appRouter = [
     path: '/login',
     name: '/login',
     meta: {
-      navigation: true,
+      navigation: false,
       name: '登陆',
       showBackTopLeft: false,
       showBackBottomRight: false

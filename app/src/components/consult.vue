@@ -23,7 +23,7 @@
     data() {
       return {
         show: false,
-        image: require('@/assets/img/home/聊天小人.png'),
+        image: require('@/assets/img/home/chatMan.png'),
         actions: [
           {
             name: '药师咨询',

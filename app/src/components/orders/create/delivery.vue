@@ -24,7 +24,7 @@
     </van-tab>
     <van-tab title="送货上门" @click.native="onAddress(shop)">
       <div class="add-wrapper" v-if="address === undefined">
-        <img src="@/assets/img/orders/create/添加地址.png" />
+        <img src="@/assets/img/orders/create/add.png" />
         <div class="line">
           <span>
             +添加地址

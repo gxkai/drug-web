@@ -1,16 +1,15 @@
 // The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+// (runtime-only or standalone) has been set in webpack.util.conf with an alias.
 import Vue from 'vue';
 import App from './App';
 import store from './store';
-import base from './utils';
+import util from './utils';
 import component from './components';
 import http from './http';
 import api from './api';
 import storage from 'good-storage';
 import 'lib-flexible';
 import 'normalize.css';
-import VueAwesomeSwiper from './plugins/vue-awesome-swiper';
 import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
 import filters from './filters';
@@ -22,6 +21,7 @@ import VueI18n from 'vue-i18n';
 import mixinIndx from './mixins';
 import mixinLoad from './mixins/load';
 import toastRegistry from './components/toast/index';
+import Es6Promise from 'es6-promise';
 import { Step,
   Steps,
   Actionsheet,
@@ -65,6 +65,7 @@ import { Step,
   Picker } from 'vant';
 import router from './router';
 import Navigation from 'vue-navigation';
+Es6Promise.polyfill();
 Vue.use(toastRegistry);
 Vue.use(VueI18n);
 Vue.use(directive);
@@ -120,8 +121,7 @@ Vue.prototype.$api = api;
 Vue.prototype.$storage = storage;
 Vue.prototype._ = _;
 Vue.config.productionTip = false;
-Vue.use(VueAwesomeSwiper);
-Vue.use(base);
+Vue.use(util);
 Vue.use(component);
 Vue.use(BaiduMap, {
   ak: 'FG7wxr1VUj0k2NwoO3yXzymd&services=&t=20170517145936'

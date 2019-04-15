@@ -48,7 +48,7 @@
       </div>
       <div class="right">
       </div>
-      <img src="@/assets/img/components/医院标记.png" class="hospital-tag"/>
+      <img src="@/assets/img/components/hospitalTag.png" class="hospital-tag"/>
     </div>
 </template>
 <style scoped type="text/scss" lang="scss">

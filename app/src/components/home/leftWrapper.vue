@@ -29,19 +29,19 @@
       return {
         list: [
           {
-            image: require('@/assets/img/home/胃炎.png'),
+            image: require('@/assets/img/home/left1.png'),
             name: '胃炎',
             introduce: '清热解毒',
             typeId: 'apqD-f6ESl25k5bJG7qIeQ'
           },
           {
-            image: require('@/assets/img/home/消化不良.png'),
+            image: require('@/assets/img/home/left2.png'),
             name: '消化不良',
             introduce: '胃肠解痉',
             typeId: 'lks1M2u5SVa216t6x35E3w'
           },
           {
-            image: require('@/assets/img/home/腹泻.png'),
+            image: require('@/assets/img/home/left3.png'),
             name: '腹泻',
             introduce: '肺热咳嗽',
             typeId: '6NOZUuyVTT6dzMaogWGXOg\n'

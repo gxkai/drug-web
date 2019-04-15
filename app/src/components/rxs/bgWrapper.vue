@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :style="{backgroundImage: `url(${backgroundImage})`}">
   <div class="wrapper">
     <img v-lazy="getImgURL(account.fileId, 'SMALL_LOGO')" />
     <div class="right">
@@ -31,7 +31,9 @@
     watch: {},
     computed: {},
     data() {
-      return {};
+      return {
+        backgroundImage: require('@/assets/img/rxs/backgroundImage.png')
+      };
     },
     created() {
     },
@@ -43,7 +45,6 @@
 
 <style scoped type="text/scss" lang="scss">
   header {
-    background-image: url("../.././assets/img/rxs/我的处方背景图.png");
     background-size: cover;
     height: 220px;
     position: relative;

@@ -1,7 +1,7 @@
 <template>
   <new-layout>
     <template slot="center">
-      <header>
+      <header :style="{backgroundImage: `url(${backgroundImage})`}">
       </header>
       <div class="wrapper">
         <div
@@ -27,7 +27,6 @@
 </template>
 <style scoped type="text/scss" lang="scss">
   header {
-    background-image: url("../../assets/img/drugAppraises/评价成功.png");
     background-size: cover;
     height: 450px;
   }
@@ -57,7 +56,8 @@
     name: 'myAppraise',
     data() {
       return {
-        list: []
+        list: [],
+        backgroundImage: require('@/assets/img/drugAppraises/success.png')
       };
     },
     computed: {
