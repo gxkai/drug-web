@@ -9,7 +9,7 @@
 
       <div class="main-content">
         <!--订单进度条-->
-        <div class="step-bar">
+        <div class="step-bar" v-if="stepsOptions.length">
           <el-steps :active="orderStatus" align-center>
             <el-step :title="item.orderState" :description="item.createdDate" v-for="(item,index) in stepsOptions" :key="index"></el-step>
           </el-steps>
@@ -57,6 +57,9 @@
                   <p>联系电话：{{ phone }}</p>
                 </li>
               </ul>
+            </div>
+            <div class="charge-back">
+              <el-button class="offline-back" @click="chargeBack">线下退单</el-button>
             </div>
           </div>
 
@@ -151,7 +154,7 @@
       </div>
 
       <div class="back">
-        <el-button @click="$router.push('/order/order')">返回</el-button>
+        <el-button @click="$router.push('/transaction/chargeBack')">返回</el-button>
       </div>
     </div>
   </div>
@@ -293,20 +296,27 @@
 
     remark = '' // 备注
 
+    // 线下退单
+    chargeBack () {
+
+    }
+
     beforeMount () {
       this.getDetail()
     }
     async getDetail () {
       let id = this.$route.query.id
-      let orderInfo = await axios.get(`/api/supervise/orders/${id}`)
-      console.log(orderInfo.data)
-      this.orderNumberTit = orderInfo.data.number
+      let {data: detailInfo} = await axios.get(`/api/shop/orders/${id}`)
+      console.log(detailInfo)
+      this.orderNumberTit = detailInfo.number
 
-      this.stepsOptions = orderInfo.data.orderStates
-      this.stepsOptions.forEach(item => {
-        item.orderState = this.isAbled(item.orderState)
-        item.createdDate = item.createdDate === null ? item.createdDate : moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
-      })
+      if (detailInfo.orderStates) {
+        this.stepsOptions = detailInfo.orderStates
+        this.stepsOptions.forEach(item => {
+          item.orderState = this.isAbled(item.orderState)
+          item.createdDate = item.createdDate === null ? item.createdDate : moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
+        })
+      }
 
       // 进度条
       let orderStatus = {
@@ -321,40 +331,42 @@
         'CLOSED': 9 // 交易关闭
       }
       for (let i in orderStatus) {
-        if (i === orderInfo.data.state) {
+        if (i === detailInfo.state) {
           this.orderStatus = orderStatus[i]
         }
       }
 
-      this.consignee = orderInfo.data.consignee // 收货人
-      this.address = orderInfo.data.address// 收货地址
-      this.phone = orderInfo.data.phone // 联系电话
+      this.consignee = detailInfo.consignee // 收货人
+      this.address = detailInfo.address// 收货地址
+      this.phone = detailInfo.phone // 联系电话
 
-      this.totalAmount = orderInfo.data.totalAmount // 总金额
-      this.medicaidAmount = orderInfo.data.medicaidAmount // 医保金额
-      this.payAmount = orderInfo.data.payAmount // 支付金额
+      this.totalAmount = detailInfo.totalAmount // 总金额
+      this.medicaidAmount = detailInfo.medicaidAmount // 医保金额
+      this.payAmount = detailInfo.payAmount // 支付金额
 
-      this.remark = orderInfo.data.remark // 备注
+      this.remark = detailInfo.remark // 备注
 
-      this.orderDetailData = orderInfo.data.drugInfoAdminDTOList // 订单详情
-      this.orderDetailData.forEach((item, index) => {
-        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
-      })
+      if (detailInfo.drugInfoAdminDTOList) {
+        this.orderDetailData = detailInfo.drugInfoAdminDTOList // 订单详情
+        this.orderDetailData.forEach((item, index) => {
+          item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
+        })
+      }
 
-      this.trackData = orderInfo.data.orderLogList
-      console.log('跟踪记录')
-      console.log(this.trackData)
-      this.trackData.forEach(e => {
-        e.createdDate = moment(e.createdDate).format('YYYY-MM-DD HH:mm:ss')
-        e.state = this.isAbled(e.state)
-      })
+      if (detailInfo.orderLogList) {
+        this.trackData = detailInfo.orderLogList
+        this.trackData.forEach(e => {
+          e.createdDate = moment(e.createdDate).format('YYYY-MM-DD HH:mm:ss')
+          e.state = this.isAbled(e.state)
+        })
+      }
 
-      if (orderInfo.data.rxId !== null) {
-        let rxInfo = await axios.get(`/api/supervise/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
+      if (detailInfo.rxId !== null) {
+        let rxInfo = await axios.get(`/api/shop/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
         console.log(rxInfo)
       }
       // rxId 是 KCgfjEXqQRi1SOIC_JQvdw --- 假数据
-      let rxInfo = await axios.get(`/api/supervise/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
+      let rxInfo = await axios.get(`/api/shop/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
       // console.log(rxInfo.data)
       this.formInfo.idNumber = rxInfo.data.number
       this.formInfo.rxDate = moment(rxInfo.data.rxDate).format('YYYY-MM-DD HH:mm:ss')
@@ -475,7 +487,7 @@
           padding-bottom: 20px;
 
           .info-con{
-            width: 80%;
+            width: 93%;
             display: flex;
 
             ul{
@@ -528,6 +540,19 @@
 
               span{
                 text-align: right;
+              }
+            }
+
+            .charge-back{
+              display: flex;
+              align-items: center;
+
+              .offline-back{
+                color: #fff;
+                border: none;
+                padding: 15px 30px;
+                border-radius: 50px;
+                background: #1abc9c;
               }
             }
           }

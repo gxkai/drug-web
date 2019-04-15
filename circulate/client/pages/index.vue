@@ -230,7 +230,6 @@
 
 <script>
 import Component from 'class-component'
-import axios from 'axios'
 
 @Component({
   components: {}
@@ -293,8 +292,8 @@ export default class Home {
   ringData12 = {
     columns: ['渠道', '数量'],
     rows: [
-      { 渠道: '处方(26%, 1393)', 数量: 1393 },
-      { 渠道: '其他(26%, 2530)', 数量: 3530 }
+      { 渠道: '处方(30%, 1393)', 数量: 1393 },
+      { 渠道: '其他(40%, 2530)', 数量: 3530 }
     ]
   };
   ringData13 = {
@@ -462,8 +461,8 @@ export default class Home {
     ]
   }
   async beforeMount () {
-    let {data: accounts} = await axios.get(`/api/supervise/accounts`, {params: {pageNum: 1, pageSize: 15}})
-    console.log(accounts)
+    // let {data: accounts} = await axios.get(`/api/shop/accounts`, {params: {pageNum: 1, pageSize: 15}})
+    // console.log(accounts)
   }
   mounted () {
     this.addPoints()

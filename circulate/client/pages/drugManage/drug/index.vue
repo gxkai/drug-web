@@ -194,15 +194,9 @@
 
     // 入库
     async postToStock (number) {
-      let params = new FormData()
-      params.append('number', number)
-
-      await axios.put(`/api/shop/stocks/${this.rowData.drugId}`, params)
-      this.fetchData()
-      this.$message({
-        message: '入库成功',
-        type: 'success'
-      })
+      // let params = new FormData()
+      // params.append('number', number)
+      // await axios.put(`/api/shop/stocks/${this.rowData.drugId}`, params)
       let storage = this.rowHandle.custom
       storage.forEach(item => {
         if (item.text === '入库') {
@@ -211,6 +205,10 @@
         }
       })
       this.saveDrugState(this.rowData)
+      this.$message({
+        message: '入库成功',
+        type: 'success'
+      })
     }
 
     storageDrug ({row}) {

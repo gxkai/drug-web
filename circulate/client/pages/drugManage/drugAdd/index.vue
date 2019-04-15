@@ -177,6 +177,7 @@
         return
       }
 
+      // 药品大类
       if (this.drugInfoForm.drugDrugTypeParentList !== null) {
         let parent = this.drugInfoForm.drugDrugTypeParentList
         parent.forEach(item => {
@@ -185,6 +186,7 @@
         this.parentTypeName = this.parentTypeName.substring(0, this.parentTypeName.length - 1)
       }
 
+      // 药品小类
       if (this.drugInfoForm.drugDrugTypeList !== null) {
         let child = this.drugInfoForm.drugDrugTypeList
         child.forEach(item => {

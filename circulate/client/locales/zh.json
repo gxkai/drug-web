@@ -97,16 +97,22 @@
   "药品审核",
   "/drugManage/drugInfo/detail":
   "查看详情",
-  "/order":
+
+  "/transaction":
   "订单管理",
-  "/order/order":
+  "/transaction/order":
   "订单管理",
-  "/order/order/detail":
+  "/transaction/order/detail":
   "订单详情",
-  "/order/appraise":
+  "/transaction/chargeBack":
+  "订单管理",
+  "/transaction/chargeBack/detail":
+  "订单详情",
+  "/transaction/appraise":
   "评价管理",
-  "/order/appraise/detail":
+  "/transaction/appraise/detail":
   "评价详情",
+
   "/rx":
   "处方管理",
   "/rx/rx":
