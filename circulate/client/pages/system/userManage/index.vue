@@ -18,13 +18,12 @@
         add-title="新增用户"
         :add-template="addTemplate"
         @row-add="addUser"
-
         @emit-view="viewDetail"
         @emit-stop="stopUser"
         @emit-reset="reset"
         @dialog-cancel="handleDialogCancel"
-        class="drug-table"
-      />
+        @pagination-current-change="paginationCurrentChange"
+        class="drug-table"/>
     </div>
 
     <!--查看-->
@@ -34,26 +33,26 @@
       width="30%">
       <el-form ref="viewForm" :model="viewData" label-width="100px">
         <el-form-item label="用户名">
-          <el-input v-model="viewData.userName" readonly></el-input>
+          <el-input v-model="viewData.username" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="viewData.name" readonly></el-input>
+          <el-input v-model="viewData.name" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="手机">
-          <el-input v-model="viewData.mobile" readonly></el-input>
+          <el-input v-model="viewData.mobile" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="类型">
-          <el-input v-model="viewData.type" readonly></el-input>
+          <el-input v-model="viewData.roleName" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <el-input v-model="viewData.userState" readonly></el-input>
+          <el-input v-model="viewData.jobStatus" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="最后操作日期">
-          <el-input v-model="viewData.lastActionDate" readonly></el-input>
+          <el-input v-model="viewData.lastModifiedDate" readonly placeholder="暂无"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="viewDialogVisible = false">取 消</el-button>
+        <el-button @click="viewDialogVisible = false">关 闭</el-button>
       </span>
     </el-dialog>
   </div>
@@ -63,8 +62,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import axios from 'axios'
-  // import moment from 'moment'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -74,29 +73,12 @@
   export default class User extends Vue {
     viewDialogVisible = false
     viewData = {}
-    userList = [
-      {
-        userName: '恍若晨曦',
-        name: '王明',
-        mobile: '15716239253',
-        type: '配送员',
-        userState: '在职',
-        lastActionDate: '2019-04-13 13:33:30'
-      },
-      {
-        userName: '冷月星辰',
-        name: '张三',
-        mobile: '15716239253',
-        type: '营业员',
-        userState: '离职',
-        lastActionDate: '2019-04-12 12:05:30'
-      }
-    ]
+    userList = []
 
     columns= [
       {
         title: '用户名',
-        key: 'userName'
+        key: 'username'
       },
       {
         title: '姓名',
@@ -108,15 +90,15 @@
       },
       {
         title: '类型',
-        key: 'type'
+        key: 'roleName'
       },
       {
         title: '状态',
-        key: 'userState'
+        key: 'jobStatus'
       },
       {
         title: '最后操作日期',
-        key: 'lastActionDate'
+        key: 'lastModifiedDate'
       }
     ]
 
@@ -184,6 +166,7 @@
     }
 
     paginationCurrentChange (currentPage) {
+      console.log(currentPage)
       this.pagination.currentPage = currentPage
       this.initData()
     }
@@ -227,12 +210,33 @@
     }
 
     async initData () {
-      // let params = {
-      //   pageNum: this.pagination.currentPage,
-      //   pageSize: this.pagination.pageSize
-      // }
-      // let data = await axios.get(`/api/shop/accounts`, {params})
-      // console.log(data)
+      let params = new FormData()
+      params.append('pageNum', this.pagination.currentPage)
+      params.append('pageSize', this.pagination.pageSize)
+      params.append('shopId', 'Vwwy8nJYQJCQ4wqkCZDgyA')
+
+      let {data: user} = await axios.get(`/api/shop/users`, {params})
+      console.log(user)
+      this.pagination.total = user.total
+      this.userList = user.list
+
+      this.userList.forEach(item => {
+        if (item.lastModifiedDate) {
+          item.lastModifiedDate = moment(item.lastModifiedDate).format('YY-MM-DD HH:ss:mm')
+        }
+        if (item.activated) {
+          item.jobStatus = '在职'
+        } else {
+          item.jobStatus = '离职'
+        }
+
+        if (item.roleId === 'ROLE_CIRCULATE_COURIER') {
+          item.roldName = '配送员'
+        }
+        if (item.roleId === 'ROLE_CIRCULATE_SHOP') {
+          item.roldName = '营业员'
+        }
+      })
     }
 
     beforeMount () {

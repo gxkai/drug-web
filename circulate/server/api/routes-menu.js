@@ -214,19 +214,25 @@ if (SHOW_EXAMPLES) {
     },
     {
       id: '70',
-      name: '订单管理',
+      name: '交易管理',
       icon: 'el-icon-goods',
       children: [
         {
           id: '70-1',
           name: '订单管理',
-          url: '/order/order',
+          url: '/transaction/order',
           icon: 'el-icon-share'
         },
         {
           id: '70-2',
+          name: '退单管理',
+          url: '/transaction/chargeBack',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '70-3',
           name: '评价管理',
-          url: '/order/appraise',
+          url: '/transaction/appraise',
           icon: 'el-icon-share'
         }
       ]

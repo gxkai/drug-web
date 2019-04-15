@@ -334,7 +334,7 @@
         pageNum: this.currentPageNum,
         pageSize: this.pageNum
       }
-      let orderData = await axios.get(`/api/supervise/orders`, {params: params})
+      let orderData = await axios.get(`/api/shop/orders`, {params: params})
       this.orderListData = orderData.data.list
       console.log(this.orderListData)
       this.perPageData = this.orderListData
@@ -348,7 +348,7 @@
         item.createdDate = item.createdDate === null ? item.createdDate : moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
         // 获取药品图片
         item.orderItemDrugInfoDTOList.forEach(e => {
-          axios.get(`/api/supervise/files/${e.fileId}`, {params: {local: '', resolution: ''}}).then(res => {
+          axios.get(`/api/shop/files/${e.fileId}`, {params: {local: '', resolution: ''}}).then(res => {
             item.orderItemDrugInfoDTOList.map(i => {
               this.$set(i, 'srcUrl', res.data.replace('redirect:', ''))
               return i
@@ -384,7 +384,7 @@
     // 查看详情
     viewDetail (index, id) {
       this.$router.push({
-        path: '/order/order/detail',
+        path: '/transaction/chargeBack/detail',
         query: {
           id: id
         }
@@ -393,7 +393,7 @@
 
     // 调剂完成
     async finishedAdjust (index, id) {
-      await axios.get(`/api/supervise/order/regulate`, {params: {id: id}})
+      await axios.get(`/api/shop/order/regulate`, {params: {id: id}})
     }
 
     messageNotice () {
@@ -429,7 +429,7 @@
         startDate: this.startDate,
         endDate: this.endDate
       }
-      let orderData = await axios.get(`/api/supervise/orders`, {params: params})
+      let orderData = await axios.get(`/api/shop/orders`, {params: params})
       this.orderListData = orderData.data.list
       this.perPageData = this.orderListData
       this.perPageData = this.perPageData.slice((this.currentPageNum - 1) * this.pageNum, this.currentPageNum * this.pageNum)
@@ -437,7 +437,7 @@
         item.createdDate = moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')
         // 获取药品图片
         item.orderItemDrugInfoDTOList.forEach(e => {
-          axios.get(`/api/supervise/files/${e.fileId}`, {params: {local: '', resolution: ''}}).then(res => {
+          axios.get(`/api/shop/files/${e.fileId}`, {params: {local: '', resolution: ''}}).then(res => {
             item.orderItemDrugInfoDTOList.map(i => {
               this.$set(i, 'srcUrl', res.data.replace('redirect:', ''))
               return i

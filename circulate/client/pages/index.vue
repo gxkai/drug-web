@@ -1,5 +1,26 @@
 <template>
   <div>
+    <div class="top-content">
+      <div class="left">
+        <div class="avatar">
+          <img :src="avatar">
+        </div>
+        <div class="info">
+          <p>早安，某某某，祝你开心每一天！</p>
+          <p>昆山市药事服务管理平台&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;百佳惠瑞丰大药房君子亭店</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="order">
+          <p>待处理订单数</p>
+          <h3>56</h3>
+        </div>
+        <div class="amount">
+          <p>待帐金额</p>
+          <h3>2,223</h3>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div class="wrapper1 wrapper">
         <el-card style="height: 100%">
@@ -230,12 +251,12 @@
 
 <script>
 import Component from 'class-component'
-import axios from 'axios'
 
 @Component({
   components: {}
 })
 export default class Home {
+  avatar = require('@/assets/img/avatar.jpg') // 头像
   /**
    * 1.BMAP_NORMAL_MAP 2.BMAP_PERSPECTIVE_MAP 3.BMAP_SATELLITE_MAP 4.BMAP_HYBRID_MAP
    * @type {string}
@@ -293,8 +314,8 @@ export default class Home {
   ringData12 = {
     columns: ['渠道', '数量'],
     rows: [
-      { 渠道: '处方(26%, 1393)', 数量: 1393 },
-      { 渠道: '其他(26%, 2530)', 数量: 3530 }
+      { 渠道: '处方(30%, 1393)', 数量: 1393 },
+      { 渠道: '其他(40%, 2530)', 数量: 3530 }
     ]
   };
   ringData13 = {
@@ -462,8 +483,8 @@ export default class Home {
     ]
   }
   async beforeMount () {
-    let {data: accounts} = await axios.get(`/api/supervise/accounts`, {params: {pageNum: 1, pageSize: 15}})
-    console.log(accounts)
+    // let {data: accounts} = await axios.get(`/api/shop/accounts`, {params: {pageNum: 1, pageSize: 15}})
+    // console.log(accounts)
   }
   mounted () {
     this.addPoints()
@@ -494,57 +515,128 @@ export default class Home {
 </script>
 
 <style scoped lang="scss" type="text/scss">
-.map {
-  height: 100%;
-}
-.container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px 10px;
-  .wrapper1 {
-    grid-area: 1/1/2/2;
-  }
-  .wrapper3 {
-    grid-area: 2/1/3/2;
-  }
-  .wrapper {
-    background-color: white;
-    z-index: 1;
-    opacity: 0.9;
-  }
-  .wrapper7 {
-    grid-area: 3/1/4/4;
-  }
-}
-.plat {
-  display: grid;
-  grid-row-gap: 10px;
-  .wrapper {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    grid-gap: 10px;
-    .item {
+
+  .top-content{
+    height: 100px;
+    padding: 0px 20px;
+    margin-bottom: 20px;
+    background: #FFF;
+    display: flex;
+
+    .left{
+      flex: 2;
       display: flex;
-      overflow: hidden;
       align-items: center;
+
+      .avatar{
+        padding-right: 20px;
+
+        img{
+          width: 50px;
+        }
+      }
+
+      .info{
+        p:first-child{
+          font-size: 18px;
+        }
+        p:last-child{
+          font-size: 14px;
+          color: #9e9e9e;
+        }
+      }
     }
-    .item1 {
-      span {
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        text-align: center;
-        line-height: 20px;
+
+    .right{
+      flex: 1;
+      display: flex;
+      align-items: center;
+      text-align: center;
+
+      p, h3{
+        margin: 0;
       }
-      .top {
-        background-color: rgb(43, 61, 79);
-        color: white;
+
+      p{
+        color: #9e9e9e;
+        font-size: 15px;
+        padding-bottom: 10px;
       }
-      .bottom {
-        background-color: rgb(238, 240, 244);
-        color: black;
+
+      h3{
+        font-size: 30px;
+        font-weight: 500;
+      }
+
+      .order{
+        position: relative;
+        padding-right: 30px;
+        margin-right: 30px;
+
+        &:after{
+          content: '';
+          width: 1px;
+          height: 50px;
+          background: #DDD;
+          position: absolute;
+          top: 5px;
+          right: 0;
+        }
       }
     }
   }
-}
+
+  .map {
+    height: 100%;
+  }
+  .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px 10px;
+    .wrapper1 {
+      grid-area: 1/1/2/2;
+    }
+    .wrapper3 {
+      grid-area: 2/1/3/2;
+    }
+    .wrapper {
+      background-color: white;
+      z-index: 1;
+      opacity: 0.9;
+    }
+    .wrapper7 {
+      grid-area: 3/1/4/4;
+    }
+  }
+  .plat {
+    display: grid;
+    grid-row-gap: 10px;
+    .wrapper {
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr;
+      grid-gap: 10px;
+      .item {
+        display: flex;
+        overflow: hidden;
+        align-items: center;
+      }
+      .item1 {
+        span {
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          text-align: center;
+          line-height: 20px;
+        }
+        .top {
+          background-color: rgb(43, 61, 79);
+          color: white;
+        }
+        .bottom {
+          background-color: rgb(238, 240, 244);
+          color: black;
+        }
+      }
+    }
+  }
 </style>

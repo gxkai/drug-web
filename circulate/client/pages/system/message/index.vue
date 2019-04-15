@@ -13,6 +13,7 @@
         :rowHandle="rowHandle"
         @emit-view="viewDetail"
         @emit-remove="removeMessage"
+        @pagination-current-change="paginationCurrentChange"
         class="drug-table"
       />
     </div>
@@ -24,16 +25,16 @@
       width="30%">
       <el-form ref="viewForm" :model="viewData" label-width="80px">
         <el-form-item label="标题">
-          <el-input v-model="viewData.title" readonly></el-input>
+          <el-input v-model="viewData.title" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="内容">
-          <el-input v-model="viewData.content" readonly></el-input>
+          <el-input v-model="viewData.content" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="是否已读">
-          <el-input v-model="viewData.isRead" readonly></el-input>
+          <el-input v-model="viewData.isRead" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="时间">
-          <el-input v-model="viewData.date" readonly></el-input>
+          <el-input v-model="viewData.date" readonly placeholder="暂无"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -47,8 +48,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import axios from 'axios'
-  // import moment from 'moment'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -58,20 +59,7 @@
   export default class Message extends Vue {
     viewDialogVisible = false
     viewData = {}
-    messageList = [
-      {
-        title: '消息一',
-        content: '你好',
-        read: true,
-        date: '2019-04-12 13:33:30'
-      },
-      {
-        title: '消息二',
-        content: '在吗',
-        read: false,
-        date: '2019-04-11 12:20:30'
-      }
-    ]
+    messageList = []
     columns= [
       {
         title: '标题',
@@ -87,7 +75,7 @@
       },
       {
         title: '时间',
-        key: 'date'
+        key: 'createdDate'
       }
     ]
 
@@ -124,13 +112,14 @@
       this.viewData = row
     }
 
+    // 删除
     removeMessage ({row}) {
-      console.log(row)
       this.$confirm('确定删除吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        axios.delete(`/api/shop/messages/${row.messageId}`)
         this.$message({
           message: '删除成功！',
           type: 'success'
@@ -144,16 +133,18 @@
     }
 
     async initData () {
-      // let params = {
-      //   pageNum: this.pagination.currentPage,
-      //   pageSize: this.pagination.pageSize,
-      //   read: '',
-      //   userId: ''
-      // }
-      // let data = await axios.get(`/api/shop/messages/view/Inform`, {params})
-      // console.log(data)
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        userId: 'ZqYK4IFhQ6KmYKAEEN8g8Q'
+      }
 
+      let {data: message} = await axios.get(`/api/shop/messages/view/Inform`, {params})
+      // console.log(message)
+      this.pagination.total = message.total
+      this.messageList = message.list
       this.messageList.forEach(item => {
+        item.createdDate = moment(item.createdDate).format('YY-MM-DD HH:ss:mm')
         if (item.read) {
           item.isRead = '已读'
         } else {
