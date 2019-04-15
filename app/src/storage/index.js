@@ -1,4 +1,4 @@
-import storage from 'good-storage';
+import that from '@/main.js';
 const TokenKey = 'drug-token';
 const AccountKey = 'drug-account';
 const CurrentAddressKey = 'drug-current-address';
@@ -10,15 +10,15 @@ const UsernameKey = 'drug-username';
  * @returns {Object|Boolean}
  */
 export function getToken() {
-  return storage.get(TokenKey);
+  return that.$storage.get(TokenKey);
 }
 
 export function setToken(token) {
-  storage.set(TokenKey, token);
+  that.$storage.set(TokenKey, token);
 }
 
 export function removeToken() {
-  storage.remove(TokenKey);
+  that.$storage.remove(TokenKey);
 }
 
 /**
@@ -26,15 +26,15 @@ export function removeToken() {
  * @returns {Object|Boolean}
  */
 export function getAccount() {
-  return storage.get(AccountKey);
+  return that.$storage.get(AccountKey);
 }
 
 export function setAccount(token) {
-  storage.set(AccountKey, token);
+  that.$storage.set(AccountKey, token);
 }
 
 export function removeAccount() {
-  storage.remove(AccountKey);
+  that.$storage.remove(AccountKey);
 }
 
 /**
@@ -42,15 +42,15 @@ export function removeAccount() {
  * @returns {Object|Boolean}
  */
 export function getCurrentAddress() {
-  return storage.get(CurrentAddressKey);
+  return that.$storage.get(CurrentAddressKey);
 }
 
 export function setCurrentAddress(position) {
-  storage.set(CurrentAddressKey, position);
+  that.$storage.set(CurrentAddressKey, position);
 }
 
 export function removeCurrentAddress() {
-  storage.remove(CurrentAddressKey);
+  that.$storage.remove(CurrentAddressKey);
 };
 
 /**
@@ -58,15 +58,15 @@ export function removeCurrentAddress() {
  * @returns {Object|Boolean}
  */
 export function getReceivedAddress() {
-  return storage.get(ReceivedAddressKey);
+  return that.$storage.get(ReceivedAddressKey);
 }
 
 export function setReceivedAddress(address) {
-  storage.set(ReceivedAddressKey, address);
+  that.$storage.set(ReceivedAddressKey, address);
 }
 
 export function removeReceivedAddress() {
-  storage.remove(ReceivedAddressKey);
+  that.$storage.remove(ReceivedAddressKey);
 }
 
 /**
@@ -74,15 +74,15 @@ export function removeReceivedAddress() {
  * @param e
  */
 export function setDrugSearchHisWords(e) {
-  storage.set(DrugSearchHisWords, e);
+  that.$storage.set(DrugSearchHisWords, e);
 }
 
 export function getDrugSearchHisWords() {
-  return storage.get(DrugSearchHisWords);
+  return that.$storage.get(DrugSearchHisWords);
 }
 
 export function removeDrugSearchHisWords() {
-  storage.remove(DrugSearchHisWords);
+  that.$storage.remove(DrugSearchHisWords);
 }
 
 /**
@@ -90,13 +90,13 @@ export function removeDrugSearchHisWords() {
  * @returns {Object|Boolean}
  */
 export function getUsername() {
-  return storage.get(UsernameKey);
+  return that.$storage.get(UsernameKey);
 }
 
 export function setUsername(e) {
-  storage.set(UsernameKey, e);
+  that.$storage.set(UsernameKey, e);
 }
 
 export function removeUsername() {
-  storage.remove(UsernameKey);
+  that.$storage.remove(UsernameKey);
 }

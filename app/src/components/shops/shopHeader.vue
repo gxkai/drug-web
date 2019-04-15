@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :style="{backgroundImage:`url(${backgroundImage})`}">
     <div class="left">
       <img v-lazy="getImgURL(shop.logo, 'SMALL_LOGO')">
     </div>
@@ -34,7 +34,8 @@
     computed: {},
     data() {
       return {
-        collected: false
+        collected: false,
+        backgroundImage: require('@/assets/img/shops/backgroundImage.png')
       };
     },
     async created() {
@@ -59,7 +60,6 @@
 
 <style scoped type="text/scss" lang="scss">
   header {
-    background-image: url("../../assets/img/shops/商家介绍背景图.png");
     background-size: cover;
     min-height: 160px;
     display: grid;

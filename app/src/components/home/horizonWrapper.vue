@@ -28,19 +28,19 @@
       return {
         list: [
           {
-            image: require('@/assets/img/home/感冒.png'),
+            image: require('@/assets/img/home/horizon1.png'),
             name: '感冒',
             introduce: '清热解毒',
             typeId: 'cMLo_cCMRyKrd46oISOJRQ'
           },
           {
-            image: require('@/assets/img/home/抗过敏.png'),
+            image: require('@/assets/img/home/horizon2.png'),
             name: '抗过敏',
             introduce: '皮炎湿疹',
             typeId: 'Nc10FphRTviCxz7vGiVr6A'
           },
           {
-            image: require('@/assets/img/home/止咳.png'),
+            image: require('@/assets/img/home/horizon3.png'),
             name: '止咳化痰',
             introduce: '肺热咳嗽',
             typeId: '74exCUknTDe0qnag36LRCQ'

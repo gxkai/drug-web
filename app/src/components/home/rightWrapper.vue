@@ -29,19 +29,19 @@
       return {
         list: [
           {
-            image: require('@/assets/img/home/关节炎.png'),
+            image: require('@/assets/img/home/right1.png'),
             name: '关节炎',
             introduce: '跌打损伤',
             typeId: 'S2BIwR09QN6MNstlWcTrvQ'
           },
           {
-            image: require('@/assets/img/home/肩周炎.png'),
+            image: require('@/assets/img/home/right2.png'),
             name: '肩周炎',
             introduce: '骨质疏松',
             typeId: 'C1Rlu40JRlS7VuxopGxA-A'
           },
           {
-            image: require('@/assets/img/home/腰肌劳损.png'),
+            image: require('@/assets/img/home/right3.png'),
             name: '腰肌劳损',
             introduce: '骨质增生',
             typeId: 'xsE5-eyYTfC3RXEoLjCxgg'

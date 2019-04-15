@@ -56,25 +56,6 @@
       height: 260px;
     }
   }
-  header {
-    background-image: url("../../assets/img/shops/商家介绍背景图.png");
-    background-size: cover;
-    min-height: 150px;
-    display: grid;
-    align-items: center;
-    grid-template-columns: 150px 1fr 20px;
-    img {
-      width: 90px;
-      height: 89px;
-      border-radius: 50%;
-      justify-self: center;
-    }
-    span {
-      font-size: 36px;
-      color: #fffefe;
-      word-break: break-word;
-    }
-  }
 </style>
 <script>
   import infoCell from '@/components/shops/infoCell';

@@ -151,6 +151,14 @@
   "常见问题",
   "/system":
   "系统设置",
+  "/system/message":
+    "我的消息",
+  "/system/userManage":
+    "用户管理",
+  "/system/myAccount":
+    "我的账户",
+  "/system/myAccount/record":
+    "交易记录",
   "/system/pharmacist":
   "药师管理",
   "/system/pharmacist/create":

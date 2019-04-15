@@ -1,12 +1,9 @@
-import {getAccount, getCurrentAddress, getToken, setAccount, setCurrentAddress} from '../storage';
+import {getAccount, getCurrentAddress, getToken, setAccount, setCurrentAddress, getUsername, setUsername, setToken} from '../storage';
 import moment from 'moment/moment';
 import BMap from 'BMap';
 export default {
   data() {
     return {
-      account: getAccount(),
-      currentAddress: getCurrentAddress(),
-      token: getToken(),
       testPosition: {
         name: '测试地址',
         lat: 31,
@@ -16,8 +13,22 @@ export default {
   },
   created() {
   },
+  computed: {
+    currentAddress() {
+      return getCurrentAddress();
+    },
+    account() {
+      return getAccount();
+    },
+    token() {
+      return getToken();
+    }
+  },
   methods: {
+    getUsername,
+    setUsername,
     setAccount,
+    setToken,
     setCurrentAddress,
     dateFmt(input, fmt) {
       return moment(input).format(fmt);

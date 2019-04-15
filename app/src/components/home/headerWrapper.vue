@@ -7,7 +7,7 @@
           color="white"
           size=".416rem"
         />
-        <span class="van-ellipsis">{{ currentAddress.name }}</span>
+        <span class="van-ellipsis">{{ currentAddress? currentAddress.name :''}}</span>
         <van-icon
           name="arrow"
           color="white"
