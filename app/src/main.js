@@ -1,16 +1,15 @@
 // The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+// (runtime-only or standalone) has been set in webpack.util.conf with an alias.
 import Vue from 'vue';
 import App from './App';
 import store from './store';
-import base from './utils';
+import util from './utils';
 import component from './components';
 import http from './http';
 import api from './api';
 import storage from 'good-storage';
 import 'lib-flexible';
 import 'normalize.css';
-import VueAwesomeSwiper from './plugins/vue-awesome-swiper';
 import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
 import filters from './filters';
@@ -122,8 +121,7 @@ Vue.prototype.$api = api;
 Vue.prototype.$storage = storage;
 Vue.prototype._ = _;
 Vue.config.productionTip = false;
-Vue.use(VueAwesomeSwiper);
-Vue.use(base);
+Vue.use(util);
 Vue.use(component);
 Vue.use(BaiduMap, {
   ak: 'FG7wxr1VUj0k2NwoO3yXzymd&services=&t=20170517145936'
