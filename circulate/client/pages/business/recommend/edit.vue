@@ -26,12 +26,12 @@
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="活动价格：">
-          <el-input v-model="recommendForm.price" size="small" style="width: 400px"></el-input>
-        </el-form-item>
-        <el-form-item label="活动数量：">
-          <el-input v-model="recommendForm.number" size="small" style="width: 400px"></el-input>
-        </el-form-item>
+        <!--<el-form-item label="活动价格：">-->
+          <!--<el-input v-model="recommendForm.price" size="small" style="width: 400px"></el-input>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="活动数量：">-->
+          <!--<el-input v-model="recommendForm.number" size="small" style="width: 400px"></el-input>-->
+        <!--</el-form-item>-->
         <el-form-item>
           <el-button type="primary" @click="recommendSubmit">提交</el-button>
           <el-button @click="back">返回</el-button>
@@ -94,9 +94,9 @@
     }
 
     recommendForm = {
-      time: '',
-      price: '',
-      number: ''
+      time: ''
+      // price: '',
+      // number: ''
     }
 
     getSelectedInfo (data) {

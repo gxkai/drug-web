@@ -235,13 +235,11 @@
     convertDate () {
       if (this.dateValue) {
         for (let i = 0, len = this.dateValue.length; i < len; i++) {
-          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD hh:mm:ss')
+          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD')
         }
-        this.startDate = this.dateValue[0]
-        this.endDate = this.dateValue[1]
+        this.startDate = this.dateValue[0] + ' 00:00:00'
+        this.endDate = this.dateValue[1] + ' 23:59:59'
       }
-      // console.log(this.startDate)
-      // console.log(this.endDate)
     }
 
     // 添加
@@ -293,6 +291,10 @@
       this.getPerData()
     }
 
+    search () {
+      this.getRecommend(this.startDate, this.endDate)
+    }
+
     // 查看
     viewDetail (index, row) {
       // console.log(row)
@@ -339,8 +341,8 @@
     }
 
     // 删除
-    deleteItem () {
-  
+    async deleteItem (index, id) {
+      await axios.delete(`/api/shop/drugRecommendApplies/${id}`)
     }
 
     // 清空
@@ -352,10 +354,6 @@
       this.startDate = ''
       this.endDate = ''
       this.getRecommend()
-    }
-
-    search () {
-      this.getRecommend(this.startDate, this.endDate)
     }
 
     // 获取已选信息

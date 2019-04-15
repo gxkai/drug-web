@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>查看详情</h3>
+        <h3>新增推荐</h3>
       </div>
 
       <d2-crud
@@ -15,24 +15,24 @@
         class="drug-table"
       />
 
-      <el-form ref="form" label-width="100px" class="recommend-form">
+      <el-form ref="form" :model="discountForm" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
-            style="width: 400px;"
             readonly
             size="small"
-            v-model="timeDate"
-            format = "yyyy-MM-dd HH:mm:ss"
-            type="daterange"
+            v-model="discountForm.time"
+            type="datetimerange"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button @click="$router.go(-1)">返回</el-button>
+          <el-button type="primary" @click="discountSubmit">提交</el-button>
+          <el-button @click="back">返回</el-button>
         </el-form-item>
       </el-form>
+
 
     </div>
   </div>
@@ -43,15 +43,14 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import Drug from '@/components/drugCheck/drugRadio/index'
-  import axios from 'axios'
-  import moment from 'moment'
+  // import axios from 'axios'
   @Component({
     components: {
       BreadCrumb,
       Drug
     }
   })
-  export default class RecommendDetail extends Vue {
+  export default class DiscountEdit extends Vue {
     columns = [
       {
         title: '药品名称',
@@ -80,23 +79,12 @@
       border: true
     }
 
-    startDate = ''
-    endDate = ''
-
-    timeDate = []
-
-    beforeMount () {
-      this.getRecommendDetail()
+    discountForm = {
+      time: ''
     }
 
-    async getRecommendDetail () {
-      let id = this.$route.query.id
-      let resDetail = await axios.get(`/api/shop/drugRecommendApplies/${id}`)
-      this.drugData.push(resDetail.data)
-      this.startDate = moment(resDetail.data.startDate).format('YYYY-MM-DD HH:mm:ss')
-      this.endDate = moment(resDetail.data.endDate).format('YYYY-MM-DD HH:mm:ss')
-      this.timeDate.push(this.startDate)
-      this.timeDate.push(this.endDate)
+    back () {
+      this.$router.go(-1)
     }
   }
 </script>

@@ -4,8 +4,26 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>查看详情</h3>
+        <h3>新增推荐</h3>
+        <div class="action">
+          <el-button class="select-btn value-btn" v-if="drugValue.drugName" size="small" @click="drugDialog = true">{{ drugValue.drugName }}</el-button>
+          <el-button class="select-btn" v-else size="small" @click="drugDialog = true">请选择药品</el-button>
+          <el-button type="primary" size="small" @click="getDrugInfo">确定</el-button>
+        </div>
       </div>
+
+      <!--选择药品弹窗-->
+      <el-dialog
+        title="请选择药品"
+        :close-on-click-modal='isCloseOnClickModal'
+        :visible.sync="drugDialog"
+        width="50%">
+        <Drug v-on:listenToChildEvent="getSelectedInfo"></Drug>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="drugDialog = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelect">确 定</el-button>
+        </span>
+      </el-dialog>
 
       <d2-crud
         :columns="columns"
@@ -15,24 +33,23 @@
         class="drug-table"
       />
 
-      <el-form ref="form" label-width="100px" class="recommend-form">
+      <el-form ref="form" :model="discountForm" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
-            style="width: 400px;"
-            readonly
             size="small"
-            v-model="timeDate"
-            format = "yyyy-MM-dd HH:mm:ss"
-            type="daterange"
+            v-model="discountForm.time"
+            type="datetimerange"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button @click="$router.go(-1)">返回</el-button>
+          <el-button type="primary" @click="discountSubmit">提交</el-button>
+          <el-button @click="back">返回</el-button>
         </el-form-item>
       </el-form>
+
 
     </div>
   </div>
@@ -43,15 +60,23 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import Drug from '@/components/drugCheck/drugRadio/index'
-  import axios from 'axios'
-  import moment from 'moment'
+  // import axios from 'axios'
   @Component({
     components: {
       BreadCrumb,
       Drug
     }
   })
-  export default class RecommendDetail extends Vue {
+  export default class DiscountEdit extends Vue {
+    drugName = ''
+    drugValue = '' // 药品信息
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
+
+    isCloseOnClickModal = false
+    drugDialog = false
+
+    // table列表
     columns = [
       {
         title: '药品名称',
@@ -80,23 +105,36 @@
       border: true
     }
 
-    startDate = ''
-    endDate = ''
-
-    timeDate = []
-
-    beforeMount () {
-      this.getRecommendDetail()
+    discountForm = {
+      time: ''
     }
 
-    async getRecommendDetail () {
-      let id = this.$route.query.id
-      let resDetail = await axios.get(`/api/shop/drugRecommendApplies/${id}`)
-      this.drugData.push(resDetail.data)
-      this.startDate = moment(resDetail.data.startDate).format('YYYY-MM-DD HH:mm:ss')
-      this.endDate = moment(resDetail.data.endDate).format('YYYY-MM-DD HH:mm:ss')
-      this.timeDate.push(this.startDate)
-      this.timeDate.push(this.endDate)
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+    }
+
+    confirmSelect () {
+      if (!this.selectedInfo) {
+        this.shopNameDialog = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.drugValue = this.childData
+      this.drugDialog = false
+    }
+
+    getDrugInfo () {
+      console.log(this.drugValue)
+      this.drugData = []
+      if (this.drugValue) {
+        this.drugData.push(this.drugValue)
+      }
+    }
+    discountSubmit () {
+      // this.$router.push('/business/discount')
+    }
+    back () {
+      this.$router.go(-1)
     }
   }
 </script>

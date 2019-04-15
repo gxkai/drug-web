@@ -34,15 +34,13 @@
             <el-input v-model="shopForm.gspCertificate" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="RCB Key：">
-            <el-select v-model="shopForm.rcb" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-            <!--<el-input v-model="shopForm.rcb" placeholder="请输入"></el-input>-->
+            <el-input v-model="shopForm.rcb" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="营业执照：">
+            <el-input v-model="shopForm.license" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="经营地址：">
+            <el-input v-model="shopForm.address" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="营业开始时间：">
             <el-time-select
@@ -69,12 +67,20 @@
             </el-time-select>
           </el-form-item>
           <el-form-item label="经度：">
-            <el-button class="select-btn" v-if="shopForm.lng" @click="dialogMapVisible = true"size="middle">{{ this.shopForm.lng }}</el-button>
-            <el-button class="select-btn" v-else @click="dialogMapVisible = true" style="color: #C0C4CC;" size="middle">请输入</el-button>
+            <el-button class="select-btn" v-if="shopForm.lng" @click="dialogMapVisible = true" size="middle">{{
+              this.shopForm.lng }}
+            </el-button>
+            <el-button class="select-btn" v-else @click="dialogMapVisible = true" style="color: #C0C4CC;" size="middle">
+              请输入
+            </el-button>
           </el-form-item>
           <el-form-item label="纬度：">
-            <el-button class="select-btn" v-if="shopForm.lat" @click="dialogMapVisible = true"size="middle">{{ this.shopForm.lat }}</el-button>
-            <el-button class="select-btn" v-else @click="dialogMapVisible = true" style="color: #C0C4CC;" size="middle">请输入</el-button>
+            <el-button class="select-btn" v-if="shopForm.lat" @click="dialogMapVisible = true" size="middle">{{
+              this.shopForm.lat }}
+            </el-button>
+            <el-button class="select-btn" v-else @click="dialogMapVisible = true" style="color: #C0C4CC;" size="middle">
+              请输入
+            </el-button>
           </el-form-item>
           <el-form-item label="是否支持医保：">
             <el-select v-model="shopForm.medicaid" placeholder="请选择">
@@ -85,7 +91,6 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <!--<el-input v-model="shopForm.medicaid" placeholder="请选择"></el-input>-->
           </el-form-item>
           <el-form-item label="是否支持统筹：">
             <el-select v-model="shopForm.gathered" placeholder="请选择">
@@ -96,7 +101,6 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <!--<el-input v-model="shopForm.gathered" placeholder="请选择"></el-input>-->
           </el-form-item>
           <el-form-item label="是否配送：">
             <el-select v-model="shopForm.distribution" placeholder="请选择">
@@ -107,7 +111,6 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <!--<el-input v-model="shopForm.distribution" placeholder="请选择"></el-input>-->
           </el-form-item>
           <el-form-item label="配送距离：">
             <el-input v-model="shopForm.distance" placeholder="3公里"></el-input>
@@ -126,23 +129,25 @@
           <div class="div-upload-item1">
             <div class="img-title">药店封面照</div>
             <el-upload
-            class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess">
-            <img v-if="shopLogo" :src="shopLogo" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              class="avatar-uploader"
+              action=""
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess">
+              <img v-if="shopLogo" :src="shopLogo" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </div>
 
           <div class="div-upload-item2">
             <div class="img-title">店内照片</div>
             <el-upload
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action=""
               list-type="picture-card"
-              :limit=3
+              :limit="4"
+              :file-list="innerFileImg"
               :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove">
+              :on-remove="handleRemove"
+              :on-success="childUploadSuccess">
               <i class="el-icon-plus"></i>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible">
@@ -155,7 +160,7 @@
             <div style="display: flex;">
               <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action=""
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess2">
                 <img v-if="certificateImg" :src="certificateImg" class="avatar">
@@ -164,7 +169,7 @@
               </el-upload>
               <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action=""
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess3">
                 <img v-if="licenseImg" :src="licenseImg" class="avatar">
@@ -173,7 +178,7 @@
               </el-upload>
               <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action=""
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess4">
                 <img v-if="gspImg" :src="gspImg" class="avatar">
@@ -182,7 +187,7 @@
               </el-upload>
               <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action=""
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess5">
                 <img v-if="idnumberImg" :src="idnumberImg" class="avatar">
@@ -199,13 +204,17 @@
         <el-dialog title="获取经纬度" :visible.sync="dialogMapVisible">
           <div class="map-search">
             <el-input v-model="addKeyword" placeholder="请输入地址" size="small" style="min-width: 250px;"></el-input>
-            经度：<el-input v-model="getLng" placeholder="经度" size="small"></el-input>
-            纬度：<el-input v-model="getLat" placeholder="纬度" size="small"></el-input>
+            经度：
+            <el-input v-model="getLng" placeholder="经度" size="small"></el-input>
+            纬度：
+            <el-input v-model="getLat" placeholder="纬度" size="small"></el-input>
           </div>
           <baidu-map :center="center" :zoom="zoom" @ready="handler" @click="getPoint" class="bm-view">
             <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
-            <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
-            <bm-local-search :keyword="addKeyword" :auto-viewport="true" :zoom="zoom" style="display: none"></bm-local-search>
+            <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']"
+                         anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
+            <bm-local-search :keyword="addKeyword" :auto-viewport="true" :zoom="zoom"
+                             style="display: none"></bm-local-search>
             <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
           </baidu-map>
           <div slot="footer" class="dialog-footer">
@@ -228,10 +237,11 @@
 
 <script>
   import Vue from 'vue'
-  import Component from 'class-component'
-  import BreadCrumb from '@/components/Breadcrumb'
-  import axios from 'axios'
-  @Component({
+import Component from 'class-component'
+import BreadCrumb from '@/components/Breadcrumb'
+import axios from 'axios'
+
+@Component({
     components: {
       BreadCrumb
     }
@@ -250,6 +260,8 @@
       openTime: '',
       closeTime: '',
       certificate: '',
+      license: '',
+      address: '',
       lng: '',
       lat: '',
       medicaid: '',
@@ -263,7 +275,7 @@
       certificateFileId: '', // 经营许可证图片ID
       gspFileId: '', // gsp图片ID
       identityNumberFileId: '' // 身份证图片ID
-    }
+    };
     options = [
       {
         value: true,
@@ -273,107 +285,176 @@
         value: false,
         label: '否'
       }
-    ]
-    shopLogo = '' // 药店封面照
-    shopLogoFile = {} // 药店LOGO存放
+    ];
+    shopLogo = ''; // 药店封面照
+    shopLogoFile = {}; // 药店LOGO存放
     handleAvatarSuccess (res, file) {
       this.shopLogo = URL.createObjectURL(file.raw)
       this.shopLogoFile = file.raw
-      console.log(this.shopLogoFile)
     }
 
     // 店内照片
-    shopInnerFileIdList = []
-    dialogVisible = false
+    shopInnerFileIdList = [];
+    dialogVisible = false;
+
+    innerFileImg = [];
+    innerFileId = '';
+
     handleRemove (file, fileList) {
       console.log(file, fileList)
     }
+
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     }
 
+    // 店内照片上传
+    childUploadSuccess (res, file, fileList) {
+      this.innerFileImg = fileList
+    }
+
     licenseImg = '' // 营业执照
+    licenseImgFile = {}
+
     certificateImg = '' // 经营许可证
+    certificateImgFile = {}
+  
     gspImg = '' // GSP证书
+    gspImgFile = {}
+
     idnumberImg = '' // 手持身份证照片
+    idnumberImgFile = {}
 
     handleAvatarSuccess2 (res, file) {
       this.certificateImg = URL.createObjectURL(file.raw)
+      this.certificateImgFile = file.raw
     }
+
     handleAvatarSuccess3 (res, file) {
       this.licenseImg = URL.createObjectURL(file.raw)
+      this.licenseImgFile = file.raw
     }
+
     handleAvatarSuccess4 (res, file) {
       this.gspImg = URL.createObjectURL(file.raw)
+      this.gspImgFile = file.raw
     }
+
     handleAvatarSuccess5 (res, file) {
       this.idnumberImg = URL.createObjectURL(file.raw)
+      this.idnumberImgFile = file.raw
     }
 
     async submit () {
       // 上传logo图片
-      // let fileParams = new FormData()
-      // fileParams.append('file', this.shopLogoFile)
-      // fileParams.append('fileType', 'LOGO')
-      // let { data: fileID } = await axios.post(`/api/shop/files`, fileParams)
-      // console.log(fileID)
-      // this.shopForm.fileId = fileID
+      let logoFileParams = new FormData()
+      logoFileParams.append('file', this.shopLogoFile)
+      logoFileParams.append('fileType', 'LOGO')
+      let { data: logoFileID } = await axios.post(`/api/shop/files`, logoFileParams)
+      this.shopForm.fileId = logoFileID
+      console.log(logoFileID)
+
+      // 店内图片上传
+      if (this.innerFileImg.length > 0) {
+        let fid = []
+        for (let i = 0; i < this.innerFileImg.length; i++) {
+          let innerImgParams = new FormData()
+          innerImgParams.append('file', this.innerFileImg[i].raw)
+          innerImgParams.append('fileType', 'LOGO')
+          let { data: innerImgData } = await axios.post('/api/shop/files', innerImgParams)
+          fid.push(innerImgData)
+        }
+        this.innerFileId = fid
+        console.log(this.innerFileId)
+      }
+
+      // 上传经营许可证
+      let certificateParams = new FormData()
+      certificateParams.append('file', this.certificateImgFile)
+      certificateParams.append('fileType', 'LOGO')
+      let { data: certificateID } = await axios.post(`/api/shop/files`, certificateParams)
+      this.shopForm.certificateFileId = certificateID
+      console.log(certificateID)
+
+      // 上传营业执照
+      let licenseParams = new FormData()
+      licenseParams.append('file', this.licenseImgFile)
+      licenseParams.append('fileType', 'LOGO')
+      let { data: licenseID } = await axios.post(`/api/shop/files`, licenseParams)
+      this.shopForm.licenseFileId = licenseID
+      console.log(licenseID)
+  
+      // GSP证书
+      let gspParams = new FormData()
+      gspParams.append('file', this.gspImgFile)
+      gspParams.append('fileType', 'LOGO')
+      let { data: gspID } = await axios.post(`/api/shop/files`, gspParams)
+      this.shopForm.gspFileId = gspID
+      console.log(gspID)
+
+      // 手持身份证
+      let idnumberParams = new FormData()
+      idnumberParams.append('file', this.idnumberImgFile)
+      idnumberParams.append('fileType', 'LOGO')
+      let { data: idnumberID } = await axios.post(`/api/shop/files`, idnumberParams)
+      this.shopForm.identityNumberFileId = idnumberID
+      console.log(idnumberID)
 
       let shopCreateDTO = {
-        name: this.name,
-        phone: this.phone,
-        legal: this.legal,
-        identityNumber: this.identityNumber,
-        mail: this.mail,
-        legalPhone: this.legalPhone,
-        taxCode: this.taxCode,
-        gspCertificate: this.gspCertificate,
-        rcb: this.rcb,
-        openTime: this.openTime,
-        closeTime: this.closeTime,
-        certificate: this.certificate,
-        lng: this.lng,
-        lat: this.lat,
-        medicaid: this.medicaid,
-        gathered: this.gathered,
-        distribution: this.distribution,
-        distance: this.distance,
-        introduction: this.introduction,
-        fileId: '', // 药店LOGO图片ID
-        shopInnerFileId: [], // 最多4张店内照片ID
-        licenseFileId: '', // 营业执照图片ID
-        certificateFileId: '', // 经营许可证图片ID
-        gspFileId: '', // gsp图片ID
-        identityNumberFileId: '', // 身份证图片ID
-        //
-        address: '',
-        alipay: '',
-        alipayAppId: ''
+        id: '',
+        name: this.shopForm.name,
+        legal: this.shopForm.legal,
+        identityNumber: this.shopForm.identityNumber,
+        legalPhone: this.shopForm.legalPhone,
+        mail: this.shopForm.mail,
+        taxCode: this.shopForm.taxCode,
+        license: this.shopForm.license,
+        certificate: this.shopForm.certificate,
+        gspCertificate: this.shopForm.gspCertificate,
+        phone: this.shopForm.phone,
+        address: this.shopForm.address,
+        introduction: this.shopForm.introduction,
+        openTime: this.shopForm.openTime,
+        closeTime: this.shopForm.closeTime,
+        state: 'TO_CHECK',
+        fileId: this.shopForm.fileId, // 药店LOGO图片ID
+        shopInnerFileId: this.innerFileId, // 最多4张店内照片ID
+        licenseFileId: this.shopForm.licenseFileId, // 营业执照图片ID
+        certificateFileId: this.shopForm.certificateFileId, // 经营许可证图片ID
+        gspFileId: this.shopForm.gspFileId, // gsp图片ID
+        identityNumberFileId: this.shopForm.identityNumberFileId, // 身份证图片ID
+        gathered: this.shopForm.gathered,
+        medicaid: this.shopForm.medicaid,
+        distance: this.shopForm.distance,
+        lat: this.shopForm.lat,
+        lng: this.shopForm.lng,
+        rcbKey: this.shopForm.rcb,
+        distribution: this.shopForm.distribution
       }
       let addShop = await axios.post(`/api/shop/shops`, shopCreateDTO)
       console.log(addShop)
-      // if (addShop) {
-      //   this.$message({
-      //     message: '添加成功',
-      //     type: 'success'
-      //   })
-      // }
-      // setTimeout(() => {
-      //   this.$router.push('/')
-      // }, 1000)
+      if (addShop) {
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        })
+      }
+      setTimeout(() => {
+      // this.$router.push('/')
+      }, 1000)
     }
 
     // 获取经纬度弹框
-    dialogMapVisible = false
-    center = {lng: 120.9909, lat: 31.398754}
-    zoom = 10
-    addKeyword = '' // 输入地址
-    getLng = '' // 获取经度
-    getLat = '' // 获取纬度
+    dialogMapVisible = false;
+    center = { lng: 120.9909, lat: 31.398754 };
+    zoom = 10;
+    addKeyword = ''; // 输入地址
+    getLng = ''; // 获取经度
+    getLat = ''; // 获取纬度
 
     // 初始化地图
-    handler ({BMap, map}) {
+    handler ({ BMap, map }) {
       console.log(BMap, map)
     }
 
@@ -384,7 +465,7 @@
       this.getLat = e.point.lat
       this.zoom = e.target.getZoom()
     }
-  
+
     getLngLat () {
       this.shopForm.lng = this.center.lng = this.getLng
       this.shopForm.lat = this.center.lat = this.getLat
@@ -396,48 +477,51 @@
 </script>
 
 <style lang="scss" scoped>
-  .select-btn{
+  .select-btn {
     width: 100%;
     text-align: left;
     font-size: 14px;
   }
+
   .bm-view {
     width: 100%;
     height: 280px;
   }
-  .map-search{
+
+  .map-search {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-    .el-input{
+    .el-input {
       width: 100px;
       margin-right: 30px;
     }
   }
-  /deep/.common {
+
+  /deep/ .common {
     &-wrap {
       padding: 0 10px;
       margin-bottom: 30px;
     }
-    &-list{
+    &-list {
       /*min-height: 850px;*/
       background: #FFF;
       padding: 10px;
       border-radius: 5px;
       border: 1px solid #E9E9E9;
 
-      .h3-title{
+      .h3-title {
         border-bottom: 1px solid #E9E9E9;
         padding: 0 15px 15px 15px;
         margin: 15px 0;
       }
 
-      .check-form{
+      .check-form {
         padding-right: 100px;
         .el-form {
           display: grid;
           grid-template-columns: 1fr 1fr 1fr 1fr;
-          grid-template-rows: repeat(9, 50px) 200px;
+          grid-template-rows: repeat(10, 50px) 200px;
           .el-form-item {
             &:nth-child(2n-1) {
               grid-column: 1 / 3;
@@ -452,38 +536,36 @@
 
         }
 
-        .div-upload{
+        .div-upload {
           margin-left: 150px;
           clear: both;
           zoom: 1;
           overflow: hidden;
 
-          .img-title{
+          .img-title {
             font-size: 14px;
             line-height: 3;
           }
 
-          &-item1{
+          &-item1 {
             float: left;
           }
-          &-item2{
+          &-item2 {
             width: 70%;
             float: left;
           }
-          &-item3{
+          &-item3 {
             width: 100%;
             float: left;
           }
 
         }
 
-
-
         /*图片上传*/
-        .avatar-uploader{
+        .avatar-uploader {
           margin-right: 30px;
           position: relative;
-          .uploade-text{
+          .uploade-text {
             position: absolute;
             width: 100%;
             text-align: center;
@@ -517,17 +599,14 @@
           display: block;
         }
 
-        .check-form-btn{
+        .check-form-btn {
           display: flex;
           justify-content: center;
           padding: 50px;
         }
 
-
       }
     }
-
-
 
   }
 </style>
