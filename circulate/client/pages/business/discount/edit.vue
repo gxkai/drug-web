@@ -33,25 +33,19 @@
         class="drug-table"
       />
 
-      <el-form ref="form" :model="recommendForm" label-width="100px" class="recommend-form">
+      <el-form ref="form" :model="discountForm" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
             size="small"
-            v-model="recommendForm.time"
+            v-model="discountForm.time"
             type="datetimerange"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <!--<el-form-item label="活动价格：">-->
-          <!--<el-input v-model="recommendForm.price" size="small" style="width: 400px"></el-input>-->
-        <!--</el-form-item>-->
-        <!--<el-form-item label="活动数量：">-->
-          <!--<el-input v-model="recommendForm.number" size="small" style="width: 400px"></el-input>-->
-        <!--</el-form-item>-->
         <el-form-item>
-          <el-button type="primary" @click="recommendSubmit">提交</el-button>
+          <el-button type="primary" @click="discountSubmit">提交</el-button>
           <el-button @click="back">返回</el-button>
         </el-form-item>
       </el-form>
@@ -73,7 +67,7 @@
       Drug
     }
   })
-  export default class RecommendCreate extends Vue {
+  export default class DiscountEdit extends Vue {
     drugName = ''
     drugValue = '' // 药品信息
     selectedInfo = '' // 子组件传过来的数据
@@ -111,10 +105,8 @@
       border: true
     }
 
-    recommendForm = {
+    discountForm = {
       time: ''
-      // price: '',
-      // number: ''
     }
 
     getSelectedInfo (data) {
@@ -138,8 +130,8 @@
         this.drugData.push(this.drugValue)
       }
     }
-    recommendSubmit () {
-      // this.$router.push('/business/recommend')
+    discountSubmit () {
+      // this.$router.push('/business/discount')
     }
     back () {
       this.$router.go(-1)

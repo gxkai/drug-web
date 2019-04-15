@@ -125,8 +125,18 @@
   "好货推荐",
   "/business/recommend/create":
   "新增推荐",
+  "/business/recommend/detail":
+  "查看详情",
+  "/business/recommend/edit":
+  "编辑推荐",
   "/business/discount":
   "惠民促销",
+  "/business/discount/create":
+  "新增促销",
+  "/business/discount/detail":
+  "查看详情",
+  "/business/discount/edit":
+  "编辑促销",
   "/business/chat":
   "药师咨询",
   "/business/chat/list":

@@ -1,22 +1,22 @@
 <template>
   <div class="stock--wrap">
     <div class="stock--content">
-      <bread-crumb :path="$route.path"/>
+      <!--<bread-crumb :path="$route.path"/>-->
       <div class="stock--content__search">
         <div class="left">
           <el-input v-model="stockName" size="small" placeholder="通用名称" style="width: 150px;"></el-input>
           <el-button class="select-btn value-btn" size="small" v-if="originNameValue" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
           <el-button class="select-btn" size="small" v-else @click="originDialogVisible = true">厂商名称</el-button>
-          <el-cascader
-            size="small"
-            placeholder="药品类型"
-            expand-trigger="click"
-            :options="compostList"
-            :props="selectProps"
-            v-model="selectedTypes"
-            style="width: 150px"
-            @change="getTypeCondition">
-          </el-cascader>
+          <!--<el-cascader-->
+            <!--size="small"-->
+            <!--placeholder="药品类型"-->
+            <!--expand-trigger="click"-->
+            <!--:options="compostList"-->
+            <!--:props="selectProps"-->
+            <!--v-model="selectedTypes"-->
+            <!--style="width: 150px"-->
+            <!--@change="getTypeCondition">-->
+          <!--</el-cascader>-->
           <el-button type="primary" size="small" @click="searchDrugs">搜索</el-button>
           <el-button size="small" @click="clearConditions">清空</el-button>
         </div>
@@ -72,7 +72,7 @@
     columns = [
       {
         title: '药品名称',
-        key: 'name'
+        key: 'drugName'
       },
       {
         title: '通用名称',
@@ -80,16 +80,16 @@
       },
       {
         title: '规格',
-        key: 'spec'
+        key: 'specName'
       },
       {
         title: '厂商简称',
         key: 'originName'
-      },
-      {
-        title: '药品类型',
-        key: 'drugTypeName'
       }
+      // {
+      //   title: '药品类型',
+      //   key: 'drugTypeName'
+      // }
     ]
     drugList = []
     drugTypesList = [] // 药品类型
@@ -191,17 +191,17 @@
         drugTypeParent: this.selectedTypes[0],
         drugType: this.selectedTypes[1]
       }
-      let {data: drugRes} = await axios.get(`/api/shop/drugs`, {params})
+      let {data: drugRes} = await axios.get(`/api/shop/shopDrugs`, {params})
       console.log(drugRes)
       this.drugList = drugRes.list
       this.pagination.total = drugRes.total
-      this.drugList.forEach(item => {
-        let typeName = ''
-        item.drugDrugTypeList.forEach(typeItem => {
-          typeName += `${typeItem.type},`
-        })
-        item.drugTypeName = typeName.substring(0, typeName.length - 1)
-      })
+      // this.drugList.forEach(item => {
+      //   let typeName = ''
+      //   item.drugDrugTypeList.forEach(typeItem => {
+      //     typeName += `${typeItem.type},`
+      //   })
+      //   item.drugTypeName = typeName.substring(0, typeName.length - 1)
+      // })
     }
 
     beforeMount () {
