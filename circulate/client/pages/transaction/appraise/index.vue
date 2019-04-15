@@ -58,28 +58,28 @@
         <div class="main">
           <el-form :model="viewData" label-width="100px">
             <el-form-item label="订单编号">
-              <el-input v-model="viewData.orderId" readonly placeholder="暂无"></el-input>
+              <el-input v-model="viewData.number" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="用户姓名">
-              <el-input v-model="viewData.username" readonly placeholder="暂无"></el-input>
+              <el-input v-model="viewData.accountName" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="订单类型">
               <el-input v-model="viewData.orderType" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="配送/自取评分">
-              <el-input v-model="viewData.deliveryRating" readonly placeholder="暂无"></el-input>
+              <el-input v-model="viewData.deliveryScore" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="服务状态">
-              <el-input v-model="viewData.service" readonly placeholder="暂无"></el-input>
+              <el-input v-model="viewData.serviceScore" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="描述相符">
-              <el-input v-model="viewData.desc" readonly placeholder="暂无"></el-input>
+              <el-input v-model="viewData.describeScore" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="包装评分">
-              <el-input v-model="viewData.packageRating" readonly placeholder="暂无"></el-input>
+              <el-input v-model="viewData.packageScore" readonly placeholder="暂无"></el-input>
             </el-form-item>
             <el-form-item label="评价时间">
-              <el-input v-model="viewData.appraiseDate" readonly placeholder="暂无"></el-input>
+              <el-input v-model="viewData.createdDate" readonly placeholder="暂无"></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -95,8 +95,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import axios from 'axios'
-  // import moment from 'moment'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -104,28 +104,17 @@
     }
   })
   export default class Appraise extends Vue {
-    appraiseList = [
-      {
-        orderId: 'L0678L0678',
-        username: '张三',
-        orderType: '普通订单',
-        deliveryRating: 5,
-        service: 5,
-        desc: 'aaaaaaaaaaaa',
-        packageRating: 5,
-        appraiseDate: '2019-04-15 17:15:35'
-      }
-    ]
+    appraiseList = []
     userDesc = ''
     feedbackData = ''
     columns= [
       {
         title: '订单编号',
-        key: 'orderId'
+        key: 'number'
       },
       {
         title: '用户姓名',
-        key: 'username'
+        key: 'accountName'
       },
       {
         title: '订单类型',
@@ -133,23 +122,23 @@
       },
       {
         title: '配送/自取评分',
-        key: 'deliveryRating'
+        key: 'deliveryScore'
       },
       {
         title: '服务状态',
-        key: 'service'
+        key: 'serviceScore'
       },
       {
         title: '描述相符',
-        key: 'desc'
+        key: 'describeScore'
       },
       {
         title: '包装评分',
-        key: 'packageRating'
+        key: 'packageScore'
       },
       {
         title: '评价时间',
-        key: 'appraiseDate'
+        key: 'createdDate'
       }
     ];
     pagination = {
@@ -209,13 +198,48 @@
       this.getFeedbacks()
     }
 
+    typeList = [
+      {
+        value: 'SIMPLE',
+        label: '普通订单'
+      },
+      {
+        value: 'RX',
+        label: '处方订单'
+      },
+      {
+        value: 'HOSPITAL',
+        label: '医院订单'
+      }
+    ]
+
+    convertOrderType (type) {
+      switch (type) {
+        case 'SIMPLE':
+          return '普通订单'
+
+        case 'RX':
+          return '处方订单'
+
+        case 'HOSPITAL':
+          return '医院订单'
+      }
+    }
+
     async getAppraise () {
-      // let params = {
-      //   pageNum: this.pagination.currentPage,
-      //   pageSize: this.pagination.pageSize
-      // }
-      // let {data: appraiseData} = await axios.get(`/api/shop/feedbacks`, {params})
-      // console.log(appraiseData)
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      let {data: appraiseData} = await axios.get(`/api/shop/order/appraise`, {params})
+      console.log(appraiseData)
+      this.pagination.total = appraiseData.total
+      this.appraiseList = appraiseData.list
+
+      this.appraiseList.forEach(item => {
+        item.orderType = this.convertOrderType(item.type)
+        item.createdDate = moment(item.createdDate).format('YY-MM-DD HH:ss:mm')
+      })
     }
 
     beforeMount () {
