@@ -4,26 +4,8 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>新增推荐</h3>
-        <div class="action">
-          <el-button class="select-btn value-btn" v-if="drugValue.drugName" size="small" @click="drugDialog = true">{{ drugValue.drugName }}</el-button>
-          <el-button class="select-btn" v-else size="small" @click="drugDialog = true">请选择药品</el-button>
-          <el-button type="primary" size="small" @click="getDrugInfo">确定</el-button>
-        </div>
+        <h3>查看详情</h3>
       </div>
-
-      <!--选择药品弹窗-->
-      <el-dialog
-        title="请选择药品"
-        :close-on-click-modal='isCloseOnClickModal'
-        :visible.sync="drugDialog"
-        width="50%">
-        <Drug v-on:listenToChildEvent="getSelectedInfo"></Drug>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="drugDialog = false">取 消</el-button>
-          <el-button type="primary" @click="confirmSelect">确 定</el-button>
-        </span>
-      </el-dialog>
 
       <d2-crud
         :columns="columns"
@@ -36,6 +18,7 @@
       <el-form ref="form" :model="recommendForm" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
+            readonly
             size="small"
             v-model="recommendForm.time"
             type="datetimerange"
@@ -45,13 +28,12 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="活动价格：">
-          <el-input v-model="recommendForm.price" size="small" style="width: 400px"></el-input>
+          <el-input readonly v-model="recommendForm.price" size="small" style="width: 400px"></el-input>
         </el-form-item>
         <el-form-item label="活动数量：">
-          <el-input v-model="recommendForm.number" size="small" style="width: 400px"></el-input>
+          <el-input readonly v-model="recommendForm.number" size="small" style="width: 400px"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="recommendSubmit">提交</el-button>
           <el-button @click="back">返回</el-button>
         </el-form-item>
       </el-form>
@@ -73,7 +55,7 @@
       Drug
     }
   })
-  export default class RecommendCreate extends Vue {
+  export default class RecommendDetail extends Vue {
     drugName = ''
     drugValue = '' // 药品信息
     selectedInfo = '' // 子组件传过来的数据
@@ -117,30 +99,18 @@
       number: ''
     }
 
-    getSelectedInfo (data) {
-      this.selectedInfo = data
+    beforeMount () {
+      this.getRecommendDetail()
     }
 
-    confirmSelect () {
-      if (!this.selectedInfo) {
-        this.shopNameDialog = false
-        return
-      }
-      this.childData = this.selectedInfo
-      this.drugValue = this.childData
-      this.drugDialog = false
+    async getRecommendDetail () {
+      // let id = this.$route.query.id
+      // let shopDrugId = this.$route.query.shopDrugId
+      // let resDetail = await axios.get(`/api/shop/ShopDrugAdminDTO/${shopDrugId}`)
+
+      // console.log(resDetail)
     }
 
-    getDrugInfo () {
-      console.log(this.drugValue)
-      this.drugData = []
-      if (this.drugValue) {
-        this.drugData.push(this.drugValue)
-      }
-    }
-    recommendSubmit () {
-      // this.$router.push('/business/recommend')
-    }
     back () {
       this.$router.go(-1)
     }

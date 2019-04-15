@@ -34,7 +34,15 @@
             <el-input v-model="shopForm.gspCertificate" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="RCB Key：">
-            <el-input v-model="shopForm.rcb" placeholder="请输入"></el-input>
+            <el-select v-model="shopForm.rcb" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <!--<el-input v-model="shopForm.rcb" placeholder="请输入"></el-input>-->
           </el-form-item>
           <el-form-item label="营业开始时间：">
             <el-time-select
@@ -69,13 +77,37 @@
             <el-button class="select-btn" v-else @click="dialogMapVisible = true" style="color: #C0C4CC;" size="middle">请输入</el-button>
           </el-form-item>
           <el-form-item label="是否支持医保：">
-            <el-input v-model="shopForm.medicaid" placeholder="请选择"></el-input>
+            <el-select v-model="shopForm.medicaid" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <!--<el-input v-model="shopForm.medicaid" placeholder="请选择"></el-input>-->
           </el-form-item>
           <el-form-item label="是否支持统筹：">
-            <el-input v-model="shopForm.gathered" placeholder="请选择"></el-input>
+            <el-select v-model="shopForm.gathered" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <!--<el-input v-model="shopForm.gathered" placeholder="请选择"></el-input>-->
           </el-form-item>
           <el-form-item label="是否配送：">
-            <el-input v-model="shopForm.distribution" placeholder="请选择"></el-input>
+            <el-select v-model="shopForm.distribution" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <!--<el-input v-model="shopForm.distribution" placeholder="请选择"></el-input>-->
           </el-form-item>
           <el-form-item label="配送距离：">
             <el-input v-model="shopForm.distance" placeholder="3公里"></el-input>
@@ -226,12 +258,22 @@
       distance: '',
       introduction: '',
       fileId: '', // 药店LOGO图片ID
-      shopInnerFileId: '', // 最多4张店内照片ID
+      shopInnerFileId: [], // 最多4张店内照片ID
       licenseFileId: '', // 营业执照图片ID
       certificateFileId: '', // 经营许可证图片ID
       gspFileId: '', // gsp图片ID
       identityNumberFileId: '' // 身份证图片ID
     }
+    options = [
+      {
+        value: true,
+        label: '是'
+      },
+      {
+        value: false,
+        label: '否'
+      }
+    ]
     shopLogo = '' // 药店封面照
     shopLogoFile = {} // 药店LOGO存放
     handleAvatarSuccess (res, file) {
@@ -271,16 +313,46 @@
 
     async submit () {
       // 上传logo图片
-      let fileParams = new FormData()
-      fileParams.append('file', this.shopLogoFile)
-      fileParams.append('fileType', 'LOGO')
-      let { data: fileID } = await axios.post(`/api/shop/files`, fileParams)
-      console.log(fileID)
+      // let fileParams = new FormData()
+      // fileParams.append('file', this.shopLogoFile)
+      // fileParams.append('fileType', 'LOGO')
+      // let { data: fileID } = await axios.post(`/api/shop/files`, fileParams)
+      // console.log(fileID)
       // this.shopForm.fileId = fileID
 
-      // let params = this.shopForm
-      // let addShop = await axios.post(`/api/shop/shops`, params)
-      // console.log(addShop)
+      let shopCreateDTO = {
+        name: this.name,
+        phone: this.phone,
+        legal: this.legal,
+        identityNumber: this.identityNumber,
+        mail: this.mail,
+        legalPhone: this.legalPhone,
+        taxCode: this.taxCode,
+        gspCertificate: this.gspCertificate,
+        rcb: this.rcb,
+        openTime: this.openTime,
+        closeTime: this.closeTime,
+        certificate: this.certificate,
+        lng: this.lng,
+        lat: this.lat,
+        medicaid: this.medicaid,
+        gathered: this.gathered,
+        distribution: this.distribution,
+        distance: this.distance,
+        introduction: this.introduction,
+        fileId: '', // 药店LOGO图片ID
+        shopInnerFileId: [], // 最多4张店内照片ID
+        licenseFileId: '', // 营业执照图片ID
+        certificateFileId: '', // 经营许可证图片ID
+        gspFileId: '', // gsp图片ID
+        identityNumberFileId: '', // 身份证图片ID
+        //
+        address: '',
+        alipay: '',
+        alipayAppId: ''
+      }
+      let addShop = await axios.post(`/api/shop/shops`, shopCreateDTO)
+      console.log(addShop)
       // if (addShop) {
       //   this.$message({
       //     message: '添加成功',

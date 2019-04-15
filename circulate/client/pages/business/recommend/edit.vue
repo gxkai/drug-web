@@ -4,26 +4,8 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>新增推荐</h3>
-        <div class="action">
-          <el-button class="select-btn value-btn" v-if="drugValue.drugName" size="small" @click="drugDialog = true">{{ drugValue.drugName }}</el-button>
-          <el-button class="select-btn" v-else size="small" @click="drugDialog = true">请选择药品</el-button>
-          <el-button type="primary" size="small" @click="getDrugInfo">确定</el-button>
-        </div>
+        <h3>编辑推荐</h3>
       </div>
-
-      <!--选择药品弹窗-->
-      <el-dialog
-        title="请选择药品"
-        :close-on-click-modal='isCloseOnClickModal'
-        :visible.sync="drugDialog"
-        width="50%">
-        <Drug v-on:listenToChildEvent="getSelectedInfo"></Drug>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="drugDialog = false">取 消</el-button>
-          <el-button type="primary" @click="confirmSelect">确 定</el-button>
-        </span>
-      </el-dialog>
 
       <d2-crud
         :columns="columns"
@@ -73,7 +55,7 @@
       Drug
     }
   })
-  export default class RecommendCreate extends Vue {
+  export default class RecommendEdit extends Vue {
     drugName = ''
     drugValue = '' // 药品信息
     selectedInfo = '' // 子组件传过来的数据
