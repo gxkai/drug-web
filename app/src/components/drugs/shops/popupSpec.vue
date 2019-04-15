@@ -1,5 +1,5 @@
 <template>
-  <van-popup class="popup" v-model="show1" position="bottom">
+  <van-popup v-model="show1" class="popup" position="bottom">
     <new-drug :item="drugSpec" />
     <header>
       选择规格
@@ -8,8 +8,8 @@
       <li v-for="(item, index) in drugSpecs" :key="index">
         <info-cell
           :title="item.spec"
-          is-radio
           :checked="drugSpec === item"
+          is-radio
           @click.native="
             $emit('update:drugSpec', item);
             show1 = false;
@@ -32,9 +32,11 @@
 <script>
 import infoCell from '@/components/drugs/infoCell';
 export default {
+  name: '',
   components: {
     infoCell
   },
+  mixins: [],
   model: {
     prop: 'show',
     event: 'show'
@@ -45,8 +47,12 @@ export default {
     drugSpecs: {},
     drugSpec: {}
   },
-  name: '',
-  mixins: [],
+  data() {
+    return {
+      show1: this.show
+    };
+  },
+  computed: {},
   watch: {
     show1(n) {
       this.$emit('show', n);
@@ -54,12 +60,6 @@ export default {
     show(n) {
       this.show1 = n;
     }
-  },
-  computed: {},
-  data() {
-    return {
-      show1: this.show
-    };
   },
   created() {},
   mounted() {},

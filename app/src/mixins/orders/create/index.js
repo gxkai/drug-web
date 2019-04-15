@@ -58,13 +58,17 @@ export default {
       }
     },
     async fetchPay(json, isShop) {
-      let order = await this.$http.post(`/api/orders${isShop ? '/shop' : ''}`, json);
+      let order = await this.$http.post(
+        `/api/orders${isShop ? '/shop' : ''}`,
+        json
+      );
       let url = await this.$http.get(`/api/orders/${order.id}/pay`);
       if (url === '') {
-        await this.$http.post(
-          '/orders/qy/callback',
-          { orderNo: order.number, insuranceNo: '000001', bankNo: '000000001' }
-        );
+        await this.$http.post('/orders/qy/callback', {
+          orderNo: order.number,
+          insuranceNo: '000001',
+          bankNo: '000000001'
+        });
         this.$router.replace('/orders');
         return;
       }

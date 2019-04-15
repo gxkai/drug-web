@@ -8,13 +8,13 @@
           <span>
             描述相符
           </span>
-          <new-star :score.sync="item.score" size=".56rem"/>
+          <new-star :score.sync="item.score" size=".56rem" />
         </div>
         <div class="input-wrapper">
-          <textarea placeholder="请输入您的评论" maxlength="200"/>
+          <textarea placeholder="请输入您的评论" maxlength="200" />
         </div>
       </div>
-      <new-white-space/>
+      <new-white-space />
       <div class="title-bar">
         <span>
           店铺评分
@@ -25,31 +25,29 @@
           <span>
             配送速度
           </span>
-          <new-star :score.sync="deliveryScore" size=".56rem"/>
+          <new-star :score.sync="deliveryScore" size=".56rem" />
         </div>
         <div class="appraise-bar">
           <span>
             服务态度
           </span>
-          <new-star :score.sync="serviceScore" size=".56rem"/>
+          <new-star :score.sync="serviceScore" size=".56rem" />
         </div>
         <div class="appraise-bar">
           <span>
             商品包装
           </span>
-          <new-star :score.sync="describeScore" size=".56rem"/>
+          <new-star :score.sync="describeScore" size=".56rem" />
         </div>
         <div class="appraise-bar">
           <span>
             描述相符
           </span>
-          <new-star :score.sync="packageScore" size=".56rem"/>
+          <new-star :score.sync="packageScore" size=".56rem" />
         </div>
       </div>
       <div class="submit-bar">
-        <span
-        @click="confirm"
-        >
+        <span @click="confirm">
           确认发布
         </span>
       </div>
@@ -120,7 +118,8 @@
 </style>
 <script>
 export default {
-  name: 'myAppraise',
+  name: 'MyAppraise',
+  components: {},
   data() {
     return {
       orderId: this.$route.query.orderId,
@@ -133,8 +132,6 @@ export default {
       drugs: [],
       order: {}
     };
-  },
-  components: {
   },
   watch: {},
   created() {

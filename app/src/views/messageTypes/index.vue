@@ -2,27 +2,32 @@
   <new-layout>
     <template slot="center">
       <new-white-space />
-        <div class="wrapper hairline-bottom" v-for="(item, index) in list" :key="index" @click="onClick(item)">
-          <div class="left">
-           <div class="icon" :class="`icon${index}`">
-             <van-icon :name="icons[index]" color="white" size="0.56rem"/>
-           </div>
+      <div
+        v-for="(item, index) in list"
+        :key="index"
+        class="wrapper hairline-bottom"
+        @click="onClick(item)"
+      >
+        <div class="left">
+          <div :class="`icon${index}`" class="icon">
+            <van-icon :name="icons[index]" color="white" size="0.56rem" />
           </div>
-          <div class="right">
-            <div class="line line1">
-              <span class="name">
-                {{ item.name }}
-              </span>
-              <span class="date">
-                {{ item.date | dateFmt("YYYY-MM-DD hh:mm:ss") }}
-              </span>
-            </div>
-            <div class="line line2">
-              <span>
-                {{ item.message || "暂无" }}
-              </span>
-            </div>
+        </div>
+        <div class="right">
+          <div class="line line1">
+            <span class="name">
+              {{ item.name }}
+            </span>
+            <span class="date">
+              {{ item.date | dateFmt('YYYY-MM-DD hh:mm:ss') }}
+            </span>
           </div>
+          <div class="line line2">
+            <span>
+              {{ item.message || '暂无' }}
+            </span>
+          </div>
+        </div>
       </div>
     </template>
   </new-layout>
@@ -44,13 +49,13 @@
       align-items: center;
     }
     .icon0 {
-      background-color: rgb(136,86,159);
+      background-color: rgb(136, 86, 159);
     }
     .icon1 {
-      background-color: rgb(250,158,36);
+      background-color: rgb(250, 158, 36);
     }
     .icon2 {
-      background-color: rgb(137,201,151);
+      background-color: rgb(137, 201, 151);
     }
   }
   .right {
@@ -75,16 +80,12 @@
 </style>
 <script>
 export default {
-  name: 'messageTypes',
+  name: 'MessageTypes',
   data() {
     return {
       title: '消息类型',
       list: [],
-      icons: [
-        'xitongxiaoxi-',
-        'dingdanxiaoxi-',
-        'chufang-'
-      ]
+      icons: ['xitongxiaoxi-', 'dingdanxiaoxi-', 'chufang-']
     };
   },
   created() {

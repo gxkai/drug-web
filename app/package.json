@@ -8,9 +8,18 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
+    "format": "prettier --write \"src/**/*.js\" \"src/**/*.vue\"",
+    "precommit": "lint-staged",
     "build": "node build/build.js",
     "build:pre": "cross-env NODE_ENV=production env_config=pre node build/build.js",
     "build:prod": "cross-env NODE_ENV=production env_config=prod node build/build.js"
+  },
+  "lint-staged": {
+    "src/**/*.{js,json,css,vue}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -42,6 +51,8 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@vue/eslint-config-prettier": "^4.0.1",
+    "@vue/eslint-plugin": "^4.2.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
@@ -59,16 +70,18 @@
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
-    "eslint": "^4.15.0",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^4.1.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
     "eslint-plugin-html": "^4.0.5",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.2.0",
+    "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^3.0.1",
-    "eslint-plugin-vue": "^4.0.0",
+    "eslint-plugin-vue": "^4.7.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
@@ -83,6 +96,7 @@
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.0.8",
     "postcss-url": "^7.2.1",
+    "prettier": "1.17.0",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.0.3",
     "sass-resources-loader": "^1.3.5",
@@ -91,6 +105,7 @@
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
+    "vue-eslint-parser": "^6.0.3",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",

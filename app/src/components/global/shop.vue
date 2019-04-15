@@ -36,7 +36,7 @@
           {{ `${item.openTime}-${item.closeTime}` }}
         </span>
       </div>
-      <div class="line line4" v-show="item.minAmount && item.maxAmount">
+      <div v-show="item.minAmount && item.maxAmount" class="line line4">
         <span>
           价格区间：
         </span>
@@ -51,8 +51,8 @@
         </span>
       </div>
       <div
-        class="line line5"
         v-show="item.minMedicaidAmount && item.maxMedicaidAmount"
+        class="line line5"
       >
         <span>
           医保区间：
@@ -68,17 +68,17 @@
         </span>
       </div>
       <div class="line7">
-           <span v-if="item.distribution === true" class="tag">
-            可配送
-          </span>
+        <span v-if="item.distribution === true" class="tag">
+          可配送
+        </span>
         <span class="tag">
-            可自提
-          </span>
+          可自提
+        </span>
         <span class="addr">
-            距当前位置:{{ `${item.distance}km` }}
-            <van-icon name="dingwei-" />
-          </span>
-       <!-- <div class="left">
+          距当前位置:{{ `${item.distance}km` }}
+          <van-icon name="dingwei-" />
+        </span>
+        <!-- <div class="left">
           <span v-if="item.distribution === true">
             可配送
           </span>
@@ -210,11 +210,11 @@ export default {
       }
     }
   },
-  watch: {},
-  computed: {},
   data() {
     return {};
   },
+  computed: {},
+  watch: {},
   created() {},
   mounted() {},
   methods: {

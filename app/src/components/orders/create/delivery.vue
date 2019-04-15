@@ -2,16 +2,16 @@
   <van-tabs v-model="active1">
     <van-tab title="到店自取">
       <div class="self-wrapper">
-        <shop-cell icon="location" title="自取地址:" :desc="shop.address" />
+        <shop-cell :desc="shop.address" icon="location" title="自取地址:" />
         <shop-cell
+          :desc="`${shop.openTime}-${shop.closeTime}`"
           icon="clock"
           title="营业时间:"
-          :desc="`${shop.openTime}-${shop.closeTime}`"
         />
         <shop-cell
+          :desc="`${shop.phone}`"
           icon="dianhua-"
           title="电话:"
-          :desc="`${shop.phone}`"
           @click.native="onPhone(shop.phone)"
         />
         <div class="location" @click="onLocation">
@@ -23,7 +23,7 @@
       </div>
     </van-tab>
     <van-tab title="送货上门" @click.native="onAddress(shop)">
-      <div class="add-wrapper" v-if="address === undefined">
+      <div v-if="address === undefined" class="add-wrapper">
         <img src="@/assets/img/orders/create/add.png" />
         <div class="line">
           <span>
@@ -31,16 +31,16 @@
           </span>
         </div>
       </div>
-      <div class="self-wrapper" v-else>
-        <shop-cell title="收货人:" :desc="address.consignee || ''" icon="wo-" />
+      <div v-else class="self-wrapper">
+        <shop-cell :desc="address.consignee || ''" title="收货人:" icon="wo-" />
         <shop-cell
-          title="收货电话:"
           :desc="address.phone || ''"
+          title="收货电话:"
           icon="dianhua-"
         />
         <shop-cell
-          title="收货地址:"
           :desc="`${address.address || ''}${address.room || ''}`"
+          title="收货地址:"
           icon="location"
         />
       </div>
@@ -51,20 +51,26 @@
 <script>
 import shopCell from '@/components/orders/shopCell';
 export default {
+  name: '',
   components: {
     shopCell
   },
+  mixins: [],
   model: {
     prop: 'active',
     event: 'active'
   },
-  name: '',
   props: {
     shop: {},
     address: {},
     active: {}
   },
-  mixins: [],
+  data() {
+    return {
+      active1: this.active
+    };
+  },
+  computed: {},
   watch: {
     active1(n) {
       this.$emit('active', n);
@@ -75,12 +81,6 @@ export default {
     address(n) {
       this.$emit('address', n);
     }
-  },
-  computed: {},
-  data() {
-    return {
-      active1: this.active
-    };
   },
   created() {},
   mounted() {},

@@ -1,34 +1,32 @@
 import vue from 'vue';
 
 // 这里就是我们刚刚创建的那个静态组件
-import toastComponent from './toast.vue';
+import loadingComponent from './loading.vue';
 
 // 返回一个 扩展实例构造器
-const ToastConstructor = vue.extend(toastComponent);
+const LoadingConstructor = vue.extend(loadingComponent);
 
 // 定义弹出组件的函数 接收2个参数, 要显示的文本 和 显示时间
 // 实例化一个 toast.vue
-const toastDom = new ToastConstructor({
+const loadingDom = new LoadingConstructor({
   el: document.createElement('div'),
   data() {
     return {
-      text: '',
+      type: 1,
       show: true
     };
   }
 });
 let dToast = {
-  show(text, duration) {
-    toastDom.text = text;
-    // 把 实例化的 toast.vue 添加到 body 里
-    document.body.appendChild(toastDom.$el);
-    // 过了 duration 时间后隐藏
-    if (duration) {
-      setTimeout(() => { toastDom.show = false; }, duration);
+  loading(type) {
+    if (type !== undefined) {
+      loadingDom.type = type;
     }
+    // 把 实例化的 toast.vue 添加到 body 里
+    document.body.appendChild(loadingDom.$el);
   },
-  hide() {
-    toastDom.show = false;
+  clear() {
+    loadingDom.show = false;
   }
 };
 

@@ -33,5 +33,8 @@ export default {
       default:
         return '';
     }
+  },
+  delHtmlTag(input) {
+    return input.replace(/<[^>]+>|&[^>]+;/g, '').trim();
   }
 };

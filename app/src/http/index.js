@@ -19,20 +19,18 @@ axios.interceptors.request.use(
     return config;
   },
   err => {
-    _this.$dToast.hide();
     _this.$toast.clear();
-    _this.hideLoading();
+    _this.$dToast.clear();
     return Promise.reject(err);
-  });
+  }
+);
 axios.interceptors.response.use(
   response => {
-    _this.$dToast.hide();
     _this.$toast.clear();
-    _this.hideLoading();
+    _this.$dToast.clear();
     return response;
   },
   error => {
-    _this.hideLoading();
     if (error.response) {
       switch (error.response.status) {
         case 401:
@@ -40,7 +38,10 @@ axios.interceptors.response.use(
           _this.$toast('登陆失效，请重新从趣医入口进入');
           break;
         case 400:
-          if (error.response.data.fieldErrors !== undefined && error.response.data.fieldErrors !== null) {
+          if (
+            error.response.data.fieldErrors !== undefined &&
+            error.response.data.fieldErrors !== null
+          ) {
             _this.$toast(error.response.data.fieldErrors[0].message);
           } else {
             _this.$toast(`${error.response.data.message}`);
@@ -55,21 +56,23 @@ axios.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  });
+  }
+);
 
 const index = {
   get(url, params) {
     if (params === undefined) {
       params = {};
     }
-    params.date = (new Date()).getTime();
+    params.date = new Date().getTime();
     return new Promise((resolve, reject) => {
-      axios.get(url, {
-        params: params,
-        paramsSerializer: (params) => {
-          return qs.stringify(params, { arrayFormat: 'repeat' });
-        }
-      })
+      axios
+        .get(url, {
+          params: params,
+          paramsSerializer: params => {
+            return qs.stringify(params, { arrayFormat: 'repeat' });
+          }
+        })
         .then(res => {
           resolve(res.data);
         })
@@ -80,7 +83,8 @@ const index = {
   },
   put(url, data, config) {
     return new Promise((resolve, reject) => {
-      axios.put(url, data, config)
+      axios
+        .put(url, data, config)
         .then(res => {
           resolve(res.data);
         })
@@ -91,12 +95,13 @@ const index = {
   },
   delete(url, params) {
     return new Promise((resolve, reject) => {
-      axios.delete(url, {
-        params: params,
-        paramsSerializer: (params) => {
-          return qs.stringify(params, { arrayFormat: 'repeat' });
-        }
-      })
+      axios
+        .delete(url, {
+          params: params,
+          paramsSerializer: params => {
+            return qs.stringify(params, { arrayFormat: 'repeat' });
+          }
+        })
         .then(res => {
           resolve(res.data);
         })
@@ -107,8 +112,9 @@ const index = {
   },
   post(url, data, config) {
     return new Promise((resolve, reject) => {
-      _this.$toast.loading({forbidClick: true, duration: 0});
-      axios.post(url, data, config)
+      _this.$toast.loading({ forbidClick: true, duration: 0 });
+      axios
+        .post(url, data, config)
         .then(res => {
           resolve(res.data);
         })

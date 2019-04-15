@@ -1,28 +1,27 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.util.conf with an alias.
 import Vue from 'vue';
-import App from './App';
-import store from './store';
-import util from './utils';
-import component from './components';
-import http from './http';
-import api from './api';
+import App from '@/App';
+import store from '@/store';
+import component from '@/components';
+import http from '@/http';
+import api from '@/api';
 import storage from 'good-storage';
 import 'lib-flexible';
 import 'normalize.css';
 import BaiduMap from 'vue-baidu-map';
 import fastclick from 'fastclick';
-import filters from './filters';
-import './icons/iconfont.css';
-import './plugins/vconsole';
+import filters from '@/filters';
+import '@/icons/iconfont.css';
+import dui from '@/components/global/dui';
+// import '@/plugins/vconsole';
 import _ from 'lodash';
-import directive from './directives';
+import directive from '@/directives';
 import VueI18n from 'vue-i18n';
-import mixinIndx from './mixins';
-import mixinLoad from './mixins/load';
-import toastRegistry from './components/toast/index';
+import mixinIndx from '@/mixins';
 import Es6Promise from 'es6-promise';
-import { Step,
+import {
+  Step,
   Steps,
   Actionsheet,
   GoodsAction,
@@ -62,15 +61,17 @@ import { Step,
   CollapseItem,
   Uploader,
   Tag,
-  Picker } from 'vant';
-import router from './router';
+  Picker
+} from 'vant';
+import router from '@/router';
 import Navigation from 'vue-navigation';
 Es6Promise.polyfill();
-Vue.use(toastRegistry);
+Vue.use(dui);
 Vue.use(VueI18n);
 Vue.use(directive);
 Vue.use(Navigation, { router });
-Vue.use(Actionsheet).use(GoodsAction)
+Vue.use(Actionsheet)
+  .use(GoodsAction)
   .use(GoodsActionBigBtn)
   .use(GoodsActionMiniBtn)
   .use(Popup)
@@ -121,7 +122,6 @@ Vue.prototype.$api = api;
 Vue.prototype.$storage = storage;
 Vue.prototype._ = _;
 Vue.config.productionTip = false;
-Vue.use(util);
 Vue.use(component);
 Vue.use(BaiduMap, {
   ak: 'FG7wxr1VUj0k2NwoO3yXzymd&services=&t=20170517145936'
@@ -140,12 +140,11 @@ Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
 const i18n = new VueI18n({
   locale: 'zh',
   messages: {
-    'zh': require('./lang/zh')
+    zh: require('./lang/zh')
   }
 });
 // 混入
 Vue.mixin(mixinIndx);
-Vue.mixin(mixinLoad);
 /* eslint-disable no-new */
 export default new Vue({
   el: '#app',

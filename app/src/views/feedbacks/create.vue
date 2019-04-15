@@ -2,10 +2,10 @@
   <new-layout>
     <template slot="center">
       <textarea
+        v-model="content"
         name=""
         rows=""
         cols=""
-        v-model="content"
         maxlength="100"
         placeholder="您的意见对我们非常重要，我们会不断的优化和改善，努力为您带来更高的体验，谢谢。~_~最多100字哦。"
       ></textarea>
@@ -33,7 +33,7 @@ textarea {
 </style>
 <script>
 export default {
-  name: 'feedbacks',
+  name: 'Feedbacks',
   data() {
     return {
       content: ''

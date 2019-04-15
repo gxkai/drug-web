@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'end',
+  name: 'End',
   props: {
     name: { default: '我是有底线的' }
   }
@@ -21,19 +21,20 @@ export default {
 .title-bar {
   display: grid;
   grid-template-columns: repeat(3, auto);
-  grid-column-gap: 10px;
+  grid-column-gap: 20px;
   grid-template-rows: 65px;
   justify-content: center;
   align-items: center;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   .name {
     color: $gray-light;
     font-size: $size-small;
   }
   .horizon-line {
-    width: 44px;
-    height: 1PX;
+    width: 160px;
+    height: 1px;
     background-color: $gray-light;
+    opacity: 0.5;
   }
 }
 </style>

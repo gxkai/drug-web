@@ -35,16 +35,16 @@
 
 <script>
 export default {
+  name: '',
+  mixins: [],
   props: {
     item: {}
   },
-  name: '',
-  mixins: [],
-  watch: {},
-  computed: {},
   data() {
     return {};
   },
+  computed: {},
+  watch: {},
   created() {},
   mounted() {},
   methods: {}

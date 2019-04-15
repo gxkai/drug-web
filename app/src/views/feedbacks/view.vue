@@ -1,47 +1,45 @@
 <template>
-    <new-layout>
-      <template slot="center">
-        <new-white-space/>
-        <header class="hairline-bottom">
-          我提交的
-        </header>
-        <textarea disabled/>
-        <new-white-space/>
-        <header class="hairline-bottom">
-          回复我的
-        </header>
-        <textarea disabled/>
-      </template>
-    </new-layout>
+  <new-layout>
+    <template slot="center">
+      <new-white-space />
+      <header class="hairline-bottom">
+        我提交的
+      </header>
+      <textarea disabled />
+      <new-white-space />
+      <header class="hairline-bottom">
+        回复我的
+      </header>
+      <textarea disabled />
+    </template>
+  </new-layout>
 </template>
 
 <script>
-  export default {
-    name: '',
-    mixins: [],
-    watch: {},
-    computed: {},
-    data() {
-      return {};
-    },
-    created() {
-    },
-    mounted() {
-    },
-    methods: {}
-  };
+export default {
+  name: '',
+  mixins: [],
+  data() {
+    return {};
+  },
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
+  methods: {}
+};
 </script>
 
 <style scoped type="text/scss" lang="scss">
-    header {
-      padding: 10px 15px;
-      background: white;
-    }
-  textarea {
-    width: 720px;
-    min-height: 360px;
-    background: rgba(255, 255, 255, 1);
-    padding: 70px 20px 20px 20px;
-    font-size: 30px;
-  }
+header {
+  padding: 10px 15px;
+  background: white;
+}
+textarea {
+  width: 720px;
+  min-height: 360px;
+  background: rgba(255, 255, 255, 1);
+  padding: 70px 20px 20px 20px;
+  font-size: 30px;
+}
 </style>

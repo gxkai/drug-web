@@ -2,9 +2,19 @@
   <div>
     <new-layout>
       <template slot="center">
-        <delivery :shop.sync="shop" :address.sync="address" v-model="active"/>
+        <delivery :shop.sync="shop" :address.sync="address" v-model="active" />
         <new-white-space />
-        <shop-bar :leftText="shop.name" leftIcon="yaodian-" @click-left="loadPageShopsView(shop.id)" :rightIcon="shopDrugOrderDTO.rxId !== null ? 'chufang-':''" @click-right="shopDrugOrderDTO.rxId !== null?loadPageRxsView(shopDrugOrderDTO.rxId, true):''"/>
+        <shop-bar
+          :left-text="shop.name"
+          :right-icon="shopDrugOrderDTO.rxId !== null ? 'chufang-' : ''"
+          left-icon="yaodian-"
+          @click-left="loadPageShopsView(shop.id)"
+          @click-right="
+            shopDrugOrderDTO.rxId !== null
+              ? loadPageRxsView(shopDrugOrderDTO.rxId, true)
+              : ''
+          "
+        />
         <new-drug
           v-for="(item, index) in shopDrugOrderDTO.drugs"
           :key="index"
@@ -12,18 +22,43 @@
         />
         <new-white-space />
         <div>
-          <input-cell label="买家留言" v-model="accountRemark" placeholder="如需要留言，请留言"/>
-          <info-cell title="商品总金额" :desc="`￥${shopDrugOrderDTO.amount || ''}`" color="#d7000e"/>
-          <info-cell title="医保扣除" :desc="`￥${shopDrugOrderDTO.medicaidAmount || ''}`" color="#d7000e"
-          v-show="isMedicarePay"
+          <input-cell
+            v-model="accountRemark"
+            label="买家留言"
+            placeholder="如需要留言，请留言"
+          />
+          <info-cell
+            :desc="`￥${shopDrugOrderDTO.amount || ''}`"
+            title="商品总金额"
+            color="#d7000e"
+          />
+          <info-cell
+            v-show="isMedicarePay"
+            :desc="`￥${shopDrugOrderDTO.medicaidAmount || ''}`"
+            title="医保扣除"
+            color="#d7000e"
           />
         </div>
       </template>
       <template slot="bottom">
-        <new-submit-bar name="提交订单" :content="`实付款：￥${isMedicarePay === true ? shopDrugOrderDTO.payAmount: shopDrugOrderDTO.amount}`" @click="preOrder"/>
+        <new-submit-bar
+          :content="
+            `实付款：￥${
+              isMedicarePay === true
+                ? shopDrugOrderDTO.payAmount
+                : shopDrugOrderDTO.amount
+            }`
+          "
+          name="提交订单"
+          @click="preOrder"
+        />
       </template>
     </new-layout>
-    <action-sheet v-model="show" :isMedicarePay.sync="isMedicarePay" @confirm="onOrder"/>
+    <action-sheet
+      v-model="show"
+      :is-medicare-pay.sync="isMedicarePay"
+      @confirm="onOrder"
+    />
   </div>
 </template>
 <script>
@@ -36,14 +71,7 @@ import actionSheet from '@/components/orders/actionSheet';
 import create from '@/mixins/orders/create';
 
 export default {
-  name: 'createFromCart',
-  mixins: [create],
-  data() {
-    return {
-      name: '订单结算',
-      shopDrugOrderDTO: this.$route.params.shopDrugOrderDTO
-    };
-  },
+  name: 'CreateFromCart',
   components: {
     infoCell,
     inputCell,
@@ -52,13 +80,18 @@ export default {
     shopBar,
     delivery
   },
-  watch: {
+  mixins: [create],
+  data() {
+    return {
+      name: '订单结算',
+      shopDrugOrderDTO: this.$route.params.shopDrugOrderDTO
+    };
   },
+  watch: {},
   created() {
     this.initData();
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     async initData() {
       console.log(this.shopDrugOrderDTO);
@@ -86,5 +119,4 @@ export default {
   }
 };
 </script>
-<style scoped type="text/scss" lang="scss">
-</style>
+<style scoped type="text/scss" lang="scss"></style>

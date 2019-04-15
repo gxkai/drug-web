@@ -1,14 +1,12 @@
 <template>
-  <div id="app" v-cloak>
-    <top-left/>
-    <bottom-right/>
-    <transition
-      :name="transitionName"
-      >
+  <div v-cloak id="app">
+    <top-left />
+    <bottom-right />
+    <transition :name="transitionName">
       <navigation v-if="$route.meta.navigation">
-        <router-view class="app-router"/>
+        <router-view class="app-router" />
       </navigation>
-      <router-view class="app-router" v-else/>
+      <router-view v-else class="app-router" />
     </transition>
   </div>
 </template>
@@ -29,37 +27,36 @@ export default {
       isProd: process.env.NODE_ENV === 'production'
     };
   },
-  computed: {
-  },
+  computed: {},
   created() {
-    this.$navigation.on('forward', (to, from) => {
+    this.$navigation.on('forward', () => {
       this.transitionName = 'slide-left';
     });
-    this.$navigation.on('back', (to, from) => {
+    this.$navigation.on('back', () => {
       this.transitionName = 'slide-right';
     });
   },
-  methods: {
-  }
+  methods: {}
 };
 </script>
-<style lang="scss">
-@import "assets/scss/index.scss";
+<style lang="scss" type="text/scss">
+@import 'assets/scss/index.scss';
 .app-router {
-  position:absolute;
-  width:100%;
-  transition:all.8s cubic-bezier(.55,0,.1,1);
+  position: absolute;
+  width: 100%;
+  transition: all.8s cubic-bezier(0.55, 0, 0.1, 1);
 }
- 	.slide-left-enter,.slide-right-leave-active {
-   opacity:0;
-   transform: translate(100%, 0);
+.slide-left-enter,
+.slide-right-leave-active {
+  opacity: 0;
+  transform: translate(100%, 0);
 }
- 	.slide-left-leave-active,.slide-right-enter {
-   opacity:0;
-   transform: translate(-100%, 0);
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  transform: translate(-100%, 0);
 }
 [v-cloak] {
-  display:none!important;
-
+  display: none !important;
 }
 </style>

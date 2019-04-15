@@ -8,9 +8,7 @@
         客户服务
       </div>
     </div>
-    <div class="vertical-line">
-
-    </div>
+    <div class="vertical-line"></div>
     <div class="item">
       <div class="desc">
         --
@@ -19,9 +17,7 @@
         发货速度
       </div>
     </div>
-    <div class="vertical-line">
-
-    </div>
+    <div class="vertical-line"></div>
     <div class="item">
       <div class="desc">
         --
@@ -30,9 +26,7 @@
         物流速度
       </div>
     </div>
-    <div class="vertical-line">
-
-    </div>
+    <div class="vertical-line"></div>
     <div class="item">
       <div class="desc">
         --
@@ -45,48 +39,46 @@
 </template>
 
 <script>
-  export default {
-    name: '',
-    mixins: [],
-    watch: {},
-    computed: {},
-    data() {
-      return {};
-    },
-    created() {
-    },
-    mounted() {
-    },
-    methods: {}
-  };
+export default {
+  name: '',
+  mixins: [],
+  data() {
+    return {};
+  },
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
+  methods: {}
+};
 </script>
 
 <style scoped type="text/scss" lang="scss">
-  .score-bar {
+.score-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  grid-template-rows: 100px;
+  background-color: white;
+  align-items: center;
+  justify-items: center;
+  .vertical-line {
+    width: 1px;
+    height: 45px;
+    background-color: #ffffff;
+    border: solid 1px #cccccc;
+  }
+  .item {
     display: grid;
-    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
-    grid-template-rows: 100px;
-    background-color: white;
-    align-items: center;
+    grid-row-gap: 10px;
     justify-items: center;
-    .vertical-line {
-      width: 1px;
-      height: 45px;
-      background-color: #ffffff;
-      border: solid 1px #cccccc;
+    .desc {
+      color: #ff0011;
+      font-size: $size-least;
     }
-    .item {
-      display: grid;
-      grid-row-gap: 10px;
-      justify-items: center;
-      .desc {
-        color: #ff0011;
-        font-size: $size-least;
-      }
-      .title {
-        font-size: $size-mini;
-        color: $gray;
-      }
+    .title {
+      font-size: $size-mini;
+      color: $gray;
     }
   }
+}
 </style>

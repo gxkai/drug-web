@@ -3,18 +3,20 @@
     <new-layout>
       <template slot="center">
         <info-wrapper :rx="rx" />
-        <rp-wrapper :list="rx.list"/>
+        <rp-wrapper :list="rx.list" />
       </template>
       <template slot="bottom">
-        <new-submit-button v-show="!hideButton" :backgroundColor="rx.state === 'ENABLED' ? '#d7000e' : '#999999'" name="购买"
-        @click="submit"
+        <new-submit-button
+          v-show="!hideButton"
+          :background-color="rx.state === 'ENABLED' ? '#d7000e' : '#999999'"
+          name="购买"
+          @click="submit"
         />
       </template>
     </new-layout>
   </div>
 </template>
-<style type="text/scss" lang="scss" scoped>
-</style>
+<style type="text/scss" lang="scss" scoped></style>
 <script>
 import infoWrapper from '@/components/rxs/infoWrapper';
 import rpWrapper from '@/components/rxs/rpWrapper';

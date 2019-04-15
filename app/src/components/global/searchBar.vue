@@ -2,10 +2,10 @@
   <div class="nav-bar">
     <form action="" onsubmit="return false;">
       <input
-        class="van-icon"
         :placeholder="placeholder"
-        type="search"
         :value="value"
+        class="van-icon"
+        type="search"
         @input="updateValue($event.target.value)"
         @keypress="search"
       />
@@ -21,10 +21,10 @@ export default {
     placeholder: {},
     value: {}
   },
-  computed: {},
   data() {
     return {};
   },
+  computed: {},
   created() {
     console.log(this.value);
   },

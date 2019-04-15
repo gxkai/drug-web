@@ -8,11 +8,10 @@ export default {
       order: ''
     };
   },
-  created() {
-  },
+  created() {},
   methods: {
     onOrder(order) {
-      this.$router.push({path: '/orders/view', query: {orderId: order.id}});
+      this.$router.push({ path: '/orders/view', query: { orderId: order.id } });
     },
     async onCancel(order) {
       await this.$http.put(`/api/orders/${order.id}/close`);
@@ -27,8 +26,7 @@ export default {
       this.order = order;
       this.refundShow = true;
     },
-    onRefundConfirm() {
-    },
+    onRefundConfirm() {},
     onAppraise(order) {
       this.loadPageDrugAppraisesCreate(order.id);
     },

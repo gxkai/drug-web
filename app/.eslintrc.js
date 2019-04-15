@@ -1,24 +1,34 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  // parser: 'babel-eslint',
+  parserOptions: {
+    parser: 'babel-eslint',
+    ecmaVersion: 2017,
+    sourceType: 'module'
+  },
   env: {
     browser: true,
     node: true
   },
-  extends: 'standard',
+  extends: ['plugin:vue/recommended', '@vue/prettier'],
   // required to lint *.vue files
-  plugins: [
-    'html'
-  ],
+  plugins: ['html', 'prettier'],
   // add your custom rules here
   rules: {
-    "semi": ["error", "always"],
-    "space-before-function-paren": ["error", {
-      "anonymous": "always",
-      "named": "never",
-      "asyncArrow": "always",
-    }],
-    "no-debugger": process.env.NODE_ENV === 'production' ? 2 : 0
+    'vue/require-prop-types': 0,
+    'vue/require-default-prop': 0,
+    'vue/require-v-for-key': 1,
+    'no-console': 0,
+    'prettier/prettier': [
+      1,
+      {
+        singleQuote: true,
+        trailingComma: 'none',
+        bracketSpacing: true,
+        jsxBracketSameLine: true
+      }
+    ],
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   },
   globals: {}
-}
+};

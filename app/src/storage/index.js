@@ -51,7 +51,7 @@ export function setCurrentAddress(position) {
 
 export function removeCurrentAddress() {
   that.$storage.remove(CurrentAddressKey);
-};
+}
 
 /**
  * 收货地址

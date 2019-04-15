@@ -1,10 +1,18 @@
 <template>
   <div>
-    <van-icon name="pingjia-2" :size="size" v-for="(item,index) in arr" :key="index" @click="change(item,index)"  :color="item?'#ffae21':'#999999'"/>
+    <van-icon
+      v-for="(item, index) in arr"
+      :size="size"
+      :key="index"
+      :color="item ? '#ffae21' : '#999999'"
+      name="pingjia-2"
+      @click="change(item, index)"
+    />
   </div>
 </template>
 <script>
 export default {
+  name: 'NewStar',
   props: {
     score: {
       default: 5
@@ -14,7 +22,6 @@ export default {
     },
     disabled: {}
   },
-  name: 'newStar',
   data() {
     return {
       arr: [false, false, false, false, false],
@@ -22,24 +29,24 @@ export default {
       newScore: this.score
     };
   },
-  created() {
-    for (let i = 0; i < this.newScore; i++) {
-      this.arr[i] = true;
-    }
-  },
+  computed: {},
   watch: {
     score(value) {
       for (let i = 0; i < value; i++) {
         this.arr[i] = true;
       }
     },
-    size(value) {
-
-    },
+    size(value) {},
     newScore(value) {
       this.$emit('update:score', value);
     }
   },
+  created() {
+    for (let i = 0; i < this.newScore; i++) {
+      this.arr[i] = true;
+    }
+  },
+  mounted() {},
   methods: {
     change(item, index) {
       if (typeof this.disabled === 'undefined' || this.disabled !== '') {
@@ -71,13 +78,7 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-  },
-  computed: {
   }
 };
 </script>
-<style scoped="scoped" type="text/scss" lang="scss">
-
-</style>
+<style scoped="scoped" type="text/scss" lang="scss"></style>

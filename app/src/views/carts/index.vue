@@ -4,26 +4,16 @@
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list v-model="loading" :finished="finished" @load="onLoad">
           <div
-            class="cart"
             v-for="(cartShop, cartShopIndex) in list"
             :key="cartShopIndex"
+            class="cart"
           >
             <div class="shop">
               <div
-                class="rx"
                 v-for="(cartRx, cartRxIndex) in cartShop.rxs"
                 :key="cartRxIndex"
+                class="rx"
               >
-                <!--<header class="hairline-bottom shop-header" @click="loadPageShopsView(cartShop.id)">-->
-                <!--<div class="left">-->
-                <!--<van-icon name="yaodian-" size=".46rem"/>-->
-                <!--</div>-->
-                <!--<div class="right">-->
-                <!--<span>-->
-                <!--{{ cartShop.shopName }}-->
-                <!--</span>-->
-                <!--</div>-->
-                <!--</header>-->
                 <header
                   class="hairline-bottom rx-header"
                   @click="loadPageShopsView(cartShop.id)"
@@ -36,14 +26,16 @@
                     />
                   </div>
                   <div class="center">
+                    <van-icon name="yaodian-" size="0.5rem" />
                     <span>
                       {{ cartShop.shopName }}
                     </span>
+                    <van-icon name="arrow" />
                   </div>
                   <div
-                    class="right"
                     v-if="isRx(cartRx.rxId)"
-                    @click="loadPageRxsView(cartRx.rxId, true)"
+                    class="right"
+                    @click.stop="loadPageRxsView(cartRx.rxId, true)"
                   >
                     <van-icon name="chufang-" size="0.5rem" />
                   </div>
@@ -102,13 +94,13 @@
                           <span class="price">
                             {{ `￥${cartDrug.price}` }}
                           </span>
-                          <span class="quantity" v-if="isRx(cartRx.rxId)">
+                          <span v-if="isRx(cartRx.rxId)" class="quantity">
                             {{ `x${cartDrug.quantity}` }}
                           </span>
                           <new-stepper
                             v-else
                             v-model="cartDrug.quantity"
-                            v-on:change="changeQuantity(cartDrug, cartShop)"
+                            @change="changeQuantity(cartDrug, cartShop)"
                           />
                         </div>
                       </div>
@@ -133,12 +125,15 @@
               </div>
             </div>
           </div>
-          <new-end v-if="finished === true" :name="list.length > 0 ? 'END' : 'NONE'"/>
+          <new-end
+            v-if="finished === true"
+            :name="list.length > 0 ? 'END' : 'NONE'"
+          />
         </van-list>
       </van-pull-refresh>
     </template>
     <template slot="bottom">
-      <footer-entry :value="3"/>
+      <new-footer-entry :value="3" />
     </template>
   </new-layout>
 </template>
@@ -157,14 +152,13 @@
 }
 .cart {
   width: 690px;
-  background-color: #ffffff;
   border-radius: 10px;
   margin: 10px auto 0;
   .submit-bar {
     display: grid;
     grid-template-columns: 1fr auto;
+    padding: 20px 0;
     .left {
-      background-color: white;
       .text {
         color: #454545;
         font-size: 20px;
@@ -178,9 +172,9 @@
       padding: 0 20px;
     }
     .right {
-      padding: 15px 40px;
-      border-radius: 50px;
-      background-color: #ff0000;
+      background-color: $theme;
+      border-radius: 20px;
+      padding: 5px 15px;
       span {
         color: white;
       }
@@ -202,8 +196,16 @@
       grid-template-columns: auto 1fr auto;
       grid-column-gap: 20px;
       padding: 10px;
+      .center {
+        display: flex;
+        align-items: center;
+        .van-icon {
+          margin-right: 10px;
+        }
+      }
     }
     .rx {
+      background-color: #ffffff;
       .drug {
         position: relative;
         background-color: white;
@@ -254,13 +256,10 @@
 </style>
 <script>
 import list from '@/mixins/list';
-import footerEntry from '@/components/footerEntry';
 export default {
-  components: {
-    footerEntry
-  },
+  name: 'Carts',
+  components: {},
   mixins: [list],
-  name: 'carts',
   data() {
     return {
       chooseAll: false,

@@ -2,29 +2,28 @@
   <div>
     <new-layout>
       <template slot="center">
-        <headerWrapper/>
-        <entry-wrapper/>
-        <notice-wrapper/>
+        <headerWrapper />
+        <entry-wrapper />
+        <notice-wrapper />
         <new-white-space />
-        <discount-wrapper/>
+        <discount-wrapper />
         <new-white-space />
-        <horizon-wrapper/>
+        <horizon-wrapper />
         <new-white-space />
-        <right-wrapper/>
+        <right-wrapper />
         <new-white-space />
-        <left-wrapper/>
-        <recommend-wrapper/>
+        <left-wrapper />
+        <recommend-wrapper />
         <new-white-space />
       </template>
       <template slot="bottom">
-        <footer-entry :value="0"/>
+        <new-footer-entry :value="0" />
       </template>
     </new-layout>
-    <new-consult/>
+    <new-consult />
   </div>
 </template>
-<style scoped type="text/scss" lang="scss">
-</style>
+<style scoped type="text/scss" lang="scss"></style>
 
 <script>
 import leftTitle from '@/components/home/leftTitle';
@@ -37,9 +36,9 @@ import horizonWrapper from '@/components/home/horizonWrapper';
 import rightWrapper from '@/components/home/rightWrapper';
 import leftWrapper from '@/components/home/leftWrapper';
 import recommendWrapper from '@/components/home/recommendWrapper';
-import footerEntry from '@/components/footerEntry';
 
 export default {
+  name: 'Home',
   components: {
     leftTitle,
     centralTitle,
@@ -50,20 +49,14 @@ export default {
     horizonWrapper,
     rightWrapper,
     leftWrapper,
-    recommendWrapper,
-    footerEntry
+    recommendWrapper
   },
-  name: 'home',
   data() {
-    return {
-    };
+    return {};
   },
-  computed: {
-  },
-  created() {
-  },
+  computed: {},
+  created() {},
   mounted() {},
-  methods: {
-  }
+  methods: {}
 };
 </script>

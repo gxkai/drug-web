@@ -2,34 +2,38 @@
   <div>
     <new-layout>
       <template slot="center">
-        <new-addresses :list="list"/>
+        <addresses :list="list" />
       </template>
       <template slot="bottom">
-        <new-submit-button name="新增地址" @click.native="loadPageAddressesEdit"/>
+        <new-submit-button
+          name="新增地址"
+          @click.native="loadPageAddressesEdit"
+        />
       </template>
     </new-layout>
   </div>
 </template>
-<style scoped type="text/scss" lang="scss">
-
-</style>
+<style scoped type="text/scss" lang="scss"></style>
 <script>
-  export default {
-    name: 'addressesEdit',
-    data() {
-      return {
-        list: []
-      };
-    },
-    created() {
-      this.initData();
-    },
-    mounted() {
-    },
-    methods: {
-      async initData() {
-        this.list = await this.$http.get('/api/addresses');
-      }
+import addresses from '@/components/addresses/addresses';
+export default {
+  name: 'AddressesEdit',
+  components: {
+    addresses
+  },
+  data() {
+    return {
+      list: []
+    };
+  },
+  created() {
+    this.initData();
+  },
+  mounted() {},
+  methods: {
+    async initData() {
+      this.list = await this.$http.get('/api/addresses');
     }
-  };
+  }
+};
 </script>

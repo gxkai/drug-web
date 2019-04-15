@@ -1,24 +1,20 @@
 <template>
-    <div></div>
+  <div></div>
 </template>
 
 <script>
-  export default {
-    name: '',
-    mixins: [],
-    watch: {},
-    computed: {},
-    data() {
-      return {};
-    },
-    created() {
-    },
-    mounted() {
-    },
-    methods: {}
-  };
+export default {
+  name: '',
+  mixins: [],
+  data() {
+    return {};
+  },
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
+  methods: {}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

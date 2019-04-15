@@ -3,9 +3,9 @@
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" @load="onLoad">
         <div
-          class="wrapper"
           v-for="(item, index) in list"
           :key="index"
+          class="wrapper"
           @click="onOrder(item)"
         >
           <new-white-space />
@@ -29,8 +29,8 @@
             </div>
           </header>
           <new-drug
-            :item="item_"
             v-for="(item_, index_) in item.list"
+            :item="item_"
             :key="index_"
             disabled
           />
@@ -127,20 +127,20 @@ import list from '@/mixins/list';
 import refundPop from '@/components/orders/refundPop';
 import orderFooter from '@/components/orders/orderFooter';
 export default {
+  name: '',
   components: {
     refundPop,
     orderFooter
   },
-  name: '',
   mixins: [orders, list],
-  watch: {},
   props: {
     state: {}
   },
-  computed: {},
   data() {
     return {};
   },
+  computed: {},
+  watch: {},
   created() {},
   mounted() {},
   methods: {

@@ -17,10 +17,13 @@ export default {
       this.onLoad();
     },
     getParams(params) {
-      return Object.assign({
-        'pageNum': this.pageNum,
-        'pageSize': this.pageSize
-      }, params);
+      return Object.assign(
+        {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize
+        },
+        params
+      );
     },
     pushToList(list) {
       this.isLoading = false;
@@ -34,7 +37,6 @@ export default {
     loadMore() {
       this.pageNum++;
     },
-    onLoad() {
-    }
+    onLoad() {}
   }
 };

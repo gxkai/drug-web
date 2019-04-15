@@ -2,38 +2,36 @@
   <div>
     <new-layout>
       <template slot="top">
-          <bg-wrapper :account="account"/>
-          <div class="search">
-            <form action="" onsubmit="return false;">
-              <input
-                class="van-icon"
-                :placeholder="placeholder"
-                v-model="keyword"
-                type="search"
-                @keypress="search"
-              />
-            </form>
-          </div>
+        <bg-wrapper :account="account" />
+        <div class="search">
+          <form action="" onsubmit="return false;">
+            <input
+              :placeholder="placeholder"
+              v-model="keyword"
+              class="van-icon"
+              type="search"
+              @keypress="search"
+            />
+          </form>
+        </div>
       </template>
       <template slot="center">
         <article>
           <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
             <van-list v-model="loading" :finished="finished" @load="onLoad">
-              <div
-                v-for="item in list"
-                :key="item.id"
-                @click="
-               clickItem(item)
-              "
-              >
-               <rx :item="item"/>
+              <div v-for="item in list" :key="item.id" @click="clickItem(item)">
+                <rx :item="item" />
               </div>
+              <new-end
+                v-if="finished === true"
+                :name="list.length > 0 ? 'END' : 'NONE'"
+              />
             </van-list>
           </van-pull-refresh>
         </article>
       </template>
       <template slot="bottom">
-        <footer-entry :value="1"/>
+        <new-footer-entry :value="1" />
       </template>
     </new-layout>
   </div>
@@ -46,9 +44,9 @@ article {
   display: flex;
   justify-content: center;
   position: absolute;
-  left: 15px;
   top: 190px;
   z-index: 2;
+  width: 100%;
   input {
     width: 690px;
     background-color: #ffffff;
@@ -67,7 +65,8 @@ article {
   }
 }
 /deep/.van-nav-bar {
-  .van-nav-bar__title, .van-nav-bar__text {
+  .van-nav-bar__title,
+  .van-nav-bar__text {
     color: white;
   }
   .van-nav-bar__arrow {
@@ -81,21 +80,19 @@ article {
 import list from '@/mixins/list';
 import bgWrapper from '@/components/rxs/bgWrapper';
 import rx from '@/components/rxs/rx';
-import footerEntry from '@/components/footerEntry';
 
 export default {
   components: {
     bgWrapper,
-    rx,
-    footerEntry
+    rx
   },
+  mixins: [list],
   data() {
     return {
       keyword: '',
       placeholder: '\ue643 请输入诊断搜索'
     };
   },
-  mixins: [list],
   computed: {},
   watch: {
     keyword(n) {
@@ -104,8 +101,7 @@ export default {
       }
     }
   },
-  created() {
-  },
+  created() {},
   mounted() {
     setInterval(() => {
       this.list.map(e => {
