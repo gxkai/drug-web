@@ -8,7 +8,7 @@
         <el-button class="select-btn" v-if="originName" @click="originDialogVisible = true"size="small">{{ originName }}</el-button>
         <el-button class="select-btn" v-else @click="originDialogVisible = true" style="color: #C0C4CC;" size="small">请选择厂商</el-button>
         <!--当前状态-->
-        <el-select v-model="stateValue" size="small" filterable placeholder="请选择" style="width: 200px">
+        <el-select v-model="stateValue" size="small" filterable placeholder="当前状态" style="width: 200px">
           <el-option
             v-for="(item, index) in currentStateList"
             :key="index"
@@ -27,10 +27,10 @@
           end-placeholder="结束日期"
           @change="convertDate">
         </el-date-picker>
-        <el-button type="primary" size="small">搜索</el-button>
+        <el-button type="primary" size="small" @click="search">搜索</el-button>
         <el-button size="small" @click="clear">清空</el-button>
 
-        <el-button type="primary" size="small" style="background:#108EE9">添加</el-button>
+        <el-button type="primary" size="small" style="background:#108EE9" @click="addDiscount">添加</el-button>
         <el-button type="primary" size="small" style="background:#108EE9">批量添加</el-button>
       </div>
 
@@ -47,9 +47,130 @@
       </span>
       </el-dialog>
 
+      <div class="recommend-wrap__list">
+        <el-table :data="perPageData" border style="width: 100%">
+          <el-table-column width="50px" label="序号">
+            <template slot-scope="scope">
+              {{ scope.$index + 1 }}
+            </template>
+          </el-table-column>
 
+          <el-table-column prop="drugName" label="药品名称"></el-table-column>
+          <el-table-column prop="specName" label="药品规格"></el-table-column>
+          <el-table-column prop="originName" label="生产厂商"></el-table-column>
+          <el-table-column width="50px" prop="sales" label="销量"></el-table-column>
+          <el-table-column width="65px" prop="price" label="销售价"></el-table-column>
+          <el-table-column prop="applyDate" label="申请日期"></el-table-column>
+          <el-table-column prop="startDate" label="展示开始时间"></el-table-column>
+          <el-table-column prop="endDate"label="展示结束时间"></el-table-column>
 
+          <el-table-column label="当前状态" width="80px">
+            <template slot-scope="scope">
+              <span>{{ $t(scope.row.applyState) }}</span>
+            </template>
+          </el-table-column>
 
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button @click="viewDetail(scope.$index, scope.row)" type="text">查看</el-button>
+
+              <el-dropdown trigger="click"  v-if="scope.row.applyState==='PENDING'">
+                <span class="el-dropdown-link">
+                  更多
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>
+                    <el-button type="text" @click="passAction(scope.$index, scope.row.id)">通过</el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button type="text" @click="failAction(scope.$index, scope.row.id)">不通过</el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+
+              <el-dropdown trigger="click"  v-if="scope.row.applyState==='SUCCESS'">
+                <span class="el-dropdown-link">
+                  更多
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>
+                    <el-button type="text" @click="moveShelf(scope.$index, scope.row.id)">提前下架</el-button>
+                  </el-dropdown-item>
+
+                </el-dropdown-menu>
+              </el-dropdown>
+
+              <el-dropdown trigger="click"  v-if="scope.row.applyState==='FAIL'">
+                <span class="el-dropdown-link">
+                  更多
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>
+                    <el-button type="text" @click="failReason(scope.$index, scope.row.id)">查看不通过原因</el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button type="text" @click="reSubmit(scope.$index, scope.row)">再次提交</el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+
+              <el-dropdown trigger="click" v-if="scope.row.applyState==='EXPIRY'">
+                <span class="el-dropdown-link">
+                  更多
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>
+                    <el-button type="text" @click="deleteItem(scope.$index, scope.row.id)">删除</el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </template>
+          </el-table-column>
+
+        </el-table>
+
+        <div class="pagination">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-size="pageSize"
+            layout="prev, pager, next, jumper, total"
+            :total="totalPages">
+          </el-pagination>
+        </div>
+      </div>
+
+      <!--填写不通过原因-->
+      <el-dialog title="填写不通过原因" :visible.sync="dialogFormVisible">
+        <el-input
+          type="textarea"
+          :rows="6"
+          placeholder="请输入内容"
+          v-model="failTextarea">
+        </el-input>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="noPass">确 定</el-button>
+        </div>
+      </el-dialog>
+
+      <!--查看不通过原因-->
+      <el-dialog title="查看不通过原因" :visible.sync="dialogFormVisible2">
+        <el-input
+          readonly
+          type="textarea"
+          :rows="6"
+          placeholder="暂无"
+          v-model="failTextarea2">
+        </el-input>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible2 = false">关 闭</el-button>
+        </div>
+      </el-dialog>
 
     </div>
   </div>
@@ -59,7 +180,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import axios from 'axios'
+  import axios from 'axios'
   import moment from 'moment'
   import Origin from '@/components/drugCheck/Origin'
   @Component({
@@ -68,7 +189,7 @@
       'drug-origin': Origin
     }
   })
-  export default class Recommend extends Vue {
+  export default class Discount extends Vue {
     drugName = '' // 药品名称
 
     // 厂商
@@ -91,7 +212,7 @@
         name: '不通过'
       },
       {
-        id: 'OVERDUE',
+        id: 'EXPIRY',
         name: '过期'
       },
       {
@@ -105,14 +226,27 @@
 
     disClearable = false
 
+    dialogFormVisible = false
+    failTextarea = ''
+
+    dialogFormVisible2 = false
+    failTextarea2 = ''
+
     convertDate () {
       if (this.dateValue) {
         for (let i = 0, len = this.dateValue.length; i < len; i++) {
-          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD')
+          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD hh:mm:ss')
         }
-        this.startDate = this.dateValue[0] + ' 00:00:00'
-        this.endDate = this.dateValue[1] + ' 23:59:59'
+        this.startDate = this.dateValue[0]
+        this.endDate = this.dateValue[1]
       }
+      console.log(this.startDate)
+      console.log(this.endDate)
+    }
+
+    // 添加
+    addDiscount () {
+      this.$router.push('/business/discount/create')
     }
 
     tableData = [] // 促销药品数据
@@ -124,11 +258,11 @@
 
     handleCurrentChange (page) {
       this.currentPage = page
-      this.getRecommend()
+      this.getDiscount()
     }
 
     beforeMount () {
-      this.getRecommend()
+      this.getDiscount()
     }
 
     // 获取每页数据
@@ -137,8 +271,80 @@
       this.perPageData = this.perPageData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
 
-    async getRecommend () {
+    async getDiscount (startDate, endDate) {
+      let params = {
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+        originName: this.originName,
+        drugName: this.drugName.trim(),
+        state: this.stateValue,
+        startDate,
+        endDate
+      }
+      let {data: Discount} = await axios.get(`/api/shop/drugDiscountApplies`, {params})
+      console.log(Discount)
+      this.tableData = Discount.list
+      this.totalPages = Discount.total
+      this.tableData.forEach((item) => {
+        item.applyDate = moment(item.applyDate).format('YYYY-MM-DD hh:mm:ss')
+        item.startDate = moment(item.startDate).format('YYYY-MM-DD hh:mm:ss')
+        item.endDate = moment(item.endDate).format('YYYY-MM-DD hh:mm:ss')
+      })
       this.getPerData()
+    }
+
+    search () {
+      this.getDiscount(this.startDate, this.endDate)
+    }
+
+    // 查看
+    viewDetail (index, row) {
+      // console.log(row)
+      this.$router.push({
+        path: '/business/discount/detail',
+        query: {
+          id: row.id
+        }
+      })
+    }
+
+    // 通过
+    passAction (index, id) {
+
+    }
+
+    // 不通过
+    failAction () {
+      this.dialogFormVisible = true
+    }
+    noPass () {
+      this.dialogFormVisible = false
+    }
+
+    // 提前下架
+    moveShelf (index, id) {
+
+    }
+
+    // 查看不通过的原因
+    failReason () {
+      this.failTextarea2 = '111'
+      this.dialogFormVisible2 = true
+    }
+
+    // 再次提交
+    reSubmit (index, row) {
+      this.$router.push({
+        path: '/business/discount/edit',
+        query: {
+          id: row.id
+        }
+      })
+    }
+
+    // 删除
+    deleteItem () {
+
     }
 
     // 清空
@@ -149,6 +355,7 @@
       this.dateValue = ''
       this.startDate = ''
       this.endDate = ''
+      this.getDiscount()
     }
 
     // 获取已选信息

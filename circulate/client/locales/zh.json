@@ -97,16 +97,22 @@
   "药品审核",
   "/drugManage/drugInfo/detail":
   "查看详情",
-  "/order":
+
+  "/transaction":
   "订单管理",
-  "/order/order":
+  "/transaction/order":
   "订单管理",
-  "/order/order/detail":
+  "/transaction/order/detail":
   "订单详情",
-  "/order/appraise":
+  "/transaction/chargeBack":
+  "订单管理",
+  "/transaction/chargeBack/detail":
+  "订单详情",
+  "/transaction/appraise":
   "评价管理",
-  "/order/appraise/detail":
+  "/transaction/appraise/detail":
   "评价详情",
+
   "/rx":
   "处方管理",
   "/rx/rx":
@@ -125,8 +131,18 @@
   "好货推荐",
   "/business/recommend/create":
   "新增推荐",
+  "/business/recommend/detail":
+  "查看详情",
+  "/business/recommend/edit":
+  "编辑推荐",
   "/business/discount":
   "惠民促销",
+  "/business/discount/create":
+  "新增促销",
+  "/business/discount/detail":
+  "查看详情",
+  "/business/discount/edit":
+  "编辑促销",
   "/business/chat":
   "药师咨询",
   "/business/chat/list":
@@ -147,6 +163,14 @@
   "常见问题",
   "/system":
   "系统设置",
+  "/system/message":
+    "我的消息",
+  "/system/userManage":
+    "用户管理",
+  "/system/myAccount":
+    "我的账户",
+  "/system/myAccount/record":
+    "交易记录",
   "/system/pharmacist":
   "药师管理",
   "/system/pharmacist/create":

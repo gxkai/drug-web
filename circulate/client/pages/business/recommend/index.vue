@@ -8,7 +8,7 @@
         <el-button class="select-btn" v-if="originName" @click="originDialogVisible = true"size="small">{{ originName }}</el-button>
         <el-button class="select-btn" v-else @click="originDialogVisible = true" style="color: #C0C4CC;" size="small">请选择厂商</el-button>
         <!--当前状态-->
-        <el-select v-model="stateValue" size="small" filterable placeholder="请选择" style="width: 200px">
+        <el-select v-model="stateValue" size="small" filterable placeholder="当前状态" style="width: 200px">
           <el-option
             v-for="(item, index) in currentStateList"
             :key="index"
@@ -27,7 +27,7 @@
           end-placeholder="结束日期"
           @change="convertDate">
         </el-date-picker>
-        <el-button type="primary" size="small">搜索</el-button>
+        <el-button type="primary" size="small" @click="search">搜索</el-button>
         <el-button size="small" @click="clear">清空</el-button>
 
         <el-button type="primary" size="small" style="background:#108EE9" @click="addRecommend">添加</el-button>
@@ -112,12 +112,12 @@
                     <el-button type="text" @click="failReason(scope.$index, scope.row.id)">查看不通过原因</el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    <el-button type="text" @click="reSubmit(scope.$index, scope.row.id)">再次提交</el-button>
+                    <el-button type="text" @click="reSubmit(scope.$index, scope.row)">再次提交</el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
 
-              <el-dropdown trigger="click" v-if="scope.row.applyState==='OVERDUE'">
+              <el-dropdown trigger="click" v-if="scope.row.applyState==='EXPIRY'">
                 <span class="el-dropdown-link">
                   更多
                   <i class="el-icon-arrow-down el-icon--right"></i>
@@ -143,6 +143,34 @@
           </el-pagination>
         </div>
       </div>
+
+      <!--填写不通过原因-->
+      <el-dialog title="填写不通过原因" :visible.sync="dialogFormVisible">
+        <el-input
+          type="textarea"
+          :rows="6"
+          placeholder="请输入内容"
+          v-model="failTextarea">
+        </el-input>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="noPass">确 定</el-button>
+        </div>
+      </el-dialog>
+
+      <!--查看不通过原因-->
+      <el-dialog title="查看不通过原因" :visible.sync="dialogFormVisible2">
+        <el-input
+          readonly
+          type="textarea"
+          :rows="6"
+          placeholder="暂无"
+          v-model="failTextarea2">
+        </el-input>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible2 = false">关 闭</el-button>
+        </div>
+      </el-dialog>
 
     </div>
   </div>
@@ -184,7 +212,7 @@
         name: '不通过'
       },
       {
-        id: 'OVERDUE',
+        id: 'EXPIRY',
         name: '过期'
       },
       {
@@ -197,6 +225,12 @@
     endDate = '' // 截止日期
 
     disClearable = false
+
+    dialogFormVisible = false
+    failTextarea = ''
+  
+    dialogFormVisible2 = false
+    failTextarea2 = ''
 
     convertDate () {
       if (this.dateValue) {
@@ -235,15 +269,15 @@
       this.perPageData = this.perPageData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     }
 
-    async getRecommend () {
+    async getRecommend (startDate, endDate) {
       let params = {
         pageNum: this.currentPage,
-        pageSize: this.pageSize
-        // originName: this.produceName,
-        // drugName: this.drugName.trim(),
-        // state: this.stateValue,
-        // startDate: this.startDate,
-        // endDate: this.endDate
+        pageSize: this.pageSize,
+        originName: this.originName,
+        drugName: this.drugName.trim(),
+        state: this.stateValue,
+        startDate,
+        endDate
       }
       let {data: Recommend} = await axios.get(`/api/shop/drugRecommendApplies`, {params})
       console.log(Recommend)
@@ -257,6 +291,60 @@
       this.getPerData()
     }
 
+    search () {
+      this.getRecommend(this.startDate, this.endDate)
+    }
+
+    // 查看
+    viewDetail (index, row) {
+      // console.log(row)
+      this.$router.push({
+        path: '/business/recommend/detail',
+        query: {
+          id: row.id
+        }
+      })
+    }
+
+    // 通过
+    passAction (index, id) {
+  
+    }
+
+    // 不通过
+    failAction () {
+      this.dialogFormVisible = true
+    }
+    noPass () {
+      this.dialogFormVisible = false
+    }
+
+    // 提前下架
+    moveShelf (index, id) {
+  
+    }
+
+    // 查看不通过的原因
+    failReason () {
+      this.failTextarea2 = '111'
+      this.dialogFormVisible2 = true
+    }
+
+    // 再次提交
+    reSubmit (index, row) {
+      this.$router.push({
+        path: '/business/recommend/edit',
+        query: {
+          id: row.id
+        }
+      })
+    }
+
+    // 删除
+    async deleteItem (index, id) {
+      await axios.delete(`/api/shop/drugRecommendApplies/${id}`)
+    }
+
     // 清空
     clear () {
       this.drugName = ''
@@ -265,6 +353,7 @@
       this.dateValue = ''
       this.startDate = ''
       this.endDate = ''
+      this.getRecommend()
     }
 
     // 获取已选信息
