@@ -79,7 +79,7 @@
         pageSize: 15,
         shopName: this.shopNameValue.trim()
       }
-      let data = await axios.get(`/api/shop/shops`, {params})
+      let data = await axios.get(`/api/supervise/shops`, {params})
       this.shopNameData = data.data.list
       this.pagination.total = data.data.total
       this.shopNameData.forEach((item, index) => {
