@@ -181,6 +181,7 @@
 
     // 下架
     obtainedDrug ({index, row}) {
+      this.saveDrugState(row)
       let obtained = this.rowHandle.custom
       obtained.forEach(item => {
         if (item.text === '下架') {
@@ -188,15 +189,15 @@
           row.grounding = false
         }
       })
-
-      this.saveDrugState(row)
+      this.$message({
+        message: '下架成功',
+        type: 'success'
+      })
     }
 
     // 入库
-    async postToStock (number) {
-      // let params = new FormData()
-      // params.append('number', number)
-      // await axios.put(`/api/shop/stocks/${this.rowData.drugId}`, params)
+    async postToStock () {
+      this.saveDrugState(this.rowData)
       let storage = this.rowHandle.custom
       storage.forEach(item => {
         if (item.text === '入库') {
@@ -204,7 +205,6 @@
           this.rowData.grounding = true
         }
       })
-      this.saveDrugState(this.rowData)
       this.$message({
         message: '入库成功',
         type: 'success'
@@ -234,20 +234,21 @@
       this.storageDialogVisible = false
     }
 
+    // 批量上下
     async saveDrugState (drug) {
       // 上下架验证
       let verifyParams = new FormData()
-      verifyParams.append('ids', drug.drugId)
+      verifyParams.append('ids', drug.shopDrugId)
       await axios.post(`/api/shop/shopDrugs/grounding/verify`, verifyParams)
 
       // 上下架
       let actionParams = new FormData()
-      actionParams.append('ids', drug.drugId)
+      actionParams.append('ids', drug.shopDrugId)
       actionParams.append('shopType', 'SIMPLE')
       actionParams.append('state', drug.grounding)
 
       await axios.post(`/api/shop/shopDrugs/grounding`, actionParams)
-      console.log('成功')
+      return true
     }
 
     async fetchData () {

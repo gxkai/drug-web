@@ -8,7 +8,7 @@
       <d2-crud
         ref="d2Crud"
         :columns="columns"
-        :data="rankList"
+        :data="hotList"
         :loading="loading"
         :pagination="pagination"
         :options="options"
@@ -36,16 +36,16 @@
             <el-input v-model="viewData.commonName" readonly placeholder="暂无"></el-input>
           </el-form-item>
           <el-form-item label="规格">
-            <el-input v-model="viewData.drugSpec" readonly placeholder="暂无"></el-input>
+            <el-input v-model="viewData.specName" readonly placeholder="暂无"></el-input>
           </el-form-item>
           <el-form-item label="厂商简介">
-            <el-input v-model="viewData.origin" readonly placeholder="暂无"></el-input>
+            <el-input v-model="viewData.originName" readonly placeholder="暂无"></el-input>
           </el-form-item>
           <el-form-item label="当前库存">
             <el-input v-model="viewData.stock" readonly placeholder="暂无"></el-input>
           </el-form-item>
           <el-form-item label="当前状态">
-            <el-input v-model="viewData.status" readonly placeholder="暂无"></el-input>
+            <el-input v-model="viewData.currentState" readonly placeholder="暂无"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -62,9 +62,13 @@
       <div class="main">
         <el-form label-width="50px">
           <el-form-item label="库存">
-            <el-input-number size="small" v-model="storageNum" placeholder="请输入库存数量"
-                             controls-position="right" :min="0" :max="100000"
-                             style="width: 300px;"></el-input-number>
+            <el-input-number size="small"
+                             v-model="storageNum"
+                             placeholder="请输入库存数量"
+                             controls-position="right"
+                             :min="0" :max="100000"
+                             style="width: 300px;">
+            </el-input-number>
           </el-form-item>
         </el-form>
       </div>
@@ -80,7 +84,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import axios from 'axios'
+  import axios from 'axios'
 
   @Component({
     components: {
@@ -89,26 +93,7 @@
   })
   export default class SalesRank extends Vue {
     rowData = {}
-    rankList = [
-      {
-        drugName: '涩肠止泻散',
-        commonName: '涩肠止泻散',
-        drugSpec: '4g*6',
-        origin: '正大清杨',
-        sales: 20,
-        stock: 20,
-        status: '在售'
-      },
-      {
-        drugName: '涩肠止泻散',
-        commonName: '涩肠止泻散',
-        drugSpec: '4g*6',
-        origin: '正大清杨',
-        sales: 10,
-        stock: 0,
-        status: '下架'
-      }
-    ] // 排行榜列表
+    hotList = [] // 排行榜列表
     viewData = []
     viewDialogVisible = false
     storageNum = '' // 库存量
@@ -125,11 +110,11 @@
       },
       {
         title: '规格',
-        key: 'drugSpec'
+        key: 'specName'
       },
       {
         title: '厂商简介',
-        key: 'origin'
+        key: 'originName'
       },
       {
         title: '销量',
@@ -141,7 +126,7 @@
       },
       {
         title: '当前状态',
-        key: 'status'
+        key: 'currentState'
       }
     ]
     loading = false;
@@ -165,7 +150,7 @@
           type: 'text',
           emit: 'emit-obtained',
           show (index, row) {
-            if (row.status === '在售') {
+            if (row.currentState === '在售') {
               return true
             }
           }
@@ -175,7 +160,7 @@
           type: 'text',
           emit: 'emit-storage',
           show (index, row) {
-            if (row.status === '下架') {
+            if (row.currentState === '下架') {
               return true
             }
           }
@@ -204,26 +189,33 @@
 
     // 下架
     obtainedDrug ({index, row}) {
+      this.saveDrugState(row)
       let obtained = this.rowHandle.custom
       obtained.forEach(item => {
         if (item.text === '下架') {
-          row.status = '下架'
+          row.currentState = '下架'
+          row.grounding = false
         }
+      })
+      this.$message({
+        message: '下架成功',
+        type: 'success'
       })
     }
 
     // 入库
     postToStock () {
-      // 保存状态接口
-      this.$message({
-        message: '入库成功',
-        type: 'success'
-      })
+      this.saveDrugState(this.rowData)
       let storage = this.rowHandle.custom
       storage.forEach(item => {
         if (item.text === '入库') {
-          this.rowData.status = '在售'
+          this.rowData.currentState = '在售'
+          this.rowData.grounding = true
         }
+      })
+      this.$message({
+        message: '入库成功',
+        type: 'success'
       })
     }
 
@@ -240,24 +232,50 @@
         return
       }
 
-      this.postToStock()
+      this.postToStock(row.stock)
     }
 
     // 提交
     submit () {
-      this.postToStock()
+      this.postToStock(this.rowData.stock + this.storageNum)
       this.storageDialogVisible = false
     }
 
+    // 批量上下
+    async saveDrugState (drug) {
+      // 上下架验证
+      let verifyParams = new FormData()
+      verifyParams.append('ids', drug.shopDrugId)
+      await axios.post(`/api/shop/shopDrugs/grounding/verify`, verifyParams)
+
+      // 上下架
+      let actionParams = new FormData()
+      actionParams.append('ids', drug.shopDrugId)
+      actionParams.append('shopType', 'SIMPLE')
+      actionParams.append('state', drug.grounding)
+
+      await axios.post(`/api/shop/shopDrugs/grounding`, actionParams)
+      return true
+    }
+
     async fetchData () {
-      // let params = {
-      //   pageNum: this.pagination.currentPage,
-      //   pageSize: this.pagination.pageSize
-      // }
-      // let {data: sell} = await axios.get(`/api/shop/stocks/sellOut`, {params})
-      // console.log(sell)
-      // this.rankList = sell.list
-      // this.pagination.total = sell.total
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        hot: true
+      }
+      let {data: hot} = await axios.get(`/api/shop/shopDrugs`, {params})
+      console.log(hot)
+      this.hotList = hot.list
+      this.pagination.total = hot.total
+
+      this.hotList.forEach(item => {
+        if (item.grounding) {
+          item.currentState = '在售'
+        } else {
+          item.currentState = '下架'
+        }
+      })
     }
 
     beforeMount () {
