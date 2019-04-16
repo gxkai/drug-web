@@ -1,34 +1,35 @@
+// https://eslint.org/docs/user-guide/configuring
+
 module.exports = {
   root: true,
-  // parser: 'babel-eslint',
   parserOptions: {
-    parser: 'babel-eslint',
-    ecmaVersion: 2017,
-    sourceType: 'module'
+    parser: 'babel-eslint'
   },
   env: {
     browser: true,
-    node: true
   },
-  extends: ['plugin:vue/recommended', '@vue/prettier'],
+  extends: [
+    // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
+    // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
+    'plugin:vue/essential',
+    // https://github.com/standard/standard/blob/master/docs/RULES-en.md
+    'standard'
+  ],
   // required to lint *.vue files
-  plugins: ['html', 'prettier'],
+  plugins: [
+    'html'
+  ],
   // add your custom rules here
   rules: {
-    'vue/require-prop-types': 0,
-    'vue/require-default-prop': 0,
-    'vue/require-v-for-key': 1,
-    'no-console': 0,
-    'prettier/prettier': [
-      1,
-      {
-        singleQuote: true,
-        trailingComma: 'none',
-        bracketSpacing: true,
-        jsxBracketSameLine: true
-      }
-    ],
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
-  },
-  globals: {}
-};
+    "semi": ["error", "always"],
+    "space-before-function-paren": ["error", {
+      "anonymous": "always",
+      "named": "never",
+      "asyncArrow": "always",
+    }],
+    // allow async-await
+    'generator-star-spacing': 'off',
+    // allow debugger during development
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+  }
+}

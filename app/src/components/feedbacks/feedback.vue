@@ -2,16 +2,16 @@
   <div class="wrapper" @click="$emit('click')">
     <header>
       <span class="date">
-        {{ item.date }}
+        {{ item.createdDate|dateFmt('YYYY-MM-DD') }}
       </span>
-      <span v-if="item.reply" class="tag reply">
+      <span v-if="item.processed" class="tag reply">
         已回复
       </span>
       <span v-else class="tag no-reply">
         未回复
       </span>
     </header>
-    <article>
+    <article class="van-ellipsis">
       {{ item.content }}
     </article>
   </div>

@@ -5,12 +5,12 @@
       <header class="hairline-bottom">
         我提交的
       </header>
-      <textarea disabled />
+      <textarea disabled :value="item.content"/>
       <new-white-space />
       <header class="hairline-bottom">
         回复我的
       </header>
-      <textarea disabled />
+      <textarea disabled :value="item.remark"/>
     </template>
   </new-layout>
 </template>
@@ -20,11 +20,15 @@ export default {
   name: '',
   mixins: [],
   data() {
-    return {};
+    return {
+      item: {}
+    };
   },
   computed: {},
   watch: {},
-  created() {},
+  async created() {
+    this.item = await this.$http.get(`/api/feedbacks/${this.$route.query.id}`);
+  },
   mounted() {},
   methods: {}
 };
@@ -41,5 +45,6 @@ textarea {
   background: rgba(255, 255, 255, 1);
   padding: 70px 20px 20px 20px;
   font-size: 30px;
+  color: $gray;
 }
 </style>

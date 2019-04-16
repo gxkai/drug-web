@@ -81,13 +81,13 @@ export default {
         // 将图片转成base64格式
         reader.readAsDataURL(file.file);
         // 读取成功后的回调
-        reader.onloadend = function() {
+        reader.onloadend = function () {
           let result = this.result;
           let img = new Image();
           img.src = result;
           console.log('********未压缩前的图片大小********');
           console.log(result.length);
-          img.onload = async function() {
+          img.onload = async function () {
             let data = self.compress(img);
             console.log('*******压缩后的图片大小*******');
             console.log(data.length);

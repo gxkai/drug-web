@@ -495,7 +495,7 @@ const feedBackRouter = [
     path: '/feedbacks',
     name: '/feedbacks',
     meta: {
-      navigation: true,
+      navigation: false,
       name: '意见反馈列表',
       showBackTopLeft: false,
       showBackBottomRight: true

@@ -18,6 +18,8 @@ module.exports = {
   TO_APPRAISE: '待评价',
   COMPLETED: '已完成',
   CLOSED: '已关闭',
-  REFUND_PENDING: '退款进行中',
-  REFUND_COMPLETE: '退款完成'
+  REFUNDING: '进行中',
+  REFUND_COMPLETE: '退款成功',
+  REFUND_FAIL: '退款失败',
+  COMPLETE: '完成'
 };

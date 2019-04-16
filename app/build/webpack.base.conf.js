@@ -89,11 +89,6 @@ module.exports = {
         loaders: ["style", "css", "sass", "postcss"]
       },
       {
-        test:/\.less/,
-        include: path.resolve(__dirname, './node_modules'),
-        loaders: ["style", "css", "less", "postcss"]
-      },
-      {
         test: /.exec.js$/,
         use: [ 'script-loader' ]
       }, {

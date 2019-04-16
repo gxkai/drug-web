@@ -20,7 +20,7 @@
       <div v-else>
         <refund-header title="其他原因" show-back @back="active = 0" />
         <article>
-          <textarea v-model="desc" placeholder="请输入退单原因" />
+          <textarea v-model="explain" placeholder="请输入退单原因" />
         </article>
       </div>
       <footer>
@@ -45,14 +45,15 @@ export default {
     event: 'show'
   },
   props: {
-    show: {}
+    show: {},
+    order: {}
   },
   data() {
     return {
       active: 0,
       show1: this.show,
       reason: '',
-      desc: '',
+      explain: '',
       reasons: ['商品降价', '质量问题', '商品损坏', '缺少件', '其他原因']
     };
   },
@@ -69,11 +70,20 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    confirm() {
+    async confirm () {
+      debugger;
+      await this.$http.post(`/api/orderRefunds`, {
+        orderId: this.order.id,
+        price: this.order.amount,
+        reason: this.reason,
+        explain: this.explain
+      });
+      this.order.state = 'REFUNDING';
+      this.$emit('update:order', this.order);
       this.show1 = false;
-      this.$emit('refundConfirm');
     },
     clickItem(item) {
+      this.reason = item;
       if (this._.eq(item, '其他原因')) {
         this.active = 1;
       }

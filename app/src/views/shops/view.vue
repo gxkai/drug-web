@@ -27,7 +27,9 @@
 </template>
 <style scoped type="text/scss" lang="scss"></style>
 <script>
-import shopHeader from '@/components/shops/shopHeader';
+/* eslint-disable prettier/prettier */
+
+  import shopHeader from '@/components/shops/shopHeader';
 import shopFooter from '@/components/shops/shopFooter';
 import scoreBar from '@/components/shops/scoreBar';
 import titleBar from '@/components/shops/titleBar';
