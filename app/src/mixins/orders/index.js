@@ -26,7 +26,6 @@ export default {
       this.order = order;
       this.refundShow = true;
     },
-    onRefundConfirm() {},
     onAppraise(order) {
       this.loadPageDrugAppraisesCreate(order.id);
     },

@@ -101,6 +101,7 @@
 }
 /deep/ .van-tabs {
   &__wrap {
+    width: 720px!important;
     height: 100px !important;
     position: fixed;
   }
@@ -108,6 +109,7 @@
     padding-top: 100px;
   }
   .van-tab {
+    width: 720px!important;
     color: black !important;
     &--active {
       color: $theme !important;

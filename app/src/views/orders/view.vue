@@ -201,7 +201,7 @@
         </div>
       </template>
     </new-layout>
-    <refund-pop v-model="refundShow" @refundConfirm="onRefundConfirm" />
+    <refund-pop v-model="refundShow" :order.sync="order" />
     <van-popup v-model="show" position="center">
       <img v-lazy="qrCode" />
     </van-popup>

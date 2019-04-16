@@ -60,7 +60,7 @@
             >
               我要评价
             </span>
-            <span v-if="item.state == 'TO_DELIVERY'" @click.stop="onRefund">
+            <span v-if="item.state == 'TO_DELIVERY'" @click.stop="onRefund(item)">
               退款
             </span>
           </div>
@@ -71,7 +71,10 @@
         :name="list.length > 0 ? 'END' : 'NONE'"
       />
     </van-pull-refresh>
-    <refund-pop v-model="refundShow" @refundConfirm="onRefundConfirm" />
+    <refund-pop
+      v-model="refundShow"
+      :order.sync="order"
+    />
     <van-popup v-model="show" position="center">
       <img v-lazy="qrCode" />
     </van-popup>

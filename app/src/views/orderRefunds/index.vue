@@ -8,7 +8,7 @@
             :title="item === '' ? '全部' : $t(item)"
             :key="index"
           >
-            <new-orders :state="item" />
+            <orders :state="item" />
           </van-tab>
         </van-tabs>
       </template>
@@ -36,12 +36,16 @@
 }
 </style>
 <script>
+import orders from '@/components/orderRefunds/orders';
 export default {
   name: 'Orders',
+  components: {
+    orders
+  },
   data() {
     return {
       active: this.$route.query.active,
-      titles: ['', 'REFUND_PENDING', 'REFUND_COMPLETE']
+      titles: ['', 'REFUNDING', 'COMPLETE', 'FAIL']
     };
   },
   computed: {},
