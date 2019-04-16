@@ -35,7 +35,7 @@ export default {
 .info-cell {
   background-color: white;
   display: grid;
-  grid-template-columns: 140px auto;
+  grid-template-columns: 150px auto;
   padding: 33px;
   align-items: center;
   .left {
