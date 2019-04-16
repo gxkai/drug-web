@@ -4,26 +4,8 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>新增推荐</h3>
-        <div class="action">
-          <el-button class="select-btn value-btn" v-if="drugValue.drugName" size="small" @click="drugDialog = true">{{ drugValue.drugName }}</el-button>
-          <el-button class="select-btn" v-else size="small" @click="drugDialog = true">请选择药品</el-button>
-          <el-button type="primary" size="small" @click="getDrugInfo">确定</el-button>
-        </div>
+        <h3>再次提交</h3>
       </div>
-
-      <!--选择药品弹窗-->
-      <el-dialog
-        title="请选择药品"
-        :close-on-click-modal='isCloseOnClickModal'
-        :visible.sync="drugDialog"
-        width="50%">
-        <Drug v-on:listenToChildEvent="getSelectedInfo"></Drug>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="drugDialog = false">取 消</el-button>
-          <el-button type="primary" @click="confirmSelect">确 定</el-button>
-        </span>
-      </el-dialog>
 
       <d2-crud
         :columns="columns"
@@ -33,20 +15,23 @@
         class="drug-table"
       />
 
-      <el-form ref="form" :model="discountForm" label-width="100px" class="recommend-form">
+      <el-form ref="form" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
+            style="width: 400px;"
+            readonly
             size="small"
-            v-model="discountForm.time"
-            type="datetimerange"
+            v-model="timeDate"
+            format = "yyyy-MM-dd HH:mm:ss"
+            type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="discountSubmit">提交</el-button>
-          <el-button @click="back">返回</el-button>
+          <el-button type="primary" @click="recommendSubmit">提交</el-button>
+          <el-button @click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
 
@@ -105,36 +90,13 @@
       border: true
     }
 
-    discountForm = {
-      time: ''
-    }
+    startDate = ''
+    endDate = ''
 
-    getSelectedInfo (data) {
-      this.selectedInfo = data
-    }
+    timeDate = []
 
-    confirmSelect () {
-      if (!this.selectedInfo) {
-        this.shopNameDialog = false
-        return
-      }
-      this.childData = this.selectedInfo
-      this.drugValue = this.childData
-      this.drugDialog = false
-    }
-
-    getDrugInfo () {
-      console.log(this.drugValue)
-      this.drugData = []
-      if (this.drugValue) {
-        this.drugData.push(this.drugValue)
-      }
-    }
-    discountSubmit () {
-      // this.$router.push('/business/discount')
-    }
-    back () {
-      this.$router.go(-1)
+    recommendSubmit () {
+      this.$router.push('/business/recommend')
     }
   }
 </script>

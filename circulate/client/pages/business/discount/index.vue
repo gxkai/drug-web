@@ -31,7 +31,7 @@
         <el-button size="small" @click="clear">清空</el-button>
 
         <el-button type="primary" size="small" style="background:#108EE9" @click="addDiscount">添加</el-button>
-        <el-button type="primary" size="small" style="background:#108EE9">批量添加</el-button>
+        <el-button type="primary" size="small" style="background:#108EE9" @click="dialogAddVisible = true">批量添加</el-button>
       </div>
 
       <!--选择厂商-->
@@ -74,21 +74,6 @@
             <template slot-scope="scope">
               <el-button @click="viewDetail(scope.$index, scope.row)" type="text">查看</el-button>
 
-              <el-dropdown trigger="click"  v-if="scope.row.applyState==='PENDING'">
-                <span class="el-dropdown-link">
-                  更多
-                  <i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <el-button type="text" @click="passAction(scope.$index, scope.row.id)">通过</el-button>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-button type="text" @click="failAction(scope.$index, scope.row.id)">不通过</el-button>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-
               <el-dropdown trigger="click"  v-if="scope.row.applyState==='SUCCESS'">
                 <span class="el-dropdown-link">
                   更多
@@ -96,7 +81,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
-                    <el-button type="text" @click="moveShelf(scope.$index, scope.row.id)">提前下架</el-button>
+                    <el-button type="text" @click="moveShelf(scope.$index, scope.row)">提前下架</el-button>
                   </el-dropdown-item>
 
                 </el-dropdown-menu>
@@ -109,7 +94,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
-                    <el-button type="text" @click="failReason(scope.$index, scope.row.id)">查看不通过原因</el-button>
+                    <el-button type="text" @click="failReason(scope.$index, scope.row.id)">查看原因</el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
                     <el-button type="text" @click="reSubmit(scope.$index, scope.row)">再次提交</el-button>
@@ -125,6 +110,9 @@
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
                     <el-button type="text" @click="deleteItem(scope.$index, scope.row.id)">删除</el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button type="text" @click="reSubmit(scope.$index, scope.row)">再次提交</el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -144,31 +132,28 @@
         </div>
       </div>
 
-      <!--填写不通过原因-->
-      <el-dialog title="填写不通过原因" :visible.sync="dialogFormVisible">
-        <el-input
-          type="textarea"
-          :rows="6"
-          placeholder="请输入内容"
-          v-model="failTextarea">
-        </el-input>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="noPass">确 定</el-button>
+      <!--批量添加-->
+      <el-dialog title="批量添加" :visible.sync="dialogAddVisible">
+        <div class="notice-txt">
+          <p>批量添加，帮助您快速的批量完成药品推荐，但请您严格遵守EXCEL模板完善信息，谢谢！如果没有EXCEL模板，请<a href="#" download="filename">点击下载</a>。</p>
+          <strong>注：点击下载excel表，excel表中增加一行事例数据，需要商家按照要求填写就可以实现批量添加，，，，，这部分可以暂时延缓一下</strong>
+        </div>
+        <div class="upload-btn">
+          <el-button type="primary">上传<i class="el-icon-upload el-icon--right"></i></el-button>
         </div>
       </el-dialog>
 
       <!--查看不通过原因-->
-      <el-dialog title="查看不通过原因" :visible.sync="dialogFormVisible2">
+      <el-dialog title="查看不通过原因" :visible.sync="dialogFormVisible">
         <el-input
           readonly
           type="textarea"
           :rows="6"
           placeholder="暂无"
-          v-model="failTextarea2">
+          v-model="failTextarea">
         </el-input>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible2 = false">关 闭</el-button>
+          <el-button @click="dialogFormVisible = false">关 闭</el-button>
         </div>
       </el-dialog>
 
@@ -229,19 +214,17 @@
     dialogFormVisible = false
     failTextarea = ''
 
-    dialogFormVisible2 = false
-    failTextarea2 = ''
+    // 批量添加
+    dialogAddVisible = false
 
     convertDate () {
       if (this.dateValue) {
         for (let i = 0, len = this.dateValue.length; i < len; i++) {
-          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD hh:mm:ss')
+          this.dateValue[i] = moment(this.dateValue[i]).format('YYYY-MM-DD')
         }
-        this.startDate = this.dateValue[0]
-        this.endDate = this.dateValue[1]
+        this.startDate = this.dateValue[0] + ' 00:00:00'
+        this.endDate = this.dateValue[1] + ' 23:59:59'
       }
-      console.log(this.startDate)
-      console.log(this.endDate)
     }
 
     // 添加
@@ -299,26 +282,12 @@
 
     // 查看
     viewDetail (index, row) {
-      // console.log(row)
       this.$router.push({
         path: '/business/discount/detail',
         query: {
           id: row.id
         }
       })
-    }
-
-    // 通过
-    passAction (index, id) {
-
-    }
-
-    // 不通过
-    failAction () {
-      this.dialogFormVisible = true
-    }
-    noPass () {
-      this.dialogFormVisible = false
     }
 
     // 提前下架
@@ -328,8 +297,8 @@
 
     // 查看不通过的原因
     failReason () {
-      this.failTextarea2 = '111'
-      this.dialogFormVisible2 = true
+      this.failTextarea = '111'
+      this.dialogFormVisible = true
     }
 
     // 再次提交
@@ -378,6 +347,21 @@
 </script>
 
 <style lang="scss" scoped>
+  .notice-txt{
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333333;
+    text-align: justify;
+    margin: 0 25px;
+    p{
+      margin-bottom: 25px;
+    }
+  }
+  .upload-btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+  }
   /deep/.recommend{
     padding: 0 10px;
     margin-bottom: 30px;

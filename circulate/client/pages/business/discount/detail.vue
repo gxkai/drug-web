@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>新增推荐</h3>
+        <h3>查看详情</h3>
       </div>
 
       <d2-crud
@@ -15,24 +15,24 @@
         class="drug-table"
       />
 
-      <el-form ref="form" :model="discountForm" label-width="100px" class="recommend-form">
+      <el-form ref="form" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
+            style="width: 400px;"
             readonly
             size="small"
-            v-model="discountForm.time"
-            type="datetimerange"
+            v-model="timeDate"
+            format = "yyyy-MM-dd HH:mm:ss"
+            type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="discountSubmit">提交</el-button>
-          <el-button @click="back">返回</el-button>
+          <el-button @click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
-
 
     </div>
   </div>
@@ -44,13 +44,14 @@
   import BreadCrumb from '@/components/Breadcrumb'
   import Drug from '@/components/drugCheck/drugRadio/index'
   // import axios from 'axios'
+  // import moment from 'moment'
   @Component({
     components: {
       BreadCrumb,
       Drug
     }
   })
-  export default class DiscountEdit extends Vue {
+  export default class DiscountDetail extends Vue {
     columns = [
       {
         title: '药品名称',
@@ -79,12 +80,12 @@
       border: true
     }
 
-    discountForm = {
-      time: ''
-    }
+    startDate = ''
+    endDate = ''
 
-    back () {
-      this.$router.go(-1)
+    timeDate = []
+
+    beforeMount () {
     }
   }
 </script>
