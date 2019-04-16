@@ -32,7 +32,6 @@
     </new-layout>
   </div>
 </template>
-<style scoped type="text/less" lang="less"></style>
 <script>
 import infoCell from '@/components/addresses/infoCell';
 export default {

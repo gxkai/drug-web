@@ -70,8 +70,8 @@ export default {
     loadPageFeedbacks() {
       this.loadPage('/feedbacks');
     },
-    loadPageFeedbacksView() {
-      this.loadPage('/feedbacks/view');
+    loadPageFeedbacksView(id) {
+      this.loadPage(`/feedbacks/view`, {id: id});
     },
     loadPageFeedbackCreate() {
       this.loadPage('/feedbacks/create');
