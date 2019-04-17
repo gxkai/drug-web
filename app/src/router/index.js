@@ -37,7 +37,7 @@ const chatRouter = [
     path: '/chats/view',
     name: '/chats/view',
     meta: {
-      navigation: true,
+      navigation: false,
       name: '聊天列表',
       showBackTopLeft: false,
       showBackBottomRight: true
