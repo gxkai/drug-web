@@ -13,15 +13,9 @@
         :pagination="pagination"
         :options="options"
         :rowHandle="rowHandle"
-        :form-options="formOptions"
-
-        add-title="新增用户"
-        :add-template="addTemplate"
-        @row-add="addUser"
         @emit-view="viewDetail"
         @emit-stop="stopUser"
         @emit-reset="reset"
-        @dialog-cancel="handleDialogCancel"
         @pagination-current-change="paginationCurrentChange"
         class="drug-table"/>
     </div>
@@ -55,6 +49,54 @@
         <el-button @click="viewDialogVisible = false">关 闭</el-button>
       </span>
     </el-dialog>
+
+    <!--新增-->
+    <el-dialog
+      title="新增"
+      :visible.sync="addDialogVisible"
+      width="30%">
+      <el-form ref="viewForm" :model="addData" label-width="100px">
+        <el-form-item label="用户名">
+          <el-input v-model="addData.username" placeholder="请输入用户名"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="addData.name" placeholder="请输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="手机">
+          <el-input v-model="addData.mobile" placeholder="请输入手机号码"></el-input>
+        </el-form-item>
+        <el-form-item label="类型">
+          <el-select
+            v-model="addData.roleName"
+            style="width: 100%;"
+            placeholder="请选择用户类型">
+            <el-option
+              v-for="(item, index) in typeOption"
+              :key="index"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-select
+            v-model="addData.jobStatus"
+            style="width: 100%;"
+            placeholder="请选择用户状态">
+            <el-option
+              v-for="(item, index) in statusOption"
+              :key="index"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false">关 闭</el-button>
+        <el-button type="primary" @click="confirmAdd">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -72,6 +114,7 @@
   })
   export default class User extends Vue {
     viewDialogVisible = false
+    addDialogVisible = false
     viewData = {}
     userList = []
 
@@ -101,7 +144,6 @@
         key: 'lastModifiedDate'
       }
     ]
-
     pagination= {
       currentPage: 1,
       pageSize: 15,
@@ -111,6 +153,38 @@
     options= {
       border: true
     }
+
+    addData = {
+      username: '',
+      name: '',
+      mobile: '',
+      roleName: '',
+      jobStatus: ''
+    }
+
+    // 用户状态
+    statusOption = [
+      {
+        label: '在职',
+        value: true
+      },
+      {
+        label: '离职',
+        value: false
+      }
+    ]
+
+    // 用户类型
+    typeOption = [
+      {
+        label: '配送员',
+        value: 'ROLE_CIRCULATE_COURIER'
+      },
+      {
+        label: '营业员',
+        value: 'ROLE_CIRCULATE_SHOP'
+      }
+    ]
 
     rowHandle= {
       custom: [
@@ -132,68 +206,23 @@
       ]
     }
 
-    addTemplate = {
-      userName: {
-        title: '用户名',
-        value: ''
-      },
-      name: {
-        title: '姓名',
-        value: ''
-      },
-      mobile: {
-        title: '手机',
-        value: ''
-      },
-      type: {
-        title: '类型',
-        value: ''
-      },
-      userState: {
-        title: '状态',
-        value: ''
-      }
-    }
-
-    formOptions = {
-      labelWidth: '80px',
-      labelPosition: 'left',
-      saveLoading: false
-    }
-
-    handleDialogCancel (done) {
-      done()
-    }
-
     paginationCurrentChange (currentPage) {
-      console.log(currentPage)
       this.pagination.currentPage = currentPage
       this.initData()
     }
 
     // 打开新增弹框
     addRow () {
-      this.$refs.d2Crud.showDialog({
-        mode: 'add'
-      })
+      this.addDialogVisible = true
     }
 
     // 新增用户
-    addUser (row, done) {
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(row)
-        this.$message({
-          message: '保存成功',
-          type: 'success'
-        })
-
-        // done可以传入一个对象来修改提交的某个字段
-        done()
-        this.formOptions.saveLoading = false
-      }, 300)
+    async confirmAdd () {
+      console.log(this.addData)
+      this.addDialogVisible = false
     }
 
+    // 查看
     viewDetail ({row}) {
       this.viewDialogVisible = true
       this.viewData = row
@@ -231,10 +260,10 @@
         }
 
         if (item.roleId === 'ROLE_CIRCULATE_COURIER') {
-          item.roldName = '配送员'
+          item.roleName = '配送员'
         }
         if (item.roleId === 'ROLE_CIRCULATE_SHOP') {
-          item.roldName = '营业员'
+          item.roleName = '营业员'
         }
       })
     }

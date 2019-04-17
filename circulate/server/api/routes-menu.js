@@ -165,7 +165,7 @@ if (SHOW_EXAMPLES) {
         {
           id: '60-4',
           name: '热销排行榜',
-          url: '/drugManage/salesRank',
+          url: '/drugManage/saleHot',
           icon: 'el-icon-share'
         },
         {

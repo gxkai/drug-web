@@ -8,6 +8,17 @@
     "captchaPlaceholder": "请输入验证码",
     "login": "登录"
   },
+  "register": {
+    "phoneRequired": "手机号码不能为空",
+    "phonePlaceholder": "请输入手机号",
+    "captchaRequired": "验证码不能为空",
+    "captchaPlaceholder": "请输入验证码",
+    "pwdRequired": "密码不能为空",
+    "pwdPlaceholder": "请输入密码",
+    "pwdAgainRequired": "密码不能为空",
+    "pwdAgainPlaceholder": "请再次输入密码",
+    "register": "同意服务协议并注册"
+  },
   "nav": {
     "home": "首页"
   },
@@ -71,7 +82,7 @@
   "售磬列表",
   "/drugManage/drug":
   "药品列表",
-  "/drugManage/salesRank":
+  "/drugManage/saleHot":
   "热销排行榜",
   "/drugManage/drugAdd":
   "添加药品",

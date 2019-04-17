@@ -21,7 +21,86 @@
         </div>
       </div>
     </div>
-    <div class="container">
+    <div class="main-content">
+      <div class="container1">
+        <div class="wrapper wrapper1">
+          <p>
+            <span>访问量</span>
+            <i class="icon-tishi"></i>
+          </p>
+          <p>8,846</p>
+          <img src="../assets/img/chart/1.png">
+          <p>
+            日访问量
+            <span>12,423</span>
+          </p>
+        </div>
+        <div class="wrapper wrapper2">
+          <p>
+            <span>订单转化率</span>
+            <i class="icon-tishi"></i>
+          </p>
+          <p>6,560</p>
+          <img src="../assets/img/chart/2.png">
+          <p>
+            转换率
+            <span>60%</span>
+          </p>
+        </div>
+        <div class="wrapper wrapper3">
+          <p>
+            <span>订单完成率</span>
+            <i class="icon-tishi"></i>
+          </p>
+          <p>78%</p>
+          <img src="../assets/img/chart/3.png">
+          <p>
+            周同比 <span class="week">12％</span>
+            日环比 <span class="day">11％</span>
+          </p>
+        </div>
+        <div class="wrapper wrapper4">
+          <p>
+            <span>进行中订单数</span>
+            <i class="icon-tishi"></i>
+          </p>
+          <p>6,560</p>
+          <img src="../assets/img/chart/4.png">
+          <p>
+            未完成率
+            <span>60%</span>
+          </p>
+        </div>
+      </div>
+      <div class="container2">
+        <el-card style="height: 100%">
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="处方流出" name="first">
+              <el-row>
+                <el-col>
+                  <ve-ring :data="ringData11"></ve-ring>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="处方" name="second">
+              <el-row>
+                <el-col>
+                  <ve-ring :data="ringData12"></ve-ring>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="医保" name="third">
+              <el-row>
+                <el-col>
+                  <ve-ring :data="ringData13"></ve-ring>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+          </el-tabs>
+        </el-card>
+      </div>
+    </div>
+    <div class="container2222">
       <div class="wrapper1 wrapper">
         <el-card style="height: 100%">
           <div slot="header">
@@ -586,10 +665,48 @@ export default class Home {
     }
   }
 
+  .main-content{
+    padding: 15px;
+    .container1{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 30px;
+
+      .wrapper{
+        padding: 0 30px;
+        background: #FFF;
+
+        img{
+          width: 100%;
+        }
+
+        p{
+          &:first-child{
+            display: flex;
+            justify-content: space-between;
+            color: #929292;
+            font-size: 15px;
+          }
+          &:nth-child(2){
+            font-size: 30px;
+            font-weight: 500;
+            margin-top: 0;
+          }
+          &:last-child{
+            color: #5a5a5a;
+            font-size: 15px;
+            border-top: 1px solid #e9e9e9;
+            padding-top: 10px;
+          }
+        }
+      }
+    }
+  }
+
   .map {
     height: 100%;
   }
-  .container {
+  .container2222 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px 10px;

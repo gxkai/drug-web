@@ -22,20 +22,9 @@
       <el-dialog
         title="回复"
         :visible.sync="isShowFeedBackDialog"
-        width="30%"
+        width="50%"
         :close-on-click-modal='isClickModal'>
-        <div class="user-con">
-          <strong>用户评价：</strong>
-          <el-input
-            :rows="2"
-            readonly
-            type="textarea"
-            placeholder="暂无"
-            :value="userDesc">
-          </el-input>
-        </div>
         <div class="feedCon">
-          <strong>回复：</strong>
           <el-input
             type="textarea"
             :rows="5"
@@ -53,38 +42,50 @@
       <el-dialog
         title="查看"
         :visible.sync="isShowViewDialog"
-        width="30%"
-        :close-on-click-modal = 'isClickModal'>
-        <div class="main">
-          <el-form :model="viewData" label-width="100px">
-            <el-form-item label="订单编号">
-              <el-input v-model="viewData.number" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-            <el-form-item label="用户姓名">
-              <el-input v-model="viewData.accountName" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-            <el-form-item label="订单类型">
-              <el-input v-model="viewData.orderType" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-            <el-form-item label="配送/自取评分">
-              <el-input v-model="viewData.deliveryScore" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-            <el-form-item label="服务状态">
-              <el-input v-model="viewData.serviceScore" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-            <el-form-item label="描述相符">
-              <el-input v-model="viewData.describeScore" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-            <el-form-item label="包装评分">
-              <el-input v-model="viewData.packageScore" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-            <el-form-item label="评价时间">
-              <el-input v-model="viewData.createdDate" readonly placeholder="暂无"></el-input>
-            </el-form-item>
-          </el-form>
+        width="50%"
+        :close-on-click-modal='isClickModal'>
+        <div class="appraise-info">
+          <div class="wrap1">
+            <span>
+              <strong>用户姓名：</strong>
+              {{ viewData.accountName }}
+            </span>
+            <span>
+              <strong>评价时间：</strong>
+              {{ viewData.appraiseDate }}
+            </span>
+          </div>
+          <div class="wrap2">
+            <strong>店铺评价：</strong>
+            <d2-crud
+              style="width: 500px;"
+              :columns="shopAppraiseColumns"
+              :data="shopAppraiseData"
+              :options="options"/>
+          </div>
+          <div class="wrap3">
+            <strong>药品评价：</strong>
+            <div class="container">
+              <div class="title">
+                <div class="item item1">药品名称</div>
+                <div class="item item2">评分</div>
+                <div class="item item3">描述相符</div>
+                <div class="item item4">图片</div>
+              </div>
+              <div class="detail" v-if="drugAppraiseData.length" v-for="(item, index) in drugAppraiseData" :key="index">
+                <div class="item item1">{{ item.drugName }}</div>
+                <div class="item item2">{{ item.drugScore }}</div>
+                <div class="item item3">{{ item.describeScore }}</div>
+                <div class="item item4">{{ item.imgURL }}</div>
+              </div>
+              <div class="empty" v-if="!drugAppraiseData.length">
+                <span>暂无数据</span>
+              </div>
+            </div>
+          </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="isShowViewDialog = false" type="primary">关 闭</el-button>
+          <el-button @click="isShowViewDialog = false">关 闭</el-button>
         </div>
       </el-dialog>
     </div>
@@ -105,7 +106,7 @@
   })
   export default class Appraise extends Vue {
     appraiseList = []
-    userDesc = ''
+    appraiseId = ''
     feedbackData = ''
     columns= [
       {
@@ -138,19 +139,39 @@
       },
       {
         title: '评价时间',
-        key: 'createdDate'
+        key: 'appraiseDate'
       }
     ];
+    shopAppraiseColumns = [
+      {
+        title: '药品质量',
+        key: 'quality',
+        align: 'center'
+      },
+      {
+        title: '服务状态',
+        key: 'serviceScore',
+        align: 'center'
+      },
+      {
+        title: '包装评分',
+        key: 'packageScore',
+        align: 'center'
+      },
+      {
+        title: '配送速度',
+        key: 'deliveryScore',
+        align: 'center'
+      }
+    ]
     pagination = {
       currentPage: 1,
       pageSize: 15,
       total: 0
     };
-
     options = {
       border: true
     };
-
     rowHandle = {
       custom: [
         {
@@ -166,27 +187,87 @@
       ]
     }
 
-    viewData = {}
+    viewData = []
+    shopAppraiseData = []
+    drugAppraiseData = []
     isClickModal = false
     isShowViewDialog = false
 
+    async getAppraise () {
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      // let shopId = '-a4bnUwmQNKxRgsZOs0J2A'
+      let {data: appraiseData} = await axios.get(`/api/shop/shopAppraises`, {params})
+      console.log(appraiseData)
+      this.pagination.total = appraiseData.total
+      this.appraiseList = appraiseData.list
+
+      this.appraiseList.forEach(item => {
+        item.orderType = this.convertOrderType(item.type)
+        item.appraiseDate = moment(item.appraiseDate).format('YY-MM-DD HH:ss:mm')
+      })
+    }
+
+    beforeMount () {
+      this.getAppraise()
+    }
+
     // 查看
-    viewEvent ({row}) {
+    async viewEvent ({row}) {
+      this.shopAppraiseData = []
       this.isShowViewDialog = true
-      this.viewData = row
+      let {data: detail} = await axios.get(`/api/shop/shopAppraises/${row.id}`)
+      console.log(detail)
+      this.viewData = detail
+      this.viewData.appraiseDate = moment(this.viewData.appraiseDate).format('YY-MM-DD HH:mm:dd')
+      this.shopAppraiseData.push({
+        deliveryScore: detail.deliveryScore,
+        packageScore: detail.packageScore,
+        qualityScore: detail.qualityScore,
+        serviceScore: detail.serviceScore
+      })
+      if (detail.shopAppraiseViewDrugListDTOList) {
+        this.drugAppraiseData = detail.shopAppraiseViewDrugListDTOList
+        this.drugAppraiseData.forEach(item => {
+          this.getImgURL(item.fileId, data => {
+            if (data.substring(data.lastIndexOf('/') + 1, data.length) !== 'null') {
+              item.imgURL = data
+            }
+          })
+        })
+      }
+    }
+
+    // 获取图片路径
+    async getImgURL (fileId, callback) {
+      let params = {
+        resolution: 'SMALL_LOGO'
+      }
+      let {data: imgRes} = await axios.get(`/api/shop/files/${fileId}`, {params})
+      let url = imgRes.replace('redirect:', '')
+      callback(url)
     }
 
     // 模态框参数
     isShowFeedBackDialog = false; // 模态框开启状态
     feedBack ({row}) {
       this.isShowFeedBackDialog = true
-      // console.log(row.id)
-      this.userDesc = row.desc
+      this.appraiseId = row.id
     }
 
     // 回复
     async confirmFeedBack () {
-
+      let params = new FormData()
+      params.append('remark', this.feedbackData)
+      await axios.put(`/api/shop/shopAppraises/${this.appraiseId}`, params)
+      this.$message({
+        message: '回复成功',
+        type: 'success'
+      })
+      this.feedbackData = ''
+      this.isShowFeedBackDialog = false
     }
 
     viewImage ({index, row}) {
@@ -195,24 +276,10 @@
 
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
-      this.getFeedbacks()
+      this.getAppraise()
     }
 
-    typeList = [
-      {
-        value: 'SIMPLE',
-        label: '普通订单'
-      },
-      {
-        value: 'RX',
-        label: '处方订单'
-      },
-      {
-        value: 'HOSPITAL',
-        label: '医院订单'
-      }
-    ]
-
+    // 转换订单类型
     convertOrderType (type) {
       switch (type) {
         case 'SIMPLE':
@@ -225,41 +292,13 @@
           return '医院订单'
       }
     }
-
-    async getAppraise () {
-      let params = {
-        pageNum: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize
-      }
-      let {data: appraiseData} = await axios.get(`/api/shop/order/appraise`, {params})
-      console.log(appraiseData)
-      this.pagination.total = appraiseData.total
-      this.appraiseList = appraiseData.list
-
-      this.appraiseList.forEach(item => {
-        item.orderType = this.convertOrderType(item.type)
-        item.createdDate = moment(item.createdDate).format('YY-MM-DD HH:ss:mm')
-      })
-    }
-
-    beforeMount () {
-      this.getAppraise()
-    }
   }
 </script>
 
-<style lang="scss">
-  .feedback-wrap{
+<style lang="scss" scoped>
+  /deep/.feedback-wrap{
     padding: 0 10px;
     margin-bottom: 30px;
-
-    .user-con{
-      textarea{
-        outline: none;
-        resize: none;
-        margin-top: 10px;
-      }
-    }
 
     .feedCon{
       margin-top: 20px;
@@ -269,6 +308,71 @@
         resize: none;
         font-size: 15px;
         color: #949494;
+      }
+    }
+
+    .appraise-info{
+      strong{
+        font-size: 15px;
+      }
+      .wrap1{
+        display: flex;
+        align-items: center;
+        padding-bottom: 25px;
+
+        span{
+          flex: .3;
+        }
+      }
+      .wrap3{
+        padding-top: 15px;
+        .container{
+          padding: 15px 0;
+
+          .title{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 0;
+            color: #555;
+            background-color: #F4F4F4;
+            border: 1px solid #E9E9E9;
+
+            .item{
+              font-weight: 600;
+              padding: 12px 10px;
+              text-align: center;
+
+              &:not(:last-child){
+                border-right: 1px solid #E9E9E9;
+              }
+            }
+          }
+
+          .detail{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid #E9E9E9;
+            border-top: none;
+            text-align: center;
+
+            .item{
+              padding: 12px 10px;
+              text-align: center;
+
+              &:not(:last-child){
+                border-right: 1px solid #E9E9E9;
+              }
+            }
+          }
+
+          .empty{
+            color: #909399;
+            line-height: 60px;
+            text-align: center;
+            border: 1px solid #e9e9e9;
+            border-top: none;
+          }
+        }
       }
     }
 
@@ -294,12 +398,12 @@
 
       .list {
         padding: 0 15px;
+      }
 
-        .el-table{
-          th{
-            background-color: #F4F4F4;
-            color: #555;
-          }
+      .el-table{
+        th{
+          background-color: #F4F4F4;
+          color: #555;
         }
       }
 
@@ -316,6 +420,8 @@
           display: none;
         }
       }
+
+
     }
   }
 

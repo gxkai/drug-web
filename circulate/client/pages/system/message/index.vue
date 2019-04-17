@@ -34,11 +34,11 @@
           <el-input v-model="viewData.isRead" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="时间">
-          <el-input v-model="viewData.date" readonly placeholder="暂无"></el-input>
+          <el-input v-model="viewData.createdDate" readonly placeholder="暂无"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="viewDialogVisible = false">取 消</el-button>
+        <el-button @click="viewDialogVisible = false">关 闭</el-button>
       </span>
     </el-dialog>
   </div>
@@ -124,6 +124,7 @@
           message: '删除成功！',
           type: 'success'
         })
+        this.initData()
       }).catch(() => {
         this.$message({
           message: '取消删除！',

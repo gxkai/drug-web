@@ -1,35 +1,28 @@
 <template>
-  <div class="stock--wrap">
-    <div class="stock--content">
-      <!--<bread-crumb :path="$route.path"/>-->
-      <div class="stock--content__search">
-        <div class="left">
-          <el-input v-model="stockName" size="small" placeholder="通用名称" style="width: 150px;"></el-input>
-          <el-button class="select-btn value-btn" size="small" v-if="originNameValue" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
-          <el-button class="select-btn" size="small" v-else @click="originDialogVisible = true">厂商名称</el-button>
-          <!--<el-cascader-->
-            <!--size="small"-->
-            <!--placeholder="药品类型"-->
-            <!--expand-trigger="click"-->
-            <!--:options="compostList"-->
-            <!--:props="selectProps"-->
-            <!--v-model="selectedTypes"-->
-            <!--style="width: 150px"-->
-            <!--@change="getTypeCondition">-->
-          <!--</el-cascader>-->
-          <el-button type="primary" size="small" @click="searchDrugs">搜索</el-button>
-          <el-button size="small" @click="clearConditions">清空</el-button>
-        </div>
+  <div class="drugInfo-wrap">
+    <div class="drugInfo-list">
+      <bread-crumb :path="$route.path"/>
+      <div class="drugInfo-search">
+        <el-input v-model="drugNameValue" size="small" placeholder="请输入药品名称" style="width: 150px;"></el-input>
+        <el-button class="select-btn value-btn" v-if="originNameValue" type="small" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
+        <el-button class="select-btn" v-else type="small" @click="originDialogVisible = true">厂商简称</el-button>
+        <el-select size="small" v-model="drugState" placeholder="药品状态">
+          <el-option
+            v-for="item in stateOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <el-button type="primary" size="small" @click="searchDrugInfo">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
       </div>
       <d2-crud
         :columns="columns"
-        :data="drugList"
+        :data="drugInfoList"
         :pagination="pagination"
-        :options="options"
-        :rowHandle="rowHandle"
-        @current-change="handleCurrentChange"
-        @emit-select="handleCurrentChange"
         @pagination-current-change="paginationCurrentChange"
+        :options="options"
         class="drug-table"
       />
     </div>
@@ -37,15 +30,14 @@
     <!--选择厂商-->
     <el-dialog
       title="厂商"
-      append-to-body
       :close-on-click-modal='isCloseOnClickModal'
       :visible.sync="originDialogVisible"
       width="50%">
       <drug-origin v-on:listenToChildEvent="getSelectedInfo"></drug-origin>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="originDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
-      </span>
+          <el-button @click="originDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
+        </span>
     </el-dialog>
   </div>
 </template>
@@ -63,16 +55,19 @@
       'drug-origin': Origin
     }
   })
-  export default class Stock extends Vue {
-    stockName = ''
+  export default class DrugRadio extends Vue {
+    drugNameValue = ''
     originNameValue = ''
+    drugState = ''
+    selectedInfo = '' // 子组件传过来的数据
+    childData = [] // 暂存已选的数据
     isCloseOnClickModal = false
     originDialogVisible = false
 
     columns = [
       {
         title: '药品名称',
-        key: 'drugName'
+        key: 'name'
       },
       {
         title: '通用名称',
@@ -80,56 +75,51 @@
       },
       {
         title: '规格',
-        key: 'specName'
+        key: 'spec'
       },
       {
         title: '厂商简称',
         key: 'originName'
+      },
+      {
+        title: '批准文号',
+        key: 'sfda'
+      },
+      {
+        title: '当前状态',
+        key: 'curState'
       }
-      // {
-      //   title: '药品类型',
-      //   key: 'drugTypeName'
-      // }
     ]
-    drugList = []
-    drugTypesList = [] // 药品类型
-    compostList = [] // 组合类
-    selectedTypes = [] // 所选药品类型
-    selectedInfo = '' // 子组件传过来的数据
-    childData = [] // 暂存已选的数据
-
-    selectProps = {
-      label: 'type',
-      value: 'id',
-      children: 'children'
-    }
-
-    rowHandle = {
-      width: 50,
-      align: 'center',
-      columnHeader: '选择',
-      custom: [
-        {
-          icon: 'el-icon-check',
-          emit: 'emit-select'
-        }
-      ]
-    }
-
-    pagination = {
+    drugInfoList = []
+    loading= false;
+    pagination= {
       currentPage: 1,
       pageSize: 15,
       total: 0
     }
-    options = {
-      border: true,
-      highlightCurrentRow: true
+    options= {
+      border: true
     }
+    stateOptions = [
+      {
+        value: '待审核',
+        label: '待审核'
+      },
+      {
+        value: '审核通过',
+        label: '审核通过'
+      },
+      {
+        value: '审核不通过',
+        label: '审核不通过'
+      }
+    ]
 
     // 获取已选信息
     getSelectedInfo (data) {
       this.selectedInfo = data
     }
+
     // 选择厂商
     confirmSelectOrigin () {
       if (!this.selectedInfo) {
@@ -143,156 +133,110 @@
 
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
-      this.getDrugs()
+      this.getDrugInfo()
     }
 
-    handleCurrentChange (rowData) {
-      this.$emit('listenToChildEvent', rowData)
+    handleDetailEvent ({index, row}) {
+      this.$router.push({
+        path: '/drugCheck/drugInfo/detail',
+        query: {
+          id: row.id
+        }
+      })
     }
 
-    // 获取药品类型
-    async getDrugTypes () {
-      let {data: parentTypes} = await axios.get(`/api/shop/drugTypes/father`)
-      this.drugTypesList = parentTypes
-      this.compostList = this.drugTypesList
-      // 获取每个大类下的子类
-      for (let i = 0, len = this.drugTypesList.length; i < len; i++) {
-        let {data: childTypes} = await axios.get(`/api/shop/drugType/${this.drugTypesList[i].id}/children`)
-        this.compostList[i].children = childTypes
-      }
-
-      console.log(this.compostList)
+    handleCheckEvent () {
+      this.$router.push('/drugCheck/drugInfo/check')
     }
 
-    // 获取药品类别条件
-    getTypeCondition (data) {
-      console.log(data)
-      this.selectedTypes = data
-    }
-
-    clearConditions () {
-      this.stockName = ''
+    clear () {
+      this.drugNameValue = ''
       this.originNameValue = ''
-      this.selectedTypes = []
-      this.getDrugs()
+      this.drugState = ''
     }
 
-    searchDrugs () {
-      this.pagination.currentPage = 1
-      this.getDrugs()
+    // 搜索
+    searchDrugInfo () {
+      this.getDrugInfo()
     }
 
-    async getDrugs () {
+    async getDrugInfo () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name: this.stockName.trim(),
         originName: this.originNameValue.trim(),
-        drugTypeParent: this.selectedTypes[0],
-        drugType: this.selectedTypes[1]
+        name: this.drugNameValue.trim()
       }
-      let {data: drugRes} = await axios.get(`/api/shop/shopDrugs`, {params})
-      console.log(drugRes)
-      this.drugList = drugRes.list
-      this.pagination.total = drugRes.total
-      // this.drugList.forEach(item => {
-      //   let typeName = ''
-      //   item.drugDrugTypeList.forEach(typeItem => {
-      //     typeName += `${typeItem.type},`
-      //   })
-      //   item.drugTypeName = typeName.substring(0, typeName.length - 1)
-      // })
+      let {data: drugInfo} = await axios.get(`/api/shop/drugs`, {params})
+      console.log(drugInfo)
+      this.drugInfoList = drugInfo.list
+      this.pagination.total = drugInfo.total
     }
 
-    beforeMount () {
-      this.getDrugs()
-      this.getDrugTypes()
+    mounted () {
+      this.getDrugInfo()
     }
   }
 </script>
 
 <style scoped lang="scss">
-  .stock{
-    &--wrap{
+  .drugInfo{
+    &-wrap{
       padding: 0 10px;
       margin-bottom: 30px;
     }
-    &--content{
-      background: #FFF;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #E9E9E9;
 
-      &__search{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid #e9e9e9;
-        padding-bottom: 15px;
+    &-search{
+      display: flex;
+      justify-content: Flex-start;
+      align-items: center;
+      border-bottom: 1px solid #e9e9e9;
+      padding-bottom: 15px;
 
-        .select-btn{
-          width: 150px;
-          padding: 8px 15px 9px;
-          margin-right: 10px;
-          color: #c0c4cc;
-          text-align: left;
-          font-size: 13px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
+      .select-btn{
+        width: 150px;
+        height: 32px;
+        line-height: inherit;
+        color: #C0C4CC;
+        text-align: left;
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .value-btn{
+        color: #606266;
+      }
 
-        .value-btn{
-          color: #606266;
-        }
-
-        .right{
-          padding-right: 10px;
-        }
-
-        .el-input{
-          margin: 0 10px;
-        }
-        .el-cascader{
-          margin-right: 10px;
-        }
+      .el-input{
+        margin: 0 5px;
+      }
+      .el-select{
+        width: 150px;
+        margin-left: 5px;
+        margin-right: 10px;
       }
     }
   }
+
   /deep/.drug-table{
-    padding: 0 10px;
-    .el-table{
-      .el-button{
-        width: 15px;
-        height: 15px;
-        line-height: initial;
-        padding: 0;
-        color: #FFF;
-        font-size: 12px;
-        border-radius: 2px;
-
-        &:hover, &:focus{
-          border-color: #409EFF;
-          background-color: #FFF;
+    margin-top: 15px;
+    .d2-crud-body{
+      padding: 0 10px !important;
+      .el-table{
+        th{
+          background-color: #F4F4F4 !important;
+          color: #555 !important;
         }
-      }
-
-      .current-row .el-button{
-        background: #409EFF;
-        border-color: #409EFF;
-      }
-      th{
-        background-color: #F4F4F4 !important;
-        color: #555 !important;
-      }
-      td{
-        .cell{
-          /deep/.el-button+.el-button{
-            margin-left: 5px;
-            &::before{
-              content: '|';
-              padding-right: 5px;
-              color: #eee;
+        td{
+          .cell{
+            /deep/.el-button+.el-button{
+              margin-left: 5px;
+              &::before{
+                content: '|';
+                padding-right: 5px;
+                color: #eee;
+              }
             }
           }
         }
