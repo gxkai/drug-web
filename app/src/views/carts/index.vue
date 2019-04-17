@@ -43,7 +43,7 @@
                 <van-swipe-cell
                   v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
                   :key="cartDrug.cartId"
-                  :right-width="100"
+                  :right-width="50"
                   @click-right="
                     onRemove(
                       cartShop,
@@ -139,7 +139,7 @@
 </template>
 <style scoped type="text/scss" lang="scss">
 /deep/ .van-swipe-cell__right {
-  width: 100px !important;
+  width: 50Px !important;
   height: 100%;
   background: #ff7ea9;
   display: flex;
