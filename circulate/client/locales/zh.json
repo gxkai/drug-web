@@ -82,7 +82,7 @@
   "售磬列表",
   "/drugManage/drug":
   "药品列表",
-  "/drugManage/salesRank":
+  "/drugManage/saleHot":
   "热销排行榜",
   "/drugManage/drugAdd":
   "添加药品",

@@ -6,14 +6,14 @@
         <h3>添加药品</h3>
         <div class="action">
           <!--选择药品-->
-          <el-button class="select-btn value-btn" v-if="drugValue.name" size="small" @click="drugDialog = true">{{ drugValue.name }}</el-button>
+          <el-button class="select-btn value-btn" v-if="drugValue.drugName" size="small" @click="drugDialog = true">{{ drugValue.drugName }}</el-button>
           <el-button class="select-btn" v-else size="small" @click="drugDialog = true">请选择药品</el-button>
           <el-button type="primary" size="small" @click="getDrugInfo">确定</el-button>
         </div>
       </div>
       <el-form ref="form" :model="drugInfoForm" label-width="150px">
         <el-form-item label="药品名称：">
-          <el-input v-model="drugInfoForm.name" readonly placeholder="暂无"></el-input>
+          <el-input v-model="drugInfoForm.drugName" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="通用名称：">
           <el-input v-model="drugInfoForm.commonName" readonly placeholder="暂无"></el-input>
@@ -99,7 +99,7 @@
 
     <!--选择药品-->
     <el-dialog
-      title="药房名称"
+      title="药品列表"
       :close-on-click-modal='isCloseOnClickModal'
       :visible.sync="drugDialog"
       width="50%">
