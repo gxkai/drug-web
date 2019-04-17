@@ -440,9 +440,6 @@ import axios from 'axios'
           type: 'success'
         })
       }
-      setTimeout(() => {
-      // this.$router.push('/')
-      }, 1000)
     }
 
     // 获取经纬度弹框

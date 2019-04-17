@@ -33,11 +33,11 @@
         class="drug-table"
       />
 
-      <el-form ref="form" :model="discountForm" label-width="100px" class="recommend-form">
+      <el-form ref="form" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
             size="small"
-            v-model="discountForm.time"
+            v-model="timeDate"
             type="datetimerange"
             range-separator="至"
             start-placeholder="开始日期"
@@ -45,8 +45,8 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="recommendSubmit">提交</el-button>
-          <el-button @click="back">返回</el-button>
+          <el-button type="primary" @click="">提交</el-button>
+          <el-button @click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
 
@@ -105,9 +105,7 @@
       border: true
     }
 
-    discountForm = {
-      time: ''
-    }
+    timeDate = ''
 
     getSelectedInfo (data) {
       this.selectedInfo = data
@@ -129,12 +127,6 @@
       if (this.drugValue) {
         this.drugData.push(this.drugValue)
       }
-    }
-    discountSubmit () {
-      // this.$router.push('/business/discount')
-    }
-    back () {
-      this.$router.go(-1)
     }
   }
 </script>

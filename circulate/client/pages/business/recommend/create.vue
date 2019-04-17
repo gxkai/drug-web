@@ -33,23 +33,19 @@
         class="drug-table"
       />
 
-      <el-form ref="form" :model="recommendForm" label-width="100px" class="recommend-form">
+      <el-form ref="form" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
             size="small"
-            v-model="recommendForm.time"
-            type="datetimerange"
+            v-model="timeDate"
+            type="daterange"
+            format = "yyyy-MM-dd HH:mm:ss"
             range-separator="至"
             start-placeholder="开始日期"
-            end-placeholder="结束日期">
+            end-placeholder="结束日期"
+            @change="convertDate">
           </el-date-picker>
         </el-form-item>
-        <!--<el-form-item label="活动价格：">-->
-          <!--<el-input v-model="recommendForm.price" size="small" style="width: 400px"></el-input>-->
-        <!--</el-form-item>-->
-        <!--<el-form-item label="活动数量：">-->
-          <!--<el-input v-model="recommendForm.number" size="small" style="width: 400px"></el-input>-->
-        <!--</el-form-item>-->
         <el-form-item>
           <el-button type="primary" @click="recommendSubmit">提交</el-button>
           <el-button @click="back">返回</el-button>
@@ -66,7 +62,8 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import Drug from '@/components/drugCheck/drugRadio/index'
-  // import axios from 'axios'
+  import axios from 'axios'
+  import moment from 'moment'
   @Component({
     components: {
       BreadCrumb,
@@ -111,10 +108,20 @@
       border: true
     }
 
-    recommendForm = {
-      time: ''
-      // price: '',
-      // number: ''
+    timeDate = ''
+    startDate = '' // 起始日期
+    endDate = '' // 截止日期
+
+    convertDate () {
+      if (this.timeDate) {
+        for (let i = 0, len = this.timeDate.length; i < len; i++) {
+          this.timeDate[i] = moment(this.timeDate[i]).format('YYYY-MM-DD hh:mm:ss')
+        }
+        this.startDate = this.timeDate[0]
+        this.endDate = this.timeDate[1]
+        console.log(this.startDate)
+        console.log(this.endDate)
+      }
     }
 
     getSelectedInfo (data) {
@@ -138,7 +145,15 @@
         this.drugData.push(this.drugValue)
       }
     }
-    recommendSubmit () {
+    async recommendSubmit () {
+      let params = {
+        shopDrugId: this.drugValue.shopDrugId,
+        startDate: '2019-04-01 12:00:00',
+        endDate: '2019-04-02 12:00:00'
+      }
+      let get = await axios.get(`/api/shop/drugRecommendApplies/apply/exists`, {params: params})
+      console.log(get)
+
       // this.$router.push('/business/recommend')
     }
     back () {

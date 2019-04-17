@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>编辑推荐</h3>
+        <h3>再次提交</h3>
       </div>
 
       <d2-crud
@@ -15,26 +15,23 @@
         class="drug-table"
       />
 
-      <el-form ref="form" :model="recommendForm" label-width="100px" class="recommend-form">
+      <el-form ref="form" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
+            style="width: 400px;"
+            readonly
             size="small"
-            v-model="recommendForm.time"
-            type="datetimerange"
+            v-model="timeDate"
+            format = "yyyy-MM-dd HH:mm:ss"
+            type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
-        <!--<el-form-item label="活动价格：">-->
-          <!--<el-input v-model="recommendForm.price" size="small" style="width: 400px"></el-input>-->
-        <!--</el-form-item>-->
-        <!--<el-form-item label="活动数量：">-->
-          <!--<el-input v-model="recommendForm.number" size="small" style="width: 400px"></el-input>-->
-        <!--</el-form-item>-->
         <el-form-item>
           <el-button type="primary" @click="recommendSubmit">提交</el-button>
-          <el-button @click="back">返回</el-button>
+          <el-button @click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
 
@@ -93,38 +90,13 @@
       border: true
     }
 
-    recommendForm = {
-      time: ''
-      // price: '',
-      // number: ''
-    }
+    startDate = ''
+    endDate = ''
 
-    getSelectedInfo (data) {
-      this.selectedInfo = data
-    }
+    timeDate = []
 
-    confirmSelect () {
-      if (!this.selectedInfo) {
-        this.shopNameDialog = false
-        return
-      }
-      this.childData = this.selectedInfo
-      this.drugValue = this.childData
-      this.drugDialog = false
-    }
-
-    getDrugInfo () {
-      console.log(this.drugValue)
-      this.drugData = []
-      if (this.drugValue) {
-        this.drugData.push(this.drugValue)
-      }
-    }
     recommendSubmit () {
-      // this.$router.push('/business/recommend')
-    }
-    back () {
-      this.$router.go(-1)
+      this.$router.push('/business/recommend')
     }
   }
 </script>
