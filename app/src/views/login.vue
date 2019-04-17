@@ -69,6 +69,9 @@
   </div>
 </template>
 <style scoped type="text/scss" lang="scss">
+  /deep/.layout .center {
+    background: -webkit-linear-gradient(top,#999,#ccc);
+  }
 .submit-button {
   margin-top: 30px;
   background-color: $theme;
