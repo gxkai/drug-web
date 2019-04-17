@@ -17,7 +17,7 @@
       <template slot="center">
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list v-model="loading" :finished="finished" @load="onLoad">
-            <div v-for="item in list" @click="loadPageDrugsShops(item.id)">
+            <div v-for="(item, index) in list" :key="index" @click="loadPageDrugsShops(item.id)">
               <new-white-space />
               <new-drug :item="item" disabled />
             </div>

@@ -17,7 +17,7 @@
       <new-hospital v-if="hospital !== null" :item="hospital" />
       <div v-for="(item, index) in rxShops" :key="index">
         <new-white-space />
-        <new-shop :item="item" @click.native="clickItem(item)" />
+        <new-shop :item="item" @click.native="clickItem(item)" disabled/>
       </div>
       <new-end v-if="rxShops.length === 0" name="没有符合条件的药店" />
     </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" @click="onClick">
+  <div class="wrapper" @click="disabled === undefined ? loadPageShopsView(item.id):''">
     <div class="left">
       <new-image :url="getImgURL(item.fileId, 'LARGE_LOGO')" size="large" />
       <span v-show="item.medicaid">
@@ -194,6 +194,7 @@ export default {
   name: '',
   mixins: [],
   props: {
+    disabled: {},
     item: {
       default: {
         name: '百家惠大药房',
