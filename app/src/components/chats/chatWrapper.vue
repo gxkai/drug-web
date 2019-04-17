@@ -20,10 +20,10 @@
         </div>
       </div>
       <div class="line2">
-        <new-star score="5" size=".3.8rem" disabled />
+        <new-star :score="item.score" size=".3.8rem" disabled />
         <span class="rate">5.0</span>
         <span class="count">
-          咨询量：99人
+          {{`咨询量：${item.consultCount}人`}}
         </span>
       </div>
       <div class="line3">
