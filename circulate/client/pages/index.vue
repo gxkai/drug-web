@@ -73,527 +73,335 @@
         </div>
       </div>
       <div class="container2">
-        <el-card style="height: 100%">
-          <el-tabs v-model="activeName">
-            <el-tab-pane label="处方流出" name="first">
-              <el-row>
-                <el-col>
-                  <ve-ring :data="ringData11"></ve-ring>
-                </el-col>
-              </el-row>
-            </el-tab-pane>
-            <el-tab-pane label="处方" name="second">
-              <el-row>
-                <el-col>
-                  <ve-ring :data="ringData12"></ve-ring>
-                </el-col>
-              </el-row>
-            </el-tab-pane>
-            <el-tab-pane label="医保" name="third">
-              <el-row>
-                <el-col>
-                  <ve-ring :data="ringData13"></ve-ring>
-                </el-col>
-              </el-row>
-            </el-tab-pane>
-          </el-tabs>
-        </el-card>
-      </div>
-    </div>
-    <div class="container2222">
-      <div class="wrapper1 wrapper">
-        <el-card style="height: 100%">
-          <div slot="header">
-            <span>评价指数</span>
-          </div>
+        <div class="wrapper1">
           <el-row>
             <el-col>
-              <ve-radar :data="radarData" :settings="radarSettings"></ve-radar>
-            </el-col>
-          </el-row>
-        </el-card>
-      </div>
-      <div class="wrapper2 wrapper">
-        <el-card style="height: 100%">
-          <div slot="header">
-            <span>各类目占比</span>
-          </div>
-          <el-tabs v-model="activeName">
-            <el-tab-pane label="处方流出" name="first">
-              <el-row>
-                <el-col>
-                  <ve-ring :data="ringData11"></ve-ring>
-                </el-col>
-              </el-row>
-            </el-tab-pane>
-            <el-tab-pane label="处方" name="second">
-              <el-row>
-                <el-col>
-                  <ve-ring :data="ringData12"></ve-ring>
-                </el-col>
-              </el-row>
-            </el-tab-pane>
-            <el-tab-pane label="医保" name="third">
-              <el-row>
-                <el-col>
-                  <ve-ring :data="ringData13"></ve-ring>
-                </el-col>
-              </el-row>
-            </el-tab-pane>
-          </el-tabs>
-        </el-card>
-      </div>
-      <div class="wrapper3 wrapper">
-        <el-card style="height: 100%">
-          <div slot="header">
-            <span>用户群体</span>
-          </div>
-          <el-row>
-            <el-col>
-              <ve-scatter :data="scatterData"></ve-scatter>
-            </el-col>
-          </el-row>
-        </el-card>
-      </div>
-      <div class="wrapper4 wrapper">
-        <el-card style="height: 100%">
-          <div slot="header">
-            <span>药品品类占比</span>
-          </div>
-          <el-row>
-            <el-col>
-              <ve-ring :data="ringData2" :settings="ringSettings2"></ve-ring>
-            </el-col>
-          </el-row>
-        </el-card>
-      </div>
-      <div class="wrapper5 wrapper">
-        <!--<baidu-map-->
-          <!--class="map"-->
-          <!--:center="center"-->
-          <!--:mapStyle="mapStyle"-->
-          <!--style="display: flex; flex-direction: column"-->
-          <!--:map-type="mapType"-->
-        <!--&gt;-->
-          <!--<bm-boundary-->
-            <!--name="江苏省昆山市"-->
-            <!--:strokeWeight="1"-->
-            <!--strokeColor="#007fff"-->
-          <!--&gt;</bm-boundary>-->
-          <!--<bm-view style="width: 100%; flex: 1"></bm-view>-->
-          <!--<bm-marker-->
-            <!--v-for="(marker, index) in markers"-->
-            <!--:key="index"-->
-            <!--:position="marker.point"-->
-            <!--@click="infoWindowOpen(marker)"-->
-          <!--&gt;-->
-            <!--<bm-info-window-->
-              <!--:position="marker.point"-->
-              <!--:title="marker.title"-->
-              <!--:show="marker.show"-->
-              <!--@close="infoWindowClose(marker)"-->
-              <!--@open="infoWindowOpen(marker)"-->
-            <!--&gt;-->
-              <!--<p>{{ marker.introduction }}</p>-->
-            <!--</bm-info-window>-->
-          <!--</bm-marker>-->
-        <!--</baidu-map>-->
-        <el-card style="height: 100%">
-          <div slot="header">
-            <span>药品监管服务平台</span>
-          </div>
-          <el-row>
-            <el-col>
-              <div class="plat">
-                <div
-                  class="wrapper"
-                  v-for="(item, index) in platData"
-                  :key="index"
-                >
-                  <div class="item item1">
-                    <span :class="[index < 3 ? 'top' : 'bottom']">
-                      {{ index }}
-                    </span>
-                  </div>
-                  <div class="item item2">
-                    <span class="ellipsis">
-                      {{ item.name }}
-                    </span>
-                  </div>
-                  <div class="item item3">
-                    <span>
-                      {{ item.count }}
-                    </span>
-                  </div>
+              <div class="columnar">
+                <div class="unit">
+                  <span>今日</span>
+                  <span>本周</span>
+                  <span>本月</span>
+                  <span>全年</span>
                 </div>
+                <el-tabs v-model="trendTabActiveName">
+                  <el-tab-pane label="转化量" name="conversion">
+                    <h3>用户下单数趋势</h3>
+                    <ve-histogram :data="conversionData" v-if="trendTabActiveName === 'conversion'"></ve-histogram>
+                  </el-tab-pane>
+                  <el-tab-pane label="访问量" name="access">
+                    <h3>用户访问数趋势</h3>
+                    <ve-histogram :data="accessData" v-if="trendTabActiveName === 'access'"></ve-histogram>
+                  </el-tab-pane>
+                </el-tabs>
               </div>
             </el-col>
           </el-row>
-        </el-card>
-      </div>
-      <div class="wrapper6 wrapper">
-        <el-card style="height: 100%">
-          <div slot="header">
-            <span>平台热销排行</span>
-          </div>
-          <el-tabs v-model="activeName">
-            <el-tab-pane label="全部" name="first">
-              <div class="plat">
-                <div
-                  class="wrapper"
-                  v-for="(item, index) in platData"
-                  :key="index"
-                >
-                  <div class="item item1">
-                        <span :class="[index < 3 ? 'top' : 'bottom']">
-                          {{ index }}
-                        </span>
-                  </div>
-                  <div class="item item2">
-                        <span class="ellipsis">
-                          {{ item.name }}
-                        </span>
-                  </div>
-                  <div class="item item3">
-                        <span>
-                          {{ item.count }}
-                        </span>
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="医院" name="second">
-              <div class="plat">
-                <div
-                  class="wrapper"
-                  v-for="(item, index) in platHotDataHospital"
-                  :key="index"
-                >
-                  <div class="item item1">
-                        <span :class="[index < 3 ? 'top' : 'bottom']">
-                          {{ index }}
-                        </span>
-                  </div>
-                  <div class="item item2">
-                        <span class="ellipsis">
-                          {{ item.name }}
-                        </span>
-                  </div>
-                  <div class="item item3">
-                        <span>
-                          {{ item.count }}
-                        </span>
+        </div>
+        <div class="wrapper2">
+          <el-card class="sale-hot" style="height: 100%">
+            <div slot="header" class="hot-header">
+              <el-date-picker
+                v-model="hotDateValue"
+                type="daterange"
+                size="small"
+                unlink-panels
+                range-separator="~"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                style="width: 300px;">
+              </el-date-picker>
+              <el-button class="search-btn" type="primary" size="small" @click="searchHotDrugs">搜索</el-button>
+            </div>
+            <el-row>
+              <el-col>
+                <div class="hot-list">
+                  <h3>店内热销排行</h3>
+                  <div
+                    class="wrapper"
+                    v-for="(item, index) in hotList"
+                    :key="index"
+                  >
+                    <div class="item item1">
+                      <span :class="[index < 3 ? 'top' : 'bottom']">
+                        {{ index + 1 }}
+                      </span>
+                    </div>
+                    <div class="item item2">
+                      <span class="ellipsis">
+                        {{ item.name }}
+                      </span>
+                    </div>
+                    <div class="item item3">
+                      <span>
+                        {{ item.count }}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="药店" name="third">
-              <div class="plat">
-                <div
-                  class="wrapper"
-                  v-for="(item, index) in platHotDataShop"
-                  :key="index"
-                >
+              </el-col>
+            </el-row>
+          </el-card>
+        </div>
+      </div>
+      <div class="container3">
+        <div class="wrapper1">
+          <el-card style="height: 100%">
+            <div slot="header">
+              <h3>药品占比</h3>
+            </div>
+            <el-tabs v-model="proTabActiveName" type="card">
+              <el-tab-pane label="所有渠道" name="allChannels">
+                <el-row>
+                  <el-col>
+                    <ve-ring :data="allChannelsData" v-if="proTabActiveName === 'allChannels'"></ve-ring>
+                  </el-col>
+                </el-row>
+              </el-tab-pane>
+              <el-tab-pane label="处方" name="prescription">
+                <el-row>
+                  <el-col>
+                    <ve-ring :data="prescriptionData" v-if="proTabActiveName === 'prescription'"></ve-ring>
+                  </el-col>
+                </el-row>
+              </el-tab-pane>
+              <el-tab-pane label="自购药" name="purchase">
+                <el-row>
+                  <el-col>
+                    <ve-ring :data="purchaseData" v-if="proTabActiveName === 'purchase'"></ve-ring>
+                  </el-col>
+                </el-row>
+              </el-tab-pane>
+            </el-tabs>
+          </el-card>
+        </div>
+        <div class="wrapper2">
+          <el-card class="sale-hot" style="height: 100%">
+            <div slot="header">
+              <h3>搜索</h3>
+            </div>
+            <el-row>
+              <el-col>
+                <div class="charts">
                   <div class="item item1">
-                        <span :class="[index < 3 ? 'top' : 'bottom']">
-                          {{ index }}
-                        </span>
+                    <p>搜索用户数</p>
+                    <p>
+                      <span>8,846</span>
+                      <span>17.1%</span>
+                    </p>
+                    <img src="../assets/img/chart/5.png">
                   </div>
-                  <div class="item item2">
-                        <span class="ellipsis">
-                          {{ item.name }}
-                        </span>
-                  </div>
-                  <div class="item item3">
-                        <span>
-                          {{ item.count }}
-                        </span>
+                  <div class="item item1">
+                    <p>人均搜索次数</p>
+                    <p>
+                      <span>2.7</span>
+                      <span>26.2%</span>
+                    </p>
+                    <img src="../assets/img/chart/6.png">
                   </div>
                 </div>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
-        </el-card>
+
+                <el-table
+                  :data="searchList"
+                  style="width: 100%"
+                >
+                  <el-table-column
+                    type="index"
+                    label="排名"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="keyword"
+                    label="搜索关键词"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="accountNum"
+                    label="用户数"
+                    align="center"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    prop="increase"
+                    label="周涨幅"
+                    align="center"
+                    width="100"
+                  >
+                    <template slot-scope="scope">
+                      <div class="increase-value">
+                        <span>{{ scope.row.increase }}</span>
+                        <i class="icon-shangyi"></i>
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-col>
+            </el-row>
+          </el-card>
+        </div>
       </div>
-      <div class="wrapper7 wrapper">
-        <el-card>
-          <div slot="header">
-            <span>用户来源</span>
-          </div>
-          <ve-histogram :data="histogramData" :settings="histogramSettings"></ve-histogram>
-        </el-card>
-      </div>
-      <div class="wrapper8 wrapper"></div>
     </div>
   </div>
 </template>
 
 <script>
-import Component from 'class-component'
+  import Component from 'class-component'
 
-@Component({
-  components: {}
-})
-export default class Home {
-  avatar = require('@/assets/img/avatar.jpg') // 头像
-  /**
-   * 1.BMAP_NORMAL_MAP 2.BMAP_PERSPECTIVE_MAP 3.BMAP_SATELLITE_MAP 4.BMAP_HYBRID_MAP
-   * @type {string}
-   */
-  mapType = 'BMAP_NORMAL_MAP';
-  center = '昆山';
-  mapStyle = {
-    styleJson: [
+  @Component({
+    components: {}
+  })
+  export default class Home {
+    avatar = require('@/assets/img/avatar.jpg') // 头像
+    hotDateValue = '' // 热销日期
+    trendTabActiveName = 'conversion'
+    conversionData = {
+      columns: ['日期', '访问用户', '下单用户', '下单率'],
+      rows: [
+        { '日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32 },
+        { '日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26 },
+        { '日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76 },
+        { '日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49 },
+        { '日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323 },
+        { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78 }
+      ]
+    }
+    accessData = {
+      columns: ['日期', '访问用户', '下单用户', '下单率'],
+      rows: [
+        { '日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32 },
+        { '日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26 },
+        { '日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76 },
+        { '日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49 },
+        { '日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323 },
+        { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78 }
+      ]
+    }
+    hotList = [
       {
-        featureType: 'all',
-        elementType: 'geometry',
-        stylers: {
-          hue: '#007fff',
-          saturation: 89
-        }
+        name: '999感冒灵',
+        count: 323234
       },
       {
-        featureType: 'water',
-        elementType: 'all',
-        stylers: {
-          color: '#ffffff'
-        }
-      }
-    ]
-  };
-  markers = [];
-  radarData = {
-    columns: ['对象', '咨询', '包装', '描述', '服务', '配送'],
-    rows: [
-      { 对象: '药房(33)', 咨询: 5, 包装: 5, 描述: 5, 服务: 5, 配送: 5 },
-      { 对象: '药店(22)', 咨询: 3, 包装: 3, 描述: 3, 服务: 3, 配送: 3 },
-      { 对象: '全部(55)', 咨询: 4, 包装: 4, 描述: 4, 服务: 4, 配送: 4 }
-    ]
-  };
-  radarSettings = {
-    dimension: ['对象'],
-    metrics: ['咨询', '包装', '描述', '服务', '配送']
-  };
-  scatterData = {
-    columns: ['年龄', '全部', '医院', '药店'],
-    rows: [
-      { 年龄: '19-30', 全部: 123, 医院: 3, 药店: 1244 },
-      { 年龄: '30-40', 全部: 1223, 医院: 6, 药店: 2344 },
-      { 年龄: '41-60', 全部: 7123, 医院: 9, 药店: 3245 },
-      { 年龄: '60+', 全部: 4123, 医院: 12, 药店: 4355 }
-    ]
-  };
-  ringData11 = {
-    columns: ['渠道', '数量'],
-    rows: [
-      { 渠道: '处方流出(26%, 1393)', 数量: 1393 },
-      { 渠道: '其他(26%, 2530)', 数量: 3530 }
-    ]
-  };
-  ringData12 = {
-    columns: ['渠道', '数量'],
-    rows: [
-      { 渠道: '处方(30%, 1393)', 数量: 1393 },
-      { 渠道: '其他(40%, 2530)', 数量: 3530 }
-    ]
-  };
-  ringData13 = {
-    columns: ['渠道', '数量'],
-    rows: [
-      { 渠道: '医保(26%, 1393)', 数量: 1393 },
-      { 渠道: '其他(26%, 2530)', 数量: 3530 }
-    ]
-  };
-  ringData2 = {
-    columns: ['药品类别', '数量'],
-    rows: [
-      { 药品类别: '家庭常用(17% 3530)', 数量: 3530 },
-      { 药品类别: '心脑血管(17%, 3530)', 数量: 3530 },
-      { 药品类别: '抗肿瘤药(17%, 3530)', 数量: 3530 },
-      { 药品类别: '五官科药(17%, 3530)', 数量: 3530 },
-      { 药品类别: '妇科用品(17%, 3530)', 数量: 3530 },
-      { 药品类别: '其他(17%, 3530)', 数量: 3530 }
-    ]
-  };
-  ringSettings2 = {
-    radius: [10, 100]
-  }
-  platData = [
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    }
-  ]
-  activeName = 'first'
-  activeName3 = 'first'
-  platHotData = [
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    }
-  ]
-  platHotDataHospital = [
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    }
-  ]
-  platHotDataShop = [
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    },
-    {
-      name: '999感冒灵',
-      count: 323234
-    }
-  ]
-  histogramSettings = {
-    metrics: ['智慧昆山', '农商行', '其他'],
-    dimension: ['日期']
-  }
-  histogramData = {
-    columns: ['日期', '智慧昆山', '农商行', '其他'],
-    rows: [
-      { '日期': '1月', '智慧昆山': 1393, '农商行': 1093, '其他': 1000 },
-      { '日期': '2月', '智慧昆山': 3530, '农商行': 3230, '其他': 1000 },
-      { '日期': '3月', '智慧昆山': 2923, '农商行': 2623, '其他': 1000 },
-      { '日期': '4月', '智慧昆山': 1723, '农商行': 1423, '其他': 1000 },
-      { '日期': '5月', '智慧昆山': 3792, '农商行': 3492, '其他': 1000 },
-      { '日期': '6月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
-      { '日期': '7月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
-      { '日期': '8月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
-      { '日期': '9月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
-      { '日期': '10月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
-      { '日期': '11月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 },
-      { '日期': '12月', '智慧昆山': 4593, '农商行': 4293, '其他': 1000 }
-    ]
-  }
-  async beforeMount () {
-    // let {data: accounts} = await axios.get(`/api/shop/accounts`, {params: {pageNum: 1, pageSize: 15}})
-    // console.log(accounts)
-  }
-  mounted () {
-    this.addPoints()
-  }
-  infoWindowClose (e) {
-    e.show = false
-  }
-  infoWindowOpen (e) {
-    e.show = true
-  }
-  addPoints () {
-    this.markers = [
-      {
-        show: false,
-        title: '百家惠大药房',
-        introduction: '百家惠大药房',
-        point: { lng: '120.897189', lat: '31.404902' }
+        name: '999感冒灵',
+        count: 323234
       },
       {
-        show: false,
-        title: '同德堂大药房',
-        introduction: '同德堂大药房',
-        point: { lng: '120.956095', lat: '31.397078' }
+        name: '999感冒灵',
+        count: 323234
+      },
+      {
+        name: '999感冒灵',
+        count: 323234
+      },
+      {
+        name: '999感冒灵',
+        count: 323234
+      },
+      {
+        name: '999感冒灵',
+        count: 323234
+      },
+      {
+        name: '999感冒灵',
+        count: 323234
+      },
+      {
+        name: '999感冒灵',
+        count: 323234
+      },
+      {
+        name: '999感冒灵',
+        count: 323234
+      },
+      {
+        name: '999感冒灵',
+        count: 323234
       }
     ]
+
+    proTabActiveName = 'allChannels'
+    // 所有渠道Data
+    allChannelsData = {
+      columns: ['药品类别', '数量'],
+      rows: [
+        { 药品类别: '家庭常用(17% 3530)', 数量: 3530 },
+        { 药品类别: '心脑血管(17%, 3530)', 数量: 3530 },
+        { 药品类别: '抗肿瘤药(17%, 3530)', 数量: 3530 },
+        { 药品类别: '五官科药(17%, 3530)', 数量: 3530 },
+        { 药品类别: '妇科用品(17%, 3530)', 数量: 3530 },
+        { 药品类别: '其他(17%, 3530)', 数量: 3530 }
+      ]
+    }
+    // 处方单购药
+    prescriptionData = {
+      columns: ['药品类别', '数量'],
+      rows: [
+        { 药品类别: '家庭常用(17% 3530)', 数量: 3530 },
+        { 药品类别: '心脑血管(17%, 3530)', 数量: 3530 },
+        { 药品类别: '抗肿瘤药(17%, 3530)', 数量: 3530 },
+        { 药品类别: '五官科药(17%, 3530)', 数量: 3530 },
+        { 药品类别: '妇科用品(17%, 3530)', 数量: 3530 },
+        { 药品类别: '其他(17%, 3530)', 数量: 3530 }
+      ]
+    }
+    // 自购药
+    purchaseData = {
+      columns: ['药品类别', '数量'],
+      rows: [
+        { 药品类别: '家庭常用(17% 3530)', 数量: 3530 },
+        { 药品类别: '心脑血管(17%, 3530)', 数量: 3530 },
+        { 药品类别: '抗肿瘤药(17%, 3530)', 数量: 3530 },
+        { 药品类别: '五官科药(17%, 3530)', 数量: 3530 },
+        { 药品类别: '妇科用品(17%, 3530)', 数量: 3530 },
+        { 药品类别: '其他(17%, 3530)', 数量: 3530 }
+      ]
+    }
+
+    // 搜索数据
+    searchList = [
+      {
+        keyword: '感冒',
+        accountNum: 2234,
+        increase: '128%'
+      },
+      {
+        keyword: '胃疼',
+        accountNum: 2234,
+        increase: '3%'
+      },
+      {
+        keyword: '消炎',
+        accountNum: 2234,
+        increase: '58%'
+      },
+      {
+        keyword: '拉肚子',
+        accountNum: 2234,
+        increase: '6%'
+      },
+      {
+        keyword: '菊花茶',
+        accountNum: 2234,
+        increase: '2%'
+      }
+    ]
+
+    // 搜索热销药品
+    searchHotDrugs () {
+
+    }
+
+    async beforeMount () {
+      // let {data: accounts} = await axios.get(`/api/shop/accounts`, {params: {pageNum: 1, pageSize: 15}})
+      // console.log(accounts)
+    }
+    mounted () {
+    }
   }
-}
 </script>
 
-<style scoped lang="scss" type="text/scss">
+<style lang="scss" scoped type="text/scss">
 
   .top-content{
     height: 100px;
@@ -666,7 +474,7 @@ export default class Home {
   }
 
   .main-content{
-    padding: 15px;
+    padding: 15px 15px 30px;
     .container1{
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -701,57 +509,202 @@ export default class Home {
         }
       }
     }
+
+    .container2{
+      display: grid;
+      grid-template-columns: 70% 30%;
+      background: #FFF;
+      margin-top: 20px;
+
+      h3{
+        margin-top: 10px;
+        font-size: 18px;
+      }
+
+      .columnar{
+        position: relative;
+        .unit{
+          position: absolute;
+          top: 20px;
+          right: 50px;
+          z-index: 1;
+          width: 180px;
+          display: flex;
+          justify-content: space-between;
+          font-size: 15px;
+        }
+      }
+
+      .sale-hot{
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+        .hot-header{
+          display: flex;
+
+          .search-btn{
+            margin-left: 20px;
+          }
+        }
+
+        .hot-list{
+          display: grid;
+          grid-row-gap: 15px;
+          .wrapper {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr;
+            grid-gap: 10px;
+            .item {
+              display: flex;
+              overflow: hidden;
+              align-items: center;
+              font-size: 15px;
+            }
+            .item1 {
+              span {
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                text-align: center;
+                font-size: 13px;
+              }
+              .top {
+                background-color: rgb(43, 61, 79);
+                color: #FFF;
+              }
+              .bottom {
+                background-color: rgb(238, 240, 244);
+                color: #000;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .container3{
+      display: grid;
+      grid-template-columns: 50% 50%;
+      margin-top: 20px;
+      background: #FFF;
+      h3{
+        margin: 0;
+        font-size: 18px;
+      }
+
+      img{
+        width: 100%;
+      }
+
+      .el-card{
+        box-shadow: none;
+        border: none;
+      }
+
+      .wrapper1{
+        padding-right: 25px;
+      }
+      .wrapper2{
+        padding-left: 25px;
+        .charts{
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          grid-column-gap: 100px;
+          padding-bottom: 20px;
+        }
+
+        .increase-value{
+          display: flex;
+          align-items: center;
+
+          span{
+            flex: 1;
+            text-align: right;
+          }
+          i{
+            flex: .5;
+            text-align: left;
+            color: #52d291;
+            font-weight: 600;
+          }
+        }
+      }
+    }
   }
 
-  .map {
-    height: 100%;
-  }
-  .container2222 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px 10px;
-    .wrapper1 {
-      grid-area: 1/1/2/2;
-    }
-    .wrapper3 {
-      grid-area: 2/1/3/2;
-    }
-    .wrapper {
-      background-color: white;
-      z-index: 1;
-      opacity: 0.9;
-    }
-    .wrapper7 {
-      grid-area: 3/1/4/4;
-    }
-  }
-  .plat {
-    display: grid;
-    grid-row-gap: 10px;
-    .wrapper {
-      display: grid;
-      grid-template-columns: 1fr 3fr 1fr;
-      grid-gap: 10px;
-      .item {
-        display: flex;
-        overflow: hidden;
-        align-items: center;
+  /deep/.container2{
+    .columnar{
+      .el-tabs{
+        &__nav-scroll{
+          height: 60px;
+          line-height: 60px;
+          padding-left: 30px;
+        }
+        &__content{
+          margin: 0 30px;
+        }
+        &__item{
+          font-size: 16px;
+        }
+        &__nav-wrap::after{
+          background: #e8e8e8;
+        }
       }
-      .item1 {
-        span {
-          border-radius: 50%;
-          width: 20px;
-          height: 20px;
-          text-align: center;
-          line-height: 20px;
+    }
+
+    .sale-hot{
+      .el-card{
+        &__header{
+          padding: 13px 20px;
+          border-bottom: 2px solid #E8E8E8;
         }
-        .top {
-          background-color: rgb(43, 61, 79);
-          color: white;
+      }
+    }
+  }
+
+  /deep/.container3{
+    .wrapper1{
+      .el-tabs{
+        &__header{
+          border-bottom: none;
+          margin-bottom: 30px;
         }
-        .bottom {
-          background-color: rgb(238, 240, 244);
-          color: black;
+
+        &__nav{
+          border: none;
+          border-radius: 4px
+        }
+
+        &__item{
+          border: 1px solid #e4e7ed;
+
+          &:first-child{
+            border-radius: 4px 0 0 4px;
+            border-right-color: transparent;
+          }
+
+          &:last-child{
+            border-radius: 0 4px 4px 0;
+            border-left-color: transparent;
+          }
+
+          &.is-active{
+            border-color: #409EFF;
+          }
+        }
+      }
+    }
+
+    .wrapper2{
+      .el-table{
+        .has-gutter{
+          th{
+            padding: 10px 0;
+            color: #333;
+            background: #f4f4f4;
+          }
         }
       }
     }

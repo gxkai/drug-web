@@ -20,11 +20,13 @@
       <d2-crud
         :columns="columns"
         :data="drugInfoList"
+        :options="options"
+        :rowHandle="rowHandle"
         :pagination="pagination"
         @pagination-current-change="paginationCurrentChange"
-        :options="options"
-        class="drug-table"
-      />
+        @current-change="handleCurrentChange"
+        @emit-select="handleCurrentChange"
+        class="drug-table"/>
     </div>
 
     <!--选择厂商-->
@@ -32,7 +34,8 @@
       title="厂商"
       :close-on-click-modal='isCloseOnClickModal'
       :visible.sync="originDialogVisible"
-      width="50%">
+      width="50%"
+      append-to-body>
       <drug-origin v-on:listenToChildEvent="getSelectedInfo"></drug-origin>
       <span slot="footer" class="dialog-footer">
           <el-button @click="originDialogVisible = false">取 消</el-button>
@@ -63,6 +66,20 @@
     childData = [] // 暂存已选的数据
     isCloseOnClickModal = false
     originDialogVisible = false
+    stateOptions = [
+      {
+        value: '待审核',
+        label: '待审核'
+      },
+      {
+        value: '审核通过',
+        label: '审核通过'
+      },
+      {
+        value: '审核不通过',
+        label: '审核不通过'
+      }
+    ]
 
     columns = [
       {
@@ -98,22 +115,20 @@
       total: 0
     }
     options= {
-      border: true
+      border: true,
+      highlightCurrentRow: true
     }
-    stateOptions = [
-      {
-        value: '待审核',
-        label: '待审核'
-      },
-      {
-        value: '审核通过',
-        label: '审核通过'
-      },
-      {
-        value: '审核不通过',
-        label: '审核不通过'
-      }
-    ]
+    rowHandle = {
+      width: 50,
+      align: 'center',
+      columnHeader: '选择',
+      custom: [
+        {
+          icon: 'el-icon-check',
+          emit: 'emit-select'
+        }
+      ]
+    }
 
     // 获取已选信息
     getSelectedInfo (data) {
@@ -134,6 +149,10 @@
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
       this.getDrugInfo()
+    }
+
+    handleCurrentChange (currentRow) {
+      this.$emit('listenToChildEvent', currentRow)
     }
 
     handleDetailEvent ({index, row}) {
@@ -157,6 +176,7 @@
 
     // 搜索
     searchDrugInfo () {
+      this.pagination.currentPage = 1
       this.getDrugInfo()
     }
 
@@ -224,6 +244,26 @@
     .d2-crud-body{
       padding: 0 10px !important;
       .el-table{
+        .el-button{
+          width: 15px;
+          height: 15px;
+          line-height: initial;
+          padding: 0;
+          color: #FFF;
+          font-size: 12px;
+          border-radius: 2px;
+
+          &:hover, &:focus{
+            border-color: #409EFF;
+            background-color: #FFF;
+          }
+        }
+
+        .current-row .el-button{
+          background: #409EFF;
+          border-color: #409EFF;
+        }
+
         th{
           background-color: #F4F4F4 !important;
           color: #555 !important;
