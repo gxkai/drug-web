@@ -303,7 +303,7 @@ export default {
     async onLoad() {
       this.loadMore();
       const data = await this.$http.get('/api/carts', this.getParams());
-      data.cartShops.forEach(e => {
+      data.list.forEach(e => {
         e.allPrice = 0;
         e.allQuantity = 0;
         e.radio = false;
@@ -314,7 +314,7 @@ export default {
           });
         });
       });
-      this.pushToList(data.cartShops);
+      this.pushToList(data.list);
     },
     async changeQuantity(cartDrug, cartShop) {
       await this.$http.put(

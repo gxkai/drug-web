@@ -14,7 +14,7 @@ import fastclick from 'fastclick';
 import filters from '@/filters';
 import '@/icons/iconfont.css';
 import dui from '@/components/global/dui';
-import '@/plugins/vconsole';
+// import '@/plugins/vconsole';
 import _ from 'lodash';
 import directive from '@/directives';
 import VueI18n from 'vue-i18n';

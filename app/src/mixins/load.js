@@ -103,7 +103,7 @@ export default {
       this.loadPage('/messages', { title: title, messageType: messageType });
     },
     loadPageMessagesView(id) {
-      this.loadPage('/messages', { messageId: id });
+      this.loadPage('/messages/view', { messageId: id });
     },
     loadPageMessageTypes() {
       this.loadPage('/messageTypes');

@@ -398,7 +398,7 @@ const orderRouter = [
     path: '/orders',
     name: '/orders',
     meta: {
-      navigation: true,
+      navigation: false,
       name: '全部订单',
       showBackTopLeft: false,
       showBackBottomRight: true
