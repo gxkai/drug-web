@@ -28,7 +28,7 @@
           {{ `${item.phone}` }}
         </span>
       </div>
-      <div class="line line3">
+      <div class="line line3" v-show="item.openTime && item.closeTime">
         <span>
           营业时间：
         </span>
