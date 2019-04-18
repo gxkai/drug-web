@@ -1,5 +1,5 @@
 <template>
-  <div class="info-cell hairline-bottom">
+  <div class="info-cell hairline-bottom" @click="$emit('click')">
     <div class="left">
       <van-icon
         v-show="leftIcon !== undefined"

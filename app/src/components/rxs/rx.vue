@@ -72,10 +72,10 @@
         {{ item.number }}
       </span>
       <img
-        v-if="item.state === 'ENABLED'"
-        src="../.././assets/img/rxs/enabled.png"
+        v-show="item.state === 'ENABLED'"
+        src="@/assets/img/rxs/enabled.png"
       />
-      <img v-else src="../.././assets/img/rxs/disabled.png" />
+      <img v-show="item.state === 'DISABLED'" src="@/assets/img/rxs/disabled.png" />
     </div>
   </div>
 </template>

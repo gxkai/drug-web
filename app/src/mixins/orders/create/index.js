@@ -64,10 +64,9 @@ export default {
       );
       let url = await this.$http.get(`/api/orders/${order.id}/pay`);
       if (url === '') {
-        await this.$http.post('/orders/qy/callback', {
-          orderNo: order.number,
-          insuranceNo: '000001',
-          bankNo: '000000001'
+        await this.$http.get('/orders/callback', {
+          MerOrderNo: order.number,
+          orderNo: '0000001'
         });
         this.$router.replace('/orders');
         return;

@@ -8,7 +8,7 @@
         <van-list v-model="loading" :finished="finished" @load="onLoad">
           <div v-for="(item, index) in list" :key="index">
             <new-white-space />
-            <new-shop :item="item" />
+            <new-shop :item="item"/>
           </div>
           <new-end
             v-if="finished === true"

@@ -6,7 +6,7 @@
         :title="item.hospital"
         :desc="item.date.split(' ')[0]"
         :key="index"
-        @click="loadPageAccountsInsuranceConsumeInfoMore(item)"
+        @click="loadPageInsurancesConsumeInfoMore(item)"
       />
     </template>
   </new-layout>
@@ -28,6 +28,7 @@ export default {
   methods: {
     async initData() {
       this.items = await this.$http.get('/api/accounts/medicaid/consumes');
+      console.log(this.items);
     }
   }
 };
