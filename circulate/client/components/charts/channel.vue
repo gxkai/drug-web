@@ -11,49 +11,102 @@
   @Component
   export default class channel {
     colorData = ['#BC8DEE', '#8693F3', '#89C3F8', '#F2A695', '#FCC667', '#AEB7F9', '#748BFA']
-    legendData = ['工种1', '工种2', '工种3', '工种4', '工种5']
+    legendData = ['家庭常用', '呼吸系统', '肝胆用药', '营养滋补', '男科用药', '其他']
+
+    // value中只能是Number类型
     seriesData = [
       {
-        name: '工种1',
-        value: 13
+        name: '家庭常用',
+        value: 120
       },
       {
-        name: '工种2',
-        value: 25
+        name: '呼吸系统',
+        value: 230
       },
       {
-        name: '工种3',
-        value: 27
+        name: '肝胆用药',
+        value: 450
       },
       {
-        name: '工种4',
-        value: 30
+        name: '营养滋补',
+        value: 80
       },
       {
-        name: '工种5',
+        name: '男科用药',
+        value: 520
+      },
+      {
+        name: '其他',
         value: 20
       }
     ];
 
     option = {
       color: this.colorData,
+      title: {
+        text: '在售药品总数',
+        textStyle: {
+          fontSize: 15,
+          color: '#929292',
+          fontWeight: 100
+        },
+        subtext: '122356',
+        subtextStyle: {
+          fontSize: 25,
+          color: '#272727'
+        },
+        left: '34%',
+        top: '43%',
+        textAlign: 'center'
+      },
       legend: {
-        orient: 'vartical',
-        x: 'left',
-        top: '40%',
-        left: '80%',
-        bottom: '0%',
+        icon: 'circle',
+        orient: 'vertical', // 布局朝向 vertical：列向，horizontal：横向
+        x: 'right',
+        top: 'middle',
+        left: '65%',
         data: this.legendData,
-        itemWidth: 20,
-        itemHeight: 14,
+        itemWidth: 10,
+        itemHeight: 10,
         itemGap: 15,
-        formatter: function (name) {
-          return '   ' + name
+        formatter: name => {
+          let data = this.seriesData
+          let target = ''
+          let total = 0
+          for (let i = 0; i < data.length; i++) {
+            total += data[i].value
+            if (this.seriesData[i].name === name) {
+              target = this.seriesData[i].value
+            }
+          }
+          let arr = ['{a|' + name + '}', '{p|' + ((target / total) * 100).toFixed(2) + '%}', '{b|' + target + '}']
+          return arr
+        },
+        textStyle: {
+          rich: {
+            a: {
+              fontSize: 15,
+              padding: [0, 5, 0, 15]
+            },
+            p: {
+              fontSize: 15,
+              padding: [0, 5, 0, 10]
+            },
+            b: {
+              fontSize: 15,
+              padding: [0, 0, 0, 15],
+              align: 'right'
+            }
+          }
         }
       },
-      tooltip: {},
+      // hover提示
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
+      },
       series: [{
-        name: '违规次数',
+        name: '在售药品',
         type: 'pie',
         clockwise: false, // 饼图的扇区是否是顺时针排布
         minAngle: 20, // 最小的扇区角度（0 ~ 360）
@@ -68,7 +121,8 @@
         },
         label: {
           normal: {
-            show: false
+            show: false,
+            formatter: '{d}%'
           },
           emphasis: {
             show: false
