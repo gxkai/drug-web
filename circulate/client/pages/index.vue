@@ -24,52 +24,66 @@
     <div class="main-content">
       <div class="container1">
         <div class="wrapper wrapper1">
-          <p>
-            <span>访问量</span>
-            <i class="icon-tishi"></i>
-          </p>
-          <p>8,846</p>
-          <img src="../assets/img/chart/1.png">
-          <p>
+          <div class="top">
+            <p>
+              <span>访问量</span>
+              <i class="icon-tishi"></i>
+            </p>
+            <p>8,846</p>
+            <img src="../assets/img/chart/1.png">
+          </div>
+          <div class="bottom">
             日访问量
             <span>12,423</span>
-          </p>
+          </div>
         </div>
         <div class="wrapper wrapper2">
-          <p>
-            <span>订单转化率</span>
-            <i class="icon-tishi"></i>
-          </p>
-          <p>6,560</p>
-          <img src="../assets/img/chart/2.png">
-          <p>
+          <div class="top">
+            <p>
+              <span>订单转化率</span>
+              <i class="icon-tishi"></i>
+            </p>
+            <p>6,560</p>
+            <img src="../assets/img/chart/2.png">
+          </div>
+          <div class="bottom">
             转换率
             <span>60%</span>
-          </p>
+          </div>
         </div>
         <div class="wrapper wrapper3">
-          <p>
-            <span>订单完成率</span>
-            <i class="icon-tishi"></i>
-          </p>
-          <p>78%</p>
-          <img src="../assets/img/chart/3.png">
-          <p>
-            周同比 <span class="week">12％</span>
-            日环比 <span class="day">11％</span>
-          </p>
+          <div class="top">
+            <p>
+              <span>订单完成率</span>
+              <i class="icon-tishi"></i>
+            </p>
+            <p>78%</p>
+            <el-progress :text-inside="true" :stroke-width="18" :percentage="78"></el-progress>
+          </div>
+          <div class="bottom">
+            <span>
+              周同比
+              <span class="week">12％</span>
+            </span>
+            <span>
+              日环比
+              <span class="day">11％</span>
+            </span>
+          </div>
         </div>
         <div class="wrapper wrapper4">
-          <p>
-            <span>进行中订单数</span>
-            <i class="icon-tishi"></i>
-          </p>
-          <p>6,560</p>
-          <img src="../assets/img/chart/4.png">
-          <p>
+          <div class="top">
+            <p>
+              <span>进行中订单数</span>
+              <i class="icon-tishi"></i>
+            </p>
+            <p>6,560</p>
+            <img src="../assets/img/chart/4.png">
+          </div>
+          <div class="bottom">
             未完成率
             <span>60%</span>
-          </p>
+          </div>
         </div>
       </div>
       <div class="container2">
@@ -85,12 +99,10 @@
                 </div>
                 <el-tabs v-model="trendTabActiveName">
                   <el-tab-pane label="转化量" name="conversion">
-                    <h3>用户下单数趋势</h3>
-                    <ve-histogram :data="conversionData" v-if="trendTabActiveName === 'conversion'"></ve-histogram>
+                    <chart-conversion v-if="trendTabActiveName === 'conversion'"></chart-conversion>
                   </el-tab-pane>
                   <el-tab-pane label="访问量" name="access">
-                    <h3>用户访问数趋势</h3>
-                    <ve-histogram :data="accessData" v-if="trendTabActiveName === 'access'"></ve-histogram>
+                    <chart-access v-if="trendTabActiveName === 'access'"></chart-access>
                   </el-tab-pane>
                 </el-tabs>
               </div>
@@ -153,7 +165,7 @@
               <el-tab-pane label="所有渠道" name="allChannels">
                 <el-row>
                   <el-col>
-                    <ve-ring :data="allChannelsData" v-if="proTabActiveName === 'allChannels'"></ve-ring>
+                    <chart-channel v-if="proTabActiveName === 'allChannels'"></chart-channel>
                   </el-col>
                 </el-row>
               </el-tab-pane>
@@ -246,49 +258,22 @@
 </template>
 
 <script>
+  import Conversion from '@/components/charts/conversion'
+  import Access from '@/components/charts/access'
+  import Channel from '@/components/charts/channel'
   import Component from 'class-component'
 
   @Component({
-    components: {}
+    components: {
+      'chart-conversion': Conversion,
+      'chart-access': Access,
+      'chart-channel': Channel
+    }
   })
   export default class Home {
     avatar = require('@/assets/img/avatar.jpg') // 头像
     hotDateValue = '' // 热销日期
     trendTabActiveName = 'conversion'
-    conversionData = {
-      columns: ['日期', '用户下单数'],
-      rows: [
-        { '日期': '01月', '用户下单数': 222 },
-        { '日期': '02月', '用户下单数': 230 },
-        { '日期': '03月', '用户下单数': 500 },
-        { '日期': '04月', '用户下单数': 600 },
-        { '日期': '05月', '用户下单数': 800 },
-        { '日期': '06月', '用户下单数': 1500 },
-        { '日期': '07月', '用户下单数': 350 },
-        { '日期': '08月', '用户下单数': 80 },
-        { '日期': '09月', '用户下单数': 20 },
-        { '日期': '10月', '用户下单数': 50 },
-        { '日期': '11月', '用户下单数': 80 },
-        { '日期': '12月', '用户下单数': 66 }
-      ]
-    }
-    accessData = {
-      columns: ['日期', '用户下单数'],
-      rows: [
-        { '日期': '01月', '用户下单数': 222 },
-        { '日期': '02月', '用户下单数': 230 },
-        { '日期': '03月', '用户下单数': 500 },
-        { '日期': '04月', '用户下单数': 600 },
-        { '日期': '05月', '用户下单数': 800 },
-        { '日期': '06月', '用户下单数': 1500 },
-        { '日期': '07月', '用户下单数': 350 },
-        { '日期': '08月', '用户下单数': 80 },
-        { '日期': '09月', '用户下单数': 20 },
-        { '日期': '10月', '用户下单数': 50 },
-        { '日期': '11月', '用户下单数': 80 },
-        { '日期': '12月', '用户下单数': 66 }
-      ]
-    }
     hotList = [
       {
         name: '999感冒灵',
@@ -409,6 +394,7 @@
       // console.log(accounts)
     }
     mounted () {
+
     }
   }
 </script>
@@ -500,23 +486,69 @@
           width: 100%;
         }
 
-        p{
-          &:first-child{
-            display: flex;
-            justify-content: space-between;
-            color: #929292;
-            font-size: 15px;
+        .top{
+          padding-bottom: 20px;
+          p{
+            &:first-child{
+              display: flex;
+              justify-content: space-between;
+              color: #929292;
+              font-size: 15px;
+            }
+            &:nth-child(2){
+              font-size: 30px;
+              font-weight: 500;
+              margin-top: 0;
+            }
           }
-          &:nth-child(2){
-            font-size: 30px;
-            font-weight: 500;
-            margin-top: 0;
+        }
+
+        .bottom{
+          font-size: 15px;
+          padding: 10px 0;
+          border-top: 1px solid #e9e9e9;
+
+          span{
+            padding-left: 30px;
           }
-          &:last-child{
+        }
+
+
+        &3{
+          .bottom{
             color: #5a5a5a;
-            font-size: 15px;
-            border-top: 1px solid #e9e9e9;
-            padding-top: 10px;
+            margin-top: 9px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+
+            span{
+              padding-left: 0;
+
+              span{
+                padding-left: 30px;
+                position: relative;
+
+                &:before{
+                  content: '';
+                  border: 6px solid transparent;
+                  position: absolute;
+                  left: 15px;
+                }
+              }
+
+              &:first-child{
+                span:before{
+                  border-bottom-color: #8fd96b;
+                }
+              }
+
+              &:last-child{
+                span:before{
+                  border-top-color: #f5222d;
+                  top: 6px;
+                }
+              }
+            }
           }
         }
       }
@@ -527,11 +559,6 @@
       grid-template-columns: 70% 30%;
       background: #FFF;
       margin-top: 20px;
-
-      h3{
-        margin-top: 10px;
-        font-size: 18px;
-      }
 
       .columnar{
         position: relative;
@@ -629,7 +656,7 @@
 
         .increase-value{
           display: flex;
-          align-items: center;
+          align-items: baseline;
 
           span{
             flex: 1;

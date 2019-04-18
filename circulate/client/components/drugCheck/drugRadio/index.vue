@@ -1,7 +1,6 @@
 <template>
   <div class="drugInfo-wrap">
     <div class="drugInfo-list">
-      <bread-crumb :path="$route.path"/>
       <div class="drugInfo-search">
         <el-input v-model="drugNameValue" size="small" placeholder="请输入药品名称" style="width: 150px;"></el-input>
         <el-button class="select-btn value-btn" v-if="originNameValue" type="small" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
@@ -48,13 +47,11 @@
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
-  import BreadCrumb from '@/components/Breadcrumb'
   import Origin from '@/components/drugCheck/Origin'
   import axios from 'axios'
 
   @Component({
     components: {
-      BreadCrumb,
       'drug-origin': Origin
     }
   })
