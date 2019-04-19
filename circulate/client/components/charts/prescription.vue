@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="channel" style="width: 100%; height: 400px;"></div>
+    <div ref="prescription" style="width: 100%; height: 400px;"></div>
   </div>
 </template>
 
@@ -128,18 +128,18 @@
     }
 
     initConversion (ele) {
-      let channel = ECharts.init(ele)
+      let prescription = ECharts.init(ele)
 
-      channel.setOption(this.option)
+      prescription.setOption(this.option)
 
       setTimeout(() => {
-        channel.dispatchAction({
+        prescription.dispatchAction({
           type: 'highlight',
           seriesIndex: 0,
           dataIndex: 0
         })
 
-        channel.on('mouseover', params => {
+        prescription.on('mouseover', params => {
           if (params.name === this.seriesData[0].name) {
             channel.dispatchAction({
               type: 'highlight',
@@ -147,7 +147,7 @@
               dataIndex: 0
             })
           } else {
-            channel.dispatchAction({
+            prescription.dispatchAction({
               type: 'downplay',
               seriesIndex: 0,
               dataIndex: 0
@@ -155,8 +155,8 @@
           }
         })
 
-        channel.on('mouseout', params => {
-          channel.dispatchAction({
+        prescription.on('mouseout', params => {
+          prescription.dispatchAction({
             type: 'highlight',
             seriesIndex: 0,
             dataIndex: 0
@@ -166,13 +166,13 @@
 
       // 自适应大小
       window.addEventListener('resize', () => {
-        channel.resize()
+        prescription.resize()
       })
     }
 
     mounted () {
       this.$nextTick(() => {
-        this.initConversion(this.$refs.channel)
+        this.initConversion(this.$refs.prescription)
       })
     }
   }

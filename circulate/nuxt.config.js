@@ -94,7 +94,6 @@ module.exports = {
     {src: '@/plugins/vue-baidu-map', ssr: false},
     {src: '@/plugins/vue-amap', ssr: false},
     {src: '@/plugins/v-charts', ssr: false},
-    {src: '@/plugins/echarts', ssr: false},
     {src: '@/plugins/clipboard', ssr: false},
     {src: '@/plugins/error-handler', ssr: false},
     {src: '@/plugins/vue-baidu-map', ssr: false},

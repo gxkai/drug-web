@@ -30,7 +30,7 @@
               <i class="icon-tishi"></i>
             </p>
             <p>8,846</p>
-            <img src="../assets/img/chart/1.png">
+            <chart-views></chart-views>
           </div>
           <div class="bottom">
             日访问量
@@ -44,7 +44,7 @@
               <i class="icon-tishi"></i>
             </p>
             <p>6,560</p>
-            <img src="../assets/img/chart/2.png">
+            <chart-order-conversion></chart-order-conversion>
           </div>
           <div class="bottom">
             转换率
@@ -58,16 +58,16 @@
               <i class="icon-tishi"></i>
             </p>
             <p>78%</p>
-            <el-progress :text-inside="true" :stroke-width="18" :percentage="78"></el-progress>
+            <chart-completion-rate></chart-completion-rate>
           </div>
           <div class="bottom">
-            <span>
+            <span class="week">
               周同比
-              <span class="week">12％</span>
+              <span>12％</span>
             </span>
-            <span>
+            <span class="day">
               日环比
-              <span class="day">11％</span>
+              <span>11％</span>
             </span>
           </div>
         </div>
@@ -78,7 +78,7 @@
               <i class="icon-tishi"></i>
             </p>
             <p>6,560</p>
-            <img src="../assets/img/chart/4.png">
+            <chart-progress></chart-progress>
           </div>
           <div class="bottom">
             未完成率
@@ -172,14 +172,14 @@
               <el-tab-pane label="处方" name="prescription">
                 <el-row>
                   <el-col>
-                    <ve-ring :data="prescriptionData" v-if="proTabActiveName === 'prescription'"></ve-ring>
+                    <chart-prescription v-if="proTabActiveName === 'prescription'"></chart-prescription>
                   </el-col>
                 </el-row>
               </el-tab-pane>
               <el-tab-pane label="自购药" name="purchase">
                 <el-row>
                   <el-col>
-                    <ve-ring :data="purchaseData" v-if="proTabActiveName === 'purchase'"></ve-ring>
+                    <chart-purchase v-if="proTabActiveName === 'purchase'"></chart-purchase>
                   </el-col>
                 </el-row>
               </el-tab-pane>
@@ -200,7 +200,7 @@
                       <span>8,846</span>
                       <span>17.1%</span>
                     </p>
-                    <img src="../assets/img/chart/5.png">
+                    <chart-user-number></chart-user-number>
                   </div>
                   <div class="item item1">
                     <p>人均搜索次数</p>
@@ -208,7 +208,7 @@
                       <span>2.7</span>
                       <span>26.2%</span>
                     </p>
-                    <img src="../assets/img/chart/6.png">
+                    <chart-average></chart-average>
                   </div>
                 </div>
 
@@ -258,18 +258,35 @@
 </template>
 
 <script>
+  import Views from '@/components/charts/views'
+  import orderConversion from '@/components/charts/orderConversion'
+  import CompletionRate from '@/components/charts/completionRate'
+  import Progress from '@/components/charts/progress'
   import Conversion from '@/components/charts/conversion'
   import Access from '@/components/charts/access'
   import Channel from '@/components/charts/channel'
+  import Prescription from '@/components/charts/prescription'
+  import Purchase from '@/components/charts/purchase'
+  import UserNumber from '@/components/charts/search/userNumber'
+  import Average from '@/components/charts/search/average'
   import Component from 'class-component'
 
   @Component({
     components: {
+      'chart-views': Views,
+      'chart-order-conversion': orderConversion,
+      'chart-completion-rate': CompletionRate,
+      'chart-progress': Progress,
       'chart-conversion': Conversion,
       'chart-access': Access,
-      'chart-channel': Channel
+      'chart-channel': Channel,
+      'chart-prescription': Prescription,
+      'chart-purchase': Purchase,
+      'chart-user-number': UserNumber,
+      'chart-average': Average
     }
   })
+
   export default class Home {
     avatar = require('@/assets/img/avatar.jpg') // 头像
     hotDateValue = '' // 热销日期
@@ -316,44 +333,7 @@
         count: 323234
       }
     ]
-
     proTabActiveName = 'allChannels'
-    // 所有渠道Data
-    allChannelsData = {
-      columns: ['药品类别', '数量'],
-      rows: [
-        { 药品类别: '家庭常用(17% 3530)', 数量: 3530 },
-        { 药品类别: '心脑血管(17%, 3530)', 数量: 3530 },
-        { 药品类别: '抗肿瘤药(17%, 3530)', 数量: 3530 },
-        { 药品类别: '五官科药(17%, 3530)', 数量: 3530 },
-        { 药品类别: '妇科用品(17%, 3530)', 数量: 3530 },
-        { 药品类别: '其他(17%, 3530)', 数量: 3530 }
-      ]
-    }
-    // 处方单购药
-    prescriptionData = {
-      columns: ['药品类别', '数量'],
-      rows: [
-        { 药品类别: '家庭常用(17% 3530)', 数量: 3530 },
-        { 药品类别: '心脑血管(17%, 3530)', 数量: 3530 },
-        { 药品类别: '抗肿瘤药(17%, 3530)', 数量: 3530 },
-        { 药品类别: '五官科药(17%, 3530)', 数量: 3530 },
-        { 药品类别: '妇科用品(17%, 3530)', 数量: 3530 },
-        { 药品类别: '其他(17%, 3530)', 数量: 3530 }
-      ]
-    }
-    // 自购药
-    purchaseData = {
-      columns: ['药品类别', '数量'],
-      rows: [
-        { 药品类别: '家庭常用(17% 3530)', 数量: 3530 },
-        { 药品类别: '心脑血管(17%, 3530)', 数量: 3530 },
-        { 药品类别: '抗肿瘤药(17%, 3530)', 数量: 3530 },
-        { 药品类别: '五官科药(17%, 3530)', 数量: 3530 },
-        { 药品类别: '妇科用品(17%, 3530)', 数量: 3530 },
-        { 药品类别: '其他(17%, 3530)', 数量: 3530 }
-      ]
-    }
 
     // 搜索数据
     searchList = [
@@ -400,7 +380,6 @@
 </script>
 
 <style lang="scss" scoped type="text/scss">
-
   .top-content{
     height: 100px;
     padding: 0px 20px;
@@ -479,7 +458,7 @@
       grid-gap: 30px;
 
       .wrapper{
-        padding: 0 30px;
+        padding: 5px 20px 10px;
         background: #FFF;
 
         img{
@@ -487,52 +466,55 @@
         }
 
         .top{
-          padding-bottom: 20px;
           p{
             &:first-child{
               display: flex;
               justify-content: space-between;
-              color: #929292;
               font-size: 15px;
+              color: #929292;
             }
             &:nth-child(2){
-              font-size: 30px;
+              font-size: 25px;
               font-weight: 500;
               margin-top: 0;
+              margin-bottom: 10px;
             }
           }
         }
 
         .bottom{
-          font-size: 15px;
-          padding: 10px 0;
+          font-size: 14px;
+          color: #5a5a5a;
+          padding-top: 10px;
           border-top: 1px solid #e9e9e9;
 
           span{
             padding-left: 30px;
           }
         }
-
-
         &3{
           .bottom{
-            color: #5a5a5a;
-            margin-top: 9px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
 
             span{
-              padding-left: 0;
+              &.week{
+                padding-left: 0;
+              }
+
+              &.day{
+                padding-left: 5px;
+              }
 
               span{
-                padding-left: 30px;
+                padding-left: 20px;
                 position: relative;
 
                 &:before{
                   content: '';
                   border: 6px solid transparent;
                   position: absolute;
-                  left: 15px;
+                  left: 5px;
                 }
               }
 
@@ -556,9 +538,10 @@
 
     .container2{
       display: grid;
-      grid-template-columns: 70% 30%;
+      grid-template-columns: 65% 35%;
       background: #FFF;
       margin-top: 20px;
+      padding-bottom: 15px;
 
       .columnar{
         position: relative;
@@ -590,10 +573,17 @@
         .hot-list{
           display: grid;
           grid-row-gap: 15px;
+
+          h3{
+            font-size: 18px;
+            margin-top: 21px;
+          }
+
           .wrapper {
             display: grid;
             grid-template-columns: 1fr 3fr 1fr;
             grid-gap: 10px;
+
             .item {
               display: flex;
               overflow: hidden;
@@ -602,12 +592,12 @@
             }
             .item1 {
               span {
-                border-radius: 50%;
-                width: 20px;
-                height: 20px;
-                line-height: 20px;
-                text-align: center;
+                width: 22px;
+                height: 22px;
+                line-height: 22px;
                 font-size: 13px;
+                text-align: center;
+                border-radius: 50%;
               }
               .top {
                 background-color: rgb(43, 61, 79);
@@ -643,15 +633,41 @@
       }
 
       .wrapper1{
-        padding-right: 25px;
+        padding-right: 20px;
       }
       .wrapper2{
-        padding-left: 25px;
+        padding-left: 20px;
         .charts{
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-column-gap: 100px;
-          padding-bottom: 20px;
+          padding-bottom: 10px;
+
+          .item{
+            p{
+              &:first-child{
+                font-size: 15px;
+                color: #929292;
+              }
+
+              &:nth-child(2){
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                align-items: center;
+                span{
+                  &:first-child{
+                    font-size: 25px;
+                    font-weight: 500;
+                    color: #5a5a5a;
+                  }
+                  &:last-child{
+                    font-size: 15px;
+                    color: #929292;
+                  }
+                }
+              }
+            }
+          }
         }
 
         .increase-value{
@@ -679,10 +695,10 @@
         &__nav-scroll{
           height: 60px;
           line-height: 60px;
-          padding-left: 30px;
+          padding-left: 20px;
         }
         &__content{
-          margin: 0 30px;
+          margin: 0 20px;
         }
         &__item{
           font-size: 16px;

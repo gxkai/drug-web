@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="channel" style="width: 100%; height: 400px;"></div>
+    <div ref="purchase" style="width: 100%; height: 400px;"></div>
   </div>
 </template>
 
@@ -128,18 +128,18 @@
     }
 
     initConversion (ele) {
-      let channel = ECharts.init(ele)
+      let purchase = ECharts.init(ele)
 
-      channel.setOption(this.option)
+      purchase.setOption(this.option)
 
       setTimeout(() => {
-        channel.dispatchAction({
+        purchase.dispatchAction({
           type: 'highlight',
           seriesIndex: 0,
           dataIndex: 0
         })
 
-        channel.on('mouseover', params => {
+        purchase.on('mouseover', params => {
           if (params.name === this.seriesData[0].name) {
             channel.dispatchAction({
               type: 'highlight',
@@ -147,7 +147,7 @@
               dataIndex: 0
             })
           } else {
-            channel.dispatchAction({
+            purchase.dispatchAction({
               type: 'downplay',
               seriesIndex: 0,
               dataIndex: 0
@@ -155,8 +155,8 @@
           }
         })
 
-        channel.on('mouseout', params => {
-          channel.dispatchAction({
+        purchase.on('mouseout', params => {
+          purchase.dispatchAction({
             type: 'highlight',
             seriesIndex: 0,
             dataIndex: 0
@@ -166,13 +166,13 @@
 
       // 自适应大小
       window.addEventListener('resize', () => {
-        channel.resize()
+        purchase.resize()
       })
     }
 
     mounted () {
       this.$nextTick(() => {
-        this.initConversion(this.$refs.channel)
+        this.initConversion(this.$refs.purchase)
       })
     }
   }

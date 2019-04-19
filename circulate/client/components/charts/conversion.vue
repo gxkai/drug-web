@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="conversion" style="width: 100%; height: 400px;"></div>
+    <div ref="conversion" style="width: 100%; height: 430px;"></div>
   </div>
 </template>
 
@@ -10,18 +10,20 @@
 
   @Component
   export default class Conversion {
-    seriesData = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200]
+    seriesData = [300, 750, 1000, 500, 100, 500, 250, 300, 750, 500, 250, 300]
     xAxisData = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
 
     option = {
       title: {
-        text: '用户下单数趋势'
+        text: '用户下单数趋势',
+        padding: [30, 0, 0, 0]
       },
+      // 调整图表位置
       grid: {
-        x: 60,
-        y: 50,
-        x2: 10,
-        y2: 50
+        x: 55,
+        y: 80,
+        x2: 20,
+        y2: 30
       },
       tooltip: {},
       // X轴配置项
@@ -76,7 +78,7 @@
       series: [{
         name: '用户下单数',
         type: 'bar',
-        barWidth: '30', // 柱条宽度
+        barWidth: 25, // 柱条宽度
         itemStyle: { // 柱条样式
           color: '#3BA1FF'
         },
@@ -86,7 +88,6 @@
 
     initConversion (ele) {
       let conversion = ECharts.init(ele)
-
       conversion.setOption(this.option)
 
       // 自适应大小
