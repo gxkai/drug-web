@@ -135,7 +135,6 @@ export default {
       this.$router.go(-1);
     },
     async getLocation() {
-      console.log(`position:${this.position}`);
       if (this.position === undefined) {
         this.center = await this.getCurrentPosition();
       } else {

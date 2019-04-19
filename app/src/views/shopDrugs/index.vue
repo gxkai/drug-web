@@ -4,7 +4,7 @@
       <template slot="center">
         <van-tabs v-model="active">
           <van-tab title="商品">
-            <component is="goods" :shop-drug="shopDrug" />
+            <component is="goods" :shop-drug="shopDrug" :active.sync="active"/>
           </van-tab>
           <van-tab title="详情">
             <component is="info" :shop-drug="shopDrug" />

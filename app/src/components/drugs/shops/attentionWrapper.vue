@@ -24,7 +24,7 @@ export default {
 
 <style scoped type="text/scss" lang="scss">
 .attention-wrapper {
-  font-size: $size-mini;
+  font-size: $size-small;
   color: $gray-light;
   background-color: white;
   padding: 24px 40px;

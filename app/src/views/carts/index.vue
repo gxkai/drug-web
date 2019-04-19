@@ -44,20 +44,21 @@
                   v-for="(cartDrug, cartDrugIndex) in cartRx.drugs"
                   :key="cartDrug.cartId"
                   :right-width="50"
-                  @click-right="
-                    onRemove(
+                >
+                  <div slot="right" style="width: 100%; height: 100%; display: flex;align-items: center;justify-content: center"
+                  @click="onRemove(
                       cartShop,
                       cartShopIndex,
                       cartRx,
                       cartRxIndex,
                       cartDrug,
                       cartDrugIndex
-                    )
-                  "
-                >
-                  <span slot="right">
-                    删除
-                  </span>
+                    )"
+                  >
+                    <span>
+                      删除
+                    </span>
+                  </div>
                   <div class="drug">
                     <div class="left">
                       <new-radio
@@ -114,7 +115,7 @@
                     合计
                   </span>
                   <span class="price van-ellipsis">
-                    {{ `￥${cartShop.allPrice}` }}
+                    {{ `￥${cartShop.allPrice.toFixed(2)}` }}
                   </span>
                 </div>
                 <div class="right" @click="onOrder(cartShop)">
@@ -127,7 +128,7 @@
           </div>
           <new-end
             v-if="finished === true"
-            :name="list.length > 0 ? 'END' : 'NONE'"
+            :name="list.length > 0 ? '我是有底线的' : '当前暂无数据'"
           />
         </van-list>
       </van-pull-refresh>

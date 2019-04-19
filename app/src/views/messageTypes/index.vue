@@ -18,8 +18,8 @@
             <span class="name">
               {{ item.name }}
             </span>
-            <span class="date">
-              {{ item.date | dateFmt('YYYY-MM-DD hh:mm:ss') }}
+            <span class="date" v-show="item.date">
+              {{  item.date | dateFmt('YYYY-MM-DD hh:mm:ss')}}
             </span>
           </div>
           <div class="line line2">

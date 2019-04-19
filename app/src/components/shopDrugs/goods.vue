@@ -3,6 +3,7 @@
     <van-swipe :autoplay="3000">
       <van-swipe-item v-for="(fileId, index) in shopDrug.fileIds" :key="index">
         <img v-lazy="getImgURL(fileId, 'LARGE_PIC')" class="swipe-image" />
+        <span v-if="shopDrug.otc === false" class="tag">Rx</span>
       </van-swipe-item>
     </van-swipe>
     <new-white-space size="0.1rem" />
@@ -79,7 +80,7 @@
         <div class="left">
           <span> 顾客评价({{ shopDrug.drugAppraises.list.length }}) </span>
         </div>
-        <div class="right">
+        <div class="right" @click="$emit('update:active', 2)">
           <span>
             查看全部评价>
           </span>
@@ -107,6 +108,7 @@ export default {
   },
   mixins: [],
   props: {
+    active: {},
     shopDrug: {}
   },
   data() {
@@ -124,9 +126,24 @@ export default {
 /deep/ .van-swipe__indicator {
   background-color: $theme !important;
 }
+/deep/ .van-swipe-item {
+  position: relative!important;
+}
 .swipe-image {
   width: 100%;
   height: 400px;
+}
+.tag {
+  position: absolute;
+  top: 0;
+  width: 42px;
+  height: 30px;
+  background-color: #ff2905;
+  font-size: 22px;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 22px;
+  line-height: 30px;
 }
 .drug-wrapper {
   background-color: white;

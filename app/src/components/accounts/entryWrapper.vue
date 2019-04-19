@@ -1,24 +1,12 @@
 <template>
   <div class="entry-wrapper">
-    <div class="item item1">
-      <new-icon
-        :info="count.toPayCount"
-        name="daifukuan"
-        color="#9CA2F9"
-        size="0.8166rem"
-        @click="loadPageOrders(1)"
-      />
-      <span>
-        待付款
-      </span>
-    </div>
     <div class="item item2">
       <new-icon
         :info="count.toDeliveryCount"
         name="peijizhong-"
         color="#88c79a"
         size="0.8166rem"
-        @click="loadPageOrders(2)"
+        @click="loadPageOrders(1)"
       />
       <span>
         调剂中
@@ -28,12 +16,12 @@
       <new-icon
         :info="count.toReceivedCount"
         name="daishouhuo-"
-        color="#88C79A"
+        color="#d7000e"
         size="0.8166rem"
-        @click="loadPageOrders(3)"
+        @click="loadPageOrders(2)"
       />
       <span>
-        待收货
+        待提货
       </span>
     </div>
     <div class="item item4">
@@ -42,11 +30,23 @@
         name="daipingjia-"
         color="#7DCAF7"
         size="0.8166rem"
-        @click="loadPageOrders(4)"
+        @click="loadPageOrders(3)"
       />
       <span>
         待评价
       </span>
+    </div>
+    <div class="item item1">
+      <!--<new-icon-->
+      <!--:info="count.toPayCount"-->
+      <!--name="daifukuan"-->
+      <!--color="#9CA2F9"-->
+      <!--size="0.8166rem"-->
+      <!--@click="loadPageOrders(1)"-->
+      <!--/>-->
+      <!--<span>-->
+      <!--待付款-->
+      <!--</span>-->
     </div>
   </div>
 </template>

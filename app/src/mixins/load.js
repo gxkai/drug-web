@@ -29,6 +29,9 @@ export default {
     loadPageAddressesEdit(id) {
       this.loadPage('/addresses/edit', { id: id });
     },
+    loadPageAddressesCreate() {
+      this.loadPage('/addresses/create');
+    },
     loadPageAddresses() {
       this.loadPage('/addresses');
     },

@@ -15,7 +15,7 @@
       <order-wrapper />
       <entry-wrapper />
       <van-uploader :after-read="onRead1">
-        <img v-lazy="getImgURL(account.fileId, 'LARGE_LOGO')" class="headImg" />
+        <img v-lazy="getImgURL(account.fileId)" class="headImg" />
       </van-uploader>
     </div>
   </div>

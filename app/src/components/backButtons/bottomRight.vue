@@ -3,7 +3,7 @@
     <van-icon
       name="fanhui"
       color="#ffffff"
-      size="1rem"
+      size="0.6rem"
       @click="$router.go(-1)"
     />
   </div>
@@ -36,6 +36,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
 }
 </style>

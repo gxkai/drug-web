@@ -32,7 +32,6 @@
 </style>
 
 <script>
-import { setAccount } from '@/storage';
 import infoCell from '@/components/accounts/infoCell';
 import headerWrapper from '@/components/accounts/headerWrapper';
 export default {
@@ -63,11 +62,11 @@ export default {
           name: '我的收藏',
           url: '/collects'
         },
-        {
-          icon: 'dingdan-',
-          name: '我的退单',
-          url: '/orderRefunds'
-        },
+        // {
+        //   icon: 'dingdan-',
+        //   name: '我的退单',
+        //   url: '/orderRefunds'
+        // },
         {
           icon: 'changjianwenti-',
           name: '常见问题',

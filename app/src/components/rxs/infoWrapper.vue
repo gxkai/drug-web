@@ -26,7 +26,7 @@
         <span> 科别：{{ rx.office }} </span>
       </div>
       <div class="line1">
-        <span> 地址：{{ rx.place }}111111111111111 </span>
+        <span> 地址：{{ rx.place }} </span>
       </div>
       <div class="line1">
         <span> 临床（初步）诊断：{{ rx.illness }} </span>

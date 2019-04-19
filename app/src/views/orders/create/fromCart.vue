@@ -48,7 +48,7 @@
             }`
           "
           name="提交订单"
-          @click="preOrder"
+          @click="onOrder"
         />
       </template>
     </new-layout>

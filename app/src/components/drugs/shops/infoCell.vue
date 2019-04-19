@@ -31,7 +31,7 @@ export default {
 .info-cell {
   background-color: white;
   display: grid;
-  grid-template-columns: 140px 1fr;
+  grid-template-columns: 150px 1fr;
   padding: 33px;
   div {
     word-break: break-word;

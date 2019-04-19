@@ -19,6 +19,7 @@
         </span>
       </header>
       <article v-html="info.content"></article>
+      <new-end/>
     </template>
   </new-layout>
 </template>

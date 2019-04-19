@@ -13,8 +13,8 @@
       />
     </template>
     <template slot="center">
-      <new-white-space />
-      <new-hospital v-if="hospital !== null" :item="hospital" />
+      <!--<new-white-space />-->
+      <!--<new-hospital v-if="hospital !== null" :item="hospital" />-->
       <div v-for="(item, index) in rxShops" :key="index">
         <new-white-space />
         <new-shop :item="item" @click.native="clickItem(item)" disabled/>
