@@ -27,7 +27,7 @@
         <span>
           {{
             item.spec || item.specName
-              ? `规格：${item.spec || item.specName}'`
+              ? `规格：${item.spec || item.specName}`
               : ''
           }}
         </span>
@@ -35,6 +35,11 @@
       <div class="line line2">
         <span>
           {{ item.sfda ? `国药准字：${item.sfda}` : '' }}
+        </span>
+      </div>
+      <div class="line line2">
+        <span>
+          {{ item.sales >=0 ? `销量：${item.sales}` : '' }}
         </span>
       </div>
       <div class="line line2">

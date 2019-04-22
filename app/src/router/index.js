@@ -167,6 +167,17 @@ const addressRouter = [
     component: () => import('@/views/addresses/edit.vue')
   },
   {
+    path: '/addresses/create',
+    name: '/addresses/create',
+    meta: {
+      navigation: true,
+      name: '地址修改',
+      showBackTopLeft: false,
+      showBackBottomRight: true
+    },
+    component: () => import('@/views/addresses/create.vue')
+  },
+  {
     path: '/addresses',
     name: '/addresses',
     meta: {

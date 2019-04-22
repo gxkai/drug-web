@@ -60,15 +60,15 @@
             >
               我要评价
             </span>
-            <span v-if="item.state == 'TO_DELIVERY'" @click.stop="onRefund(item)">
-              退款
-            </span>
+            <!--<span v-if="item.state == 'TO_DELIVERY'" @click.stop="onRefund(item)">-->
+              <!--退款-->
+            <!--</span>-->
           </div>
         </div>
       </van-list>
       <new-end
         v-if="finished === true"
-        :name="list.length > 0 ? 'END' : 'NONE'"
+        :name="list.length > 0 ? '我是有底线的' : '当前暂无数据'"
       />
     </van-pull-refresh>
     <refund-pop

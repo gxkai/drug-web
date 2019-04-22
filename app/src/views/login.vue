@@ -2,129 +2,153 @@
   <div>
     <new-layout>
       <template slot="center">
-        <van-tabs v-model="active">
-          <van-tab title="登陆">
-            <div class="input-container">
-              <div class="input-wrapper hairline-bottom">
+        <div v-show="active === 0">
+          <div class="input-container">
+            <div class="input-wrapper hairline-bottom">
+              <div class="icon-wrapper">
                 <van-icon name="wo-" size="0.5rem" />
-                <input
-                  v-focus
-                  v-model="username"
-                  placeholder="请输入用户名"
-                  type="search"
-                />
               </div>
-              <div class="input-wrapper">
-                <van-icon name="mima" size="0.5rem" />
-                <input
-                  v-focus
-                  v-model="password"
-                  placeholder="请输入密码"
-                  type="password"
-                />
-              </div>
+              <input
+                v-focus
+                v-model="username"
+                placeholder="请输入用户名"
+                type="search"
+              />
             </div>
-            <div class="submit-button" @click="login">
-              登陆
+            <div class="input-wrapper">
+             <div class="icon-wrapper">
+               <van-icon name="mima" size="0.5rem" />
+             </div>
+              <input
+                v-focus
+                v-model="password"
+                placeholder="请输入密码"
+                type="password"
+              />
             </div>
-          </van-tab>
-          <van-tab title="注册">
-            <div class="input-container">
-              <div class="input-wrapper hairline-bottom">
+            <div class="login-wrapper" @click="login">
+              <span>
+                登陆
+              </span>
+            </div>
+            <footer @click="active=1" v-show="active === 0">
+              没有账户？注册
+            </footer>
+          </div>
+        </div>
+        <div v-show="active === 1">
+          <div class="input-container">
+            <div class="input-wrapper hairline-bottom">
+              <div class="icon-wrapper">
                 <van-icon name="wo-" size="0.5rem" />
-                <input
-                  v-focus
-                  v-model="registerUsername"
-                  placeholder="请输入用户名"
-                  type="search"
-                />
-                <span class="captcha" @click="getCaptcha">
-                  {{ showCode ? count : '验证码' }}
-                </span>
               </div>
-              <div class="input-wrapper hairline-bottom">
+              <input
+                v-focus
+                v-model="registerUsername"
+                placeholder="请输入用户名"
+                type="search"
+              />
+              <div class="captcha" @click="getCaptcha">
+                 <span>
+                    {{ showCode ? count : '验证码' }}
+                 </span>
+                </div>
+            </div>
+            <div class="input-wrapper hairline-bottom">
+              <div class="icon-wrapper">
                 <van-icon name="yanzhengma" size="0.5rem" />
-                <input
-                  v-model="captcha"
-                  placeholder="请输入验证码"
-                  type="search"
-                />
               </div>
-              <div class="input-wrapper">
+              <input
+                v-model="captcha"
+                placeholder="请输入验证码"
+                type="search"
+              />
+            </div>
+            <div class="input-wrapper">
+              <div class="icon-wrapper">
                 <van-icon name="mima" size="0.5rem" />
-                <input
-                  v-model="registerPassword"
-                  placeholder="请输入密码"
-                  type="password"
-                />
               </div>
+              <input
+                v-model="registerPassword"
+                placeholder="请输入密码"
+                type="password"
+              />
             </div>
-            <div class="submit-button" @click="register">
-              注册
+            <div class="login-wrapper" @click="register">
+              <span>
+                注册
+              </span>
             </div>
-          </van-tab>
-        </van-tabs>
+            <footer @click="active=0" v-show="active === 1">
+              有账户？登陆
+            </footer>
+          </div>
+        </div>
       </template>
     </new-layout>
   </div>
 </template>
 <style scoped type="text/scss" lang="scss">
-  /deep/.layout .center {
-    background: -webkit-linear-gradient(top,#999,#ccc);
+  /deep/ .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:-moz-linear-gradient(top,#ace,#f96);/*Mozilla*/
+    background:-webkit-gradient(linear,0 50%,100% 50%,from(#ace),to(#f96));/*Old gradient for webkit*/
+    background:-webkit-linear-gradient(top,#ace,#f96);/*new gradient for Webkit*/
+    background:-o-linear-gradient(top,#ace,#f96); /*Opera11*/
   }
-.submit-button {
-  margin-top: 30px;
-  background-color: $theme;
-  padding: 10px 20px;
-  color: white;
-  font-weight: 100;
-  border-radius: 10px;
-}
+  footer {
+    text-align: center;
+    padding: 20px 0;
+  }
 .input-container {
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  grid-row-gap: 50px;
+  grid-template-rows: repeat(5, 100px);
+  grid-template-columns: 600px;
+  .login-wrapper {
+    background-color: #00a0e9;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: $size-large;
+  }
   .input-wrapper {
     background-color: white;
     display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: 120px;
+    grid-template-columns: 100px 1fr auto;
+    grid-template-rows: 100px;
     align-items: center;
-    padding: 0 20px;
     grid-column-gap: 20px;
-    min-width: 600px;
+    width: 100%;
+    .icon-wrapper {
+      background-color: $gray-light;
+      opacity: .6;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     input {
       height: 100%;
-      width: 400px;
     }
     .captcha {
       color: white;
       background-color: #44bb00;
       padding: 10px;
-    }
-  }
-}
-/deep/ .van-tabs {
-  &__wrap {
-    width: 720px!important;
-    height: 100px !important;
-    position: fixed;
-  }
-  &--line {
-    padding-top: 100px;
-  }
-  .van-tab {
-    width: 720px!important;
-    color: black !important;
-    &--active {
-      color: $theme !important;
-    }
-    &__pane {
-      margin-top: 100px;
-      display: grid;
-      justify-items: center;
-    }
-    span {
-      line-height: 100px !important;
-      font-size: 30px !important;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

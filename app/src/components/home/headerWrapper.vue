@@ -3,7 +3,7 @@
     <div class="header">
       <div class="location" @click="loadPageAddressesChoose">
         <van-icon name="dizhi-" color="white" size=".416rem" />
-        <span class="van-ellipsis">{{ locationName }}</span>
+        <span class="van-ellipsis">{{ currentAddress ? currentAddress.name : '请选择地址' }}</span>
         <van-icon name="arrow" color="white" size=".416rem" class="arrow" />
       </div>
       <input
@@ -13,13 +13,6 @@
         readonly="readonly"
         @click="$router.push('/search')"
       />
-      <van-icon
-        :info="messageCount"
-        name="xiaoxi-1"
-        color="white"
-        size=".616rem"
-        @click="$router.push('/messageTypes')"
-      ></van-icon>
     </div>
     <hooper :auto-play="true">
       <slide v-for="(banner, index) in banners" :key="index">
@@ -47,31 +40,23 @@ export default {
         require('@/assets/img/home/banner4.png'),
         require('@/assets/img/home/banner4.png')
       ],
-      placeholder: '\ue643 输入药品名称',
-      messageCount: 0
+      placeholder: '\ue643 输入药品名称'
     };
   },
   computed: {
-    locationName() {
-      return this.currentAddress ? this.currentAddress.name : '';
-    }
   },
   watch: {},
   async created() {
-    this.getCurrentAddress();
-    this.messageCount = await this.$http.get('/api/messages/count');
+    if (this.currentAddress === undefined) {
+      if (this.isMobile()) {
+        this.setCurrentAddress(this.getCurrentPosition());
+      } else {
+        this.setCurrentAddress(this.testPosition);
+      }
+    }
   },
   mounted() {},
   methods: {
-    async getCurrentAddress() {
-      if (this.currentAddress === undefined) {
-        if (this.isMobile()) {
-          this.setCurrentAddress(await this.getCurrentPosition());
-        } else {
-          this.setCurrentAddress(this.testPosition);
-        }
-      }
-    }
   }
 };
 </script>

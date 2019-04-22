@@ -75,7 +75,7 @@
           可自提
         </span>
         <span class="addr">
-          距当前位置:{{ `${item.distance}km` }}
+          距当前位置:{{ `${item.distance.toFixed(2)}km` }}
           <van-icon name="dingwei-" />
         </span>
         <!-- <div class="left">

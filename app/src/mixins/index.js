@@ -204,8 +204,9 @@ export default {
      * @returns {string}
      */
     getImgURL(fileId, resolution) {
-      resolution = resolution || 'LARGE_LOGO';
-      let url = `${
+      let url = resolution === undefined ? `${
+        process.env.API_ROOT
+      }/api/files/${fileId}/image` : `${
         process.env.API_ROOT
       }/api/files/${fileId}/image?resolution=${resolution}`;
       return url;

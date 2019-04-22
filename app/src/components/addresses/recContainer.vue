@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="add-wrapper" @click="loadPageAddressesEdit">
+    <div class="add-wrapper" @click="loadPageAddressesCreate">
       <span>
         新增
       </span>

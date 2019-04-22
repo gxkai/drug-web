@@ -14,7 +14,7 @@ module.exports = {
   PAY_FAIL: '支付失败',
   TO_CHECK: '待审核',
   TO_DELIVERY: '调剂中',
-  TO_RECEIVED: '待收货',
+  TO_RECEIVED: '待提货',
   TO_APPRAISE: '待评价',
   COMPLETED: '已完成',
   CLOSED: '已关闭',

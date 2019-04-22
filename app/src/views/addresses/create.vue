@@ -73,11 +73,9 @@ export default {
       this.loadPageAddressesConfirm();
     },
     async initData() {
-      this.item = await this.$http.get(`/api/addresses/${this.$route.query.id}`);
     },
     async save() {
-      this.$toast.loading({ forbidClick: true, duration: 0 });
-      await this.$http.put(`/api/addresses/${this.$route.query.id}`, this.item);
+      this.item = await this.$http.post('/api/addresses/', this.item);
       this.$toast('保存成功');
       setTimeout(() => {
         this.$router.go(-1);

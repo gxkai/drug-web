@@ -17,13 +17,13 @@
       <template slot="center">
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list v-model="loading" :finished="finished" @load="onLoad">
-            <div v-for="(item, index) in list" :key="index" @click="loadPageDrugsShops(item.id)">
+            <div v-for="(item, index) in list" :key="index" @click="interfaceType==='SHOP_DRUG' ? loadPageShopDrugs(item.id) : loadPageDrugsShops(item.id)">
               <new-white-space />
               <new-drug :item="item" disabled />
             </div>
             <new-end
               v-if="finished === true"
-              :name="list.length > 0 ? 'END' : 'NONE'"
+              :name="list.length > 0 ? '我是有底线的' : '当前暂无数据'"
             />
           </van-list>
         </van-pull-refresh>

@@ -11,7 +11,7 @@
           @click.native="onAddress(item)"
         />
         <new-white-space />
-        <header>
+        <header v-show="overRanges.length>0">
           以下地址超出配送范围
         </header>
         <ADDRESS

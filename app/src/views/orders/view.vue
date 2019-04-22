@@ -36,9 +36,9 @@
           <div v-if="order.state === 'TO_PAY'" class="line2">
             超过<span>30分钟</span>未支付，订单将自动取消。
           </div>
-          <div v-if="order.state === 'TO_DELIVERY'" class="line2">
-            医保不支持在线退单，如需退款请到备货，门店自行退。
-          </div>
+          <!--<div v-if="order.state === 'TO_DELIVERY'" class="line2">-->
+            <!--医保不支持在线退单，如需退款请到备货，门店自行退。-->
+          <!--</div>-->
         </div>
         <new-white-space />
         <div
@@ -134,7 +134,7 @@
             倒计时结束!
           </span>
         </div>
-        <div v-if="order.state !== 'CLOSED'" class="buttons-wrapper">
+        <div v-if="order.state !== 'CLOSED' && order.state !== 'TO_DELIVERY'" class="buttons-wrapper">
           <div
             v-if="order.state === 'TO_PAY'"
             class="item"
@@ -172,15 +172,6 @@
             </span>
           </div>
           <div
-            v-if="order.deliveryType == 'DELIVERY'"
-            class="item"
-            @click="onDelivery(order)"
-          >
-            <span>
-              查看配送
-            </span>
-          </div>
-          <div
             v-if="order.state == 'TO_APPRAISE'"
             class="item"
             @click="onAppraise(order)"
@@ -189,15 +180,15 @@
               我要评价
             </span>
           </div>
-          <div
-            v-if="order.state == 'TO_DELIVERY' && !order.medicaid"
-            class="item"
-            @click="onRefund"
-          >
-            <span>
-              退款
-            </span>
-          </div>
+          <!--<div-->
+            <!--v-if="order.state == 'TO_DELIVERY' && !order.medicaid"-->
+            <!--class="item"-->
+            <!--@click="onRefund"-->
+          <!--&gt;-->
+            <!--<span>-->
+              <!--退款-->
+            <!--</span>-->
+          <!--</div>-->
         </div>
       </template>
     </new-layout>

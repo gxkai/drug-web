@@ -12,6 +12,9 @@
           </van-tab>
         </van-tabs>
       </template>
+      <template slot="bottom">
+        <new-footer-entry :value="4" />
+      </template>
     </new-layout>
   </div>
 </template>
@@ -46,7 +49,7 @@ export default {
   data() {
     return {
       active: this.$route.query.active,
-      titles: ['', 'TO_PAY', 'TO_DELIVERY', 'TO_RECEIVED', 'TO_APPRAISE']
+      titles: ['', 'TO_DELIVERY', 'TO_RECEIVED', 'TO_APPRAISE']
     };
   },
   computed: {},

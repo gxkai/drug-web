@@ -7,7 +7,7 @@
       <template slot="bottom">
         <new-submit-button
           name="新增地址"
-          @click.native="loadPageAddressesEdit"
+          @click.native="loadPageAddressesCreate"
         />
       </template>
     </new-layout>

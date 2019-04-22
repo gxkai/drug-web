@@ -68,6 +68,7 @@ export default {
           MerOrderNo: order.number,
           orderNo: '0000001'
         });
+        this.$toast('订单提交成功');
         this.$router.replace('/orders');
         return;
       }

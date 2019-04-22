@@ -1,5 +1,5 @@
 <template>
-  <van-tabs v-model="active1">
+  <!--<van-tabs v-model="active1">
     <van-tab title="到店自取">
       <div class="self-wrapper">
         <shop-cell :desc="shop.address" icon="location" title="自取地址:" />
@@ -22,7 +22,7 @@
         </div>
       </div>
     </van-tab>
-    <van-tab title="送货上门" @click.native="onAddress(shop)">
+    <van-tab title="药店配送" @click.native="onAddress(shop)">
       <div v-if="address === undefined" class="add-wrapper">
         <img src="@/assets/img/orders/create/add.png" />
         <div class="line">
@@ -45,7 +45,32 @@
         />
       </div>
     </van-tab>
-  </van-tabs>
+  </van-tabs>-->
+  <div>
+    <header>
+      到店自取
+    </header>
+    <div class="self-wrapper">
+      <shop-cell :desc="shop.address" icon="location" title="自取地址:" />
+      <shop-cell
+        :desc="`${shop.openTime}-${shop.closeTime}`"
+        icon="clock"
+        title="营业时间:"
+      />
+      <shop-cell
+        :desc="`${shop.phone}`"
+        icon="dianhua-"
+        title="电话:"
+        @click.native="onPhone(shop.phone)"
+      />
+      <div class="location" @click="onLocation">
+        <van-icon name="location" color="white" size="0.2166rem" />
+        <span>
+            查看地图
+          </span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -111,6 +136,10 @@ export default {
 </script>
 
 <style scoped type="text/scss" lang="scss">
+  header {
+    background-color: white;
+    padding: 10px 15px;
+  }
 .self-wrapper {
   background: white;
   position: relative;
