@@ -6,29 +6,29 @@
         <h3>添加药品</h3>
         <div class="action">
           <!--选择药品-->
-          <el-button class="select-btn value-btn" v-if="drugValue.drugName" size="small" @click="drugDialog = true">{{ drugValue.drugName }}</el-button>
+          <el-button class="select-btn value-btn" v-if="drugValue.name" size="small" @click="drugDialog = true">{{ drugValue.name }}</el-button>
           <el-button class="select-btn" v-else size="small" @click="drugDialog = true">请选择药品</el-button>
           <el-button type="primary" size="small" @click="getDrugInfo">确定</el-button>
         </div>
       </div>
       <el-form ref="form" :model="drugInfoForm" label-width="150px">
         <el-form-item label="药品名称：">
-          <el-input v-model="drugInfoForm.drugName" readonly placeholder="暂无"></el-input>
+          <el-input :value="drugInfoForm.name" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="通用名称：">
-          <el-input v-model="drugInfoForm.commonName" readonly placeholder="暂无"></el-input>
+          <el-input :value="drugInfoForm.commonName" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="厂商简称：">
-          <el-input v-model="drugInfoForm.originName" readonly placeholder="暂无"></el-input>
+          <el-input :value="drugInfoForm.originName" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="批准文号：">
-          <el-input v-model="drugInfoForm.sfda" readonly placeholder="暂无"></el-input>
+          <el-input :value="drugInfoForm.sfda" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="药品大类：">
-          <el-input v-model="parentTypeName" readonly placeholder="暂无"></el-input>
+          <el-input :value="parentTypeName" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="药品小类：">
-          <el-input v-model="childTypeName" readonly placeholder="暂无"></el-input>
+          <el-input :value="childTypeName" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="药品类型：">
           <el-radio-group v-model="drugInfoForm.otc" disabled>
@@ -37,10 +37,10 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="规格：">
-          <el-input v-model="drugInfoForm.spec" readonly placeholder="暂无"></el-input>
+          <el-input :value="drugInfoForm.spec" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="剂型：">
-          <el-input v-model="drugInfoForm.form" readonly placeholder="暂无"></el-input>
+          <el-input :value="drugInfoForm.form" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="是否医保：">
           <el-radio-group v-model="drugInfoForm.medicaid" disabled>
@@ -49,16 +49,16 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="功能主治：" class="indication">
-          <el-input v-model="drugInfoForm.attention" readonly placeholder="暂无"></el-input>
+          <el-input :value="drugInfoForm.attention" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="条形码：">
-          <el-input v-model="drugInfoForm.barCode" readonly placeholder="暂无"></el-input>
+          <el-input :value="drugInfoForm.barCode" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="进价：">
-          <el-input v-model="drugInfoForm.barCode" placeholder="请输入"></el-input>
+          <el-input v-model="drugInfoForm.price" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="销售价：">
-          <el-input v-model="drugInfoForm.barCode" placeholder="请输入"></el-input>
+          <el-input v-model="drugInfoForm.salePrice" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="当前库存：">
           <el-input v-model="drugInfoForm.stock" placeholder="请输入"></el-input>
@@ -67,7 +67,7 @@
           <el-input v-model="drugInfoForm.stockWarn" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="是否推荐：">
-          <el-radio-group v-model="drugInfoForm.introduce">
+          <el-radio-group v-model="drugInfoForm.recommend">
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
@@ -150,6 +150,7 @@
     ]
 
     getSelectedInfo (data) {
+      console.log(data)
       this.selectedInfo = data
     }
 
@@ -178,7 +179,7 @@
       }
 
       // 药品大类
-      if (this.drugInfoForm.drugDrugTypeParentList !== null) {
+      if (this.drugInfoForm.drugDrugTypeParentList) {
         let parent = this.drugInfoForm.drugDrugTypeParentList
         parent.forEach(item => {
           this.parentTypeName += `${item.type},`
@@ -187,7 +188,7 @@
       }
 
       // 药品小类
-      if (this.drugInfoForm.drugDrugTypeList !== null) {
+      if (this.drugInfoForm.drugDrugTypeList) {
         let child = this.drugInfoForm.drugDrugTypeList
         child.forEach(item => {
           this.childTypeName += `${item.type},`
@@ -240,8 +241,8 @@
       }
     }
 
-    submitAdd () {
-
+    async submitAdd () {
+      await axios.post('/api/shop/drugs')
     }
 
     beforeMount () {
