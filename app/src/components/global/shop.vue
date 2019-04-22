@@ -42,11 +42,11 @@
         </span>
         <span>
           <i>
-            {{ `￥${item.minAmount}` }}
+            {{ `￥${item.minAmount.toFixed(2)}` }}
           </i>
           至
           <i>
-            {{ `￥${item.maxAmount}` }}
+            {{ `￥${item.maxAmount.toFixed(2)}` }}
           </i>
         </span>
       </div>
@@ -59,11 +59,11 @@
         </span>
         <span>
           <i>
-            {{ `￥${item.minMedicaidAmount}` }}
+            {{ `￥${item.minMedicaidAmount.toFixed(2)}` }}
           </i>
           至
           <i>
-            {{ `￥${item.maxMedicaidAmount}` }}
+            {{ `￥${item.maxMedicaidAmount.toFixed(2)}`}}
           </i>
         </span>
       </div>
@@ -75,7 +75,7 @@
           可自提
         </span>
         <span class="addr">
-          距当前位置:{{ `${item.distance.toFixed(2)}km` }}
+          距当前位置:{{ `${item.distance.toFixed(1)}km` }}
           <van-icon name="dingwei-" />
         </span>
         <!-- <div class="left">
@@ -172,7 +172,9 @@
     }
     .line7 {
       .tag {
-        margin-left: 10px;
+        &:not(:first-child) {
+          margin-left: 10px;
+        }
         padding: 5px 10px;
         background-color: #ffffff;
         border-radius: 7px;

@@ -44,25 +44,25 @@
           </span>
         </div>
         <div class="right van-ellipsis">
-          <span v-if="item.leftTime > 0" class="desc van-ellipsis">
+          <span v-if="item.leftTime > 0 && item.state === 'ENABLED'" class="desc van-ellipsis">
             <i>
-              {{ item.leftTime | dateFilter('dd') }}
+              {{ item.leftTime | dateFilter('dd') }}天
             </i>
             :
             <i>
-              {{ item.leftTime | dateFilter('hh') }}
+              {{ item.leftTime | dateFilter('hh') }}时
             </i>
             :
             <i>
-              {{ item.leftTime | dateFilter('mm') }}
+              {{ item.leftTime | dateFilter('mm') }}分
             </i>
             :
             <i>
-              {{ item.leftTime | dateFilter('ss') }}
+              {{ item.leftTime | dateFilter('ss') }}秒
             </i>
           </span>
           <span v-else>
-            改处方已失效
+            该处方已失效
           </span>
         </div>
       </div>

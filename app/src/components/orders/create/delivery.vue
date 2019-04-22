@@ -63,7 +63,7 @@
         title="电话:"
         @click.native="onPhone(shop.phone)"
       />
-      <div class="location" @click="onLocation">
+      <div class="location" @click.stop="onLocation">
         <van-icon name="location" color="white" size="0.2166rem" />
         <span>
             查看地图
@@ -147,7 +147,6 @@ export default {
   display: grid;
   grid-row-gap: 20px;
   .location {
-    position: absolute;
     display: flex;
     align-items: center;
     width: 130px;

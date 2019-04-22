@@ -19,9 +19,12 @@
             </div>
           </div>
           <div class="right">
-            <span>
-              {{ `${item.quantity}*${item.spec}` }}
-            </span>
+            <div>
+              {{ `数量：${item.quantity}` }}
+            </div>
+            <div>
+              {{ `规格：${item.spec}` }}
+            </div>
           </div>
         </div>
       </div>
@@ -79,7 +82,7 @@ export default {
       }
       .right {
         word-wrap: break-word;
-        span {
+        div {
           font-size: $size-mini;
         }
       }

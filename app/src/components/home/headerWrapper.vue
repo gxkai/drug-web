@@ -3,7 +3,7 @@
     <div class="header">
       <div class="location" @click="loadPageAddressesChoose">
         <van-icon name="dizhi-" color="white" size=".416rem" />
-        <span class="van-ellipsis">{{ currentAddress ? currentAddress.name : '请选择地址' }}</span>
+        <span class="van-ellipsis">{{ currentAddress !== undefined ? currentAddress.name : '请选择地址' }}</span>
         <van-icon name="arrow" color="white" size=".416rem" class="arrow" />
       </div>
       <input
@@ -47,13 +47,6 @@ export default {
   },
   watch: {},
   async created() {
-    if (this.currentAddress === undefined) {
-      if (this.isMobile()) {
-        this.setCurrentAddress(this.getCurrentPosition());
-      } else {
-        this.setCurrentAddress(this.testPosition);
-      }
-    }
   },
   mounted() {},
   methods: {

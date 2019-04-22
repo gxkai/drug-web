@@ -6,7 +6,7 @@
           <div class="input-container">
             <div class="input-wrapper hairline-bottom">
               <div class="icon-wrapper">
-                <van-icon name="wo-" size="0.5rem" />
+                <van-icon name="wo-" size="0.5rem" color="#d7000e"/>
               </div>
               <input
                 v-focus
@@ -17,7 +17,7 @@
             </div>
             <div class="input-wrapper">
              <div class="icon-wrapper">
-               <van-icon name="mima" size="0.5rem" />
+               <van-icon name="mima" size="0.5rem" color="#d7000e"/>
              </div>
               <input
                 v-focus
@@ -111,7 +111,7 @@
   grid-template-rows: repeat(5, 100px);
   grid-template-columns: 600px;
   .login-wrapper {
-    background-color: #00a0e9;
+    background-color: $theme;
     width: 100%;
     height: 100%;
     display: flex;
@@ -224,6 +224,11 @@ export default {
       const account = await this.$http.get('/api/accounts');
       this.setAccount(account);
       this.setUsername(this.username);
+      if (this.isMobile()) {
+        this.setCurrentAddress(await this.getCurrentPosition());
+      } else {
+        this.setCurrentAddress(this.testPosition);
+      }
       this.loadPageHome();
     },
     async register() {
