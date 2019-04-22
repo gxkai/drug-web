@@ -65,8 +65,9 @@ export default {
       }
     },
     initData() {
+      this.$toast.loading();
       this.getRxShops();
-      this.getHospital();
+      // this.getHospital();
     },
     search(e) {
       this.rxShops = this._.cloneDeep(this.rxShops_);

@@ -38,7 +38,7 @@
 </template>
 <style scoped type="text/scss" lang="scss">
 article {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 .search {
   display: flex;
