@@ -225,6 +225,7 @@ export default {
       }
       const data = await this.$http.get(url, this.getParams(this.params));
       this.pushToList(data.list);
+      console.log(this.list);
     },
     onConfirm() {
       this.onRefresh();

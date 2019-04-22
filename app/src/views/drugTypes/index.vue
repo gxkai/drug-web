@@ -13,7 +13,7 @@
             :key="item.id"
             class="wrapper"
             @click="
-              $router.push({ name: '/drugs', params: { typeId: item.id } })
+              clickItem(item)
             "
           >
             <img v-lazy="getImgURL(item.fileId, 'MIDDLE_LOGO')" />
@@ -85,6 +85,9 @@ export default {
     async initData() {
       this.$toast.loading();
       this.list = await this.$http.get('/api/drugTypes');
+    },
+    clickItem(item) {
+      this.loadPageDrugs(item.id);
     }
   }
 };

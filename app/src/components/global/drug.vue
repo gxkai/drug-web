@@ -79,7 +79,6 @@ export default {
   computed: {},
   watch: {},
   created() {
-    console.log(this.item);
   },
   mounted() {},
   methods: {}

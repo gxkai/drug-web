@@ -173,7 +173,8 @@ export default {
         drugs: this.drugs
       };
       await this.$http.post('/api/drugAppraises', data);
-      this.$router.replace('/drugAppraises/success');
+      this.$toast('评价成功');
+      this.$router.replace('/orders');
     }
   }
 };

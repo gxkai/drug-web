@@ -40,6 +40,7 @@ export default {
   grid-template-columns: auto 1fr;
   padding: 22px 34px;
   align-items: center;
+  align-content: center;
   .left {
     span {
       font-size: $size-small;
@@ -48,9 +49,6 @@ export default {
   .right {
     input {
       font-size: $size-small;
-      border: none;
-      outline: none;
-      -webkit-appearance: none;
       width: 100%;
     }
   }
