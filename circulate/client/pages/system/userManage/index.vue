@@ -15,6 +15,7 @@
         :rowHandle="rowHandle"
         @emit-view="viewDetail"
         @emit-stop="stopUser"
+        @emit-start="startUser"
         @emit-reset="reset"
         @pagination-current-change="paginationCurrentChange"
         class="drug-table"/>
@@ -33,7 +34,7 @@
           <el-input v-model="viewData.name" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="手机">
-          <el-input v-model="viewData.mobile" readonly placeholder="暂无"></el-input>
+          <el-input v-model="viewData.username" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="类型">
           <el-input v-model="viewData.roleName" readonly placeholder="暂无"></el-input>
@@ -57,13 +58,13 @@
       width="30%">
       <el-form ref="viewForm" :model="addData" label-width="100px">
         <el-form-item label="用户名">
-          <el-input v-model="addData.username" placeholder="请输入用户名"></el-input>
+          <el-input v-model="addData.username" placeholder="用户名只能是手机号码"></el-input>
         </el-form-item>
         <el-form-item label="姓名">
           <el-input v-model="addData.name" placeholder="请输入姓名"></el-input>
         </el-form-item>
         <el-form-item label="手机">
-          <el-input v-model="addData.mobile" placeholder="请输入手机号码"></el-input>
+          <el-input v-model="addData.username" placeholder="请输入手机号码"></el-input>
         </el-form-item>
         <el-form-item label="类型">
           <el-select
@@ -91,6 +92,16 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="头像">
+          <el-upload
+            class="avatar-uploader"
+            action=""
+            :show-file-list="false"
+            :on-success="uploadIcon">
+            <img v-if="iconURL" :src="iconURL" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">关 闭</el-button>
@@ -117,6 +128,7 @@
     addDialogVisible = false
     viewData = {}
     userList = []
+    uploadFile = {}
 
     columns= [
       {
@@ -129,7 +141,7 @@
       },
       {
         title: '手机',
-        key: 'mobile'
+        key: 'username'
       },
       {
         title: '类型',
@@ -153,11 +165,10 @@
     options= {
       border: true
     }
-
+    iconURL = ''
     addData = {
       username: '',
       name: '',
-      mobile: '',
       roleName: '',
       jobStatus: ''
     }
@@ -196,7 +207,22 @@
         {
           text: '停用',
           type: 'text',
-          emit: 'emit-stop'
+          emit: 'emit-stop',
+          show (index, row) {
+            if (row.jobStatus === '在职') {
+              return true
+            }
+          }
+        },
+        {
+          text: '启用',
+          type: 'text',
+          emit: 'emit-start',
+          show (index, row) {
+            if (row.jobStatus === '离职') {
+              return true
+            }
+          }
         },
         {
           text: '重置密码',
@@ -206,8 +232,8 @@
       ]
     }
 
-    paginationCurrentChange (currentPage) {
-      this.pagination.currentPage = currentPage
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
       this.initData()
     }
 
@@ -216,9 +242,33 @@
       this.addDialogVisible = true
     }
 
+    uploadIcon (res, file) {
+      this.iconURL = URL.createObjectURL(file.raw)
+      this.uploadFile = file.raw
+    }
+
     // 新增用户
     async confirmAdd () {
-      console.log(this.addData)
+      // 上传用户头像
+      let fileParams = new FormData()
+      fileParams.append('fileType', 'LOGO')
+      fileParams.append('file', this.uploadFile)
+      let {data: fileId} = await axios.post(`/api/shop/files`, fileParams)
+
+      let shopId = 'Vwwy8nJYQJCQ4wqkCZDgyA'
+      let params = {
+        username: this.addData.username,
+        name: this.addData.name,
+        password: '123456',
+        fileId,
+        roleId: this.addData.roleName,
+        activated: this.addData.jobStatus
+      }
+      await axios.post(`/api/shop/users?shopId=${shopId}`, params)
+      this.$message({
+        message: '添加成功',
+        type: 'success'
+      })
       this.addDialogVisible = false
     }
 
@@ -228,14 +278,64 @@
       this.viewData = row
     }
 
-    // 停用
-    stopUser ({row}) {
+    // 启用
+    async startUser ({row}) {
+      let userAct = this.rowHandle.custom
+      userAct.forEach(item => {
+        if (item.text === '启用') {
+          row.jobStatus = '在职'
+          row.activated = true
+        }
+      })
 
+      let params = new FormData()
+      params.append('activated', row.activated)
+      await axios.put(`/api/shop/users/${row.id}`, params)
+
+      this.$message({
+        message: '该账户已启用',
+        type: 'success'
+      })
+    }
+
+    // 停用
+    async stopUser ({row}) {
+      let userAct = this.rowHandle.custom
+      userAct.forEach(item => {
+        if (item.text === '停用') {
+          row.jobStatus = '离职'
+          row.activated = false
+        }
+      })
+
+      let params = new FormData()
+      params.append('activated', row.activated)
+      await axios.put(`/api/shop/users/${row.id}`, params)
+
+      this.$message({
+        message: '该账户已停用',
+        type: 'success'
+      })
     }
 
     // 重置密码
     reset ({row}) {
-
+      this.$confirm('默认密码：000000，确定重置吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post(`/api/shop/users/reset/${row.id}`)
+        this.$message({
+          type: 'success',
+          message: '重置成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'warning',
+          message: '已取消重置'
+        })
+      })
     }
 
     async initData () {
@@ -319,6 +419,31 @@
             }
           }
         }
+      }
+    }
+  }
+
+  /deep/.avatar-uploader{
+    .el-upload{
+      height: 130px;
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+
+      img{
+        width: 130px;
+        height: 130px;
+      }
+
+      .avatar-uploader-icon{
+        font-size: 28px;
+        color: #8c939d;
+        width: 130px;
+        height: 130px;
+        line-height: 130px;
+        text-align: center;
       }
     }
   }

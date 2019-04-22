@@ -110,8 +110,8 @@
     feedbackData = ''
     columns= [
       {
-        title: '订单编号',
-        key: 'number'
+        title: '序号',
+        key: 'index'
       },
       {
         title: '用户姓名',
@@ -204,7 +204,8 @@
       this.pagination.total = appraiseData.total
       this.appraiseList = appraiseData.list
 
-      this.appraiseList.forEach(item => {
+      this.appraiseList.forEach((item, index) => {
+        item.index = index + 1
         item.orderType = this.convertOrderType(item.type)
         item.appraiseDate = moment(item.appraiseDate).format('YY-MM-DD HH:ss:mm')
       })
