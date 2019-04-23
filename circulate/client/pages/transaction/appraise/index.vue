@@ -220,9 +220,8 @@
       this.shopAppraiseData = []
       this.isShowViewDialog = true
       let {data: detail} = await axios.get(`/api/shop/shopAppraises/${row.id}`)
-      console.log(detail)
       this.viewData = detail
-      this.viewData.appraiseDate = moment(this.viewData.appraiseDate).format('YY-MM-DD HH:mm:dd')
+      this.viewData.appraiseDate = moment(this.viewData.appraiseDate).format('YY-MM-DD HH:mm:ss')
       this.shopAppraiseData.push({
         deliveryScore: detail.deliveryScore,
         packageScore: detail.packageScore,
