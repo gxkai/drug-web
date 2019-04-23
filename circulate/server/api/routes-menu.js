@@ -175,12 +175,6 @@ if (SHOW_EXAMPLES) {
           icon: 'el-icon-share'
         },
         {
-          id: '60-6',
-          name: '在售药品调价',
-          url: '/drugManage/drugAdjustment',
-          icon: 'el-icon-share'
-        },
-        {
           id: '60-7',
           name: '通用名管理',
           url: '/drugManage/commonName',

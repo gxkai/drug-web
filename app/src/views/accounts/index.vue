@@ -80,7 +80,8 @@ export default {
       ]
     };
   },
-  created() {},
+  created() {
+  },
   mounted() {},
   methods: {}
 };

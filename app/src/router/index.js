@@ -552,17 +552,6 @@ const otherRouter = [
 ];
 const appRouter = [
   {
-    path: '/',
-    name: '/',
-    meta: {
-      navigation: true,
-      name: '跳转路口',
-      showBackTopLeft: false,
-      showBackBottomRight: false
-    },
-    component: () => import('@/views/entry')
-  },
-  {
     path: '/home',
     name: '/home',
     meta: {

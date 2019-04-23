@@ -341,6 +341,10 @@
     // 调剂完成
     async finishedAdjust (index, id) {
       await axios.get(`/api/shop/order/regulate`, {params: {id: id}})
+      this.$message({
+        message: '调剂完成',
+        type: 'success'
+      })
     }
 
     messageNotice () {
