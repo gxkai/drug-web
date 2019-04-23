@@ -39,7 +39,7 @@
             size="small"
             v-model="timeDate"
             type="daterange"
-            format = "yyyy-MM-dd HH:mm:ss"
+            format = "yyyy-MM-dd"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
@@ -48,7 +48,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="recommendSubmit">提交</el-button>
-          <el-button @click="back">返回</el-button>
+          <el-button @click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
 
@@ -61,7 +61,7 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  import Drug from '@/components/drugCheck/drugRadio/index'
+  import Drug from '@/components/business/shopDrugs'
   import axios from 'axios'
   import moment from 'moment'
   @Component({
@@ -108,19 +108,17 @@
       border: true
     }
 
-    timeDate = ''
+    timeDate = []
     startDate = '' // 起始日期
     endDate = '' // 截止日期
 
     convertDate () {
       if (this.timeDate) {
         for (let i = 0, len = this.timeDate.length; i < len; i++) {
-          this.timeDate[i] = moment(this.timeDate[i]).format('YYYY-MM-DD hh:mm:ss')
+          this.timeDate[i] = moment(this.timeDate[i]).format('YYYY-MM-DD')
         }
         this.startDate = this.timeDate[0]
         this.endDate = this.timeDate[1]
-        console.log(this.startDate)
-        console.log(this.endDate)
       }
     }
 
@@ -145,16 +143,46 @@
         this.drugData.push(this.drugValue)
       }
     }
+  
     async recommendSubmit () {
+      let repeat = {
+        shopDrugId: this.drugValue.shopDrugId,
+        startDate: this.startDate,
+        endDate: this.endDate
+      }
+      await axios.get(`/api/shop/drugRecommendApplies/apply/exists`, {params: repeat})
+        .then(res => {
+          console.log(res)
+        }).catch(error => {
+          // console.log(error.response)
+          if (error.response.status === 400) {
+            this.$message({
+              message: error.response.data.message,
+              type: 'warning'
+            })
+          }
+        })
+
       let params = {
         shopDrugId: this.drugValue.shopDrugId,
-        startDate: '2019-04-01 12:00:00',
-        endDate: '2019-04-02 12:00:00'
+        startDate: this.startDate,
+        endDate: this.endDate,
+        applyState: 'PENDING',
+        drugName: this.drugValue.drugName,
+        specName: this.drugValue.specName,
+        originName: this.drugValue.originName,
+        sales: this.drugValue.sales,
+        price: this.drugValue.price
       }
-      let get = await axios.get(`/api/shop/drugRecommendApplies/apply/exists`, {params: params})
-      console.log(get)
 
-      // this.$router.push('/business/recommend')
+      let applyRes = await axios.post(`/api/shop/drugRecommendApplies/apply`, params)
+      if (applyRes) {
+        this.$message({
+          message: '提交成功！',
+          type: 'success'
+        })
+      }
+      this.$router.push('/business/recommend')
     }
     back () {
       this.$router.go(-1)
