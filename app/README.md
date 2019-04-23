@@ -53,4 +53,27 @@ npm -v
 
 ```
 
-
+# 主要插件
+1. 时间处理[moment](https://github.com/moment/moment)
+2. 对象处理[lodash](https://github.com/lodash/lodash)
+3. 字符串处理[qs](https://github.com/ljharb/qs)
+4. 路由缓存[vue-navigation](https://github.com/zack24q/vue-navigation)
+5. 浏览器本地存储(推荐使用)[localForage](https://github.com/localForage/localForage)
+6. 浏览器本地存储[good-storage](https://www.npmjs.com/package/good-storage)
+7. ui组件[vant](https://youzan.github.io/vant/#/zh-CN/intro)
+8. 地图[vue-baidu-map](https://dafrok.github.io/vue-baidu-map/#/zh/index)
+# 样式处理
+1. sass
+  ```
+  npm i -D node-sass sass-loader sass-resources-loader
+  ```
+2. postcss 
+  ```
+  npm i -D postcss-px2rem px2rem-loader
+  ```
+# 编译环境配置
+1. 跨平台环境配置[cross-env](https://www.npmjs.com/package/cross-env)
+# 浏览器降级
+1. babel-polyfill,
+2. es6-promise
+# 浏览器兼容查询[caniuse](https://caniuse.com)

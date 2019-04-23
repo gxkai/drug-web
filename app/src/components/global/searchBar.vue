@@ -55,9 +55,6 @@ export default {
     width: 700px;
     background-color: #f6f6f6;
     border-radius: 10px;
-    border: none;
-    outline: none;
-    -webkit-appearance: none;
     font-size: $size-small;
     line-height: 40px;
     &::placeholder {
