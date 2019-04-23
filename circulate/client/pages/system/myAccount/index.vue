@@ -26,10 +26,11 @@
         </div>
         <d2-crud
           ref="d2Crud"
+          :options="options"
           :columns="columns"
           :data="recordList"
           :pagination="pagination"
-          :options="options"
+          @pagination-current-change="paginationCurrentChange"
           class="drug-table"
         />
       </div>
@@ -41,8 +42,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import axios from 'axios'
-  // import moment from 'moment'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -50,32 +51,7 @@
     }
   })
   export default class Account extends Vue {
-    recordList = [
-      {
-        index: '1',
-        createDate: '2019-04-13 13:33:30',
-        amount: '1000',
-        orderState: '待入账',
-        accountBalance: '5000',
-        remarkDesc: '待入账'
-      },
-      {
-        index: '2',
-        createDate: '2019-04-12 12:30:30',
-        amount: '2000',
-        orderState: '成功',
-        accountBalance: '3000',
-        remarkDesc: '已处理'
-      },
-      {
-        index: '3',
-        createDate: '2019-04-10 09:10:15',
-        amount: '500',
-        orderState: '失败',
-        accountBalance: '2000',
-        remarkDesc: '失败'
-      }
-    ]
+    recordList = []
 
     columns= [
       {
@@ -84,23 +60,23 @@
       },
       {
         title: '日期',
-        key: 'createDate'
+        key: 'createdDate'
       },
       {
         title: '金额',
-        key: 'amount'
+        key: 'price'
       },
       {
         title: '状态',
-        key: 'orderState'
+        key: 'stateName'
       },
       {
         title: '账户余额',
-        key: 'accountBalance'
+        key: 'number'
       },
       {
         title: '备注/说明',
-        key: 'remarkDesc'
+        key: 'remark'
       }
     ]
 
@@ -119,13 +95,31 @@
       this.initData()
     }
 
+    // 转换状态
+    convertState (state) {
+      switch (state) {
+        case 'WAIT':
+          return '待入账'
+        case 'SUCCESS':
+          return '成功'
+        case 'FAIL':
+          return '失败'
+      }
+    }
+
     async initData () {
-      // let params = {
-      //   pageNum: this.pagination.currentPage,
-      //   pageSize: this.pagination.pageSize
-      // }
-      // let data = await axios.get(`/api/shop/accounts`, {params})
-      // console.log(data)
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize
+      }
+      let {data: water} = await axios.get(`/api/shop/water`, {params})
+      this.pagination.total = water.total
+      this.recordList = water.list
+      this.recordList.forEach((item, index) => {
+        item.index = index + 1
+        item.stateName = this.convertState(item.state)
+        item.createdDate = moment(item.createdDate).format('YY-MM-DD HH:ss:mm')
+      })
     }
 
     beforeMount () {
