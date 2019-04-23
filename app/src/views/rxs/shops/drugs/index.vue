@@ -35,7 +35,7 @@
                       {{ `￥${origin.price}` }}
                     </span>
                     <span>
-                      {{ `(医保报销金额￥${origin.price})` }}
+                      {{ `(医保报销金额￥${origin.medicaidPrice})` }}
                     </span>
                   </div>
                 </li>
