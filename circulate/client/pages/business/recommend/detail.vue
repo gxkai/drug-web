@@ -18,11 +18,10 @@
       <el-form ref="form" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
-            style="width: 400px;"
             readonly
             size="small"
             v-model="timeDate"
-            format = "yyyy-MM-dd HH:mm:ss"
+            format = "yyyy-MM-dd"
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"

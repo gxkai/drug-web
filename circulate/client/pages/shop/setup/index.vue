@@ -237,11 +237,11 @@
 
 <script>
   import Vue from 'vue'
-import Component from 'class-component'
-import BreadCrumb from '@/components/Breadcrumb'
-import axios from 'axios'
+  import Component from 'class-component'
+  import BreadCrumb from '@/components/Breadcrumb'
+  import axios from 'axios'
 
-@Component({
+  @Component({
     components: {
       BreadCrumb
     }
@@ -319,7 +319,7 @@ import axios from 'axios'
 
     certificateImg = '' // 经营许可证
     certificateImgFile = {}
-  
+
     gspImg = '' // GSP证书
     gspImgFile = {}
 
@@ -346,12 +346,17 @@ import axios from 'axios'
       this.idnumberImgFile = file.raw
     }
 
+    // 获取上传文件
+    getFileParams (file) {
+      let fileParams = new FormData()
+      fileParams.append('file', file)
+      fileParams.append('fileType', 'LOGO')
+      return fileParams
+    }
+
     async submit () {
       // 上传logo图片
-      let logoFileParams = new FormData()
-      logoFileParams.append('file', this.shopLogoFile)
-      logoFileParams.append('fileType', 'LOGO')
-      let { data: logoFileID } = await axios.post(`/api/shop/files`, logoFileParams)
+      let { data: logoFileID } = await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile))
       this.shopForm.fileId = logoFileID
       console.log(logoFileID)
 
@@ -370,34 +375,22 @@ import axios from 'axios'
       }
 
       // 上传经营许可证
-      let certificateParams = new FormData()
-      certificateParams.append('file', this.certificateImgFile)
-      certificateParams.append('fileType', 'LOGO')
-      let { data: certificateID } = await axios.post(`/api/shop/files`, certificateParams)
+      let { data: certificateID } = await axios.post(`/api/shop/files`, this.getFileParams(this.certificateImgFile))
       this.shopForm.certificateFileId = certificateID
       console.log(certificateID)
 
       // 上传营业执照
-      let licenseParams = new FormData()
-      licenseParams.append('file', this.licenseImgFile)
-      licenseParams.append('fileType', 'LOGO')
-      let { data: licenseID } = await axios.post(`/api/shop/files`, licenseParams)
+      let { data: licenseID } = await axios.post(`/api/shop/files`, this.getFileParams(this.licenseImgFile))
       this.shopForm.licenseFileId = licenseID
       console.log(licenseID)
-  
+
       // GSP证书
-      let gspParams = new FormData()
-      gspParams.append('file', this.gspImgFile)
-      gspParams.append('fileType', 'LOGO')
-      let { data: gspID } = await axios.post(`/api/shop/files`, gspParams)
+      let { data: gspID } = await axios.post(`/api/shop/files`, this.getFileParams(this.gspImgFile))
       this.shopForm.gspFileId = gspID
       console.log(gspID)
 
       // 手持身份证
-      let idnumberParams = new FormData()
-      idnumberParams.append('file', this.idnumberImgFile)
-      idnumberParams.append('fileType', 'LOGO')
-      let { data: idnumberID } = await axios.post(`/api/shop/files`, idnumberParams)
+      let { data: idnumberID } = await axios.post(`/api/shop/files`, this.getFileParams(this.idnumberImgFile))
       this.shopForm.identityNumberFileId = idnumberID
       console.log(idnumberID)
 

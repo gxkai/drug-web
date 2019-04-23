@@ -70,55 +70,21 @@
             </template>
           </el-table-column>
 
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="200px">
             <template slot-scope="scope">
-              <el-button @click="viewDetail(scope.$index, scope.row)" type="text">查看</el-button>
+              <el-button type="text" @click="viewDetail(scope.$index, scope.row)">查看</el-button>
 
-              <el-dropdown trigger="click"  v-if="scope.row.applyState==='SUCCESS'">
-                <span class="el-dropdown-link">
-                  更多
-                  <i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <el-button type="text" @click="moveShelf(scope.$index, scope.row)">提前下架</el-button>
-                  </el-dropdown-item>
+              <el-button type="text" v-if="scope.row.applyState==='SUCCESS'" @click="moveShelf(scope.$index, scope.row)">提前下架</el-button>
 
-                </el-dropdown-menu>
-              </el-dropdown>
+              <el-button type="text" v-if="scope.row.applyState==='FAIL'" @click="failReason(scope.$index, scope.row.id)">查看原因</el-button>
+              <el-button type="text" v-if="scope.row.applyState==='FAIL'" @click="reSubmit(scope.$index, scope.row)">再次提交</el-button>
 
-              <el-dropdown trigger="click"  v-if="scope.row.applyState==='FAIL'">
-                <span class="el-dropdown-link">
-                  更多
-                  <i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <el-button type="text" @click="failReason(scope.$index, scope.row.id)">查看原因</el-button>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-button type="text" @click="reSubmit(scope.$index, scope.row)">再次提交</el-button>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
+              <el-button type="text" v-if="scope.row.applyState==='EXPIRY'" @click="deleteItem(scope.$index, scope.row.id)">删除</el-button>
+              <el-button type="text" v-if="scope.row.applyState==='EXPIRY'" @click="reSubmit(scope.$index, scope.row)">再次提交</el-button>
 
-              <el-dropdown trigger="click" v-if="scope.row.applyState==='EXPIRY'">
-                <span class="el-dropdown-link">
-                  更多
-                  <i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <el-button type="text" @click="deleteItem(scope.$index, scope.row.id)">删除</el-button>
-                  </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-button type="text" @click="reSubmit(scope.$index, scope.row)">再次提交</el-button>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
             </template>
           </el-table-column>
-          
+
         </el-table>
 
         <div class="pagination">
@@ -177,7 +143,7 @@
   })
   export default class Recommend extends Vue {
     drugName = '' // 药品名称
-  
+
     // 厂商
     originName = ''
     originId = ''
@@ -267,6 +233,7 @@
         endDate
       }
       let {data: Recommend} = await axios.get(`/api/shop/drugRecommendApplies`, {params})
+      console.log(Recommend)
       this.tableData = Recommend.list
       this.totalPages = Recommend.total
       this.tableData.forEach((item) => {
@@ -318,7 +285,8 @@
       this.$router.push({
         path: '/business/recommend/edit',
         query: {
-          id: row.id
+          id: row.id,
+          shopName: row.shopName
         }
       })
     }
@@ -422,19 +390,17 @@
         .el-button {
           font-size: 13px;
         }
-        button:last-child {
-          /*margin-left: 8px;*/
+        button+button {
           &:before {
             content: '|';
             color: #EEE;
             position: relative;
-            left: -4px;
+            left: -6px;
             top: -1px;
           }
         }
 
         button:first-child {
-          /*margin-right: 8px;*/
           &:before {
             display: none;
           }

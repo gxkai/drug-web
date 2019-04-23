@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
 
       <div class="title">
-        <h3>新增推荐</h3>
+        <h3>新增促销</h3>
         <div class="action">
           <el-button class="select-btn value-btn" v-if="drugValue.drugName" size="small" @click="drugDialog = true">{{ drugValue.drugName }}</el-button>
           <el-button class="select-btn" v-else size="small" @click="drugDialog = true">请选择药品</el-button>
@@ -38,14 +38,16 @@
           <el-date-picker
             size="small"
             v-model="timeDate"
-            type="datetimerange"
+            type="daterange"
+            format = "yyyy-MM-dd"
             range-separator="至"
             start-placeholder="开始日期"
-            end-placeholder="结束日期">
+            end-placeholder="结束日期"
+            @change="convertDate">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="">提交</el-button>
+          <el-button type="primary" @click="recommendSubmit">提交</el-button>
           <el-button @click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
@@ -59,8 +61,9 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  import Drug from '@/components/drugCheck/drugRadio/index'
-  // import axios from 'axios'
+  import Drug from '@/components/business/shopDrugs'
+  import axios from 'axios'
+  import moment from 'moment'
   @Component({
     components: {
       BreadCrumb,
@@ -105,7 +108,22 @@
       border: true
     }
 
-    timeDate = ''
+    timeDate = []
+    startDate = '' // 起始日期
+    endDate = '' // 截止日期
+
+    shopOptions = [] // 药店信息
+    shopId = '' // 药店id
+
+    convertDate () {
+      if (this.timeDate) {
+        for (let i = 0, len = this.timeDate.length; i < len; i++) {
+          this.timeDate[i] = moment(this.timeDate[i]).format('YYYY-MM-DD')
+        }
+        this.startDate = this.timeDate[0]
+        this.endDate = this.timeDate[1]
+      }
+    }
 
     getSelectedInfo (data) {
       this.selectedInfo = data
@@ -128,6 +146,56 @@
         this.drugData.push(this.drugValue)
       }
     }
+
+    async recommendSubmit () {
+      let repeat = {
+        shopDrugId: this.drugValue.shopDrugId,
+        startDate: this.startDate,
+        endDate: this.endDate
+      }
+      await axios.get(`/api/shop/drugDiscountApplies/apply/exists`, {params: repeat})
+        .then(res => {
+          console.log(res)
+          return Promise.resolve(res)
+        })
+        .catch(error => {
+          console.log(error)
+          if (error.response.status === 400) {
+            this.$message({
+              message: error.response.data.message,
+              type: 'warning'
+            })
+            return Promise.reject(error)
+          }
+        })
+
+      // 获取药店id
+      let shop = await axios.get(`/api/shop/shops`)
+      this.shopOptions = shop.data.list
+      this.shopOptions.forEach(item => {
+        if (this.drugValue.shopName === item.shopName) {
+          this.shopId = item.id
+        }
+      })
+
+      let params = {
+        shopDrugId: this.drugValue.shopDrugId,
+        startDate: this.startDate,
+        endDate: this.endDate,
+        userId: 'kDw85WlUSDGX99dvWyQ5pi',
+        shopId: this.shopId
+      }
+      let applyRes = await axios.post(`/api/shop/drugDiscountApplies/apply`, params)
+      if (applyRes) {
+        this.$message({
+          message: '提交成功！',
+          type: 'success'
+        })
+      }
+
+      this.$router.push('/business/discount')
+    }
+    //
   }
 </script>
 

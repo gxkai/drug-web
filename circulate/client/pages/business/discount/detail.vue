@@ -18,11 +18,10 @@
       <el-form ref="form" label-width="100px" class="recommend-form">
         <el-form-item label="活动时间：">
           <el-date-picker
-            style="width: 400px;"
             readonly
             size="small"
             v-model="timeDate"
-            format = "yyyy-MM-dd HH:mm:ss"
+            format = "yyyy-MM-dd"
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
@@ -43,8 +42,8 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import Drug from '@/components/drugCheck/drugRadio/index'
-  // import axios from 'axios'
-  // import moment from 'moment'
+  import axios from 'axios'
+  import moment from 'moment'
   @Component({
     components: {
       BreadCrumb,
@@ -86,6 +85,17 @@
     timeDate = []
 
     beforeMount () {
+      this.getRecommendDetail()
+    }
+
+    async getRecommendDetail () {
+      let id = this.$route.query.id
+      let resDetail = await axios.get(`/api/shop/drugDiscountApplies/${id}`)
+      this.drugData.push(resDetail.data)
+      this.startDate = moment(resDetail.data.startDate).format('YYYY-MM-DD HH:mm:ss')
+      this.endDate = moment(resDetail.data.endDate).format('YYYY-MM-DD HH:mm:ss')
+      this.timeDate.push(this.startDate)
+      this.timeDate.push(this.endDate)
     }
   }
 </script>

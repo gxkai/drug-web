@@ -132,12 +132,6 @@
   "处方单详情",
   "/business":
   "业务管理",
-  "/business/advert":
-  "广告管理",
-  "/business/ability":
-  "功能区管理",
-  "/business/module":
-  "板块区管理",
   "/business/recommend":
   "好货推荐",
   "/business/recommend/create":
@@ -154,24 +148,7 @@
   "查看详情",
   "/business/discount/edit":
   "编辑促销",
-  "/business/chat":
-  "药师咨询",
-  "/business/chat/list":
-  "聊天列表",
-  "/business/chat/list/detail":
-  "聊天详情",
-  "/business/feedback":
-  "用户反馈",
-  "/business/system":
-  "系统消息",
-  "/business/word":
-  "搜索词管理",
-  "/business/repository":
-  "知识库管理",
-  "/business/repository/child":
-  "分类列表",
-  "/business/faq":
-  "常见问题",
+
   "/system":
   "系统设置",
   "/system/message":
