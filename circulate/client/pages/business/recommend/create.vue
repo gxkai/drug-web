@@ -112,6 +112,9 @@
     startDate = '' // 起始日期
     endDate = '' // 截止日期
 
+    shopOptions = [] // 药店信息
+    shopId = '' // 药店id
+
     convertDate () {
       if (this.timeDate) {
         for (let i = 0, len = this.timeDate.length; i < len; i++) {
@@ -143,7 +146,7 @@
         this.drugData.push(this.drugValue)
       }
     }
-  
+
     async recommendSubmit () {
       let repeat = {
         shopDrugId: this.drugValue.shopDrugId,
@@ -152,29 +155,34 @@
       }
       await axios.get(`/api/shop/drugRecommendApplies/apply/exists`, {params: repeat})
         .then(res => {
-          console.log(res)
-        }).catch(error => {
-          // console.log(error.response)
+          return Promise.resolve(res)
+        })
+        .catch(error => {
           if (error.response.status === 400) {
             this.$message({
               message: error.response.data.message,
               type: 'warning'
             })
+            return Promise.reject(error)
           }
         })
+
+      // 获取药店id
+      let shop = await axios.get(`/api/shop/shops`)
+      this.shopOptions = shop.data.list
+      this.shopOptions.forEach(item => {
+        if (this.drugValue.shopName === item.shopName) {
+          this.shopId = item.id
+        }
+      })
 
       let params = {
         shopDrugId: this.drugValue.shopDrugId,
         startDate: this.startDate,
         endDate: this.endDate,
-        applyState: 'PENDING',
-        drugName: this.drugValue.drugName,
-        specName: this.drugValue.specName,
-        originName: this.drugValue.originName,
-        sales: this.drugValue.sales,
-        price: this.drugValue.price
+        userId: 'kDw85WlUSDGX99dvWyQ5pi',
+        shopId: this.shopId
       }
-
       let applyRes = await axios.post(`/api/shop/drugRecommendApplies/apply`, params)
       if (applyRes) {
         this.$message({
@@ -182,10 +190,8 @@
           type: 'success'
         })
       }
+
       this.$router.push('/business/recommend')
-    }
-    back () {
-      this.$router.go(-1)
     }
   }
 </script>
