@@ -55,19 +55,19 @@
           <el-input :value="drugInfoForm.barCode" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="进价：">
-          <el-input v-model="drugInfoForm.price" placeholder="请输入"></el-input>
+          <el-input v-model="price" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="销售价：">
-          <el-input v-model="drugInfoForm.salePrice" placeholder="请输入"></el-input>
+          <el-input v-model="salePrice" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="当前库存：">
-          <el-input v-model="drugInfoForm.stock" placeholder="请输入"></el-input>
+          <el-input v-model="stock" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="预警库存：">
-          <el-input v-model="drugInfoForm.stockWarn" placeholder="请输入"></el-input>
+          <el-input v-model="stockWarn" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="是否推荐：">
-          <el-radio-group v-model="drugInfoForm.recommend">
+          <el-radio-group v-model="recommend">
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
@@ -135,6 +135,12 @@
     parentTypeName = ''
     childTypeName = ''
 
+    price = ''
+    salePrice = ''
+    stock = ''
+    stockWarn = ''
+    recommend = ''
+
     emptyUrl = require('../../../assets/img/hospital/img1.png')
     coverURL = ''
     drugImgList = [
@@ -169,7 +175,6 @@
       this.parentTypeName = ''
       this.childTypeName = ''
       this.drugInfoForm = this.drugValue
-      console.log(this.drugInfoForm)
       if (this.drugInfoForm.name === undefined) {
         this.$message({
           message: '请选择药品',
@@ -242,10 +247,23 @@
     }
 
     async submitAdd () {
-      await axios.post('/api/shop/drugs')
+      let params = {
+        shopDrugId: this.drugInfoForm.id,
+        startPrice: 20,
+        price: +this.price,
+        stock: +this.stock,
+        stockWarn: +this.stockWarn,
+        recommend: this.recommend
+      }
+      await axios.post('/api/shop/shopDrugs', params)
+      this.$message({
+        message: '添加成功',
+        type: 'success'
+      })
     }
 
     beforeMount () {
+
     }
   }
 </script>

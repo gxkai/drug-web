@@ -4,6 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>交易记录</h3>
+        <el-button type="primary" size="small" @click="$router.push('/system/myAccount')">返回</el-button>
       </div>
       <div class="record-search">
         <div class="item item1">
@@ -27,9 +28,9 @@
           </div>
           <div>
             当前状态：
-            <el-select size="small" v-model="orderStateValue" style="width: 260px;" placeholder="订单状态">
+            <el-select size="small" v-model="orderStateValue" style="width: 260px;" placeholder="请选择">
               <el-option
-                v-for="item in orderStateOptions"
+                v-for="item in stateOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -49,7 +50,8 @@
               type="daterange"
               range-separator="至"
               start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              end-placeholder="结束日期"
+              @change="convertDate">
             </el-date-picker>
           </div>
           <div></div>
@@ -65,6 +67,7 @@
           :columns="columns"
           :data="recordList"
           :pagination="pagination"
+          @pagination-current-change="paginationCurrentChange"
           :options="options"
           :rowHandle="rowHandle"
           @emit-view="viewRecord"
@@ -84,19 +87,19 @@
           <el-input v-model="viewData.index" readonly></el-input>
         </el-form-item>
         <el-form-item label="时间">
-          <el-input v-model="viewData.createDate" readonly></el-input>
+          <el-input v-model="viewData.createdDate" readonly></el-input>
         </el-form-item>
         <el-form-item label="药品名称">
           <el-input v-model="viewData.drugName" readonly></el-input>
         </el-form-item>
         <el-form-item label="订单编号/退单号">
-          <el-input v-model="viewData.orderRebateNumber" readonly></el-input>
+          <el-input v-model="viewData.number" readonly></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <el-input v-model="viewData.orderState" readonly></el-input>
+          <el-input v-model="viewData.stateName" readonly></el-input>
         </el-form-item>
         <el-form-item label="金额">
-          <el-input v-model="viewData.amount" readonly></el-input>
+          <el-input v-model="viewData.price" readonly></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -110,8 +113,8 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import axios from 'axios'
-  // import moment from 'moment'
+  import axios from 'axios'
+  import moment from 'moment'
 
   @Component({
     components: {
@@ -124,50 +127,27 @@
     viewData = {}
     orderNumber = ''
     orderDate = ''
+    startDate = ''
+    endDate = ''
     drugNameValue = ''
     orderStateValue = ''
     // 订单状态
-    orderStateOptions = [
+    stateOptions = [
       {
-        label: '待处理',
-        value: '待处理'
+        label: '待入账',
+        value: 'WAIT'
       },
       {
         label: '成功',
-        value: '成功'
+        value: 'SUCCESS'
       },
       {
         label: '失败',
-        value: '失败'
+        value: 'FAIL'
       }
     ]
 
-    recordList = [
-      {
-        index: '1',
-        createDate: '2019-04-13 13:33:30',
-        drugName: '复方氨酚葡锌片',
-        orderRebateNumber: '20190412100215',
-        amount: '1000',
-        orderState: '待入账'
-      },
-      {
-        index: '3',
-        createDate: '2019-04-12 13:33:30',
-        drugName: '复方氨酚葡锌片',
-        orderRebateNumber: '20190412100216',
-        amount: '2000',
-        orderState: '成功'
-      },
-      {
-        index: '2',
-        createDate: '2019-04-11 13:33:30',
-        drugName: '复方氨酚葡锌片',
-        orderRebateNumber: '20190412100217',
-        amount: '3000',
-        orderState: '失败'
-      }
-    ]
+    recordList = []
     columns= [
       {
         title: '序号',
@@ -175,7 +155,7 @@
       },
       {
         title: '时间',
-        key: 'createDate'
+        key: 'createdDate'
       },
       {
         title: '药品名称',
@@ -183,15 +163,15 @@
       },
       {
         title: '订单编号/退单号',
-        key: 'orderRebateNumber'
+        key: 'number'
       },
       {
         title: '状态',
-        key: 'orderState'
+        key: 'stateName'
       },
       {
         title: '金额',
-        key: 'amount'
+        key: 'price'
       }
     ]
 
@@ -206,11 +186,6 @@
     }
 
     rowHandle = {
-      // remove: {
-      //   text: '删除',
-      //   type: 'text',
-      //   emit: 'emit-remove'
-      // },
       custom: [
         {
           text: '查看',
@@ -220,8 +195,8 @@
       ]
     }
 
-    paginationCurrentChange (currentPage) {
-      this.pagination.currentPage = currentPage
+    paginationCurrentChange (page) {
+      this.pagination.currentPage = page
       this.initData()
     }
 
@@ -244,17 +219,54 @@
       this.orderDate = ''
       this.drugNameValue = ''
       this.orderStateValue = ''
+      this.initData()
     }
 
-    searchOrder () {}
+    convertDate () {
+      if (this.orderDate) {
+        for (let i = 0, len = this.orderDate.length; i < len; i++) {
+          this.orderDate[i] = moment(this.orderDate[i]).format('YYYY-MM-DD')
+        }
+        this.startDate = `${this.orderDate[0]} 00:00:00`
+        this.endDate = `${this.orderDate[1]} 23:59:59`
+      }
+    }
+
+    searchOrder () {
+      this.initData()
+    }
+
+    // 转换状态
+    convertState (state) {
+      switch (state) {
+        case 'WAIT':
+          return '待入账'
+        case 'SUCCESS':
+          return '成功'
+        case 'FAIL':
+          return '失败'
+      }
+    }
 
     async initData () {
-      // let params = {
-      //   pageNum: this.pagination.currentPage,
-      //   pageSize: this.pagination.pageSize
-      // }
-      // let data = await axios.get(`/api/shop/accounts`, {params})
-      // console.log(data)
+      let params = {
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        startDate: this.startDate,
+        endDate: this.endDate,
+        drugName: this.drugNameValue,
+        state: this.orderStateValue,
+        number: this.orderNumber
+      }
+      let {data: water} = await axios.get(`/api/shop/water`, {params})
+      console.log(water)
+      this.pagination.total = water.total
+      this.recordList = water.list
+      this.recordList.forEach((item, index) => {
+        item.index = index + 1
+        item.stateName = this.convertState(item.state)
+        item.createdDate = moment(item.createdDate).format('YY-MM-DD HH:ss:mm')
+      })
     }
 
     beforeMount () {
