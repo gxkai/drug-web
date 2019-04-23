@@ -49,22 +49,29 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="功能主治：" class="indication">
-          <el-input :value="drugInfoForm.attention" readonly placeholder="暂无"></el-input>
+          <el-input
+            type="textarea"
+            readonly
+            :rows="3"
+            placeholder="暂无"
+            v-model="drugInfoForm.introduce">
+          </el-input>
         </el-form-item>
-        <el-form-item label="条形码：">
-          <el-input :value="drugInfoForm.barCode" readonly placeholder="暂无"></el-input>
-        </el-form-item>
+
         <el-form-item label="进价：">
-          <el-input v-model="price" placeholder="请输入"></el-input>
+          <el-input v-model="startPrice" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="销售价：">
-          <el-input v-model="salePrice" placeholder="请输入"></el-input>
+          <el-input v-model="price" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="当前库存：">
           <el-input v-model="stock" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="预警库存：">
           <el-input v-model="stockWarn" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="条形码：">
+          <el-input :value="drugInfoForm.barCode" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="是否推荐：">
           <el-radio-group v-model="recommend">
@@ -135,8 +142,8 @@
     parentTypeName = ''
     childTypeName = ''
 
+    startPrice = ''
     price = ''
-    salePrice = ''
     stock = ''
     stockWarn = ''
     recommend = ''
@@ -248,12 +255,14 @@
 
     async submitAdd () {
       let params = {
-        shopDrugId: this.drugInfoForm.id,
-        startPrice: 20,
+        startPrice: +this.startPrice,
         price: +this.price,
+        recommend: this.recommend,
         stock: +this.stock,
         stockWarn: +this.stockWarn,
-        recommend: this.recommend
+        grounding: true,
+        shopId: 'G4-R9nbxQU-hcrUWtcS-6Q',
+        drugId: this.drugInfoForm.id
       }
       await axios.post('/api/shop/shopDrugs', params)
       this.$message({
@@ -285,8 +294,16 @@
       .el-form{
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(8, 60px) 50px;
         margin-right: 100px;
+
+        .indication{
+          grid-row: 6 / 8;
+          grid-column: 1 / 3;
+
+          textarea{
+            resize: none;
+          }
+        }
 
         .el-form-item{
           .select-btn{

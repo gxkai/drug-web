@@ -87,7 +87,7 @@
   "/drugManage/drugAdd":
   "添加药品",
   "/drugManage/drugAdjustment":
-  "在售药品调价",
+    "在售药品调价",
   "/drugManage/commonName":
   "通用名管理",
   "/drugManage/form":

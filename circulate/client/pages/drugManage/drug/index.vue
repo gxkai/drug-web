@@ -18,6 +18,7 @@
         @emit-view="viewDetail"
         @emit-obtained="obtainedDrug"
         @emit-storage="storageDrug"
+        @emit-adjust="adjustPrice"
         class="drug-table"
       />
     </div>
@@ -156,6 +157,11 @@
               return true
             }
           }
+        },
+        {
+          text: '调价',
+          type: 'text',
+          emit: 'emit-adjust'
         }
       ]
     }
@@ -171,6 +177,15 @@
     paginationCurrentChange (page) {
       this.pagination.currentPage = page
       this.fetchData()
+    }
+
+    adjustPrice ({row}) {
+      this.$router.push({
+        path: '/drugManage/drugAdjustment',
+        query: {
+          id: row.shopDrugId
+        }
+      })
     }
 
     // 查看
