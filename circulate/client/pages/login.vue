@@ -1,5 +1,6 @@
 <template>
   <div class="login container">
+    <!--<img class="logo" src="~/assets/img/logo.svg">-->
     <el-row class="login-row" type="flex" justify="center">
       <el-col :xs="{span: 14, offset: 5}" :sm="{span: 10, offset: 7}" :lg="{span: 6, offset: 14}">
         <el-card>
@@ -14,14 +15,14 @@
                 <el-input v-model="user.password" type="password" :placeholder="$t('login.pwdPlaceholder')"></el-input>
               </el-col>
             </el-form-item>
-            <!--<el-form-item prop="captcha" :rules="[{ required: true, message: $t('login.captchaRequired')}]">-->
-              <!--<el-col :span="12">-->
-                <!--<el-input v-model="user.captcha" :placeholder="$t('login.captchaPlaceholder')"></el-input>-->
-              <!--</el-col>-->
-              <!--<el-col :offset="1" :span="11" ref="captcha">-->
-                <!--<div v-html="captchaSvg" @click='refreshCaptcha' class="captcha"></div>-->
-              <!--</el-col>-->
-            <!--</el-form-item>-->
+            <el-form-item prop="captcha" :rules="[{ required: true, message: $t('login.captchaRequired')}]">
+              <el-col :span="12">
+                <el-input v-model="user.captcha" :placeholder="$t('login.captchaPlaceholder')"></el-input>
+              </el-col>
+              <el-col :offset="1" :span="11" ref="captcha">
+                <div v-html="captchaSvg" @click='refreshCaptcha' class="captcha"></div>
+              </el-col>
+            </el-form-item>
             <el-row>
               <el-col :span="24">
                 <el-button type="primary" class="login-btn" :loading="logging" @click="login">{{$t('login.login')}}</el-button>
@@ -44,51 +45,73 @@
 
 <script>
   import Vue from 'vue'
-  // import debounce from '@/utils/debounce'
+  import debounce from '@/utils/debounce'
   import Component from 'class-component'
-  import axios from 'axios'
+
   @Component
   export default class Login extends Vue {
     user = {
       userName: '',
-      password: ''
+      password: '',
+      captcha: ''
     }
-    // authenticated = false
+    authenticated = false // #WatchHowDoWe ... How do we?
     rules = {}
-    // captchaSvg = ''
+    captchaSvg = ''
+    // keepPwd = false
     logging = false
     layout () {
       return 'empty'
     }
-
+    mounted () {
+      this.getCaptcha()
+    }
     async login () {
-      console.log(this.$router)
-      let params = {
-        username: this.user.userName,
-        password: this.user.password
+      const goBackTo = this.$route.query.page || '/'
+      this.logging = true
+      const valid = this.$refs.user.validate()
+      try {
+        if (valid) {
+          await this.$store.dispatch('login', this.user)
+          this.authenticated = await this.$store.getters.authenticated
+        }
+      } catch (e) {
+        this.$message.warning(e.message)
+      } finally {
+        if (this.authenticated) {
+          this.redirect(goBackTo)
+        }
       }
-
-      await axios.post(`/api/shop/users/login`, params)
-        .then(res => {
-          console.log(res)
-          if (res.status === 200) {
-            window.localStorage['token'] = res.data
-            if (localStorage.getItem('token')) {
-              this.$router.push('/')
-            } else {
-              this.$router.push('/login')
-            }
-          } else {
-            this.$message({
-              message: '用户名或密码错误！',
-              type: 'warning'
-            })
+      this.logging = false
+    }
+    redirect (goTo) {
+      this.$router.push(goTo)
+    }
+    getCaptcha () {
+      const params = {}
+      if (this.$refs.captcha) {
+        params.width = this.$refs.captcha.$el.clientWidth || 150
+        params.height = this.$refs.captcha.$el.clientHeight || 36
+      }
+      this.captchaSvg = this.$axios.get('/hpi/auth/captcha', { params })
+        .then(response => {
+          const authenticated = this.$store.getters.authenticated
+          if (authenticated) {
+            this.redirect('/')
           }
+          const data = response.data
+          return data
         })
-        .catch(err => {
-          console.log(err)
+        .then(captcha => {
+          this.captchaSvg = captcha
+        })
+        .catch(error => {
+          const errorMessage = error.toString()
+          this.captchaSvg = `<small style="line-height:1em;display:block;">${errorMessage}</small>`
         })
     }
+
+    refreshCaptcha = debounce(this.getCaptcha, 500) // Note to you, reader, does this still work?
   }
 </script>
 
