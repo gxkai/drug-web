@@ -41,6 +41,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import { mapActions } from 'vuex'
 import Component, {Getter, namespace } from 'class-component'
+import { getToken } from '@/mixins'
 
 const MenuGetter = namespace('menu', Getter)
 
@@ -54,7 +55,12 @@ export default class Navbar extends Vue {
   @MenuGetter menus
 
   async beforeMount () {
-    let {data: menus} = await axios.get('/hpi/ui/menu')
+    let axioss = axios.create({
+      headers: {
+        Authorization: await getToken()
+      }
+    })
+    let { data: menus } = await axioss.get('/api/supervise/menus/user')
     if (Array.isArray(menus) && menus.length) {
       this.$store.dispatch('menu/addAll', this.translateMenus(menus))
     }
