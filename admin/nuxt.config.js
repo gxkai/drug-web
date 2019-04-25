@@ -89,6 +89,7 @@ module.exports = {
   plugins: [
     '@/plugins/i18n',
     '@/plugins/element-ui',
+    '@/plugins/axios',
     {src: '@/plugins/d2-crud', ssr: false},
     {src: '@/plugins/vue-baidu-map', ssr: false},
     {src: '@/plugins/vue-amap', ssr: false},
