@@ -95,12 +95,14 @@ export const actions = {
     const user = Object.assign({}, data)
     commit('SET_USER', user)
   },
-  async login ({
-    dispatch
-  }, {
-    username,
-    password
-  }) {
+  async login (
+    {
+      dispatch
+    },
+    {
+      username,
+      password
+    }) {
     try {
       let {data: token} = await axios.post('/api/supervise/admins/login', {
         username,

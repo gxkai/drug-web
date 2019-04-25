@@ -2,7 +2,7 @@
   <div class="login container">
     <!--<img class="logo" src="~/assets/img/logo.svg">-->
     <el-row class="login-row" type="flex" justify="center">
-      <el-col :xs="{span: 14, offset: 5}" :sm="{span: 10, offset: 7}" :lg="{span: 6, offset: 14}">
+      <el-col :xs="{span: 14, offset: 5}" :sm="{span: 10, offset: 7}" :lg="{span: 6, offset: 14}" style="margin: auto;">
         <el-card>
           <el-form :model="user" ref="user" @keyup.enter.native='!logging && login()'>
             <el-form-item prop="userName" :rules="[{ required: true, message: $t('login.userRequired')}]">
@@ -53,7 +53,7 @@
   @Component
   export default class Login extends Vue {
     user = {
-      username: '15189710763',
+      username: '15995634250',
       password: '123456'
     }
     authenticated = false // #WatchHowDoWe ... How do we?

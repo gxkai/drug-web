@@ -6,7 +6,7 @@ export function setToken (token) {
 }
 
 export function getToken () {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     localForage.getItem(TokenKey).then(value => {
       resolve(value)
     })
