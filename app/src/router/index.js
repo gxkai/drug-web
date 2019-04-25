@@ -192,7 +192,7 @@ const addressRouter = [
     path: '/addresses/choose',
     name: '/addresses/choose',
     meta: {
-      navigation: true,
+      navigation: false,
       name: '选择收货地址',
       showBackTopLeft: false,
       showBackBottomRight: true
