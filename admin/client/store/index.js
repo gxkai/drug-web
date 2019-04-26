@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import {setToken} from '@/mixins'
 
 export const strict = true
 
@@ -94,20 +95,21 @@ export const actions = {
     const user = Object.assign({}, data)
     commit('SET_USER', user)
   },
-  async login ({
-    dispatch
-  }, {
-    userName,
-    password,
-    captcha
-  }) {
+  async login (
+    {
+      dispatch
+    },
+    {
+      username,
+      password
+    }) {
     try {
-      await axios.post('/hpi/auth/login', {
-        userName,
-        password,
-        captcha
+      let {data: token} = await axios.post('/api/supervise/admins/login', {
+        username,
+        password
       })
-      await dispatch('hydrateAuthUser')
+      setToken(token)
+      // await dispatch('hydrateAuthUser')
     } catch (error) {
       let message = error.message
       if (error.response.data) {
