@@ -71,7 +71,6 @@ export default {
   mounted() {},
   methods: {
     async confirm () {
-      debugger;
       await this.$http.post(`/api/orderRefunds`, {
         orderId: this.order.id,
         price: this.order.amount,
