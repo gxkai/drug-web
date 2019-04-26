@@ -60,39 +60,13 @@
     async initData () {
       let id = this.$route.query.id
       let data = await axios.get(`/api/supervise/roles/${id}`, {params: {id: id}})
-      console.log(data.data)
+      console.log(data)
       this.form.roleName = data.data.name
       this.form.roleDescription = data.data.description
-      let newArr = data.data.treeList
-      if (newArr.length > 0) {
-        newArr.forEach(item => {
-          const pid = item.pid
-          if (pid !== '') {
-            newArr.forEach(ele => {
-              if (ele.id === pid) {
-                let childArray = ele.children
-                if (!childArray) {
-                  childArray = []
-                }
-                childArray.push(item)
-                ele.children = childArray
-              }
-            })
-          }
-        })
-      }
-      this.treeData = newArr.filter(item => item.pid === null)
-      // 过滤item.checked===true的数组
-      let tmp = newArr.filter(function (item) {
-        return item.checked === true
-      })
-      tmp.forEach(ele => {
-        this.defaultCheck.push(ele.id)
-      })
+      this.treeData = data.data.menuDTOList
     }
     async submit () {
       // 被选中的节点组成的数组
-      console.log(this.$refs.tree.getCheckedNodes())
       let treeList = this.$refs.tree.getCheckedNodes()
       console.log(treeList)
       for (let i = 0; i < treeList.length; i++) {
@@ -103,7 +77,8 @@
         id: id,
         name: this.form.roleName,
         description: this.form.roleDescription,
-        treeList: treeList,
+        // treeList: treeList,
+        menus: '',
         type: 'ROLE_ADMIN'
       }
       await axios.put(`/api/supervise/roles/${id}`, roleDTO)
