@@ -52,30 +52,13 @@
       children: 'children',
       label: 'name'
     }
+    menus = '' // 选中的子从菜单id拼接 用，隔开
     beforeMount () {
       this.initData()
     }
     async initData () {
-      let roleTree = await axios.get(`/api/supervise/roles/tree`)
-      let newArr = roleTree.data.treeList
-      if (newArr.length > 0) {
-        newArr.forEach(item => {
-          const pid = item.pid
-          if (pid !== '') {
-            newArr.forEach(ele => {
-              if (ele.id === pid) {
-                let childArray = ele.children
-                if (!childArray) {
-                  childArray = []
-                }
-                childArray.push(item)
-                ele.children = childArray
-              }
-            })
-          }
-        })
-      }
-      this.treeData = newArr.filter(item => item.pid === null)
+      let roleTree = await axios.get(`/api/supervise/menus`)
+      this.treeData = roleTree.data
     }
     async submit () {
       // 被选中的节点组成的数组
@@ -83,11 +66,17 @@
       for (let i = 0; i < treeList.length; i++) {
         treeList[i].checked = true
       }
-      console.log(treeList)
+      // 过滤item.pid===null
+      let tmp = treeList.filter(item => item.pid === null)
+      tmp.forEach(e => {
+        this.menus += e.id + ','
+      })
+      console.log(this.menus)
+
       let roleDTO = {
         name: this.form.roleName,
         description: this.form.roleDescription,
-        treeList: treeList,
+        menus: this.menus,
         type: 'ROLE_ADMIN'
       }
       await axios.post(`/api/supervise/roles`, roleDTO)

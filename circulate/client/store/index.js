@@ -75,17 +75,6 @@ export const getters = {
 }
 
 export const actions = {
-  /**
-   * This is run ONLY from the backend side.
-   *
-   * > If the action nuxtServerInit is defined in the store, Nuxt.js will call it with the context
-   * > (only from the server-side).
-   * > It's useful when we have some data on the server we want to give directly to the client-side.
-   *
-   * https://nuxtjs.org/guide/vuex-store#the-nuxtserverinit-action
-   * https://github.com/clarkdo/hare/blob/dev/client/store/index.js
-   * https://github.com/nuxt/docs/blob/master/en/guide/vuex-store.md
-   */
   nuxtServerInit ({ commit }, { req }) {},
   async hydrateAuthUser ({
     commit
@@ -94,18 +83,14 @@ export const actions = {
     const user = Object.assign({}, data)
     commit('SET_USER', user)
   },
-  async login ({
-    dispatch
-  }, {
+  async login ({dispatch}, {
     userName,
-    password,
-    captcha
+    password
   }) {
     try {
       await axios.post('/hpi/auth/login', {
         userName,
-        password,
-        captcha
+        password
       })
       await dispatch('hydrateAuthUser')
     } catch (error) {
