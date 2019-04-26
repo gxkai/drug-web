@@ -15,14 +15,14 @@
                 <el-input v-model="user.password" type="password" :placeholder="$t('login.pwdPlaceholder')"></el-input>
               </el-col>
             </el-form-item>
-            <el-form-item prop="captcha" :rules="[{ required: true, message: $t('login.captchaRequired')}]">
-              <el-col :span="12">
-                <el-input v-model="user.captcha" :placeholder="$t('login.captchaPlaceholder')"></el-input>
-              </el-col>
-              <el-col :offset="1" :span="11" ref="captcha">
-                <div v-html="captchaSvg" @click='refreshCaptcha' class="captcha"></div>
-              </el-col>
-            </el-form-item>
+            <!--<el-form-item prop="captcha" :rules="[{ required: true, message: $t('login.captchaRequired')}]">-->
+              <!--<el-col :span="12">-->
+                <!--<el-input v-model="user.captcha" :placeholder="$t('login.captchaPlaceholder')"></el-input>-->
+              <!--</el-col>-->
+              <!--<el-col :offset="1" :span="11" ref="captcha">-->
+                <!--<div v-html="captchaSvg" @click='refreshCaptcha' class="captcha"></div>-->
+              <!--</el-col>-->
+            <!--</el-form-item>-->
             <el-row>
               <el-col :span="24">
                 <el-button type="primary" class="login-btn" :loading="logging" @click="login">{{$t('login.login')}}</el-button>
@@ -45,26 +45,25 @@
 
 <script>
   import Vue from 'vue'
-  import debounce from '@/utils/debounce'
+  // import debounce from '@/utils/debounce'
   import Component from 'class-component'
 
   @Component
   export default class Login extends Vue {
     user = {
-      userName: '',
-      password: '',
-      captcha: ''
+      username: '15995634259',
+      password: '123456'
     }
     authenticated = false // #WatchHowDoWe ... How do we?
     rules = {}
-    captchaSvg = ''
+    // captchaSvg = ''
     // keepPwd = false
     logging = false
     layout () {
       return 'empty'
     }
     mounted () {
-      this.getCaptcha()
+      // this.getCaptcha()
     }
     async login () {
       const goBackTo = this.$route.query.page || '/'
@@ -81,37 +80,39 @@
         if (this.authenticated) {
           this.redirect(goBackTo)
         }
+
+        this.redirect(goBackTo)
       }
       this.logging = false
     }
     redirect (goTo) {
       this.$router.push(goTo)
     }
-    getCaptcha () {
-      const params = {}
-      if (this.$refs.captcha) {
-        params.width = this.$refs.captcha.$el.clientWidth || 150
-        params.height = this.$refs.captcha.$el.clientHeight || 36
-      }
-      this.captchaSvg = this.$axios.get('/hpi/auth/captcha', { params })
-        .then(response => {
-          const authenticated = this.$store.getters.authenticated
-          if (authenticated) {
-            this.redirect('/')
-          }
-          const data = response.data
-          return data
-        })
-        .then(captcha => {
-          this.captchaSvg = captcha
-        })
-        .catch(error => {
-          const errorMessage = error.toString()
-          this.captchaSvg = `<small style="line-height:1em;display:block;">${errorMessage}</small>`
-        })
-    }
-
-    refreshCaptcha = debounce(this.getCaptcha, 500) // Note to you, reader, does this still work?
+    // getCaptcha () {
+    //   const params = {}
+    //   if (this.$refs.captcha) {
+    //     params.width = this.$refs.captcha.$el.clientWidth || 150
+    //     params.height = this.$refs.captcha.$el.clientHeight || 36
+    //   }
+    //   this.captchaSvg = this.$axios.get('/hpi/auth/captcha', { params })
+    //     .then(response => {
+    //       const authenticated = this.$store.getters.authenticated
+    //       if (authenticated) {
+    //         this.redirect('/')
+    //       }
+    //       const data = response.data
+    //       return data
+    //     })
+    //     .then(captcha => {
+    //       this.captchaSvg = captcha
+    //     })
+    //     .catch(error => {
+    //       const errorMessage = error.toString()
+    //       this.captchaSvg = `<small style="line-height:1em;display:block;">${errorMessage}</small>`
+    //     })
+    // }
+    //
+    // refreshCaptcha = debounce(this.getCaptcha, 500) // Note to you, reader, does this still work?
   }
 </script>
 

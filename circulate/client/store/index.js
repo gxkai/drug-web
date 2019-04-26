@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import {setToken, removeToken} from '@/mixins'
 
 export const strict = true
 
@@ -97,17 +98,16 @@ export const actions = {
   async login ({
     dispatch
   }, {
-    userName,
-    password,
-    captcha
+    username,
+    password
   }) {
     try {
-      await axios.post('/hpi/auth/login', {
-        userName,
-        password,
-        captcha
+      let {data: token} = await axios.post('/api/shop/users/login', {
+        username,
+        password
       })
       await dispatch('hydrateAuthUser')
+      setToken(token)
     } catch (error) {
       let message = error.message
       if (error.response.data) {
@@ -119,6 +119,7 @@ export const actions = {
   async logout ({ commit }, callback) {
     await axios.post('/hpi/auth/logout')
     commit('SET_USER')
+    removeToken()
     callback()
   },
   toggleMenu ({ commit }) {
