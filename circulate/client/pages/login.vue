@@ -94,13 +94,14 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import axios from 'axios'
+  import {setToken} from '@/mixins'
   @Component
   export default class Login extends Vue {
     user = {
-      userName: '',
-      password: ''
+      username: '15995634259',
+      password: '123456'
     }
-    loginToken = ''
+    // loginToken = ''
     rules = {}
     logging = false
 
@@ -128,15 +129,16 @@
             username: this.user.userName,
             password: this.user.password
           }
-          await axios.post(`/api/shop/users/login`, params).then(res => {
-            console.log(res)
-          })
-          await this.$store.dispatch('login', this.user)
+          let {data: token} = await axios.post(`/api/shop/users/login`, params)
+          console.log(token)
+          setToken(token)
+          // await this.$store.dispatch('login', this.user)
           // this.authenticated = await this.$store.getters.authenticated
         }
       } catch (e) {
         this.$message.warning(e.message)
       } finally {
+        this.redirect(goBackTo)
         // if (this.authenticated) {
         //   this.redirect(goBackTo)
         // }

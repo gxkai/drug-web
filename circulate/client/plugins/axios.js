@@ -1,6 +1,6 @@
 /* eslint-disable no-debugger */
 import axios from 'axios'
-import {getToken, removeToken} from '../mixins'
+import {setToken, getToken, removeToken} from '../mixins'
 
 axios.interceptors.request.use(
   async config => {
