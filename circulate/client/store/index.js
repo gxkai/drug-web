@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import {setToken, removeToken} from '@/mixins'
 
 export const strict = true
 
@@ -75,6 +76,17 @@ export const getters = {
 }
 
 export const actions = {
+  /**
+   * This is run ONLY from the backend side.
+   *
+   * > If the action nuxtServerInit is defined in the store, Nuxt.js will call it with the context
+   * > (only from the server-side).
+   * > It's useful when we have some data on the server we want to give directly to the client-side.
+   *
+   * https://nuxtjs.org/guide/vuex-store#the-nuxtserverinit-action
+   * https://github.com/clarkdo/hare/blob/dev/client/store/index.js
+   * https://github.com/nuxt/docs/blob/master/en/guide/vuex-store.md
+   */
   nuxtServerInit ({ commit }, { req }) {},
   async hydrateAuthUser ({
     commit
@@ -83,16 +95,21 @@ export const actions = {
     const user = Object.assign({}, data)
     commit('SET_USER', user)
   },
-  async login ({dispatch}, {
-    userName,
-    password
-  }) {
+  async login (
+    {
+      dispatch
+    },
+    {
+      username,
+      password
+    }) {
     try {
-      await axios.post('/hpi/auth/login', {
-        userName,
+      let {data: token} = await axios.post('/api/shop/users/login', {
+        username,
         password
       })
-      await dispatch('hydrateAuthUser')
+      setToken(token)
+      // await dispatch('hydrateAuthUser')
     } catch (error) {
       let message = error.message
       if (error.response.data) {
@@ -102,7 +119,8 @@ export const actions = {
     }
   },
   async logout ({ commit }, callback) {
-    await axios.post('/hpi/auth/logout')
+    await axios.post('/api/shop/users/logout')
+    removeToken()
     commit('SET_USER')
     callback()
   },

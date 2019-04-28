@@ -97,10 +97,10 @@
   @Component
   export default class Login extends Vue {
     user = {
-      userName: '',
-      password: ''
+      username: '15995634259',
+      password: '123456'
     }
-    loginToken = ''
+    // loginToken = ''
     rules = {}
     logging = false
 
@@ -124,19 +124,20 @@
       const valid = this.$refs.user.validate()
       try {
         if (valid) {
-          let params = {
-            username: this.user.userName,
-            password: this.user.password
-          }
-          await axios.post(`/api/shop/users/login`, params).then(res => {
-            console.log(res)
-          })
+          // let params = {
+          //   username: this.user.userName,
+          //   password: this.user.password
+          // }
+          // let {data: token} = await axios.post(`/api/shop/users/login`, params)
+          // console.log(token)
+          // setToken(token)
           await this.$store.dispatch('login', this.user)
           // this.authenticated = await this.$store.getters.authenticated
         }
       } catch (e) {
         this.$message.warning(e.message)
       } finally {
+        this.redirect(goBackTo)
         // if (this.authenticated) {
         //   this.redirect(goBackTo)
         // }
@@ -282,7 +283,7 @@
               width: 100%;
             }
           }
-          
+
           .tab-container{
             margin:0 20px;
             padding-bottom: 30px;
@@ -325,7 +326,7 @@
               color: #409EFF;
             }
           }
-          
+
         }
 
       }
