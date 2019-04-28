@@ -26,7 +26,7 @@
         </el-tree>
       </div>
       <div class="role-btn">
-        <el-button @click="goback">返回</el-button>
+        <el-button @click="$router.go(-1)">返回</el-button>
         <el-button type="primary" @click="submit">提交</el-button>
       </div>
     </div>
@@ -54,10 +54,8 @@
       label: 'name'
     }
     defaultCheck = []
-    beforeMount () {
-      this.initData()
-    }
-    async initData () {
+    menus = '' // 选中的子从菜单id拼接 用，隔开
+    async beforeMount () {
       let id = this.$route.query.id
       let data = await axios.get(`/api/supervise/roles/${id}`, {params: {id: id}})
       console.log(data)
@@ -77,15 +75,11 @@
         id: id,
         name: this.form.roleName,
         description: this.form.roleDescription,
-        // treeList: treeList,
         menus: '',
         type: 'ROLE_ADMIN'
       }
       await axios.put(`/api/supervise/roles/${id}`, roleDTO)
       this.$router.push('/system/role')
-    }
-    goback () {
-      this.$router.go(-1)
     }
   }
 </script>

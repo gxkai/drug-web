@@ -25,7 +25,7 @@
         </el-tree>
       </div>
       <div class="role-btn">
-        <el-button @click="goback">返回</el-button>
+        <el-button @click="$router.go(-1)">返回</el-button>
         <el-button type="primary" @click="submit">提交</el-button>
       </div>
     </div>
@@ -53,10 +53,7 @@
       label: 'name'
     }
     menus = '' // 选中的子从菜单id拼接 用，隔开
-    beforeMount () {
-      this.initData()
-    }
-    async initData () {
+    async beforeMount () {
       let roleTree = await axios.get(`/api/supervise/menus`)
       this.treeData = roleTree.data
     }
@@ -81,9 +78,6 @@
       }
       await axios.post(`/api/supervise/roles`, roleDTO)
       this.$router.push('/system/role')
-    }
-    goback () {
-      this.$router.go(-1)
     }
   }
 </script>
