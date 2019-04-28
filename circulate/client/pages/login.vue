@@ -124,25 +124,13 @@
       const valid = this.$refs.user.validate()
       try {
         if (valid) {
-          // let params = {
-          //   username: this.user.userName,
-          //   password: this.user.password
-          // }
-          // let {data: token} = await axios.post(`/api/shop/users/login`, params)
-          // console.log(token)
-          // setToken(token)
           await this.$store.dispatch('login', this.user)
-          // this.authenticated = await this.$store.getters.authenticated
         }
       } catch (e) {
         this.$message.warning(e.message)
       } finally {
         this.redirect(goBackTo)
-        // if (this.authenticated) {
-        //   this.redirect(goBackTo)
-        // }
       }
-
       this.logging = false
     }
 
