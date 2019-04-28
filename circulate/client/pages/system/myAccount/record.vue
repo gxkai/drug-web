@@ -258,10 +258,9 @@
         state: this.orderStateValue,
         number: this.orderNumber
       }
-      let {data: water} = await axios.get(`/api/shop/water`, {params})
-      console.log(water)
-      this.pagination.total = water.total
-      this.recordList = water.list
+      let {data: bill} = await axios.get(`/api/shop/bill`, {params})
+      this.pagination.total = bill.total
+      this.recordList = bill.list
       this.recordList.forEach((item, index) => {
         item.index = index + 1
         item.stateName = this.convertState(item.state)

@@ -8,15 +8,15 @@
       <div class="income">
         <div>
           <strong>七天收入（截至今日0点）：</strong>
-          10000元
+          {{ income }}元
         </div>
         <div>
           <strong>待结算：</strong>
-          10000元
+          {{ forIncome }}元
         </div>
         <div>
-          <strong>帐户余额：</strong>
-          10000元
+          <strong>账户总金额：</strong>
+          {{ totalAmount }}元
         </div>
       </div>
       <div class="transaction-record">
@@ -52,6 +52,9 @@
   })
   export default class Account extends Vue {
     recordList = []
+    income = '' // 七天收入
+    forIncome = '' // 待结算
+    totalAmount = '' // 账户总金额
 
     columns= [
       {
@@ -112,14 +115,20 @@
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize
       }
-      let {data: water} = await axios.get(`/api/shop/water`, {params})
-      this.pagination.total = water.total
-      this.recordList = water.list
+      let {data: bill} = await axios.get(`/api/shop/bill`, {params})
+      this.pagination.total = bill.total
+      this.recordList = bill.list
       this.recordList.forEach((item, index) => {
         item.index = index + 1
         item.stateName = this.convertState(item.state)
         item.createdDate = moment(item.createdDate).format('YY-MM-DD HH:ss:mm')
       })
+
+      // 获取账户信息
+      let {data: amount} = await axios.get(`/api/shop/bill/statistics`)
+      this.income = amount.income
+      this.forIncome = amount.forIncome
+      this.totalAmount = amount.totalAmount
     }
 
     beforeMount () {
