@@ -88,7 +88,7 @@ module.exports = {
   */
   plugins: [
     '@/plugins/i18n',
-    '@/plugins/element-ui',
+    {src: '@/plugins/element-ui', ssr: false},
     '@/plugins/axios',
     {src: '@/plugins/d2-crud', ssr: false},
     {src: '@/plugins/vue-baidu-map', ssr: false},
@@ -107,7 +107,7 @@ module.exports = {
     proxy: true
   },
   proxy: {
-    '/hpi/': 'http://172.16.11.138:3000/hpi/',
+    '/hpi/': 'http://172.16.0.152:3000/hpi/',
     '/api/': 'http://172.16.11.140:8091/api/'
   },
   // koa-proxies for dev, options reference https://github.com/nodejitsu/node-http-proxy#options
