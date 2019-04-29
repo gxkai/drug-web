@@ -53,8 +53,8 @@
       children: 'children',
       label: 'name'
     }
-    defaultCheck = []
-    menus = '' // 选中的子从菜单id拼接 用，隔开
+    defaultCheck = [] // 已选中
+    menus = '' // 选中的子从菜单id 拼接 用，隔开
     async beforeMount () {
       let id = this.$route.query.id
       let data = await axios.get(`/api/supervise/roles/${id}`, {params: {id: id}})
@@ -62,20 +62,29 @@
       this.form.roleName = data.data.name
       this.form.roleDescription = data.data.description
       this.treeData = data.data.menuDTOList
+      this.treeData.forEach(item => {
+        item.children.forEach(e => {
+          if (e.open === true) {
+            this.defaultCheck.push(e.id)
+          }
+        })
+      })
+      // console.log(this.defaultCheck)
     }
     async submit () {
       // 被选中的节点组成的数组
       let treeList = this.$refs.tree.getCheckedNodes()
       console.log(treeList)
       for (let i = 0; i < treeList.length; i++) {
-        treeList[i].checked = true
+        treeList[i].open = true
+        this.menus += treeList[i].id + ','
       }
       let id = this.$route.query.id
       let roleDTO = {
         id: id,
         name: this.form.roleName,
         description: this.form.roleDescription,
-        menus: '',
+        menus: this.menus,
         type: 'ROLE_ADMIN'
       }
       await axios.put(`/api/supervise/roles/${id}`, roleDTO)

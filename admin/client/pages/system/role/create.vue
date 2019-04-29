@@ -52,7 +52,7 @@
       children: 'children',
       label: 'name'
     }
-    menus = '' // 选中的子从菜单id拼接 用，隔开
+    menus = '' // 选中的子从菜单id 拼接 用，隔开
     async beforeMount () {
       let roleTree = await axios.get(`/api/supervise/menus`)
       this.treeData = roleTree.data
@@ -60,16 +60,11 @@
     async submit () {
       // 被选中的节点组成的数组
       let treeList = this.$refs.tree.getCheckedNodes()
+      console.log(treeList)
       for (let i = 0; i < treeList.length; i++) {
-        treeList[i].checked = true
+        treeList[i].open = true
+        this.menus += treeList[i].id + ','
       }
-      // 过滤item.pid===null
-      let tmp = treeList.filter(item => item.pid === null)
-      tmp.forEach(e => {
-        this.menus += e.id + ','
-      })
-      console.log(this.menus)
-
       let roleDTO = {
         name: this.form.roleName,
         description: this.form.roleDescription,
