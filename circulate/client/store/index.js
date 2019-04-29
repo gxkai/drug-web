@@ -109,7 +109,6 @@ export const actions = {
         password
       })
       setToken(token)
-      // await dispatch('hydrateAuthUser')
     } catch (error) {
       let message = error.message
       if (error.response.data) {

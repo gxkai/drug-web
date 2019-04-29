@@ -26,7 +26,7 @@
         </el-tree>
       </div>
       <div class="role-btn">
-        <el-button @click="goback">返回</el-button>
+        <el-button @click="$router.go(-1)">返回</el-button>
         <el-button type="primary" @click="submit">提交</el-button>
       </div>
     </div>
@@ -53,39 +53,42 @@
       children: 'children',
       label: 'name'
     }
-    defaultCheck = []
-    beforeMount () {
-      this.initData()
-    }
-    async initData () {
+    defaultCheck = [] // 已选中
+    menus = '' // 选中的子从菜单id 拼接 用，隔开
+    async beforeMount () {
       let id = this.$route.query.id
       let data = await axios.get(`/api/supervise/roles/${id}`, {params: {id: id}})
       console.log(data)
       this.form.roleName = data.data.name
       this.form.roleDescription = data.data.description
       this.treeData = data.data.menuDTOList
+      this.treeData.forEach(item => {
+        item.children.forEach(e => {
+          if (e.open === true) {
+            this.defaultCheck.push(e.id)
+          }
+        })
+      })
+      // console.log(this.defaultCheck)
     }
     async submit () {
       // 被选中的节点组成的数组
       let treeList = this.$refs.tree.getCheckedNodes()
       console.log(treeList)
       for (let i = 0; i < treeList.length; i++) {
-        treeList[i].checked = true
+        treeList[i].open = true
+        this.menus += treeList[i].id + ','
       }
       let id = this.$route.query.id
       let roleDTO = {
         id: id,
         name: this.form.roleName,
         description: this.form.roleDescription,
-        // treeList: treeList,
-        menus: '',
+        menus: this.menus,
         type: 'ROLE_ADMIN'
       }
       await axios.put(`/api/supervise/roles/${id}`, roleDTO)
       this.$router.push('/system/role')
-    }
-    goback () {
-      this.$router.go(-1)
     }
   }
 </script>
