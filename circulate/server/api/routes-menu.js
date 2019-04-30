@@ -145,6 +145,12 @@ if (SHOW_EXAMPLES) {
       icon: 'el-icon-goods',
       children: [
         {
+          id: '60-88',
+          name: '厂商管理',
+          url: '/drugManage/origin',
+          icon: 'el-icon-share'
+        },
+        {
           id: '60-1',
           name: '预警列表',
           url: '/drugManage/earlyWarning',
