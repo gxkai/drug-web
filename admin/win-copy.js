@@ -50,4 +50,3 @@ function copyIt (from, to) {
 
 exists('server', 'dist/server', copy)
 copyIt('nuxt.config.js', 'dist/nuxt.config.js')
-copyIt('package.json', 'dist/package.json')

@@ -106,6 +106,8 @@
   "药品审核",
   "/drugManage/drugInfo/detail":
   "查看详情",
+  "/drugManage/origin":
+  "厂商管理",
 
   "/transaction":
   "订单管理",

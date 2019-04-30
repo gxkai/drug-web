@@ -120,8 +120,8 @@
         for (let i = 0, len = this.timeDate.length; i < len; i++) {
           this.timeDate[i] = moment(this.timeDate[i]).format('YYYY-MM-DD')
         }
-        this.startDate = this.timeDate[0]
-        this.endDate = this.timeDate[1]
+        this.startDate = this.timeDate[0] + '00:00:00'
+        this.endDate = this.timeDate[1] + '23:59:59'
       }
     }
 
