@@ -5,7 +5,7 @@
       <el-col :xs="{span: 14, offset: 5}" :sm="{span: 10, offset: 7}" :lg="{span: 6, offset: 14}" style="margin: auto;">
         <el-card>
           <el-form :model="user" ref="user" @keyup.enter.native='!logging && login()'>
-            <el-form-item prop="username" :rules="[{ required: true, message: $t('login.userRequired')}]">
+            <el-form-item prop="userName" :rules="[{ required: true, message: $t('login.userRequired')}]">
               <el-col :span="24">
                 <el-input v-model="user.username" autofocus :placeholder="$t('login.userPlaceholder')"></el-input>
               </el-col>
@@ -53,8 +53,8 @@
   @Component
   export default class Login extends Vue {
     user = {
-      username: '13776361613',
-      password: '000000'
+      username: '',
+      password: ''
     }
     authenticated = false // #WatchHowDoWe ... How do we?
     rules = {}

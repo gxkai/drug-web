@@ -109,7 +109,7 @@ module.exports = {
   },
   proxy: {
     '/hpi/': 'http://172.16.11.138:3000/hpi/',
-    '/api/': 'http://172.16.11.140:8090/api/' // 打包服务器地址
+    '/api/': 'http://172.16.0.152:8090/api/' // 打包服务器地址
   },
   // koa-proxies for dev, options reference https://github.com/nodejitsu/node-http-proxy#options
   development: {
