@@ -384,8 +384,6 @@
         endDate: this.endDate
       }
       let orderData = await axios.get(`/api/shop/orders`, {params})
-      console.log(1111)
-      console.log(orderData)
       this.orderListData = orderData.data.list
 
       this.perPageData = this.orderListData

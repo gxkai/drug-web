@@ -5,10 +5,16 @@ import { getToken, removeToken } from '../mixins'
 export default ({ redirect }) => {
   axios.interceptors.request.use(
     async config => {
+      /**
+       * process.env.NODE_ENV: 判断开发模式
+       * @type {string}
+       */
       config.baseURL = process.env.NODE_ENV !== 'production' ? 'http://172.16.11.140:8091' : 'http://172.16.11.140:8091'
       const token = await getToken()
       if (token) {
         config.headers.Authorization = token
+      } else {
+        redirect('/login')
       }
       return config
     },
@@ -23,7 +29,7 @@ export default ({ redirect }) => {
     },
     error => {
       if (error.response) {
-        if (error.response.status === 401) {
+        if (error.response.status === 401 || error.response.status === 400) {
           removeToken()
           redirect('/login')
         }
