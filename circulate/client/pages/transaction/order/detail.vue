@@ -368,12 +368,12 @@
       }
 
       if (detailInfo.rxId !== null) {
-        let rxInfo = await axios.get(`/api/shop/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
+        let rxInfo = await axios.get(`/api/shop/rxs/cuF25AB0isAsCA4v-1FT/info`)
         console.log(rxInfo)
       }
       // rxId 是 KCgfjEXqQRi1SOIC_JQvdw --- 假数据
-      let rxInfo = await axios.get(`/api/shop/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
-      // console.log(rxInfo.data)
+      let rxInfo = await axios.get(`/api/shop/rxs/cuF25AB0isAsCA4v-1FT/info`)
+      console.log(rxInfo.data)
       this.formInfo.idNumber = rxInfo.data.number
       this.formInfo.rxDate = moment(rxInfo.data.rxDate).format('YYYY-MM-DD HH:mm:ss')
       this.formInfo.name = rxInfo.data.accountName

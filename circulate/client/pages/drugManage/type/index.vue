@@ -68,6 +68,7 @@
     }
     async initData () {
       await axios.get(`/api/shop/drugTypes/father`).then(res => {
+        console.log(res)
         this.typeData = res.data
         this.typeData.forEach((item, index) => {
           item.index = index + 1
