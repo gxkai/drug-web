@@ -48,6 +48,7 @@ module.exports = {
       'vue-clipboards',
       'vue-baidu-map',
       'moment',
+      'echarts',
       'chart.js',
       '@d2-projects/d2-crud',
       'deepmerge', // vue-chartjs dep
@@ -88,7 +89,7 @@ module.exports = {
   */
   plugins: [
     '@/plugins/i18n',
-    {src: '@/plugins/element-ui', ssr: false},
+    '@/plugins/element-ui',
     '@/plugins/axios',
     {src: '@/plugins/d2-crud', ssr: false},
     {src: '@/plugins/vue-baidu-map', ssr: false},
@@ -107,8 +108,8 @@ module.exports = {
     proxy: true
   },
   proxy: {
-    // '/hpi/': 'http://172.16.11.38:3000/hpi/',
-    '/api/': 'http://172.16.11.140:8090/api/'
+    '/hpi/': 'http://172.16.11.138:3000/hpi/',
+    '/api/': 'http://172.16.0.152:8090/api/' // 打包服务器地址
   },
   // koa-proxies for dev, options reference https://github.com/nodejitsu/node-http-proxy#options
   development: {

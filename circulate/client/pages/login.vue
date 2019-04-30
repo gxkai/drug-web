@@ -10,7 +10,7 @@
                 <el-form :model="user" ref="user" @keyup.enter.native='!logging && login()'>
                   <el-form-item prop="userName" :rules="[{ required: true, message: $t('login.userRequired')}]">
                     <el-col :span="24">
-                      <el-input v-model="user.userName" autofocus :placeholder="$t('login.userPlaceholder')">
+                      <el-input v-model="user.username" autofocus :placeholder="$t('login.userPlaceholder')">
                         <i slot="prefix" class="icon-zhanghao"></i>
                       </el-input>
                     </el-col>
@@ -96,8 +96,8 @@
   @Component
   export default class Login extends Vue {
     user = {
-      username: '15995634259',
-      password: '123456'
+      username: '',
+      password: ''
     }
     // loginToken = ''
     rules = {}
