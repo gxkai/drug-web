@@ -361,33 +361,35 @@
         })
       }
 
-      if (detailInfo.rxId !== null) {
-        let rxInfo = await axios.get(`/api/shop/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
+      // 处方id
+      let rxId = this.$route.query.rxId
+      if (rxId !== null) {
+        let rxInfo = await axios.get(`/api/shop/rxs/${rxId}/info`)
         console.log(rxInfo)
+        this.formInfo.idNumber = rxInfo.data.number
+        this.formInfo.rxDate = moment(rxInfo.data.rxDate).format('YYYY-MM-DD HH:mm:ss')
+        this.formInfo.name = rxInfo.data.accountName
+        if (rxInfo.data.gender === 'MALE') {
+          this.formInfo.sex = '男'
+        } else {
+          this.formInfo.sex = '女'
+        }
+        this.formInfo.age = rxInfo.data.age
+        this.formInfo.address = rxInfo.data.place
+        this.formInfo.telNumber = rxInfo.data.phone
+        this.formInfo.hospital = rxInfo.data.hospital
+        this.formInfo.department = rxInfo.data.office
+        this.formInfo.diagnosis = rxInfo.data.illness
+        // list
+        this.rpData = rxInfo.data.list
+        this.rpData.forEach((item, index) => {
+          item.index = index + 1
+        })
+        this.payAmount2 = this.DX(this.payAmount) // 大写金额转换
       }
       // rxId 是 KCgfjEXqQRi1SOIC_JQvdw --- 假数据
-      let rxInfo = await axios.get(`/api/shop/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
+      // let rxInfo = await axios.get(`/api/shop/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
       // console.log(rxInfo.data)
-      this.formInfo.idNumber = rxInfo.data.number
-      this.formInfo.rxDate = moment(rxInfo.data.rxDate).format('YYYY-MM-DD HH:mm:ss')
-      this.formInfo.name = rxInfo.data.accountName
-      if (rxInfo.data.gender === 'MALE') {
-        this.formInfo.sex = '男'
-      } else {
-        this.formInfo.sex = '女'
-      }
-      this.formInfo.age = rxInfo.data.age
-      this.formInfo.address = rxInfo.data.place
-      this.formInfo.telNumber = rxInfo.data.phone
-      this.formInfo.hospital = rxInfo.data.hospital
-      this.formInfo.department = rxInfo.data.office
-      this.formInfo.diagnosis = rxInfo.data.illness
-      // list
-      this.rpData = rxInfo.data.list
-      this.rpData.forEach((item, index) => {
-        item.index = index + 1
-      })
-      this.payAmount2 = this.DX(this.payAmount) // 大写金额转换
     }
     // 大写金额
     DX (n) {
