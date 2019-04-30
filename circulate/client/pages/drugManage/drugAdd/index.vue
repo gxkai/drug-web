@@ -261,7 +261,7 @@
         stock: +this.stock,
         stockWarn: +this.stockWarn,
         grounding: true,
-        shopId: 'G4-R9nbxQU-hcrUWtcS-6Q',
+        // shopId: 'G4-R9nbxQU-hcrUWtcS-6Q',
         drugId: this.drugInfoForm.id
       }
       await axios.post('/api/shop/shopDrugs', params)
@@ -272,7 +272,6 @@
     }
 
     beforeMount () {
-
     }
   }
 </script>

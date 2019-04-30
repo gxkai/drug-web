@@ -177,7 +177,7 @@
               <span>{{item.state}}</span>
             </div>
             <div class="item item8">
-              <el-button type="text" size="medium" @click="viewDetail(index, item.id)">查看详情</el-button>
+              <el-button type="text" size="medium" @click="viewDetail(index, item)">查看详情</el-button>
               <el-button type="text" size="medium" @click="finishedAdjust(index, item.id)">调剂完成</el-button>
             </div>
           </div>
@@ -329,11 +329,12 @@
     }
 
     // 查看详情
-    viewDetail (index, id) {
+    viewDetail (index, row) {
       this.$router.push({
         path: '/transaction/order/detail',
         query: {
-          id: id
+          id: row.id,
+          rxId: row.rxId
         }
       })
     }
@@ -384,7 +385,7 @@
         endDate: this.endDate
       }
       let orderData = await axios.get(`/api/shop/orders`, {params})
-      console.log(1111)
+      // console.log(1111)
       console.log(orderData)
       this.orderListData = orderData.data.list
 
