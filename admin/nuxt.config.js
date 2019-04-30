@@ -88,10 +88,10 @@ module.exports = {
   */
   plugins: [
     '@/plugins/i18n',
-    {src: '@/plugins/element-ui', ssr: false},
     '@/plugins/axios',
     '@/middleware/check-auth',
     {src: '@/plugins/d2-crud', ssr: false},
+    {src: '@/plugins/element-ui', ssr: false},
     {src: '@/plugins/vue-baidu-map', ssr: false},
     {src: '@/plugins/vue-amap', ssr: false},
     {src: '@/plugins/v-charts', ssr: false},

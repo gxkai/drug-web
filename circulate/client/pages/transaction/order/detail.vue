@@ -84,73 +84,78 @@
           </div>
         </div>
 
-        <!--跟踪记录-->
-        <div class="track-record">
-          <h5 class="tit">跟踪记录</h5>
-          <d2-crud
-            ref="trackCrud"
-            :columns="trackColumns"
-            :data="trackData"
-            :loading="loading"
-            :pagination="pagination"
-            :options="optionData"/>
-        </div>
-
-        <!--如果是处方单购药，可以查看到处方单-->
-        <div class="prescription-list">
-          <h5 class="tit">查看处方单</h5>
-          <div class="detail-con">
-            <div class="form-info">
-              <h4>处方单详情</h4>
-              <el-form ref="formInfo" :model="formInfo" label-width="150px">
-                <el-form-item label="No：">
-                  <el-input v-model="formInfo.idNumber" readonly placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="处方日期：">
-                  <el-date-picker
-                    readonly
-                    v-model="formInfo.rxDate"
-                    type="date"
-                    placeholder="选择日期"
-                    style="width: 100%">
-                  </el-date-picker>
-                </el-form-item>
-                <el-form-item label="姓名：">
-                  <el-input v-model="formInfo.name" readonly placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="性别：">
-                  <el-input v-model="formInfo.sex" readonly placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="年龄：">
-                  <el-input v-model="formInfo.age" readonly placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="单位地址：">
-                  <el-input v-model="formInfo.address" readonly placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="联系电话：">
-                  <el-input v-model="formInfo.telNumber" readonly placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="医院：">
-                  <el-input v-model="formInfo.hospital" readonly placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="科室：">
-                  <el-input v-model="formInfo.department" readonly placeholder="请输入"></el-input>
-                </el-form-item>
-                <el-form-item label="诊断：">
-                  <el-input v-model="formInfo.diagnosis" readonly placeholder="请输入"></el-input>
-                </el-form-item>
-              </el-form>
-            </div>
-
-            <div class="rp-wrap">
-              <h4>Rp</h4>
+        <el-tabs class="detail-tab" v-model="tabActiveName" type="card">
+          <el-tab-pane label="处方单详情" name="track">
+            <!--跟踪记录-->
+            <div class="track-record">
+              <h5 class="tit">跟踪记录</h5>
               <d2-crud
-                :columns="rpColumns"
-                :data="rpData"
+                ref="trackCrud"
+                :columns="trackColumns"
+                :data="trackData"
+                :loading="loading"
+                :pagination="pagination"
                 :options="optionData"/>
             </div>
-          </div>
-        </div>
+          </el-tab-pane>
+          <el-tab-pane label="配置管理" name="prescription">
+            <!--如果是处方单购药，可以查看到处方单-->
+            <div class="prescription-list">
+              <h5 class="tit">查看处方单</h5>
+              <div class="detail-con">
+                <div class="form-info">
+                  <h4>处方单详情</h4>
+                  <el-form ref="formInfo" :model="formInfo" label-width="150px">
+                    <el-form-item label="No：">
+                      <el-input v-model="formInfo.idNumber" readonly placeholder="暂无"></el-input>
+                    </el-form-item>
+                    <el-form-item label="处方日期：">
+                      <el-date-picker
+                        readonly
+                        v-model="formInfo.rxDate"
+                        type="date"
+                        placeholder="处方日期"
+                        style="width: 100%">
+                      </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="姓名：">
+                      <el-input v-model="formInfo.name" readonly placeholder="暂无"></el-input>
+                    </el-form-item>
+                    <el-form-item label="性别：">
+                      <el-input v-model="formInfo.sex" readonly placeholder="暂无"></el-input>
+                    </el-form-item>
+                    <el-form-item label="年龄：">
+                      <el-input v-model="formInfo.age" readonly placeholder="暂无"></el-input>
+                    </el-form-item>
+                    <el-form-item label="单位地址：">
+                      <el-input v-model="formInfo.address" readonly placeholder="暂无"></el-input>
+                    </el-form-item>
+                    <el-form-item label="联系电话：">
+                      <el-input v-model="formInfo.telNumber" readonly placeholder="暂无"></el-input>
+                    </el-form-item>
+                    <el-form-item label="医院：">
+                      <el-input v-model="formInfo.hospital" readonly placeholder="暂无"></el-input>
+                    </el-form-item>
+                    <el-form-item label="科室：">
+                      <el-input v-model="formInfo.department" readonly placeholder="暂无"></el-input>
+                    </el-form-item>
+                    <el-form-item label="诊断：">
+                      <el-input v-model="formInfo.diagnosis" readonly placeholder="暂无"></el-input>
+                    </el-form-item>
+                  </el-form>
+                </div>
+
+                <div class="rp-wrap">
+                  <h4>Rp</h4>
+                  <d2-crud
+                    :columns="rpColumns"
+                    :data="rpData"
+                    :options="optionData"/>
+                </div>
+              </div>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
       </div>
 
       <div class="back">
@@ -171,7 +176,8 @@
       BreadCrumb
     }
   })
-  export default class Order extends Vue {
+  export default class OrderDetail extends Vue {
+    tabActiveName = 'track'
     // 进度条 默认为1
     orderStatus = 1
     stepsOptions = []
