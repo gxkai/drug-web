@@ -53,8 +53,8 @@
   @Component
   export default class Login extends Vue {
     user = {
-      username: '',
-      password: ''
+      username: '15995634250',
+      password: '000000'
     }
     authenticated = false // #WatchHowDoWe ... How do we?
     rules = {}
@@ -68,31 +68,14 @@
     async login () {
       const goBackTo = this.$route.query.page || '/'
       this.logging = true
-
-      // let params = {
-      //   username: this.user.userName,
-      //   password: this.user.password
-      // }
-      //
-      // let {data: token} = await axios.post(`/api/supervise/admins/login`, params)
-      // console.log(token)
-      // if (token) {
-      //   setToken(token)
-      //   this.redirect(goBackTo)
-      // }
-
       const valid = this.$refs.user.validate()
       try {
         if (valid) {
           await this.$store.dispatch('login', this.user)
-          // this.authenticated = await this.$store.getters.authenticated
         }
       } catch (e) {
         this.$message.warning(e.message)
       } finally {
-        // if (this.authenticated) {
-        //   this.redirect(goBackTo)
-        // }
         this.redirect(goBackTo)
       }
       this.logging = false

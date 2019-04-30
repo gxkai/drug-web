@@ -104,7 +104,6 @@ export const actions = {
       password
     }) {
     try {
-      console.log(username, password)
       let {data: token} = await axios.post('/api/shop/users/login', {
         username,
         password
