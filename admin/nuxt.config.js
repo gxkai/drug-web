@@ -100,27 +100,6 @@ module.exports = {
     {src: '@/plugins/vue-quill-editor', ssr: false}
   ],
   modules: [
-    '@nuxtjs/webpackmonitor',
-    '@nuxtjs/axios'
-  ],
-  axios: {
-    proxy: true
-  },
-  proxy: {
-    '/hpi/': 'http://172.16.0.152:3000/hpi/',
-    '/api/': 'http://172.16.11.140:8091/api/'
-  },
-  // koa-proxies for dev, options reference https://github.com/nodejitsu/node-http-proxy#options
-  development: {
-    proxies: [
-      {
-        path: '/api/',
-        target: 'http://172.16.11.140:8091/api/',
-        logs: true,
-        prependPath: false,
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/pages(\/|\/\w+)?$/, '/service')
-      }
-    ]
-  }
+    '@nuxtjs/webpackmonitor'
+  ]
 }

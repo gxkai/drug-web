@@ -462,8 +462,6 @@ export default class Home {
     ]
   }
   async beforeMount () {
-    let {data: accounts} = await axios.get(`/api/supervise/accounts`, {params: {pageNum: 1, pageSize: 15}})
-    console.log(accounts)
   }
   mounted () {
     this.addPoints()
