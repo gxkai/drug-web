@@ -109,7 +109,6 @@ export const actions = {
         password
       })
       setToken(token)
-      // await dispatch('hydrateAuthUser')
     } catch (error) {
       let message = error.message
       if (error.response.data) {
@@ -119,8 +118,8 @@ export const actions = {
     }
   },
   async logout ({ commit }, callback) {
-    await axios.post('/api/supervise/admins/logout')
     removeToken()
+    await axios.post('/api/supervise/admins/logout')
     commit('SET_USER')
     callback()
   },
