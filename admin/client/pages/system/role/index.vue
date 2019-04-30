@@ -58,7 +58,7 @@
     loading= false;
     pagination= {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 15,
       total: 0
     }
     options= {
@@ -80,35 +80,44 @@
     beforeMount () {
       this.initData()
     }
-    paginationCurrentChange (currentPage) {
-      this.pagination.currentPage = currentPage
-      this.initData()
-      // this.search()
-    }
-    async initData () {
+    async initData (name) {
       let params = {
-        id: '',
-        name: '',
-        type: ''
+        pageNum: this.pagination.currentPage,
+        pageSize: this.pagination.pageSize,
+        name
       }
       let data = await axios.get(`/api/supervise/roles`, {params: params})
-      // console.log(data)
+      console.log(data)
       this.roleData = data.data
       this.pagination.total = data.data.length
       this.roleData.forEach((item, index) => {
         item.index = index + 1
       })
     }
+
+    // 分页
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.initData()
+    }
+
+    // 编辑
     handleEdit ({index, row}) {
       this.$router.push({path: '/system/role/edit', query: {id: row.id}})
     }
+
+    // 新增
     addRow () {
       this.$router.push('/system/role/create')
     }
+
+    // 清空
     clear () {
       this.roleNameValue = ''
       this.initData()
     }
+
+    // 删除
     async handleRowRemove ({ index, row }, done) {
       await axios.delete(`/api/supervise/roles/${row.id}`)
       setTimeout(() => {
@@ -119,21 +128,16 @@
         done()
       }, 300)
     }
+
+    // 查询
     async search () {
       if (this.roleNameValue === '') {
         this.$message({
-          message: '角色名称',
+          message: '角色名称不能为空',
           type: 'warning'
         })
       }
-      let params = {
-        id: '',
-        name: this.roleNameValue,
-        type: ''
-      }
-      let data = await axios.get(`/api/supervise/roles`, {params: params})
-      this.roleData = data.data
-      this.pagination.total = data.data.length
+      this.initData(this.roleNameValue)
     }
   }
 </script>
