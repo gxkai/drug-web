@@ -23,18 +23,6 @@ axios.interceptors.response.use(
     if (error.response) {
       if (error.response.status === 401) {
         removeToken()
-        this.$router.redirect('/login')
-        // 只有在当前路由不是登录页面才跳转
-        // console.log('router：')
-        // console.log(this.router.redirect())
-        // this.router.push({
-        //   path: '/login'
-        // })
-        // router.currentRoute.path !== '/login' &&
-        // router.replace({
-        //   path: '/login',
-        //   query: { redirect: router.currentRoute.path },
-        // })
       }
     }
 

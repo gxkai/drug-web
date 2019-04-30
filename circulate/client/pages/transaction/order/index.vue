@@ -104,7 +104,7 @@
                   <td>药品名称</td>
                   <td>单价</td>
                   <td>件数</td>
-                  <td>12位条形码</td>
+                  <!--<td>12位条形码</td>-->
                 </tr>
                 <tr class="item-info" v-for="item2 in item.orderItemDrugInfoDTOList" :key="item2.drugId">
                   <td>
@@ -113,70 +113,70 @@
                   <td class="text-over">{{ item2.drugName }}</td>
                   <td>{{ item2.price }}</td>
                   <td>{{ item2.quantity }}</td>
-                  <td class="text-over">{{ item2.barCode }}</td>
+                  <!--<td class="text-over">{{ item2.barCode }}</td>-->
                 </tr>
               </table>
             </div>
 
+            <!--<div class="item item4 item-bg">-->
+              <!--<span>备货门店</span>-->
+            <!--</div>-->
+            <!--<div class="item item5 item-bg">-->
+              <!--<span>用户信息</span>-->
+            <!--</div>-->
             <div class="item item4 item-bg">
-              <span>备货门店</span>
-            </div>
-            <div class="item item5 item-bg">
-              <span>用户信息</span>
-            </div>
-            <div class="item item6 item-bg">
               <span>提货方式</span>
             </div>
-            <div class="item item7 item-bg">
+            <div class="item item5 item-bg">
               <span>提货人信息</span>
             </div>
-            <div class="item item8 item-bg">
-              <span>订单类型</span>
-            </div>
-            <div class="item item9">
-              <span class="text-over">{{ item.shopName }}</span>
-            </div>
-            <div class="item item10">
-              <span>{{ item.buyerName }}</span>
-            </div>
-            <div class="item item11">
+            <!--<div class="item item8 item-bg">-->
+              <!--<span>订单类型</span>-->
+            <!--</div>-->
+            <!--<div class="item item9">-->
+              <!--<span class="text-over">{{ item.shopName }}</span>-->
+            <!--</div>-->
+            <!--<div class="item item10">-->
+              <!--<span>{{ item.buyerName }}</span>-->
+            <!--</div>-->
+            <div class="item item6">
               <span>{{ item.deliveryType }}</span>
             </div>
-            <div class="item item12">
+            <div class="item item7">
               <p>姓名：{{ item.consignee }}</p>
               <p class="text-over" :title="item.buyerPhone">电话：{{ item.buyerPhone }}</p>
               <p class="text-over" :title="item.address">地址：{{ item.address }}</p>
             </div>
-            <div class="item item13">
-              <span>{{$t(item.type)}}</span>
-            </div>
+            <!--<div class="item item13">-->
+              <!--<span>{{$t(item.type)}}</span>-->
+            <!--</div>-->
           </div>
 
           <div class="wrapper wrapper2">
+            <!--<div class="item item1 item-bg">-->
+              <!--<span>是否医保结算</span>-->
+            <!--</div>-->
             <div class="item item1 item-bg">
-              <span>是否医保结算</span>
-            </div>
-            <div class="item item2 item-bg">
               <span>订单金额</span>
             </div>
-            <div class="item item3 item-bg">
+            <div class="item item2 item-bg">
               <span>当前状态</span>
             </div>
-            <div class="item item4 item-bg">
+            <div class="item item3 item-bg">
               <span>操作</span>
             </div>
-            <div class="item item5">
-              <span>{{item.medicaid}}</span>
-            </div>
-            <div class="item item6">
+            <!--<div class="item item5">-->
+              <!--<span>{{item.medicaid}}</span>-->
+            <!--</div>-->
+            <div class="item item4">
               <p>{{item.totalAmount}}</p>
               <p>(含医保: {{item.medicaidAmount}} )</p>
               <p>{{item.totalAmount}}</p>
             </div>
-            <div class="item item7">
+            <div class="item item5">
               <span>{{item.state}}</span>
             </div>
-            <div class="item item8">
+            <div class="item item6">
               <el-button type="text" size="medium" @click="viewDetail(index, item.id)">查看详情</el-button>
               <el-button type="text" size="medium" @click="finishedAdjust(index, item.id)">调剂完成</el-button>
             </div>
@@ -497,7 +497,7 @@
           background: #EBEEF5;
           border: $tableBorder;
           grid-column-gap: 1px;
-          grid-template-columns: 65% 35%;
+          grid-template-columns: 68% 32%;
 
           p{
             margin: 0;
@@ -506,7 +506,7 @@
 
           .wrapper {
             display: grid;
-            grid-template-rows: 50px 70px auto;
+            grid-template-rows: 50px 50px auto;
             grid-template-columns: repeat(9, 1fr);
             background: #FFF;
 
@@ -515,7 +515,7 @@
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
-              width: 100px;
+              width: 100%;
             }
 
             .item{
@@ -542,16 +542,16 @@
           .wrapper1 {
             .item{
               &1{
-                grid-area: 1 / 1 / 1 / 6;
+                grid-area: 1 / 1 / 1 / 7;
               }
 
               &2{
-                grid-column: 1 / 11;
+                grid-column: 1 / 10;
                 border-bottom: $tableBorder;
               }
 
               &3{
-                grid-area: 3 / 1 / 3 / 6;
+                grid-area: 3 / 1 / 3 / 7;
                 justify-content: normal;
 
                 td{
@@ -575,6 +575,7 @@
                   display: flex;
                   flex-flow: nowrap;
                   align-items: center;
+                  justify-content: space-between;
                   padding: 10px 0;
                   .drug-info{
                     flex: 2;
@@ -583,56 +584,32 @@
               }
 
               &4{
-                grid-area: 1 / 6 / 1 / 6;
+                grid-area: 1 / 7 / 1 / 8;
               }
 
               &5{
-                grid-area: 1 / 7 / 2 / 7;
+                grid-area: 1 / 8 / 2 / 10;
               }
 
               &6{
-                grid-area: 1 / 8 / 2 / 8;
+                grid-area: 3 / 7 / 4 / 7;
               }
 
               &7{
-                grid-area: 1 / 9 / 1 / 9;
+                grid-area: 3 / 8 / 3 / 10;
               }
 
-              &8{
-                grid-area: 1 / 10 / 1 / 10;
-                border-bottom: $tableBorder;
-              }
 
-              &9{
-                grid-area: 3 / 6 / 3 / 6;
-              }
-
-              &10{
-                grid-area: 3 / 7 / 3 / 7;
-              }
-
-              &11{
-                grid-area: 3 / 8 / 3 / 8;
-              }
-
-              &12{
-                grid-area: 3 / 9 / 3 / 9;
-              }
-
-              &13{
-                grid-area: 3 / 10 / 3 / 10;
-              }
-
-              &3, &9, &10, &11, &12{
+              &3, &6{
                 border-right: $tableBorder;
               }
 
-              &1, &4, &5, &6, &7{
+              &1, &4, &5{
                 border-right: $tableBorder;
                 border-bottom: $tableBorder;
               }
 
-              &4, &5, &6, &7, &8, &9, &10, &11, &13{
+              &4, &5, &6{
                 text-align: center;
               }
             }
@@ -641,7 +618,7 @@
           .wrapper2 {
             display: grid;
             grid-template-rows: 50px auto;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
 
             .item{
               text-align: center;
@@ -656,17 +633,25 @@
               grid-area: 1/3/2/4;
             }
             .item4{
-              grid-area: 1/4/2/5;
+              grid-area: 2 / 1 / 3 / 2;
             }
 
-            .item1, .item2, .item3, .item4{
+            .item5{
+              grid-area: 2 / 2 / 3 / 2;
+            }
+
+            .item6{
+              grid-area: 2 / 3 / 3 / 3;
+            }
+
+            .item1, .item2, .item3{
               border:{
                 bottom: $tableBorder;
                 right: $tableBorder;
               }
             }
 
-            .item5, .item6, .item7, .item8{
+            .item4, .item5, .item6{
               border-right: $tableBorder;
             }
 
