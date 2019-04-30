@@ -254,6 +254,7 @@
       fileParams.append('fileType', 'LOGO')
       fileParams.append('file', this.uploadFile)
       let {data: fileId} = await axios.post(`/api/shop/files`, fileParams)
+      console.log(fileId)
 
       let shopId = 'Vwwy8nJYQJCQ4wqkCZDgyA'
       let params = {
@@ -342,7 +343,7 @@
       let params = new FormData()
       params.append('pageNum', this.pagination.currentPage)
       params.append('pageSize', this.pagination.pageSize)
-      params.append('shopId', 'Vwwy8nJYQJCQ4wqkCZDgyA')
+      // params.append('shopId', 'Vwwy8nJYQJCQ4wqkCZDgyA')
 
       let {data: user} = await axios.get(`/api/shop/users`, {params})
       console.log(user)

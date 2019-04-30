@@ -84,6 +84,8 @@
           </div>
         </div>
 
+
+
         <el-tabs class="detail-tab" v-model="tabActiveName" type="card">
           <el-tab-pane label="处方单详情" name="track">
             <!--跟踪记录-->
@@ -367,33 +369,33 @@
         })
       }
 
-      if (detailInfo.rxId !== null) {
-        let rxInfo = await axios.get(`/api/shop/rxs/cuF25AB0isAsCA4v-1FT/info`)
+      let rxId = this.$route.query.rxId
+
+      if (rxId !== null) {
+        let rxInfo = await axios.get(`/api/shop/rxs/${rxId}/info`)
         console.log(rxInfo)
+        this.formInfo.idNumber = rxInfo.data.number
+        this.formInfo.rxDate = moment(rxInfo.data.rxDate).format('YYYY-MM-DD HH:mm:ss')
+        this.formInfo.name = rxInfo.data.accountName
+        if (rxInfo.data.gender === 'MALE') {
+          this.formInfo.sex = '男'
+        } else {
+          this.formInfo.sex = '女'
+        }
+        this.formInfo.age = rxInfo.data.age
+        this.formInfo.address = rxInfo.data.place
+        this.formInfo.telNumber = rxInfo.data.phone
+        this.formInfo.hospital = rxInfo.data.hospital
+        this.formInfo.department = rxInfo.data.office
+        this.formInfo.diagnosis = rxInfo.data.illness
+        // list
+        this.rpData = rxInfo.data.list
+        this.rpData.forEach((item, index) => {
+          item.index = index + 1
+        })
+        this.payAmount2 = this.DX(this.payAmount) // 大写金额转换
       }
-      // rxId 是 KCgfjEXqQRi1SOIC_JQvdw --- 假数据
-      let rxInfo = await axios.get(`/api/shop/rxs/cuF25AB0isAsCA4v-1FT/info`)
-      console.log(rxInfo.data)
-      this.formInfo.idNumber = rxInfo.data.number
-      this.formInfo.rxDate = moment(rxInfo.data.rxDate).format('YYYY-MM-DD HH:mm:ss')
-      this.formInfo.name = rxInfo.data.accountName
-      if (rxInfo.data.gender === 'MALE') {
-        this.formInfo.sex = '男'
-      } else {
-        this.formInfo.sex = '女'
-      }
-      this.formInfo.age = rxInfo.data.age
-      this.formInfo.address = rxInfo.data.place
-      this.formInfo.telNumber = rxInfo.data.phone
-      this.formInfo.hospital = rxInfo.data.hospital
-      this.formInfo.department = rxInfo.data.office
-      this.formInfo.diagnosis = rxInfo.data.illness
-      // list
-      this.rpData = rxInfo.data.list
-      this.rpData.forEach((item, index) => {
-        item.index = index + 1
-      })
-      this.payAmount2 = this.DX(this.payAmount) // 大写金额转换
+      //
     }
     // 大写金额
     DX (n) {
@@ -433,6 +435,11 @@
 </script>
 
 <style lang="scss">
+
+  .detail-tab{
+    width: 95%;
+    margin-top: 30px;
+  }
 
   .order-detail-wrap{
     padding: 0 10px;
