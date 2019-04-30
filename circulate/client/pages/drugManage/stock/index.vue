@@ -84,6 +84,10 @@
       },
       {
         title: '药品类型',
+        key: 'drugTypeChildName'
+      },
+      {
+        title: '药品父类',
         key: 'drugTypeName'
       }
     ]
@@ -93,7 +97,7 @@
     selectedTypes = [] // 所选药品类型
     selectedInfo = '' // 子组件传过来的数据
     childData = [] // 暂存已选的数据
-
+  
     selectProps = {
       label: 'type',
       value: 'id',

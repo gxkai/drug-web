@@ -71,7 +71,6 @@
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
       this.getChildData()
-      this.search()
     }
     async getChildData (type) {
       let id = this.$route.query.id

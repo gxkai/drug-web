@@ -269,8 +269,8 @@
     async fetchData () {
       let params = {
         pageNum: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize,
-        shopId: 'BKDKbvDHTjKclO0Lu4sAQA'
+        pageSize: this.pagination.pageSize
+        // shopId: 'BKDKbvDHTjKclO0Lu4sAQA'
       }
 
       let {data: drug} = await axios.get(`/api/shop/shopDrugs`, {params})
