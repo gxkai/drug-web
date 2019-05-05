@@ -58,7 +58,6 @@
           <div class="wrap2">
             <strong>店铺评价：</strong>
             <d2-crud
-              style="width: 500px;"
               :columns="shopAppraiseColumns"
               :data="shopAppraiseData"
               :options="options"/>
@@ -217,9 +216,11 @@
 
     // 查看
     async viewEvent ({row}) {
+      console.log(row.id)
       this.shopAppraiseData = []
       this.isShowViewDialog = true
       let {data: detail} = await axios.get(`/api/shop/shopAppraises/${row.id}`)
+      console.log(detail)
       this.viewData = detail
       this.viewData.appraiseDate = moment(this.viewData.appraiseDate).format('YY-MM-DD HH:mm:ss')
       this.shopAppraiseData.push({

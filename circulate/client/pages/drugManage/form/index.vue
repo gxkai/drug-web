@@ -67,11 +67,12 @@
       this.pagination.currentPage = page
       this.getAllForms()
     }
-    async getAllForms (name) {
+    async getAllForms () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name
+        name: this.formNameValue.trim(),
+        code: ''
       }
       let {data: formData} = await axios.get(`/api/shop/forms`, {params})
       // console.log(formData)
@@ -86,7 +87,8 @@
     }
     // 搜索
     searchDosageForm () {
-      this.getAllForms(this.formNameValue.trim())
+      this.pagination.currentPage = 1
+      this.getAllForms()
     }
     // 清除
     clear () {

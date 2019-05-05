@@ -96,7 +96,7 @@
       },
       {
         title: '药品名称',
-        key: 'name',
+        key: 'drugName',
         width: '220'
       },
       {
@@ -106,7 +106,7 @@
       },
       {
         title: '规格',
-        key: 'spec',
+        key: 'specName',
         width: '250'
       },
       {
@@ -199,10 +199,11 @@
     }
 
     handleDetailEvent ({row}) {
+      console.log(row)
       this.$router.push({
         path: '/drugCheck/drug/detail',
         query: {
-          id: row.id
+          id: row.shopDrugId
         }
       })
     }

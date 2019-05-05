@@ -64,15 +64,14 @@
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
       this.getData()
-      this.search()
     }
-    async getData (name) {
+    async getData () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: 15,
-        name
+        name: this.commonNameValue.trim()
       }
-      let data = await axios.get(`/api/shop/common/names`, {params: params})
+      let data = await axios.get(`/api/shop/commonNames`, {params: params})
       this.commonNameData = data.data.list
       this.pagination.total = data.data.total
       this.commonNameData.forEach((item, index) => {
@@ -86,7 +85,8 @@
     }
     // 查询
     search () {
-      this.getData(this.commonNameValue.trim())
+      this.pagination.currentPage = 1
+      this.getData()
     }
   }
 </script>
