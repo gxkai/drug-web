@@ -375,6 +375,7 @@
       }
       let {data: adverts} = await axios.get(`/api/supervise/adverts`, {params})
       this.advertsList = adverts.list
+      // console.log(adverts)
       this.totalPages = adverts.total
       this.advertsList.forEach(item => {
         this.getImgURL(item.fileId, data => {

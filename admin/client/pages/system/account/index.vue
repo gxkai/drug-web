@@ -160,6 +160,7 @@
       }
       let data = await axios.get(`/api/supervise/accounts`, {params: params})
       this.accountData = data.data.list
+      console.log(this.accountData)
       this.pagination.total = data.data.total
       this.accountData.forEach((e, i) => {
         e.loginDate = moment(e.loginDate).format('YYYY-MM-DD HH:mm:ss')
