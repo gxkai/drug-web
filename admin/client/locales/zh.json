@@ -101,6 +101,12 @@
     "订单管理",
   "/order/order/detail":
     "订单详情",
+
+  "/order/chargeBack":
+    "退单管理",
+  "/order/chargeBack/detail":
+    "退单详情",
+
   "/order/appraise":
     "评价管理",
   "/order/appraise/detail":

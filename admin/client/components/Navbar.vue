@@ -54,8 +54,10 @@ export default class Navbar extends Vue {
   @MenuGetter menus
 
   async beforeMount () {
-    let { data: menus } = await axios.get('/api/supervise/menus/user')
+    let {data: menus} = await axios.get('/api/supervise/menus/user')
+    console.log('menu:')
     console.log(menus)
+    // this.menusList = data.data.menuDTOList
     if (Array.isArray(menus) && menus.length) {
       this.$store.dispatch('menu/addAll', this.translateMenus(menus))
     }
