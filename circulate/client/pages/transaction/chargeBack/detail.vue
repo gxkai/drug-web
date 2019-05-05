@@ -387,9 +387,6 @@
         })
         this.payAmount2 = this.DX(this.payAmount) // 大写金额转换
       }
-      // rxId 是 KCgfjEXqQRi1SOIC_JQvdw --- 假数据
-      // let rxInfo = await axios.get(`/api/shop/rxs/KCgfjEXqQRi1SOIC_JQvdw/info`)
-      // console.log(rxInfo.data)
     }
     // 大写金额
     DX (n) {
