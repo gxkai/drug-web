@@ -9,7 +9,13 @@
 
       <div class="main-content">
         <!--订单进度条-->
-        <div class="step-bar" v-if="stepsOptions.length">
+        <div class="step-bar" v-if="stepsOptions.length === 0">
+          <el-steps :active="0" align-center>
+            <el-step :title="item.orderState" :description="item.createdDate" v-for="(item,index) in stepBar" :key="index"></el-step>
+          </el-steps>
+        </div>
+
+        <div class="step-bar" v-if="stepsOptions.length !== 0">
           <el-steps :active="orderStatus" align-center>
             <el-step :title="item.orderState" :description="item.createdDate" v-for="(item,index) in stepsOptions" :key="index"></el-step>
           </el-steps>
@@ -103,58 +109,68 @@
           <el-tab-pane label="配置管理" name="prescription">
             <!--如果是处方单购药，可以查看到处方单-->
             <div class="prescription-list">
-              <h5 class="tit">查看处方单</h5>
-              <div class="detail-con">
-                <div class="form-info">
-                  <h4>处方单详情</h4>
-                  <el-form ref="formInfo" :model="formInfo" label-width="150px">
-                    <el-form-item label="No：">
-                      <el-input v-model="formInfo.idNumber" readonly placeholder="暂无"></el-input>
-                    </el-form-item>
-                    <el-form-item label="处方日期：">
-                      <el-date-picker
-                        readonly
-                        v-model="formInfo.rxDate"
-                        type="date"
-                        placeholder="处方日期"
-                        style="width: 100%">
-                      </el-date-picker>
-                    </el-form-item>
-                    <el-form-item label="姓名：">
-                      <el-input v-model="formInfo.name" readonly placeholder="暂无"></el-input>
-                    </el-form-item>
-                    <el-form-item label="性别：">
-                      <el-input v-model="formInfo.sex" readonly placeholder="暂无"></el-input>
-                    </el-form-item>
-                    <el-form-item label="年龄：">
-                      <el-input v-model="formInfo.age" readonly placeholder="暂无"></el-input>
-                    </el-form-item>
-                    <el-form-item label="单位地址：">
-                      <el-input v-model="formInfo.address" readonly placeholder="暂无"></el-input>
-                    </el-form-item>
-                    <el-form-item label="联系电话：">
-                      <el-input v-model="formInfo.telNumber" readonly placeholder="暂无"></el-input>
-                    </el-form-item>
-                    <el-form-item label="医院：">
-                      <el-input v-model="formInfo.hospital" readonly placeholder="暂无"></el-input>
-                    </el-form-item>
-                    <el-form-item label="科室：">
-                      <el-input v-model="formInfo.department" readonly placeholder="暂无"></el-input>
-                    </el-form-item>
-                    <el-form-item label="诊断：">
-                      <el-input v-model="formInfo.diagnosis" readonly placeholder="暂无"></el-input>
-                    </el-form-item>
-                  </el-form>
-                </div>
+              <!--查看处方单 切换 tab-->
+              <!--<h5 class="tit">查看处方单</h5>-->
+              <el-tabs v-model="activeRx" class="rx-tab">
+                <el-tab-pane :label="item.rxLabel" :name="item.rxName" v-for="(item,index) in rxOptions" :key="index">
+                  <!--begin-->
+                  <div class="detail-con">
+                    <div class="form-info">
+                      <h4>处方单详情</h4>
+                      <el-form ref="formInfo" label-width="150px">
+                        <el-form-item label="No：">
+                          <el-input v-model="item.number" readonly placeholder="暂无"></el-input>
+                        </el-form-item>
+                        <el-form-item label="处方日期：">
+                          <el-date-picker
+                            readonly
+                            v-model="item.rxDate"
+                            type="date"
+                            placeholder="处方日期"
+                            style="width: 100%">
+                          </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="姓名：">
+                          <el-input v-model="item.accountName" readonly placeholder="暂无"></el-input>
+                        </el-form-item>
+                        <el-form-item label="性别：">
+                          <el-input v-model="item.gender" readonly placeholder="暂无"></el-input>
+                        </el-form-item>
+                        <el-form-item label="年龄：">
+                          <el-input v-model="item.age" readonly placeholder="暂无"></el-input>
+                        </el-form-item>
+                        <el-form-item label="单位地址：">
+                          <el-input v-model="item.place" readonly placeholder="暂无"></el-input>
+                        </el-form-item>
+                        <el-form-item label="联系电话：">
+                          <el-input v-model="item.phone" readonly placeholder="暂无"></el-input>
+                        </el-form-item>
+                        <el-form-item label="医院：">
+                          <el-input v-model="item.hospital" readonly placeholder="暂无"></el-input>
+                        </el-form-item>
+                        <el-form-item label="科室：">
+                          <el-input v-model="item.office" readonly placeholder="暂无"></el-input>
+                        </el-form-item>
+                        <el-form-item label="诊断：">
+                          <el-input v-model="item.illness" readonly placeholder="暂无"></el-input>
+                        </el-form-item>
+                      </el-form>
+                    </div>
 
-                <div class="rp-wrap">
-                  <h4>Rp</h4>
-                  <d2-crud
-                    :columns="rpColumns"
-                    :data="rpData"
-                    :options="optionData"/>
-                </div>
-              </div>
+                    <div class="rp-wrap">
+                      <h4>Rp</h4>
+                      <d2-crud
+                        :columns="rpColumns"
+                        :data="item.list"
+                        :options="optionData"/>
+                    </div>
+                  </div>
+                  <!--end-->
+                </el-tab-pane>
+              </el-tabs>
+
+              <!--查看处方单 切换 tab end-->
+
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -182,7 +198,25 @@
     tabActiveName = 'track'
     // 进度条 默认为1
     orderStatus = 1
-    stepsOptions = []
+    stepsOptions = [] // 动态判断进度条
+    // 静态进度条
+    stepBar = [{
+      orderState: '待付款'
+    }, {
+      orderState: '调剂中'
+    }, {
+      orderState: '待收货'
+    }, {
+      orderState: '待评价'
+    }, {
+      orderState: '交易成功'
+    }, {
+      orderState: '退款中'
+    }, {
+      orderState: '退款成功'
+    }, {
+      orderState: '交易关闭'
+    }]
     orderNumberTit = ''
     orderDetailColumns = [
       {
@@ -304,6 +338,10 @@
 
     remark = '' // 备注
 
+    // 处方单 tab 详情
+    activeRx = 'rx1'
+    rxOptions = []
+  
     // 线下退单
     chargeBack () {
 
@@ -329,14 +367,14 @@
       // 进度条
       let orderStatus = {
         'TO_PAY': 1, // 待付款
-        'TO_CHECK': 2, // 待审批
-        'TO_DELIVERY': 3, // 调剂中
-        'TO_RECEIVED': 4, // 待收货
-        'TO_APPRAISE': 5, // 待评价
-        'COMPLETED': 6, // 交易成功
-        'REFUNDING': 7, // 退款中
-        'REFUND_COMPLETE': 8, // 退款成功
-        'CLOSED': 9 // 交易关闭
+        // 'TO_CHECK': 2, // 待审批
+        'TO_DELIVERY': 2, // 调剂中
+        'TO_RECEIVED': 3, // 待收货
+        'TO_APPRAISE': 4, // 待评价
+        'COMPLETED': 5, // 交易成功
+        'REFUNDING': 6, // 退款中
+        'REFUND_COMPLETE': 7, // 退款成功
+        'CLOSED': 8 // 交易关闭
       }
       for (let i in orderStatus) {
         if (i === detailInfo.state) {
@@ -370,29 +408,25 @@
       }
 
       let rxId = this.$route.query.rxId
-
       if (rxId !== null) {
-        let rxInfo = await axios.get(`/api/shop/rxs/${rxId}/info`)
-        console.log(rxInfo)
-        this.formInfo.idNumber = rxInfo.data.number
-        this.formInfo.rxDate = moment(rxInfo.data.rxDate).format('YYYY-MM-DD HH:mm:ss')
-        this.formInfo.name = rxInfo.data.accountName
-        if (rxInfo.data.gender === 'MALE') {
-          this.formInfo.sex = '男'
-        } else {
-          this.formInfo.sex = '女'
-        }
-        this.formInfo.age = rxInfo.data.age
-        this.formInfo.address = rxInfo.data.place
-        this.formInfo.telNumber = rxInfo.data.phone
-        this.formInfo.hospital = rxInfo.data.hospital
-        this.formInfo.department = rxInfo.data.office
-        this.formInfo.diagnosis = rxInfo.data.illness
-        // list
-        this.rpData = rxInfo.data.list
-        this.rpData.forEach((item, index) => {
-          item.index = index + 1
+        let rxInfo = await axios.get(`/api/shop/orders/${id}/rx/info`)
+        this.rxOptions = rxInfo.data
+        this.rxOptions.forEach((item, index) => {
+          let num = index + 1
+          this.$set(item, 'rxLabel', '查看处方单' + num.toString())
+          this.$set(item, 'rxName', 'rx' + num.toString())
+          // 处方单详情
+          item.rxDate = moment(item.rxDate).format('YYYY-MM-DD HH:mm:ss')
+          if (item.gender === 'MALE') {
+            item.gender = '男'
+          } else {
+            item.gender = '女'
+          }
+          item.list.forEach((item2, index) => {
+            item2.index = index + 1
+          })
         })
+        // console.log(this.rxOptions)
         this.payAmount2 = this.DX(this.payAmount) // 大写金额转换
       }
       //
@@ -435,6 +469,7 @@
 </script>
 
 <style lang="scss">
+
 
   .detail-tab{
     width: 95%;
@@ -627,7 +662,25 @@
           width: 95%;
         }
 
-        .prescription-list{
+        /deep/.prescription-list{
+          .rx-tab{
+            margin: 20px;
+            .el-tabs__active-bar{
+              display: none;
+            }
+            .el-tabs__item{
+              border: 1px solid #339933;
+              color: #339933;
+              &.is-active{
+                background: #339933;
+                color: #ffffff;
+              }
+            }
+          }
+          .el-tabs__nav-wrap::after{
+            background-color: #fff
+          }
+
           .form-info{
             padding: 20px 300px 0 0;
 

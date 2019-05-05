@@ -201,19 +201,23 @@
     }
     beforeMount () {
       this.getShopData()
-      // this.getShopNames()
     }
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
       this.getShopData()
-      this.search()
+      // this.search()
     }
     async getShopData () {
       let params = {
         pageNum: this.pagination.currentPage,
-        pageSize: 15
+        pageSize: this.pagination.pageSize,
+        shopName: this.shopNameValue,
+        legal: this.legalName,
+        shopId: this.shopId,
+        state: this.drugState
       }
       let data = await axios.get(`/api/supervise/shops`, {params: params})
+      console.log(data)
       this.shopData = data.data.list
       this.pagination.total = data.data.total
       this.shopData.forEach((item) => {
@@ -298,20 +302,21 @@
       this.getShopData()
     }
     async search () {
-      let params = {
-        legal: this.legalName,
-        shopId: this.shopId,
-        state: this.drugState,
-        pageNum: this.pagination.currentPage,
-        pageSize: 15
-      }
-      let data = await axios.get(`/api/supervise/shops`, {params: params})
-      console.log(data.data.list)
-      this.shopData = data.data.list
-      this.pagination.total = data.data.total
-      this.shopData.forEach((item) => {
-        item.state = this.convertStatus(item.state)
-      })
+      this.getShopData()
+      // let params = {
+      //   legal: this.legalName,
+      //   shopId: this.shopId,
+      //   state: this.drugState,
+      //   pageNum: this.pagination.currentPage,
+      //   pageSize: 15
+      // }
+      // let data = await axios.get(`/api/supervise/shops`, {params: params})
+      // console.log(data.data.list)
+      // this.shopData = data.data.list
+      // this.pagination.total = data.data.total
+      // this.shopData.forEach((item) => {
+      //   item.state = this.convertStatus(item.state)
+      // })
     }
   }
 </script>

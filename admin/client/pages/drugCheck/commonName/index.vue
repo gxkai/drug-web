@@ -118,7 +118,7 @@
         pageNum: this.pagination.currentPage,
         pageSize: 15
       }
-      let data = await axios.get(`/api/supervise/common/names`, {params: params})
+      let data = await axios.get(`/api/supervise/commonNames`, {params: params})
       this.commonNameData = data.data.list
       this.pagination.total = data.data.total
       this.commonNameData.forEach((item, index) => {
@@ -129,7 +129,7 @@
       this.commonNameValue = ''
     }
     async handleRowEdit ({ index, row }, done) {
-      let getName = await axios.get(`/api/supervise/common/names/${row.id}/count`, {params: {name: row.name}})
+      let getName = await axios.get(`/api/supervise/commonNames/${row.id}/count`, {params: {name: row.name}})
       if (getName.data >= 1) {
         this.$message({
           message: '通用名已存在!',
@@ -137,7 +137,7 @@
         })
         return false
       }
-      await axios.put(`/api/supervise/common/names/${row.id}/update`, {id: row.id, name: row.name})
+      await axios.put(`/api/supervise/commonNames/${row.id}/update`, {id: row.id, name: row.name})
       this.formOptions.saveLoading = true
       setTimeout(() => {
         this.$message({
@@ -156,7 +156,7 @@
       done()
     }
     async handleRowRemove ({ index, row }, done) {
-      await axios.post(`/api/supervise/common/names/${row.id}/delete`)
+      await axios.post(`/api/supervise/commonNames/${row.id}/delete`)
       setTimeout(() => {
         this.$message({
           message: '删除成功',
@@ -171,7 +171,7 @@
       })
     }
     async handleRowAdd (row, done) {
-      let getName = await axios.get(`/api/supervise/common/names/count`, {params: {name: row.name}})
+      let getName = await axios.get(`/api/supervise/commonNames/count`, {params: {name: row.name}})
       if (getName.data >= 1) {
         this.$message({
           message: '通用名已存在!',
@@ -179,7 +179,7 @@
         })
         return false
       }
-      await axios.post(`/api/supervise/common/names/create`, {name: row.name})
+      await axios.post(`/api/supervise/commonNames/create`, {name: row.name})
       this.fetchData()
       this.formOptions.saveLoading = true
       setTimeout(() => {
@@ -204,7 +204,7 @@
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize
       }
-      await axios.get(`/api/supervise/common/names`, {params: params}).then(res => {
+      await axios.get(`/api/supervise/commonNames`, {params: params}).then(res => {
         this.commonNameData = res.data.list
         this.pagination.total = res.data.total
       })

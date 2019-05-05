@@ -256,7 +256,7 @@
       let {data: fileId} = await axios.post(`/api/shop/files`, fileParams)
       console.log(fileId)
 
-      let shopId = 'Vwwy8nJYQJCQ4wqkCZDgyA'
+      let shopId = 'y7P-oo_CSMalqzo1yGxncF'
       let params = {
         username: this.addData.username,
         name: this.addData.name,

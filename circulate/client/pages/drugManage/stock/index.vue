@@ -84,11 +84,25 @@
       },
       {
         title: '药品类型',
-        key: 'drugTypeChildName'
+        key: 'drugDrugTypeList',
+        formatter (row, column, cellValue, index) {
+          let typeArr = []
+          cellValue.forEach(item => {
+            typeArr.push(item.type)
+          })
+          return typeArr.join()
+        }
       },
       {
         title: '药品父类',
-        key: 'drugTypeName'
+        key: 'drugDrugTypeParentList',
+        formatter (row, column, cellValue, index) {
+          let typeArr2 = []
+          cellValue.forEach(item => {
+            typeArr2.push(item.type)
+          })
+          return typeArr2.join()
+        }
       }
     ]
     drugList = []
@@ -141,16 +155,16 @@
       this.compostList = this.drugTypesList
       // 获取每个大类下的子类
       for (let i = 0, len = this.drugTypesList.length; i < len; i++) {
-        let {data: childTypes} = await axios.get(`/api/shop/drugType/${this.drugTypesList[i].id}/children`)
+        let {data: childTypes} = await axios.get(`/api/shop/drugTypes/${this.drugTypesList[i].id}/children`)
         this.compostList[i].children = childTypes
       }
 
-      console.log(this.compostList)
+      // console.log(this.compostList)
     }
 
     // 获取药品类别条件
     getTypeCondition (data) {
-      console.log(data)
+      // console.log(data)
       this.selectedTypes = data
     }
 
