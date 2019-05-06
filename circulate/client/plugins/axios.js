@@ -33,7 +33,13 @@ export default ({ redirect }) => {
           removeToken()
           redirect('/login')
         }
+        if (error.response.status === 500) {
+          console.log(1)
+          // removeToken()
+          // redirect('/login')
+        }
       }
+      return Promise.reject(error)
     }
   )
 }
