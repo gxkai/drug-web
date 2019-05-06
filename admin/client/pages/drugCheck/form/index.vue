@@ -56,7 +56,7 @@
       {
         title: '序号',
         key: 'index',
-        width: 320
+        width: 60
       },
       {
         title: '编码',

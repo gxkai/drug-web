@@ -139,7 +139,7 @@
       },
       {
         value: 'NO_PASS',
-        label: '不通过'
+        label: '未通过'
       },
       {
         value: 'VIOLATION',
@@ -172,7 +172,7 @@
           type: 'text',
           emit: 'emit-detail',
           show (index, row) {
-            if (row.state === '正常' || row.state === '不通过' || row.state === '待审核' || row.state === '停业' || row.state === '违规') {
+            if (row.state === '正常' || row.state === '未通过' || row.state === '待审核' || row.state === '停业' || row.state === '违规') {
               return true
             }
           }
@@ -303,20 +303,6 @@
     }
     async search () {
       this.getShopData()
-      // let params = {
-      //   legal: this.legalName,
-      //   shopId: this.shopId,
-      //   state: this.drugState,
-      //   pageNum: this.pagination.currentPage,
-      //   pageSize: 15
-      // }
-      // let data = await axios.get(`/api/supervise/shops`, {params: params})
-      // console.log(data.data.list)
-      // this.shopData = data.data.list
-      // this.pagination.total = data.data.total
-      // this.shopData.forEach((item) => {
-      //   item.state = this.convertStatus(item.state)
-      // })
     }
   }
 </script>

@@ -219,7 +219,7 @@
       },
       {
         title: '买家姓名',
-        key: 'buyerName'
+        key: 'accountName'
       },
       {
         title: '配送评分',
@@ -231,7 +231,7 @@
       },
       {
         title: '描述相符',
-        key: 'describeScore'
+        key: 'content'
       },
       {
         title: '包装评分',
@@ -315,6 +315,7 @@
       }
 
       let {data: shopRes} = await axios.get(`/api/supervise/shopAppraises`, {params})
+      console.log(shopRes)
 
       this.shopAppraiseList = shopRes.list
       this.shopAppraisePagination.total = shopRes.total
@@ -451,7 +452,7 @@
       }
 
       let {data: drugRes} = await axios.get(`/api/supervise/drugAppraises`, {params})
-      // console.log(drugRes)
+      console.log(drugRes)
 
       this.drugAppraiseList = drugRes.list
       this.drugAppraisePagination.total = drugRes.total

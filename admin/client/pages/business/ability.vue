@@ -340,7 +340,7 @@
         pageSize: this.pageSize
       }
       let { data: adverts } = await axios.get(`/api/supervise/functions`, { params })
-      // console.log(adverts)
+      console.log(adverts)
       this.advertsList = adverts
       this.totalPages = adverts.length
       this.advertsList.forEach(item => {

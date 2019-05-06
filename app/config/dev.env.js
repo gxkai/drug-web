@@ -5,15 +5,15 @@ const prodEnv = require('./prod.env')
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   EVN_CONFIG:'"dev"',
-  API_ROOT: '"https://ebhealth.cn:19004/api/app"',
-  OUTSIDE_ROOT: '"https://ebhealth.cn:19004/api/outside/outside"',
-  WEBSOCKET_ROOT: '"https://ebhealth.cn:19004/websocket"'
+  // API_ROOT: '"http://172.16.0.151:8085/app"',
+  // OUTSIDE_ROOT: '"http://172.16.0.151:8085/outside/outside"',
+  // WEBSOCKET_ROOT: '"http://172.16.0.151:8091/"'
   /**
    * ip for gxkai
    */
-  // API_ROOT: '"http://192.168.31.228:8085/app/"',
-  // OUTSIDE_ROOT: '"http://192.168.31.228:8085/outside/outside"',
-  // WEBSOCKET_ROOT: '"http://192.168.31.228:8091/"'
+  API_ROOT: '"http://192.168.31.228:8085/app/"',
+  OUTSIDE_ROOT: '"http://192.168.31.228:8085/outside/outside"',
+  WEBSOCKET_ROOT: '"http://192.168.31.228:8091/"'
   /**
    * ip for wjw
    */
