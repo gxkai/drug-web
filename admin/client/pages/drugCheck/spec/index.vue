@@ -55,7 +55,7 @@
       {
         title: '序号',
         key: 'index',
-        width: 320
+        width: 60
       },
       {
         title: '规格名称',
@@ -108,6 +108,7 @@
     }
     clear () {
       this.commonNameValue = ''
+      this.getAllSpecs()
     }
 
     handleDialogCancel (done) {

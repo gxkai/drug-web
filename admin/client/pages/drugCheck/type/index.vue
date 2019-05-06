@@ -45,7 +45,7 @@
       {
         title: '序号',
         key: 'index',
-        width: 80
+        width: 60
       },
       {
         title: '类型名称',
@@ -122,6 +122,7 @@
       console.log(this.data)
     }
     async handleRowEdit ({ index, row }, done) {
+      console.log(row)
       let getName = await axios.get(`/api/supervise/drugTypes/exists`, {params: {type: row.type}})
       if (getName.data >= 1) {
         this.$message({
@@ -133,7 +134,7 @@
       let drugTypeADTO = {
         fileId: row.fileId,
         pid: row.pid,
-        showed: row.showed,
+        showed: true,
         sort: row.sort,
         type: row.type
       }
@@ -156,7 +157,7 @@
       done()
     }
     async handleRowRemove ({ index, row }, done) {
-      await axios.post(`/api/supervise/drugTypes/${row.id}`)
+      await axios.delete(`/api/supervise/drugTypes/${row.id}`)
       setTimeout(() => {
         this.$message({
           message: '删除成功',
@@ -171,6 +172,7 @@
       })
     }
     async handleRowAdd (row, done) {
+      // console.log(row)
       let getName = await axios.get(`/api/supervise/drugTypes/exists`, {params: {type: row.type}})
       if (getName.data >= 1) {
         this.$message({
@@ -181,13 +183,12 @@
       }
       let drugTypeAdminDTO = {
         fileId: row.fileId,
-        pid: row.pid,
-        showed: row.showed,
+        pid: '0',
+        showed: true,
         sort: row.sort,
         type: row.type
       }
       await axios.post(`/api/supervise/drugTypes`, drugTypeAdminDTO)
-      this.initData()
       this.formOptions.saveLoading = true
       setTimeout(() => {
         this.$message({
@@ -197,6 +198,7 @@
         done()
         this.formOptions.saveLoading = false
       }, 300)
+      this.initData()
     }
     handleChild ({index, row}) {
       this.$router.push({path: '/drugCheck/type/typeChild', query: {id: row.id, type: row.type}})

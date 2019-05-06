@@ -170,7 +170,7 @@
 
       // 获取每个大类下的子类
       for (let i = 0, len = this.drugTypesList.length; i < len; i++) {
-        let {data: childTypes} = await axios.get(`/api/supervise/drugType/${this.drugTypesList[i].id}/children`)
+        let {data: childTypes} = await axios.get(`/api/supervise/drugTypes/${this.drugTypesList[i].id}/children`)
         this.compostList[i].children = childTypes
       }
     }
