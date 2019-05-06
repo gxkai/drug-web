@@ -151,6 +151,17 @@ const rxRouter = [
       showBackBottomRight: true
     },
     component: () => import('@/views/rxs/view.vue')
+  },
+  {
+    path: '/rxs/swipeView',
+    name: '/rxs/swipeView',
+    meta: {
+      navigation: true,
+      name: '处方详情',
+      showBackTopLeft: false,
+      showBackBottomRight: true
+    },
+    component: () => import('@/views/rxs/swipeView.vue')
   }
 ];
 
