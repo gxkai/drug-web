@@ -18,6 +18,8 @@
     "build": "yarn build:client && yarn build:server",
     "build:client": "nuxt build",
     "build:server": "rimraf dist/server && cpx '{nuxt.config.js,server/**}' dist",
+    "win-build": "yarn build:client && yarn win-build:server",
+    "win-build:server": "rimraf dist/server &&node win-copy.js",
     "start": "cross-env NODE_ENV=production node dist/server/app.js",
     "start:pm2": "pm2 start yarn --name=hare -- start",
     "analyze": "nuxt build --analyze",
