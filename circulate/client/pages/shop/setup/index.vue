@@ -240,6 +240,7 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import axios from 'axios'
+  import localForage from 'localforage'
 
   @Component({
     components: {
@@ -325,6 +326,22 @@
 
     idnumberImg = '' // 手持身份证照片
     idnumberImgFile = {}
+
+    beforeMount () {
+      console.log(localForage)
+
+      localForage.getItem('circulate-token').then(token => {
+        console.log(token)
+        axios.get(`/api/shop/shops/${token}`).then(res => {
+          console.log(res)
+        })
+      })
+
+      // let ShopDetail = axios.get(`/api/shop/shops/${token}`)
+      // console.log(ShopDetail)
+
+      // console.log(1)
+    }
 
     handleAvatarSuccess2 (res, file) {
       this.certificateImg = URL.createObjectURL(file.raw)
