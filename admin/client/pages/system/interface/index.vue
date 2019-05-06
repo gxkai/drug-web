@@ -104,7 +104,8 @@
         start,
         end
       }
-      let {data: interData} = await axios.get(`/api/supervise/restStatistics`, {params})
+      let {data: interData} = await axios.get(`/api/supervise/restStatistics/restStatistics`, {params})
+      console.log(interData)
 
       this.interList = interData.list
       this.pagination.total = interData.total

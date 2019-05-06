@@ -128,18 +128,18 @@
       this.pagination.total = data.data.total
       this.adminData.forEach((item, index) => {
         item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
-        if (item.activated.toString() === 'true') {
-          item.activated = '启用'
-        } else {
-          item.activated = '停用'
-        }
-        if (item.roleId === 'ROLE_ADMIN_PHARMACIST') {
-          item.roleId = '客服'
-        } else if (item.roleId === 'ROLE_ADMIN_PHARMACIST') {
-          item.roleId = '药师'
-        } else {
-          item.roleId = '监管用户'
-        }
+        // if (item.activated.toString() === 'true') {
+        //   item.activated = '启用'
+        // } else {
+        //   item.activated = '停用'
+        // }
+        // if (item.roleId === 'ROLE_ADMIN_PHARMACIST') {
+        //   item.roleId = '客服'
+        // } else if (item.roleId === 'ROLE_ADMIN_PHARMACIST') {
+        //   item.roleId = '药师'
+        // } else {
+        //   item.roleId = '监管用户'
+        // }
       })
     }
     handleEditEvent ({index, row}) {

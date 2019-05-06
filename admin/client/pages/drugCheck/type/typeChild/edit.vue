@@ -105,7 +105,7 @@
     async initData () {
       let id = this.$route.query.id
       let pid = this.$route.query.pid
-      let editData = await axios.get(`/api/supervise/drugTypes/${pid}/children/${id}`)
+      let editData = await axios.get(`/api/supervise/drugTypes/${id}/child`)
       console.log(editData.data)
       this.form.typeName = editData.data.type
       this.form.fatherPid = editData.data.pid
@@ -131,6 +131,7 @@
       fileParams.append('fileType', 'LOGO')
       let imgres = await axios.post('/api/supervise/files', fileParams)
       this.fileId = imgres.data // 图片上传成功后更新fileId
+
       // 获取图片
       let img1 = await axios.get(`/api/supervise/files/${this.fileId}`, {params: {local: '', resolution: ''}})
       console.log(img1.data.replace('redirect:', ''))
@@ -147,7 +148,7 @@
         sort: this.form.typeSort,
         type: this.form.typeName
       }
-      await axios.put(`/api/supervise/child/drugTypes/${id}`, drugTypeChildADTO)
+      await axios.put(`/api/supervise/drugTypes/${id}/child`, drugTypeChildADTO)
       this.$router.push({path: '/drugCheck/type/typeChild', query: {id: this.form.fatherPid, type: this.form.fatherTypeName}})
     }
     back () {
