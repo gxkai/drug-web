@@ -34,12 +34,12 @@
           </el-col>
 
           <el-col :span="24" class="filter-bottom">
-            <el-col :span="8">
-              <span>药店名称：</span>
-              <!--请选择药房名称-->
-              <el-button class="select-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>
-              <el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>
-            </el-col>
+            <!--<el-col :span="8">-->
+              <!--<span>药店名称：</span>-->
+              <!--&lt;!&ndash;请选择药房名称&ndash;&gt;-->
+              <!--<el-button class="select-btn" v-if="shopNameValue" type="small" @click="shopNameDialog = true">{{ shopNameValue }}</el-button>-->
+              <!--<el-button class="select-btn" v-else type="small" @click="shopNameDialog = true" style="color: #C0C4CC">药房名称</el-button>-->
+            <!--</el-col>-->
 
             <el-col :span="8">
               <span>用户信息：</span>
@@ -64,27 +64,30 @@
                 @change="convertDate">
               </el-date-picker>
             </el-col>
+
+            <el-col :span="8" class="action-col">
+              <el-button size="small" type="primary" @click="search">搜索</el-button>
+              <el-button size="small" @click="reset">重置</el-button>
+            </el-col>
+
           </el-col>
 
-          <el-col :span="23" class="action-col">
-            <el-button size="small" type="primary" @click="search">搜索</el-button>
-            <el-button size="small" @click="reset">重置</el-button>
-          </el-col>
+
         </el-row>
       </div>
 
       <!--选择药房名称-->
-      <el-dialog
-        title="药房名称"
-        :close-on-click-modal='isCloseOnClickModal'
-        :visible.sync="shopNameDialog"
-        width="50%">
-        <ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="shopNameDialog = false">取 消</el-button>
-          <el-button type="primary" @click="confirmSelect">确 定</el-button>
-        </span>
-      </el-dialog>
+      <!--<el-dialog-->
+        <!--title="药房名称"-->
+        <!--:close-on-click-modal='isCloseOnClickModal'-->
+        <!--:visible.sync="shopNameDialog"-->
+        <!--width="50%">-->
+        <!--<ShopName v-on:listenToChildEvent="getSelectedInfo"></ShopName>-->
+        <!--<span slot="footer" class="dialog-footer">-->
+          <!--<el-button @click="shopNameDialog = false">取 消</el-button>-->
+          <!--<el-button type="primary" @click="confirmSelect">确 定</el-button>-->
+        <!--</span>-->
+      <!--</el-dialog>-->
 
       <div class="order-list">
         <div class="container" v-for="(item, index) in perPageData" :key="index">
@@ -242,10 +245,10 @@
         value: 'TO_PAY',
         label: '待付款'
       },
-      {
-        value: 'TO_CHECK',
-        label: '待审批'
-      },
+      // {
+      //   value: 'TO_CHECK',
+      //   label: '待审批'
+      // },
       {
         value: 'TO_DELIVERY',
         label: '调剂中'

@@ -12,7 +12,6 @@
         :options="options"
         :rowHandle="rowHandle"
         @emit-view="viewDetail"
-        @emit-remove="removeMessage"
         @pagination-current-change="paginationCurrentChange"
         class="drug-table"
       />
@@ -71,7 +70,8 @@
       },
       {
         title: '是否已读',
-        key: 'isRead'
+        key: 'isRead',
+        width: 100
       },
       {
         title: '时间',
@@ -88,16 +88,12 @@
       border: true
     }
     rowHandle= {
+      width: 120,
       custom: [
         {
           text: '查看',
           type: 'text',
           emit: 'emit-view'
-        },
-        {
-          text: '删除',
-          type: 'text',
-          emit: 'emit-remove'
         }
       ]
     }
@@ -113,25 +109,26 @@
     }
 
     // 删除
-    removeMessage ({row}) {
-      this.$confirm('确定删除吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        axios.delete(`/api/shop/messages/${row.messageId}`)
-        this.$message({
-          message: '删除成功！',
-          type: 'success'
-        })
-        this.initData()
-      }).catch(() => {
-        this.$message({
-          message: '取消删除！',
-          type: 'warning'
-        })
-      })
-    }
+    // removeMessage ({row}) {
+    //   console.log(row)
+    //   this.$confirm('确定删除吗？', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     axios.delete(`/api/shop/messages/${row.messageId}`)
+    //     this.$message({
+    //       message: '删除成功！',
+    //       type: 'success'
+    //     })
+    //     this.initData()
+    //   }).catch(() => {
+    //     this.$message({
+    //       message: '取消删除！',
+    //       type: 'warning'
+    //     })
+    //   })
+    // }
 
     async initData () {
       let params = {
@@ -140,7 +137,7 @@
         userId: 'ZqYK4IFhQ6KmYKAEEN8g8Q'
       }
 
-      let {data: message} = await axios.get(`/api/shop/messages/view/Inform`, {params})
+      let {data: message} = await axios.get(`/api/shop/messages`, {params})
       // console.log(message)
       this.pagination.total = message.total
       this.messageList = message.list

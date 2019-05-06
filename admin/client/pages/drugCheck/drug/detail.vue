@@ -112,7 +112,8 @@
       this.$router.push('/drugCheck/drug')
     }
 
-    async getDetailInfo (id) {
+    async getDetailInfo () {
+      let id = this.$route.query.id
       let {data: detail} = await axios.get(`/api/supervise/shopDrugs/${id}`)
       console.log(detail)
       this.detailForm = detail

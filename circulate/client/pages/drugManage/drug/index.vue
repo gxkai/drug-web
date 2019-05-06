@@ -270,7 +270,7 @@
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize
-        // shopId: 'BKDKbvDHTjKclO0Lu4sAQA'
+        // shopId: 'y7P-oo_CSMalqzo1yGxncG'
       }
 
       let {data: drug} = await axios.get(`/api/shop/shopDrugs`, {params})

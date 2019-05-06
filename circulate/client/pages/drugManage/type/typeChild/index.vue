@@ -81,7 +81,8 @@
         pageNum: this.pagination.currentPage,
         pageSize: 15
       }
-      let data = await axios.get(`/api/shop/drugType/${id}/children`, {params: params})
+      let data = await axios.get(`/api/shop/drugTypes/${id}/children`, {params: params})
+      console.log(data)
       this.typeChildData = data.data
       this.typeChildData.forEach((item, index) => {
         item.index = index + 1
