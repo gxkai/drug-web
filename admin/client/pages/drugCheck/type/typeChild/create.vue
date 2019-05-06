@@ -137,7 +137,7 @@
         sort: this.form.typeSort,
         type: this.form.typeName
       }
-      await axios.post(`/api/supervise/child/drugTypes`, drugType)
+      await axios.post(`/api/supervise/drugTypes/child`, drugType)
       this.$router.push({path: '/drugCheck/type/typeChild', query: {id: this.form.fatherPid, type: this.form.fatherTypeName}})
     }
     back () {

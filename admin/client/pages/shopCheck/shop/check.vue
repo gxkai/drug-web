@@ -149,7 +149,7 @@
     }
     async getShopInfo () {
       let id = this.$route.query.id
-      let data = await axios.get(`/api/supervise/shop/${id}`)
+      let data = await axios.get(`/api/supervise/shops/${id}`)
       console.log(data.data)
 
       let params = {
@@ -225,7 +225,7 @@
     }
     async handler ({BMap, map}) {
       // console.log(BMap, map)
-      await axios.get(`/api/supervise/shop/${this.$route.query.id}`).then(res => {
+      await axios.get(`/api/supervise/shops/${this.$route.query.id}`).then(res => {
         this.center.lng = res.data.lng
         this.center.lat = res.data.lat
       })
