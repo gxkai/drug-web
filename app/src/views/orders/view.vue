@@ -37,7 +37,7 @@
             超过<span>30分钟</span>未支付，订单将自动取消。
           </div>
           <!--<div v-if="order.state === 'TO_DELIVERY'" class="line2">-->
-            <!--医保不支持在线退单，如需退款请到备货，门店自行退。-->
+          <!--医保不支持在线退单，如需退款请到备货，门店自行退。-->
           <!--</div>-->
         </div>
         <new-white-space />
@@ -71,19 +71,24 @@
           </span>
         </div>
         <new-white-space />
-        <div class="header-wrapper">
-          <div class="left">
-            <van-icon name="dingdan-" color="#d7000e" />
-            <span>
-              订单详情
-            </span>
+        <div v-for="(rx, index) in order.list" :key="index">
+          <div class="header-wrapper">
+            <div class="left">
+              <van-icon name="dingdan-" color="#d7000e" />
+              <span>
+                订单详情
+              </span>
+            </div>
+            <div class="right" v-if="isRx(rx.id)" @click="clickRx">
+              <van-icon name="chufang-" color="#d7000e" />
+            </div>
           </div>
+          <new-drug
+            v-for="(item, index) in rx.list"
+            :key="index"
+            :item="item"
+          />
         </div>
-        <new-drug
-          v-for="(item, index) in order.list"
-          :key="index"
-          :item="item"
-        />
         <new-white-space />
         <info-cell
           :desc="`￥${order.totalAmount}`"
@@ -127,14 +132,17 @@
           <span v-if="leftTime > 0">
             剩余
             <i>
-              {{ leftTime | dateFmt('mm分钟ss秒') }}
+              {{ leftTime | dateFmt("mm分钟ss秒") }}
             </i>
           </span>
           <span v-else>
             倒计时结束!
           </span>
         </div>
-        <div v-if="order.state !== 'CLOSED' && order.state !== 'TO_DELIVERY'" class="buttons-wrapper">
+        <div
+          v-if="order.state !== 'CLOSED' && order.state !== 'TO_DELIVERY'"
+          class="buttons-wrapper"
+        >
           <div
             v-if="order.state === 'TO_PAY'"
             class="item"
@@ -181,13 +189,13 @@
             </span>
           </div>
           <!--<div-->
-            <!--v-if="order.state == 'TO_DELIVERY' && !order.medicaid"-->
-            <!--class="item"-->
-            <!--@click="onRefund"-->
+          <!--v-if="order.state == 'TO_DELIVERY' && !order.medicaid"-->
+          <!--class="item"-->
+          <!--@click="onRefund"-->
           <!--&gt;-->
-            <!--<span>-->
-              <!--退款-->
-            <!--</span>-->
+          <!--<span>-->
+          <!--退款-->
+          <!--</span>-->
           <!--</div>-->
         </div>
       </template>
@@ -373,9 +381,6 @@ export default {
       } else {
         this.leftTime = 0;
       }
-      console.log(now);
-      console.log(end);
-      console.log(leftTime);
     },
     onCall() {
       window.location.href = `tel:${this.order.shopPhone}`;
@@ -393,6 +398,10 @@ export default {
       this.shop = await this.$http.get(`/api/shops/${this.order.shopId}`);
       this.timeLine = await this.$http.get(`/api/orders/${this.orderId}/logs`);
       console.log(this.timeLine);
+    },
+    clickRx() {
+      let rxIds = this.order.list.map(e => e.id);
+      this.loadPageRxsSwipeView(rxIds);
     }
   }
 };

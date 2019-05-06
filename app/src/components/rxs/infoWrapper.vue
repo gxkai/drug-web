@@ -80,9 +80,11 @@ export default {
     }
   }
   header {
-    padding: 40px 0;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    text-align: center;
     @include border;
     .name {
       letter-spacing: -2px;
@@ -90,7 +92,7 @@ export default {
     }
     .tag {
       position: absolute;
-      right: 18px;
+      right: 0;
       width: 60px;
       height: 51px;
       border: solid 1px #ff0000;

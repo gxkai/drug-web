@@ -155,6 +155,9 @@ export default {
     loadPageRxsView(id, hideButton) {
       this.loadPage('/rxs/view', { rxId: id, hideButton: hideButton });
     },
+    loadPageRxsSwipeView(rxIds) {
+      this.loadPage_p('/rxs/swipeView', { rxIds: rxIds });
+    },
     loadPageRxsShops(rxId, hospitalId) {
       this.loadPage('/rxs/shops', { rxId: rxId, hospitalId: hospitalId });
     },
