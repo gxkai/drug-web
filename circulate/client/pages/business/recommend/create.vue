@@ -120,8 +120,8 @@
         for (let i = 0, len = this.timeDate.length; i < len; i++) {
           this.timeDate[i] = moment(this.timeDate[i]).format('YYYY-MM-DD')
         }
-        this.startDate = this.timeDate[0] + ' 00:00:00'
-        this.endDate = this.timeDate[1] + ' 23:59:59'
+        this.startDate = this.timeDate[0]
+        this.endDate = this.timeDate[1]
       }
     }
 
@@ -167,23 +167,14 @@
           }
         })
 
-      // 获取药店id
-      // let shop = await axios.get(`/api/shop/shops`)
-      // this.shopOptions = shop.data.list
-      // this.shopOptions.forEach(item => {
-      //   if (this.drugValue.shopName === item.shopName) {
-      //     this.shopId = item.id
-      //   }
-      // })
-
       let params = {
         shopDrugId: this.drugValue.shopDrugId,
-        startDate: moment(this.startDate, 'YYYY-MM-DD HH:mm:ss').valueOf(), // this.startDate,
-        endDate: moment(this.endDate, 'YYYY-MM-DD HH:mm:ss').valueOf(), // this.endDate,
-        userId: 'kDw85WlUSDGX99dvWyQ5pi',
-        shopId: 'y7P-oo_CSMalqzo1yGxncF'// this.shopId
+        startDate: this.startDate,
+        endDate: this.endDate
+        // userId: 'kDw85WlUSDGX99dvWyQ5pi',
+        // shopId: 'y7P-oo_CSMalqzo1yGxncF'// this.shopId
       }
-      let applyRes = await axios.post(`/api/shop/drugRecommendApplies/apply`, params)
+      let applyRes = await axios.post(`/api/shop/drugRecommendApplies`, params)
       if (applyRes) {
         this.$message({
           message: '提交成功！',
