@@ -2,7 +2,7 @@
   <div class="type--create">
     <bread-crumb :path="$route.path"/>
     <div>
-      <el-form ref="form" class="type--create__form" :model="form" :rules="rules" label-width="150px">
+      <el-form label-width="150px">
         <el-form-item label="LOGO">
           <el-upload
             class="avatar-uploader"
@@ -14,6 +14,9 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
+      </el-form>
+
+      <el-form ref="form" class="type--create__form" :model="form" :rules="rules" label-width="150px">
         <el-form-item label="分类名称" prop="type">
           <el-input v-model="form.type" placeholder="请输入分类名称"></el-input>
         </el-form-item>
@@ -118,16 +121,27 @@
       let fileParams = new FormData()
       fileParams.append('file', this.filePath)
       fileParams.append('fileType', 'LOGO')
-      let imgres = await axios.post('/api/supervise/files', fileParams)
-      this.fileId = imgres.data // 图片上传成功后更新fileId
+      await axios.post('/api/supervise/files', fileParams).then(res => {
+        console.log(res.data)
+        this.fileId = res.data
+      }).catch(error => {
+        if (error.response) {
+        }
+      })
+
       // 获取图片文件
-      let params = {
-        local: '',
-        resolution: ''
-      }
-      let img1 = await axios.get(`/api/supervise/files/${this.fileId}`, {params: params})
-      this.imageUrl = img1.data.replace('redirect:', '')
-      console.log(img1.data.replace('redirect:', ''))
+      // let params = {
+      //   local: '',
+      //   resolution: ''
+      // }
+      // await axios.get(`/api/supervise/files/${this.fileId}`, {params: params})
+      //   .then(res => {
+      //     console.log(res.data)
+      //     this.imageUrl = res.data.replace('redirect:', '')
+      //   }).catch(err => {
+      //     console.log(1)
+      //     console.log(err)
+      //   })
 
       // 子类判重
       // let getName = await axios.post(`/api/supervise/drugTypes/${this.form.fatherPid}/children/exists`, {type: this.form.typeName})
@@ -142,7 +156,7 @@
 
       this.form = Object.assign(this.form, {
         file: '',
-        fileId: this.fileId
+        fileId: this.fileId || ''
       })
 
       const valid = this.$refs.form.validate()

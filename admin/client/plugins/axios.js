@@ -33,6 +33,9 @@ export default ({ redirect }) => {
           removeToken()
           redirect('/login')
         }
+        if (error.response.status === 400) {
+
+        }
       }
 
       return Promise.reject(error.response.data)
