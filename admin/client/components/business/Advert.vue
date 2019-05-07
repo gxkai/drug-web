@@ -252,8 +252,12 @@
         return
       }
 
-      let params = this.addData
-      await axios.post(`/api/supervise/adverts/adverts`, params)
+      this.addData = Object.assign(this.addData, {
+        shopDrugId: '',
+        shopId: ''
+      })
+
+      await axios.post(`/api/supervise/adverts/adverts`, this.addData)
       this.$message({
         message: '添加成功',
         type: 'success'
