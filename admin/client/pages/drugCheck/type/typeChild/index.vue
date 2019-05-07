@@ -143,7 +143,7 @@
       this.$router.push({path: '/drugCheck/type/typeChild/edit', query: query})
     }
     async handleRowRemove ({ index, row }, done) {
-      await axios.post(`/api/supervise/drugTypes/${row.id}`)
+      await axios.delete(`/api/supervise/drugTypes/${row.id}`)
       setTimeout(() => {
         this.$message({
           message: '删除成功',

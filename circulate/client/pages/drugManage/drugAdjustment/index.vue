@@ -55,20 +55,23 @@
         <el-form-item label="当前销量：">
           <el-input v-model="drugInfoForm.sales" readonly placeholder="暂无"></el-input>
         </el-form-item>
-        <el-form-item label="进价：">
-          <el-input v-model="drugInfoForm.startPrice" placeholder="请输入"></el-input>
+      </el-form>
+
+      <el-form ref="params" :model="params" label-width="150px" class="params">
+        <el-form-item label="进价：" prop="startPrice" :rules="[{ required: true, message: '请输入进价'}]">
+          <el-input v-model="params.startPrice" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="销售价：">
-          <el-input v-model="drugInfoForm.price" placeholder="请输入"></el-input>
+        <el-form-item label="销售价：" prop="price" :rules="[{ required: true, message: '请输入销售价'}]">
+          <el-input v-model="params.price" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="当前库存：">
-          <el-input v-model="drugInfoForm.stock" placeholder="请输入"></el-input>
+        <el-form-item label="当前库存："  prop="stock" :rules="[{ required: true, message: '请输入当前库存'}]">
+          <el-input v-model="params.stock" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="预警库存：">
-          <el-input v-model="drugInfoForm.stockWarn" placeholder="请输入"></el-input>
+        <el-form-item label="预警库存："  prop="stockWarn" :rules="[{ required: true, message: '请输入预警库存'}]">
+          <el-input v-model="params.stockWarn" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="是否推荐：">
-          <el-radio-group v-model="drugInfoForm.recommend" disabled>
+          <el-radio-group v-model="params.recommend">
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
@@ -97,7 +100,9 @@
     }
   })
   export default class DrugDetail extends Vue {
-    drugInfoForm = {}
+    drugInfoForm = {
+      // recommend: true
+    }
     childData = ''
     isCloseOnClickModal = false
     drugDialog = false
@@ -107,13 +112,15 @@
 
     // 获取药品信息
     async getDrugInfo () {
-      let {data: detail} = await axios.get(`/api/shop/ShopDrugAdminDTO/${this.shopDrugId}`)
+      let {data: detail} = await axios.get(`/api/shop/shopDrugs/${this.$route.query.id}`)
       console.log(detail)
       this.drugInfoForm = detail
 
-      if (!this.drugInfoForm.startPrice) {
-        this.drugInfoForm.startPrice = this.drugInfoForm.price
-      }
+      this.params.startPrice = this.drugInfoForm.startPrice
+      this.params.price = this.drugInfoForm.price
+      this.params.stock = this.drugInfoForm.stock
+      this.params.stockWarn = this.drugInfoForm.stockWarn
+
       // if (this.drugInfoForm.name === undefined) {
       //   this.$message({
       //     message: '请选择药品',
@@ -147,29 +154,44 @@
       // }
     }
 
-    async submitAdd () {
-      let params = {
-        price: +this.drugInfoForm.price,
-        recommend: this.drugInfoForm.recommend,
-        shopDrugId: this.shopDrugId,
-        startPrice: +this.drugInfoForm.startPrice,
-        stock: +this.drugInfoForm.stock,
-        stockWarn: this.drugInfoForm.stockWarn,
-        grounding: true,
-        shopId: 'G4-R9nbxQU-hcrUWtcS-6Q',
-        drugId: this.drugInfoForm.id
-        // drugId: '-0fapknEToW71QI_r4nvJw'
-      }
+    params = {
+      startPrice: '',
+      price: '',
+      recommend: true,
+      stock: '',
+      stockWarn: '',
+      grounding: true,
+      drugId: ''
+    }
 
-      await axios.put(`/api/shop/shopDrugs`, params)
-      this.$message({
-        message: '调价成功',
-        type: 'success'
+    async submitAdd () {
+      let sDrugId = this.$route.query.id
+      this.params = Object.assign(this.params, {
+        drugId: this.drugInfoForm.drugId,
+        recommend: true,
+        shopDrugId: sDrugId
       })
+  
+      const valid = this.$refs.params.validate()
+      try {
+        if (valid) {
+          await axios.put(`/api/shop/shopDrugs`, this.params)
+          this.$message({
+            message: '调价成功!',
+            type: 'success'
+          })
+          this.$router.push('/drugManage/drug')
+        }
+      } catch (e) {
+        if (e.response) {
+          console.log(e.response)
+        }
+        // this.$message.warning(e.message)
+      } finally {
+      }
     }
 
     beforeMount () {
-      this.shopDrugId = this.$route.query.id
       this.getDrugInfo()
     }
   }
@@ -201,6 +223,11 @@
           textarea{
             resize: none;
           }
+        }
+
+        .params{
+          grid-row: 9 / 11;
+          grid-column: 1 / 3;
         }
 
         .el-form-item{

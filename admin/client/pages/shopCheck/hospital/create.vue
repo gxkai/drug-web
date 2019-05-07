@@ -2,33 +2,33 @@
   <div class="hospital-detail">
     <bread-crumb :path="$route.path"/>
     <div class="hospital-form">
-      <el-form ref="form" :model="addData" label-width="150px">
-        <el-form-item label="医院编码：">
+      <el-form ref="addData" :model="addData" label-width="150px" :rules="rules" >
+        <el-form-item label="医院编码：" prop="code">
           <el-input v-model="addData.code" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="医院趣医编码：">
-          <el-input v-model="addData.qyCode" placeholder="请输入"></el-input>
+        <el-form-item label="医院组织机构号：" prop="code">
+          <el-input v-model="addData.organizeCode" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="医院名称：">
+        <el-form-item label="医院名称：" prop="name">
           <el-input v-model="addData.name" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="医院电话：">
+        <el-form-item label="医院电话：" prop="phone">
           <el-input v-model="addData.phone" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="医院地址：">
+        <el-form-item label="医院地址：" prop="address">
           <el-input v-model="addData.address" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="经度：">
+        <el-form-item label="经度：" prop="lng">
           <el-input v-model="addData.lng" @change="handler" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="纬度：">
+        <el-form-item label="纬度：" prop="lat">
           <el-input v-model="addData.lat" @change="handler" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item class="el-form-item-map">
-          <baidu-map :center="center" :zoom="zoom" @ready="handler" @click="getPoint" class="bm-view">
+          <baidu-map :center="center" :zoom="zoom" @ready="handler" @click="getPoint" class="bm-view" :scroll-wheel-zoom="true">
             <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
-            <!--<bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>-->
-            <!--<bm-local-search :keyword="form.hospitalAdd" :auto-viewport="true" :zoom="zoom" style="display: none"></bm-local-search>-->
+            <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
+            <bm-local-search :keyword="addData.address" :auto-viewport="true" :zoom="zoom" style="display: none"></bm-local-search>
             <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
           </baidu-map>
         </el-form-item>
@@ -38,11 +38,11 @@
             action=""
             :show-file-list="false"
             :on-success="handleAvatarSuccess">
-            <img v-if="addData.hospitalImage" :src="addData.hospitalImage" class="avatar">
+            <img v-if="hospitalImage" :src="hospitalImage" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item label="医院介绍：" class="hospitalIntro">
+        <el-form-item label="医院介绍：" class="hospitalIntro" prop="introduction">
           <el-input
             type="textarea"
             :autosize="{ minRows: 8, maxRows: 8}"
@@ -73,23 +73,35 @@
     show = true
     addData = {
       code: '',
-      qyCode: '',
+      organizeCode: '',
       name: '',
       phone: '',
       address: '',
       lng: '',
       lat: '',
-      introduction: '',
-      hospitalImage: '',
-      imageJudeg: ''
+      introduction: ''
     }
+    hospitalImage = ''
+    // imageJudeg = ''
     imgJudge = ''
     center = {lng: 120.9909, lat: 31.403685}
     zoom = 3
+  
+    rules = {
+      code: [{ required: true, message: '医院编码不能为空', trigger: 'blur' }],
+      organizeCode: [{ required: true, message: '医院组织机构号不能为空', trigger: 'blur' }],
+      name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+      phone: [{ required: true, message: '手机号不能为空', trigger: 'blur' }],
+      address: [{ required: true, message: '地址不能为空', trigger: 'blur' }],
+      lng: [{ required: true, message: '经度不能为空', trigger: 'blur' }],
+      lat: [{ required: true, message: '纬度不能为空', trigger: 'blur' }],
+      introduction: [{ required: true, message: '简介不能为空', trigger: 'blur' }]
+    }
 
+    filePath = {} // 存放file
     handleAvatarSuccess (res, file) {
-      this.addData.hospitalImage = URL.createObjectURL(file.raw)
-      this.addData.addFile = file.raw
+      this.hospitalImage = URL.createObjectURL(file.raw)
+      this.filePath = file.raw
     }
 
     handler ({BMap, map}) {
@@ -124,24 +136,42 @@
       }, 100)
     }
 
+    fileId = ''
     async submit () {
-      if (this.addData.imgJudge !== this.addData.hospitalImage) {
+      if (this.imgJudge !== this.hospitalImage) {
         let fileParams = new FormData()
-        fileParams.append('file', this.addData.addFile)
+        fileParams.append('file', this.filePath)
         fileParams.append('fileType', 'LOGO')
         let {data: fileID} = await axios.post(`/api/supervise/files`, fileParams)
-        this.addData.fileId = fileID
+        this.fileId = fileID
       }
 
-      await axios.post(`/api/supervise/hospitals`, this.addData)
-      this.$message({
-        message: '提交成功！',
-        type: 'success'
+      this.addData = Object.assign(this.addData, {
+        file: '',
+        fileId: this.fileId
       })
-      setTimeout(() => {
-        this.$router.go(-1)
-      }, 1000)
+
+      const valid = this.$refs.addData.validate()
+      console.log(valid)
+      try {
+        if (valid) {
+          await axios.post(`/api/supervise/hospitals`, this.addData)
+          this.$message({
+            message: '添加成功',
+            type: 'success'
+          })
+          setTimeout(() => {
+            this.$router.push({path: '/shopCheck/hospital'})
+          }, 1000)
+        }
+      } catch (e) {
+        if (e.response) {
+          console.log(e.response)
+        }
+      } finally {
+      }
     }
+    //
   }
 </script>
 
@@ -162,7 +192,7 @@
       form.el-form{
         display: grid;
         grid-template-columns: 40% 60%;
-        grid-template-rows: repeat(7, 50px) 300px 200px;
+        grid-template-rows: repeat(7, 60px) 300px 200px;
         .el-form-item{
           grid-column: 1 / 2;
           &.hospitalImg{

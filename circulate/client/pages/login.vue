@@ -182,27 +182,35 @@
         username: this.registerInfo.phone,
         captchaType: 'USER_REGISTER'
       }
-      await axios.post(`/api/shop/captchas`, getCaptcha).then(res => {
-        console.log(res.data)
-        this.phoneCaptcha = res.data
-        this.sendAuthCode = false
-        this.authTime = 60 // 倒计时
-        let authTimer = setInterval(() => {
-          this.authTime--
-          if (this.authTime <= 1) {
-            this.sendAuthCode = true
-            clearInterval(authTimer)
+      await axios.post(`/api/shop/captchas`, getCaptcha)
+        .then(res => {
+          console.log(res.data)
+          this.phoneCaptcha = res.data
+          this.sendAuthCode = false
+          this.authTime = 60 // 倒计时
+          let authTimer = setInterval(() => {
+            this.authTime--
+            if (this.authTime <= 1) {
+              this.sendAuthCode = true
+              clearInterval(authTimer)
+            }
+          }, 1000)
+        }).catch(error => {
+          if (error.response) {
+            // console.log(error.response)
+            if (error.response.status === 400) {
+              this.$message({
+                message: error.response.data.message,
+                type: 'warning'
+              })
+              this.$router.push('/login')
+            } else if (error.request) {
+              console.log(error.request)
+            } else {
+              console.log(error.message)
+            }
           }
-        }, 1000)
-      }).catch(error => {
-        if (error.response.status === 400) {
-          this.$message({
-            message: error.response.data.message,
-            type: 'warning'
-          })
-          this.$router.push('/login')
-        }
-      })
+        })
     }
     //
   }

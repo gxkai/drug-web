@@ -49,12 +49,12 @@
         width: 240
       },
       {
-        title: '医院趣医编码',
-        key: 'qyCode'
+        title: '医院组织机构号',
+        key: 'organizeCode'
       },
       {
         title: '医院名称',
-        key: 'introduction'
+        key: 'name'
       },
       {
         title: '经度',

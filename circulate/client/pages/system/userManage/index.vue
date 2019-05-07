@@ -256,16 +256,16 @@
       let {data: fileId} = await axios.post(`/api/shop/files`, fileParams)
       console.log(fileId)
 
-      let shopId = 'y7P-oo_CSMalqzo1yGxncF'
+      // let shopId = 'y7P-oo_CSMalqzo1yGxncF'
       let params = {
         username: this.addData.username,
         name: this.addData.name,
-        password: '123456',
+        // password: '123456',
         fileId,
         roleId: this.addData.roleName,
         activated: this.addData.jobStatus
       }
-      await axios.post(`/api/shop/users?shopId=${shopId}`, params)
+      await axios.post(`/api/shop/users`, params)
       this.$message({
         message: '添加成功',
         type: 'success'
@@ -326,7 +326,7 @@
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.post(`/api/shop/users/reset/${row.id}`)
+        axios.post(`/api/shop/users/${row.id}/reset`)
         this.$message({
           type: 'success',
           message: '重置成功!'
