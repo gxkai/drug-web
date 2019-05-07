@@ -16,7 +16,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'Hare 2.0',
+    title: '药品监管服务平台',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

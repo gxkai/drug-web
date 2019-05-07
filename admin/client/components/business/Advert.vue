@@ -199,7 +199,7 @@
     // 新增广告
     addData = {
       id: '',
-      type: '',
+      type: 'SHOP',
       sort: '',
       url: '',
       fileId: '',
@@ -224,17 +224,6 @@
     // 新增图片上传
     addFile = {}
     addBeforeUpload (file) {
-      // // console.log(file)
-      // const isJPG = file.type === 'image/jpeg'
-      // const isLt2M = file.size / 1024 / 1024 < 2
-      //
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG 格式!')
-      // }
-      // if (!isLt2M) {
-      //   this.$message.error('上传头像图片大小不能超过 2MB!')
-      // }
-      // return isJPG && isLt2M
     }
 
     addAvatarSuccess (res, file) {
@@ -264,8 +253,7 @@
       }
 
       let params = this.addData
-      await axios.post(`/api/supervise/adverts`, params)
-      // console.log(addRes)
+      await axios.post(`/api/supervise/adverts/adverts`, params)
       this.$message({
         message: '添加成功',
         type: 'success'
