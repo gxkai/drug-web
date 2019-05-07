@@ -98,10 +98,6 @@
       {
         title: '批准文号',
         key: 'sfda'
-      },
-      {
-        title: '当前状态',
-        key: 'curState'
       }
     ]
     drugInfoList = []

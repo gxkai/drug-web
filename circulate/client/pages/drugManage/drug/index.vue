@@ -180,6 +180,7 @@
     }
 
     adjustPrice ({row}) {
+      console.log(row)
       this.$router.push({
         path: '/drugManage/drugAdjustment',
         query: {

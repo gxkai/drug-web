@@ -33,9 +33,9 @@
           <el-form-item label="GSP证号：">
             <el-input v-model="shopForm.gspCertificate" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="RCB Key：">
-            <el-input v-model="shopForm.rcb" placeholder="请输入"></el-input>
-          </el-form-item>
+          <!--<el-form-item label="RCB Key：">-->
+            <!--<el-input v-model="shopForm.rcb" placeholder="请输入"></el-input>-->
+          <!--</el-form-item>-->
           <el-form-item label="营业执照：">
             <el-input v-model="shopForm.license" placeholder="请输入"></el-input>
           </el-form-item>
@@ -143,7 +143,7 @@
             <el-upload
               action=""
               list-type="picture-card"
-              :limit="4"
+              :limit="3"
               :file-list="innerFileImg"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove"
@@ -151,7 +151,7 @@
               <i class="el-icon-plus"></i>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="shopInnerFileIdList" alt="">
+              <img width="100%" :src="innerImg" alt="">
             </el-dialog>
           </div>
 
@@ -298,6 +298,8 @@
     shopInnerFileIdList = [];
     dialogVisible = false;
 
+    innerImg = ''
+
     innerFileImg = [];
     innerFileId = '';
 
@@ -328,19 +330,95 @@
     idnumberImgFile = {}
 
     beforeMount () {
-      console.log(localForage)
-
+      // console.log(localForage)
       localForage.getItem('circulate-token').then(token => {
-        console.log(token)
+        // console.log(token)
         axios.get(`/api/shop/shops/${token}`).then(res => {
-          console.log(res)
+          console.log(res.data)
+          if (res.data !== null) {
+            this.shopForm.name = res.data.name
+            this.shopForm.legal = res.data.legal
+            this.shopForm.identityNumber = res.data.identityNumber
+            this.shopForm.legalPhone = res.data.legalPhone
+            this.shopForm.mail = res.data.mail
+            this.shopForm.taxCode = res.data.taxCode
+            this.shopForm.license = res.data.license
+            this.shopForm.certificate = res.data.certificate
+            this.shopForm.gspCertificate = res.data.gspCertificate
+            this.shopForm.phone = res.data.phone
+            this.shopForm.address = res.data.address
+            this.shopForm.introduction = res.data.introduction
+            this.shopForm.openTime = res.data.openTime
+            this.shopForm.closeTime = res.data.closeTime
+            this.shopForm.gathered = res.data.gathered
+            this.shopForm.medicaid = res.data.medicaid
+            this.shopForm.distance = res.data.distance
+            this.shopForm.lat = res.data.lat
+            this.shopForm.lng = res.data.lng
+            this.shopForm.rcb = res.data.rcbKey
+            this.shopForm.distribution = res.data.distribution
+
+            this.shopForm.fileId = res.data.fileId // 药店LOGO图片ID
+            this.innerFileId = res.data.shopInnerFileIdList // 最多4张店内照片ID
+            this.shopForm.licenseFileId = res.data.licenseFileId // 营业执照图片ID
+            this.shopForm.certificateFileId = res.data.certificateFileId // 经营许可证图片ID
+            this.shopForm.gspFileId = res.data.gspFileId // gsp图片ID
+            this.shopForm.identityNumberFileId = res.data.identityNumberFileId // 身份证图片ID
+
+            // console.log(res.data.shopInnerFileIdList)
+
+            // 照片
+            let params = {
+              resolution: 'SMALL_LOGO'
+            }
+            // 封面照
+            let shopImg = res.data.fileId
+            if (shopImg !== '') {
+              axios.get(`/api/shop/files/${shopImg}`, {params: params}).then(res => {
+                this.shopLogo = res.data.replace('redirect:', '')
+              })
+            }
+            // 店内照片
+            let shopInner = res.data.shopInnerFileIdList
+            shopInner.forEach((item) => {
+              axios.get(`/api/shop/files/${item}`, {params: params}).then(res => {
+                this.innerImg = res.data.replace('redirect:', '')
+                console.log(this.innerImg)
+              })
+            })
+            // 经营许可证
+            let shopImg2 = res.data.certificateFileId
+            if (shopImg2 !== '') {
+              axios.get(`/api/shop/files/${shopImg2}`, {params: params}).then(res => {
+                this.certificateImg = res.data.replace('redirect:', '')
+              })
+            }
+            // 营业执照
+            let shopImg3 = res.data.licenseFileId
+            if (shopImg3 !== '') {
+              axios.get(`/api/shop/files/${shopImg3}`, {params: params}).then(res => {
+                // console.log(res)
+                this.licenseImg = res.data.replace('redirect:', '')
+              })
+            }
+            // GSP证书 gspImg
+            let shopImg4 = res.data.gspFileId
+            if (shopImg4 !== '') {
+              axios.get(`/api/shop/files/${shopImg4}`, {params: params}).then(res => {
+                this.gspImg = res.data.replace('redirect:', '')
+              })
+            }
+            // 手持身份证照片
+            let shopImg5 = res.data.identityNumberFileId
+            if (shopImg5 !== '') {
+              axios.get(`/api/shop/files/${shopImg5}`, {params: params}).then(res => {
+                this.idnumberImg = res.data.replace('redirect:', '')
+              })
+            }
+            //
+          }
         })
       })
-
-      // let ShopDetail = axios.get(`/api/shop/shops/${token}`)
-      // console.log(ShopDetail)
-
-      // console.log(1)
     }
 
     handleAvatarSuccess2 (res, file) {
@@ -372,10 +450,36 @@
     }
 
     async submit () {
+      console.log(this.shopForm.fileId)
+      console.log(this.innerFileId)
+      console.log(this.shopForm.licenseFileId)
+      console.log(this.shopForm.certificateFileId)
+      console.log(this.shopForm.gspFileId)
+      console.log(this.shopForm.identityNumberFileId)
+
+      //
+
       // 上传logo图片
-      let { data: logoFileID } = await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile))
-      this.shopForm.fileId = logoFileID
-      console.log(logoFileID)
+      // let { data: logoFileID } = await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile))
+      // this.shopForm.fileId = logoFileID
+      // console.log(logoFileID)
+      await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile)).then(res => {
+        console.log('logoFileID', res.data)
+        if (this.shopForm.fileId !== res.data) {
+          console.log(1)
+          this.shopForm.fileId = res.data
+        }
+      }).catch(error => {
+        if (error.response) {
+          if (error.response.status === 400) {
+            this.$message({
+              message: '请上传logo图片!',
+              type: 'warning'
+            })
+            this.$router.push('/shop/setup')
+          }
+        }
+      })
 
       // 店内图片上传
       if (this.innerFileImg.length > 0) {

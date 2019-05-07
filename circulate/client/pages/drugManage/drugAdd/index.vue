@@ -11,7 +11,7 @@
           <el-button type="primary" size="small" @click="getDrugInfo">确定</el-button>
         </div>
       </div>
-      <el-form ref="form" :model="drugInfoForm" label-width="150px">
+      <el-form :model="drugInfoForm" label-width="150px">
         <el-form-item label="药品名称：">
           <el-input :value="drugInfoForm.name" readonly placeholder="暂无"></el-input>
         </el-form-item>
@@ -57,24 +57,26 @@
             v-model="drugInfoForm.introduce">
           </el-input>
         </el-form-item>
-
-        <el-form-item label="进价：">
-          <el-input v-model="startPrice" placeholder="请输入"></el-input>
-        </el-form-item>
-        <el-form-item label="销售价：">
-          <el-input v-model="price" placeholder="请输入"></el-input>
-        </el-form-item>
-        <el-form-item label="当前库存：">
-          <el-input v-model="stock" placeholder="请输入"></el-input>
-        </el-form-item>
-        <el-form-item label="预警库存：">
-          <el-input v-model="stockWarn" placeholder="请输入"></el-input>
-        </el-form-item>
         <el-form-item label="条形码：">
           <el-input :value="drugInfoForm.barCode" readonly placeholder="暂无"></el-input>
         </el-form-item>
+      </el-form>
+
+      <el-form ref="params" :model="params" label-width="150px">
+        <el-form-item label="进价：" prop="startPrice" :rules="[{ required: true, message: '请输入进价'}]">
+          <el-input v-model="params.startPrice" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="销售价：" prop="price" :rules="[{ required: true, message: '请输入销售价'}]">
+          <el-input v-model="params.price" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="当前库存："  prop="stock" :rules="[{ required: true, message: '请输入当前库存'}]">
+          <el-input v-model="params.stock" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="预警库存："  prop="stockWarn" :rules="[{ required: true, message: '请输入预警库存'}]">
+          <el-input v-model="params.stockWarn" placeholder="请输入"></el-input>
+        </el-form-item>
         <el-form-item label="是否推荐：">
-          <el-radio-group v-model="recommend">
+          <el-radio-group v-model="params.recommend">
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
@@ -133,6 +135,15 @@
     }
   })
   export default class DrugDetail extends Vue {
+    params = {
+      startPrice: '',
+      price: '',
+      recommend: true,
+      stock: '',
+      stockWarn: '',
+      grounding: true,
+      drugId: ''
+    }
     drugValue = {}
     drugInfoForm = {}
     selectedInfo = ''
@@ -146,7 +157,7 @@
     price = ''
     stock = ''
     stockWarn = ''
-    recommend = ''
+    recommend = true
 
     emptyUrl = require('../../../assets/img/hospital/img1.png')
     coverURL = ''
@@ -254,21 +265,26 @@
     }
 
     async submitAdd () {
-      let params = {
-        startPrice: +this.startPrice,
-        price: +this.price,
-        recommend: this.recommend,
-        stock: +this.stock,
-        stockWarn: +this.stockWarn,
-        grounding: true,
-        // shopId: 'G4-R9nbxQU-hcrUWtcS-6Q',
+      this.params = Object.assign(this.params, {
         drugId: this.drugInfoForm.id
-      }
-      await axios.post('/api/shop/shopDrugs', params)
-      this.$message({
-        message: '添加成功',
-        type: 'success'
       })
+      const valid = this.$refs.params.validate()
+      // console.log(valid)
+      try {
+        if (valid) {
+          await axios.post('/api/shop/shopDrugs', this.params)
+          this.$message({
+            message: '添加成功',
+            type: 'success'
+          })
+        }
+      } catch (e) {
+        if (e.response) {
+          console.log(e.response)
+        }
+        // this.$message.warning(e.message)
+      } finally {
+      }
     }
 
     beforeMount () {
