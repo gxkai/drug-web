@@ -36,7 +36,7 @@ export default {
       hospital: null,
       placeholder: '\ue643搜索药店',
       keyword: '',
-      filters: ['价格最低', '距离最近', '好评优先']
+      filters: ['价格最低', '距离最近']
     };
   },
   computed: {},

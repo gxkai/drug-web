@@ -44,7 +44,7 @@ export default {
 <style scoped type="text/scss" lang="scss">
 .filter-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   height: 80px;
   align-items: center;
   padding: 0 40px;

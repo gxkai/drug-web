@@ -609,6 +609,7 @@ const appRouter = [
   {
     path: '/login',
     name: '/login',
+    alias: '/',
     meta: {
       navigation: false,
       name: '登陆',

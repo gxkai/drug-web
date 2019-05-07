@@ -32,7 +32,7 @@ export default {
       active: 0,
       searchIcon: '\ue643 药品名',
       shopRate: 5,
-      filters: ['综合', '距离最近', '好评优先', '销量最多']
+      filters: ['综合', '距离最近', '销量最多']
     };
   },
   watch: {
@@ -41,10 +41,10 @@ export default {
         case 1:
           this.sort = 'DISTANCE';
           break;
+        // case 2:
+        //   this.sort = 'APPRAISE';
+        //   break;
         case 2:
-          this.sort = 'APPRAISE';
-          break;
-        case 3:
           this.sort = 'SALE';
           break;
         default:

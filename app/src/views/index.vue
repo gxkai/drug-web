@@ -20,7 +20,7 @@
         <new-footer-entry :value="0" />
       </template>
     </new-layout>
-    <!--<new-consult />-->
+    <new-consult />
   </div>
 </template>
 <style scoped type="text/scss" lang="scss"></style>

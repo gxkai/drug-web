@@ -7,11 +7,7 @@
         class="wrapper hairline-bottom"
         @click="clickItem(item)"
       >
-        <img
-          v-lazy="
-            require('../../assets/img/repositoryTypes/' + item.icon + '.png')
-          "
-        />
+        <img v-lazy="item.icon" />
         <span>
           {{ item.name }}
         </span>
@@ -46,8 +42,7 @@ export default {
   name: 'RepositoryTypes',
   data() {
     return {
-      list: [],
-      finished: false
+      list: []
     };
   },
   created() {
@@ -56,11 +51,7 @@ export default {
   methods: {
     async initData() {
       const data = await this.$http.get('/api/repositoryTypes');
-      if (data.length > 0) {
-        this.list = data;
-      } else {
-        this.finished = true;
-      }
+      this.list = data;
     },
     clickItem(item) {
       this.loadPageRepositories(item.name, item.id);
