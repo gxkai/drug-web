@@ -25,7 +25,7 @@
           <el-input v-model="detailForm.lat" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item class="el-form-item-map">
-          <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view">
+          <baidu-map :center="center" :zoom="zoom" @ready="handler" class="bm-view" :scroll-wheel-zoom="true">
             <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
             <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
             <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>

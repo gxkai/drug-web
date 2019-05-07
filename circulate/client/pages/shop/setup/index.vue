@@ -209,7 +209,7 @@
             纬度：
             <el-input v-model="getLat" placeholder="纬度" size="small"></el-input>
           </div>
-          <baidu-map :center="center" :zoom="zoom" @ready="handler" @click="getPoint" class="bm-view">
+          <baidu-map :center="center" :zoom="zoom" @ready="handler" @click="getPoint" class="bm-view" :scroll-wheel-zoom="true">
             <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
             <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']"
                          anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>

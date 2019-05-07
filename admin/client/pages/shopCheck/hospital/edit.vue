@@ -6,7 +6,7 @@
         <el-form-item label="医院编码：">
           <el-input v-model="editData.code" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="医院趣医编码：">
+        <el-form-item label="医院组织机构号：">
           <el-input v-model="editData.qyCode" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="医院名称：">

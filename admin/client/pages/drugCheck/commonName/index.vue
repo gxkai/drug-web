@@ -102,7 +102,7 @@
       saveLoading: false
     }
     addRules = {
-      commonName: [ { required: true, message: '请输入通用名', trigger: 'blur' } ]
+      name: [ { required: true, message: '请输入通用名', trigger: 'blur' } ]
     }
     beforeMount () {
       this.fetchData()
@@ -150,10 +150,10 @@
       }, 300)
     }
     handleDialogCancel (done) {
-      this.$message({
-        message: '取消保存',
-        type: 'warning'
-      })
+      // this.$message({
+      //   message: '取消保存',
+      //   type: 'warning'
+      // })
       done()
     }
     async handleRowRemove ({ index, row }, done) {
@@ -185,7 +185,6 @@
       this.fetchData()
       this.formOptions.saveLoading = true
       setTimeout(() => {
-        // console.log(row)
         this.$message({
           message: '保存成功',
           type: 'success'

@@ -115,8 +115,8 @@
       saveLoading: false
     }
     addRules = {
-      formNumber: [ { required: true, message: '请输入编码', trigger: 'blur' } ],
-      formName: [ { required: true, message: '请输入剂型名称', trigger: 'blur' } ]
+      code: [ { required: true, message: '请输入编码', trigger: 'blur' } ],
+      name: [ { required: true, message: '请输入剂型名称', trigger: 'blur' } ]
     }
 
     clear () {
