@@ -102,8 +102,7 @@
       saveLoading: false
     }
     addRules = {
-      // commonId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
-      commonName: [ { required: true, message: '请输入通用名', trigger: 'blur' } ]
+      name: [ { required: true, message: '请输入通用名', trigger: 'blur' } ]
     }
     beforeMount () {
       this.fetchData()
@@ -113,20 +112,22 @@
       this.fetchData()
       this.search()
     }
-    async fetchData () {
+    async fetchData (name) {
       let params = {
         pageNum: this.pagination.currentPage,
-        pageSize: 15
+        pageSize: this.pagination.pageSize,
+        name
       }
       let data = await axios.get(`/api/supervise/commonNames`, {params: params})
       this.commonNameData = data.data.list
       this.pagination.total = data.data.total
       this.commonNameData.forEach((item, index) => {
-        item.index = index + 1
+        item.index = (this.pagination.currentPage - 1) * this.pagination.pageSize + index + 1
       })
     }
     clear () {
       this.commonNameValue = ''
+      this.fetchData()
     }
     async handleRowEdit ({ index, row }, done) {
       let getName = await axios.get(`/api/supervise/commonNames/${row.id}/count`, {params: {name: row.name}})
@@ -137,7 +138,7 @@
         })
         return false
       }
-      await axios.put(`/api/supervise/commonNames/${row.id}/update`, {id: row.id, name: row.name})
+      await axios.put(`/api/supervise/commonNames/${row.id}`, {id: row.id, name: row.name})
       this.formOptions.saveLoading = true
       setTimeout(() => {
         this.$message({
@@ -149,14 +150,14 @@
       }, 300)
     }
     handleDialogCancel (done) {
-      this.$message({
-        message: '取消保存',
-        type: 'warning'
-      })
+      // this.$message({
+      //   message: '取消保存',
+      //   type: 'warning'
+      // })
       done()
     }
     async handleRowRemove ({ index, row }, done) {
-      await axios.post(`/api/supervise/commonNames/${row.id}/delete`)
+      await axios.delete(`/api/supervise/commonNames/${row.id}`)
       setTimeout(() => {
         this.$message({
           message: '删除成功',
@@ -164,6 +165,7 @@
         })
         done()
       }, 300)
+      this.fetchData()
     }
     addRow () {
       this.$refs.d2Crud.showDialog({
@@ -179,11 +181,10 @@
         })
         return false
       }
-      await axios.post(`/api/supervise/commonNames/create`, {name: row.name})
+      await axios.post(`/api/supervise/commonNames`, {name: row.name})
       this.fetchData()
       this.formOptions.saveLoading = true
       setTimeout(() => {
-        // console.log(row)
         this.$message({
           message: '保存成功',
           type: 'success'
@@ -199,15 +200,8 @@
           type: 'warning'
         })
       }
-      let params = {
-        name: this.commonNameValue,
-        pageNum: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize
-      }
-      await axios.get(`/api/supervise/commonNames`, {params: params}).then(res => {
-        this.commonNameData = res.data.list
-        this.pagination.total = res.data.total
-      })
+      this.pagination.currentPage = 1
+      this.fetchData(this.commonNameValue)
     }
   }
 </script>

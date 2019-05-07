@@ -55,7 +55,7 @@
       {
         title: '序号',
         key: 'index',
-        width: 320
+        width: 60
       },
       {
         title: '规格名称',
@@ -103,11 +103,11 @@
       saveLoading: false
     }
     addRules = {
-      specId: [ { required: true, message: '请输入ID', trigger: 'blur' } ],
-      specName: [ { required: true, message: '请输入规格名称', trigger: 'blur' } ]
+      name: [ { required: true, message: '请输入规格名称', trigger: 'blur' } ]
     }
     clear () {
       this.commonNameValue = ''
+      this.getAllSpecs()
     }
 
     handleDialogCancel (done) {

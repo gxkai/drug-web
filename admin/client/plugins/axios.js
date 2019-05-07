@@ -9,7 +9,7 @@ export default ({ redirect }) => {
        * process.env.NODE_ENV: 判断开发模式
        * @type {string}
        */
-      config.baseURL = process.env.NODE_ENV !== 'production' ? 'http://172.16.11.140:8091' : 'http://172.16.11.140:8091'
+      config.baseURL = process.env.NODE_ENV !== 'production' ? 'http://172.16.11.138:8091' : 'http://172.16.0.152:8091'
       const token = await getToken()
       if (token) {
         config.headers.Authorization = token
@@ -29,9 +29,12 @@ export default ({ redirect }) => {
     },
     error => {
       if (error.response) {
-        if (error.response.status === 401 || error.response.status === 400) {
+        if (error.response.status === 401) {
           removeToken()
           redirect('/login')
+        }
+        if (error.response.status === 400) {
+
         }
       }
 

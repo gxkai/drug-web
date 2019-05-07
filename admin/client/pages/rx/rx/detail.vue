@@ -139,7 +139,7 @@
 
     async getRxDetail (id) {
       let {data: rxDetail} = await axios.get(`/api/supervise/rxs/${id}/info`)
-      // console.log(rxDetail)
+      console.log(rxDetail)
 
       this.formInfo = rxDetail
       this.formInfo.rxDate = moment(this.formInfo.rxDate).format('YYYY-MM-DD HH:mm:ss')
@@ -151,6 +151,11 @@
 
       let trackRes = await axios.get(`/api/supervise/rxs/${id}/order/state`)
       console.log(trackRes)
+
+      this.trackInfo.orderNumber = trackRes.data[0].number
+      this.trackInfo.payMethod = trackRes.data[0].type
+      this.trackInfo.pharmacyName = trackRes.data[0].shopName
+      this.trackInfo.orderStatus = trackRes.data[0].state
     }
 
     mounted () {

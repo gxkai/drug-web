@@ -191,7 +191,6 @@
         name: this.drugNameValue.trim()
       }
       let {data: drugInfo} = await axios.get(`/api/supervise/drugs`, {params})
-      console.log(111)
       console.log(drugInfo)
       this.drugInfoList = drugInfo.list
       this.pagination.total = drugInfo.total

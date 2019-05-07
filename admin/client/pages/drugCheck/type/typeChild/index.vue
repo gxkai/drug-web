@@ -104,17 +104,18 @@
       this.fetchData()
       this.search()
     }
-    async fetchData () {
+    async fetchData (name) {
       let id = this.$route.query.id
       let pname = this.$route.query.type
       const params = {
-        name: '',
-        pname: this.$route.query.type,
-        pageNum: this.pagination.currentPage,
-        pageSize: 15
+        name,
+        pname: pname
+        // pageNum: this.pagination.currentPage,
+        // pageSize: this.pagination.pageSize
       }
       let data = await axios.get(`/api/supervise/drugTypes/${id}/children`, {params: params})
       this.typeChildData = data.data
+      console.log(this.typeChildData)
       this.typeChildData.forEach((item, index) => {
         item.index = index + 1
         if (item.showed.toString() === 'true') {
@@ -122,29 +123,18 @@
         } else {
           item.showed = '否'
         }
+        this.$set(item, 'pname', pname)
       })
       this.pagination.total = data.data.length
-      this.tableData = data.data.map(i => {
-        this.$set(i, 'pname', pname)
-        return i
-      })
-      // let newArray = this.typeChildData
-      // for (let i = 0; i < newArray.length; i++) {
-      //   if (newArray[i].showed.toString() === 'true') {
-      //     newArray[i].showed = '是'
-      //   } else {
-      //     newArray[i].showed = '否'
-      //   }
-      // }
     }
     clear () {
       this.commonNameValue = ''
+      this.fetchData()
     }
     addRow () {
       this.$router.push('/drugCheck/type/typeChild/create')
     }
     editCustom ({index, row}) {
-      // console.log(row)
       let query = {
         id: row.id,
         pid: row.pid,
@@ -153,7 +143,7 @@
       this.$router.push({path: '/drugCheck/type/typeChild/edit', query: query})
     }
     async handleRowRemove ({ index, row }, done) {
-      await axios.post(`/api/supervise/drugTypes/${row.id}`)
+      await axios.delete(`/api/supervise/drugTypes/${row.id}`)
       setTimeout(() => {
         this.$message({
           message: '删除成功',
@@ -169,16 +159,7 @@
           type: 'warning'
         })
       }
-      let params = {
-        name: this.commonNameValue
-        // pageNum: this.pagination.currentPage,
-        // pageSize: this.pagination.pageSize,
-        // pname: this.$route.query.type
-      }
-      let id = this.$route.query.id
-      await axios.get(`/api/supervise/drugTypes/${id}/children`, {params: params}).then(res => {
-        console.log(res.data)
-      })
+      this.fetchData(this.commonNameValue)
     }
   }
 </script>

@@ -218,7 +218,7 @@
       }
 
       let {data: feedbacks} = await axios.get(`/api/supervise/feedbacks`, {params})
-      // console.log(feedbacks)
+      console.log(feedbacks)
 
       this.feedbackList = feedbacks.list
       this.pagination.total = feedbacks.total
