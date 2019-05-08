@@ -13,7 +13,7 @@
         <el-col :offset="11" :span="3">
           <p v-if="!!displayName">
             <el-tooltip :content="displayName">
-              <a href="/">
+              <a href="javascript:void(0)">
                 <img src="~/assets/img/avatar.svg" />
               </a>
             </el-tooltip>
@@ -21,7 +21,7 @@
           </p>
         </el-col>
         <el-col :span="3">
-          <p @click="$router.push('/account/token')">
+          <p>
             <el-tooltip :content="$t('head.pwd')">
               <img src="~/assets/img/pwd.svg">
             </el-tooltip>
