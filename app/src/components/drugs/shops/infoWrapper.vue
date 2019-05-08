@@ -1,11 +1,11 @@
 <template>
   <div>
-    <info-cell :desc="item.name" title="商品名称" />
-    <info-cell :desc="item.brandName" title="品牌名称" />
-    <info-cell :desc="item.pinyinName" title="拼音名称" />
-    <info-cell :desc="item.enName" title="英文名称" />
-    <info-cell :desc="item.sfda" title="国药准字" />
-    <info-cell :desc="item.validity" title="有效期" />
+    <info-cell :desc="item.mainComponents" title="主要成分" />
+    <info-cell :desc="item.character" title="产品症状" />
+    <info-cell :desc="item.untowardEffect" title="不良反应" />
+    <info-cell :desc="item.taboo" title="禁忌" />
+    <info-cell :desc="item.specName" title="规格" />
+    <info-cell :desc="item.originName" title="厂商" />
   </div>
 </template>
 

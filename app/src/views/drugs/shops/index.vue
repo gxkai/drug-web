@@ -200,7 +200,7 @@ export default {
       }
     },
     async initData() {
-        const data = await this.$http.get(`/api/app/drugs/${this.drugId}`);
+      const data = await this.$http.get(`/api/app/drugs/${this.drugId}`);
       console.log(data)
       this.info = data; // 药品详情商品信息
       this.drugSpecs = data.drugSpecs;
