@@ -32,6 +32,7 @@ const searchRouter = [
     component: () => import('@/views/search.vue')
   }
 ];
+
 const chatRouter = [
   {
     path: '/chats/view',
@@ -358,6 +359,7 @@ const messageRouter = [
     component: () => import('@/views/messages/view.vue')
   }
 ];
+
 const orderRefundRouter = [
   {
     path: '/orderRefunds',
@@ -371,6 +373,7 @@ const orderRefundRouter = [
     component: () => import('@/views/orderRefunds/index.vue')
   }
 ];
+
 const orderRouter = [
   {
     path: '/orders/view',
@@ -561,6 +564,7 @@ const otherRouter = [
     component: () => import('@/views/iframe.vue')
   }
 ];
+
 const appRouter = [
   {
     path: '/home',
@@ -643,4 +647,5 @@ const Router = new VueRouter({
     ...feedBackRouter
   ]
 });
+
 export default Router;

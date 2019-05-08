@@ -93,7 +93,7 @@ export default {
     async initData() {
       console.log(this.cartShop);
       this.payAmount = this.cartShop.payAmount;
-      this.shop = await this.$http.get(`/api/shops/${this.cartShop.id}`);
+      this.shop = await this.$http.get(`/api/app/shops/${this.cartShop.id}`);
     },
     /**
      * 获取购物车ID数组

@@ -1,6 +1,7 @@
 /* eslint-disable no-debugger */
 import axios from 'axios'
 import {getToken, removeToken} from '../mixins'
+import {Message} from 'element-ui'
 
 export default ({ redirect }) => {
   axios.interceptors.request.use(
@@ -9,7 +10,7 @@ export default ({ redirect }) => {
        * process.env.NODE_ENV: 判断开发模式
        * @type {string}
        */
-      config.baseURL = process.env.NODE_ENV !== 'production' ? 'http://172.16.11.138:8090' : 'http://172.16.0.152:8090'
+      config.baseURL = process.env.NODE_ENV !== 'production' ? 'http://172.16.11.138:8090' : 'http://172.16.0.152:8085/shop'
       const token = await getToken()
       if (token) {
         config.headers.Authorization = token
@@ -29,14 +30,39 @@ export default ({ redirect }) => {
     },
     error => {
       if (error.response) {
-        if (error.response.status === 401) {
-          removeToken()
-          redirect('/login')
-        }
-        if (error.response.status === 500) {
-          console.log(1)
-          // removeToken()
-          // redirect('/login')
+        switch (error.response.status) {
+          case 401:
+            removeToken()
+            redirect('/login')
+            break
+          case 400:
+            if (
+              error.response.data.fieldErrors !== undefined &&
+              error.response.data.fieldErrors !== null
+            ) {
+              Message({
+                message: error.response.data.fieldErrors[0].message,
+                type: 'error'
+              })
+            } else {
+              Message({
+                message: error.response.data.message,
+                type: 'error'
+              })
+            }
+            break
+          case 500:
+            Message({
+              message: '网络繁忙',
+              type: 'warning'
+            })
+            break
+          default:
+            Message({
+              message: '网络异常',
+              type: 'error'
+            })
+            break
         }
       }
       return Promise.reject(error)

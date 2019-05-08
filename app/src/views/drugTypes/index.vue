@@ -84,7 +84,7 @@ export default {
   methods: {
     async initData() {
       this.$toast.loading();
-      this.list = await this.$http.get('/api/drugTypes');
+      this.list = await this.$http.get('/api/app/drugTypes');
     },
     clickItem(item) {
       this.loadPageDrugs(item.id);

@@ -43,7 +43,7 @@ export default {
         repositoryTypeId: this.repositoryTypeId
       };
       const data = await this.$http.get(
-        '/api/repositories/',
+        '/api/app/repositories/',
         this.getParams(params)
       );
       this.pushToList(data.list);

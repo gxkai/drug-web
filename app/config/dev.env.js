@@ -6,7 +6,7 @@ module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   EVN_CONFIG:'"dev"',
   API_ROOT: '"http://172.16.0.151:8085/app"',
-  OUTSIDE_ROOT: '"http://172.16.0.151:8085/outside/outside"',
+  OUTSIDE_ROOT: '"http://172.16.0.151:8085/outside/api/outside"',
   WEBSOCKET_ROOT: '"http://172.16.0.151:8091/"'
   /**
    * ip for gxkai

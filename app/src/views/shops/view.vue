@@ -54,7 +54,7 @@ export default {
     };
   },
   async created() {
-    this.shop = await this.$http.get(`/api/shops/${this.shopId}`);
+    this.shop = await this.$http.get(`/api/app/shops/${this.shopId}`);
   },
   mounted() {},
   methods: {}

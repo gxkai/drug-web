@@ -218,10 +218,10 @@ export default {
       let url;
       switch (this.interfaceType) {
         case 'SHOP_DRUG':
-          url = `/api/shops/${this.shopId}/drugs`;
+          url = `/api/app/shops/${this.shopId}/drugs`;
           break;
         default:
-          url = `/api/drugs`;
+          url = `/api/app/drugs`;
       }
       const data = await this.$http.get(url, this.getParams(this.params));
       this.pushToList(data.list);

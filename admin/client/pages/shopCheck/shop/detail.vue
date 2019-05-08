@@ -22,11 +22,41 @@
           <el-input v-model="form.legalPhone" disabled placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="税务登记号：">
-        <el-input v-model="form.taxNumber" disabled placeholder="暂无"></el-input>
-      </el-form-item>
+          <el-input v-model="form.taxNumber" disabled placeholder="暂无"></el-input>
+        </el-form-item>
         <el-form-item label="经营许可证号：">
           <el-input v-model="form.shopLicence" disabled placeholder="暂无"></el-input>
         </el-form-item>
+
+        <el-form-item label="GSP证号：">
+          <el-input v-model="form.gspCertificate" disabled placeholder="暂无"></el-input>
+        </el-form-item>
+        <!--<el-form-item label="RCB Key：">-->
+        <!--<el-input v-model="shopForm.rcb" placeholder="请输入"></el-input>-->
+        <!--</el-form-item>-->
+        <el-form-item label="营业执照：">
+          <el-input v-model="form.license" disabled placeholder="暂无"></el-input>
+        </el-form-item>
+        <el-form-item label="经营地址：">
+          <el-input v-model="form.address" disabled placeholder="暂无"></el-input>
+        </el-form-item>
+        <el-form-item label="营业开始时间：">
+          <el-time-select
+            disabled
+            style="width:100%"
+            v-model="form.openTime"
+            placeholder="营业开始时间">
+          </el-time-select>
+        </el-form-item>
+        <el-form-item label="营业结束时间：">
+          <el-time-select
+            disabled
+            style="width:100%"
+            v-model="form.closeTime"
+            placeholder="营业结束时间">
+          </el-time-select>
+        </el-form-item>
+
         <el-form-item label="经度：">
           <el-input v-model="form.shopLng" disabled placeholder="暂无"></el-input>
         </el-form-item>
@@ -103,6 +133,7 @@
     </div>
   </div>
 </template>
+
 <script>
   import Vue from 'vue'
   import Component from 'class-component'
@@ -129,9 +160,7 @@
     }
     async getShopInfo () {
       let id = this.$route.query.id
-      console.log(id)
       let data = await axios.get(`/api/supervise/shops/${id}`)
-      console.log(data)
 
       let params = {
         local: '',
@@ -184,21 +213,23 @@
         data.data.distribution = '否'
       }
 
-      this.form.shopName = data.data.shopName
-      this.form.shopPhone = data.data.phone
-      this.form.legalPhone = data.data.legalPhone
-      this.form.legalName = data.data.legal
-      this.form.idNumber = data.data.identityNumber
-      this.form.shopEmail = data.data.mail
-      this.form.taxNumber = data.data.taxCode
-      this.form.shopLicence = data.data.certificate
-      this.form.shopLng = data.data.lng
-      this.form.shopLat = data.data.lat
-      this.form.orMedicine = data.data.medicaid
-      this.form.orOverall = data.data.gathered
-      this.form.orDelivery = data.data.distribution
-      this.form.delDistance = data.data.distance
-      this.form.shopIntroduce = data.data.introduction
+      this.form = data.data
+
+      // this.form.shopName = data.data.shopName
+      // this.form.shopPhone = data.data.phone
+      // this.form.legalPhone = data.data.legalPhone
+      // this.form.legalName = data.data.legal
+      // this.form.idNumber = data.data.identityNumber
+      // this.form.shopEmail = data.data.mail
+      // this.form.taxNumber = data.data.taxCode
+      // this.form.shopLicence = data.data.certificate
+      // this.form.shopLng = data.data.lng
+      // this.form.shopLat = data.data.lat
+      // this.form.orMedicine = data.data.medicaid
+      // this.form.orOverall = data.data.gathered
+      // this.form.orDelivery = data.data.distribution
+      // this.form.delDistance = data.data.distance
+      // this.form.shopIntroduce = data.data.introduction
     }
     goback () {
       this.$router.go(-1)
@@ -215,12 +246,10 @@
   }
 </script>
 
-
 <style scoped lang="scss">
 .shop-edit{
   padding: 0 10px;
   margin-bottom: 30px;
-
 
   .check-form{
     min-height: 850px;
@@ -232,13 +261,15 @@
     .el-form{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: repeat(5, 50px) 300px repeat(2, 50px) 200px;
+      grid-template-rows: repeat(7, 55px) 280px repeat(2, 55px) 200px;
       padding-top: 20px;
       .el-form-item{
-        &:nth-child(1),&:nth-child(3),&:nth-child(5),&:nth-child(7),&:nth-child(9),&:nth-child(12),&:nth-child(14){
+        &:nth-child(1),&:nth-child(3),&:nth-child(5),&:nth-child(7),
+        &:nth-child(9),&:nth-child(11),&:nth-child(13){
           grid-column: 1 / 3;
         }
-        &:nth-child(2),&:nth-child(4),&:nth-child(6),&:nth-child(8),&:nth-child(10),&:nth-child(13),&:nth-child(15){
+        &:nth-child(2),&:nth-child(4),&:nth-child(6),
+        &:nth-child(8),&:nth-child(10),&:nth-child(12){
           grid-column: 3 / 5;
         }
         &.el-form-item-textarea{

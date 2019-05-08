@@ -34,8 +34,8 @@ export default {
     async onLoad() {
       let url =
         this.type === 'PHARMACIST'
-          ? '/api/chats/pharmacists'
-          : '/api/chats/customerServices';
+          ? '/api/app/chats/pharmacists'
+          : '/api/app/chats/customerServices';
       this.list = await this.$http.get(url);
     },
     async onConsult(user) {
@@ -44,7 +44,7 @@ export default {
         userId: user.id,
         type: this.type
       };
-      let chat = await this.$http.post(`/api/chats`, data);
+      let chat = await this.$http.post(`/api/app/chats`, data);
       this.loadPageChatsView(user, chat.id);
     }
   }

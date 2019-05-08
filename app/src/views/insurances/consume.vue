@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     async initData() {
-      this.items = await this.$http.get('/api/accounts/medicaid/consumes');
+      this.items = await this.$http.get('/api/app/accounts/medicaid/consumes');
       console.log(this.items);
     }
   }

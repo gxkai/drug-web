@@ -40,14 +40,14 @@ export default {
   computed: {},
   watch: {},
   async created() {
-    this.messageCount = await this.$http.get('/api/messages/count');
+    this.messageCount = await this.$http.get('/api/app/messages/count');
   },
   mounted() {},
   methods: {
     async onRead1(file) {
       let fileId = await this.onRead(file);
       this.account.fileId = fileId;
-      await this.$http.put('/api/accounts', this.account);
+      await this.$http.put('/api/app/accounts', this.account);
       this.setAccount(this.account);
     }
   }

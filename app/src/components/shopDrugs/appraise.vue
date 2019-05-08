@@ -38,7 +38,7 @@ export default {
         shopDrugId: this.shopDrug.id
       };
       const data = await this.$http.get(
-        '/api/drugAppraises',
+        '/api/app/drugAppraises',
         this.getParams(params)
       );
       this.pushToList(data.list);

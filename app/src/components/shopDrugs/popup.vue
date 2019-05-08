@@ -85,7 +85,7 @@ export default {
             quantity: this.number
           }
         ];
-        await this.$http.post('/api/carts', data);
+        await this.$http.post('/api/app/carts', data);
         this.$toast('加入购物车成功');
         this.show1 = false;
       } else {
@@ -99,7 +99,7 @@ export default {
           items: items
         };
         const shopDrugOrderDTO = await this.$http.post(
-          '/api/orders/shop/preClose',
+          '/api/app/orders/shop/preClose',
           json
         );
         this.loadPageOrdersCreateFromShop(shopDrugOrderDTO);

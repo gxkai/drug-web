@@ -63,7 +63,7 @@ export default {
         messageType: this.messageType
       };
       const data = await this.$http.get(
-        '/api/messages',
+        '/api/app/messages',
         this.getParams(params)
       );
       this.pushToList(data.list);

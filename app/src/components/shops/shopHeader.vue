@@ -35,7 +35,7 @@ export default {
   watch: {},
   async created() {
     this.collected = await this.$http.get(
-      `/api/collects/shop/one?shopId=${this.shop.id}`
+      `/api/app/collects/shop/one?shopId=${this.shop.id}`
     );
   },
   mounted() {},
@@ -46,7 +46,7 @@ export default {
         shopId: this.shop.id,
         collected: collected
       };
-      await this.$http.post('/api/collects/shop', data);
+      await this.$http.post('/api/app/collects/shop', data);
       this.collected = collected;
       this.$toast(`${collected ? '收藏成功' : '取消收藏成功'}`);
     }

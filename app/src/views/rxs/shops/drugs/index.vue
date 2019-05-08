@@ -172,7 +172,7 @@ export default {
   methods: {
     async initData() {
       this.drugs = await this.$http.get(
-        `/api/rxs/${this.rxId}/shops/${this.shopId}/drugs`
+        `/api/app/rxs/${this.rxId}/shops/${this.shopId}/drugs`
       );
       console.log(this.drugs);
       this.initCart();
@@ -217,7 +217,7 @@ export default {
       });
     },
     async createCart() {
-      await this.$http.post('/api/carts', this.carts);
+      await this.$http.post('/api/app/carts', this.carts);
       this.$toast('加入成功');
     },
     async onBuy() {
@@ -227,7 +227,7 @@ export default {
         items: this.carts
       };
       const shopDrugOrderDTO = await this.$http.post(
-        '/api/orders/shop/preClose',
+        '/api/app/orders/shop/preClose',
         json
       );
       this.loadPageOrdersCreateFromShop(shopDrugOrderDTO);

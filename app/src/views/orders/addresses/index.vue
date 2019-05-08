@@ -66,7 +66,7 @@ export default {
   methods: {
     async initData() {
       this.list = await this.$http.get(
-        `/api/addresses/order?shopId=${this.shopId}`
+        `/api/app/addresses/order?shopId=${this.shopId}`
       );
       this.innerRanges = this.list.filter(e => !e.overRange);
       console.log(this.innerRanges);

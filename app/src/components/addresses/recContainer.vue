@@ -50,7 +50,7 @@ export default {
   mounted() {},
   methods: {
     async getAddresses() {
-      this.addresses = await this.$http.get('/api/addresses');
+      this.addresses = await this.$http.get('/api/app/addresses');
       this.addresses.map(e => {
         e.name = e.address;
       });

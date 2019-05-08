@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     async initData() {
-      const data = await this.$http.get('/api/repositoryTypes');
+      const data = await this.$http.get('/api/app/repositoryTypes');
       this.list = data;
     },
     clickItem(item) {

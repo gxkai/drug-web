@@ -12,7 +12,7 @@ export default {
   computed: {},
   watch: {},
   async created() {
-    let orderId = await this.$http.get('/api/orders/number', {
+    let orderId = await this.$http.get('/api/app/orders/number', {
       number: this.$route.query.MerOrderNo
     });
     this.loadPageOrdersView(orderId);

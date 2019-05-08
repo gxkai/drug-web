@@ -180,7 +180,7 @@ export default {
       this.username = this.getUsername();
     },
     async getCaptcha() {
-      let captcha = await this.$http.post('/api/captchas', {
+      let captcha = await this.$http.post('/api/app/captchas', {
         username: this.registerUsername,
         captchaType: 'ACCOUNT_REGISTER'
       });
@@ -188,7 +188,7 @@ export default {
       this.setInt();
     },
     async checkCaptcha() {
-      await this.$http.post('/api/captchas/check', {
+      await this.$http.post('/api/app/captchas/check', {
         username: this.registerUsername,
         captcha: this.captcha
       });
@@ -219,9 +219,9 @@ export default {
         password: this.password,
         clientId: this.clientId
       };
-      const token = await this.$http.post('/api/accounts/login1', data);
+      const token = await this.$http.post('/api/app/accounts/login1', data);
       this.setToken(token);
-      const account = await this.$http.get('/api/accounts');
+      const account = await this.$http.get('/api/app/accounts');
       this.setAccount(account);
       this.setUsername(this.username);
       if (this.isMobile()) {
@@ -237,7 +237,7 @@ export default {
         password: this.registerPassword,
         captcha: this.captcha
       };
-      await this.$http.post('/api/accounts', userInfo);
+      await this.$http.post('/api/app/accounts', userInfo);
       this.username = this.registerUsername;
       this.password = this.registerPassword;
     }

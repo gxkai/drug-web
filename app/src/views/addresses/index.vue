@@ -32,7 +32,7 @@ export default {
   mounted() {},
   methods: {
     async initData() {
-      this.list = await this.$http.get('/api/addresses');
+      this.list = await this.$http.get('/api/app/addresses');
     }
   }
 };
