@@ -5,8 +5,8 @@
       <h3 class="h3-title">基本信息</h3>
 
       <div class="check-form">
-        <el-form ref="form" :model="shopForm" label-width="150px">
-          <el-form-item label="药店名称：">
+        <el-form ref="form" :model="shopForm" label-width="150px" :rules="rules">
+          <el-form-item label="药店名称：" prop="name">
             <el-input v-model="shopForm.name" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="店内电话：">
@@ -287,6 +287,11 @@
         label: '否'
       }
     ];
+
+    rules = {
+      name: [{ required: true, message: '请输入药店名称', trigger: 'blur' }]
+    }
+
     shopLogo = ''; // 药店封面照
     shopLogoFile = {}; // 药店LOGO存放
     handleAvatarSuccess (res, file) {
@@ -373,19 +378,24 @@
             }
             // 封面照
             let shopImg = res.data.fileId
-            if (shopImg !== '') {
+            if (shopImg !== null) {
               axios.get(`/api/shop/files/${shopImg}`, {params: params}).then(res => {
                 this.shopLogo = res.data.replace('redirect:', '')
               })
+            } else {
+              this.shopLogo = ''
             }
             // 店内照片
             let shopInner = res.data.shopInnerFileIdList
-            shopInner.forEach((item) => {
-              axios.get(`/api/shop/files/${item}`, {params: params}).then(res => {
-                this.innerImg = res.data.replace('redirect:', '')
-                console.log(this.innerImg)
+            if (shopInner !== null) {
+              shopInner.forEach((item) => {
+                axios.get(`/api/shop/files/${item}`, {params: params}).then(res => {
+                  this.innerImg = res.data.replace('redirect:', '')
+                  console.log(this.innerImg)
+                })
               })
-            })
+            }
+
             // 经营许可证
             let shopImg2 = res.data.certificateFileId
             if (shopImg2 !== '') {
@@ -456,17 +466,10 @@
       console.log(this.shopForm.certificateFileId)
       console.log(this.shopForm.gspFileId)
       console.log(this.shopForm.identityNumberFileId)
-
-      //
-
-      // 上传logo图片
-      // let { data: logoFileID } = await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile))
-      // this.shopForm.fileId = logoFileID
-      // console.log(logoFileID)
+  
       await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile)).then(res => {
         console.log('logoFileID', res.data)
         if (this.shopForm.fileId !== res.data) {
-          console.log(1)
           this.shopForm.fileId = res.data
         }
       }).catch(error => {
@@ -515,44 +518,53 @@
       this.shopForm.identityNumberFileId = idnumberID
       console.log(idnumberID)
 
-      let shopCreateDTO = {
-        id: '',
-        name: this.shopForm.name,
-        legal: this.shopForm.legal,
-        identityNumber: this.shopForm.identityNumber,
-        legalPhone: this.shopForm.legalPhone,
-        mail: this.shopForm.mail,
-        taxCode: this.shopForm.taxCode,
-        license: this.shopForm.license,
-        certificate: this.shopForm.certificate,
-        gspCertificate: this.shopForm.gspCertificate,
-        phone: this.shopForm.phone,
-        address: this.shopForm.address,
-        introduction: this.shopForm.introduction,
-        openTime: this.shopForm.openTime,
-        closeTime: this.shopForm.closeTime,
-        state: 'TO_CHECK',
-        fileId: this.shopForm.fileId, // 药店LOGO图片ID
-        shopInnerFileId: this.innerFileId, // 最多4张店内照片ID
-        licenseFileId: this.shopForm.licenseFileId, // 营业执照图片ID
-        certificateFileId: this.shopForm.certificateFileId, // 经营许可证图片ID
-        gspFileId: this.shopForm.gspFileId, // gsp图片ID
-        identityNumberFileId: this.shopForm.identityNumberFileId, // 身份证图片ID
-        gathered: this.shopForm.gathered,
-        medicaid: this.shopForm.medicaid,
-        distance: this.shopForm.distance,
-        lat: this.shopForm.lat,
-        lng: this.shopForm.lng,
-        rcbKey: this.shopForm.rcb,
-        distribution: this.shopForm.distribution
-      }
-      let addShop = await axios.post(`/api/shop/shops`, shopCreateDTO)
-      console.log(addShop)
-      if (addShop) {
-        this.$message({
-          message: '添加成功',
-          type: 'success'
-        })
+      const valid = this.$refs.form.validate()
+      try {
+        if (valid) {
+          let shopCreateDTO = {
+            id: '',
+            name: this.shopForm.name,
+            legal: this.shopForm.legal,
+            identityNumber: this.shopForm.identityNumber,
+            legalPhone: this.shopForm.legalPhone,
+            mail: this.shopForm.mail,
+            taxCode: this.shopForm.taxCode,
+            license: this.shopForm.license,
+            certificate: this.shopForm.certificate,
+            gspCertificate: this.shopForm.gspCertificate,
+            phone: this.shopForm.phone,
+            address: this.shopForm.address,
+            introduction: this.shopForm.introduction,
+            openTime: this.shopForm.openTime,
+            closeTime: this.shopForm.closeTime,
+            state: 'TO_CHECK',
+            fileId: this.shopForm.fileId, // 药店LOGO图片ID
+            shopInnerFileId: this.innerFileId, // 最多4张店内照片ID
+            licenseFileId: this.shopForm.licenseFileId, // 营业执照图片ID
+            certificateFileId: this.shopForm.certificateFileId, // 经营许可证图片ID
+            gspFileId: this.shopForm.gspFileId, // gsp图片ID
+            identityNumberFileId: this.shopForm.identityNumberFileId, // 身份证图片ID
+            gathered: this.shopForm.gathered,
+            medicaid: this.shopForm.medicaid,
+            distance: this.shopForm.distance,
+            lat: this.shopForm.lat,
+            lng: this.shopForm.lng,
+            rcbKey: this.shopForm.rcb,
+            distribution: this.shopForm.distribution
+          }
+          let addShop = await axios.post(`/api/shop/shops`, shopCreateDTO)
+          console.log(addShop)
+          if (addShop) {
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+          }
+        }
+      } catch (e) {
+        this.$message.warning(e.message)
+      } finally {
+        this.$router.push('/shop/setup')
       }
     }
 
@@ -632,7 +644,7 @@
         .el-form {
           display: grid;
           grid-template-columns: 1fr 1fr 1fr 1fr;
-          grid-template-rows: repeat(10, 50px) 200px;
+          grid-template-rows: repeat(10, 60px) 200px;
           .el-form-item {
             &:nth-child(2n-1) {
               grid-column: 1 / 3;

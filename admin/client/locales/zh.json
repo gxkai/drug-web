@@ -164,7 +164,9 @@
   "/system/account/detail":
     "会员详情",
   "/system/shop":
-    "药店管理",
+    "药店帐号管理",
+  "/system/shop/person":
+    "药店人员管理",
   "/system/user":
     "用户管理",
   "/system/admin":

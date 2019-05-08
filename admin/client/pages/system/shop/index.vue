@@ -42,6 +42,7 @@
         @emit-stop="handleDisable"
         @emit-run="handleEnable"
         @emit-reset="setPassword"
+        @emit-person="handlePerson"
         class="drug-table"
       />
     </div>
@@ -80,18 +81,18 @@
         width: 60
       },
       {
+        title: '账号/电话',
+        key: 'phone',
+        width: 150
+      },
+      {
         title: '药店名字',
         key: 'shopName',
-        width: 250
+        width: 300
       },
       {
         title: '法人',
         key: 'legal'
-      },
-      {
-        title: '电话号码',
-        key: 'phone',
-        width: 150
       },
       {
         title: '订单数量',
@@ -122,7 +123,7 @@
       border: true
     }
     rowHandle = {
-      width: 250,
+      width: 300,
       custom: [
         {
           text: '查看详情',
@@ -153,6 +154,11 @@
           text: '重置密码',
           type: 'text',
           emit: 'emit-reset'
+        },
+        {
+          text: '查看人员',
+          type: 'text',
+          emit: 'emit-person'
         }
       ]
     }
@@ -207,6 +213,15 @@
     handleDetail ({index, row}) {
       this.$router.push({
         path: '/shopCheck/shop/detail',
+        query: {
+          id: row.id
+        }
+      })
+    }
+    handlePerson ({index, row}) {
+      console.log(row)
+      this.$router.push({
+        path: '/system/shop/person',
         query: {
           id: row.id
         }

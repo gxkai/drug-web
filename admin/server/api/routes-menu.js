@@ -299,7 +299,7 @@ if (SHOW_EXAMPLES) {
         },
         {
           id: '100-3',
-          name: '药店管理',
+          name: '药店帐号管理',
           url: '/system/shop',
           icon: 'el-icon-share'
         },
