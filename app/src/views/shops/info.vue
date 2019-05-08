@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     async initData() {
-      this.shop = await this.$http.get(`/api/shops/${this.shopId}`);
+      this.shop = await this.$http.get(`/api/app/shops/${this.shopId}`);
     },
     onLocation() {
       this.loadPageIframe(

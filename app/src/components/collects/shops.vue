@@ -25,7 +25,7 @@ export default {
   methods: {
     async onLoad() {
       this.loadMore();
-      const data = await this.$http.get('/api/collects/shop', this.getParams());
+      const data = await this.$http.get('/api/app/collects/shop', this.getParams());
       const list = data.list;
       this.pushToList(list);
     }

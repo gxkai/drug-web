@@ -37,7 +37,7 @@ export default {
   watch: {},
   async created() {
     this.list = await this.$http.get(
-      `/api/shops/${this.shopId}/drugs/recommend`
+      `/api/app/shops/${this.shopId}/drugs/recommend`
     );
   },
   mounted() {},

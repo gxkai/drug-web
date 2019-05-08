@@ -150,7 +150,7 @@ export default {
     async onLoad() {
       this.loadMore();
       const data = await this.$http.get(
-        '/api/orders',
+        '/api/app/orders',
         this.getParams({ orderState: this.state })
       );
       const list = data.list;

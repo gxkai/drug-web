@@ -44,16 +44,16 @@ export default {
       let url;
       switch (this.type) {
         case 'name':
-          url = '/api/drugs/name';
+          url = '/api/app/drugs/name';
           break;
         case 'spec':
-          url = '/api/specs';
+          url = '/api/app/specs';
           break;
         case 'origin':
-          url = '/api/origins';
+          url = '/api/app/origins';
           break;
         case 'form':
-          url = '/api/forms';
+          url = '/api/app/forms';
           break;
         default:
           break;

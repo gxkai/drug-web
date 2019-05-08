@@ -34,7 +34,7 @@ export default {
   mounted() {},
   methods: {
     async initData() {
-      this.list = await this.$http.get('/api/repositories/home');
+      this.list = await this.$http.get('/api/app/repositories/home');
       console.log(this.list);
     },
     clickItem(item) {

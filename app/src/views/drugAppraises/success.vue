@@ -67,7 +67,7 @@ export default {
     async initData() {
       // this.list = await this.$http.get('/api/drugAppraises/toAppraise');
       // 好货推荐
-      this.list = await this.$http.get('/api/drugs/recommend');
+      this.list = await this.$http.get('/api/app/drugs/recommend');
     }
   }
 };

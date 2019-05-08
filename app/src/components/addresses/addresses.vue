@@ -53,7 +53,7 @@ export default {
     del(id, index) {
       this.$dialog.confirm({ message: '确定删除？' }).then(async () => {
         this.$toast.loading({ duration: 0, forbidClick: true });
-        await this.$http.delete('/api/addresses/' + id);
+        await this.$http.delete('/api/app/addresses/' + id);
         this.list.splice(index, 1);
       });
     },

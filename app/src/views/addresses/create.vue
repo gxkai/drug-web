@@ -75,7 +75,7 @@ export default {
     async initData() {
     },
     async save() {
-      this.item = await this.$http.post('/api/addresses/', this.item);
+      this.item = await this.$http.post('/api/app/addresses/', this.item);
       this.$toast('保存成功');
       setTimeout(() => {
         this.$router.go(-1);

@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     async initData() {
-      this.info = await this.$http.get(`/api/repositories/${this.id}`);
+      this.info = await this.$http.get(`/api/app/repositories/${this.id}`);
     }
   }
 };

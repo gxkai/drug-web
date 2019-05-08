@@ -66,8 +66,8 @@ export default {
   mounted() {},
   methods: {
     async initData() {
-      this.item = await this.$http.get(`/api/messages/${this.messageId}`);
-      this.$http.put(`/api/messages/read?messageId=${this.messageId}`);
+      this.item = await this.$http.get(`/api/app/messages/${this.messageId}`);
+      this.$http.put(`/api/app/messages/read?messageId=${this.messageId}`);
     }
   }
 };

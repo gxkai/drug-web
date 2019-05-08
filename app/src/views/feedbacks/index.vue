@@ -43,7 +43,7 @@ export default {
     async onLoad() {
       this.loadMore();
       const data = await this.$http.get(
-        '/api/feedbacks',
+        '/api/app/feedbacks',
         this.getParams()
       );
       this.pushToList(data.list);

@@ -44,7 +44,7 @@ export default {
   computed: {},
   watch: {},
   async created() {
-    this.recommends = await this.$http.get('/api/drugs/recommend');
+    this.recommends = await this.$http.get('/api/app/drugs/recommend');
   },
   mounted() {},
   methods: {}

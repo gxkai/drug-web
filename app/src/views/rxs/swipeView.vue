@@ -39,7 +39,7 @@ export default {
     for (let index in this.rxIds) {
       let rxId = this.rxIds[index];
       console.log(rxId);
-      let rx = await this.$http.get(`/api/rxs/${rxId}`);
+      let rx = await this.$http.get(`/api/app/rxs/${rxId}`);
       this.rxs.push(rx);
     }
     console.log(this.rxs);

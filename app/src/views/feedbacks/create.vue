@@ -45,7 +45,7 @@ export default {
       const params = {
         content: this.content
       };
-      await this.$http.post('/api/feedbacks', params);
+      await this.$http.post('/api/app/feedbacks', params);
       this.$toast('成功');
       this.$router.go(-1);
     }

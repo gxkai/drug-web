@@ -77,7 +77,7 @@ export default {
     },
     async getRxShops() {
       this.rxShops_ = await this.$http.get(
-        `/api/rxs/${this.rxId}/shops?lng=${this.currentAddress.lng}&lat=${
+        `/api/app/rxs/${this.rxId}/shops?lng=${this.currentAddress.lng}&lat=${
           this.currentAddress.lat
         }`
       );
@@ -85,7 +85,7 @@ export default {
     },
     async getHospital() {
       this.hospital = await this.$http.get(
-        `/api/rxs/${this.rxId}/hospital?lng=${this.currentAddress.lng}&lat=${
+        `/api/app/rxs/${this.rxId}/hospital?lng=${this.currentAddress.lng}&lat=${
           this.currentAddress.lat
         }`
       );

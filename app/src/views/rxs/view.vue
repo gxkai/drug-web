@@ -40,7 +40,7 @@ export default {
   mounted() {},
   methods: {
     async initData() {
-      this.rx = await this.$http.get('/api/rxs/' + this.rxId);
+      this.rx = await this.$http.get('/api/app/rxs/' + this.rxId);
       console.log(this.rx);
     },
     submit() {

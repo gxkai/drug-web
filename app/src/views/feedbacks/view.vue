@@ -27,7 +27,7 @@ export default {
   computed: {},
   watch: {},
   async created() {
-    this.item = await this.$http.get(`/api/feedbacks/${this.$route.query.id}`);
+    this.item = await this.$http.get(`/api/app/feedbacks/${this.$route.query.id}`);
   },
   mounted() {},
   methods: {}

@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     async initData() {
-      this.list = await this.$http.get('/api/messageTypes');
+      this.list = await this.$http.get('/api/app/messageTypes');
     },
     onClick(item) {
       this.loadPageMessages(item.name, item.messageType);

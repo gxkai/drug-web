@@ -47,7 +47,7 @@ export default {
   computed: {},
   watch: {},
   async created() {
-    this.repositories = await this.$http.get('/api/repositories/home');
+    this.repositories = await this.$http.get('/api/app/repositories/home');
   },
   mounted() {},
   methods: {

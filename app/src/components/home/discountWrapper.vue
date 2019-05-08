@@ -42,7 +42,7 @@ export default {
   computed: {},
   watch: {},
   async created() {
-    this.discounts = await this.$http.get('/api/drugs/discount');
+    this.discounts = await this.$http.get('/api/app/drugs/discount');
   },
   mounted() {},
   methods: {}
