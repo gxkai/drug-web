@@ -271,6 +271,7 @@
         type: 'success'
       })
       this.addDialogVisible = false
+      this.initData()
     }
 
     // 查看

@@ -99,7 +99,7 @@
       username: '',
       password: ''
     }
-    // loginToken = ''
+
     rules = {}
     logging = false
 
@@ -166,7 +166,15 @@
         message: '注册成功！',
         type: 'success'
       })
-      this.$router.push('/login')
+  
+      this.registerInfo.phone = ''
+      this.registerInfo.captcha = ''
+      this.registerInfo.password = ''
+      this.registerInfo.passwordAgain = ''
+
+      this.activeName = 'loginTab'
+
+      // this.$router.push('/login')
     }
 
     async getAuthCode () {
@@ -197,7 +205,6 @@
           }, 1000)
         }).catch(error => {
           if (error.response) {
-            // console.log(error.response)
             if (error.response.status === 400) {
               this.$message({
                 message: error.response.data.message,
