@@ -19,9 +19,9 @@
           </p>
         </el-col>
         <el-col :span="3">
-          <p @click="$router.push('/account/token')">
+          <p>
             <el-tooltip :content="$t('head.pwd')">
-              <img src="~/assets/img/pwd.svg"></img>
+              <img src="~/assets/img/pwd.svg">
             </el-tooltip>
             <span> {{$t("head.pwd")}}</span>
           </p>
