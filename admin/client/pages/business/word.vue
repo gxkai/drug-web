@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="title">
         <h3>搜索词管理</h3>
-        <el-button @click="addRow" type="primary" style="background: #169bd5;">新增</el-button>
+        <el-button @click="dialogFormVisible = true" type="primary" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
@@ -20,13 +20,34 @@
           @view-emit="view"
           @firstPush-emit="firstPush"
 
-          add-title="我的新增"
-          :add-template="addTemplate"
           :form-options="formOptions"
-          @row-add="handleRowAdd"
+
           @dialog-cancel="handleDialogCancel"
           @row-remove="handleRowRemove"
         />
+
+
+        <!--新增-->
+
+        <el-dialog title="我的新增" :visible.sync="dialogFormVisible">
+          <el-form :model="addForm" ref="addForm" :rules="rules">
+            <el-form-item label="搜索词" :label-width="formLabelWidth" prop="name">
+              <el-input v-model="addForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="类型" :label-width="formLabelWidth" prop="type">
+              <el-input v-model="addForm.type"></el-input>
+            </el-form-item>
+            <el-form-item label="排序" :label-width="formLabelWidth" prop="sort">
+              <el-input v-model="addForm.sort"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="enterSubmit">确 定</el-button>
+          </div>
+        </el-dialog>
+
+
       </div>
 
       <el-dialog
@@ -94,7 +115,8 @@
     columns = [
       {
         title: '序号',
-        key: 'index'
+        key: 'index',
+        width: 60
       },
       {
         title: '搜索词',
@@ -138,20 +160,26 @@
         confirm: true
       }
     }
-    addTemplate = {
-      name: {
-        title: '搜索词',
-        value: ''
-      },
-      type: {
-        title: '类型',
-        value: ''
-      }
-    }
+
     formOptions = {
       labelWidth: '80px',
-      labelPosition: 'left',
+      labelPosition: 'right',
       saveLoading: false
+    }
+
+    rules = {
+      name: [ { required: true, message: '请输入搜索词', trigger: 'blur' } ],
+      type: [ { required: true, message: '请输入类型', trigger: 'blur' } ],
+      sort: [ { required: true, message: '请输入排序', trigger: 'blur' } ]
+    }
+
+    dialogFormVisible = false
+    formLabelWidth = '80px'
+
+    addForm = {
+      name: '',
+      type: '',
+      sort: ''
     }
 
     beforeMount () {
@@ -170,6 +198,7 @@
         pageSize: this.pagination.pageSize
       }
       let data = await axios.get(`/api/supervise/keywords`, {params: params})
+      console.log(data)
       this.keywordsData = data.data.list
       // 添加序号
       this.keywordsData.forEach((item, index) => {
@@ -222,48 +251,83 @@
     }
 
     // 新增关键词
-    addRow () {
-      this.$refs.d2Crud.showDialog({
-        mode: 'add'
-      })
-    }
-    async handleRowAdd (row, done) {
-      // 判重
-      console.log(row)
-      let getName = await axios.post(`/api/supervise/keywords/exists?name=` + row.name)
-      console.log(getName)
-      if (getName.data === true) {
-        this.$message({
-          message: '关键词已存在!',
-          type: 'warning'
-        })
-        return false
+    async enterSubmit () {
+      const valid = this.$refs.addForm.validate()
+      try {
+        if (valid) {
+          // if (this.addForm.name === '' || this.addForm.icon === '') {
+          //   return false
+          // }
+          let getName = await axios.post(`/api/supervise/keywords/exists?name=` + this.addForm.name)
+          if (getName.data === true) {
+            this.$message({
+              message: '名称已存在!',
+              type: 'warning'
+            })
+            return false
+          }
+          let params = {
+            name: this.addForm.name,
+            sort: this.addForm.sort,
+            type: 'ADMIN' // 类型：account用户搜索/admin后台推荐
+          }
+          await axios.post(`/api/supervise/keywords`, params)
+          this.$message({
+            message: '保存成功',
+            type: 'success'
+          })
+          this.dialogFormVisible = false
+          this.initData()
+        }
+      } catch (e) {
+        if (e.response) {
+          console.log(e.response)
+        }
+      } finally {
       }
-      let drugKeyword = {
-        name: row.name,
-        sort: row.sort,
-        type: 'ADMIN' // 类型：account用户搜索/admin后台推荐
-      }
-      await axios.post(`/api/supervise/keywords`, drugKeyword)
-      this.initData()
-
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(row)
-        this.$message({
-          message: '保存成功',
-          type: 'success'
-        })
-        done()
-        this.formOptions.saveLoading = false
-      }, 300)
     }
+    // addRow () {
+    //   this.$refs.d2Crud.showDialog({
+    //     mode: 'add'
+    //   })
+    // }
+    // async handleRowAdd (row, done) {
+    //   // 判重
+    //   console.log(row)
+    //   let getName = await axios.post(`/api/supervise/keywords/exists?name=` + row.name)
+    //   console.log(getName)
+    //   if (getName.data === true) {
+    //     this.$message({
+    //       message: '关键词已存在!',
+    //       type: 'warning'
+    //     })
+    //     return false
+    //   }
+    //   let drugKeyword = {
+    //     name: row.name,
+    //     sort: row.sort,
+    //     type: 'ADMIN' // 类型：account用户搜索/admin后台推荐
+    //   }
+    //   await axios.post(`/api/supervise/keywords`, drugKeyword)
+    //   this.initData()
+    //
+    //   this.formOptions.saveLoading = true
+    //   setTimeout(() => {
+    //     console.log(row)
+    //     this.$message({
+    //       message: '保存成功',
+    //       type: 'success'
+    //     })
+    //     done()
+    //     this.formOptions.saveLoading = false
+    //   }, 300)
+    // }
 
     handleDialogCancel (done) {
-      this.$message({
-        message: '取消保存',
-        type: 'warning'
-      })
+      // this.$message({
+      //   message: '取消保存',
+      //   type: 'warning'
+      // })
       done()
     }
 

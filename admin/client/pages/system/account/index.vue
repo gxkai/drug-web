@@ -55,11 +55,11 @@
       },
       {
         title: '用户名',
-        key: 'name'
+        key: 'username'
       },
       {
         title: '姓名',
-        key: 'username'
+        key: 'name'
       },
       {
         title: '账号来源',
