@@ -81,8 +81,8 @@ export default {
   data() {
     return {
       name: '订单结算',
-      cartShop: this.$route.params.cartShop,
-      isRx: this.$route.params.isRx
+      cartShop: JSON.parse(this.$route.query.cartShop),
+      isRx: this.$route.query.isRx
     };
   },
   created() {

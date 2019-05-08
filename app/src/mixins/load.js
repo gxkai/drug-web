@@ -125,13 +125,13 @@ export default {
     },
     loadPageOrdersCreateFromCart(cartShop, isRx) {
       this.loadPage_p('/orders/create/fromCart', {
-        cartShop: cartShop,
+        cartShop: JSON.stringify(cartShop),
         isRx: isRx
       });
     },
     loadPageOrdersCreateFromShop(shopDrugOrderDTO) {
-      this.loadPage_p('/orders/create/fromShop', {
-        shopDrugOrderDTO: shopDrugOrderDTO
+      this.loadPage('/orders/create/fromShop', {
+        shopDrugOrderDTO: JSON.stringify(shopDrugOrderDTO)
       });
     },
     loadPageRepositories(title, repositoryTypeId) {

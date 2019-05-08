@@ -22,7 +22,8 @@
         />
       </template>
       <template slot="bottom">
-        <new-submit-button name="管理地址" @click.native="loadPageAddresses" />
+        <new-submit-button name="管理地址" @click.native="loadPageAddresses" v-if="innerRanges.length>0"/>
+        <new-submit-button name="新增地址" @click.native="loadPageAddressesCreate" v-else/>
       </template>
     </new-layout>
   </div>

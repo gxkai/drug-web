@@ -71,7 +71,7 @@ import actionSheet from '@/components/orders/actionSheet';
 import create from '@/mixins/orders/create';
 
 export default {
-  name: 'CreateFromCart',
+  name: 'CreateFromShop',
   components: {
     infoCell,
     inputCell,
@@ -84,7 +84,7 @@ export default {
   data() {
     return {
       name: '订单结算',
-      shopDrugOrderDTO: this.$route.params.shopDrugOrderDTO
+      shopDrugOrderDTO: JSON.parse(this.$route.query.shopDrugOrderDTO)
     };
   },
   watch: {},

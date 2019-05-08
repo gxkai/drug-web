@@ -1,5 +1,5 @@
 <template>
-  <!--<van-tabs v-model="active1">
+  <van-tabs v-model="active1">
     <van-tab title="到店自取">
       <div class="self-wrapper">
         <shop-cell :desc="shop.address" icon="location" title="自取地址:" />
@@ -45,8 +45,8 @@
         />
       </div>
     </van-tab>
-  </van-tabs>-->
-  <div>
+  </van-tabs>
+  <!--<div>
     <header>
       到店自取
     </header>
@@ -70,7 +70,7 @@
           </span>
       </div>
     </div>
-  </div>
+  </div>-->
 </template>
 
 <script>

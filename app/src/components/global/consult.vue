@@ -1,6 +1,6 @@
 <template>
   <new-move class="consult">
-    <img v-lazy="image" @click="show = !show" />
+    <img v-lazy="image" @click="loadPageChats('PHARMACIST')" />
     <van-actionsheet
       v-model="show"
       :actions="actions"
