@@ -357,6 +357,7 @@
 
     // 下架
     async obtained (id) {
+      console.log(id)
       await axios.delete(`/api/supervise/drugRecommendApplies/${id}`)
       this.totalPages -= 1
       this.$message({

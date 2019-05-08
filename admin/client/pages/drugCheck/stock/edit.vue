@@ -471,6 +471,13 @@
       }
 
       await axios.put(`/api/supervise/drugs/${this.drugID}`, params)
+      this.$message({
+        message: '编辑成功',
+        type: 'success'
+      })
+      setTimeout(() => {
+        this.$router.push('/drugCheck/stock')
+      }, 1000)
     }
 
     // 返回

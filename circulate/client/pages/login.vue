@@ -8,7 +8,7 @@
               <!--用户登录-->
               <div class="login-container tab-container">
                 <el-form :model="user" ref="user" @keyup.enter.native='!logging && login()'>
-                  <el-form-item prop="userName" :rules="[{ required: true, message: $t('login.userRequired')}]">
+                  <el-form-item prop="username" :rules="[{ required: true, message: $t('login.userRequired')}]">
                     <el-col :span="24">
                       <el-input v-model="user.username" autofocus :placeholder="$t('login.userPlaceholder')">
                         <i slot="prefix" class="icon-zhanghao"></i>

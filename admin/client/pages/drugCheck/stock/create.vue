@@ -447,20 +447,20 @@
       let params = {
         fileId: this.coverFileId,
         imgs: this.detailFileId,
-        name: this.detailForm.name,
-        commonNameId: this.detailForm.commonNameId,
+        name: this.detailForm.name, // 药品名不能为空
+        commonNameId: this.detailForm.commonNameId, // 通用名不能为空
         commonName: this.detailForm.commonName,
-        sfda: this.detailForm.sfda,
-        originId: this.detailForm.originId,
+        sfda: this.detailForm.sfda, // 批准文号不能为空
+        originId: this.detailForm.originId, // 厂商不能为空
         originName: this.detailForm.originName,
         otc: this.detailForm.otc,
-        drugTypeParent: this.parentTypeIdString,
+        drugTypeParent: this.parentTypeIdString, // 药品大类不能为空
         drugTypeName: this.parentTypeNameString,
-        drugTypeId: this.childTypeIdString,
+        drugTypeId: this.childTypeIdString, // 药品小类不能为空
         drugTypeChildName: this.childTypeNameString,
-        specId: this.detailForm.specId,
+        specId: this.detailForm.specId, // 规格不能为空
         spec: this.detailForm.spec,
-        formId: this.detailForm.formId,
+        formId: this.detailForm.formId, // 剂型不能为空
         form: this.detailForm.form,
         medicaid: this.detailForm.medicaid,
         code: this.detailForm.code,
@@ -473,9 +473,7 @@
         message: '添加成功',
         type: 'success'
       })
-      setTimeout(() => {
-        this.$router.push('/drugCheck/stock')
-      }, 1000)
+      this.$router.push('/drugCheck/stock')
     }
 
     // 返回

@@ -106,7 +106,7 @@
 
     async fetchData (parentTypeInfo) {
       for (let i = 0, len = parentTypeInfo.length; i < len; i++) {
-        let {data: childData} = await axios.get(`/api/supervise/drugType/${parentTypeInfo[i].id}/children`)
+        let {data: childData} = await axios.get(`/api/supervise/drugTypes/${parentTypeInfo[i].id}/children`)
         childData.forEach((item, index) => {
           item.index = index + 1
           item.parent = parentTypeInfo[i].id
