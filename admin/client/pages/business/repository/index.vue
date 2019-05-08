@@ -4,7 +4,7 @@
       <bread-crumb :path="$route.path"/>
       <div class="title-add">
         <h3>知识库</h3>
-        <el-button type="primary" @click="addRow" style="background: #169bd5;">新增</el-button>
+        <el-button type="primary" @click="dialogFormVisible = true" style="background: #169bd5;">新增</el-button>
       </div>
 
       <div class="list">
@@ -22,15 +22,30 @@
           :edit-template="editTemplate"
           @row-edit="handleRowEdit"
 
-          add-title="我的新增"
-          :add-template="addTemplate"
-          @row-add="handleRowAdd"
+
           @row-remove="handleRowRemove"
 
           :form-options="formOptions"
           @dialog-open="handleDialogOpen"
           @dialog-cancel="handleDialogCancel"
         />
+
+        <!--新增-->
+
+        <el-dialog title="我的新增" :visible.sync="dialogFormVisible">
+          <el-form :model="addForm" ref="addForm" :rules="rules">
+            <el-form-item label="类别名称" :label-width="formLabelWidth" prop="name">
+              <el-input v-model="addForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="图标" :label-width="formLabelWidth" prop="icon">
+              <el-input v-model="addForm.icon"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="enterSubmit">确 定</el-button>
+          </div>
+        </el-dialog>
       </div>
     </div>
   </div>
@@ -102,7 +117,7 @@
 
     formOptions = {
       labelWidth: '80px',
-      labelPosition: 'left',
+      labelPosition: 'right',
       saveLoading: false
     }
 
@@ -127,6 +142,9 @@
         value: ''
       }
     }
+
+    dialogFormVisible = false
+    formLabelWidth = '80px'
 
     beforeMount () {
       this.getData()
@@ -156,52 +174,53 @@
     handleDialogOpen ({ mode, row }) {
     }
 
-    // 普通的新增
-    addRow () {
-      this.$refs.d2Crud.showDialog({
-        mode: 'add'
-      })
+    // 新增确定
+    rules = {
+      name: [{ required: true, message: '请输入类别名称', trigger: 'blur' }],
+      icon: [{ required: true, message: '请输入图标', trigger: 'blur' }]
     }
-
-    async handleRowAdd (row, done) {
-      let getName = await axios.get(`/api/supervise/repositoryTypes/createCount`, {params: {name: row.name}})
-      if (getName.data >= 1) {
-        this.$message({
-          message: '名称已存在!',
-          type: 'warning'
-        })
-        return false
+    addForm = {
+      name: '',
+      icon: ''
+    }
+    async enterSubmit () {
+      const valid = this.$refs.addForm.validate()
+      try {
+        if (valid) {
+          if (this.addForm.name === '' || this.addForm.icon === '') {
+            return false
+          }
+          let params = {
+            name: this.addForm.name,
+            icon: this.addForm.icon,
+            readTimes: 0
+          }
+          await axios.post(`/api/supervise/repositoryTypes`, params).then(res => {
+            console.log(res)
+            this.$message({
+              message: '保存成功',
+              type: 'success'
+            })
+            this.dialogFormVisible = false
+            this.getData()
+          }).catch(error => {
+            this.$message({
+              message: error.message,
+              type: 'warning'
+            })
+          })
+        }
+      } catch (e) {
+      } finally {
       }
-      let params = {
-        index: row.index,
-        name: row.name,
-        icon: row.icon
-      }
-      await axios.post(`/api/supervise/repositoryTypes`, params)
-      this.getData()
-
-      this.formOptions.saveLoading = true
-      setTimeout(() => {
-        console.log(row)
-        this.$message({
-          message: '保存成功',
-          type: 'success'
-        })
-        done()
-        this.formOptions.saveLoading = false
-      }, 300)
     }
 
     handleDialogCancel (done) {
-      this.$message({
-        message: '取消保存',
-        type: 'warning'
-      })
       done()
     }
 
     async handleRowRemove ({ index, row }, done) {
-      await axios.delete(`/api/supervise/repositoryType/${row.id}`, {params: {id: row.id}})
+      await axios.delete(`/api/supervise/repositoryTypes/${row.id}`, {params: {id: row.id}})
       setTimeout(() => {
         console.log(index)
         console.log(row)
@@ -223,7 +242,7 @@
         })
         return false
       }
-      await axios.put(`/api/supervise/repositoryType/${row.id}`, {name: row.name, icon: row.icon})
+      await axios.put(`/api/supervise/repositoryTypes/${row.id}`, {name: row.name, icon: row.icon})
       this.getData()
 
       this.formOptions.saveLoading = true

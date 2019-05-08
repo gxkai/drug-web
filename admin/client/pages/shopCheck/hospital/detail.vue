@@ -7,7 +7,7 @@
           <el-input v-model="detailForm.code" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="医院组织机构号：">
-          <el-input v-model="detailForm.qyCode" readonly placeholder="暂无"></el-input>
+          <el-input v-model="detailForm.organizeCode" readonly placeholder="暂无"></el-input>
         </el-form-item>
         <el-form-item label="医院名称：">
           <el-input v-model="detailForm.name" readonly placeholder="暂无"></el-input>

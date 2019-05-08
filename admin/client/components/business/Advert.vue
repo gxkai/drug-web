@@ -98,7 +98,15 @@
         <div class="edit-con">
           <el-form :model="editData" label-width="100px">
             <el-form-item label="模块">
-              <el-input v-model="editData.type" placeholder="请输入"></el-input>
+              <!--<el-input v-model="editData.type" placeholder="请输入"></el-input>-->
+              <el-select v-model="editData.type" placeholder="请选择">
+                <el-option
+                  v-for="item in typeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="排序">
               <el-input v-model="editData.sort" placeholder="请输入"></el-input>
@@ -135,7 +143,15 @@
         <div class="edit-con">
           <el-form :model="addData" label-width="100px">
             <el-form-item label="模块">
-              <el-input v-model="addData.type" placeholder="请输入"></el-input>
+              <!--<el-input v-model="addData.type" placeholder="请输入"></el-input>-->
+              <el-select v-model="addData.type" placeholder="请选择">
+                <el-option
+                  v-for="item in typeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="排序">
               <el-input v-model="addData.sort" placeholder="请输入"></el-input>
@@ -199,7 +215,7 @@
     // 新增广告
     addData = {
       id: '',
-      type: 'SHOP',
+      type: '', // SHOP  drug
       sort: '',
       url: '',
       fileId: '',
@@ -207,9 +223,19 @@
       imgJudeg: ''
     }
 
+    typeOptions = [
+      {
+        value: 'SHOP',
+        label: '药店'
+      },
+      {
+        value: 'DRUG',
+        label: '药品'
+      }
+    ]
+
     setAddData () {
       this.addData = {
-        index: '',
         id: '',
         type: '',
         sort: '',
@@ -265,7 +291,7 @@
       this.addDialogVisible = false
       this.getAdverts()
       this.setAddData()
-      // this.totalPages += 1
+      this.totalPages += 1
     }
 
     // 查看广告
@@ -284,12 +310,6 @@
 
     // 编辑广告
     editBeforeUpload (file) {
-      // const isJPG = file.type === 'image/jpeg'
-      //
-      // if (!isJPG) {
-      //   this.$message.error('图片只能是 JPG 格式!')
-      // }
-      // return isJPG
     }
 
     editFile = {} // 存放file

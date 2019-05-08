@@ -11,7 +11,7 @@
         <div class="form-info">
           <el-form ref="formInfo" :model="formInfo" label-width="150px">
             <el-form-item label="No：">
-              <el-input v-model="formInfo.id" readonly></el-input>
+              <el-input v-model="formInfo.number" readonly></el-input>
             </el-form-item>
             <el-form-item label="处方日期：">
               <el-input v-model="formInfo.rxDate" readonly></el-input>
@@ -138,7 +138,7 @@
     };
 
     async getRxDetail (id) {
-      let {data: rxDetail} = await axios.get(`/api/supervise/rxs/${id}/info`)
+      let {data: rxDetail} = await axios.get(`/api/supervise/rxs/${id}`)
       console.log(rxDetail)
 
       this.formInfo = rxDetail
@@ -149,13 +149,34 @@
         item.name += `（${item.spec}）`
       })
 
-      let trackRes = await axios.get(`/api/supervise/rxs/${id}/order/state`)
-      console.log(trackRes)
+      console.log(rxDetail.rxOrderStateDTOList[0])
+      this.trackInfo.orderNumber = rxDetail.rxOrderStateDTOList[0].number
+      this.trackInfo.payMethod = rxDetail.rxOrderStateDTOList[0].type
+      this.trackInfo.pharmacyName = rxDetail.rxOrderStateDTOList[0].shopName
+      this.trackInfo.orderStatus = this.isAbled(rxDetail.rxOrderStateDTOList[0].state)
+    }
 
-      this.trackInfo.orderNumber = trackRes.data[0].number
-      this.trackInfo.payMethod = trackRes.data[0].type
-      this.trackInfo.pharmacyName = trackRes.data[0].shopName
-      this.trackInfo.orderStatus = trackRes.data[0].state
+    // 转换当前状态
+    isAbled (state) {
+      if (state === 'TO_PAY') {
+        return '待付款'
+      } else if (state === 'TO_CHECK') {
+        return '待审批'
+      } else if (state === 'TO_DELIVERY') {
+        return '调剂中'
+      } else if (state === 'TO_RECEIVED') {
+        return '待收货'
+      } else if (state === 'TO_APPRAISE') {
+        return '待评价'
+      } else if (state === 'COMPLETED') {
+        return '交易成功'
+      } else if (state === 'REFUNDING') {
+        return '退款中'
+      } else if (state === 'REFUND_COMPLETE') {
+        return '退款成功'
+      } else if (state === 'CLOSED') {
+        return '交易关闭'
+      }
     }
 
     mounted () {

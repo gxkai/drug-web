@@ -57,7 +57,7 @@
       },
       {
         title: '药品名称',
-        key: 'name',
+        key: 'drugName',
         width: '220'
       },
       {
