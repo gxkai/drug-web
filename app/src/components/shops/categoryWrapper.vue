@@ -30,7 +30,7 @@ export default {
   async created() {},
   async mounted() {
     this.drugTypes = await this.$http.get(
-      `/api/shops/${this.shopId}/drugTypes`
+      `/api/app/shops/${this.shopId}/drugTypes`
     );
     console.log(this.drugTypes);
   },

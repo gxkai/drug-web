@@ -68,7 +68,7 @@ export default {
   computed: {},
   watch: {},
   async created() {
-    this.count = await this.$http.get('/api/orders/count');
+    this.count = await this.$http.get('/api/app/orders/count');
   },
   mounted() {},
   methods: {}

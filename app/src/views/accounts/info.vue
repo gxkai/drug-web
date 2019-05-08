@@ -46,7 +46,7 @@ export default {
   methods: {
     async initData() {
       if (this.account.medicaidNumber) {
-        this.medicaid = await this.$http.get('/api/accounts/medicaid');
+        this.medicaid = await this.$http.get('/api/app/accounts/medicaid');
       }
     }
   }

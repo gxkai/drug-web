@@ -176,10 +176,10 @@ export default {
         .catch(() => {});
     },
     async initData() {
-      this.shopDrug = await this.$http.get(`/api/shopDrugs/${this.shopDrugId}`);
+      this.shopDrug = await this.$http.get(`/api/app/shopDrugs/${this.shopDrugId}`);
       console.log(this.shopDrug);
       this.collected = await this.$http.get(
-        `/api/collects/drug/one?shopDrugId=${this.shopDrugId}`
+        `/api/app/collects/drug/one?shopDrugId=${this.shopDrugId}`
       );
     },
     async onCollect() {
@@ -190,7 +190,7 @@ export default {
         collected: !this.collected
       };
       this.$toast.loading({ duration: 0, forbidClick: true });
-      await this.$http.post('/api/collects/drug', data);
+      await this.$http.post('/api/app/collects/drug', data);
       this.collected = !this.collected;
       if (this.collected) {
         this.$toast('收藏成功');

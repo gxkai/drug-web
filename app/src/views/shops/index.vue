@@ -64,7 +64,7 @@ export default {
         lng: this.currentAddress.lng,
         sort: this.sort
       };
-      const data = await this.$http.get('/api/shops', this.getParams(params));
+      const data = await this.$http.get('/api/app/shops', this.getParams(params));
       this.pushToList(data.list);
     }
   }

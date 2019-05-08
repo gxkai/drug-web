@@ -73,11 +73,11 @@ export default {
       this.loadPageAddressesConfirm();
     },
     async initData() {
-      this.item = await this.$http.get(`/api/addresses/${this.$route.query.id}`);
+      this.item = await this.$http.get(`/api/app/app/addresses/${this.$route.query.id}`);
     },
     async save() {
       this.$toast.loading({ forbidClick: true, duration: 0 });
-      await this.$http.put(`/api/addresses/${this.$route.query.id}`, this.item);
+      await this.$http.put(`/api/app/addresses/${this.$route.query.id}`, this.item);
       this.$toast('保存成功');
       setTimeout(() => {
         this.$router.go(-1);

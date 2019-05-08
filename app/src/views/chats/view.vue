@@ -261,7 +261,7 @@ export default {
         chatId: this.chatId
       };
       const data = await this.$http.get(
-        `/api/chatRecords`,
+        `/api/app/chatRecords`,
         this.getParams(params)
       );
       data.list = data.list.sort((a, b) => a.createdDate - b.createdDate);
@@ -335,7 +335,7 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       };
-      let fileId = await this.$http.post(`/api/files`, param, config);
+      let fileId = await this.$http.post(`/api/app/files`, param, config);
       console.log(fileId);
       let json = {
         type: 'ACCOUNT',

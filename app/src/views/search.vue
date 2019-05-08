@@ -112,7 +112,7 @@ export default {
   mounted() {},
   methods: {
     async initData() {
-      this.hotWords = await this.$http.get('/api/drugs/keywords');
+      this.hotWords = await this.$http.get('/api/app/drugs/keywords');
       this.hisWords = getDrugSearchHisWords() || [];
     },
     onSearch() {

@@ -303,7 +303,7 @@ export default {
   methods: {
     async onLoad() {
       this.loadMore();
-      const data = await this.$http.get('/api/carts', this.getParams());
+      const data = await this.$http.get('/api/app/carts', this.getParams());
       data.list.forEach(e => {
         e.allPrice = 0;
         e.allQuantity = 0;
@@ -319,7 +319,7 @@ export default {
     },
     async changeQuantity(cartDrug, cartShop) {
       await this.$http.put(
-        `/api/carts/${cartDrug.cartId}?quantity=${cartDrug.quantity}`
+        `/api/app/carts/${cartDrug.cartId}?quantity=${cartDrug.quantity}`
       );
       this.calculate(cartShop);
     },
@@ -342,7 +342,7 @@ export default {
             cartRx.drugs.forEach(e => {
               cartIds.push(e.cartId);
             });
-            await this.$http.delete('/api/carts?cartIds=' + cartIds);
+            await this.$http.delete('/api/app/carts?cartIds=' + cartIds);
             cartShop.rxs.splice(cartRxIndex, 1);
             if (cartShop.rxs.length === 0) {
               this.list.splice(cartShopIndex, 1);
@@ -351,7 +351,7 @@ export default {
           });
       } else {
         this.$dialog.confirm({ message: '确定删除？' }).then(async () => {
-          await this.$http.delete('/api/carts/' + cartDrug.cartId);
+          await this.$http.delete('/api/app/carts/' + cartDrug.cartId);
           cartRx.drugs.splice(cartDrugIndex, 1);
           if (cartRx.drugs.length === 0) {
             cartShop.rxs.splice(cartRxIndex, 1);
@@ -372,7 +372,7 @@ export default {
         const params = {
           cartIds: cartIds
         };
-        await this.$http.delete('/api/carts', params);
+        await this.$http.delete('/api/app/carts', params);
         this.list = [];
       });
     },
@@ -429,7 +429,7 @@ export default {
         return rx.rxId !== '0' && rx.radio === true;
       });
       const data = await this.$http.get(
-        `/api/orders/cart?cartIds=${cartIds}&isRx=${isRx}`
+        `/api/app/orders/cart?cartIds=${cartIds}&isRx=${isRx}`
       );
       this.loadPageOrdersCreateFromCart(data, isRx);
     },

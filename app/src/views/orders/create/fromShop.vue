@@ -97,7 +97,7 @@ export default {
       console.log(this.shopDrugOrderDTO);
       this.payAmount = this.shopDrugOrderDTO.payAmount;
       this.shop = await this.$http.get(
-        `/api/shops/${this.shopDrugOrderDTO.shopId}`
+        `/api/app/shops/${this.shopDrugOrderDTO.shopId}`
       );
     },
     async onOrder() {

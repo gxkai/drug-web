@@ -140,7 +140,7 @@ export default {
   mounted() {},
   methods: {
     async initData() {
-      this.list = await this.$http.get(`/api/orders/${this.orderId}/appraise`);
+      this.list = await this.$http.get(`/api/app/orders/${this.orderId}/appraise`);
       this.list.map(e => {
         e.score = 5;
         e.content = '';
@@ -149,7 +149,7 @@ export default {
       if (this.list && this.list.length > 0) {
         this.shopId = this.list[0].shopId;
       }
-      this.order = await this.$http.get(`/api/orders/${this.orderId}`);
+      this.order = await this.$http.get(`/api/app/orders/${this.orderId}`);
     },
     async confirm() {
       this.list.forEach(e => {
@@ -172,7 +172,7 @@ export default {
         serviceScore: this.serviceScore,
         drugs: this.drugs
       };
-      await this.$http.post('/api/drugAppraises', data);
+      await this.$http.post('/api/app/drugAppraises', data);
       this.$toast('评价成功');
       this.$router.replace('/orders');
     }

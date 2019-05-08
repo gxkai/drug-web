@@ -8,16 +8,16 @@
       <div class="income">
         <div>
           <strong>七天收入（截至今日0点）：</strong>
-          {{ income }}元
+          {{ income ? income : '0'}}元
         </div>
         <div>
           <strong>待结算：</strong>
-          {{ forIncome }}元
+          {{ forIncome ? forIncome : '0'}}元
         </div>
-        <div>
-          <strong>账户总金额：</strong>
-          {{ totalAmount }}元
-        </div>
+        <!--<div>-->
+          <!--<strong>账户总金额：</strong>-->
+          <!--{{ totalAmount }}元-->
+        <!--</div>-->
       </div>
       <div class="transaction-record">
         <div class="title">
@@ -116,19 +116,19 @@
         pageSize: this.pagination.pageSize
       }
       let {data: bill} = await axios.get(`/api/shop/bill`, {params})
-      this.pagination.total = bill.total
-      this.recordList = bill.list
+      console.log(bill)
+      this.pagination.total = bill.shopBillList.total
+      this.recordList = bill.shopBillList.list
       this.recordList.forEach((item, index) => {
         item.index = index + 1
         item.stateName = this.convertState(item.state)
         item.createdDate = moment(item.createdDate).format('YY-MM-DD HH:ss:mm')
       })
 
-      // 获取账户信息
-      let {data: amount} = await axios.get(`/api/shop/bill/statistics`)
-      this.income = amount.income
-      this.forIncome = amount.forIncome
-      this.totalAmount = amount.totalAmount
+      // 账户信息
+      this.income = bill.income
+      this.forIncome = bill.forIncome
+      this.totalAmount = bill.totalAmount
     }
 
     beforeMount () {

@@ -392,11 +392,11 @@ export default {
       );
     },
     async initData() {
-      this.order = await this.$http.get(`/api/orders/${this.orderId}`);
+      this.order = await this.$http.get(`/api/app/orders/${this.orderId}`);
       console.log(this.order);
       this.countTime();
-      this.shop = await this.$http.get(`/api/shops/${this.order.shopId}`);
-      this.timeLine = await this.$http.get(`/api/orders/${this.orderId}/logs`);
+      this.shop = await this.$http.get(`/api/app/shops/${this.order.shopId}`);
+      this.timeLine = await this.$http.get(`/api/app/orders/${this.orderId}/logs`);
       console.log(this.timeLine);
     },
     clickRx() {

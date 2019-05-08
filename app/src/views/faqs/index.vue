@@ -56,7 +56,7 @@ export default {
   methods: {
     async onLoad() {
       this.loadMore();
-      const data = await this.$http.get('/api/faqs', this.getParams());
+      const data = await this.$http.get('/api/app/faqs', this.getParams());
       this.pushToList(data.list);
     }
   }

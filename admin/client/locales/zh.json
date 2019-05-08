@@ -31,6 +31,8 @@
     "首页",
   "/map":
     "分布图",
+  "/account/token":
+    "修改密码",
   "/analysis":
     "统计分析",
   "/analysis/sale":

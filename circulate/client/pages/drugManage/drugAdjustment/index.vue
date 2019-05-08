@@ -116,7 +116,11 @@
       console.log(detail)
       this.drugInfoForm = detail
 
-      this.params.startPrice = this.drugInfoForm.startPrice
+      if (this.drugInfoForm.startPrice) {
+        this.params.startPrice = this.drugInfoForm.startPrice
+      } else {
+        this.params.startPrice = this.drugInfoForm.price
+      }
       this.params.price = this.drugInfoForm.price
       this.params.stock = this.drugInfoForm.stock
       this.params.stockWarn = this.drugInfoForm.stockWarn
@@ -171,7 +175,7 @@
         recommend: true,
         shopDrugId: sDrugId
       })
-  
+
       const valid = this.$refs.params.validate()
       try {
         if (valid) {

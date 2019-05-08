@@ -105,7 +105,7 @@ export default {
   mounted() {},
   methods: {
     async toQyPayUrl() {
-      let url = await this.$http.get(`/api/hospitals/${this.item.id}/url`);
+      let url = await this.$http.get(`/api/app/hospitals/${this.item.id}/url`);
       this.loadPageIframe(url, '医院结算');
     }
   }

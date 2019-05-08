@@ -71,7 +71,7 @@ export default {
     async onLoad() {
       this.loadMore();
       const data = await this.$http.get(
-        '/api/orderRefunds',
+        '/api/app/orderRefunds',
         this.getParams({ OrderRefundState: this.state })
       );
       this.pushToList(data.list);

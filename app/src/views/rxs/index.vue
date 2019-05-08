@@ -131,7 +131,7 @@ export default {
       const params = {
         keyword: this.keyword
       };
-      const data = await this.$http.get('/api/rxs', this.getParams(params));
+      const data = await this.$http.get('/api/app/rxs', this.getParams(params));
       this.pushToList(data.list);
     },
     clickItem(item) {
