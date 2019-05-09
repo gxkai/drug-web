@@ -69,9 +69,7 @@ export const getters = {
     return state.isMenuHidden
   },
   displayName (state) {
-    const displayName = `Anonymous` // i18n? TODO
-    const hasDisplayNameProperty = Reflect.has(state.authUser, 'displayName')
-    return hasDisplayNameProperty ? state.authUser.displayName : displayName
+    return state.authUser.name
   }
 }
 
@@ -91,7 +89,7 @@ export const actions = {
   async hydrateAuthUser ({
     commit
   }) {
-    const { data } = await axios.get('/hpi/auth/whois')
+    const { data } = await axios.get('/api/supervise/admins/info')
     const user = Object.assign({}, data)
     commit('SET_USER', user)
   },
@@ -109,6 +107,7 @@ export const actions = {
         password
       })
       setToken(token)
+      dispatch('hydrateAuthUser')
     } catch (error) {
       let message = error.message
       if (error.response.data) {
@@ -118,8 +117,8 @@ export const actions = {
     }
   },
   async logout ({ commit }, callback) {
-    await axios.post('/api/supervise/admins/logout')
     removeToken()
+    await axios.post('/api/supervise/admins/logout')
     commit('SET_USER')
     callback()
   },

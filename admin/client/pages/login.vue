@@ -66,19 +66,12 @@
     }
     async login () {
       const goBackTo = this.$route.query.page || '/'
-      this.logging = true
       const valid = this.$refs.user.validate()
       console.log(valid)
-      try {
-        if (valid) {
-          await this.$store.dispatch('login', this.user)
-        }
-      } catch (e) {
-        this.$message.warning(e.message)
-      } finally {
+      if (valid) {
+        await this.$store.dispatch('login', this.user)
         this.redirect(goBackTo)
       }
-      this.logging = false
     }
     redirect (goTo) {
       this.$router.push(goTo)

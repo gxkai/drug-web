@@ -1,6 +1,6 @@
 /* eslint-disable no-debugger */
 import axios from 'axios'
-import { getToken, removeToken } from '../mixins'
+import {getToken, removeToken} from '../mixins'
 import {Message} from 'element-ui'
 
 export default ({ redirect }) => {
@@ -65,8 +65,7 @@ export default ({ redirect }) => {
             break
         }
       }
-
-      return Promise.reject(error.response.data)
+      return Promise.reject(error)
     }
   )
 }

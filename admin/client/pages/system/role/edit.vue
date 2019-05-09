@@ -87,6 +87,7 @@
         menus: this.menus,
         type: 'ROLE_ADMIN'
       }
+      console.log(roleDTO)
       await axios.put(`/api/supervise/roles/${id}`, roleDTO)
       this.$router.push('/system/role')
     }
