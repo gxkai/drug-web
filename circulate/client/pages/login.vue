@@ -35,15 +35,15 @@
               <!--用户注册-->
               <div class="register-container tab-container">
 
-                <el-form :model="registerInfo" ref="registerInfo" @keyup.enter.native=''>
-                  <el-form-item prop="phoneNumber">
+                <el-form :model="registerInfo" ref="registerInfo" :rules="regRules" @keyup.enter.native=''>
+                  <el-form-item prop="phone">
                     <el-col :span="24">
                       <el-input v-model="registerInfo.phone" :placeholder="$t('register.phonePlaceholder')">
                         <i slot="prefix" class="icon-zhanghao"></i>
                       </el-input>
                     </el-col>
                   </el-form-item>
-                  <el-form-item prop="captcha" :rules="[{ required: true, message: $t('register.captchaRequired')}]">
+                  <el-form-item prop="captcha">
                     <el-col :span="16">
                       <el-input v-model="registerInfo.captcha" :placeholder="$t('register.captchaPlaceholder')">
                         <i slot="prefix" class="icon-anquan"></i>
@@ -54,14 +54,14 @@
                       <span v-show="!sendAuthCode" class="captcha"> <span class="blue">{{authTime}} </span> 秒</span>
                     </el-col>
                   </el-form-item>
-                  <el-form-item prop="password" :rules="[{ required: true, message: $t('register.pwdRequired')}]">
+                  <el-form-item prop="password">
                     <el-col :span="24">
                       <el-input v-model="registerInfo.password" type="password" :placeholder="$t('register.pwdPlaceholder')">
                         <i slot="prefix" class="icon-denglumima"></i>
                       </el-input>
                     </el-col>
                   </el-form-item>
-                  <el-form-item prop="passwordAgain" :rules="[{ required: true, message: $t('register.pwdAgainRequired')}]">
+                  <el-form-item prop="passwordAgain">
                     <el-col :span="24">
                       <el-input v-model="registerInfo.passwordAgain" type="password" :placeholder="$t('register.pwdAgainPlaceholder')">
                         <i slot="prefix" class="icon-denglumima"></i>
@@ -104,7 +104,7 @@
     logging = false
 
     activeName = 'loginTab'
-
+  
     handleClick (tab, event) {
       console.log(tab, event)
     }
@@ -126,7 +126,7 @@
           await this.$store.dispatch('login', this.user)
         }
       } catch (e) {
-        this.$message.warning(e.message)
+        this.$message.warning('手机号或密码错误')
       } finally {
         this.redirect(goBackTo)
       }
@@ -150,42 +150,57 @@
     logging = false
     phoneCaptcha = ''
 
+    regRules = {
+      phone: [
+        { required: true, message: '手机号码格式不匹配', trigger: 'blur' },
+        { min: 11, max: 11, message: '手机号码格式不匹配', trigger: 'blur' }
+      ],
+      captcha: [
+        { required: true, message: '验证码不能为空', trigger: 'blur' },
+        { min: 6, max: 6, message: '验证码长度不符合规则', trigger: 'blur' }
+      ],
+      password: [
+        { required: true, message: '密码不能为空', trigger: 'blur' },
+        { min: 6, max: 6, message: '密码长度不符合规则', trigger: 'blur' }
+      ],
+      passwordAgain: [
+        { required: true, message: '确认密码不能为空', trigger: 'blur' },
+        { min: 6, max: 6, message: '确认密码长度不符合规则', trigger: 'blur' }
+      ]
+    }
+
     async register () {
-      let userRegister = {
-        roleId: 'ROLE_CIRCULATE_SHOP',
-        username: this.registerInfo.phone,
-        captcha: this.registerInfo.captcha,
-        password: this.registerInfo.password,
-        reptPassword: this.registerInfo.passwordAgain
+      const valid = this.$refs.registerInfo.validate()
+      try {
+        if (valid) {
+          let userRegister = {
+            roleId: 'ROLE_CIRCULATE_SHOP',
+            username: this.registerInfo.phone,
+            captcha: this.registerInfo.captcha,
+            password: this.registerInfo.password,
+            reptPassword: this.registerInfo.passwordAgain
+          }
+          await axios.post(`/api/shop/users/register`, userRegister)
+          this.$message({
+            message: '注册成功！',
+            type: 'success'
+          })
+
+          this.registerInfo.phone = ''
+          this.registerInfo.captcha = ''
+          this.registerInfo.password = ''
+          this.registerInfo.passwordAgain = ''
+
+          this.activeName = 'loginTab'
+        }
+      } catch (e) {
+        // this.$message.warning('手机号或密码错误')
+      } finally {
+        // this.redirect(goBackTo)
       }
-      await axios.post(`/api/shop/users/register`, userRegister)
-        .then(res => {
-          console.log(res)
-        })
-      this.$message({
-        message: '注册成功！',
-        type: 'success'
-      })
-  
-      this.registerInfo.phone = ''
-      this.registerInfo.captcha = ''
-      this.registerInfo.password = ''
-      this.registerInfo.passwordAgain = ''
-
-      this.activeName = 'loginTab'
-
-      // this.$router.push('/login')
     }
 
     async getAuthCode () {
-      // 手机号码验证
-      if (!/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(this.registerInfo.phone) || this.registerInfo.phone === '') {
-        this.$message({
-          message: '手机号码格式不匹配！',
-          type: 'warning'
-        })
-      }
-
       let getCaptcha = {
         username: this.registerInfo.phone,
         captchaType: 'USER_REGISTER'
@@ -207,10 +222,10 @@
           if (error.response) {
             if (error.response.status === 400) {
               this.$message({
-                message: error.response.data.message,
+                message: '手机号码格式不匹配',
                 type: 'warning'
               })
-              this.$router.push('/login')
+              // this.$router.push('/login')
             } else if (error.request) {
               console.log(error.request)
             } else {

@@ -134,7 +134,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
 
-              <el-button type="text" @click="obtained(scope.row.id)" v-if="scope.row.applyState==='SUCCESS'">下架</el-button>
+              <el-button type="text" @click="obtained(scope.row)" v-if="scope.row.applyState==='SUCCESS'">下架</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -356,14 +356,18 @@
     }
 
     // 下架
-    async obtained (id) {
-      console.log(id)
-      await axios.delete(`/api/supervise/drugRecommendApplies/${id}`)
-      this.totalPages -= 1
-      this.$message({
-        message: '该药品下架成功！',
-        type: 'success'
-      })
+    async obtained (row) {
+      console.log(row)
+      let params = {
+        shopDrugId: row.shopDrugId
+      }
+      let moveRes = await axios.post(`/api/supervise/drugRecommendApplies/grounding?shopDrugId=${row.shopDrugId}`, params)
+      if (moveRes) {
+        this.$message({
+          message: '该药品下架成功！',
+          type: 'success'
+        })
+      }
     }
 
     // 查看
