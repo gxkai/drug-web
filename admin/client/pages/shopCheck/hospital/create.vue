@@ -86,7 +86,7 @@
     imgJudge = ''
     center = {lng: 120.9909, lat: 31.403685}
     zoom = 3
-  
+
     rules = {
       code: [{ required: true, message: '医院编码不能为空', trigger: 'blur' }],
       organizeCode: [{ required: true, message: '医院组织机构号不能为空', trigger: 'blur' }],
@@ -152,7 +152,6 @@
       })
 
       const valid = this.$refs.addData.validate()
-      console.log(valid)
       try {
         if (valid) {
           if (this.hospitalImage === '') {

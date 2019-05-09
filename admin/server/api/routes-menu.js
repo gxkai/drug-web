@@ -59,6 +59,19 @@ if (SHOW_EXAMPLES) {
       ]
     },
     {
+      id: '30',
+      name: '店铺管理',
+      icon: 'el-icon-goods',
+      children: [
+        {
+          id: '30-1',
+          name: '我要开店',
+          url: '/shop/setup',
+          icon: 'el-icon-share'
+        }
+      ]
+    },
+    {
       id: '40',
       name: '统计分析',
       icon: 'el-icon-goods',
@@ -128,68 +141,98 @@ if (SHOW_EXAMPLES) {
     },
     {
       id: '60',
-      name: '药品审核',
+      name: '药品管理',
       icon: 'el-icon-goods',
       children: [
         {
+          id: '60-88',
+          name: '厂商管理',
+          url: '/drugManage/origin',
+          icon: 'el-icon-share'
+        },
+        {
           id: '60-1',
-          name: '通用名管理',
-          url: '/drugCheck/commonName',
+          name: '预警列表',
+          url: '/drugManage/earlyWarning',
           icon: 'el-icon-share'
         },
         {
           id: '60-2',
-          name: '剂型管理',
-          url: '/drugCheck/form',
+          name: '售磬列表',
+          url: '/drugManage/sellOut',
           icon: 'el-icon-share'
         },
         {
           id: '60-3',
-          name: '规格管理',
-          url: '/drugCheck/spec',
+          name: '药品列表',
+          url: '/drugManage/drug',
           icon: 'el-icon-share'
         },
         {
           id: '60-4',
-          name: '类型管理',
-          url: '/drugCheck/type',
+          name: '热销排行榜',
+          url: '/drugManage/saleHot',
           icon: 'el-icon-share'
         },
         {
           id: '60-5',
-          name: '药品库管理',
-          url: '/drugCheck/stock',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '60-6',
-          name: '药品列表管理',
-          url: '/drugCheck/drug',
+          name: '添加药品',
+          url: '/drugManage/drugAdd',
           icon: 'el-icon-share'
         },
         {
           id: '60-7',
-          name: '药品信息审核',
-          url: '/drugCheck/drugInfo',
+          name: '通用名管理',
+          url: '/drugManage/commonName',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-8',
+          name: '剂型管理',
+          url: '/drugManage/form',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-9',
+          name: '规格管理',
+          url: '/drugManage/spec',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-10',
+          name: '类型管理',
+          url: '/drugManage/type',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '60-11',
+          name: '药品库管理',
+          url: '/drugManage/stock',
           icon: 'el-icon-share'
         }
       ]
     },
     {
       id: '70',
-      name: '订单管理',
+      name: '交易管理',
       icon: 'el-icon-goods',
       children: [
         {
           id: '70-1',
           name: '订单管理',
-          url: '/order/order',
+          url: '/transaction/order',
           icon: 'el-icon-share'
         },
         {
           id: '70-2',
+          name: '退单管理',
+          url: '/transaction/chargeBack',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '70-3',
           name: '评价管理',
-          url: '/order/appraise',
+          url: '/transaction/appraise',
           icon: 'el-icon-share'
         }
       ]
@@ -214,68 +257,14 @@ if (SHOW_EXAMPLES) {
       children: [
         {
           id: '90-1',
-          name: '广告管理',
-          url: '/business/advert',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '90-2',
-          name: '功能区管理',
-          url: '/business/ability',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '90-3',
-          name: '板块区管理',
-          url: '/business/module',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '90-4',
           name: '好货推荐',
           url: '/business/recommend',
           icon: 'el-icon-share'
         },
         {
-          id: '90-5',
+          id: '90-2',
           name: '惠民促销',
           url: '/business/discount',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '90-6',
-          name: '药师咨询',
-          url: '/business/chat',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '90-7',
-          name: '用户反馈',
-          url: '/business/feedback',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '90-8',
-          name: '系统消息',
-          url: '/business/system',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '90-9',
-          name: '搜索词管理',
-          url: '/business/word',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '90-10',
-          name: '知识库管理',
-          url: '/business/repository',
-          icon: 'el-icon-share'
-        },
-        {
-          id: '90-11',
-          name: '常见问题',
-          url: '/business/faq',
           icon: 'el-icon-share'
         }
       ]
@@ -285,6 +274,24 @@ if (SHOW_EXAMPLES) {
       name: '系统设置',
       icon: 'el-icon-goods',
       children: [
+        {
+          id: '100-55',
+          name: '我的消息',
+          url: '/system/message',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '100-56',
+          name: '用户管理',
+          url: '/system/userManage',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '100-57',
+          name: '我的账户',
+          url: '/system/myAccount',
+          icon: 'el-icon-share'
+        },
         {
           id: '100-1',
           name: '药师管理',
@@ -299,7 +306,7 @@ if (SHOW_EXAMPLES) {
         },
         {
           id: '100-3',
-          name: '药店帐号管理',
+          name: '药店管理',
           url: '/system/shop',
           icon: 'el-icon-share'
         },
@@ -337,6 +344,12 @@ if (SHOW_EXAMPLES) {
           id: '100-9',
           name: '系统参数',
           url: '/system/system',
+          icon: 'el-icon-share'
+        },
+        {
+          id: '100-10',
+          name: '对账单',
+          url: '/system/statement',
           icon: 'el-icon-share'
         }
       ]

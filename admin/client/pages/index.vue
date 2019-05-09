@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <!--<div class="container">
       <div class="wrapper1 wrapper">
         <el-card style="height: 100%">
           <div slot="header">
@@ -68,36 +68,36 @@
         </el-card>
       </div>
       <div class="wrapper5 wrapper">
-        <!--<baidu-map-->
-          <!--class="map"-->
-          <!--:center="center"-->
-          <!--:mapStyle="mapStyle"-->
-          <!--style="display: flex; flex-direction: column"-->
-          <!--:map-type="mapType"-->
-        <!--&gt;-->
-          <!--<bm-boundary-->
-            <!--name="江苏省昆山市"-->
-            <!--:strokeWeight="1"-->
-            <!--strokeColor="#007fff"-->
-          <!--&gt;</bm-boundary>-->
-          <!--<bm-view style="width: 100%; flex: 1"></bm-view>-->
-          <!--<bm-marker-->
-            <!--v-for="(marker, index) in markers"-->
-            <!--:key="index"-->
-            <!--:position="marker.point"-->
-            <!--@click="infoWindowOpen(marker)"-->
-          <!--&gt;-->
-            <!--<bm-info-window-->
-              <!--:position="marker.point"-->
-              <!--:title="marker.title"-->
-              <!--:show="marker.show"-->
-              <!--@close="infoWindowClose(marker)"-->
-              <!--@open="infoWindowOpen(marker)"-->
-            <!--&gt;-->
-              <!--<p>{{ marker.introduction }}</p>-->
-            <!--</bm-info-window>-->
-          <!--</bm-marker>-->
-        <!--</baidu-map>-->
+        &lt;!&ndash;<baidu-map&ndash;&gt;
+          &lt;!&ndash;class="map"&ndash;&gt;
+          &lt;!&ndash;:center="center"&ndash;&gt;
+          &lt;!&ndash;:mapStyle="mapStyle"&ndash;&gt;
+          &lt;!&ndash;style="display: flex; flex-direction: column"&ndash;&gt;
+          &lt;!&ndash;:map-type="mapType"&ndash;&gt;
+        &lt;!&ndash;&gt;&ndash;&gt;
+          &lt;!&ndash;<bm-boundary&ndash;&gt;
+            &lt;!&ndash;name="江苏省昆山市"&ndash;&gt;
+            &lt;!&ndash;:strokeWeight="1"&ndash;&gt;
+            &lt;!&ndash;strokeColor="#007fff"&ndash;&gt;
+          &lt;!&ndash;&gt;</bm-boundary>&ndash;&gt;
+          &lt;!&ndash;<bm-view style="width: 100%; flex: 1"></bm-view>&ndash;&gt;
+          &lt;!&ndash;<bm-marker&ndash;&gt;
+            &lt;!&ndash;v-for="(marker, index) in markers"&ndash;&gt;
+            &lt;!&ndash;:key="index"&ndash;&gt;
+            &lt;!&ndash;:position="marker.point"&ndash;&gt;
+            &lt;!&ndash;@click="infoWindowOpen(marker)"&ndash;&gt;
+          &lt;!&ndash;&gt;&ndash;&gt;
+            &lt;!&ndash;<bm-info-window&ndash;&gt;
+              &lt;!&ndash;:position="marker.point"&ndash;&gt;
+              &lt;!&ndash;:title="marker.title"&ndash;&gt;
+              &lt;!&ndash;:show="marker.show"&ndash;&gt;
+              &lt;!&ndash;@close="infoWindowClose(marker)"&ndash;&gt;
+              &lt;!&ndash;@open="infoWindowOpen(marker)"&ndash;&gt;
+            &lt;!&ndash;&gt;&ndash;&gt;
+              &lt;!&ndash;<p>{{ marker.introduction }}</p>&ndash;&gt;
+            &lt;!&ndash;</bm-info-window>&ndash;&gt;
+          &lt;!&ndash;</bm-marker>&ndash;&gt;
+        &lt;!&ndash;</baidu-map>&ndash;&gt;
         <el-card style="height: 100%">
           <div slot="header">
             <span>药品监管服务平台</span>
@@ -224,7 +224,7 @@
         </el-card>
       </div>
       <div class="wrapper8 wrapper"></div>
-    </div>
+    </div>-->
   </div>
 </template>
 

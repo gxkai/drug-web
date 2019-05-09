@@ -34,7 +34,7 @@ export default class Footer extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped type="text/scss">
 .footer {
   height: 80px;
   background-color: #324057;

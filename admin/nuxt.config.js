@@ -48,6 +48,7 @@ module.exports = {
       'vue-clipboards',
       'vue-baidu-map',
       'moment',
+      'echarts',
       'chart.js',
       '@d2-projects/d2-crud',
       'deepmerge', // vue-chartjs dep
@@ -88,10 +89,9 @@ module.exports = {
   */
   plugins: [
     '@/plugins/i18n',
+    '@/plugins/element-ui',
     '@/plugins/axios',
-    '@/middleware/check-auth',
     {src: '@/plugins/d2-crud', ssr: false},
-    {src: '@/plugins/element-ui', ssr: false},
     {src: '@/plugins/vue-baidu-map', ssr: false},
     {src: '@/plugins/vue-amap', ssr: false},
     {src: '@/plugins/v-charts', ssr: false},
