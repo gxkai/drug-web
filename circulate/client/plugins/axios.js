@@ -10,7 +10,7 @@ export default ({ redirect }) => {
        * process.env.NODE_ENV: 判断开发模式
        * @type {string}
        */
-      config.baseURL = process.env.NODE_ENV !== 'production' ? 'http://172.16.11.138:8090' : 'http://172.16.0.152:8090'
+      config.baseURL = process.env.NODE_ENV !== 'production' ? 'http://172.16.11.138:8085/shop' : 'http://172.16.0.152:8085/shop'
       const token = await getToken()
       if (token) {
         config.headers.Authorization = token
