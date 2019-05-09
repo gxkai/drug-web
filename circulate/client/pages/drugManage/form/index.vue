@@ -44,10 +44,10 @@
         width: 100,
         align: 'center'
       },
-      {
-        title: '编码',
-        key: 'code'
-      },
+      // {
+      //   title: '编码',
+      //   key: 'code'
+      // },
       {
         title: '剂型名称',
         key: 'name'

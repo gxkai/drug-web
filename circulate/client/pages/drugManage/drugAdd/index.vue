@@ -57,6 +57,15 @@
             v-model="drugInfoForm.introduce">
           </el-input>
         </el-form-item>
+        <el-form-item label="注意事项：" class="indication2">
+          <el-input
+            type="textarea"
+            readonly
+            :rows="3"
+            placeholder="暂无"
+            v-model="drugInfoForm.attention">
+          </el-input>
+        </el-form-item>
         <el-form-item label="条形码：">
           <el-input :value="drugInfoForm.barCode" readonly placeholder="暂无"></el-input>
         </el-form-item>
@@ -314,7 +323,14 @@
         .indication{
           grid-row: 6 / 8;
           grid-column: 1 / 3;
+          textarea{
+            resize: none;
+          }
+        }
 
+        .indication2{
+          grid-row: 8 / 10;
+          grid-column: 1 / 3;
           textarea{
             resize: none;
           }

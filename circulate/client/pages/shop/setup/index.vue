@@ -129,6 +129,7 @@
           <div class="div-upload-item2">
             <div class="img-title">店内照片</div>
             <el-upload
+              :class="{disabled:uploadDisabled}"
               action=""
               list-type="picture-card"
               :limit="3"
@@ -234,6 +235,11 @@
     components: {
       BreadCrumb
     }
+    // computed: {
+    //   uploadDisabled () {
+    //     return this.innerFileImg.length === 3
+    //   }
+    // }
   })
   export default class SetUpShop extends Vue {
     shopForm = {
@@ -282,9 +288,9 @@
       closeTime: [{ required: true, message: '请输入营业结束时间', trigger: 'blur' }],
       lng: [{ required: true, message: '请输入经度', trigger: 'blur' }],
       lat: [{ required: true, message: '请输入纬度', trigger: 'blur' }],
-      // medicaid: [{ required: true, message: '请选择是否支持医保', trigger: 'change' }],
-      // gathered: [{ required: true, message: '请选择是否支持统筹', trigger: 'change' }],
-      // distribution: [{ required: true, message: '请选择是否配送', trigger: 'change' }],
+      medicaid: [{ required: true, message: '请选择是否支持医保', trigger: 'change' }],
+      gathered: [{ required: true, message: '请选择是否支持统筹', trigger: 'change' }],
+      distribution: [{ required: true, message: '请选择是否配送', trigger: 'change' }],
       distance: [{ required: true, message: '请输入配送距离', trigger: 'blur' }],
       introduction: [{ required: true, message: '请输入商家介绍', trigger: 'blur' }]
     }
@@ -307,8 +313,13 @@
 
     shopImg = []
 
+    uploadDisabled = false // 上传图片限制3张
+
     handleRemove (file, fileList) {
-      console.log(file, fileList)
+      console.log(fileList)
+      if (fileList.length < 3) {
+        this.uploadDisabled = false
+      }
     }
 
     handlePictureCardPreview (file) {
@@ -319,6 +330,10 @@
     // 店内照片上传
     childUploadSuccess (res, file, fileList) {
       this.innerFileImg = fileList
+      console.log(this.innerFileImg)
+      if (this.innerFileImg.length > 2) {
+        this.uploadDisabled = true
+      }
     }
 
     licenseImg = '' // 营业执照
@@ -357,19 +372,19 @@
 
             if (res.data.gathered === true) {
               this.shopForm.gathered = '是'
-            } else {
+            } else if (res.data.gathered === false) {
               this.shopForm.gathered = '否'
             }
 
             if (res.data.medicaid === true) {
               this.shopForm.medicaid = '是'
-            } else {
+            } else if (res.data.medicaid === false) {
               this.shopForm.medicaid = '否'
             }
 
             if (res.data.distribution === true) {
               this.shopForm.distribution = '是'
-            } else {
+            } else if (res.data.distribution === false) {
               this.shopForm.distribution = '否'
             }
 
@@ -414,14 +429,17 @@
                 axios.get(`/api/shop/files/${item}`, {params: params}).then(res => {
                   this.innerImg = res.data.replace('redirect:', '')
                   this.innerFileImg.push({
-                    id: index,
                     url: this.innerImg
                   })
-                  console.log(this.shopImg)
+                  // console.log(this.innerFileImg)
                 })
               })
             } else {
               console.log('店内照片', res.data.shopInnerFileIdList)
+            }
+            // console.log(shopInner.length)
+            if (shopInner.length > 2) {
+              this.uploadDisabled = true
             }
 
             // 经营许可证
@@ -464,6 +482,7 @@
           }
         })
       })
+      // console.log(this.innerFileImg)
     }
 
     handleAvatarSuccess2 (res, file) {
@@ -495,82 +514,83 @@
     }
 
     async submit () {
-      if (this.shopLogo === '') {
-        this.$message({
-          message: '请上传药店封面照!',
-          type: 'warning'
-        })
-        return false
-      }
-      let { data: logoFileID } = await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile))
-      this.shopForm.fileId = logoFileID
-      console.log(logoFileID)
-
-      // 店内图片上传
-      if (this.innerFileImg.length > 0) {
-        let fid = []
-        for (let i = 0; i < this.innerFileImg.length; i++) {
-          let innerImgParams = new FormData()
-          innerImgParams.append('file', this.innerFileImg[i].raw)
-          innerImgParams.append('fileType', 'LOGO')
-          let { data: innerImgData } = await axios.post('/api/shop/files', innerImgParams)
-          fid.push(innerImgData)
-        }
-        this.innerFileId = fid
-        console.log(this.innerFileId)
-      }
-
-      // 上传经营许可证
-      if (this.certificateImg === '') {
-        this.$message({
-          message: '请上传经营许可证!',
-          type: 'warning'
-        })
-        return false
-      }
-      let { data: certificateID } = await axios.post(`/api/shop/files`, this.getFileParams(this.certificateImgFile))
-      this.shopForm.certificateFileId = certificateID
-      console.log(certificateID)
-
-      // 上传营业执照
-      if (this.licenseImg === '') {
-        this.$message({
-          message: '请上传营业执照!',
-          type: 'warning'
-        })
-        return false
-      }
-      let { data: licenseID } = await axios.post(`/api/shop/files`, this.getFileParams(this.licenseImgFile))
-      this.shopForm.licenseFileId = licenseID
-      console.log(licenseID)
-
-      // GSP证书
-      if (this.gspImg === '') {
-        this.$message({
-          message: '请上传GSP证书!',
-          type: 'warning'
-        })
-        return false
-      }
-      let { data: gspID } = await axios.post(`/api/shop/files`, this.getFileParams(this.gspImgFile))
-      this.shopForm.gspFileId = gspID
-      console.log(gspID)
-
-      // 手持身份证
-      if (this.idnumberImg === '') {
-        this.$message({
-          message: '请上传手持身份证照片!',
-          type: 'warning'
-        })
-        return false
-      }
-      let { data: idnumberID } = await axios.post(`/api/shop/files`, this.getFileParams(this.idnumberImgFile))
-      this.shopForm.identityNumberFileId = idnumberID
-      console.log(idnumberID)
-
       const valid = this.$refs.form.validate()
       try {
         if (valid) {
+          //
+          if (this.shopLogo === '') {
+            this.$message({
+              message: '请上传药店封面照!',
+              type: 'warning'
+            })
+            return false
+          }
+          let { data: logoFileID } = await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile))
+          this.shopForm.fileId = logoFileID
+          console.log(logoFileID)
+
+          // 店内图片上传
+          if (this.innerFileImg.length > 0) {
+            let fid = []
+            for (let i = 0; i < this.innerFileImg.length; i++) {
+              let innerImgParams = new FormData()
+              innerImgParams.append('file', this.innerFileImg[i].raw)
+              innerImgParams.append('fileType', 'LOGO')
+              let { data: innerImgData } = await axios.post('/api/shop/files', innerImgParams)
+              fid.push(innerImgData)
+            }
+            this.innerFileId = fid
+            console.log(this.innerFileId)
+          }
+
+          // 上传经营许可证
+          if (this.certificateImg === '') {
+            this.$message({
+              message: '请上传经营许可证!',
+              type: 'warning'
+            })
+            return false
+          }
+          let { data: certificateID } = await axios.post(`/api/shop/files`, this.getFileParams(this.certificateImgFile))
+          this.shopForm.certificateFileId = certificateID
+          console.log(certificateID)
+
+          // 上传营业执照
+          if (this.licenseImg === '') {
+            this.$message({
+              message: '请上传营业执照!',
+              type: 'warning'
+            })
+            return false
+          }
+          let { data: licenseID } = await axios.post(`/api/shop/files`, this.getFileParams(this.licenseImgFile))
+          this.shopForm.licenseFileId = licenseID
+          console.log(licenseID)
+
+          // GSP证书
+          if (this.gspImg === '') {
+            this.$message({
+              message: '请上传GSP证书!',
+              type: 'warning'
+            })
+            return false
+          }
+          let { data: gspID } = await axios.post(`/api/shop/files`, this.getFileParams(this.gspImgFile))
+          this.shopForm.gspFileId = gspID
+          console.log(gspID)
+
+          // 手持身份证
+          if (this.idnumberImg === '') {
+            this.$message({
+              message: '请上传手持身份证照片!',
+              type: 'warning'
+            })
+            return false
+          }
+          let { data: idnumberID } = await axios.post(`/api/shop/files`, this.getFileParams(this.idnumberImgFile))
+          this.shopForm.identityNumberFileId = idnumberID
+          console.log(idnumberID)
+
           let shopCreateDTO = {
             id: '',
             name: this.shopForm.name,
@@ -770,6 +790,10 @@
           width: 148px;
           height: 148px;
           display: block;
+        }
+
+        .disabled .el-upload--picture-card {
+          display: none;
         }
 
         .check-form-btn {

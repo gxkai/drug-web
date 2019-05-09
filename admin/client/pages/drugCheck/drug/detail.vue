@@ -115,7 +115,7 @@
     async getDetailInfo () {
       let id = this.$route.query.id
       let {data: detail} = await axios.get(`/api/supervise/shopDrugs/${id}`)
-      console.log(detail)
+      console.log('detail', detail)
       this.detailForm = detail
       if (this.detailForm.medicaided !== null) {
         if (this.detailForm.medicaided) {

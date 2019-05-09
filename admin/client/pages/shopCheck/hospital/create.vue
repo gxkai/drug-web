@@ -155,6 +155,10 @@
       console.log(valid)
       try {
         if (valid) {
+          if (this.hospitalImage === '') {
+            this.$message.warning('请上传医院照片')
+            return false
+          }
           await axios.post(`/api/supervise/hospitals`, this.addData)
           this.$message({
             message: '添加成功',
