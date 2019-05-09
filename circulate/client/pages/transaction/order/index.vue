@@ -436,7 +436,7 @@
 
     beforeMount () {
       this.getOrderList()
-      this.messageNotice()
+      // this.messageNotice()
     }
   }
 </script>

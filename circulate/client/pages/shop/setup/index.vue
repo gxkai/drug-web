@@ -9,40 +9,40 @@
           <el-form-item label="药店名称：" prop="name">
             <el-input v-model="shopForm.name" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="店内电话：">
+          <el-form-item label="店内电话：" prop="phone">
             <el-input v-model="shopForm.phone" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="法人姓名：">
+          <el-form-item label="法人姓名：" prop="legal">
             <el-input v-model="shopForm.legal" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="身份证：">
+          <el-form-item label="身份证：" prop="identityNumber">
             <el-input v-model="shopForm.identityNumber" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱：">
+          <el-form-item label="邮箱：" prop="mail">
             <el-input v-model="shopForm.mail" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="法人手机号：">
+          <el-form-item label="法人手机号：" prop="legalPhone">
             <el-input v-model="shopForm.legalPhone" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="税务登记号：">
+          <el-form-item label="税务登记号：" prop="taxCode">
             <el-input v-model="shopForm.taxCode" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="经营许可证号：">
+          <el-form-item label="经营许可证号：" prop="certificate">
             <el-input v-model="shopForm.certificate" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="GSP证号：">
+          <el-form-item label="GSP证号：" prop="gspCertificate">
             <el-input v-model="shopForm.gspCertificate" placeholder="请输入"></el-input>
           </el-form-item>
           <!--<el-form-item label="RCB Key：">-->
             <!--<el-input v-model="shopForm.rcb" placeholder="请输入"></el-input>-->
           <!--</el-form-item>-->
-          <el-form-item label="营业执照：">
+          <el-form-item label="营业执照：" prop="license">
             <el-input v-model="shopForm.license" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="经营地址：">
+          <el-form-item label="经营地址：" prop="address">
             <el-input v-model="shopForm.address" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="营业开始时间：">
+          <el-form-item label="营业开始时间：" prop="openTime">
             <el-time-select
               style="width:100%"
               v-model="shopForm.openTime"
@@ -54,7 +54,7 @@
               placeholder="营业开始时间">
             </el-time-select>
           </el-form-item>
-          <el-form-item label="营业结束时间：">
+          <el-form-item label="营业结束时间：" prop="closeTime">
             <el-time-select
               style="width:100%"
               v-model="shopForm.closeTime"
@@ -66,7 +66,7 @@
               placeholder="营业结束时间">
             </el-time-select>
           </el-form-item>
-          <el-form-item label="经度：">
+          <el-form-item label="经度：" prop="lng">
             <el-button class="select-btn" v-if="shopForm.lng" @click="dialogMapVisible = true" size="middle">{{
               this.shopForm.lng }}
             </el-button>
@@ -74,7 +74,7 @@
               请输入
             </el-button>
           </el-form-item>
-          <el-form-item label="纬度：">
+          <el-form-item label="纬度：" prop="lat">
             <el-button class="select-btn" v-if="shopForm.lat" @click="dialogMapVisible = true" size="middle">{{
               this.shopForm.lat }}
             </el-button>
@@ -82,40 +82,28 @@
               请输入
             </el-button>
           </el-form-item>
-          <el-form-item label="是否支持医保：">
+          <el-form-item label="是否支持医保：" prop="medicaid">
             <el-select v-model="shopForm.medicaid" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
+              <el-option label="是" value="true"></el-option>
+              <el-option label="否" value="false"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="是否支持统筹：">
+          <el-form-item label="是否支持统筹：" prop="gathered">
             <el-select v-model="shopForm.gathered" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
+              <el-option label="是" value="true"></el-option>
+              <el-option label="否" value="false"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="是否配送：">
+          <el-form-item label="是否配送：" prop="distribution">
             <el-select v-model="shopForm.distribution" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
+              <el-option label="是" value="true"></el-option>
+              <el-option label="否" value="false"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="配送距离：">
+          <el-form-item label="配送距离：" prop="distance">
             <el-input v-model="shopForm.distance" placeholder="3公里"></el-input>
           </el-form-item>
-          <el-form-item label="商家介绍：" class="el-form-item-textarea">
+          <el-form-item label="商家介绍：" class="el-form-item-textarea" prop="introduction">
             <el-input
               type="textarea"
               :autosize="{ minRows: 8, maxRows: 8}"
@@ -277,19 +265,28 @@
       gspFileId: '', // gsp图片ID
       identityNumberFileId: '' // 身份证图片ID
     };
-    options = [
-      {
-        value: true,
-        label: '是'
-      },
-      {
-        value: false,
-        label: '否'
-      }
-    ];
 
     rules = {
-      name: [{ required: true, message: '请输入药店名称', trigger: 'blur' }]
+      name: [{ required: true, message: '请输入药店名称', trigger: 'blur' }],
+      phone: [{ required: true, message: '请输入店内电话', trigger: 'blur' }],
+      legal: [{ required: true, message: '请输入法人姓名', trigger: 'blur' }],
+      identityNumber: [{ required: true, message: '请输入身份证', trigger: 'blur' }],
+      mail: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+      legalPhone: [{ required: true, message: '请输入法人手机号', trigger: 'blur' }],
+      taxCode: [{ required: true, message: '请输入税务登记号', trigger: 'blur' }],
+      certificate: [{ required: true, message: '请输入经营许可证号', trigger: 'blur' }],
+      gspCertificate: [{ required: true, message: '请输入GSP证号', trigger: 'blur' }],
+      license: [{ required: true, message: '请输入营业执照', trigger: 'blur' }],
+      address: [{ required: true, message: '请输入经营地址', trigger: 'blur' }],
+      openTime: [{ required: true, message: '请输入营业开始时间', trigger: 'blur' }],
+      closeTime: [{ required: true, message: '请输入营业结束时间', trigger: 'blur' }],
+      lng: [{ required: true, message: '请输入经度', trigger: 'blur' }],
+      lat: [{ required: true, message: '请输入纬度', trigger: 'blur' }],
+      // medicaid: [{ required: true, message: '请选择是否支持医保', trigger: 'change' }],
+      // gathered: [{ required: true, message: '请选择是否支持统筹', trigger: 'change' }],
+      // distribution: [{ required: true, message: '请选择是否配送', trigger: 'change' }],
+      distance: [{ required: true, message: '请输入配送距离', trigger: 'blur' }],
+      introduction: [{ required: true, message: '请输入商家介绍', trigger: 'blur' }]
     }
 
     shopLogo = ''; // 药店封面照
@@ -307,6 +304,8 @@
 
     innerFileImg = [];
     innerFileId = '';
+
+    shopImg = []
 
     handleRemove (file, fileList) {
       console.log(file, fileList)
@@ -355,13 +354,33 @@
             this.shopForm.introduction = res.data.introduction
             this.shopForm.openTime = res.data.openTime
             this.shopForm.closeTime = res.data.closeTime
-            this.shopForm.gathered = res.data.gathered
-            this.shopForm.medicaid = res.data.medicaid
+
+            if (res.data.gathered === true) {
+              this.shopForm.gathered = '是'
+            } else {
+              this.shopForm.gathered = '否'
+            }
+
+            if (res.data.medicaid === true) {
+              this.shopForm.medicaid = '是'
+            } else {
+              this.shopForm.medicaid = '否'
+            }
+
+            if (res.data.distribution === true) {
+              this.shopForm.distribution = '是'
+            } else {
+              this.shopForm.distribution = '否'
+            }
+
+            // this.shopForm.gathered = res.data.gathered
+            // this.shopForm.medicaid = res.data.medicaid
+            // this.shopForm.distribution = res.data.distribution
+
             this.shopForm.distance = res.data.distance
             this.shopForm.lat = res.data.lat
             this.shopForm.lng = res.data.lng
             this.shopForm.rcb = res.data.rcbKey
-            this.shopForm.distribution = res.data.distribution
 
             this.shopForm.fileId = res.data.fileId // 药店LOGO图片ID
             this.innerFileId = res.data.shopInnerFileIdList // 最多4张店内照片ID
@@ -370,11 +389,14 @@
             this.shopForm.gspFileId = res.data.gspFileId // gsp图片ID
             this.shopForm.identityNumberFileId = res.data.identityNumberFileId // 身份证图片ID
 
-            // console.log(res.data.shopInnerFileIdList)
+            // this.addKeyword = this.shopForm.address
+            // this.getLng = this.shopForm.lng
+            // this.getLat = this.shopForm.lat
 
             // 照片
             let params = {
-              resolution: 'SMALL_LOGO'
+              local: '',
+              resolution: ''
             }
             // 封面照
             let shopImg = res.data.fileId
@@ -388,42 +410,55 @@
             // 店内照片
             let shopInner = res.data.shopInnerFileIdList
             if (shopInner !== null) {
-              shopInner.forEach((item) => {
+              shopInner.forEach((item, index) => {
                 axios.get(`/api/shop/files/${item}`, {params: params}).then(res => {
                   this.innerImg = res.data.replace('redirect:', '')
-                  console.log(this.innerImg)
+                  this.innerFileImg.push({
+                    id: index,
+                    url: this.innerImg
+                  })
+                  console.log(this.shopImg)
                 })
               })
+            } else {
+              console.log('店内照片', res.data.shopInnerFileIdList)
             }
 
             // 经营许可证
             let shopImg2 = res.data.certificateFileId
-            if (shopImg2 !== '') {
+            if (shopImg2 !== null) {
               axios.get(`/api/shop/files/${shopImg2}`, {params: params}).then(res => {
                 this.certificateImg = res.data.replace('redirect:', '')
               })
+            } else {
+              this.certificateImg = ''
             }
             // 营业执照
             let shopImg3 = res.data.licenseFileId
-            if (shopImg3 !== '') {
+            if (shopImg3 !== null) {
               axios.get(`/api/shop/files/${shopImg3}`, {params: params}).then(res => {
-                // console.log(res)
                 this.licenseImg = res.data.replace('redirect:', '')
               })
+            } else {
+              this.licenseImg = ''
             }
             // GSP证书 gspImg
             let shopImg4 = res.data.gspFileId
-            if (shopImg4 !== '') {
+            if (shopImg4 !== null) {
               axios.get(`/api/shop/files/${shopImg4}`, {params: params}).then(res => {
                 this.gspImg = res.data.replace('redirect:', '')
               })
+            } else {
+              this.gspImg = ''
             }
             // 手持身份证照片
             let shopImg5 = res.data.identityNumberFileId
-            if (shopImg5 !== '') {
+            if (shopImg5 !== null) {
               axios.get(`/api/shop/files/${shopImg5}`, {params: params}).then(res => {
                 this.idnumberImg = res.data.replace('redirect:', '')
               })
+            } else {
+              this.idnumberImg = ''
             }
             //
           }
@@ -460,29 +495,16 @@
     }
 
     async submit () {
-      console.log(this.shopForm.fileId)
-      console.log(this.innerFileId)
-      console.log(this.shopForm.licenseFileId)
-      console.log(this.shopForm.certificateFileId)
-      console.log(this.shopForm.gspFileId)
-      console.log(this.shopForm.identityNumberFileId)
-  
-      await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile)).then(res => {
-        console.log('logoFileID', res.data)
-        if (this.shopForm.fileId !== res.data) {
-          this.shopForm.fileId = res.data
-        }
-      }).catch(error => {
-        if (error.response) {
-          if (error.response.status === 400) {
-            this.$message({
-              message: '请上传logo图片!',
-              type: 'warning'
-            })
-            this.$router.push('/shop/setup')
-          }
-        }
-      })
+      if (this.shopLogo === '') {
+        this.$message({
+          message: '请上传药店封面照!',
+          type: 'warning'
+        })
+        return false
+      }
+      let { data: logoFileID } = await axios.post(`/api/shop/files`, this.getFileParams(this.shopLogoFile))
+      this.shopForm.fileId = logoFileID
+      console.log(logoFileID)
 
       // 店内图片上传
       if (this.innerFileImg.length > 0) {
@@ -499,21 +521,49 @@
       }
 
       // 上传经营许可证
+      if (this.certificateImg === '') {
+        this.$message({
+          message: '请上传经营许可证!',
+          type: 'warning'
+        })
+        return false
+      }
       let { data: certificateID } = await axios.post(`/api/shop/files`, this.getFileParams(this.certificateImgFile))
       this.shopForm.certificateFileId = certificateID
       console.log(certificateID)
 
       // 上传营业执照
+      if (this.licenseImg === '') {
+        this.$message({
+          message: '请上传营业执照!',
+          type: 'warning'
+        })
+        return false
+      }
       let { data: licenseID } = await axios.post(`/api/shop/files`, this.getFileParams(this.licenseImgFile))
       this.shopForm.licenseFileId = licenseID
       console.log(licenseID)
 
       // GSP证书
+      if (this.gspImg === '') {
+        this.$message({
+          message: '请上传GSP证书!',
+          type: 'warning'
+        })
+        return false
+      }
       let { data: gspID } = await axios.post(`/api/shop/files`, this.getFileParams(this.gspImgFile))
       this.shopForm.gspFileId = gspID
       console.log(gspID)
 
       // 手持身份证
+      if (this.idnumberImg === '') {
+        this.$message({
+          message: '请上传手持身份证照片!',
+          type: 'warning'
+        })
+        return false
+      }
       let { data: idnumberID } = await axios.post(`/api/shop/files`, this.getFileParams(this.idnumberImgFile))
       this.shopForm.identityNumberFileId = idnumberID
       console.log(idnumberID)
@@ -562,7 +612,7 @@
           }
         }
       } catch (e) {
-        this.$message.warning(e.message)
+        this.$message.warning('基本信息不能为空')
       } finally {
         this.$router.push('/shop/setup')
       }

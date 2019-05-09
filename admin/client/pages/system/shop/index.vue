@@ -82,7 +82,7 @@
       },
       {
         title: '账号/电话',
-        key: 'phone',
+        key: 'username',
         width: 150
       },
       {

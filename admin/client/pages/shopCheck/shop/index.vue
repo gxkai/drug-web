@@ -113,7 +113,7 @@
       },
       {
         title: '手机号码',
-        key: 'phone'
+        key: 'username'
       },
       {
         title: '当前状态',
