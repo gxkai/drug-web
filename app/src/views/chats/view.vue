@@ -84,6 +84,7 @@
     </van-popup>
   </div>
 </template>
+
 <style scoped lang="scss" type="text/scss">
 .chat__content {
   width: 720px;
@@ -194,6 +195,7 @@
   }
 }
 </style>
+
 <script>
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
@@ -224,7 +226,10 @@ export default {
       popupSrc: '',
       text: '',
       message: '',
-      chatId: this.$route.query.chatId
+      chatId: '',
+      loading: false,
+      finished: false,
+      isLoading: false
     };
   },
   watch: {},
@@ -234,10 +239,12 @@ export default {
     });
   },
   async created() {
+    this.chatId = this.$route.query.chatId
     await this.initData();
-    console.log('chatId', this.chatId);
+    // console.log('chatId', this.chatId);
   },
-  mounted() {},
+  mounted() {
+  },
   beforeDestroy() {
     this.disconnect();
   },
@@ -257,12 +264,16 @@ export default {
     async initData() {},
     async onLoad() {
       this.loadMore();
+      // console.log('chatId:')
+      // console.log(this.chatId)
       const params = {
-        chatId: this.chatId
+        chatId: this.chatId,
+        pageNum: 1,
+        pageSize: 15
       };
       const data = await this.$http.get(
         `/api/app/chatRecords`,
-        this.getParams(params)
+        params
       );
       data.list = data.list.sort((a, b) => a.createdDate - b.createdDate);
       this.pushToList(data.list);

@@ -304,6 +304,11 @@
       }
       td{
         .cell{
+          .el-button{
+            &:first-child{
+              float: right;
+            }
+          }
         /deep/.el-button+.el-button{
           margin-left: 5px;
           &::before{
