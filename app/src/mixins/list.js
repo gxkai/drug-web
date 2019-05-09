@@ -4,7 +4,7 @@ export default {
       loading: false,
       finished: false,
       isLoading: false,
-      pageNum: 0,
+      pageNum: 1,
       pageSize: 15,
       list: []
     };
@@ -13,7 +13,7 @@ export default {
     onRefresh() {
       this.finished = false;
       this.list = [];
-      this.pageNum = 0;
+      this.pageNum = 1;
       this.onLoad();
     },
     getParams(params) {

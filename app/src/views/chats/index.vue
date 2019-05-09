@@ -42,8 +42,7 @@ export default {
       let data = {
         accountId: this.account.id,
         userId: user.id,
-        type: this.type,
-        chatId: this.$route.query.chatId
+        type: this.type
       };
       let chat = await this.$http.post(`/api/app/chats`, data);
       this.loadPageChatsView(user, chat.id);

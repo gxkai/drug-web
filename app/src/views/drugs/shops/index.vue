@@ -203,6 +203,17 @@ export default {
       const data = await this.$http.get(`/api/app/drugs/${this.drugId}`);
       console.log(data)
       this.info = data; // 药品详情商品信息
+      let str = this.info.attention
+      let reg = /^[1-9]+[0-9]*]*$/
+      // str = str.replace(/[0-9]/g, '|')
+      for (let i = 0; i < str.length; i++) {
+        if (reg.test(str[i]) && reg.test(str[i + 1])) {
+          // console.log(reg.test(str[i]))
+          str.replace(i, '|')
+        }
+      }
+      console.log(str)
+
       this.drugSpecs = data.drugSpecs;
       this.drugSpec = this.drugSpecs[0];
       this.getShops();
