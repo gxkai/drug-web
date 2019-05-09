@@ -127,6 +127,11 @@
           text: '编辑',
           type: 'text',
           emit: 'custom-edit'
+        },
+        {
+          text: '删除',
+          type: 'text',
+          emit: 'custom-remove'
         }
       ]
     }
@@ -304,19 +309,14 @@
       }
       td{
         .cell{
-          .el-button{
-            &:first-child{
-              float: right;
-            }
+          /deep/.el-button+.el-button{
+            margin-left: 5px;
+            &::before{
+               content: '|';
+               padding-right: 5px;
+               color: #eee;
+             }
           }
-        /deep/.el-button+.el-button{
-          margin-left: 5px;
-          &::before{
-             content: '|';
-             padding-right: 5px;
-             color: #eee;
-           }
-        }
         }
       }
     }

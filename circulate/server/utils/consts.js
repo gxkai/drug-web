@@ -6,7 +6,7 @@ const COOKIE_JWT = 'hare_jwt'
 const SHOW_EXAMPLES = true
 const AXIOS_DEFAULT_TIMEOUT = 50000
 const HOST = process.env.HOST || '0.0.0.0'
-const PORT = process.env.PORT || '4000'
+const PORT = process.env.PORT || '8889'
 const LB_ADDR = process.env.LB_ADDR || `http://${HOST}:${PORT}/hpi`
 
 /**

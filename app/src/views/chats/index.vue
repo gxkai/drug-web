@@ -45,7 +45,7 @@ export default {
         type: this.type
       };
       let chat = await this.$http.post(`/api/app/chats`, data);
-      this.loadPageChatsView(user, chat.id);
+      this.loadPageChatsView(JSON.stringify(user), chat.id);
     }
   }
 };
