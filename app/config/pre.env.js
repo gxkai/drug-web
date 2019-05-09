@@ -5,7 +5,8 @@ module.exports = {
   /**
    * ip for gxkai
    */
+  // API_ROOT: '"http://172.16.11.138:8085/app"',
   API_ROOT: '"http://172.16.0.151:8085/app"',
-  OUTSIDE_ROOT: '"http://172.16.0.151:8085/outside/api/outside"',
+  OUTSIDE_ROOT: '"http://172.16.0.151:8085/outside  /api/outside"',
   WEBSOCKET_ROOT: '"http://172.16.0.151:8091/"'
 }

@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     async initData() {
-      // this.list = await this.$http.get('/api/drugAppraises/toAppraise');
+      // this.list = await this.$http.get('/api/app/drugAppraises/toAppraise');
       // 好货推荐
       this.list = await this.$http.get('/api/app/drugs/recommend');
     }
