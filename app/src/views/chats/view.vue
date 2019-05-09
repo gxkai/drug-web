@@ -199,8 +199,29 @@
 <script>
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import list from '@/mixins/list';
+// import list from '@/mixins/list';
 export default {
+  // mixins: [list],
+  name: 'ChatsView',
+  data() {
+    return {
+      stompClient: null,
+      timer: '',
+      user: '',
+      show: false,
+      popupSrc: '',
+      text: '',
+      message: '',
+      chatId: '',
+      loading: false,
+      finished: false,
+      isLoading: false,
+      pageNum: 0,
+      pageSize: 15,
+      list: []
+    };
+  },
+
   filters: {
     time(date) {
       date = new Date(date);
@@ -216,32 +237,15 @@ export default {
       return `${year}/${month}/${day} ${hour}:${min}`;
     }
   },
-  mixins: [list],
-  data() {
-    return {
-      stompClient: null,
-      timer: '',
-      user: JSON.parse(this.$route.query.user),
-      show: false,
-      popupSrc: '',
-      text: '',
-      message: '',
-      chatId: '',
-      loading: false,
-      finished: false,
-      isLoading: false
-    };
-  },
   watch: {},
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.connection();
     });
   },
-  async created() {
+  created() {
     this.chatId = this.$route.query.chatId
-    await this.initData();
-    // console.log('chatId', this.chatId);
+    this.user = JSON.parse(this.$route.query.user)
   },
   mounted() {
   },
@@ -252,20 +256,40 @@ export default {
     loadToBottom() {
       let container = this.$el.querySelector('#chat');
       this.$nextTick(() => {
-        console.log(
-          container.scrollTop,
-          container.scrollHeight,
-          container.offsetHeight,
-          container.clientTop
-        );
+        // console.log(
+        //   container.scrollTop,
+        //   container.scrollHeight,
+        //   container.offsetHeight,
+        //   container.clientTop
+        // );
         container.scrollTop = container.scrollHeight;
       });
     },
-    async initData() {},
+
+    onRefresh() {
+      this.finished = false;
+      this.list = [];
+      this.pageNum = 0;
+      this.onLoad();
+    },
+
+    pushToList(list) {
+      this.isLoading = false;
+      this.loading = false;
+      this.list = this.list.concat(list);
+      console.log(this.list);
+      if (list.length === 0) {
+        this.finished = true;
+      }
+    },
+    loadMore() {
+      this.pageNum++;
+    },
+
     async onLoad() {
       this.loadMore();
-      // console.log('chatId:')
-      // console.log(this.chatId)
+      console.log(this.pageNum)
+      console.log(this.pageSize)
       const params = {
         chatId: this.chatId,
         pageNum: 1,
@@ -275,8 +299,13 @@ export default {
         `/api/app/chatRecords`,
         params
       );
-      data.list = data.list.sort((a, b) => a.createdDate - b.createdDate);
-      this.pushToList(data.list);
+
+      console.log('聊天记录:')
+      console.log(data)
+      if (data.list.length) {
+        data.list = data.list.sort((a, b) => a.createdDate - b.createdDate);
+        this.pushToList(data.list);
+      }
       this.loadToBottom();
     },
     connection(json) {
@@ -363,5 +392,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

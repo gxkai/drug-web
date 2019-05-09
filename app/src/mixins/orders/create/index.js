@@ -40,7 +40,7 @@ export default {
       this.show = true;
     },
     async orderOption(json, isShop) {
-      if (this.isMedicarePay === true) {
+      if (this.isMedicarePay) {
         this.$dialog
           .confirm({
             title: '提示信息',
@@ -59,11 +59,11 @@ export default {
     },
     async fetchPay(json, isShop) {
       let order = await this.$http.post(
-        `/api/orders${isShop ? '/shop' : ''}`,
+        `/api/app/orders${isShop ? '/shop' : ''}`,
         json
       );
-      let url = await this.$http.get(`/api/orders/${order.id}/pay`);
-      if (url === '') {
+      let url = await this.$http.get(`/api/app/orders/${order.id}/pay`)
+      if (url.charAt(url.length - 1) === '=') {
         await this.$http.get('/orders/callback', {
           MerOrderNo: order.number,
           orderNo: '0000001'

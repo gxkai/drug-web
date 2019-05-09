@@ -81,17 +81,18 @@ export default {
   data() {
     return {
       name: '订单结算',
-      cartShop: JSON.parse(this.$route.query.cartShop),
-      isRx: this.$route.query.isRx
+      // cartShop: JSON.parse(this.$route.query.cartShop),
+      cartShop: this.$route.query.cartShop,
+      isRx: ''
     };
   },
   created() {
+    this.isRx = this.$route.query.isRx
     this.initData();
   },
   mounted() {},
   methods: {
     async initData() {
-      console.log(this.cartShop);
       this.payAmount = this.cartShop.payAmount;
       this.shop = await this.$http.get(`/api/app/shops/${this.cartShop.id}`);
     },

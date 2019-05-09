@@ -5,7 +5,8 @@ const prodEnv = require('./prod.env')
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   EVN_CONFIG:'"dev"',
-  API_ROOT: '"http://172.16.0.107:8085/app"',
+  // API_ROOT: '"http://172.16.0.107:8085/app',
+  API_ROOT: '"http://172.16.11.157:8085/app"',
   // API_ROOT: '"http://172.16.11.138:8085/app"',
   OUTSIDE_ROOT: '"http://172.16.0.151:8085/outside/api/outside"',
   WEBSOCKET_ROOT: '"http://172.16.0.151:8091/"'

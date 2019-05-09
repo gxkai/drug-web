@@ -124,8 +124,9 @@ export default {
       this.loadPage('/orders/view', { orderId: id });
     },
     loadPageOrdersCreateFromCart(cartShop, isRx) {
-      this.loadPage_p('/orders/create/fromCart', {
-        cartShop: JSON.stringify(cartShop),
+      this.loadPage('/orders/create/fromCart', {
+        // cartShop: JSON.stringify(cartShop),
+        cartShop,
         isRx: isRx
       });
     },
