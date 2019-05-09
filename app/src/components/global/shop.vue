@@ -46,27 +46,27 @@
           </i>
           至
           <i>
-            {{ `￥${item.minAmount?item.minAmount.toFixed(2):0}` }}
+            {{ `￥${item.maxAmount?item.maxAmount.toFixed(2):0}` }}
           </i>
         </span>
       </div>
-      <!--<div-->
-        <!--v-show="item.minMedicaidAmount && item.maxMedicaidAmount"-->
-        <!--class="line line5"-->
-      <!--&gt;-->
-        <!--<span>-->
-          <!--医保区间：-->
-        <!--</span>-->
-        <!--<span>-->
-          <!--<i>-->
-            <!--{{ `￥${item.minMedicaidAmount.toFixed(2)}` }}-->
-          <!--</i>-->
-          <!--至-->
-          <!--<i>-->
-            <!--{{ `￥${item.maxMedicaidAmount.toFixed(2)}`}}-->
-          <!--</i>-->
-        <!--</span>-->
-      <!--</div>-->
+      <div
+        v-show="item.minMedicaidAmount && item.maxMedicaidAmount"
+        class="line line5"
+      >
+        <span>
+          医保区间：
+        </span>
+        <span>
+          <i>
+            {{ `￥${item.minMedicaidAmount.toFixed(2)}` }}
+          </i>
+          至
+          <i>
+            {{ `￥${item.maxMedicaidAmount.toFixed(2)}`}}
+          </i>
+        </span>
+      </div>
       <div class="line7">
         <!--<span v-if="item.distribution === true" class="tag">-->
           <!--可配送-->
