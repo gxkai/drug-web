@@ -20,4 +20,10 @@ export default async ({
   // if (isNotLogin && maybeAuthenticated === false) {
   //   redirect('/login', { page: route.fullPath })
   // }
+  // const currentPath = route.path
+  // const isNotLogin = currentPath !== '/login'
+  // const maybeAuthenticated = await getToken() !== undefined
+  // if (isNotLogin && maybeAuthenticated === false) {
+  //   redirect('/login', { page: route.fullPath })
+  // }
 }

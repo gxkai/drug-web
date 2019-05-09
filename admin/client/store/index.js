@@ -118,8 +118,8 @@ export const actions = {
     }
   },
   async logout ({ commit }, callback) {
-    await axios.post('/api/supervise/admins/logout')
     removeToken()
+    await axios.post('/api/supervise/admins/logout')
     commit('SET_USER')
     callback()
   },

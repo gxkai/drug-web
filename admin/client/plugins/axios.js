@@ -1,6 +1,6 @@
 /* eslint-disable no-debugger */
 import axios from 'axios'
-import { getToken, removeToken } from '../mixins'
+import {getToken, removeToken} from '../mixins'
 import {Message} from 'element-ui'
 
 export default ({ redirect }) => {
@@ -10,7 +10,7 @@ export default ({ redirect }) => {
        * process.env.NODE_ENV: 判断开发模式
        * @type {string}
        */
-      config.baseURL = process.env.NODE_ENV !== 'production' ? 'http://172.16.11.138:8091' : 'http://172.16.0.152:8085/supervise'
+      config.baseURL = process.env.NODE_ENV !== 'production' ? 'http://172.16.11.138:8085/supervise' : 'http://172.16.11.138:8085/supervise'
       const token = await getToken()
       if (token) {
         config.headers.Authorization = token
@@ -65,8 +65,7 @@ export default ({ redirect }) => {
             break
         }
       }
-
-      return Promise.reject(error.response.data)
+      return Promise.reject(error)
     }
   )
 }
