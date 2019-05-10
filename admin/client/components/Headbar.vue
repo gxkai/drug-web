@@ -54,7 +54,7 @@
     @Getter isMenuHidden
     authUser = ''
     displayName = ''
-    async created() {
+    async created () {
       let user = await getUser()
       this.displayName = user.name
       this.authUser = user
