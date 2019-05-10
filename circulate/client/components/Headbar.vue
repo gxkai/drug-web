@@ -61,7 +61,7 @@
   import Vue from 'vue'
   import { mapActions } from 'vuex'
   import Component, { Getter } from 'class-component'
-  import {getUser} from '@/mixins'
+  import {setUser, getUser} from '@/mixins'
   import axios from 'axios'
 
   @Component({
@@ -77,9 +77,9 @@
     emptyIcon = require('~/assets/img/avatar.svg')
     iconURL = ''
     iconFile = ''
+    userInfo = ''
 
     handleAvatarSuccess (res, file) {
-      console.log(file)
       this.iconURL = URL.createObjectURL(file.raw)
       this.iconFile = file.raw
     }
@@ -91,21 +91,28 @@
 
     // 上传头像
     async confirmUpload () {
-      // const fileParams = new FormData()
-      // fileParams.append('file', this.iconFile)
-      // fileParams.append('fileType', 'LOGO')
-      // let fildId = await axios.post(`/api/shop/files`, fileParams)
-      //
-      // await axios.post(`/api/shop/users/info`, {params: {fileId: fildId}})
+      const fileParams = new FormData()
+      fileParams.append('file', this.iconFile)
+      fileParams.append('fileType', 'LOGO')
+      let {data: fileId} = await axios.post(`/api/shop/files`, fileParams)
+      // console.log('fileId:', fileId)
+      const params = new FormData()
+      params.append('fileId', fileId)
+      await axios.put(`/api/shop/users/fileId`, params)
+      this.userInfo.userFileId = fileId
+      this.iconDialogVisible = false
+      this.$message.success('头像更换成功!')
+
+      setUser(this.userInfo)
     }
 
     async created () {
-      let user = await getUser()
-      this.displayName = user.name
-      this.authUser = user
+      this.userInfo = await getUser()
+      this.displayName = this.userInfo.name
+      this.authUser = this.userInfo
 
-      let {data} = await axios.get(`/api/shop/files/${user.userFileId}`, {params: {resolution: 'SMALL_LOGO'}})
-      console.log(data)
+      let {data} = await axios.get(`/api/shop/files/${this.userInfo.userFileId}`, {params: {resolution: 'SMALL_LOGO'}})
+      // console.log(data)
       let iconURL = data.replace('redirect:', '')
       let isNull = iconURL.substring(iconURL.lastIndexOf('/') + 1, iconURL.length)
 

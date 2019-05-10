@@ -9,8 +9,8 @@ export function setToken (token) {
 }
 
 // 存储用户信息
-export function setUser (token) {
-  localForage.setItem(UserKey, token)
+export function setUser (userInfo) {
+  localForage.setItem(UserKey, userInfo)
 }
 
 // 获取token
