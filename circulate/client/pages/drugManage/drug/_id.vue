@@ -6,6 +6,7 @@
         <el-form ref="form" :model="detailForm" label-width="200px">
           <el-form-item label="药品封面图：" class="el-form-item-upload">
             <el-upload
+              :disabled="isCorrect"
               class="avatar-uploader"
               action=""
               :show-file-list="false"
@@ -15,7 +16,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="药品名称：">
-            <el-input v-model="detailForm.name" placeholder="请输入药品名称"></el-input>
+            <el-input v-model="detailForm.name" :disabled="isCorrect" placeholder="请输入药品名称"></el-input>
           </el-form-item>
           <el-form-item label="通用名称：">
             <el-input v-model="detailForm.commonName" disabled placeholder="暂无"></el-input>
@@ -58,6 +59,7 @@
           </el-form-item>
           <el-form-item label="功能主治：" class="indication">
             <el-input
+              :disabled="isCorrect"
               type="textarea"
               readonly
               :rows="3"
@@ -67,6 +69,7 @@
           </el-form-item>
           <el-form-item label="注意事项：" class="indication2">
             <el-input
+              :disabled="isCorrect"
               type="textarea"
               readonly
               :rows="3"
@@ -77,6 +80,7 @@
           <el-form-item label="图片(最多上传四张)">
             <el-upload
               action=""
+              :disabled="isCorrect"
               list-type="picture-card"
               :limit="4"
               :file-list="detailImg"
@@ -92,8 +96,8 @@
         </el-form>
         <div class="check-form-btn">
           <el-button @click="backToList">返回</el-button>
-          <el-button type="primary" v-show="!isCorrect" @click="correctDrugInfo">修正</el-button>
-          <el-button type="primary" v-show="isCorrect" @click="submitEdit">提交</el-button>
+          <el-button type="primary" v-show="isCorrect" @click="correctDrugInfo">修正</el-button>
+          <el-button type="primary" v-show="!isCorrect" @click="submitEdit">提交</el-button>
         </div>
       </div>
     </div>
@@ -112,7 +116,7 @@
     }
   })
   export default class DrugDetailCorrect extends Vue {
-    isCorrect = false
+    isCorrect = true
     detailForm = {}
     drugCode = ''
 
@@ -188,7 +192,7 @@
 
     // 修正
     correctDrugInfo () {
-      this.isCorrect = true
+      this.isCorrect = false
     }
 
     // 提交
@@ -223,28 +227,13 @@
         this.detailFileId = fileId.substring(0, fileId.length - 1)
       }
 
+      // 修正字段
       let params = {
-        fileId: this.coverFileId,
-        imgs: this.detailFileId,
-        name: this.detailForm.name,
-        commonNameId: this.detailForm.commonNameId,
-        commonName: this.detailForm.commonName,
-        sfda: this.detailForm.sfda,
-        originId: this.detailForm.originId,
-        originName: this.detailForm.originName,
-        otc: this.detailForm.otc,
-        drugTypeParent: this.parentTypeIdString,
-        drugTypeName: this.parentTypeNameString,
-        drugTypeId: this.childTypeIdString,
-        drugTypeChildName: this.childTypeNameString,
-        specId: this.detailForm.specId,
-        spec: this.detailForm.spec,
-        formId: this.detailForm.formId,
-        form: this.detailForm.form,
-        medicaid: this.detailForm.medicaid,
-        code: this.detailForm.code,
-        brand: this.detailForm.brand,
-        introduce: this.detailForm.introduce
+        fileId: this.coverFileId, // 封面图
+        imgs: this.detailFileId, // 展示图
+        name: this.detailForm.name, // 药品名
+        introduce: this.detailForm.introduce,
+        attention: this.detailForm.attention
       }
 
       await axios.put(`/api/shop/drugApplies/${this.drugID}`, params)
@@ -253,9 +242,9 @@
         type: 'success'
       })
       this.isCorrect = false
-      // setTimeout(() => {
-      //   this.$router.push('/drugCheck/stock')
-      // }, 1000)
+      setTimeout(() => {
+        this.$router.push('/drugManage/drug')
+      }, 1000)
     }
 
     // 返回
@@ -263,6 +252,7 @@
       this.$router.push('/drugManage/drug')
     }
 
+    // 获取药品信息
     async getDrugDetail () {
       let {data: detail} = await axios.get(`/api/shop/drugs/${this.drugID}`)
       console.log(detail)

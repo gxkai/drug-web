@@ -13,8 +13,8 @@
         <el-col :offset="11" :span="3">
           <p v-if="!!displayName">
             <el-tooltip :content="displayName">
-              <a href="javascript:void(0)">
-                <img src="~/assets/img/avatar.svg" />
+              <a href="javascript:void(0)" class="userIcon">
+                <img :src="iconURL" />
               </a>
             </el-tooltip>
             <span> {{displayName}}</span>
@@ -44,6 +44,7 @@
   import { mapActions } from 'vuex'
   import Component, { Getter } from 'class-component'
   import {getUser} from '@/mixins'
+  import axios from 'axios'
 
   @Component({
     methods: {
@@ -54,10 +55,23 @@
     @Getter isMenuHidden
     authUser = ''
     displayName = ''
+    emptyIcon = require('~/assets/img/avatar.svg')
+    iconURL = ''
+
     async created () {
       let user = await getUser()
       this.displayName = user.name
       this.authUser = user
+      let {data} = await axios.get(`/api/supervise/files/${user.fileId}`, {params: {resolution: 'SMALL_LOGO'}})
+      console.log(data)
+      let iconURL = data.replace('redirect:', '')
+      let isNull = iconURL.substring(iconURL.lastIndexOf('/') + 1, iconURL.length)
+
+      if (isNull === 'null') {
+        this.iconURL = this.emptyIcon
+      } else {
+        this.iconURL = iconURL
+      }
     }
     async logout () {
       await this.$store.dispatch('logout', async () => {
@@ -101,6 +115,15 @@
       line-height: 60px;
       border-bottom: 1px solid #c0ccda;
       transition: all 0.5s ease;
+
+      .userIcon{
+        img{
+          width: 45px;
+          height: 45px;
+          margin-right: 10px;
+          border-radius: 50%;
+        }
+      }
     }
   }
 </style>
