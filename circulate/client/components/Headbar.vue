@@ -38,25 +38,31 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { mapActions } from 'vuex'
-import Component, { Getter } from 'class-component'
+  import Vue from 'vue'
+  import { mapActions } from 'vuex'
+  import Component, { Getter } from 'class-component'
+  import {getUser} from '@/mixins'
 
-@Component({
-  methods: {
-    ...mapActions(['toggleMenu'])
+  @Component({
+    methods: {
+      ...mapActions(['toggleMenu'])
+    }
+  })
+  export default class Headbar extends Vue {
+    @Getter isMenuHidden
+    authUser = ''
+    displayName = ''
+    async created () {
+      let user = await getUser()
+      this.displayName = user.name
+      this.authUser = user
+    }
+    async logout () {
+      await this.$store.dispatch('logout', async () => {
+        await this.$router.push('/login')
+      })
+    }
   }
-})
-export default class Headbar extends Vue {
-  @Getter isMenuHidden
-  @Getter authUser
-  @Getter displayName
-  async logout () {
-    await this.$store.dispatch('logout', async () => {
-      await this.$router.push('/login')
-    })
-  }
-}
 </script>
 
 <style lang="scss" scoped>
