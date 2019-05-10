@@ -229,7 +229,6 @@
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
   import axios from 'axios'
-  import localForage from 'localforage'
 
   @Component({
     components: {
@@ -349,138 +348,134 @@
     idnumberImgFile = {}
 
     beforeMount () {
-      // console.log(localForage)
-      localForage.getItem('circulate-token').then(token => {
-        // console.log(token)
-        axios.get(`/api/shop/shops/${token}`).then(res => {
-          console.log(res.data)
-          if (res.data !== null) {
-            this.shopForm.name = res.data.name
-            this.shopForm.legal = res.data.legal
-            this.shopForm.identityNumber = res.data.identityNumber
-            this.shopForm.legalPhone = res.data.legalPhone
-            this.shopForm.mail = res.data.mail
-            this.shopForm.taxCode = res.data.taxCode
-            this.shopForm.license = res.data.license
-            this.shopForm.certificate = res.data.certificate
-            this.shopForm.gspCertificate = res.data.gspCertificate
-            this.shopForm.phone = res.data.phone
-            this.shopForm.address = res.data.address
-            this.shopForm.introduction = res.data.introduction
-            this.shopForm.openTime = res.data.openTime
-            this.shopForm.closeTime = res.data.closeTime
+      axios.get(`/api/shop/shops`).then(res => {
+        console.log(res.data)
+        if (res.data !== null) {
+          this.shopForm.name = res.data.name
+          this.shopForm.legal = res.data.legal
+          this.shopForm.identityNumber = res.data.identityNumber
+          this.shopForm.legalPhone = res.data.legalPhone
+          this.shopForm.mail = res.data.mail
+          this.shopForm.taxCode = res.data.taxCode
+          this.shopForm.license = res.data.license
+          this.shopForm.certificate = res.data.certificate
+          this.shopForm.gspCertificate = res.data.gspCertificate
+          this.shopForm.phone = res.data.phone
+          this.shopForm.address = res.data.address
+          this.shopForm.introduction = res.data.introduction
+          this.shopForm.openTime = res.data.openTime
+          this.shopForm.closeTime = res.data.closeTime
 
-            if (res.data.gathered === true) {
-              this.shopForm.gathered = '是'
-            } else if (res.data.gathered === false) {
-              this.shopForm.gathered = '否'
-            }
-
-            if (res.data.medicaid === true) {
-              this.shopForm.medicaid = '是'
-            } else if (res.data.medicaid === false) {
-              this.shopForm.medicaid = '否'
-            }
-
-            if (res.data.distribution === true) {
-              this.shopForm.distribution = '是'
-            } else if (res.data.distribution === false) {
-              this.shopForm.distribution = '否'
-            }
-
-            // this.shopForm.gathered = res.data.gathered
-            // this.shopForm.medicaid = res.data.medicaid
-            // this.shopForm.distribution = res.data.distribution
-
-            this.shopForm.distance = res.data.distance
-            this.shopForm.lat = res.data.lat
-            this.shopForm.lng = res.data.lng
-            this.shopForm.rcb = res.data.rcbKey
-
-            this.shopForm.fileId = res.data.fileId // 药店LOGO图片ID
-            this.innerFileId = res.data.shopInnerFileIdList // 最多4张店内照片ID
-            this.shopForm.licenseFileId = res.data.licenseFileId // 营业执照图片ID
-            this.shopForm.certificateFileId = res.data.certificateFileId // 经营许可证图片ID
-            this.shopForm.gspFileId = res.data.gspFileId // gsp图片ID
-            this.shopForm.identityNumberFileId = res.data.identityNumberFileId // 身份证图片ID
-
-            // this.addKeyword = this.shopForm.address
-            // this.getLng = this.shopForm.lng
-            // this.getLat = this.shopForm.lat
-
-            // 照片
-            let params = {
-              local: '',
-              resolution: ''
-            }
-            // 封面照
-            let shopImg = res.data.fileId
-            if (shopImg !== null) {
-              axios.get(`/api/shop/files/${shopImg}`, {params: params}).then(res => {
-                this.shopLogo = res.data.replace('redirect:', '')
-              })
-            } else {
-              this.shopLogo = ''
-            }
-            // 店内照片
-            let shopInner = res.data.shopInnerFileIdList
-            if (shopInner !== null) {
-              shopInner.forEach((item, index) => {
-                axios.get(`/api/shop/files/${item}`, {params: params}).then(res => {
-                  this.innerImg = res.data.replace('redirect:', '')
-                  this.innerFileImg.push({
-                    url: this.innerImg
-                  })
-                  // console.log(this.innerFileImg)
-                })
-              })
-            } else {
-              console.log('店内照片', res.data.shopInnerFileIdList)
-            }
-            // console.log(shopInner.length)
-            if (shopInner.length > 2) {
-              this.uploadDisabled = true
-            }
-
-            // 经营许可证
-            let shopImg2 = res.data.certificateFileId
-            if (shopImg2 !== null) {
-              axios.get(`/api/shop/files/${shopImg2}`, {params: params}).then(res => {
-                this.certificateImg = res.data.replace('redirect:', '')
-              })
-            } else {
-              this.certificateImg = ''
-            }
-            // 营业执照
-            let shopImg3 = res.data.licenseFileId
-            if (shopImg3 !== null) {
-              axios.get(`/api/shop/files/${shopImg3}`, {params: params}).then(res => {
-                this.licenseImg = res.data.replace('redirect:', '')
-              })
-            } else {
-              this.licenseImg = ''
-            }
-            // GSP证书 gspImg
-            let shopImg4 = res.data.gspFileId
-            if (shopImg4 !== null) {
-              axios.get(`/api/shop/files/${shopImg4}`, {params: params}).then(res => {
-                this.gspImg = res.data.replace('redirect:', '')
-              })
-            } else {
-              this.gspImg = ''
-            }
-            // 手持身份证照片
-            let shopImg5 = res.data.identityNumberFileId
-            if (shopImg5 !== null) {
-              axios.get(`/api/shop/files/${shopImg5}`, {params: params}).then(res => {
-                this.idnumberImg = res.data.replace('redirect:', '')
-              })
-            } else {
-              this.idnumberImg = ''
-            }
-            //
+          if (res.data.gathered === true) {
+            this.shopForm.gathered = '是'
+          } else if (res.data.gathered === false) {
+            this.shopForm.gathered = '否'
           }
-        })
+
+          if (res.data.medicaid === true) {
+            this.shopForm.medicaid = '是'
+          } else if (res.data.medicaid === false) {
+            this.shopForm.medicaid = '否'
+          }
+
+          if (res.data.distribution === true) {
+            this.shopForm.distribution = '是'
+          } else if (res.data.distribution === false) {
+            this.shopForm.distribution = '否'
+          }
+
+          // this.shopForm.gathered = res.data.gathered
+          // this.shopForm.medicaid = res.data.medicaid
+          // this.shopForm.distribution = res.data.distribution
+
+          this.shopForm.distance = res.data.distance
+          this.shopForm.lat = res.data.lat
+          this.shopForm.lng = res.data.lng
+          this.shopForm.rcb = res.data.rcbKey
+
+          this.shopForm.fileId = res.data.fileId // 药店LOGO图片ID
+          this.innerFileId = res.data.shopInnerFileIdList // 最多4张店内照片ID
+          this.shopForm.licenseFileId = res.data.licenseFileId // 营业执照图片ID
+          this.shopForm.certificateFileId = res.data.certificateFileId // 经营许可证图片ID
+          this.shopForm.gspFileId = res.data.gspFileId // gsp图片ID
+          this.shopForm.identityNumberFileId = res.data.identityNumberFileId // 身份证图片ID
+
+          // this.addKeyword = this.shopForm.address
+          // this.getLng = this.shopForm.lng
+          // this.getLat = this.shopForm.lat
+
+          // 照片
+          let params = {
+            local: '',
+            resolution: ''
+          }
+          // 封面照
+          let shopImg = res.data.fileId
+          if (shopImg !== null) {
+            axios.get(`/api/shop/files/${shopImg}`, {params: params}).then(res => {
+              this.shopLogo = res.data.replace('redirect:', '')
+            })
+          } else {
+            this.shopLogo = ''
+          }
+          // 店内照片
+          let shopInner = res.data.shopInnerFileIdList
+          if (shopInner !== null) {
+            shopInner.forEach((item, index) => {
+              axios.get(`/api/shop/files/${item}`, {params: params}).then(res => {
+                this.innerImg = res.data.replace('redirect:', '')
+                this.innerFileImg.push({
+                  url: this.innerImg
+                })
+                // console.log(this.innerFileImg)
+              })
+            })
+          } else {
+            console.log('店内照片', res.data.shopInnerFileIdList)
+          }
+          // console.log(shopInner.length)
+          if (shopInner.length > 2) {
+            this.uploadDisabled = true
+          }
+
+          // 经营许可证
+          let shopImg2 = res.data.certificateFileId
+          if (shopImg2 !== null) {
+            axios.get(`/api/shop/files/${shopImg2}`, {params: params}).then(res => {
+              this.certificateImg = res.data.replace('redirect:', '')
+            })
+          } else {
+            this.certificateImg = ''
+          }
+          // 营业执照
+          let shopImg3 = res.data.licenseFileId
+          if (shopImg3 !== null) {
+            axios.get(`/api/shop/files/${shopImg3}`, {params: params}).then(res => {
+              this.licenseImg = res.data.replace('redirect:', '')
+            })
+          } else {
+            this.licenseImg = ''
+          }
+          // GSP证书 gspImg
+          let shopImg4 = res.data.gspFileId
+          if (shopImg4 !== null) {
+            axios.get(`/api/shop/files/${shopImg4}`, {params: params}).then(res => {
+              this.gspImg = res.data.replace('redirect:', '')
+            })
+          } else {
+            this.gspImg = ''
+          }
+          // 手持身份证照片
+          let shopImg5 = res.data.identityNumberFileId
+          if (shopImg5 !== null) {
+            axios.get(`/api/shop/files/${shopImg5}`, {params: params}).then(res => {
+              this.idnumberImg = res.data.replace('redirect:', '')
+            })
+          } else {
+            this.idnumberImg = ''
+          }
+          //
+        }
       })
       // console.log(this.innerFileImg)
     }
