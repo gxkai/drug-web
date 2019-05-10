@@ -201,8 +201,16 @@
 
     // 查看
     viewDetail ({row}) {
-      this.viewDialogVisible = true
-      this.viewData = row
+      // this.viewDialogVisible = true
+      // this.viewData = row
+      console.log(row)
+
+      this.$router.push({
+        path: '/drugManage/drug/detail',
+        query: {
+          id: row.drugId
+        }
+      })
     }
 
     // 下架

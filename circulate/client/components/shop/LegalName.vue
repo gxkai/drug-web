@@ -74,7 +74,7 @@
         pageSize: 15,
         name
       }
-      let data = await axios.get(`/api/supervise/shops/legal`, {params: params})
+      let data = await axios.get(`/api/shop/shops/legal`, {params: params})
       this.legalArr = data.data.list
       this.pagination.total = data.total
       this.legalArr.forEach((item, index) => {
@@ -101,7 +101,7 @@
       this.legalNameData = []
       this.fetchData(this.legalNameValue)
     }
-  
+
     beforeMount () {
       this.fetchData()
     }

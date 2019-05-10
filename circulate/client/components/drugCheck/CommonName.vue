@@ -84,7 +84,7 @@
         pageNum: this.pagination.currentPage,
         pageSize: 15
       }
-      let data = await axios.get(`/api/supervise/common/names`, {params: params})
+      let data = await axios.get(`/api/shop/commonNames`, {params: params})
       this.commonNameData = data.data.list
       this.pagination.total = data.data.total
 
@@ -109,7 +109,7 @@
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize
       }
-      await axios.get(`/api/supervise/common/names`, {params: params}).then(res => {
+      await axios.get(`/api/shop/common/names`, {params: params}).then(res => {
         this.commonNameData = res.data.list
         this.pagination.total = res.data.total
       })
