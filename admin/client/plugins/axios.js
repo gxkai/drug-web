@@ -33,6 +33,10 @@ export default ({ redirect }) => {
         switch (error.response.status) {
           case 401:
             removeToken()
+            Message({
+              message: '账号过期/被踢，请重新登录',
+              type: 'warning'
+            })
             redirect('/login')
             break
           case 400:
@@ -50,6 +54,7 @@ export default ({ redirect }) => {
                 type: 'error'
               })
             }
+            redirect('/login')
             break
           case 500:
             Message({

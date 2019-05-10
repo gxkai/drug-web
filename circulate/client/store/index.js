@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import axios from 'axios'
-import {setToken, removeToken} from '@/mixins'
+import { setToken, removeToken, setUser } from '@/mixins'
 
 export const strict = true
 
 export const state = () => ({
-  authUser: {authenticated: false},
+  authUser: { authenticated: false },
   locale: null,
   locales: ['en', 'fr', 'zh'],
   isMenuHidden: false,
@@ -18,7 +18,7 @@ export const mutations = {
     state,
     authUser = null
   ) {
-    let values = {authenticated: false}
+    let values = { authenticated: false }
     if (authUser !== null) {
       values = Object.assign(values, authUser)
     }
@@ -104,11 +104,13 @@ export const actions = {
       password
     }) {
     try {
-      let {data: token} = await axios.post('/api/shop/users/login', {
+      let { data: token } = await axios.post('/api/shop/users/login', {
         username,
         password
       })
       setToken(token)
+      let { data: user } = await axios.post('/api/shop/users/info')
+      setUser(user)
     } catch (error) {
       let message = error.message
       if (error.response.data) {
