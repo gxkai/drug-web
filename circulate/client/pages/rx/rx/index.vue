@@ -116,7 +116,7 @@
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize
       }
-      let {data: rxRes} = await axios.get(`/api/supervise/rxs`, {params})
+      let {data: rxRes} = await axios.get(`/api/shop/rxs`, {params})
       console.log(rxRes)
       this.rxList = rxRes.list
       this.pagination.total = rxRes.total

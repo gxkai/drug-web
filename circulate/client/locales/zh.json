@@ -54,24 +54,7 @@
   "药品销量排名",
   "/analysis/medicaid":
   "医保统计",
-  "/shopCheck":
-  "店铺审核",
-  "/shopCheck/shop":
-  "药房审核",
-  "/shopCheck/shop/check":
-  "药房审核编辑",
-  "/shopCheck/shop/detail":
-  "药房详情",
-  "/shopCheck/origin":
-  "厂商审核",
-  "/shopCheck/hospital":
-  "医院管理",
-  "/shopCheck/hospital/detail":
-  "医院管理详情",
-  "/shopCheck/hospital/edit":
-  "医院管理编辑",
-  "/shopCheck/hospital/create":
-  "医院新增",
+
   "/drugManage":
   "药品管理",
   "/drugManage/earlyWarning":

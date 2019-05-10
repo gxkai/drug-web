@@ -138,7 +138,7 @@
     };
 
     async getRxDetail (id) {
-      let {data: rxDetail} = await axios.get(`/api/supervise/rxs/${id}/info`)
+      let {data: rxDetail} = await axios.get(`/api/shop/rxs/${id}/info`)
       // console.log(rxDetail)
 
       this.formInfo = rxDetail
@@ -149,7 +149,7 @@
         item.name += `（${item.spec}）`
       })
 
-      let trackRes = await axios.get(`/api/supervise/rxs/${id}/order/state`)
+      let trackRes = await axios.get(`/api/shop/rxs/${id}/order/state`)
       console.log(trackRes)
     }
 
