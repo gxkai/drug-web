@@ -1,10 +1,14 @@
 import localForage from 'localforage'
 
 const TokenKey = 'circulate-token'
+const UserKey = 'circulate-user'
 
 // 设置token
 export function setToken (token) {
   localForage.setItem(TokenKey, token)
+}
+export function setUser (token) {
+  localForage.setItem(UserKey, token)
 }
 
 // 获取token
@@ -15,8 +19,18 @@ export function getToken () {
     })
   })
 }
+export function getUser () {
+  return new Promise((resolve) => {
+    localForage.getItem(UserKey).then(value => {
+      resolve(value)
+    })
+  })
+}
 
 // 删除token
 export function removeToken () {
   localForage.removeItem(TokenKey)
+}
+export function removeUser () {
+  localForage.removeItem(UserKey)
 }

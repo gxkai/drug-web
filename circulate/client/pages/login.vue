@@ -104,7 +104,7 @@
     logging = false
 
     activeName = 'loginTab'
-  
+
     handleClick (tab, event) {
       console.log(tab, event)
     }
@@ -118,19 +118,11 @@
 
     async login () {
       const goBackTo = this.$route.query.page || '/'
-      this.logging = true
-
       const valid = this.$refs.user.validate()
-      try {
-        if (valid) {
-          await this.$store.dispatch('login', this.user)
-        }
-      } catch (e) {
-        this.$message.warning('手机号或密码错误')
-      } finally {
+      if (valid) {
+        await this.$store.dispatch('login', this.user)
         this.redirect(goBackTo)
       }
-      this.logging = false
     }
 
     redirect (goTo) {
