@@ -104,7 +104,7 @@
     logging = false
 
     activeName = 'loginTab'
-  
+
     handleClick (tab, event) {
       console.log(tab, event)
     }
@@ -124,11 +124,10 @@
       try {
         if (valid) {
           await this.$store.dispatch('login', this.user)
+          this.redirect(goBackTo)
         }
       } catch (e) {
         this.$message.warning('手机号或密码错误')
-      } finally {
-        this.redirect(goBackTo)
       }
       this.logging = false
     }

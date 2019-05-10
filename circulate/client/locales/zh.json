@@ -83,21 +83,21 @@
   "/drugManage/saleHot":
   "热销排行榜",
   "/drugManage/drugAdd":
-  "添加药品",
+  "药品添加",
   "/drugManage/drugAdjustment":
     "在售药品调价",
   "/drugManage/commonName":
-  "通用名管理",
+  "通用名查询",
   "/drugManage/form":
-  "剂型管理",
+  "剂型查询",
   "/drugManage/spec":
-  "规格管理",
+  "规格查询",
   "/drugManage/type":
-  "类型管理",
+  "药品品类查询",
   "/drugManage/type/typeChild":
   "子类管理",
   "/drugManage/stock":
-  "药品库管理",
+  "药品库查询",
   "/drugManage/drug/detail":
   "查看详情",
   "/drugManage/drugInfo":
@@ -107,7 +107,7 @@
   "/drugManage/drugInfo/detail":
   "查看详情",
   "/drugManage/origin":
-  "厂商管理",
+  "厂商查询",
 
   "/transaction":
   "订单管理",
