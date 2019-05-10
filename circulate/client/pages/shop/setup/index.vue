@@ -632,9 +632,9 @@
           }
         }
       } catch (e) {
-        this.$message.warning('基本信息不能为空')
+        // this.$message.warning('基本信息不能为空')
       } finally {
-        this.$router.push('/shop/setup')
+        // this.$router.push('/shop/setup')
       }
     }
 
