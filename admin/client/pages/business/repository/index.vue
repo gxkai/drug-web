@@ -37,11 +37,14 @@
             <el-form-item label="类别名称" :label-width="formLabelWidth" prop="name">
               <el-input v-model="addForm.name"></el-input>
             </el-form-item>
-            <el-form-item label="图标" :label-width="formLabelWidth" prop="icon">
+            <el-form-item label="图标" :label-width="formLabelWidth" prop="icon" class="add-icon">
 
               <div class="select_box">
-                <span @click="showlist()"><img :src="imgsrc" width="30" height="30"/>{{ addForm.icon }}</span>
-                <ul v-show="falg">
+                <div @click="showlist()" class="select_box--default">
+                  <img :src="imgsrc" width="30" height="30"/>
+                  <p>{{ addForm.icon }}</p>
+                </div>
+                <ul v-show="falg" class="select_box--list">
                   <li @click="checkThis(item.text,item.str)" v-for="item in message">
                     <img :src="item.str" width="30" height="30"/>
                     <a href="javascript:void(0);">{{item.text}}</a>
@@ -131,16 +134,16 @@
       saveLoading: false
     }
 
-    addTemplate = {
-      name: {
-        title: '类别名称',
-        value: ''
-      },
-      icon: {
-        title: '图标',
-        value: ''
-      }
-    }
+    // addTemplate = {
+    //   name: {
+    //     title: '类别名称',
+    //     value: ''
+    //   },
+    //   icon: {
+    //     title: '图标',
+    //     value: ''
+    //   }
+    // }
 
     editTemplate = {
       name: {
@@ -153,16 +156,20 @@
       }
     }
 
-    dialogFormVisible = true
+    dialogFormVisible = false
     formLabelWidth = '80px'
 
     message = [
       {text: 'repository_icon_1', str: 'http://img5.imgtn.bdimg.com/it/u=3770348613,1753312176&fm=200&gp=0.jpg'},
       {text: 'repository_icon_2', str: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3664982702,95222591&fm=27&gp=0.jpg'},
-      {text: 'repository_icon_3', str: 'https://f11.baidu.com/it/u=166974344,852423378&fm=72'}
+      {text: 'repository_icon_3', str: 'https://f11.baidu.com/it/u=166974344,852423378&fm=72'},
+      {text: 'repository_icon_4', str: 'https://f11.baidu.com/it/u=166974344,852423378&fm=72'},
+      {text: 'repository_icon_5', str: 'https://f11.baidu.com/it/u=166974344,852423378&fm=72'},
+      {text: 'repository_icon_6', str: 'https://f11.baidu.com/it/u=166974344,852423378&fm=72'},
+      {text: 'repository_icon_7', str: 'https://f11.baidu.com/it/u=166974344,852423378&fm=72'}
     ]
     falg = false
-    imgsrc = 'http://img5.imgtn.bdimg.com/it/u=3770348613,1753312176&fm=200&gp=0.jpg'
+    imgsrc = require('../../../assets/img/add.png')
 
     showlist () {
       this.falg = !this.falg
@@ -208,13 +215,17 @@
     }
     addForm = {
       name: '',
-      icon: ''
+      icon: '选择图标' // 默认的图标名称
     }
     async enterSubmit () {
       const valid = this.$refs.addForm.validate()
       try {
         if (valid) {
-          if (this.addForm.name === '' || this.addForm.icon === '') {
+          if (this.addForm.name === '') {
+            return false
+          }
+          if (this.addForm.icon === '选择图标') {
+            this.$message.warning('请选择图标')
             return false
           }
           let params = {
@@ -299,6 +310,54 @@
 </script>
 
 <style lang="scss">
+  /*图标下拉样式*/
+  .add-icon{
+    height: 40px;
+    line-height: 40px;
+    .select_box{
+      /*border: 1px solid #000;*/
+      position: relative;
+      &--default{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        p{
+          margin: 0 10px;
+          padding: 0;
+          line-height: 40px;
+          height: 40px;
+        }
+      }
+      &--list{
+        width: 200px;
+        position: absolute;
+        left: 0;
+        top: 30px;
+        border: 1px solid #eee;
+        background: #fff;
+        max-height: 200px;
+        overflow-y: auto;
+        list-style: none;
+        padding: 10px;
+        li{
+          list-style: none;
+          text-align: left;
+          display: flex;
+          align-items: center;
+          a{
+            display: block;
+            color: #333;
+            margin-left: 10px;
+            &:hover{
+              color: #409eff;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**/
   .repository-wrap{
     padding: 0 10px;
     margin-bottom: 30px;
