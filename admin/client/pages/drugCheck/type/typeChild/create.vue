@@ -6,7 +6,7 @@
         <el-form-item label="LOGO">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
             :show-file-list="false"
             :before-upload="beforeAvatarUpload"
             :on-success="handleAvatarSuccess">
@@ -160,21 +160,13 @@
       })
 
       const valid = this.$refs.form.validate()
-      try {
-        if (valid) {
-          await axios.post(`/api/supervise/drugTypes/child`, this.form)
-          this.$message({
-            message: '添加成功',
-            type: 'success'
-          })
-          this.$router.push({path: '/drugCheck/type/typeChild', query: {id: this.form.pid, type: this.form.ptype}})
-        }
-      } catch (e) {
-        if (e.response) {
-          console.log(e.response)
-        }
-        // this.$message.warning(e.message)
-      } finally {
+      if (valid) {
+        await axios.post(`/api/supervise/drugTypes/child`, this.form)
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        })
+        this.$router.push({path: '/drugCheck/type/typeChild', query: {id: this.form.pid, type: this.form.ptype}})
       }
     }
     back () {

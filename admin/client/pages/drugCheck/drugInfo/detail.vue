@@ -84,6 +84,7 @@
               <el-upload
                 action=""
                 list-type="picture-card"
+                multiple
                 :limit="4"
                 :file-list="detailImg"
                 :on-preview="handlePictureCardPreview"
@@ -471,6 +472,11 @@
       }
 
       await axios.put(`/api/supervise/drugs/${this.drugID}`, params)
+      this.$message({
+        message: '提交成功',
+        type: 'success'
+      })
+      this.$router.go(-1)
     }
 
     // 返回
