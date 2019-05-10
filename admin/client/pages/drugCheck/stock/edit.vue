@@ -84,6 +84,7 @@
             <el-upload
               action=""
               list-type="picture-card"
+              multiple
               :limit="4"
               :file-list="detailImg"
               :on-preview="handlePictureCardPreview"
