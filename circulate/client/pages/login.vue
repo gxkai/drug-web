@@ -118,11 +118,18 @@
 
     async login () {
       const goBackTo = this.$route.query.page || '/'
+      this.logging = true
+
       const valid = this.$refs.user.validate()
-      if (valid) {
-        await this.$store.dispatch('login', this.user)
-        this.redirect(goBackTo)
+      try {
+        if (valid) {
+          await this.$store.dispatch('login', this.user)
+          this.redirect(goBackTo)
+        }
+      } catch (e) {
+        this.$message.warning('手机号或密码错误')
       }
+      this.logging = false
     }
 
     redirect (goTo) {

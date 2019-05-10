@@ -91,7 +91,7 @@
         pageSize: this.pagination.pageSize,
         name: this.formNameValue.trim()
       }
-      let {data: formData} = await axios.get(`/api/supervise/forms`, {params})
+      let {data: formData} = await axios.get(`/api/shop/forms`, {params})
       console.log(formData)
 
       this.dosageFormList = formData.list

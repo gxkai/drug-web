@@ -3,7 +3,7 @@
     <div class="add-form">
       <bread-crumb :path="$route.path"/>
       <div class="add-search">
-        <h3>添加药品</h3>
+        <h3>药品添加</h3>
         <div class="action">
           <!--选择药品-->
           <el-button class="select-btn value-btn" v-if="drugValue.name" size="small" @click="drugDialog = true">{{ drugValue.name }}</el-button>

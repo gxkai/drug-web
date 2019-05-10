@@ -121,7 +121,7 @@
 
     // 获取所有药店名称选项
     async getShopNames () {
-      let {data: options} = await axios.get(`/api/supervise/shops`)
+      let {data: options} = await axios.get(`/api/shop/shops`)
       this.shopNameList = options.list
     }
 
@@ -172,7 +172,7 @@
         name: this.drugNameValue.trim()
       }
 
-      let {data: drugData} = await axios.get(`/api/supervise/shopDrugs`, {params})
+      let {data: drugData} = await axios.get(`/api/shop/shopDrugs`, {params})
       console.log(drugData)
       this.drugList = drugData.list
       this.pagination.total = drugData.total
