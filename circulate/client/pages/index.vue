@@ -7,7 +7,7 @@
         </div>
         <div class="info">
           <p>早安，某某某，祝你开心每一天！</p>
-          <p>昆山市药事服务管理平台&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;百佳惠瑞丰大药房君子亭店</p>
+          <p>{{ userInfo.name }}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;{{ userInfo.shopName }}</p>
         </div>
       </div>
       <div class="right">
@@ -270,6 +270,7 @@
   import UserNumber from '@/components/charts/search/userNumber'
   import Average from '@/components/charts/search/average'
   import Component from 'class-component'
+  import {getUser} from '@/mixins'
 
   @Component({
     components: {
@@ -334,6 +335,7 @@
       }
     ]
     proTabActiveName = 'allChannels'
+    userInfo = {}
 
     // 搜索数据
     searchList = [
@@ -373,8 +375,10 @@
       // let {data: accounts} = await axios.get(`/api/shop/accounts`, {params: {pageNum: 1, pageSize: 15}})
       // console.log(accounts)
     }
-    mounted () {
 
+    async created () {
+      this.userInfo = await getUser()
+      console.log(this.userInfo)
     }
   }
 </script>
