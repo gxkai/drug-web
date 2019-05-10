@@ -2,17 +2,17 @@
   <div class="drugInfo-wrap">
     <div class="drugInfo-list">
       <div class="drugInfo-search">
-        <el-input v-model="drugNameValue" size="small" placeholder="请输入药品名称" style="width: 150px;"></el-input>
-        <el-button class="select-btn value-btn" v-if="originNameValue" type="small" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
+        <el-input v-model="drugNameValue" size="small" placeholder="请输入通用名称" style="width: 250px;"></el-input>
+        <el-button class="select-btn value-btn" v-if="originNameValue" type="small" style="width: 250px;" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
         <el-button class="select-btn" v-else type="small" @click="originDialogVisible = true">厂商简称</el-button>
-        <el-select size="small" v-model="drugState" placeholder="药品状态">
-          <el-option
-            v-for="item in stateOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+        <!--<el-select size="small" v-model="drugState" placeholder="药品状态">-->
+          <!--<el-option-->
+            <!--v-for="item in stateOptions"-->
+            <!--:key="item.value"-->
+            <!--:label="item.label"-->
+            <!--:value="item.value">-->
+          <!--</el-option>-->
+        <!--</el-select>-->
         <el-button type="primary" size="small" @click="searchDrugInfo">搜索</el-button>
         <el-button size="small" @click="clear">清空</el-button>
       </div>
@@ -165,6 +165,7 @@
       this.drugNameValue = ''
       this.originNameValue = ''
       this.drugState = ''
+      this.searchDrugInfo()
     }
 
     // 搜索

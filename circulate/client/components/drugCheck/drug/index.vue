@@ -147,6 +147,7 @@
     }
 
     search () {
+      this.pagination.currentPage = 1
       this.getAllDrugs()
     }
 
