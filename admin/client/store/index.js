@@ -117,8 +117,8 @@ export const actions = {
     }
   },
   async logout ({ commit }, callback) {
-    removeToken()
     await axios.post('/api/supervise/admins/logout')
+    removeToken()
     commit('SET_USER')
     callback()
   },

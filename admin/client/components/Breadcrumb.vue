@@ -3,7 +3,7 @@
     <el-row class="breadcrumb">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item v-for="(path, index) in paths_" :key="index">
-          <nuxt-link :to="index>0 ? path : ''">
+          <nuxt-link :to="index > 0 ? path : ''">
             {{$t(path)}}
           </nuxt-link>
           </el-breadcrumb-item

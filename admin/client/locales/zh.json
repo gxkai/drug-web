@@ -4,18 +4,9 @@
     "userPlaceholder": "请输入用户名",
     "pwdRequired": "密码不能为空",
     "pwdPlaceholder": "请输入密码",
-    "login": "登录"
-  },
-  "register": {
-    "phoneRequired": "手机号码不能为空",
-    "phonePlaceholder": "请输入手机号",
     "captchaRequired": "验证码不能为空",
     "captchaPlaceholder": "请输入验证码",
-    "pwdRequired": "密码不能为空",
-    "pwdPlaceholder": "请输入密码",
-    "pwdAgainRequired": "密码不能为空",
-    "pwdAgainPlaceholder": "请再次输入密码",
-    "register": "同意服务协议并注册"
+    "login": "登录"
   },
   "nav": {
     "home": "首页"
@@ -72,58 +63,54 @@
   "医院管理编辑",
   "/shopCheck/hospital/create":
   "医院新增",
-  "/drugManage":
-  "药品管理",
-  "/drugManage/earlyWarning":
-  "预警列表",
-  "/drugManage/sellOut":
-  "售磬列表",
-  "/drugManage/drug":
-  "药品列表",
-  "/drugManage/saleHot":
-  "热销排行榜",
-  "/drugManage/drugAdd":
-  "添加药品",
-  "/drugManage/drugAdjustment":
-    "在售药品调价",
-  "/drugManage/commonName":
-  "通用名管理",
-  "/drugManage/form":
-  "剂型管理",
-  "/drugManage/spec":
-  "规格管理",
-  "/drugManage/type":
-  "类型管理",
-  "/drugManage/type/typeChild":
-  "子类管理",
-  "/drugManage/stock":
-  "药品库管理",
-  "/drugManage/drug/detail":
-  "查看详情",
-  "/drugManage/drugInfo":
-  "待审核列表",
-  "/drugManage/drugInfo/check":
+  "/drugCheck":
   "药品审核",
-  "/drugManage/drugInfo/detail":
+  "/drugCheck/commonName":
+  "通用名管理",
+  "/drugCheck/form":
+  "剂型管理",
+  "/drugCheck/spec":
+  "规格管理",
+  "/drugCheck/type":
+  "类型管理",
+  "/drugCheck/type/typeChild":
+  "子类管理",
+  "/drugCheck/type/typeChild/create":
+  "子类创建",
+  "/drugCheck/type/typeChild/edit":
+  "子类编辑",
+  "/drugCheck/stock":
+  "药品库管理",
+  "/drugCheck/stock/create":
+  "药品库新增",
+  "/drugCheck/stock/edit":
+  "药品库编辑",
+  "/drugCheck/drug":
+  "药店药品列表管理",
+  "/drugCheck/drug/detail":
   "查看详情",
-  "/drugManage/origin":
-  "厂商管理",
+  "/drugCheck/drugInfo":
+  "待审核列表",
+  "/drugCheck/drugInfo/check":
+  "药品审核",
+  "/drugCheck/drugInfo/detail":
+  "查看详情",
+  "/order":
+  "订单管理",
+  "/order/order":
+  "订单管理",
+  "/order/order/detail":
+  "订单详情",
 
-  "/transaction":
-  "订单管理",
-  "/transaction/order":
-  "订单管理",
-  "/transaction/order/detail":
-  "订单详情",
-  "/transaction/chargeBack":
-  "订单管理",
-  "/transaction/chargeBack/detail":
-  "订单详情",
-  "/transaction/appraise":
+  "/order/chargeBack":
+  "退单管理",
+  "/order/chargeBack/detail":
+  "退单详情",
+
+  "/order/appraise":
   "评价管理",
-  "/transaction/appraise/detail":
+  "/order/appraise/detail":
   "评价详情",
-
   "/rx":
   "处方管理",
   "/rx/rx":
@@ -132,33 +119,36 @@
   "处方单详情",
   "/business":
   "业务管理",
+  "/business/advert":
+  "广告管理",
+  "/business/ability":
+  "功能区管理",
+  "/business/module":
+  "板块区管理",
   "/business/recommend":
   "好货推荐",
-  "/business/recommend/create":
-  "新增推荐",
-  "/business/recommend/detail":
-  "查看详情",
-  "/business/recommend/edit":
-  "编辑推荐",
   "/business/discount":
   "惠民促销",
-  "/business/discount/create":
-  "新增促销",
-  "/business/discount/detail":
-  "查看详情",
-  "/business/discount/edit":
-  "编辑促销",
-
+  "/business/chat":
+  "药师咨询",
+  "/business/chat/list":
+  "聊天列表",
+  "/business/chat/list/detail":
+  "聊天详情",
+  "/business/feedback":
+  "用户反馈",
+  "/business/system":
+  "系统消息",
+  "/business/word":
+  "搜索词管理",
+  "/business/repository":
+  "知识库管理",
+  "/business/repository/child":
+  "分类列表",
+  "/business/faq":
+  "常见问题",
   "/system":
   "系统设置",
-  "/system/message":
-    "我的消息",
-  "/system/userManage":
-    "用户管理",
-  "/system/myAccount":
-    "我的账户",
-  "/system/myAccount/record":
-    "交易记录",
   "/system/pharmacist":
   "药师管理",
   "/system/pharmacist/create":
@@ -172,7 +162,9 @@
   "/system/account/detail":
   "会员详情",
   "/system/shop":
-  "药店管理",
+  "药店帐号管理",
+  "/system/shop/person":
+  "药店人员管理",
   "/system/user":
   "用户管理",
   "/system/admin":
@@ -194,17 +186,5 @@
   "/system/loginLog":
   "登陆日志",
   "/system/system":
-  "系统参数",
-  "/system/statement":
-  "对账单",
-  "/system/statement/day":
-  "日汇总",
-  "/system/statement/day/detail":
-  "日明细",
-  "/system/statement/day/simpleDetail":
-  "日对账单",
-  "/shop":
-  "店铺管理",
-  "/shop/setup":
-  "我要开店"
+  "系统参数"
 }
