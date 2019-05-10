@@ -43,6 +43,7 @@
   import Vue from 'vue'
   import { mapActions } from 'vuex'
   import Component, { Getter } from 'class-component'
+  import {getUser} from '@/mixins'
 
   @Component({
     methods: {
@@ -51,8 +52,13 @@
   })
   export default class Headbar extends Vue {
     @Getter isMenuHidden
-    @Getter authUser
-    @Getter displayName
+    authUser = ''
+    displayName = ''
+    async created() {
+      let user = await getUser()
+      this.displayName = user.name
+      this.authUser = user
+    }
     async logout () {
       await this.$store.dispatch('logout', async () => {
         await this.$router.push('/login')
