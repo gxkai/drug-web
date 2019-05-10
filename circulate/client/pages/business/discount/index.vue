@@ -74,7 +74,8 @@
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetail(scope.$index, scope.row)">查看</el-button>
 
-              <el-button type="text" v-if="scope.row.applyState==='SUCCESS'" @click="moveShelf(scope.$index, scope.row)">提前下架</el-button>
+              <el-button type="text" v-show="!scope.row.deleted" v-if="scope.row.applyState==='SUCCESS'" @click="moveShelf(scope.$index, scope.row)">提前下架</el-button>
+              <el-button type="text" v-show="scope.row.deleted" v-if="scope.row.applyState==='SUCCESS'" style="color: #999">已下架</el-button>
 
               <el-button type="text" v-if="scope.row.applyState==='FAIL'" @click="failReason(scope.$index, scope.row.id)">查看原因</el-button>
               <el-button type="text" v-if="scope.row.applyState==='FAIL'" @click="reSubmit(scope.$index, scope.row)">再次提交</el-button>
@@ -260,7 +261,8 @@
     async moveShelf (index, row) {
       console.log(row)
       let params = {
-        shopDrugId: row.shopDrugId
+        shopDrugId: row.shopDrugId,
+        deleted: row.deleted
       }
       let moveRes = await axios.post(`/api/shop/drugDiscountApplies/grounding?shopDrugId=${row.shopDrugId}`, params)
       if (moveRes) {

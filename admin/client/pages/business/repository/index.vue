@@ -38,7 +38,18 @@
               <el-input v-model="addForm.name"></el-input>
             </el-form-item>
             <el-form-item label="图标" :label-width="formLabelWidth" prop="icon">
-              <el-input v-model="addForm.icon"></el-input>
+
+              <div class="select_box">
+                <span @click="showlist()"><img :src="imgsrc" width="30" height="30"/>{{ addForm.icon }}</span>
+                <ul v-show="falg">
+                  <li @click="checkThis(item.text,item.str)" v-for="item in message">
+                    <img :src="item.str" width="30" height="30"/>
+                    <a href="javascript:void(0);">{{item.text}}</a>
+                  </li>
+                </ul>
+              </div>
+
+              <!--<el-input v-model="addForm.icon"></el-input>-->
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
@@ -55,7 +66,6 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
-  // import UploadImage from '@/components/repository/UploadImage'
   import axios from 'axios'
   @Component({
     components: {
@@ -143,8 +153,25 @@
       }
     }
 
-    dialogFormVisible = false
+    dialogFormVisible = true
     formLabelWidth = '80px'
+
+    message = [
+      {text: 'repository_icon_1', str: 'http://img5.imgtn.bdimg.com/it/u=3770348613,1753312176&fm=200&gp=0.jpg'},
+      {text: 'repository_icon_2', str: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3664982702,95222591&fm=27&gp=0.jpg'},
+      {text: 'repository_icon_3', str: 'https://f11.baidu.com/it/u=166974344,852423378&fm=72'}
+    ]
+    falg = false
+    imgsrc = 'http://img5.imgtn.bdimg.com/it/u=3770348613,1753312176&fm=200&gp=0.jpg'
+
+    showlist () {
+      this.falg = !this.falg
+    }
+    checkThis (text, str) {
+      this.addForm.icon = text
+      this.imgsrc = str
+      this.falg = !this.falg
+    }
 
     beforeMount () {
       this.getData()
@@ -177,7 +204,7 @@
     // 新增确定
     rules = {
       name: [{ required: true, message: '请输入类别名称', trigger: 'blur' }],
-      icon: [{ required: true, message: '请输入图标', trigger: 'blur' }]
+      icon: [{ required: true, message: '请选择图标', trigger: 'blur' }]
     }
     addForm = {
       name: '',
@@ -237,7 +264,7 @@
       let getName = await axios.get(`/api/supervise/repositoryTypes/${row.id}/editCount`, {params: {name: row.name}})
       if (getName.data >= 1) {
         this.$message({
-          message: '通用名已存在!',
+          message: '名称已存在!',
           type: 'warning'
         })
         return false

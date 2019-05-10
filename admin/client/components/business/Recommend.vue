@@ -134,7 +134,8 @@
                 </el-dropdown-menu>
               </el-dropdown>
 
-              <el-button type="text" @click="obtained(scope.row)" v-if="scope.row.applyState==='SUCCESS'">下架</el-button>
+              <el-button type="text" v-show="!scope.row.deleted" @click="obtained(scope.row)" v-if="scope.row.applyState==='SUCCESS'">下架</el-button>
+              <el-button type="text" v-show="scope.row.deleted" v-if="scope.row.applyState==='SUCCESS'" style="color: #999;">已下架</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -359,7 +360,8 @@
     async obtained (row) {
       console.log(row)
       let params = {
-        shopDrugId: row.shopDrugId
+        shopDrugId: row.shopDrugId,
+        deleted: row.deleted
       }
       let moveRes = await axios.post(`/api/supervise/drugRecommendApplies/grounding?shopDrugId=${row.shopDrugId}`, params)
       if (moveRes) {
@@ -368,6 +370,7 @@
           type: 'success'
         })
       }
+      this.getRecommend()
     }
 
     // 查看
@@ -574,25 +577,14 @@
       .cell{
         .el-button{
           font-size: 13px;
-        }
-        button:last-child{
-          /*margin-left: 8px;*/
-          &:before{
-            content: '|';
-            color: #EEE;
-            position: relative;
-            left: -4px;
-            top: -1px;
+          &+.el-button{
+            &:before{
+              /*content: '|';*/
+              /*color: #EEE;*/
+            }
           }
         }
 
-        button:first-child{
-          margin-right: 8px;
-
-          &:before{
-            display: none;
-          }
-        }
 
         .el-dropdown{
           font-size: 12px;
