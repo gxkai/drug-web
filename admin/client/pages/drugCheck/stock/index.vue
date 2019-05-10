@@ -33,7 +33,7 @@
         :options="options"
         :rowHandle="rowHandle"
         @custom-edit="editDrugInfo"
-        @row-remove="removeDrug"
+        @custom-remove="removeDrug"
         class="drug-table"
       />
     </div>
@@ -117,11 +117,6 @@
       border: true
     }
     rowHandle = {
-      remove: {
-        text: '删除',
-        type: 'text',
-        confirm: true
-      },
       custom: [
         {
           text: '编辑',
@@ -187,16 +182,13 @@
     }
 
     // 删除
-    async removeDrug ({ index, row }, done) {
+    async removeDrug ({ index, row }) {
       await axios.delete(`/api/supervise/drugs/${row.id}`)
       this.pagination.total -= 1
-      setTimeout(() => {
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
+      this.$message({
+        message: '删除成功',
+        type: 'success'
+      })
     }
 
     stockAdd () {

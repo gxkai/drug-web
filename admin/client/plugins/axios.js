@@ -50,6 +50,7 @@ export default ({ redirect }) => {
                 type: 'error'
               })
             }
+            redirect('/login')
             break
           case 500:
             Message({
