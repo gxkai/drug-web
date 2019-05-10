@@ -126,7 +126,7 @@
             <template slot-scope="scope">
               <el-button @click="viewDetail(scope.$index, scope.row)" type="text">查看</el-button>
 
-              <el-dropdown trigger="click">
+              <el-dropdown trigger="click"  v-if="scope.row.applyState==='PENDING'">
                 <span class="el-dropdown-link">
                   更多
                   <i class="el-icon-arrow-down el-icon--right"></i>
@@ -141,7 +141,8 @@
                 </el-dropdown-menu>
               </el-dropdown>
 
-              <el-button type="text" @click="obtained(scope.row.id)">下架</el-button>
+              <el-button type="text" v-show="!scope.row.deleted" @click="obtained(scope.row)" v-if="scope.row.applyState==='SUCCESS'">下架</el-button>
+              <el-button type="text" v-show="scope.row.deleted" v-if="scope.row.applyState==='SUCCESS'" style="color: #999;">已下架</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -350,13 +351,20 @@
     }
 
     // 下架
-    async obtained (id) {
-      await axios.delete(`/api/supervise/drugDiscountApplies${id}`)
-      this.totalPages -= 1
-      this.$message({
-        message: '该药品下架成功！',
-        type: 'success'
-      })
+    async obtained (row) {
+      console.log(row)
+      let params = {
+        shopDrugId: row.shopDrugId,
+        deleted: row.deleted
+      }
+      let moveRes = await axios.post(`/api/supervise/drugDiscountApplies/grounding?shopDrugId=${row.shopDrugId}`, params)
+      if (moveRes) {
+        this.$message({
+          message: '该药品下架成功！',
+          type: 'success'
+        })
+      }
+      this.getDiscounts()
     }
 
     // 查看
@@ -569,23 +577,11 @@
       .cell{
         .el-button{
           font-size: 13px;
-        }
-        button:last-child{
-          margin-left: 8px;
-          &:before{
-            content: '|';
-            color: #EEE;
-            position: relative;
-            left: -4px;
-            top: -1px;
-          }
-        }
-
-        button:first-child{
-          margin-right: 8px;
-
-          &:before{
-            display: none;
+          &+.el-button{
+            &:before{
+              /*content: '|';*/
+              /*color: #EEE;*/
+            }
           }
         }
 

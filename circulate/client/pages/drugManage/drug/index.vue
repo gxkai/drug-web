@@ -2,9 +2,16 @@
   <div class="drug-wrap">
     <div class="drug-list">
       <bread-crumb :path="$route.path"/>
-      <div class="title">
-        <h3>药品列表</h3>
+      <div class="drug-search">
+        <div class="left">
+          <el-input v-model="drugName" size="small" placeholder="请输入药品名称" style="width: 200px;"></el-input>
+          <el-button type="primary" size="small" @click="search">搜索</el-button>
+          <el-button size="small" @click="clear">清空</el-button>
+        </div>
       </div>
+      <!--<div class="title">-->
+        <!--<h3>药品列表</h3>-->
+      <!--</div>-->
       <d2-crud
         ref="d2Crud"
         :columns="columns"
@@ -89,6 +96,9 @@
     }
   })
   export default class SalesRank extends Vue {
+    // 药品列表查询
+    drugName = ''
+    //
     rowData = {}
     drugList = [] // 排行榜列表
     viewData = []
@@ -267,11 +277,11 @@
       return true
     }
 
-    async fetchData () {
+    async fetchData (name) {
       let params = {
         pageNum: this.pagination.currentPage,
-        pageSize: this.pagination.pageSize
-        // shopId: 'y7P-oo_CSMalqzo1yGxncG'
+        pageSize: this.pagination.pageSize,
+        name
       }
 
       let {data: drug} = await axios.get(`/api/shop/shopDrugs`, {params})
@@ -286,6 +296,14 @@
           item.drugState = '下架'
         }
       })
+    }
+
+    search () {
+      this.fetchData(this.drugName)
+    }
+    clear () {
+      this.drugName = ''
+      this.fetchData()
     }
 
     beforeMount () {
