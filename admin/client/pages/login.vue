@@ -53,8 +53,8 @@
   @Component
   export default class Login extends Vue {
     user = {
-      username: '15995634250',
-      password: '000000'
+      username: '',
+      password: ''
     }
     authenticated = false // #WatchHowDoWe ... How do we?
 

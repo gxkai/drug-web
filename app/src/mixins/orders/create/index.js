@@ -62,7 +62,7 @@ export default {
         `/api/app/orders${isShop ? '/shop' : ''}`,
         json
       );
-      let url = await this.$http.get(`/api/app/orders/${order.id}/pay`)
+      let url = await this.$http.get(`/api/app/orders/${order.id}/pay`);
       if (url.charAt(url.length - 1) === '=') {
         await this.$http.get('/orders/callback', {
           MerOrderNo: order.number,
