@@ -5,6 +5,16 @@
       <div class="drug-search">
         <div class="left">
           <el-input v-model="drugName" size="small" placeholder="请输入药品名称" style="width: 200px;"></el-input>
+          <el-button class="select-btn value-btn" size="small" v-if="originNameValue" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
+          <el-button class="select-btn" size="small" v-else @click="originDialogVisible = true">厂商名称</el-button>
+          <el-select size="small" v-model="drugState" placeholder="药品状态">
+            <el-option
+              v-for="item in stateOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
           <el-button type="primary" size="small" @click="search">搜索</el-button>
           <el-button size="small" @click="clear">清空</el-button>
         </div>
@@ -81,6 +91,21 @@
         <el-button type="primary" @click="submit">提 交</el-button>
       </span>
     </el-dialog>
+
+    <!--选择厂商-->
+    <el-dialog
+      title="厂商"
+      :close-on-click-modal='isCloseOnClickModal'
+      :visible.sync="originDialogVisible"
+      width="50%">
+      <drug-origin v-on:listenToChildEvent="getSelectedInfo"></drug-origin>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="originDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmSelectOrigin">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -88,16 +113,33 @@
   import Vue from 'vue'
   import Component from 'class-component'
   import BreadCrumb from '@/components/Breadcrumb'
+  import Origin from '@/components/drugCheck/Origin'
   import axios from 'axios'
 
   @Component({
     components: {
-      BreadCrumb
+      BreadCrumb,
+      'drug-origin': Origin
     }
   })
   export default class SalesRank extends Vue {
     // 药品列表查询
     drugName = ''
+    originNameValue = ''
+    isCloseOnClickModal = false
+    originDialogVisible = false
+    drugState = ''
+    // 药品状态
+    stateOptions = [
+      {
+        value: true,
+        label: '上架'
+      },
+      {
+        value: false,
+        label: '下架'
+      }
+    ]
     //
     rowData = {}
     drugList = [] // 排行榜列表
@@ -120,7 +162,7 @@
         key: 'specName'
       },
       {
-        title: '厂商简介',
+        title: '厂商简称',
         key: 'originName'
       },
       {
@@ -153,7 +195,7 @@
           type: 'text',
           emit: 'emit-obtained',
           show (index, row) {
-            if (row.drugState === '在售') {
+            if (row.drugState === '上架') {
               return true
             }
           }
@@ -174,6 +216,21 @@
           emit: 'emit-adjust'
         }
       ]
+    }
+
+    // 获取已选信息
+    getSelectedInfo (data) {
+      this.selectedInfo = data
+    }
+    // 选择厂商
+    confirmSelectOrigin () {
+      if (!this.selectedInfo) {
+        this.originDialogVisible = false
+        return
+      }
+      this.childData = this.selectedInfo
+      this.originNameValue = this.childData.fullName
+      this.originDialogVisible = false
     }
 
     handleDialogCancel (done) {
@@ -235,7 +292,7 @@
       let storage = this.rowHandle.custom
       storage.forEach(item => {
         if (item.text === '入库') {
-          this.rowData.drugState = '在售'
+          this.rowData.drugState = '上架'
           this.rowData.grounding = true
         }
       })
@@ -285,11 +342,13 @@
       return true
     }
 
-    async fetchData (name) {
+    async fetchData () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
-        name
+        drugName: this.drugName,
+        originName: this.originNameValue,
+        drugState: this.drugState
       }
 
       let {data: drug} = await axios.get(`/api/shop/shopDrugs`, {params})
@@ -299,7 +358,7 @@
 
       this.drugList.forEach(item => {
         if (item.grounding) {
-          item.drugState = '在售'
+          item.drugState = '上架'
         } else {
           item.drugState = '下架'
         }
@@ -307,7 +366,7 @@
     }
 
     search () {
-      this.fetchData(this.drugName)
+      this.fetchData()
     }
     clear () {
       this.drugName = ''
@@ -346,6 +405,25 @@
       justify-content: space-between;
       border-bottom: 1px solid #e9e9e9;
       padding-bottom: 15px;
+
+      .select-btn{
+        width: 200px;
+        padding: 8px 15px 9px;
+        margin-right: 10px;
+        color: #c0c4cc;
+        text-align: left;
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .el-select{
+        margin-right: 10px;
+      }
+
+      .value-btn{
+        color: #606266;
+      }
 
       .right{
         padding-right: 10px;
