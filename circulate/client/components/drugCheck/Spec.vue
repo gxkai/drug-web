@@ -86,7 +86,7 @@
         pageSize: this.pagination.pageSize,
         name: this.specNameValue.trim()
       }
-      let {data: specs} = await axios.get(`/api/supervise/specs`, {params})
+      let {data: specs} = await axios.get(`/api/shop/specs`, {params})
 
       this.specList = specs.list
       this.pagination.total = specs.total
