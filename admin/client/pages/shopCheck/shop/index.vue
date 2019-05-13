@@ -52,7 +52,6 @@
         :data="shopData"
         :loading="loading"
         :pagination="pagination"
-        @pagination-current-change="paginationCurrentChange"
         :options="options"
         :rowHandle="rowHandle"
         @emit-check="handleCheckEvent"
