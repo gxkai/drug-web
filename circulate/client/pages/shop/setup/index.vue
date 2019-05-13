@@ -234,11 +234,6 @@
     components: {
       BreadCrumb
     }
-    // computed: {
-    //   uploadDisabled () {
-    //     return this.innerFileImg.length === 3
-    //   }
-    // }
   })
   export default class SetUpShop extends Vue {
     shopForm = {
@@ -273,11 +268,20 @@
 
     rules = {
       name: [{ required: true, message: '请输入药店名称', trigger: 'blur' }],
-      phone: [{ required: true, message: '请输入店内电话', trigger: 'blur' }],
+      phone: [
+        { required: true, message: '请输入店内电话', trigger: 'blur' },
+        { min: 11, max: 11, message: '手机号码格式不匹配', trigger: 'blur' }
+      ],
       legal: [{ required: true, message: '请输入法人姓名', trigger: 'blur' }],
-      identityNumber: [{ required: true, message: '请输入身份证', trigger: 'blur' }],
+      identityNumber: [
+        { required: true, message: '请输入身份证', trigger: 'blur' },
+        { min: 18, max: 18, message: '身份证号码格式不正确', trigger: 'blur' }
+      ],
       mail: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
-      legalPhone: [{ required: true, message: '请输入法人手机号', trigger: 'blur' }],
+      legalPhone: [
+        { required: true, message: '请输入法人手机号', trigger: 'blur' },
+        { min: 11, max: 11, message: '手机号码格式不匹配', trigger: 'blur' }
+      ],
       taxCode: [{ required: true, message: '请输入税务登记号', trigger: 'blur' }],
       certificate: [{ required: true, message: '请输入经营许可证号', trigger: 'blur' }],
       gspCertificate: [{ required: true, message: '请输入GSP证号', trigger: 'blur' }],
@@ -627,9 +631,8 @@
           }
         }
       } catch (e) {
-        // this.$message.warning('基本信息不能为空')
+        console.log(e)
       } finally {
-        // this.$router.push('/shop/setup')
       }
     }
 
