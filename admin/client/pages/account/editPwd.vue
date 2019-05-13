@@ -88,7 +88,7 @@
           }
           console.log(PassWordDTO)
 
-          axios.put(`/api/shop/users/password?token=${this.userToken}`, PassWordDTO)
+          axios.put(`/api/supervise/admins/password?token=${this.userToken}`, PassWordDTO)
           this.$message({
             message: '修改成功,请重新登录！',
             type: 'success'
@@ -106,7 +106,7 @@
 </script>
 
 <style lang="scss" scoped>
-.common {
+  .common {
     &-wrap {
       padding: 0 10px;
       margin-bottom: 30px;

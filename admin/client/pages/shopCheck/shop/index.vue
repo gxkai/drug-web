@@ -52,6 +52,7 @@
         :data="shopData"
         :loading="loading"
         :pagination="pagination"
+        @pagination-current-change="paginationCurrentChange"
         :options="options"
         :rowHandle="rowHandle"
         @emit-check="handleCheckEvent"
@@ -171,12 +172,12 @@
         {
           text: '查看',
           type: 'text',
-          emit: 'emit-detail',
-          show (index, row) {
-            if (row.state === '正常' || row.state === '未通过' || row.state === '待审核' || row.state === '停业' || row.state === '违规') {
-              return true
-            }
-          }
+          emit: 'emit-detail'
+          // show (index, row) {
+          //   if (row.state === '正常' || row.state === '未通过' || row.state === '待审核' || row.state === '停业' || row.state === '违规') {
+          //     return true
+          //   }
+          // }
         },
         {
           text: '开业',

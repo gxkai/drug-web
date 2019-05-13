@@ -122,7 +122,7 @@ export const actions = {
   async logout ({ commit }, callback) {
     await axios.post('/api/shop/users/logout')
     removeToken()
-    // commit('SET_USER')
+    commit('SET_USER')
     callback()
   },
   toggleMenu ({ commit }) {
