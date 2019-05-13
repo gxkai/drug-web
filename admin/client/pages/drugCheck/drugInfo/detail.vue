@@ -485,7 +485,10 @@
     }
 
     async getDrugDetail () {
-      let {data: detail} = await axios.get(`/api/supervise/drugs/${this.drugID}`)
+      // let params = new FormData()
+      // params.append('id', this.drugID)
+      let {data: detail} = await axios.get(`/api/supervise/drugApplies/${this.drugID}`)
+      console.log('detail: ')
       console.log(detail)
       this.detailForm = detail
       this.coverFileId = detail.fileId
@@ -513,12 +516,12 @@
       this.parentTypeNameString = pName.substring(0, pName.length - 1)
       this.parentTypeIdString = pId.substring(0, pId.length - 1)
 
-      let params = {
+      let imgParams = {
         resolution: 'LARGE_LOGO'
       }
       // 获取封面图片
       if (this.detailForm.fileId) {
-        let {data: cover} = await axios.get(`/api/supervise/files/${this.detailForm.fileId}`, {params})
+        let {data: cover} = await axios.get(`/api/supervise/files/${this.detailForm.fileId}`, {imgParams})
         this.coverURL = cover.replace('redirect:', '')
         this.coverURLJudeg = this.coverURL
       }
@@ -527,7 +530,7 @@
       if (this.detailForm.imgs) {
         let childImgs = this.detailForm.imgs.split(',')
         for (let i = 0, len = childImgs.length; i < len; i++) {
-          let {data: detailImg} = await axios.get(`/api/supervise/files/${childImgs[i]}`, {params})
+          let {data: detailImg} = await axios.get(`/api/supervise/files/${childImgs[i]}`, {imgParams})
           let url = detailImg.replace('redirect:', '')
           if (url.substring(url.lastIndexOf('/') + 1, url.length) !== 'null') {
             this.detailImg.push({

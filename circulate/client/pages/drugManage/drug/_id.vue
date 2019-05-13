@@ -61,7 +61,6 @@
             <el-input
               :disabled="isCorrect"
               type="textarea"
-              readonly
               :rows="3"
               placeholder="暂无"
               v-model="detailForm.introduce">
@@ -71,7 +70,6 @@
             <el-input
               :disabled="isCorrect"
               type="textarea"
-              readonly
               :rows="3"
               placeholder="暂无"
               v-model="detailForm.attention">
@@ -231,12 +229,13 @@
       let params = {
         fileId: this.coverFileId, // 封面图
         imgs: this.detailFileId, // 展示图
+        drugId: this.drugID,
         name: this.detailForm.name, // 药品名
         introduce: this.detailForm.introduce,
         attention: this.detailForm.attention
       }
 
-      await axios.put(`/api/shop/drugApplies/${this.drugID}`, params)
+      await axios.post(`/api/shop/drugApplies`, params)
       this.$message({
         message: '修正成功',
         type: 'success'
@@ -291,6 +290,7 @@
       let params = {
         resolution: 'LARGE_LOGO'
       }
+
       // 获取封面图片
       if (this.detailForm.fileId) {
         let {data: cover} = await axios.get(`/api/shop/files/${this.detailForm.fileId}`, {params})

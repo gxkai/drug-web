@@ -49,6 +49,8 @@
   @Component({
     methods: {
       ...mapActions(['toggleMenu'])
+    },
+    components: {
     }
   })
   export default class Headbar extends Vue {

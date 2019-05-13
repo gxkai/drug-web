@@ -6,7 +6,7 @@
         <el-input v-model="drugNameValue" size="small" placeholder="请输入药品名称" style="width: 150px;"></el-input>
         <el-button class="select-btn value-btn" v-if="originNameValue" type="small" @click="originDialogVisible = true">{{ originNameValue }}</el-button>
         <el-button class="select-btn" v-else type="small" @click="originDialogVisible = true">厂商简称</el-button>
-        <el-select size="small" v-model="drugState" placeholder="药品状态">
+        <el-select size="small" v-model="drugState" placeholder="当前状态">
           <el-option
             v-for="item in stateOptions"
             :key="item.value"
@@ -71,7 +71,7 @@
     columns = [
       {
         title: '药品名称',
-        key: 'name'
+        key: 'drugName'
       },
       {
         title: '通用名称',
@@ -79,7 +79,7 @@
       },
       {
         title: '规格',
-        key: 'spec'
+        key: 'specName'
       },
       {
         title: '厂商简称',
@@ -91,7 +91,7 @@
       },
       {
         title: '当前状态',
-        key: 'curState'
+        key: 'state'
       }
     ]
     drugInfoList = []
@@ -160,6 +160,7 @@
     }
 
     handleDetailEvent ({index, row}) {
+      console.log(row)
       this.$router.push({
         path: '/drugCheck/drugInfo/detail',
         query: {
@@ -183,17 +184,33 @@
       this.getDrugInfo()
     }
 
+    convertState (state) {
+      switch (state) {
+        case 'PENDING':
+          return '待审核'
+        case 'SUCCESS':
+          return '审核通过'
+        case 'FAIL':
+          return '审核不通过'
+      }
+    }
+
     async getDrugInfo () {
       let params = {
         pageNum: this.pagination.currentPage,
         pageSize: this.pagination.pageSize,
         originName: this.originNameValue.trim(),
-        name: this.drugNameValue.trim()
+        name: this.drugNameValue.trim(),
+        state: this.drugState
       }
-      let {data: drugInfo} = await axios.get(`/api/supervise/drugs`, {params})
+      let {data: drugInfo} = await axios.get(`/api/supervise/drugApplies`, {params})
       console.log(drugInfo)
       this.drugInfoList = drugInfo.list
       this.pagination.total = drugInfo.total
+
+      this.drugInfoList.forEach(item => {
+        item.state = this.convertState(item.state)
+      })
     }
 
     mounted () {
