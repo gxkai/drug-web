@@ -19,7 +19,7 @@
           </p>
         </el-col>
         <el-col :span="3">
-          <p @click="$router.push('/account/editPwd')">
+          <p @click="editPwd">
             <el-tooltip :content="$t('head.pwd')">
               <img src="~/assets/img/pwd.svg">
             </el-tooltip>
@@ -28,7 +28,7 @@
         </el-col>
         <el-col :span="2">
           <p @click="logout">
-            <img src="~/assets/img/exit.svg"></img>
+            <img src="~/assets/img/exit.svg">
             <span> {{$t("head.exit")}}</span>
           </p>
         </el-col>
@@ -40,18 +40,42 @@
       :visible.sync="iconDialogVisible"
       width="30%"
     >
-      <el-upload
-        class="avatar-uploader"
-        action=""
-        :show-file-list="false"
-        :on-success="handleAvatarSuccess"
+      <user-icon :imgURL="iconURL"
+                 v-on:iconFile="getFileObj"
+                 v-on:renderURL="getURL"
       >
-        <img v-if="iconURL" :src="iconURL" class="avatar">
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      </el-upload>
+      </user-icon>
       <span slot="footer" class="dialog-footer">
         <el-button @click="iconDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="confirmUpload">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog
+      title="修改密码"
+      :visible.sync="pwdDialogVisible"
+      width="30%"
+    >
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
+        <el-form-item label="当前密码" prop="currentPwd">
+          <el-input
+            v-model="ruleForm.currentPwd"
+            minlength="6"
+            maxlength="16"
+            show-word-limit
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="newPwd">
+          <el-input type="password" v-model="ruleForm.newPwd"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="enterPwd">
+          <el-input type="password"  v-model="ruleForm.enterPwd"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="pwdDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmEdit">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -61,16 +85,21 @@
   import Vue from 'vue'
   import { mapActions } from 'vuex'
   import Component, { Getter } from 'class-component'
-  import {setUser, getUser} from '@/mixins'
+  import UserIcon from '@/components/account/userIcon'
+  import { setUser, getUser } from '@/mixins'
   import axios from 'axios'
 
   @Component({
     methods: {
       ...mapActions(['toggleMenu'])
+    },
+    components: {
+      UserIcon
     }
   })
   export default class Headbar extends Vue {
     @Getter isMenuHidden
+    pwdDialogVisible = false
     iconDialogVisible = false
     authUser = ''
     displayName = ''
@@ -78,15 +107,70 @@
     iconURL = ''
     iconFile = ''
     userInfo = ''
+    formName = 'ruleForm'
 
-    handleAvatarSuccess (res, file) {
-      this.iconURL = URL.createObjectURL(file.raw)
-      this.iconFile = file.raw
+    rules = {
+      currentPwd: [{ required: true, message: '请输入当前密码', trigger: 'blur' }],
+      newPwd: [
+        { required: true, message: '请输入新密码（6 到 16 个字符）', trigger: 'blur' },
+        { min: 6, max: 16, message: '请输入新密码（6 到 16 个字符）', trigger: 'blur' }
+      ],
+      enterPwd: [
+        { required: true, message: '请确认新密码（6 到 16 个字符）', trigger: 'blur' },
+        { min: 6, max: 16, message: '请确认新密码（6 到 16 个字符）', trigger: 'blur' }
+      ]
+    }
+
+    ruleForm = {
+      currentPwd: '',
+      newPwd: '',
+      enterPwd: ''
+    }
+
+    editPwd () {
+      this.pwdDialogVisible = true
     }
 
     // 更换头像弹框
     changeIcon () {
       this.iconDialogVisible = true
+    }
+
+    getURL (url) {
+      this.iconURL = url
+    }
+
+    getFileObj (data) {
+      this.iconFile = data
+    }
+
+    // 修改密码
+    confirmEdit () {
+      this.$refs[this.formName].validate((valid) => {
+        if (valid) {
+          let PassWordDTO = {
+            newPassword: this.ruleForm.newPwd,
+            rePassword: this.ruleForm.enterPwd
+          }
+          console.log(PassWordDTO)
+          if (this.ruleForm.newPwd !== this.ruleForm.enterPwd) {
+            this.$message.warning('输入密码不一致')
+            return false
+          }
+          axios.put(`/api/shop/users/password`, PassWordDTO)
+          this.pwdDialogVisible = false
+          this.$message({
+            message: '修改成功,请重新登录！',
+            type: 'success'
+          })
+          setTimeout(() => {
+            this.$router.push('/login')
+          }, 1000)
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
 
     // 上传头像
@@ -100,10 +184,9 @@
       params.append('fileId', fileId)
       await axios.put(`/api/shop/users/fileId`, params)
       this.userInfo.userFileId = fileId
+      setUser(this.userInfo)
       this.iconDialogVisible = false
       this.$message.success('头像更换成功!')
-
-      setUser(this.userInfo)
     }
 
     async created () {
