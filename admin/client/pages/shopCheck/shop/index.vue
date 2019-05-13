@@ -58,6 +58,7 @@
         @emit-detail="handleDetailEvent"
         @emit-run="handleRunEvent"
         @emit-stop="handleStopEvent"
+        @pagination-current-change="paginationCurrentChange"
         class="drug-table"
        />
 
